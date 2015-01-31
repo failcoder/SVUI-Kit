@@ -1,0 +1,25 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+	<Frame name="SVUI_PlateParentFrame" frameStrata="BACKGROUND" hidden="true">
+        <Scripts>
+            <OnLoad>
+                self:SetParent(_G['WorldFrame'])
+            </OnLoad>
+        </Scripts>
+    </Frame>
+
+    <Frame name="SVUI_PlateGlowFrame" frameStrata="BACKGROUND" hidden="true">
+    	<Scripts>
+            <OnLoad>
+            	self:SetParent(_G['WorldFrame'])
+            	self:SetBackdrop({
+            		edgeFile = [[Interface\AddOns\SVUI_!Core\assets\textures\GLOW]],
+            		edgeSize = 2
+            	})		
+				self:SetBackdropColor(0, 0, 0, 0)
+				self:SetScale(2.5)
+            </OnLoad> 
+        </Scripts>
+    </Frame>
+    <Script file="Loader.lua"/>
+    <Script file='SVUI_NamePlates.lua'/>
+</Ui>

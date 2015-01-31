@@ -1,0 +1,18 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+    <Script file="Loader.lua"/>
+	<Frame name="SVUI_QuestItemBar" parent="UIParent">
+        <Size x="32" y="160"/>
+        <Anchors>
+            <Anchor point="BOTTOMRIGHT" x="-250" y="60"/>
+        </Anchors>
+    </Frame>
+
+    <Script file='SVUI_QuestTracker.lua'/>
+    <!-- <Script file='components\button.lua'/> -->
+    <Script file='components\popups.lua'/>
+    <Script file='components\active.lua'/>
+    <Script file='components\scenario.lua'/>
+    <Script file='components\quests.lua'/>
+    <Script file='components\bonus.lua'/>
+    <Script file='components\achievements.lua'/>
+</Ui>

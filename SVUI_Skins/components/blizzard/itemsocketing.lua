@@ -1,0 +1,62 @@
+--[[
+##############################################################################
+M O D K I T   By: S.Jackson
+##############################################################################
+--]]
+--[[ GLOBALS ]]--
+local _G = _G;
+local unpack  = _G.unpack;
+local select  = _G.select;
+--[[ ADDON ]]--
+local SV = _G['SVUI'];
+local L = SV.L;
+local MOD = SV.Skins;
+local Schema = MOD.Schema;
+--[[ 
+########################################################## 
+ITEMSOCKETING MODR
+##########################################################
+]]--
+local function ItemSocketStyle()
+	if SV.db.Skins.blizzard.enable ~= true or SV.db.Skins.blizzard.socket ~= true then return end 
+	ItemSocketingFrame:RemoveTextures()
+	ItemSocketingFrame:SetStylePanel("Frame", "Composite2")
+	ItemSocketingFrameInset:Die()
+	ItemSocketingScrollFrame:RemoveTextures()
+	ItemSocketingScrollFrame:SetStylePanel("Frame", "Inset", true)
+	MOD:ApplyScrollFrameStyle(ItemSocketingScrollFrameScrollBar, 2)
+	for j = 1, MAX_NUM_SOCKETS do 
+		local i = _G[("ItemSocketingSocket%d"):format(j)];
+		local C = _G[("ItemSocketingSocket%dBracketFrame"):format(j)];
+		local D = _G[("ItemSocketingSocket%dBackground"):format(j)];
+		local E = _G[("ItemSocketingSocket%dIconTexture"):format(j)];
+		i:RemoveTextures()
+		i:SetStylePanel("Button")
+		i:SetStylePanel("!_Frame", "Button", true)
+		C:Die()
+		D:Die()
+		E:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		E:InsetPoints()
+	end 
+	hooksecurefunc("ItemSocketingFrame_Update", function()
+		local max = GetNumSockets()
+		for j=1, max do 
+			local i = _G[("ItemSocketingSocket%d"):format(j)];
+			local G = GetSocketTypes(j);
+			local color = GEM_TYPE_INFO[G]
+			i:SetBackdropColor(color.r, color.g, color.b, 0.15);
+			i:SetBackdropBorderColor(color.r, color.g, color.b)
+		end 
+	end)
+	ItemSocketingFramePortrait:Die()
+	ItemSocketingSocketButton:ClearAllPoints()
+	ItemSocketingSocketButton:ModPoint("BOTTOMRIGHT", ItemSocketingFrame, "BOTTOMRIGHT", -5, 5)
+	ItemSocketingSocketButton:SetStylePanel("Button")
+	MOD:ApplyCloseButtonStyle(ItemSocketingFrameCloseButton)
+end 
+--[[ 
+########################################################## 
+MOD LOADING
+##########################################################
+]]--
+MOD:SaveBlizzardStyle("Blizzard_ItemSocketingUI",ItemSocketStyle)

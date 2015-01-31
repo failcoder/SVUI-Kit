@@ -1,0 +1,45 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui/">
+    <Frame name="SVUI_ShadowTemplate" virtual="true">
+        <Attributes>
+            <Attribute name="shadowAlpha" type="number" value="0.5" />
+        </Attributes>
+        <Backdrop edgeFile="Interface\AddOns\SVUI_!Core\assets\textures\GLOW">
+            <EdgeSize val="3" />
+            <BackgroundInsets left="0" right="0" top="0" bottom="0" />
+            <Color r="0" g="0" b="0" a="0" />
+            <BorderColor r="0" g="0" b="0" a="0.5" />
+        </Backdrop>
+    </Frame>
+    
+    <Button name="SVUI_DockletButtonTemplate" virtual="true" hidden="true">
+        <Size x="22" y="22"/>
+        <Attributes>
+            <Attribute name="tipText" type="string" value="" />
+            <Attribute name="ownerFrame" type="string" value="None" />
+            <Attribute name="hasDropDown" type="boolean" value="true" />
+            <Attribute name="isActive" type="boolean" value="false" />
+        </Attributes>
+        <Layers>
+            <Layer level="OVERLAY">
+                <Texture parentKey="Icon" file="Interface\AddOns\SVUI_!Core\assets\textures\DEFAULT">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="2" y="-2" />
+                        <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="-2" y="2" />
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        <Scripts>
+            <OnLoad>
+                self:RegisterForClicks("LeftButtonUp", "RightButtonUp");
+            </OnLoad>
+        </Scripts>
+    </Button>
+
+    <Frame name="SVUI_DockletWindowTemplate" virtual="true">
+        <Attributes>
+            <Attribute name="ownerFrame" type="string" value="None" />
+            <Attribute name="isLoaded" type="boolean" value="false" />
+        </Attributes>
+    </Frame>
+</Ui>

@@ -1,0 +1,78 @@
+--[[
+##############################################################################
+M O D K I T   By: S.Jackson
+##############################################################################
+--]]
+--[[ GLOBALS ]]--
+local _G = _G;
+local unpack  = _G.unpack;
+local select  = _G.select;
+--[[ ADDON ]]--
+local SV = _G['SVUI'];
+local L = SV.L;
+local MOD = SV.Skins;
+local Schema = MOD.Schema;
+--[[ 
+########################################################## 
+BARBERSHOP MODR
+##########################################################
+]]--
+local function BarberShopStyle()
+	if SV.db.Skins.blizzard.enable~=true or SV.db.Skins.blizzard.barber~=true then return end
+
+	local buttons = {"BarberShopFrameOkayButton", "BarberShopFrameCancelButton", "BarberShopFrameResetButton"}
+
+	BarberShopFrameOkayButton:ModPoint("RIGHT", BarberShopFrameSelector4, "BOTTOM", 2, -50)
+
+	for b = 1, #buttons do 
+		_G[buttons[b]]:RemoveTextures()
+		_G[buttons[b]]:SetStylePanel("Button")
+	end
+
+	BarberShopFrame:RemoveTextures()
+	BarberShopFrame:SetStylePanel("Frame", "Composite1")
+	BarberShopFrame:ModSize(BarberShopFrame:GetWidth()-30, BarberShopFrame:GetHeight()-56)
+
+	local lastframe;
+	for i = 1, 5 do 
+		local selector = _G["BarberShopFrameSelector"..i] 
+		if selector then
+			MOD:ApplyPaginationStyle(_G["BarberShopFrameSelector"..i.."Prev"])
+			MOD:ApplyPaginationStyle(_G["BarberShopFrameSelector"..i.."Next"])
+			selector:ClearAllPoints()
+
+			if lastframe then 
+				selector:ModPoint("TOP", lastframe, "BOTTOM", 0, -3)
+			else
+				selector:ModPoint("TOP", BarberShopFrame, "TOP", 0, -12)
+			end
+
+			selector:RemoveTextures()
+			if(selector:IsShown()) then
+				lastframe = selector
+			end
+		end 
+	end
+
+	BarberShopFrameMoneyFrame:RemoveTextures()
+	BarberShopFrameMoneyFrame:SetStylePanel("Frame", "Inset")
+	BarberShopFrameMoneyFrame:ModPoint("TOP", lastframe, "BOTTOM", 0, -10)
+
+	BarberShopFrameBackground:Die()
+	BarberShopBannerFrameBGTexture:Die()
+	BarberShopBannerFrame:Die()
+
+	BarberShopAltFormFrameBorder:RemoveTextures()
+	BarberShopAltFormFrame:ModPoint("BOTTOM", BarberShopFrame, "TOP", 0, 5)
+	BarberShopAltFormFrame:RemoveTextures()
+	BarberShopAltFormFrame:SetStylePanel("Frame", "Composite2")
+
+	BarberShopFrameResetButton:ClearAllPoints()
+	BarberShopFrameResetButton:ModPoint("BOTTOM", BarberShopFrame.Panel, "BOTTOM", 0, 4)
+end 
+--[[ 
+########################################################## 
+MOD LOADING
+##########################################################
+]]--
+MOD:SaveBlizzardStyle("Blizzard_BarbershopUI",BarberShopStyle)

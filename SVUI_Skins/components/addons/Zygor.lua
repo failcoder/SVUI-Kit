@@ -1,0 +1,78 @@
+--[[
+##########################################################
+M O D K I T   By: S.Jackson
+########################################################## 
+LOCALIZED LUA FUNCTIONS
+##########################################################
+]]--
+--[[ GLOBALS ]]--
+local _G = _G;
+local unpack 	= _G.unpack;
+local select 	= _G.select;
+local pairs 	= _G.pairs;
+local string 	= _G.string;
+--[[ STRING METHODS ]]--
+local format = string.format;
+--[[ 
+########################################################## 
+GET ADDON DATA
+##########################################################
+]]--
+local SV = _G['SVUI'];
+local L = SV.L;
+local MOD = SV.Skins;
+local Schema = MOD.Schema;
+--[[ 
+########################################################## 
+ZYGOR
+##########################################################
+]]--
+local function StyleZygorTabs()
+	if(not ZGVCharacterGearFinderButton) then return end
+	ZGVCharacterGearFinderButton.Highlight:SetTexture(1, 1, 1, 0.3)
+	ZGVCharacterGearFinderButton.Highlight:ModPoint("TOPLEFT", 3, -4)
+	ZGVCharacterGearFinderButton.Highlight:ModPoint("BOTTOMRIGHT", -1, 0)
+	ZGVCharacterGearFinderButton.Hider:SetTexture(0.4, 0.4, 0.4, 0.4)
+	ZGVCharacterGearFinderButton.Hider:ModPoint("TOPLEFT", 3, -4)
+	ZGVCharacterGearFinderButton.Hider:ModPoint("BOTTOMRIGHT", -1, 0)
+	ZGVCharacterGearFinderButton.TabBg:Die()
+	if i == 1 then
+		for x = 1, ZGVCharacterGearFinderButton:GetNumRegions()do 
+			local texture = select(x, ZGVCharacterGearFinderButton:GetRegions())
+			texture:SetTexCoord(0.16, 0.86, 0.16, 0.86)
+		end 
+	end 
+	ZGVCharacterGearFinderButton:SetStylePanel("Frame", "Default", true, 2)
+	ZGVCharacterGearFinderButton.Panel:ModPoint("TOPLEFT", 2, -3)
+	ZGVCharacterGearFinderButton.Panel:ModPoint("BOTTOMRIGHT", 0, -2)
+end 
+
+local function StyleZygor()
+	--MOD.Debugging = true;
+	local ZygorGuidesViewer = LibStub('AceAddon-3.0'):GetAddon('ZygorGuidesViewer')
+	assert(ZygorGuidesViewer, "AddOn Not Loaded")
+
+	MOD:ApplyWindowStyle(ZygorGuidesViewerFrame)
+	ZygorGuidesViewerFrame_Border:RemoveTextures(true)
+	MOD:ApplyFrameStyle(ZygorGuidesViewer_CreatureViewer, 'ModelBorder')
+
+	for i = 1, 6 do
+		MOD:ApplyFrameStyle(_G['ZygorGuidesViewerFrame_Step'..i], 'Default')
+	end
+
+	CharacterFrame:HookScript("OnShow", StyleZygorTabs)
+
+	ZygorGuidesViewerFrame_Border:HookScript('OnHide', function(self) self:RemoveTextures(true) end)
+	ZygorGuidesViewerFrame_Border:HookScript('OnShow', function(self) self:RemoveTextures(true) end)
+	if(SV.Maps and SV.db.Maps) then 
+		if(SV.db.Maps.customIcons) then
+			Minimap:SetBlipTexture(SV.Maps.media.customBlips)
+			Minimap.SetBlipTexture = function() return end
+		else
+			Minimap:SetBlipTexture(SV.Maps.media.defaultBlips)
+			Minimap.SetBlipTexture = function() return end
+		end
+	end
+end
+
+MOD:SaveAddonStyle("ZygorGuidesViewer", StyleZygor)

@@ -1,0 +1,50 @@
+--[[
+##############################################################################
+M O D K I T   By: S.Jackson
+##############################################################################
+--]]
+--[[ GLOBALS ]]--
+local _G = _G;
+local unpack  = _G.unpack;
+local select  = _G.select;
+--[[ ADDON ]]--
+local SV = _G['SVUI'];
+local L = SV.L;
+local MOD = SV.Skins;
+local Schema = MOD.Schema;
+--[[ 
+########################################################## 
+ITEMUPGRADE UI MODR
+##########################################################
+]]--
+local function ItemUpgradeStyle()
+	if SV.db.Skins.blizzard.enable ~= true or SV.db.Skins.blizzard.itemUpgrade ~= true then
+		 return 
+	end 
+	
+	MOD:ApplyWindowStyle(ItemUpgradeFrame, true)
+
+	MOD:ApplyCloseButtonStyle(ItemUpgradeFrameCloseButton)
+	ItemUpgradeFrameUpgradeButton:RemoveTextures()
+	ItemUpgradeFrameUpgradeButton:SetStylePanel("Button")
+	ItemUpgradeFrame.ItemButton:RemoveTextures()
+	ItemUpgradeFrame.ItemButton:SetStylePanel("Slot")
+	ItemUpgradeFrame.ItemButton.IconTexture:InsetPoints()
+	hooksecurefunc('ItemUpgradeFrame_Update', function()
+		if GetItemUpgradeItemInfo() then
+			ItemUpgradeFrame.ItemButton.IconTexture:SetAlpha(1)
+			ItemUpgradeFrame.ItemButton.IconTexture:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		else
+			ItemUpgradeFrame.ItemButton.IconTexture:SetAlpha(0)
+		end 
+	end)
+	ItemUpgradeFrameMoneyFrame:RemoveTextures()
+	ItemUpgradeFrame.FinishedGlow:Die()
+	ItemUpgradeFrame.ButtonFrame:DisableDrawLayer('BORDER')
+end 
+--[[ 
+########################################################## 
+MOD LOADING
+##########################################################
+]]--
+MOD:SaveBlizzardStyle("Blizzard_ItemUpgradeUI",ItemUpgradeStyle)

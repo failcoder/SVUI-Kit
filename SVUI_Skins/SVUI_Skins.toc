@@ -1,0 +1,18 @@
+## Interface: 60000
+## Author: S.Jackson, Azilroka, Sortokk
+## Version: 1.0.0
+## Title: |cffFF9900SVUI |r|cffFFEF00Skins|r
+## Notes: SVUI [|cff9911FFSkins System and AddOn Frames|r].
+## SavedVariables: SVUIUI_STYLE_GLOBAL
+## SavedVariablesPerCharacter: SVUIUI_STYLE_PROFILE, SVUIUI_STYLE_PRIVATE
+## RequiredDeps: SVUI_!Core 
+## OptionalDeps: Blizzard_DebugTools, Blizzard_PetJournal, SharedMedia
+## X-SVUIName: Skins
+## X-SVUISchema: Skins
+## X-Email: munglunch@gmail.com
+## X-Website: http://www.supervillainui.com
+## X-Donate: PayPal:munglunch@gmail.com
+## X-License: All Rights Reserved
+## X-Category: Interface Enhancements
+
+SVUI_Skins.xml

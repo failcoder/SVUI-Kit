@@ -1,0 +1,22 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+	<Frame name="SVUI_StyleTemplate_Minimap" virtual="true">
+        <Attributes>
+            <Attribute name="panelID" type="string" value="minimap" />
+            <Attribute name="panelPadding" type="number" value="1" />
+            <Attribute name="panelColor" type="string" value="darkest" />
+            <Attribute name="panelGradient" type="boolean" value="false" />
+            <Attribute name="panelTexUpdate" type="boolean" value="false" />
+            <Attribute name="panelSkipUpdate" type="boolean" value="false" />
+        </Attributes>
+        <Backdrop bgFile="Interface\BUTTONS\WHITE8X8" edgeFile="Interface\BUTTONS\WHITE8X8" tile="false">
+            <EdgeSize val="1" />
+            <TileSize val="0" />
+            <BackgroundInsets left="0" right="0" top="0" bottom="0" />
+            <Color r="0" g="0" b="0" a="1" />
+            <BorderColor r="0" g="0" b="0" a="1" />
+        </Backdrop>
+    </Frame>
+
+	<Script file='Loader.lua'/>	
+	<Script file='SVUI_Maps.lua'/>
+</Ui>

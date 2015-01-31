@@ -1,0 +1,16 @@
+## Interface: 60000
+## Author: S.Jackson
+## Version: 1.0.0
+## Title: |cffFF9900SVUI |r|cffFFEF00NamePlates|r
+## Notes: NamePlates Plugin for [|cff9911FFSVUI|r].
+## OptionalDeps: LibSharedMedia-3.0
+## RequiredDeps: SVUI_!Core
+## X-SVUIName: NamePlates
+## X-SVUISchema: NamePlates
+## X-Email: munglunch@gmail.com
+## X-Website: http://www.supervillainui.com
+## X-Donate: PayPal:munglunch@gmail.com
+## X-License: All Rights Reserved
+## X-Category: Interface Enhancements
+
+SVUI_NamePlates.xml
