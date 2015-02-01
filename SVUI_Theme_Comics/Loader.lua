@@ -48,6 +48,14 @@ LSM:Register("background", "SVUI SmallUnitBG 3", [[Interface\AddOns\SVUI_Theme_C
 LSM:Register("background", "SVUI SmallUnitBG 4", [[Interface\AddOns\SVUI_Theme_Comics\assets\artwork\Unitframe\Background\UNIT-SMALL-BG1]])
 LSM:Register("border", "SVUI UnitBorder 1", [[Interface\BUTTONS\WHITE8X8]])
 LSM:Register("border", "SVUI SmallBorder 1", [[Interface\BUTTONS\WHITE8X8]])
+LSM:Register("font", "SVUI Classic Font", [[Interface\AddOns\SVUI_Theme_Comics\assets\fonts\Classic.ttf]])
+LSM:Register("font", "SVUI Combat Font", [[Interface\AddOns\SVUI_Theme_Comics\assets\fonts\Combat.ttf]])
+LSM:Register("font", "SVUI Dialog Font", [[Interface\AddOns\SVUI_Theme_Comics\assets\fonts\Dialog.ttf]])
+LSM:Register("font", "SVUI Number Font", [[Interface\AddOns\SVUI_Theme_Comics\assets\fonts\Numbers.ttf]])
+LSM:Register("font", "SVUI Zone Font", [[Interface\AddOns\SVUI_Theme_Comics\assets\fonts\Zone.ttf]])
+LSM:Register("font", "SVUI Flash Font", [[Interface\AddOns\SVUI_Theme_Comics\assets\fonts\Flash.ttf]])
+LSM:Register("font", "SVUI Alert Font", [[Interface\AddOns\SVUI_Theme_Comics\assets\fonts\Alert.ttf]])
+LSM:Register("font", "SVUI Narrator Font", [[Interface\AddOns\SVUI_Theme_Comics\assets\fonts\Narrative.ttf]])
 
 THEME.media = {}
 THEME.media.dockSparks = {

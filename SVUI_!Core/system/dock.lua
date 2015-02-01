@@ -104,28 +104,8 @@ function MOD.SetThemeDockStyle(dock, isBottom)
 	return backdrop 
 end
 
-function MOD.SetButtonTheme(button, size)
-	local sparkSize = size * 5;
-    local sparkOffset = size * 0.5;
-
-    button:SetStylePanel("Button")
-
-	local sparks = button:CreateTexture(nil, "OVERLAY", nil, 2)
-	sparks:ModSize(sparkSize, sparkSize)
-	sparks:SetPoint("CENTER", button, "BOTTOMRIGHT", -sparkOffset, 4)
-	sparks:SetTexture(THEME.media.dockSparks[1])
-	sparks:SetVertexColor(0.7, 0.6, 0.5)
-	sparks:SetBlendMode("ADD")
-	sparks:SetAlpha(0)
-
-	SV.Animate:Sprite8(sparks, 0.08, 2, false, true)
-
-	button.Sparks = sparks;
-
-	button.ClickTheme = function(self)
-		self.Sparks:SetTexture(THEME.media.dockSparks[random(1,3)])
-		self.Sparks.anim:Play()
-	end
+function MOD:SetButtonTheme(button, ...)
+	button:SetStylePanel("HeavyButton")
 end
 --[[ 
 ########################################################## 
@@ -780,11 +760,7 @@ local CreateBasicToolButton = function(self, displayName, texture, onclick, glob
 
 	button:ClearAllPoints()
 	button:SetSize(size, size) 
-	if(MOD.SetButtonTheme) then
-    	MOD.SetButtonTheme(button, size)
-    else
-    	button:SetStylePanel("HeavyButton")
-    end
+	MOD:SetButtonTheme(button, size)
 	button.Icon:SetTexture(dockIcon)
 	button:SetAttribute("tipText", displayName)
 	button:SetAttribute("tipAnchor", self.Data.TipAnchor)
@@ -865,7 +841,7 @@ local function BorderColorUpdates()
 	SVUIDock_BottomBorder:SetBackdropBorderColor(0,0,0,0.8)
 end
 
-SV.Events:On("MEDIA_COLORS_UPDATED", "BorderColorUpdates", BorderColorUpdates)
+--SV.Events:On("MEDIA_COLORS_UPDATED", "BorderColorUpdates", BorderColorUpdates)
 --[[ 
 ########################################################## 
 EXTERNALLY ACCESSIBLE METHODS
@@ -1146,8 +1122,8 @@ function MOD:Initialize()
 		edgeSize = 1, 
 		insets = {left = 0, right = 0, top = 0, bottom = 0}
 	})
-	borderTop:SetBackdropColor(0,0,0,1)
-	borderTop:SetBackdropBorderColor(0,0,0,1)
+	borderTop:SetBackdropColor(0,0,0,0)
+	borderTop:SetBackdropBorderColor(0,0,0,0)
 	borderTop:SetFrameLevel(0)
 	borderTop:SetFrameStrata('BACKGROUND')
 	borderTop:SetScript("OnShow", function(this)
@@ -1168,8 +1144,8 @@ function MOD:Initialize()
 		edgeSize = 1, 
 		insets = {left = 0, right = 0, top = 0, bottom = 0}
 	})
-	borderBottom:SetBackdropColor(0,0,0,1)
-	borderBottom:SetBackdropBorderColor(0,0,0,1)
+	borderBottom:SetBackdropColor(0,0,0,0)
+	borderBottom:SetBackdropBorderColor(0,0,0,0)
 	borderBottom:SetFrameLevel(0)
 	borderBottom:SetFrameStrata('BACKGROUND')
 	borderBottom:SetScript("OnShow", function(this)
@@ -1204,11 +1180,7 @@ function MOD:Initialize()
 
 		if(dock.Bar.Button) then
 	    	dock.Bar.Button:SetSize(buttonsize, buttonsize)
-	    	if(self.SetButtonTheme) then
-		    	self.SetButtonTheme(dock.Bar.Button, buttonsize)
-		    else
-		    	dock.Bar.Button:SetStylePanel("HeavyButton")
-		    end
+	    	self:SetButtonTheme(dock.Bar.Button, buttonsize)
 	    	dock.Bar.Button.Icon:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\Dock\DOCK-ICON-ADDON]])
 	    	dock.Bar.ToolBar:SetSize(1, buttonsize)
 	    	dock.Bar.ToolBar:ModPoint(barAnchor, dock.Bar.Button, barReverse, (spacing * mod), 0)

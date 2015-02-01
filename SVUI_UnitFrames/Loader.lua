@@ -17,10 +17,7 @@ local L = SV.L
 local MOD = SV:NewPackage(...);
 local Schema = MOD.Schema;
 local LSM = LibStub("LibSharedMedia-3.0");
-local DIALOGUE_FONT = "SVUI Dialog Font";
-if(GetLocale() ~= "enUS") then
-	DIALOGUE_FONT = "SVUI Default Font"
-end
+local DIALOGUE_FONT = "SVUI Default Font";
 
 MOD.media = {}
 MOD.media.groupNumbers = {
@@ -69,11 +66,11 @@ SV.Media.backdrop.unit = {
 -- LSM:Register("border", "SVUI UnitBorder 1", [[Interface\BUTTONS\WHITE8X8]])
 -- LSM:Register("border", "SVUI SmallBorder 1", [[Interface\BUTTONS\WHITE8X8]])
 
-SV.defaults["font"]["unitprimary"]   	= {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"}
-SV.defaults["font"]["unitsecondary"]   	= {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"}
-SV.defaults["font"]["unitaurabar"]   	= {file = "SVUI Alert Font",  	size = 10,  outline = "OUTLINE"}
+SV.defaults["font"]["unitprimary"]   	= {file = "SVUI Caps Font",   size = 14,  outline = "OUTLINE"}
+SV.defaults["font"]["unitsecondary"]   	= {file = "SVUI Caps Font",   size = 12,  outline = "OUTLINE"}
+SV.defaults["font"]["unitaurabar"]   	= {file = "SVUI Caps Font",  	size = 11,  outline = "OUTLINE"}
 SV.defaults["font"]["unitauramedium"]  	= {file = "SVUI Default Font",  size = 10,  outline = "OUTLINE"}
-SV.defaults["font"]["unitauralarge"]   	= {file = "SVUI Number Font",   size = 10,  outline = "OUTLINE"}
+SV.defaults["font"]["unitauralarge"]   	= {file = "SVUI Caps Font",   size = 12,  outline = "OUTLINE"}
 SV.defaults["font"]["unitaurasmall"]   	= {file = "SVUI Pixel Font",  	size = 8,   outline = "MONOCHROMEOUTLINE"}
 
 SV.defaults["media"]["textures"]["unitlarge"]    = "SVUI Artwork";

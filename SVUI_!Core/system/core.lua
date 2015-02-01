@@ -320,14 +320,14 @@ SV.defaults = {
     ["Reports"] = {
         ["holders"] = {
             [1] = {
-                [1] = "None", 
-                [2] = "None", 
-                [3] = "None",
+                [1] = "Experience", 
+                [2] = "Time", 
+                [3] = "System",
             },
             [2] = {
-                [1] = "None", 
-                [2] = "None", 
-                [3] = "None", 
+                [1] = "Gold", 
+                [2] = "Friends", 
+                [3] = "Durability", 
             }, 
             [3] = {
                 [1] = "None", 

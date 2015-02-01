@@ -127,14 +127,6 @@ LSM:Register("sound", "Toasty", [[Interface\AddOns\SVUI_!Core\assets\sounds\toas
 LSM:Register("font", "SVUI Default Font", [[Interface\AddOns\SVUI_!Core\assets\fonts\Default.ttf]],LSM.LOCALE_BIT_ruRU+LSM.LOCALE_BIT_western)
 LSM:Register("font", "SVUI Pixel Font", [[Interface\AddOns\SVUI_!Core\assets\fonts\Pixel.ttf]],LSM.LOCALE_BIT_ruRU+LSM.LOCALE_BIT_western)
 LSM:Register("font", "SVUI Caps Font", [[Interface\AddOns\SVUI_!Core\assets\fonts\Caps.ttf]],LSM.LOCALE_BIT_ruRU+LSM.LOCALE_BIT_western)
-LSM:Register("font", "SVUI Classic Font", [[Interface\AddOns\SVUI_!Core\assets\fonts\Classic.ttf]])
-LSM:Register("font", "SVUI Combat Font", [[Interface\AddOns\SVUI_!Core\assets\fonts\Combat.ttf]])
-LSM:Register("font", "SVUI Dialog Font", [[Interface\AddOns\SVUI_!Core\assets\fonts\Dialog.ttf]])
-LSM:Register("font", "SVUI Number Font", [[Interface\AddOns\SVUI_!Core\assets\fonts\Numbers.ttf]])
-LSM:Register("font", "SVUI Zone Font", [[Interface\AddOns\SVUI_!Core\assets\fonts\Zone.ttf]])
-LSM:Register("font", "SVUI Flash Font", [[Interface\AddOns\SVUI_!Core\assets\fonts\Flash.ttf]])
-LSM:Register("font", "SVUI Alert Font", [[Interface\AddOns\SVUI_!Core\assets\fonts\Alert.ttf]])
-LSM:Register("font", "SVUI Narrator Font", [[Interface\AddOns\SVUI_!Core\assets\fonts\Narrative.ttf]])
 --[[ 
 ########################################################## 
 CREATE AND POPULATE MEDIA DATA
@@ -145,23 +137,23 @@ SV.NoTexture = [[Interface\AddOns\SVUI_!Core\assets\textures\EMPTY]];
 
 SV.defaults["font"] = {
 	["default"]     	= {file = "SVUI Default Font",  size = 12,  outline = "OUTLINE"},
-	["dialog"]      	= {file = DIALOGUE_FONTNAME,  size = 10,  outline = "OUTLINE"},
-	["title"]       	= {file = DIALOGUE_FONTNAME,  size = 16,  outline = "OUTLINE"}, 
-	["number"]      	= {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"},
-	["number_big"]    	= {file = "SVUI Number Font",   size = 18,  outline = "OUTLINE"},
-	["header"]      	= {file = "SVUI Number Font",   size = 18,  outline = "OUTLINE"},  
-	["combat"]      	= {file = "SVUI Combat Font",   size = 64,  outline = "OUTLINE"}, 
-	["alert"]       	= {file = "SVUI Alert Font",    size = 20,  outline = "OUTLINE"},
-	["zone"]      		= {file = "SVUI Zone Font",     size = 16,  outline = "OUTLINE"},
+	["dialog"]      	= {file = "SVUI Default Font",  size = 12,  outline = "OUTLINE"},
+	["title"]       	= {file = "SVUI Default Font",  size = 16,  outline = "OUTLINE"}, 
+	["number"]      	= {file = "SVUI Caps Font",   size = 12,  outline = "OUTLINE"},
+	["number_big"]    	= {file = "SVUI Caps Font",   size = 18,  outline = "OUTLINE"},
+	["header"]      	= {file = "SVUI Caps Font",   size = 18,  outline = "OUTLINE"},  
+	["combat"]      	= {file = "SVUI Default Font",   size = 64,  outline = "OUTLINE"}, 
+	["alert"]       	= {file = "SVUI Default Font",    size = 20,  outline = "OUTLINE"},
+	["zone"]      		= {file = "SVUI Default Font",     size = 16,  outline = "OUTLINE"},
 	["caps"]      		= {file = "SVUI Caps Font",     size = 12,  outline = "OUTLINE"},
-	["aura"]      		= {file = "SVUI Number Font",   size = 10,  outline = "OUTLINE"},
-	["data"]      		= {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"},
-	["narrator"]    	= {file = "SVUI Narrator Font", size = 12,  outline = "OUTLINE"},
+	["aura"]      		= {file = "SVUI Caps Font",   size = 12,  outline = "OUTLINE"},
+	["data"]      		= {file = "SVUI Caps Font",   size = 14,  outline = "OUTLINE"},
+	["narrator"]    	= {file = "SVUI Default Font", size = 14,  outline = "OUTLINE"},
 	["pixel"]       	= {file = "SVUI Pixel Font",    size = 8,   outline = "MONOCHROMEOUTLINE"},
 	["lootdialog"]    	= {file = "SVUI Default Font",  size = 14,  outline = "OUTLINE"},
-	["lootnumber"]    	= {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"},
+	["lootnumber"]    	= {file = "SVUI Caps Font",   size = 14,  outline = "OUTLINE"},
 	["rolldialog"]    	= {file = "SVUI Default Font",  size = 14,  outline = "OUTLINE"},
-	["rollnumber"]    	= {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"},
+	["rollnumber"]    	= {file = "SVUI Caps Font",   size = 14,  outline = "OUTLINE"},
 };
 	
 SV.defaults["media"] = {
@@ -192,13 +184,6 @@ do
 	local ir1,ig1,ib1 = (1 - r1), (1 - g1), (1 - b1)
 	local ir2,ig2,ib2 = (1 - cColor2.r)*.25, (1 - cColor2.g)*.25, (1 - cColor2.b)*.25
 
-	local DIALOGUE_FONT;
-	if(GetLocale() ~= "enUS") then
-		DIALOGUE_FONT = LSM:Fetch("font", "SVUI Default Font")
-	else
-		DIALOGUE_FONT = LSM:Fetch("font", "SVUI Dialog Font")
-	end
-
 	SV.Media["color"] = {
 		["default"]     = {0.2, 0.2, 0.2, 1}, 
 		["special"]     = {.37, .32, .29, 1},
@@ -211,6 +196,7 @@ do
 		["dark"]        = {0, 0, 0, 1},
 		["darkest"]     = {0, 0, 0, 1},
 		["light"]       = {0.95, 0.95, 0.95, 1},
+		["light2"]      = {0.65, 0.65, 0.65, 1},
 		["lightgrey"]   = {0.32, 0.35, 0.38, 1},
 		["highlight"]   = {0.28, 0.75, 1, 1},
 		["checked"]     = {0.25, 0.9, 0.08, 1},
@@ -238,6 +224,7 @@ do
 		["darkest"]   = {"VERTICAL", 0.15, 0.15, 0.15, 0, 0, 0},
 		["darkest2"]  = {"VERTICAL", 0, 0, 0, 0.12, 0.12, 0.12},
 		["light"]     = {"VERTICAL", 0.65, 0.65, 0.65, 0.95, 0.95, 0.95},
+		["light2"]    = {"VERTICAL", 0.95, 0.95, 0.95, 0.65, 0.65, 0.65},
 		["highlight"] = {"VERTICAL", 0.3, 0.8, 1, 0.1, 0.9, 1},
 		["checked"]   = {"VERTICAL", 0.08, 0.9, 0.25, 0.25, 0.9, 0.08},
 		["green"]     = {"VERTICAL", 0.08, 0.9, 0.25, 0.25, 0.9, 0.08}, 
@@ -251,15 +238,15 @@ do
 
 	SV.Media["font"] = {
 		["default"]   = LSM:Fetch("font", "SVUI Default Font"),
-		["combat"]    = LSM:Fetch("font", "SVUI Combat Font"),
-		["narrator"]  = LSM:Fetch("font", "SVUI Narrator Font"),
-		["zones"]     = LSM:Fetch("font", "SVUI Zone Font"),
-		["alert"]     = LSM:Fetch("font", "SVUI Alert Font"),
-		["numbers"]   = LSM:Fetch("font", "SVUI Number Font"),
+		["combat"]    = LSM:Fetch("font", "SVUI Default Font"),
+		["narrator"]  = LSM:Fetch("font", "SVUI Default Font"),
+		["zones"]     = LSM:Fetch("font", "SVUI Default Font"),
+		["alert"]     = LSM:Fetch("font", "SVUI Default Font"),
+		["numbers"]   = LSM:Fetch("font", "SVUI Caps Font"),
 		["pixel"]     = LSM:Fetch("font", "SVUI Pixel Font"),
 		["caps"]      = LSM:Fetch("font", "SVUI Caps Font"),
-		["flash"]     = LSM:Fetch("font", "SVUI Flash Font"),
-		["dialog"]    = DIALOGUE_FONT,
+		["flash"]     = LSM:Fetch("font", "SVUI Default Font"),
+		["dialog"]    = LSM:Fetch("font", "SVUI Default Font"),
 	}
 
 	SV.Media["bar"] = { 

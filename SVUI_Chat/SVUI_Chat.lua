@@ -617,11 +617,7 @@ do
 		tab:SetParent(holder)
 		tab:ClearAllPoints()
 		tab:SetAllPoints(holder)
-		if(SV.Dock.SetButtonTheme) then
-	    	SV.Dock.SetButtonTheme(tab, tabSize)
-	    else
-	    	tab:SetStylePanel("HeavyButton")
-	    end
+		SV.Dock:SetButtonTheme(tab, tabSize)
 		tab.icon = tab:CreateTexture(nil,"BACKGROUND",nil,3)
 		tab.icon:InsetPoints(tab, 6, 3)
 		tab.icon:SetTexture(MOD.media.dockIcon)

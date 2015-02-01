@@ -337,7 +337,7 @@ local DRUNK_FILTERS = {
 };
 --[[ 
 ########################################################## 
-CORE FUNCTIONS
+DRUNK MODE
 ##########################################################
 ]]--
 local function GetNekkid()
@@ -647,7 +647,174 @@ local _SetDockStyleTheme = function(dock, isBottom)
 	return backdrop 
 end
 
+local function SetButtonBasics(frame)
+    if(frame.Left) then 
+        frame.Left:SetAlpha(0)
+    end 
+
+    if(frame.Middle) then 
+        frame.Middle:SetAlpha(0)
+    end 
+
+    if(frame.Right) then 
+        frame.Right:SetAlpha(0)
+    end 
+
+    if(frame.SetNormalTexture) then 
+        frame:SetNormalTexture("")
+    end 
+
+    if(frame.SetDisabledTexture) then 
+        frame:SetDisabledTexture("")
+    end
+
+    if(frame.SetCheckedTexture) then 
+        frame:SetCheckedTexture("")
+    end
+
+    if(frame.SetHighlightTexture) then
+        if(not frame.hover) then
+            local hover = frame:CreateTexture(nil, "HIGHLIGHT")
+            hover:InsetPoints(frame.Panel)
+            frame.hover = hover;
+        end
+        frame.hover:SetTexture(0.1, 0.8, 0.8, 0.5)
+        frame:SetHighlightTexture(frame.hover) 
+    end 
+end
+
+local SetFrameBorderColor = function(self, r, g, b, setPrevious, reset)
+    if(setPrevious) then
+        self.__border.__previous = setPrevious
+    elseif(reset) then
+        r,g,b = unpack(SV.Media.color[self.__border.__previous])
+    end
+    self.__border[1]:SetTexture(r, g, b)
+    self.__border[2]:SetTexture(r, g, b)
+    self.__border[3]:SetTexture(r, g, b)
+    self.__border[4]:SetTexture(r, g, b)
+end
+
+local ShowAlertFlash = function(self)
+    self:ColorBorder(1,0.9,0)
+    SV.Animate:Flash(self.__border, 0.75, true)
+end
+
+local HideAlertFlash = function(self)
+    SV.Animate:StopFlash(self.__border)
+    self:ColorBorder(1,0.9,0, nil, true)
+end
+
+local _CreateHeavyButton = function(self, inverse, inverted, styleName)
+    if(not self or (self and self.Panel)) then return end
+
+    local borderSize = 2
+    styleName = styleName or "Heavy";
+    CreatePanelTemplate(self, styleName, inverse, false, 0, -borderSize, -borderSize)
+
+    if(inverted) then
+        self.Panel:SetAttribute("panelGradient", "darkest2")
+    else
+        self.Panel:SetAttribute("panelGradient", "darkest")
+    end
+
+    if(not self.__border) then
+        local t = SV.Media.color.default
+        local r,g,b = t[1], t[2], t[3]
+
+        local border = CreateFrame("Frame", nil, self)
+        border:SetAllPoints()
+
+        border[1] = border:CreateTexture(nil,"BORDER")
+        border[1]:SetTexture(r,g,b)
+        border[1]:SetPoint("TOPLEFT", -1, 1)
+        border[1]:SetPoint("BOTTOMLEFT", -1, -1)
+        border[1]:SetWidth(borderSize)
+
+        local leftoutline = border:CreateTexture(nil,"BORDER")
+        leftoutline:SetTexture(0,0,0)
+        leftoutline:SetPoint("TOPLEFT", -2, 2)
+        leftoutline:SetPoint("BOTTOMLEFT", -2, -2)
+        leftoutline:SetWidth(1)
+
+        border[2] = border:CreateTexture(nil,"BORDER")
+        border[2]:SetTexture(r,g,b)
+        border[2]:SetPoint("TOPRIGHT", 1, 1)
+        border[2]:SetPoint("BOTTOMRIGHT", 1, -1)
+        border[2]:SetWidth(borderSize)
+
+        local rightoutline = border:CreateTexture(nil,"BORDER")
+        rightoutline:SetTexture(0,0,0)
+        rightoutline:SetPoint("TOPRIGHT", 2, 2)
+        rightoutline:SetPoint("BOTTOMRIGHT", 2, -2)
+        rightoutline:SetWidth(1)
+
+        border[3] = border:CreateTexture(nil,"BORDER")
+        border[3]:SetTexture(r,g,b)
+        border[3]:SetPoint("TOPLEFT", -1, 1)
+        border[3]:SetPoint("TOPRIGHT", 1, 1)
+        border[3]:SetHeight(borderSize)
+
+        local topoutline = border:CreateTexture(nil,"BORDER")
+        topoutline:SetTexture(0,0,0)
+        topoutline:SetPoint("TOPLEFT", -2, 2)
+        topoutline:SetPoint("TOPRIGHT", 2, 2)
+        topoutline:SetHeight(1)
+
+        border[4] = border:CreateTexture(nil,"BORDER")
+        border[4]:SetTexture(r,g,b)
+        border[4]:SetPoint("BOTTOMLEFT", -1, -1)
+        border[4]:SetPoint("BOTTOMRIGHT", 1, -1)
+        border[4]:SetHeight(borderSize)
+
+        local bottomoutline = border:CreateTexture(nil,"BORDER")
+        bottomoutline:SetTexture(0,0,0)
+        bottomoutline:SetPoint("BOTTOMLEFT", -2, -2)
+        bottomoutline:SetPoint("BOTTOMRIGHT", 2, -2)
+        bottomoutline:SetHeight(1)
+
+        self.__border = border
+        self.__border.__previous = 'default';
+        self.ColorBorder = SetFrameBorderColor
+        self.StartAlert = ShowAlertFlash
+        self.StopAlert = HideAlertFlash
+    end
+
+    SetButtonBasics(self)
+
+    if(not self.__registered) then
+        SV.Media.TEMPLATE_UPDATES[self] = true
+        self.__registered = true
+    end
+end;
+
 function THEME:Load()
+	if(GetLocale() == "enUS") then
+		SV.defaults["font"]["dialog"] = {file = "SVUI Dialog Font",  size = 10,  outline = "OUTLINE"};
+		SV.defaults["font"]["title"] = {file = "SVUI Dialog Font",  size = 16,  outline = "OUTLINE"};
+		SV.Media["font"]["dialog"] = LSM:Fetch("font", "SVUI Dialog Font")
+	end
+
+	SV.defaults["font"]["number"]      	= {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"};
+	SV.defaults["font"]["number_big"]   = {file = "SVUI Number Font",   size = 18,  outline = "OUTLINE"};
+	SV.defaults["font"]["header"]      	= {file = "SVUI Number Font",   size = 18,  outline = "OUTLINE"};  
+	SV.defaults["font"]["combat"]      	= {file = "SVUI Combat Font",   size = 64,  outline = "OUTLINE"}; 
+	SV.defaults["font"]["alert"]       	= {file = "SVUI Alert Font",    size = 20,  outline = "OUTLINE"};
+	SV.defaults["font"]["zone"]      	= {file = "SVUI Zone Font",     size = 16,  outline = "OUTLINE"};
+	SV.defaults["font"]["aura"]      	= {file = "SVUI Number Font",   size = 10,  outline = "OUTLINE"};
+	SV.defaults["font"]["data"]      	= {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"};
+	SV.defaults["font"]["narrator"]    	= {file = "SVUI Narrator Font", size = 12,  outline = "OUTLINE"};
+	SV.defaults["font"]["lootnumber"]   = {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"};
+	SV.defaults["font"]["rollnumber"]   = {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"};
+
+	if(SV.defaults.UnitFrames) then
+		SV.defaults["font"]["unitprimary"]   	= {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"}
+		SV.defaults["font"]["unitsecondary"]   	= {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"}
+		SV.defaults["font"]["unitaurabar"]   	= {file = "SVUI Alert Font",  	size = 10,  outline = "OUTLINE"}
+		SV.defaults["font"]["unitauramedium"]  	= {file = "SVUI Default Font",  size = 10,  outline = "OUTLINE"}
+		SV.defaults["font"]["unitauralarge"]   	= {file = "SVUI Number Font",   size = 10,  outline = "OUTLINE"}
+	end
+
 	SV.defaults["media"]["textures"]["unitlarge"]   = "SVUI UnitBG 1";
 	SV.defaults["media"]["textures"]["unitsmall"]   = "SVUI SmallUnitBG 1";
 	SV.defaults["media"]["borders"]["unitlarge"]    = "SVUI UnitBorder 1";
@@ -659,13 +826,23 @@ function THEME:Load()
 		SV.defaults.Maps.bordercolor = "light";
 	end
 
+	SV.Media.TEMPLATE_METHODS["HeavyButton"] = _CreateHeavyButton;
+
 	SV.Media.XML["Default"]     = "SVUI_ComicsTheme_Default";
+	SV.Media.XML["Heavy"]       = "SVUI_ComicsTheme_Heavy";
 	SV.Media.XML["Composite1"]  = "SVUI_ComicsTheme_Composite1";
 	SV.Media.XML["Composite2"]  = "SVUI_ComicsTheme_Composite2";
 	SV.Media.XML["UnitLarge"]   = "SVUI_ComicsTheme_UnitLarge";
 	SV.Media.XML["UnitSmall"]   = "SVUI_ComicsTheme_UnitSmall";
 	SV.Media.XML["Minimap"] 	= "SVUI_ComicsTheme_Minimap";
 	SV.Media.XML["ActionPanel"] = "SVUI_ComicsTheme_ActionPanel";
+
+	SV.Media["font"]["combat"]    = LSM:Fetch("font", "SVUI Combat Font");
+	SV.Media["font"]["narrator"]  = LSM:Fetch("font", "SVUI Narrator Font");
+	SV.Media["font"]["zones"]     = LSM:Fetch("font", "SVUI Zone Font");
+	SV.Media["font"]["alert"]     = LSM:Fetch("font", "SVUI Alert Font");
+	SV.Media["font"]["numbers"]   = LSM:Fetch("font", "SVUI Number Font");
+	SV.Media["font"]["flash"]     = LSM:Fetch("font", "SVUI Flash Font");
 
 	SV.Media.misc.splash = "Interface\\AddOns\\SVUI_Theme_Comics\\assets\\artwork\\SPLASH";
 	SV.Media.dock.durabilityLabel = [[Interface\AddOns\SVUI_Theme_Comics\assets\artwork\Dock\LABEL-DUR]];

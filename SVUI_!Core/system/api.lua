@@ -45,7 +45,6 @@ local SCREEN_MOD = 1;
 local DEFAULT_BG_COLOR = {0.18,0.18,0.18,1};
 local DEFAULT_BORDER_COLOR = {0,0,0,1};
 local XML_PREFIX = [[SVUI_StyleTemplate_]];
-local TEMPLATE_METHODS, TEMPLATE_UPDATES = {}, {};
 --[[ 
 ########################################################## 
 LOOKUP TABLE
@@ -73,6 +72,8 @@ SV.Media.XML = {
     ["Composite1"]  = "SVUI_CoreStyle_Composite1",
     ["Composite2"]  = "SVUI_CoreStyle_Composite2",
 };
+SV.Media.TEMPLATE_METHODS = {};
+SV.Media.TEMPLATE_UPDATES = {};
 --[[ 
 ########################################################## 
 UI SCALING
@@ -614,28 +615,6 @@ local _hook_Cooldown_SetCooldown = function(self, start, duration, elapsed)
         end 
     end 
 end
-
-local SetFrameBorderColor = function(self, r, g, b, setPrevious, reset)
-    if(setPrevious) then
-        self.__border.__previous = setPrevious
-    elseif(reset) then
-        r,g,b = unpack(SV.Media.color[self.__border.__previous])
-    end
-    self.__border[1]:SetTexture(r, g, b)
-    self.__border[2]:SetTexture(r, g, b)
-    self.__border[3]:SetTexture(r, g, b)
-    self.__border[4]:SetTexture(r, g, b)
-end
-
-local ShowAlertFlash = function(self)
-    self:ColorBorder(1,0.9,0)
-    SV.Animate:Flash(self.__border, 0.75, true)
-end
-
-local HideAlertFlash = function(self)
-    SV.Animate:StopFlash(self.__border)
-    self:ColorBorder(1,0.9,0, nil, true)
-end
 --[[ 
 ########################################################## 
 TEMPLATE HELPERS
@@ -863,7 +842,7 @@ end
 TEMPLATING METHODS
 ##########################################################
 ]]--
-TEMPLATE_METHODS["Button"] = function(self, inverse, alteration, overridePadding, xOffset, yOffset, keepNormal, defaultColor)
+SV.Media.TEMPLATE_METHODS["Button"] = function(self, inverse, alteration, overridePadding, xOffset, yOffset, keepNormal, defaultColor)
     if(not self or (self and self.Panel)) then return end
 
     local padding = 1
@@ -898,12 +877,28 @@ TEMPLATE_METHODS["Button"] = function(self, inverse, alteration, overridePadding
     CreateButtonPanel(self)
 end;
 
-TEMPLATE_METHODS["HeavyButton"] = function(self, inverse, inverted, styleName)
+local SetFrameBorderColor = function(self, r, g, b, reset)
+    if(reset) then
+        r,g,b = 0,0,0
+    end
+    self.__border:SetBackdropBorderColor(r,g,b)
+end
+
+local ShowAlertFlash = function(self)
+    self:ColorBorder(1,0.9,0)
+    SV.Animate:Flash(self.__border, 0.75, true)
+end
+
+local HideAlertFlash = function(self)
+    SV.Animate:StopFlash(self.__border)
+    self:ColorBorder(1,0.9,0,true)
+end
+
+SV.Media.TEMPLATE_METHODS["HeavyButton"] = function(self, inverse, inverted, styleName)
     if(not self or (self and self.Panel)) then return end
 
-    local borderSize = 2
     styleName = styleName or "Heavy";
-    CreatePanelTemplate(self, styleName, inverse, false, 0, -borderSize, -borderSize)
+    CreatePanelTemplate(self, styleName, inverse)
 
     if(inverted) then
         self.Panel:SetAttribute("panelGradient", "darkest2")
@@ -912,62 +907,26 @@ TEMPLATE_METHODS["HeavyButton"] = function(self, inverse, inverted, styleName)
     end
 
     if(not self.__border) then
-        local t = SV.Media.color.default
-        local r,g,b = t[1], t[2], t[3]
-
         local border = CreateFrame("Frame", nil, self)
         border:SetAllPoints()
-
-        border[1] = border:CreateTexture(nil,"BORDER")
-        border[1]:SetTexture(r,g,b)
-        border[1]:SetPoint("TOPLEFT", -1, 1)
-        border[1]:SetPoint("BOTTOMLEFT", -1, -1)
-        border[1]:SetWidth(borderSize)
-
-        local leftoutline = border:CreateTexture(nil,"BORDER")
-        leftoutline:SetTexture(0,0,0)
-        leftoutline:SetPoint("TOPLEFT", -2, 2)
-        leftoutline:SetPoint("BOTTOMLEFT", -2, -2)
-        leftoutline:SetWidth(1)
-
-        border[2] = border:CreateTexture(nil,"BORDER")
-        border[2]:SetTexture(r,g,b)
-        border[2]:SetPoint("TOPRIGHT", 1, 1)
-        border[2]:SetPoint("BOTTOMRIGHT", 1, -1)
-        border[2]:SetWidth(borderSize)
-
-        local rightoutline = border:CreateTexture(nil,"BORDER")
-        rightoutline:SetTexture(0,0,0)
-        rightoutline:SetPoint("TOPRIGHT", 2, 2)
-        rightoutline:SetPoint("BOTTOMRIGHT", 2, -2)
-        rightoutline:SetWidth(1)
-
-        border[3] = border:CreateTexture(nil,"BORDER")
-        border[3]:SetTexture(r,g,b)
-        border[3]:SetPoint("TOPLEFT", -1, 1)
-        border[3]:SetPoint("TOPRIGHT", 1, 1)
-        border[3]:SetHeight(borderSize)
-
-        local topoutline = border:CreateTexture(nil,"BORDER")
-        topoutline:SetTexture(0,0,0)
-        topoutline:SetPoint("TOPLEFT", -2, 2)
-        topoutline:SetPoint("TOPRIGHT", 2, 2)
-        topoutline:SetHeight(1)
-
-        border[4] = border:CreateTexture(nil,"BORDER")
-        border[4]:SetTexture(r,g,b)
-        border[4]:SetPoint("BOTTOMLEFT", -1, -1)
-        border[4]:SetPoint("BOTTOMRIGHT", 1, -1)
-        border[4]:SetHeight(borderSize)
-
-        local bottomoutline = border:CreateTexture(nil,"BORDER")
-        bottomoutline:SetTexture(0,0,0)
-        bottomoutline:SetPoint("BOTTOMLEFT", -2, -2)
-        bottomoutline:SetPoint("BOTTOMRIGHT", 2, -2)
-        bottomoutline:SetHeight(1)
+        border:SetBackdrop({
+            bgFile = [[Interface\AddOns\SVUI_!Core\assets\textures\EMPTY]], 
+            edgeFile = [[Interface\BUTTONS\WHITE8X8]], 
+            tile = false, 
+            tileSize = 0, 
+            edgeSize = 1, 
+            insets = 
+            {
+                left = 0, 
+                right = 0, 
+                top = 0, 
+                bottom = 0, 
+            }, 
+        });
+        border:SetBackdropBorderColor(0,0,0,1)
 
         self.__border = border
-        self.__border.__previous = 'default';
+        self.__border.__previous = 'light';
         self.ColorBorder = SetFrameBorderColor
         self.StartAlert = ShowAlertFlash
         self.StopAlert = HideAlertFlash
@@ -976,12 +935,12 @@ TEMPLATE_METHODS["HeavyButton"] = function(self, inverse, inverted, styleName)
     SetButtonBasics(self)
 
     if(not self.__registered) then
-        TEMPLATE_UPDATES[self] = true
+        SV.Media.TEMPLATE_UPDATES[self] = true
         self.__registered = true
     end
 end;
 
-TEMPLATE_METHODS["Action"] = function(self, inverse, padding, x, y, shadowAlpha, mutedCooldown)
+SV.Media.TEMPLATE_METHODS["Action"] = function(self, inverse, padding, x, y, shadowAlpha, mutedCooldown)
     if(not self or (self and self.Panel)) then return end
     padding = padding or 1
     local underlay = (not inverse)
@@ -992,7 +951,7 @@ TEMPLATE_METHODS["Action"] = function(self, inverse, padding, x, y, shadowAlpha,
     end
 end;
 
-TEMPLATE_METHODS["Slot"] = function(self, inverse, padding, x, y, shadowAlpha, mutedCooldown)
+SV.Media.TEMPLATE_METHODS["Slot"] = function(self, inverse, padding, x, y, shadowAlpha, mutedCooldown)
     if(not self or (self and self.Panel)) then return end
     padding = padding or 1
     local underlay = (not inverse)
@@ -1003,7 +962,7 @@ TEMPLATE_METHODS["Slot"] = function(self, inverse, padding, x, y, shadowAlpha, m
     end
 end;
 
-TEMPLATE_METHODS["Icon"] = function(self, inverse, padding, x, y, shadowAlpha, mutedCooldown)
+SV.Media.TEMPLATE_METHODS["Icon"] = function(self, inverse, padding, x, y, shadowAlpha, mutedCooldown)
     if(not self or (self and self.Panel)) then return end
     padding = padding or 1
     local underlay = (not inverse)
@@ -1014,7 +973,7 @@ TEMPLATE_METHODS["Icon"] = function(self, inverse, padding, x, y, shadowAlpha, m
     end
 end;
 
-TEMPLATE_METHODS["Checkbox"] = function(self, inverse, shrink, x, y, colored)
+SV.Media.TEMPLATE_METHODS["Checkbox"] = function(self, inverse, shrink, x, y, colored)
     if(not self or (self and self.Panel)) then return end
 
     if(colored) then
@@ -1077,7 +1036,7 @@ TEMPLATE_METHODS["Checkbox"] = function(self, inverse, shrink, x, y, colored)
     end
 end;
 
-TEMPLATE_METHODS["Editbox"] = function(self, inverse, x, y)
+SV.Media.TEMPLATE_METHODS["Editbox"] = function(self, inverse, x, y)
     if(not self or (self and self.Panel)) then return end
 
     if self.TopLeftTex then self.TopLeftTex:Die() end 
@@ -1110,7 +1069,7 @@ TEMPLATE_METHODS["Editbox"] = function(self, inverse, x, y)
     end
 end;
 
-TEMPLATE_METHODS["Frame"] = function(self, inverse, styleName, noupdate, overridePadding, xOffset, yOffset, defaultColor)
+SV.Media.TEMPLATE_METHODS["Frame"] = function(self, inverse, styleName, noupdate, overridePadding, xOffset, yOffset, defaultColor)
     if(not self or (self and self.Panel)) then return end
     local padding = false;
     if(overridePadding and type(overridePadding) == "number") then
@@ -1122,7 +1081,7 @@ TEMPLATE_METHODS["Frame"] = function(self, inverse, styleName, noupdate, overrid
     CreatePanelTemplate(self, styleName, underlay, noupdate, padding, xOffset, yOffset, defaultColor)
 
     if(not self.Panel:GetAttribute("panelSkipUpdate") and not self.__registered) then
-        TEMPLATE_UPDATES[self] = true
+        SV.Media.TEMPLATE_UPDATES[self] = true
         self.__registered = true
     end
 end;
@@ -1170,8 +1129,8 @@ local SetStylePanel = function(self, method, ...)
     method = method or "Frame";
     local methodName, flags = method:gsub("!_", "");
     local inverse = (flags and flags > 0) and true or false;
-    if(TEMPLATE_METHODS[methodName]) then
-        TEMPLATE_METHODS[methodName](self, inverse, ...)
+    if(SV.Media.TEMPLATE_METHODS[methodName]) then
+        SV.Media.TEMPLATE_METHODS[methodName](self, inverse, ...)
     end
 end
 --[[ 
@@ -1203,7 +1162,7 @@ UPDATE CALLBACKS
 ##########################################################
 ]]--
 local function FrameTemplateUpdates()
-    for frame in pairs(TEMPLATE_UPDATES) do
+    for frame in pairs(SV.Media.TEMPLATE_UPDATES) do
         if(frame) then
             local panelID = frame.Panel:GetAttribute("panelID")
             local colorID = frame.Panel:GetAttribute("panelColor")
