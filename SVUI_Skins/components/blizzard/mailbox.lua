@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -21,8 +21,8 @@ local function MailFrame_OnUpdate()
 	for b = 1, ATTACHMENTS_MAX_SEND do 
 		local d = _G["SendMailAttachment"..b]
 		if not d.styled then
-			d:RemoveTextures()d:SetStylePanel("!_Frame", "Default")
-			d:SetStylePanel("Button")
+			d:RemoveTextures()d:SetStyle("!_Frame", "Default")
+			d:SetStyle("Button")
 			d.styled = true 
 		end 
 		local e = d:GetNormalTexture()
@@ -45,12 +45,12 @@ local function MailBoxStyle()
 	for b = 1, INBOXITEMS_TO_DISPLAY do 
 		local i = _G["MailItem"..b]
 		i:RemoveTextures()
-		i:SetStylePanel("Frame", "Inset")
+		i:SetStyle("Frame", "Inset")
 		i.Panel:ModPoint("TOPLEFT", 2, 1)
 		i.Panel:ModPoint("BOTTOMRIGHT", -2, 2)
 		local d = _G["MailItem"..b.."Button"]
 		d:RemoveTextures()
-		d:SetStylePanel("Button")
+		d:SetStyle("Button")
 		local e = _G["MailItem"..b.."ButtonIcon"]
 		e:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 		e:InsetPoints()
@@ -63,22 +63,22 @@ local function MailBoxStyle()
 	MOD:ApplyTabStyle(MailFrameTab1)
 	MOD:ApplyTabStyle(MailFrameTab2)
 	SendMailScrollFrame:RemoveTextures(true)
-	SendMailScrollFrame:SetStylePanel("!_Frame", "Inset")
+	SendMailScrollFrame:SetStyle("!_Frame", "Inset")
 	MOD:ApplyScrollFrameStyle(SendMailScrollFrameScrollBar)
-	SendMailNameEditBox:SetStylePanel("Editbox")
-	SendMailSubjectEditBox:SetStylePanel("Editbox")
-	SendMailMoneyGold:SetStylePanel("Editbox")
-	SendMailMoneySilver:SetStylePanel("Editbox")
-	SendMailMoneyCopper:SetStylePanel("Editbox")
+	SendMailNameEditBox:SetStyle("Editbox")
+	SendMailSubjectEditBox:SetStyle("Editbox")
+	SendMailMoneyGold:SetStyle("Editbox")
+	SendMailMoneySilver:SetStyle("Editbox")
+	SendMailMoneyCopper:SetStyle("Editbox")
 	SendMailMoneyBg:Die()
 	SendMailMoneyInset:RemoveTextures()
 
-	_G["SendMailMoneySilver"]:SetStylePanel("Editbox")
+	_G["SendMailMoneySilver"]:SetStyle("Editbox")
 	_G["SendMailMoneySilver"].Panel:ModPoint("TOPLEFT", -2, 1)
 	_G["SendMailMoneySilver"].Panel:ModPoint("BOTTOMRIGHT", -12, -1)
 	_G["SendMailMoneySilver"]:SetTextInsets(-1, -1, -2, -2)
 
-	_G["SendMailMoneyCopper"]:SetStylePanel("Editbox")
+	_G["SendMailMoneyCopper"]:SetStyle("Editbox")
 	_G["SendMailMoneyCopper"].Panel:ModPoint("TOPLEFT", -2, 1)
 	_G["SendMailMoneyCopper"].Panel:ModPoint("BOTTOMRIGHT", -12, -1)
 	_G["SendMailMoneyCopper"]:SetTextInsets(-1, -1, -2, -2)
@@ -88,39 +88,39 @@ local function MailBoxStyle()
 	SendMailFrame:RemoveTextures()
 	
 	hooksecurefunc("SendMailFrame_Update", MailFrame_OnUpdate)
-	SendMailMailButton:SetStylePanel("Button")
-	SendMailCancelButton:SetStylePanel("Button")
+	SendMailMailButton:SetStyle("Button")
+	SendMailCancelButton:SetStyle("Button")
 	OpenMailFrame:RemoveTextures(true)
-	OpenMailFrame:SetStylePanel("!_Frame", "Transparent", true)
+	OpenMailFrame:SetStyle("!_Frame", "Transparent", true)
 	OpenMailFrameInset:Die()
 	MOD:ApplyCloseButtonStyle(OpenMailFrameCloseButton)
-	OpenMailReportSpamButton:SetStylePanel("Button")
-	OpenMailReplyButton:SetStylePanel("Button")
-	OpenMailDeleteButton:SetStylePanel("Button")
-	OpenMailCancelButton:SetStylePanel("Button")
+	OpenMailReportSpamButton:SetStyle("Button")
+	OpenMailReplyButton:SetStyle("Button")
+	OpenMailDeleteButton:SetStyle("Button")
+	OpenMailCancelButton:SetStyle("Button")
 	InboxFrame:RemoveTextures()
 	MailFrameInset:Die()
 	OpenMailScrollFrame:RemoveTextures(true)
-	OpenMailScrollFrame:SetStylePanel("!_Frame", "Default")
+	OpenMailScrollFrame:SetStyle("!_Frame", "Default")
 	MOD:ApplyScrollFrameStyle(OpenMailScrollFrameScrollBar)
 	SendMailBodyEditBox:SetTextColor(1, 1, 1)
 	OpenMailBodyText:SetTextColor(1, 1, 1)
 	InvoiceTextFontNormal:SetTextColor(1, 1, 1)
 	OpenMailArithmeticLine:Die()
 	OpenMailLetterButton:RemoveTextures()
-	OpenMailLetterButton:SetStylePanel("!_Frame", "Default")
-	OpenMailLetterButton:SetStylePanel("Button")
+	OpenMailLetterButton:SetStyle("!_Frame", "Default")
+	OpenMailLetterButton:SetStyle("Button")
 	OpenMailLetterButtonIconTexture:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 	OpenMailLetterButtonIconTexture:InsetPoints()
 	OpenMailMoneyButton:RemoveTextures()
-	OpenMailMoneyButton:SetStylePanel("!_Frame", "Default")
-	OpenMailMoneyButton:SetStylePanel("Button")
+	OpenMailMoneyButton:SetStyle("!_Frame", "Default")
+	OpenMailMoneyButton:SetStyle("Button")
 	OpenMailMoneyButtonIconTexture:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 	OpenMailMoneyButtonIconTexture:InsetPoints()
 	for b = 1, ATTACHMENTS_MAX_SEND do 
 		local d = _G["OpenMailAttachmentButton"..b]
 		d:RemoveTextures()
-		d:SetStylePanel("Button")
+		d:SetStyle("Button")
 		local e = _G["OpenMailAttachmentButton"..b.."IconTexture"]
 		if e then
 			e:SetTexCoord(0.1, 0.9, 0.1, 0.9)

@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -345,12 +345,12 @@ function MOD:InitializeScenarios()
 	block:ModPoint("TOPLEFT", scenario, "TOPLEFT", 2, -2);
 	block:ModPoint("TOPRIGHT", scenario, "TOPRIGHT", -2, -2);
 	block:SetHeight(1);
-	block:SetStylePanel("Frame", "Lite");
+	block:SetStyle("Frame", "Lite");
 
 	block.Badge = CreateFrame("Frame", nil, block)
 	block.Badge:ModPoint("TOPLEFT", block, "TOPLEFT", 4, -4);
 	block.Badge:ModSize((LARGE_INNER_HEIGHT - 4), (LARGE_INNER_HEIGHT - 4));
-	block.Badge:SetStylePanel("!_Frame", "Inset")
+	block.Badge:SetStyle("!_Frame", "Inset")
 
 	block.Icon = block.Badge:CreateTexture(nil,"OVERLAY")
 	block.Icon:InsetPoints(block.Badge);
@@ -361,7 +361,7 @@ function MOD:InitializeScenarios()
 	block.Header:ModPoint("TOPLEFT", block.Badge, "TOPRIGHT", 4, -1);
 	block.Header:ModPoint("TOPRIGHT", block, "TOPRIGHT", -4, 0);
 	block.Header:ModHeight(INNER_HEIGHT);
-	block.Header:SetStylePanel("Frame")
+	block.Header:SetStyle("Frame")
 
 	block.Header.Stage = block.Header:CreateFontString(nil,"OVERLAY")
 	block.Header.Stage:SetFontObject(SVUI_Font_Quest);
@@ -389,7 +389,7 @@ function MOD:InitializeScenarios()
 	timer:ModPoint("TOPLEFT", block.Header, "BOTTOMLEFT", 4, -4);
 	timer:ModPoint("TOPRIGHT", block.Header, "BOTTOMRIGHT", -4, -4);
 	timer:SetHeight(INNER_HEIGHT);
-	timer:SetStylePanel("!_Frame", "Bar");
+	timer:SetStyle("!_Frame", "Bar");
 
 	timer.StartTimer = StartTimer;
 	timer.StopTimer = StopTimer;

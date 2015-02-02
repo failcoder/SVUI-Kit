@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -96,7 +96,7 @@ local function StyleCharacterSlots()
 			if(not charSlot.Panel) then
 				charSlot:RemoveTextures()
 				charSlot.ignoreTexture:SetTexture([[Interface\PaperDollInfoFrame\UI-GearManager-LeaveItem-Transparent]])
-				charSlot:SetStylePanel("!_Slot", 1, 0, 0)
+				charSlot:SetStyle("!_Slot", 1, 0, 0)
 
 				local iconTex = _G[globalName.."IconTexture"]
 				if(iconTex) then
@@ -140,7 +140,7 @@ local function StyleCharacterSlots()
 						texture:SetTexCoord(0.16, 0.86, 0.16, 0.86)
 					end 
 				end 
-				tab:SetStylePanel("Frame", "Default", true, 2)
+				tab:SetStyle("Frame", "Default", true, 2)
 				tab.Panel:ModPoint("TOPLEFT", 2, -3)
 				tab.Panel:ModPoint("BOTTOMRIGHT", 0, -2)
 			end
@@ -161,13 +161,13 @@ local function EquipmentFlyout_OnShow()
 	local button = _G["EquipmentFlyoutFrameButton"..counter]
 	while button do 
 		local texture = _G["EquipmentFlyoutFrameButton"..counter.."IconTexture"]
-		button:SetStylePanel("Button")
+		button:SetStyle("Button")
 		texture:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 		button:GetNormalTexture():SetTexture(0,0,0,0)
 		texture:InsetPoints()
 		button:SetFrameLevel(button:GetFrameLevel() + 2)
 		if not button.Panel then
-			button:SetStylePanel("Frame", "Default")
+			button:SetStyle("Frame", "Default")
 			button.Panel:SetAllPoints()
 		end 
 		counter = counter + 1;
@@ -181,7 +181,7 @@ local function Reputation_OnShow()
 		if bar then
 			 bar:SetStatusBarTexture(SV.BaseTexture)
 			if not bar.Panel then
-				 bar:SetStylePanel("Frame", "Inset")
+				 bar:SetStyle("Frame", "Inset")
 			end 
 			_G["ReputationBar"..i.."Background"]:SetTexture(0,0,0,0)
 			_G["ReputationBar"..i.."ReputationBarHighlight1"]:SetTexture(0,0,0,0)
@@ -222,20 +222,20 @@ local function PaperDollEquipmentManagerPane_OnShow()
 	end
 
 	GearManagerDialogPopup:RemoveTextures()
-	GearManagerDialogPopup:SetStylePanel("Frame", "Inset", true)
+	GearManagerDialogPopup:SetStyle("Frame", "Inset", true)
 	GearManagerDialogPopup:ModPoint("LEFT", PaperDollFrame, "RIGHT", 4, 0)
 	GearManagerDialogPopupScrollFrame:RemoveTextures()
 	GearManagerDialogPopupEditBox:RemoveTextures()
-	GearManagerDialogPopupEditBox:SetStylePanel("Frame", 'Inset')
-	GearManagerDialogPopupOkay:SetStylePanel("Button")
-	GearManagerDialogPopupCancel:SetStylePanel("Button")
+	GearManagerDialogPopupEditBox:SetStyle("Frame", 'Inset')
+	GearManagerDialogPopupOkay:SetStyle("Button")
+	GearManagerDialogPopupCancel:SetStyle("Button")
 
 	for i = 1, NUM_GEARSET_ICONS_SHOWN do 
 		local btn = _G["GearManagerDialogPopupButton"..i]
 		if(btn and (not btn.Panel)) then
 			btn:RemoveTextures()
 			btn:SetFrameLevel(btn:GetFrameLevel() + 2)
-			btn:SetStylePanel("Button")
+			btn:SetStyle("Button")
 			if(btn.icon) then
 				btn.icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 				btn.icon:SetTexture(0,0,0,0)
@@ -288,12 +288,12 @@ local function CharacterFrameStyle()
 
 	MOD:ApplyCloseButtonStyle(ReputationDetailCloseButton)
 	MOD:ApplyCloseButtonStyle(TokenFramePopupCloseButton)
-	ReputationDetailAtWarCheckBox:SetStylePanel("Checkbox", true)
-	ReputationDetailMainScreenCheckBox:SetStylePanel("Checkbox", true)
-	ReputationDetailInactiveCheckBox:SetStylePanel("Checkbox", true)
-	ReputationDetailLFGBonusReputationCheckBox:SetStylePanel("Checkbox", true)
-	TokenFramePopupInactiveCheckBox:SetStylePanel("Checkbox", true)
-	TokenFramePopupBackpackCheckBox:SetStylePanel("Checkbox", true)
+	ReputationDetailAtWarCheckBox:SetStyle("Checkbox")
+	ReputationDetailMainScreenCheckBox:SetStyle("Checkbox")
+	ReputationDetailInactiveCheckBox:SetStyle("Checkbox")
+	ReputationDetailLFGBonusReputationCheckBox:SetStyle("Checkbox")
+	TokenFramePopupInactiveCheckBox:SetStyle("Checkbox")
+	TokenFramePopupBackpackCheckBox:SetStyle("Checkbox")
 	EquipmentFlyoutFrameHighlight:Die()
 	EquipmentFlyoutFrame:HookScript("OnShow", EquipmentFlyout_OnShow)
 	hooksecurefunc("EquipmentFlyout_Show", EquipmentFlyout_OnShow)
@@ -305,7 +305,7 @@ local function CharacterFrameStyle()
 		if(_G[gName]) then _G[gName]:RemoveTextures(true) end
 	end 
 
-	CharacterFrameInsetRight:SetStylePanel("Frame", 'Inset')
+	CharacterFrameInsetRight:SetStyle("Frame", 'Inset')
 
 	for i=1, 6 do
 		local pane = _G["CharacterStatsPaneCategory"..i]
@@ -319,17 +319,17 @@ local function CharacterFrameStyle()
 	CharacterModelFrameBackgroundBotLeft:SetTexture(0,0,0,0)
 	CharacterModelFrameBackgroundBotRight:SetTexture(0,0,0,0)
 
-	CharacterModelFrame:SetStylePanel("!_Frame", "Model")
+	CharacterModelFrame:SetStyle("!_Frame", "Model")
 	CharacterFrameExpandButton:SetFrameLevel(CharacterModelFrame:GetFrameLevel() + 5)
 
 	PaperDollTitlesPane:RemoveTextures()
 	PaperDollTitlesPaneScrollChild:RemoveTextures()
-	PaperDollTitlesPane:SetStylePanel("Frame", 'Inset')
+	PaperDollTitlesPane:SetStyle("Frame", 'Inset')
 	PaperDollTitlesPane:HookScript("OnShow", PaperDollTitlesPane_OnShow)
 
-	PaperDollEquipmentManagerPane:SetStylePanel("Frame", 'Inset')
-	PaperDollEquipmentManagerPaneEquipSet:SetStylePanel("Button")
-	PaperDollEquipmentManagerPaneSaveSet:SetStylePanel("Button")
+	PaperDollEquipmentManagerPane:SetStyle("Frame", 'Inset')
+	PaperDollEquipmentManagerPaneEquipSet:SetStyle("Button")
+	PaperDollEquipmentManagerPaneSaveSet:SetStyle("Button")
 	PaperDollEquipmentManagerPaneEquipSet:ModWidth(PaperDollEquipmentManagerPaneEquipSet:GetWidth()-8)
 	PaperDollEquipmentManagerPaneSaveSet:ModWidth(PaperDollEquipmentManagerPaneSaveSet:GetWidth()-8)
 	PaperDollEquipmentManagerPaneEquipSet:ModPoint("TOPLEFT", PaperDollEquipmentManagerPane, "TOPLEFT", 8, 0)
@@ -345,14 +345,14 @@ local function CharacterFrameStyle()
 
 	ReputationFrame:RemoveTextures(true)
 	ReputationListScrollFrame:RemoveTextures()
-	ReputationListScrollFrame:SetStylePanel("Frame", "Inset")
+	ReputationListScrollFrame:SetStyle("Frame", "Inset")
 	ReputationDetailFrame:RemoveTextures()
-	ReputationDetailFrame:SetStylePanel("Frame", "Inset", true)
+	ReputationDetailFrame:SetStyle("Frame", "Inset", true)
 	ReputationDetailFrame:ModPoint("TOPLEFT", ReputationFrame, "TOPRIGHT", 4, -28)
 	ReputationFrame:HookScript("OnShow", Reputation_OnShow)
 	hooksecurefunc("ExpandFactionHeader", Reputation_OnShow)
 	hooksecurefunc("CollapseFactionHeader", Reputation_OnShow)
-	TokenFrameContainer:SetStylePanel("Frame", 'Inset')
+	TokenFrameContainer:SetStyle("Frame", 'Inset')
 
 	TokenFrame:HookScript("OnShow", function()
 		for i = 1, GetCurrencyListSize() do 
@@ -368,14 +368,14 @@ local function CharacterFrameStyle()
 			end 
 		end 
 		TokenFramePopup:RemoveTextures()
-		TokenFramePopup:SetStylePanel("Frame", "Inset", true)
+		TokenFramePopup:SetStyle("Frame", "Inset", true)
 		TokenFramePopup:ModPoint("TOPLEFT", TokenFrame, "TOPRIGHT", 4, -28)
 	end)
 
-	PetModelFrame:SetStylePanel("Frame", "Premium", false, 1, -7, -7)
+	PetModelFrame:SetStyle("Frame", "Premium", false, 1, -7, -7)
 	PetPaperDollPetInfo:GetRegions():SetTexCoord(.12, .63, .15, .55)
 	PetPaperDollPetInfo:SetFrameLevel(PetPaperDollPetInfo:GetFrameLevel() + 10)
-	PetPaperDollPetInfo:SetStylePanel("Frame", "Slot")
+	PetPaperDollPetInfo:SetStyle("Frame", "Icon")
 	PetPaperDollPetInfo.Panel:SetFrameLevel(0)
 	PetPaperDollPetInfo:ModSize(24, 24)
 end 

@@ -64,7 +64,7 @@
             </Layer>
         </Layers>
     </Frame>
-    <Frame name="SVUI_ComicsTheme_Heavy" virtual="true">
+    <Frame name="SVUI_ComicsTheme_DockButton" virtual="true">
         <Attributes>
             <Attribute name="panelID" type="string" value="heavy" />
             <Attribute name="panelPadding" type="number" value="1" />

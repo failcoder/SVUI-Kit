@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -61,7 +61,7 @@ local function StyleOmen()
     if(not MOD:ValidateDocklet("Omen")) then
       MOD:ApplyFrameStyle(self.BarList, 'Transparent')
       self.Title:RemoveTextures()
-      self.Title:SetStylePanel("Frame", "Default")
+      self.Title:SetStyle("Frame", "Default")
       self.Title:SetPanelColor("class")
     end
     self.BarList:SetPoint('TOPLEFT', self.Title, 'BOTTOMLEFT', 0, 1)
@@ -113,11 +113,11 @@ function MOD:Docklet_Omen(parent)
   Omen:OnProfileChanged(nil,db)
   OmenTitle:RemoveTextures()
   OmenTitle.Panel = nil
-  OmenTitle:SetStylePanel("Frame", "Transparent")
+  OmenTitle:SetStyle("Frame", "Transparent")
   --OmenTitle:SetPanelColor("class")
   --OmenTitle:GetFontString():SetFont(SV.Media.font.default, 12, "OUTLINE")
   OmenBarList:RemoveTextures()
-  OmenAnchor:SetStylePanel("!_Frame", 'Transparent')
+  OmenAnchor:SetStyle("!_Frame", 'Transparent')
   OmenAnchor:ClearAllPoints()
   OmenAnchor:SetAllPoints(parent)
   OmenAnchor:SetParent(parent)

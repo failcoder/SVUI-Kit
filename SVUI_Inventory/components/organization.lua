@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -131,7 +131,7 @@ end
 
 function MOD:InitializeMenus()
 	-- BagFilters:SetParent(SV.Screen)
-	BagFilters:SetStylePanel("Frame", "Default")
+	BagFilters:SetStyle("Frame", "Default")
 	BagFilters.buttons = {}
 	BagFilters:SetFrameStrata("DIALOG")
 	BagFilters:SetClampedToScreen(true)

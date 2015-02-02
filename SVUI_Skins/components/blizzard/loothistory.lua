@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -48,7 +48,7 @@ local LootHistoryFrame_OnUpdate = function(self)
       frame.Icon:SetTexture(Icon)
       frame.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 
-      frame:SetStylePanel("!_Frame", "Button")
+      frame:SetStyle("!_Frame", "Button")
       frame.Panel:WrapPoints(frame.Icon)
       frame.Icon:SetParent(frame.Panel)
 
@@ -68,7 +68,7 @@ local _hook_MasterLootFrame_OnShow = function()
     item:RemoveTextures()
     icon:SetTexture(tex)
     icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
-    item:SetStylePanel("Frame", "Pattern")
+    item:SetStyle("Frame", "Pattern")
     item.Panel:WrapPoints(icon)
     item:SetBackdropBorderColor(colors.r, colors.g, colors.b)
   end 
@@ -79,8 +79,8 @@ local _hook_MasterLootFrame_OnShow = function()
         if child:GetPushedTexture() then
           MOD:ApplyCloseButtonStyle(child)
         else
-          child:SetStylePanel("!_Frame")
-          child:SetStylePanel("Button")
+          child:SetStyle("!_Frame")
+          child:SetStyle("Button")
         end 
         child.isStyled = true 
       end 
@@ -104,16 +104,16 @@ local function LootHistoryStyle()
   LootHistoryFrame:SetFrameStrata('HIGH')
 
   MissingLootFrame:RemoveTextures()
-  MissingLootFrame:SetStylePanel("Frame", "Pattern")
+  MissingLootFrame:SetStyle("Frame", "Pattern")
 
   MOD:ApplyCloseButtonStyle(MissingLootFramePassButton)
   hooksecurefunc("MissingLootFrame_Show", MissingLootFrame_OnShow)
   LootHistoryFrame:RemoveTextures()
   MOD:ApplyCloseButtonStyle(LootHistoryFrame.CloseButton)
   LootHistoryFrame:RemoveTextures()
-  LootHistoryFrame:SetStylePanel("!_Frame", 'Transparent')
+  LootHistoryFrame:SetStyle("!_Frame", 'Transparent')
   MOD:ApplyCloseButtonStyle(LootHistoryFrame.ResizeButton)
-  LootHistoryFrame.ResizeButton:SetStylePanel("!_Frame")
+  LootHistoryFrame.ResizeButton:SetStyle("!_Frame")
   LootHistoryFrame.ResizeButton:ModWidth(LootHistoryFrame:GetWidth())
   LootHistoryFrame.ResizeButton:ModHeight(19)
   LootHistoryFrame.ResizeButton:ClearAllPoints()
@@ -131,7 +131,7 @@ local function LootHistoryStyle()
   hooksecurefunc("LootHistoryFrame_FullUpdate", LootHistoryFrame_OnUpdate)
 
   MasterLooterFrame:RemoveTextures()
-  MasterLooterFrame:SetStylePanel("!_Frame")
+  MasterLooterFrame:SetStyle("!_Frame")
   MasterLooterFrame:SetFrameStrata('FULLSCREEN_DIALOG')
 
   hooksecurefunc("MasterLooterFrame_Show", _hook_MasterLootFrame_OnShow)

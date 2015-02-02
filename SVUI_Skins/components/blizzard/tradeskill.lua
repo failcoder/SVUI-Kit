@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -49,33 +49,33 @@ local function TradeSkillStyle()
 
 	TradeSkillGuildFrame:ModPoint("BOTTOMLEFT", TradeSkillFrame, "BOTTOMRIGHT", 3, 19)
 	TradeSkillGuildFrameContainer:RemoveTextures()
-	TradeSkillGuildFrameContainer:SetStylePanel("Frame", "Inset")
+	TradeSkillGuildFrameContainer:SetStyle("Frame", "Inset")
 	MOD:ApplyCloseButtonStyle(TradeSkillGuildFrameCloseButton)
 
-	TradeSkillRankFrame:SetStylePanel("Frame", "Bar", true)
+	TradeSkillRankFrame:SetStyle("Frame", "Bar", true)
 	TradeSkillRankFrame:SetStatusBarTexture(SV.Media.bar.default)
 
 	TradeSkillListScrollFrame:ModSize(327, 290)
-	TradeSkillListScrollFrame:SetStylePanel("Frame", "Inset")
+	TradeSkillListScrollFrame:SetStyle("Frame", "Inset")
 	TradeSkillDetailScrollFrame:ModSize(327, 180)
-	TradeSkillDetailScrollFrame:SetStylePanel("Frame", "Inset")
+	TradeSkillDetailScrollFrame:SetStyle("Frame", "Inset")
 
-	TradeSkillCreateButton:SetStylePanel("Button")
-	TradeSkillCancelButton:SetStylePanel("Button")
-	TradeSkillFilterButton:SetStylePanel("Button")
-	TradeSkillCreateAllButton:SetStylePanel("Button")
-	TradeSkillViewGuildCraftersButton:SetStylePanel("Button")
+	TradeSkillCreateButton:SetStyle("Button")
+	TradeSkillCancelButton:SetStyle("Button")
+	TradeSkillFilterButton:SetStyle("Button")
+	TradeSkillCreateAllButton:SetStyle("Button")
+	TradeSkillViewGuildCraftersButton:SetStyle("Button")
 
 	MOD:ApplyScrollFrameStyle(TradeSkillListScrollFrameScrollBar)
 	MOD:ApplyScrollFrameStyle(TradeSkillDetailScrollFrameScrollBar)
 
 	TradeSkillLinkButton:ModSize(17, 14)
 	TradeSkillLinkButton:ModPoint("LEFT", TradeSkillLinkFrame, "LEFT", 5, -1)
-	TradeSkillLinkButton:SetStylePanel("Button", nil, nil, nil, nil, true)
+	TradeSkillLinkButton:SetStyle("Button", nil, nil, nil, nil, true)
 	TradeSkillLinkButton:GetNormalTexture():SetTexCoord(0.25, 0.7, 0.45, 0.8)
 
-	TradeSkillFrameSearchBox:SetStylePanel("Editbox")
-	TradeSkillInputBox:SetStylePanel("Editbox")
+	TradeSkillFrameSearchBox:SetStyle("Editbox")
+	TradeSkillInputBox:SetStyle("Editbox")
 
 	MOD:ApplyPaginationStyle(TradeSkillDecrementButton)
 	MOD:ApplyPaginationStyle(TradeSkillIncrementButton)
@@ -83,12 +83,12 @@ local function TradeSkillStyle()
 	TradeSkillIncrementButton:ModPoint("RIGHT", TradeSkillCreateButton, "LEFT", -13, 0)
 	MOD:ApplyCloseButtonStyle(TradeSkillFrameCloseButton)
 
-	TradeSkillSkillIcon:SetStylePanel("!_Frame", "Slot") 
+	TradeSkillSkillIcon:SetStyle("!_Frame", "Icon") 
 
 	local internalTest = false;
 
 	hooksecurefunc("TradeSkillFrame_SetSelection", function(_)
-		TradeSkillSkillIcon:SetStylePanel("!_Frame", "Slot") 
+		TradeSkillSkillIcon:SetStyle("!_Frame", "Icon") 
 		if TradeSkillSkillIcon:GetNormalTexture() then
 			TradeSkillSkillIcon:GetNormalTexture():SetTexCoord(0.1, 0.9, 0.1, 0.9)
 		end 
@@ -106,7 +106,7 @@ local function TradeSkillStyle()
 					 a2:SetFrameLevel(0)
 				end 
 				a2:WrapPoints(icon)
-				a2:SetStylePanel("!_Frame", "Slot")
+				a2:SetStyle("!_Frame", "Icon")
 				icon:SetParent(a2)
 				icon.backdrop = a2 
 			end 

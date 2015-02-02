@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -44,21 +44,23 @@ local BASE_MOD = 0.64;
 local SCREEN_MOD = 1;
 local DEFAULT_BG_COLOR = {0.18,0.18,0.18,1};
 local DEFAULT_BORDER_COLOR = {0,0,0,1};
-local XML_PREFIX = [[SVUI_StyleTemplate_]];
+local LIVE_UPDATE_FRAMES = {};
 --[[ 
 ########################################################## 
 LOOKUP TABLE
 ##########################################################
 ]]--
-SV.Media.XML = {
+SV.API = {};
+SV.API.Themes = {};
+SV.API.Templates = {
     ["Default"]     = "SVUI_CoreStyle_Default",
     ["Transparent"] = "SVUI_CoreStyle_Transparent",
     ["Button"]      = "SVUI_CoreStyle_Button",
-    ["Heavy"]       = "SVUI_CoreStyle_Heavy",
+    ["DockButton"]  = "SVUI_CoreStyle_DockButton",
+    ["ActionSlot"]  = "SVUI_CoreStyle_ActionSlot",
     ["Lite"]        = "SVUI_CoreStyle_Lite",
-    ["Bar"]         = "SVUI_CoreStyle_Bar",
-    ["Slot"]        = "SVUI_CoreStyle_Slot",
     ["Icon"]        = "SVUI_CoreStyle_Icon",
+    ["Bar"]         = "SVUI_CoreStyle_Bar",
     ["Checkbox"]    = "SVUI_CoreStyle_Checkbox",
     ["Inset"]       = "SVUI_CoreStyle_Inset",
     ["Blackout"]    = "SVUI_CoreStyle_Blackout",
@@ -72,8 +74,7 @@ SV.Media.XML = {
     ["Composite1"]  = "SVUI_CoreStyle_Composite1",
     ["Composite2"]  = "SVUI_CoreStyle_Composite2",
 };
-SV.Media.TEMPLATE_METHODS = {};
-SV.Media.TEMPLATE_UPDATES = {};
+SV.API.Methods = {};
 --[[ 
 ########################################################## 
 UI SCALING
@@ -615,31 +616,73 @@ local _hook_Cooldown_SetCooldown = function(self, start, duration, elapsed)
         end 
     end 
 end
+
+local SetFrameBorderColor = function(self, r, g, b, reset)
+    self.Shadow:SetBackdropBorderColor(r,g,b)
+end
+
+local ShowAlertFlash = function(self)
+    self:ColorBorder(1,0.9,0)
+    SV.Animate:Flash(self.Shadow, 0.75, true)
+end
+
+local HideAlertFlash = function(self)
+    SV.Animate:StopFlash(self.Shadow)
+    self:ColorBorder(0,0,0)
+end
 --[[ 
 ########################################################## 
 TEMPLATE HELPERS
 ##########################################################
 ]]--
-local function CreateCooldown(button, muted)
-    local cooldown = button:GetName() and _G[button:GetName().."Cooldown"]
-    if(cooldown) then
-        if(not SV.db.general or (SV.db.general and (not SV.db.general.cooldown))) then return end
-        cooldown:ClearAllPoints()
-        cooldown:InsetPoints()
-        cooldown:SetDrawEdge(false)
-        if(not muted) then
-            cooldown:SetSwipeColor(0, 0, 0, 1)
-        end
+function SV.API:Initialize()
+    local active = SV.db.THEME.active;
+    local theme;
 
-        if(not cooldown.HookedCooldown) then
-            hooksecurefunc(cooldown, "SetCooldown", _hook_Cooldown_SetCooldown)
-            cooldown.HookedCooldown = true
+    if(active) then
+        theme = self.Themes[active]
+        if(theme) then
+            for templateName, templateFile in pairs(self.Templates) do
+                if(theme[templateName]) then
+                    self.Templates[templateName] = theme[templateName]
+                end
+            end
         end
     end
 end
 
-local function CreatePanelTemplate(frame, templateName, underlay, noupdate, padding, xOffset, yOffset, defaultColor)
-    local xmlTemplate = SV.Media.XML[templateName] or SV.Media.XML.Default;
+function SV.API:FLASH(frame)
+    if(frame.Shadow) then
+        frame.ColorBorder = SetFrameBorderColor
+        frame.StartAlert = ShowAlertFlash
+        frame.StopAlert = HideAlertFlash
+    end
+end
+
+function SV.API:CD(button, noSwipe)
+    local bn = button:GetName()
+    if(bn) then
+        local cooldown = _G[bn.."Cooldown"];
+        if(cooldown) then
+            if(not SV.db.general or (SV.db.general and (not SV.db.general.cooldown))) then return end
+            cooldown:ClearAllPoints()
+            cooldown:InsetPoints()
+            cooldown:SetDrawEdge(false)
+            if(not noSwipe) then
+                cooldown:SetSwipeColor(0, 0, 0, 1)
+            end
+
+            if(not cooldown.HookedCooldown) then
+                hooksecurefunc(cooldown, "SetCooldown", _hook_Cooldown_SetCooldown)
+                cooldown.HookedCooldown = true
+            end
+        end
+    end
+end
+
+function SV.API:APPLY(frame, templateName, isButton, underlay, padding, xOffset, yOffset, defaultColor)
+    local xmlTemplate = self.Templates[templateName] or self.Templates.Default;
+
     local borderColor = {0,0,0,1}
 
     local panel = CreateFrame('Frame', nil, frame, xmlTemplate)
@@ -660,9 +703,6 @@ local function CreatePanelTemplate(frame, templateName, underlay, noupdate, padd
 
     if(defaultColor) then
         panel:SetAttribute("panelColor", defaultColor)
-    end
-    if(noupdate) then
-        panel:SetAttribute("panelSkipUpdate", noupdate)
     end
 
     local colorName     = panel:GetAttribute("panelColor")
@@ -761,14 +801,50 @@ local function CreatePanelTemplate(frame, templateName, underlay, noupdate, padd
         end
     end
 
-    frame.Panel = panel;
-    local overrideName     = panel:GetAttribute("panelKeyOverride")
+    local overrideName = panel:GetAttribute("panelKeyOverride")
     if(overrideName) then
-        frame[overrideName] = frame.Panel;
+        frame[overrideName] = panel;
     end
-end
 
-local function SetButtonBasics(frame)
+    frame.Panel = panel;
+end
+--[[ 
+########################################################## 
+UI ELEMENT METHODS
+##########################################################
+]]--
+SV.API.Methods["Button"] = function(self, frame, inverse, alteration, overridePadding, xOffset, yOffset, keepNormal, defaultColor)
+    if(not frame or (frame and frame.Panel)) then return end
+
+    local padding = 1
+    if(overridePadding and type(overridePadding) == "number") then
+        padding = overridePadding
+    end
+
+    local x,y = -1,-1
+    if(xOffset or yOffset) then
+        x = xOffset or -1
+        y = yOffset or -1
+        inverse = true
+    end
+
+    if(alteration and (type(alteration) == 'boolean')) then
+        self:APPLY(frame, "Lite", inverse, padding, x, y, defaultColor)
+        frame:SetBackdropColor(0,0,0,0)
+        frame:SetBackdropBorderColor(0,0,0,0)
+        
+        if(frame.Panel.BorderLeft) then 
+            frame.Panel.BorderLeft:SetVertexColor(0,0,0,0)
+            frame.Panel.BorderRight:SetVertexColor(0,0,0,0)
+            frame.Panel.BorderTop:SetVertexColor(0,0,0,0)
+            frame.Panel.BorderBottom:SetVertexColor(0,0,0,0)
+        end
+    elseif(alteration and (type(alteration) == 'string')) then
+        self:APPLY(frame, alteration, inverse, padding, x, y, defaultColor)
+    else
+        self:APPLY(frame, "Button", inverse, padding, x, y, defaultColor)
+    end
+
     if(frame.Left) then 
         frame.Left:SetAlpha(0)
     end 
@@ -801,11 +877,7 @@ local function SetButtonBasics(frame)
         end
         frame.hover:SetTexture(0.1, 0.8, 0.8, 0.5)
         frame:SetHighlightTexture(frame.hover) 
-    end 
-end 
-
-local function CreateButtonPanel(frame, noChecked, brightChecked, mutedCooldown)
-    SetButtonBasics(frame)
+    end
 
     if(frame.SetPushedTexture) then
         if(not frame.pushed) then 
@@ -815,243 +887,146 @@ local function CreateButtonPanel(frame, noChecked, brightChecked, mutedCooldown)
         end
         frame.pushed:SetTexture(0.1, 0.8, 0.1, 0.3)
         frame:SetPushedTexture(frame.pushed)
-    end 
+    end
 
-    if(not noChecked and frame.SetCheckedTexture) then
+    if(frame.SetCheckedTexture) then
         if(not frame.checked) then
             local checked = frame:CreateTexture(nil, "OVERLAY")
             checked:InsetPoints(frame.Panel)
             frame.checked = checked
         end
-
-        if(not brightChecked) then
-            frame.checked:SetTexture(SV.BaseTexture)
-            frame.checked:SetVertexColor(0, 0.5, 0, 0.2)
-        else
-            frame.checked:SetTexture(SV.Media.bar.gloss)
-            frame.checked:SetVertexColor(0, 1, 0, 1)
-        end
-        
+        frame.checked:SetTexture(SV.BaseTexture)
+        frame.checked:SetVertexColor(0, 0.5, 0, 0.2)
         frame:SetCheckedTexture(frame.checked)
     end
 
-    CreateCooldown(frame, mutedCooldown)
-end 
---[[ 
-########################################################## 
-TEMPLATING METHODS
-##########################################################
-]]--
-SV.Media.TEMPLATE_METHODS["Button"] = function(self, inverse, alteration, overridePadding, xOffset, yOffset, keepNormal, defaultColor)
-    if(not self or (self and self.Panel)) then return end
-
-    local padding = 1
-    if(overridePadding and type(overridePadding) == "number") then
-        padding = overridePadding
-    end
-
-    local x,y = -1,-1
-    if(xOffset or yOffset) then
-        x = xOffset or -1
-        y = yOffset or -1
-        inverse = true
-    end
-
-    if(alteration and (type(alteration) == 'boolean')) then
-        CreatePanelTemplate(self, "Lite", inverse, true, padding, x, y, defaultColor)
-        self:SetBackdropColor(0,0,0,0)
-        self:SetBackdropBorderColor(0,0,0,0)
-        
-        if(self.Panel.BorderLeft) then 
-            self.Panel.BorderLeft:SetVertexColor(0,0,0,0)
-            self.Panel.BorderRight:SetVertexColor(0,0,0,0)
-            self.Panel.BorderTop:SetVertexColor(0,0,0,0)
-            self.Panel.BorderBottom:SetVertexColor(0,0,0,0)
-        end
-    elseif(alteration and (type(alteration) == 'string')) then
-        CreatePanelTemplate(self, alteration, inverse, true, padding, x, y, defaultColor)
-    else
-        CreatePanelTemplate(self, "Button", inverse, true, padding, x, y, defaultColor)
-    end
-
-    CreateButtonPanel(self)
+    self:CD(frame)
 end;
 
-local SetFrameBorderColor = function(self, r, g, b, reset)
-    if(reset) then
-        r,g,b = 0,0,0
-    end
-    self.__border:SetBackdropBorderColor(r,g,b)
-end
+SV.API.Methods["ActionSlot"] = function(self, frame, inverse, addChecked)
+    if(not frame or (frame and frame.Panel)) then return end
 
-local ShowAlertFlash = function(self)
-    self:ColorBorder(1,0.9,0)
-    SV.Animate:Flash(self.__border, 0.75, true)
-end
-
-local HideAlertFlash = function(self)
-    SV.Animate:StopFlash(self.__border)
-    self:ColorBorder(1,0.9,0,true)
-end
-
-SV.Media.TEMPLATE_METHODS["HeavyButton"] = function(self, inverse, inverted, styleName)
-    if(not self or (self and self.Panel)) then return end
-
-    styleName = styleName or "Heavy";
-    CreatePanelTemplate(self, styleName, inverse)
-
-    if(inverted) then
-        self.Panel:SetAttribute("panelGradient", "darkest2")
-    else
-        self.Panel:SetAttribute("panelGradient", "darkest")
-    end
-
-    if(not self.__border) then
-        local border = CreateFrame("Frame", nil, self)
-        border:SetAllPoints()
-        border:SetBackdrop({
-            bgFile = [[Interface\AddOns\SVUI_!Core\assets\textures\EMPTY]], 
-            edgeFile = [[Interface\BUTTONS\WHITE8X8]], 
-            tile = false, 
-            tileSize = 0, 
-            edgeSize = 1, 
-            insets = 
-            {
-                left = 0, 
-                right = 0, 
-                top = 0, 
-                bottom = 0, 
-            }, 
-        });
-        border:SetBackdropBorderColor(0,0,0,1)
-
-        self.__border = border
-        self.__border.__previous = 'light';
-        self.ColorBorder = SetFrameBorderColor
-        self.StartAlert = ShowAlertFlash
-        self.StopAlert = HideAlertFlash
-    end
-
-    SetButtonBasics(self)
-
-    if(not self.__registered) then
-        SV.Media.TEMPLATE_UPDATES[self] = true
-        self.__registered = true
-    end
-end;
-
-SV.Media.TEMPLATE_METHODS["Action"] = function(self, inverse, padding, x, y, shadowAlpha, mutedCooldown)
-    if(not self or (self and self.Panel)) then return end
-    padding = padding or 1
     local underlay = (not inverse)
-    CreatePanelTemplate(self, "Slot", underlay, true, padding, x, y)
-    CreateButtonPanel(self, nil, nil, mutedCooldown)
-    if(shadowAlpha) then
-        self.Panel.Shadow:SetAttribute("shadowAlpha", shadowAlpha)
+    self:APPLY(frame, "ActionSlot", underlay)
+
+    if(frame.Left) then 
+        frame.Left:SetAlpha(0)
+    end 
+
+    if(frame.Middle) then 
+        frame.Middle:SetAlpha(0)
+    end 
+
+    if(frame.Right) then 
+        frame.Right:SetAlpha(0)
+    end 
+
+    if(frame.SetNormalTexture) then 
+        frame:SetNormalTexture("")
+    end 
+
+    if(frame.SetDisabledTexture) then 
+        frame:SetDisabledTexture("")
     end
+
+    if(frame.SetCheckedTexture) then 
+        frame:SetCheckedTexture("")
+    end
+
+    if(frame.SetHighlightTexture) then
+        if(not frame.hover) then
+            local hover = frame:CreateTexture(nil, "HIGHLIGHT")
+            hover:InsetPoints(frame.Panel)
+            frame.hover = hover;
+        end
+        frame.hover:SetTexture(0.1, 0.8, 0.8, 0.5)
+        frame:SetHighlightTexture(frame.hover) 
+    end
+
+    if(frame.SetPushedTexture) then
+        if(not frame.pushed) then 
+            local pushed = frame:CreateTexture(nil, "OVERLAY")
+            pushed:InsetPoints(frame.Panel)
+            frame.pushed = pushed;
+        end
+        frame.pushed:SetTexture(0.1, 0.8, 0.1, 0.3)
+        frame:SetPushedTexture(frame.pushed)
+    end
+
+    if(frame.SetCheckedTexture and addChecked) then
+        if(not frame.checked) then
+            local checked = frame:CreateTexture(nil, "OVERLAY")
+            checked:InsetPoints(frame.Panel)
+            frame.checked = checked
+        end
+        frame.checked:SetTexture(SV.BaseTexture)
+        frame.checked:SetVertexColor(0, 0.5, 0, 0.2)
+        frame:SetCheckedTexture(frame.checked)
+    end
+
+    self:CD(frame, true)
 end;
 
-SV.Media.TEMPLATE_METHODS["Slot"] = function(self, inverse, padding, x, y, shadowAlpha, mutedCooldown)
-    if(not self or (self and self.Panel)) then return end
-    padding = padding or 1
+SV.API.Methods["Checkbox"] = function(self, frame, inverse, x, y)
+    if(not frame or (frame and frame.Panel)) then return end
+
+    local width, height = frame:GetSize()
+    x = x or -2
+    y = y or -2
+
+    width = width + (x or 0)
+    height = height + (y or 0)
+
+    frame:SetSize(width, height)
+
     local underlay = (not inverse)
-    CreatePanelTemplate(self, "Slot", underlay, true, padding, x, y)
-    CreateButtonPanel(self, true, nil, mutedCooldown)
-    if(shadowAlpha) then
-        self.Panel.Shadow:SetAttribute("shadowAlpha", shadowAlpha)
+    self:APPLY(frame, "Checkbox", underlay, 1, x, y)
+
+    if(frame.SetNormalTexture) then 
+        frame:SetNormalTexture("")
+    end  
+
+    if(frame.SetPushedTexture) then
+        frame:SetPushedTexture("")
+    end
+
+    if(frame.SetHighlightTexture) then
+        if(not frame.hover) then
+            local hover = frame:CreateTexture(nil, "OVERLAY")
+            hover:InsetPoints(frame.Panel)
+            frame.hover = hover;
+        end
+        local color = SV.Media.color.highlight
+        frame.hover:SetTexture(color[1], color[2], color[3], 0.5)
+        frame:SetHighlightTexture(frame.hover)  
+    end
+
+    if(frame.SetCheckedTexture) then
+        frame:SetCheckedTexture([[Interface\AddOns\SVUI_!Core\assets\textures\CHECK]])
+    end
+
+    if(frame.SetDisabledCheckedTexture) then
+        frame:SetDisabledCheckedTexture([[Interface\AddOns\SVUI_!Core\assets\textures\CHECK-DISABLED]])
     end
 end;
 
-SV.Media.TEMPLATE_METHODS["Icon"] = function(self, inverse, padding, x, y, shadowAlpha, mutedCooldown)
-    if(not self or (self and self.Panel)) then return end
-    padding = padding or 1
+SV.API.Methods["Editbox"] = function(self, frame, inverse, x, y)
+    if(not frame or (frame and frame.Panel)) then return end
+
+    if frame.TopLeftTex then frame.TopLeftTex:Die() end 
+    if frame.TopRightTex then frame.TopRightTex:Die() end 
+    if frame.TopTex then frame.TopTex:Die() end 
+    if frame.BottomLeftTex then frame.BottomLeftTex:Die() end 
+    if frame.BottomRightTex then frame.BottomRightTex:Die() end 
+    if frame.BottomTex then frame.BottomTex:Die() end 
+    if frame.LeftTex then frame.LeftTex:Die() end 
+    if frame.RightTex then frame.RightTex:Die() end 
+    if frame.MiddleTex then frame.MiddleTex:Die() end 
+
     local underlay = (not inverse)
-    CreatePanelTemplate(self, "Icon", underlay, true, padding, x, y)
-    CreateButtonPanel(self, true, nil, mutedCooldown)
-    if(shadowAlpha) then
-        self.Panel.Shadow:SetAttribute("shadowAlpha", shadowAlpha)
-    end
-end;
+    self:APPLY(frame, "Inset", underlay, 1, x, y)
 
-SV.Media.TEMPLATE_METHODS["Checkbox"] = function(self, inverse, shrink, x, y, colored)
-    if(not self or (self and self.Panel)) then return end
-
-    if(colored) then
-        if(inverse) then
-            x = x or -7
-            y = y or -7
-        end
-
-        CreatePanelTemplate(self, "Slot", inverse, true, 1, x, y)
-        CreateButtonPanel(self, false, true)
-
-        hooksecurefunc(self, "SetChecked", function(self,checked)
-            local r,g,b = 0,0,0
-            if(checked) then
-                r,g,b = self:GetCheckedTexture():GetVertexColor()
-            end
-            self:SetBackdropBorderColor(r,g,b) 
-        end)
-    else
-        local width, height = self:GetSize()
-        if(shrink) then
-            x = x or -2
-            y = y or -2
-        end
-
-        width = width + (x or 0)
-        height = height + (y or 0)
-
-        self:SetSize(width, height)
-
-        local underlay = (not inverse)
-        CreatePanelTemplate(self, "Checkbox", underlay, true, 1, x, y)
-
-        if(self.SetNormalTexture) then 
-            self:SetNormalTexture("")
-        end  
-
-        if(self.SetPushedTexture) then
-            self:SetPushedTexture("")
-        end
-
-        if(self.SetHighlightTexture) then
-            if(not self.hover) then
-                local hover = self:CreateTexture(nil, "OVERLAY")
-                hover:InsetPoints(self.Panel)
-                self.hover = hover;
-            end
-            local color = SV.Media.color.highlight
-            self.hover:SetTexture(color[1], color[2], color[3], 0.5)
-            self:SetHighlightTexture(self.hover)  
-        end
-
-        if(self.SetCheckedTexture) then
-            self:SetCheckedTexture([[Interface\AddOns\SVUI_!Core\assets\textures\CHECK]])
-        end
-
-        if(self.SetDisabledCheckedTexture) then
-            self:SetDisabledCheckedTexture([[Interface\AddOns\SVUI_!Core\assets\textures\CHECK-DISABLED]])
-        end
-    end
-end;
-
-SV.Media.TEMPLATE_METHODS["Editbox"] = function(self, inverse, x, y)
-    if(not self or (self and self.Panel)) then return end
-
-    if self.TopLeftTex then self.TopLeftTex:Die() end 
-    if self.TopRightTex then self.TopRightTex:Die() end 
-    if self.TopTex then self.TopTex:Die() end 
-    if self.BottomLeftTex then self.BottomLeftTex:Die() end 
-    if self.BottomRightTex then self.BottomRightTex:Die() end 
-    if self.BottomTex then self.BottomTex:Die() end 
-    if self.LeftTex then self.LeftTex:Die() end 
-    if self.RightTex then self.RightTex:Die() end 
-    if self.MiddleTex then self.MiddleTex:Die() end 
-    local underlay = (not inverse)
-    CreatePanelTemplate(self, "Inset", underlay, true, 1, x, y)
-
-    local globalName = self:GetName();
+    local globalName = frame:GetName();
     if globalName then 
         if _G[globalName.."Left"] then _G[globalName.."Left"]:Die() end 
         if _G[globalName.."Middle"] then _G[globalName.."Middle"]:Die() end 
@@ -1059,30 +1034,88 @@ SV.Media.TEMPLATE_METHODS["Editbox"] = function(self, inverse, x, y)
         if _G[globalName.."Mid"] then _G[globalName.."Mid"]:Die() end
 
         if globalName:find("Silver") or globalName:find("Copper") or globalName:find("Gold") then
-            self.Panel:SetPoint("TOPLEFT", -3, 1)
+            frame.Panel:SetPoint("TOPLEFT", -3, 1)
             if globalName:find("Silver") or globalName:find("Copper") then
-                self.Panel:SetPoint("BOTTOMRIGHT", -12, -2)
+                frame.Panel:SetPoint("BOTTOMRIGHT", -12, -2)
             else
-                self.Panel:SetPoint("BOTTOMRIGHT", -2, -2) 
+                frame.Panel:SetPoint("BOTTOMRIGHT", -2, -2) 
             end 
         end 
     end
 end;
+--[[ 
+########################################################## 
+CUSTOM TEMPLATING METHODS
+##########################################################
+]]--
+SV.API.Methods["Icon"] = function(self, frame, inverse, ...)
+    if(not frame or (frame and frame.Panel)) then return end
+    local underlay = (not inverse)
+    self:APPLY(frame, "Icon", underlay, ...)
+end;
 
-SV.Media.TEMPLATE_METHODS["Frame"] = function(self, inverse, styleName, noupdate, overridePadding, xOffset, yOffset, defaultColor)
-    if(not self or (self and self.Panel)) then return end
+SV.API.Methods["DockButton"] = function(self, frame, inverse)
+    if(not frame or (frame and frame.Panel)) then return end
+
+    self:APPLY(frame, "DockButton", inverse)
+    self:FLASH(frame)
+
+    if(frame.Left) then 
+        frame.Left:SetAlpha(0)
+    end 
+
+    if(frame.Middle) then 
+        frame.Middle:SetAlpha(0)
+    end 
+
+    if(frame.Right) then 
+        frame.Right:SetAlpha(0)
+    end 
+
+    if(frame.SetNormalTexture) then 
+        frame:SetNormalTexture("")
+    end 
+
+    if(frame.SetDisabledTexture) then 
+        frame:SetDisabledTexture("")
+    end
+
+    if(frame.SetCheckedTexture) then 
+        frame:SetCheckedTexture("")
+    end
+
+    if(frame.SetHighlightTexture) then
+        if(not frame.hover) then
+            local hover = frame:CreateTexture(nil, "HIGHLIGHT")
+            hover:InsetPoints(frame.Panel)
+            frame.hover = hover;
+        end
+        frame.hover:SetTexture(0.1, 0.8, 0.8, 0.5)
+        frame:SetHighlightTexture(frame.hover) 
+    end
+
+    if(not frame.Panel:GetAttribute("panelSkipUpdate")) then
+        frame.Panel.___Live = true
+    end
+end;
+
+SV.API.Methods["Frame"] = function(self, frame, inverse, styleName, noupdate, overridePadding, xOffset, yOffset, defaultColor)
+    if(not frame or (frame and frame.Panel)) then return end
     local padding = false;
     if(overridePadding and type(overridePadding) == "number") then
         padding = overridePadding
     end
+
+    if(noupdate) then
+        frame.Panel:SetAttribute("panelSkipUpdate", true)
+    end
     
     styleName = styleName or "Default";
     local underlay = (not inverse)
-    CreatePanelTemplate(self, styleName, underlay, noupdate, padding, xOffset, yOffset, defaultColor)
+    self:APPLY(frame, styleName, underlay, padding, xOffset, yOffset, defaultColor)
 
-    if(not self.Panel:GetAttribute("panelSkipUpdate") and not self.__registered) then
-        SV.Media.TEMPLATE_UPDATES[self] = true
-        self.__registered = true
+    if((not noupdate) and (not frame.Panel:GetAttribute("panelSkipUpdate"))) then
+        frame.Panel.___Live = true
     end
 end;
 --[[ 
@@ -1124,13 +1157,21 @@ local SetPanelColor = function(self, ...)
     end 
 end
 
-local SetStylePanel = function(self, method, ...)
+local SetStyle = function(self, method, ...)
     if(not self or (self and self.Panel)) then return end
     method = method or "Frame";
     local methodName, flags = method:gsub("!_", "");
     local inverse = (flags and flags > 0) and true or false;
-    if(SV.Media.TEMPLATE_METHODS[methodName]) then
-        SV.Media.TEMPLATE_METHODS[methodName](self, inverse, ...)
+    local fn = SV.API.Methods[methodName];
+    if(fn) then
+        local pass, catch = pcall(fn, SV.API, self, inverse, ...)
+        if(catch) then
+            SV:Debugger(catch)
+            return
+        elseif(self.Panel and self.Panel.___Live) then
+            LIVE_UPDATE_FRAMES[self] = true;
+            self.Panel.___Live = nil;
+        end
     end
 end
 --[[ 
@@ -1162,7 +1203,7 @@ UPDATE CALLBACKS
 ##########################################################
 ]]--
 local function FrameTemplateUpdates()
-    for frame in pairs(SV.Media.TEMPLATE_UPDATES) do
+    for frame in pairs(LIVE_UPDATE_FRAMES) do
         if(frame) then
             local panelID = frame.Panel:GetAttribute("panelID")
             local colorID = frame.Panel:GetAttribute("panelColor")
@@ -1333,7 +1374,7 @@ local function AppendFrameMethods(OBJECT)
     local objType = OBJECT:GetObjectType()
     if(not MODIFIED_OBJECTS[objType]) then
         local META = getmetatable(OBJECT).__index
-        if not OBJECT.SetStylePanel then META.SetStylePanel = SetStylePanel end
+        if not OBJECT.SetStyle then META.SetStyle = SetStyle end
         if not OBJECT.SetPanelColor then META.SetPanelColor = SetPanelColor end
         if not OBJECT.ModSize then META.ModSize = ModSize end
         if not OBJECT.ModWidth then META.ModWidth = ModWidth end

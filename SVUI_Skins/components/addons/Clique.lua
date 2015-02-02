@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -110,7 +110,7 @@ local function StyleClique()
 	for _, gName in pairs(CliqueButtons) do
 		local button = _G[gName]
 		if(button) then
-			button:SetStylePanel("Button")
+			button:SetStyle("Button")
 		end
 	end
 

@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -245,7 +245,7 @@ function MOD:LoadMailMinions()
 	local SVUI_GetMailButton=CreateFrame("Button","SVUI_GetMailButton",SVUI_MailMinion,"UIPanelButtonTemplate")
 	SVUI_GetMailButton:SetWidth(70)
 	SVUI_GetMailButton:SetHeight(25)
-	SVUI_GetMailButton:SetStylePanel("Button")
+	SVUI_GetMailButton:SetStyle("Button")
 	SVUI_GetMailButton:SetPoint("LEFT",SVUI_MailMinion,"LEFT",0,0)
 	SVUI_GetMailButton:SetText("Get All")
 	SVUI_GetMailButton:SetScript("OnClick",GetAllMail)
@@ -266,7 +266,7 @@ function MOD:LoadMailMinions()
 	local SVUI_GetGoldButton=CreateFrame("Button","SVUI_GetGoldButton",SVUI_MailMinion,"UIPanelButtonTemplate")
 	SVUI_GetGoldButton:SetWidth(70)
 	SVUI_GetGoldButton:SetHeight(25)
-	SVUI_GetGoldButton:SetStylePanel("Button")
+	SVUI_GetGoldButton:SetStyle("Button")
 	SVUI_GetGoldButton:SetPoint("RIGHT",SVUI_MailMinion,"RIGHT",0,0)
 	SVUI_GetGoldButton:SetText("Get Gold")
 	SVUI_GetGoldButton:SetScript("OnClick",GetAllMailCash)
@@ -286,7 +286,7 @@ function MOD:LoadMailMinions()
 	local SVUI_DeleteMailButton=CreateFrame("Button","SVUI_DeleteMailButton",SVUI_MailMinion,"UIPanelButtonTemplate")
 	SVUI_DeleteMailButton:SetWidth(70)
 	SVUI_DeleteMailButton:SetHeight(25)
-	SVUI_DeleteMailButton:SetStylePanel("Button", false, false, false, false, false, "red")
+	SVUI_DeleteMailButton:SetStyle("Button", false, false, false, false, false, "red")
 	SVUI_DeleteMailButton:SetPoint("TOPLEFT", InboxFrame, "TOPLEFT",16,-30)
 	SVUI_DeleteMailButton:SetText("Delete All")
 	SVUI_DeleteMailButton:SetScript("OnClick",DeleteAllMail)

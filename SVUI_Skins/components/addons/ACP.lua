@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -61,8 +61,8 @@ local function StyleACP()
 	MOD:ApplyFrameStyle(ACP_AddonList)
 	MOD:ApplyFrameStyle(ACP_AddonList_ScrollFrame)
 	local h={"ACP_AddonListSetButton","ACP_AddonListDisableAll","ACP_AddonListEnableAll","ACP_AddonList_ReloadUI","ACP_AddonListBottomClose"}
-	for i,j in pairs(h)do _G[j]:SetStylePanel("Button")end 
-	for c=1,20 do _G["ACP_AddonListEntry"..c.."LoadNow"]:SetStylePanel("Button")end 
+	for i,j in pairs(h)do _G[j]:SetStyle("Button")end 
+	for c=1,20 do _G["ACP_AddonListEntry"..c.."LoadNow"]:SetStyle("Button")end 
 	MOD:ApplyCloseButtonStyle(ACP_AddonListCloseButton)
 	for c=1,20,1 do 
 		local k=_G["ACP_AddonList"]
@@ -70,9 +70,9 @@ local function StyleACP()
 		k:SetScript("OnUpdate",cbResize)
 	end 
 	for c=1,20 do 
-		_G["ACP_AddonListEntry"..c.."Enabled"]:SetStylePanel("Checkbox", true)
+		_G["ACP_AddonListEntry"..c.."Enabled"]:SetStyle("Checkbox")
 	end 
-	ACP_AddonList_NoRecurse:SetStylePanel("Checkbox", true)
+	ACP_AddonList_NoRecurse:SetStyle("Checkbox")
 	MOD:ApplyScrollFrameStyle(ACP_AddonList_ScrollFrameScrollBar)
 	MOD:ApplyDropdownStyle(ACP_AddonListSortDropDown)
 	ACP_AddonListSortDropDown:ModWidth(130)

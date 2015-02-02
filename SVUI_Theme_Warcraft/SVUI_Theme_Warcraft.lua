@@ -125,6 +125,27 @@ function THEME.AFK:Toggle()
 end
 --[[ 
 ########################################################## 
+DRUNK
+##########################################################
+]]--
+THEME.Drunk = _G["SVUI_WarcraftTheme_BoozedUpFrame"];
+local WORN_ITEMS = {};
+local DRUNK_EFFECT = [[Spells\Largebluegreenradiationfog.m2]];
+local DRUNK_EFFECT2 = [[Spells\Monk_drunkenhaze_impact.m2]];
+local TIPSY_FILTERS = {
+	[DRUNK_MESSAGE_ITEM_SELF1] = true,
+	[DRUNK_MESSAGE_ITEM_SELF2] = true,
+	[DRUNK_MESSAGE_SELF1] = true,
+	[DRUNK_MESSAGE_SELF2] = true,
+};
+local DRUNK_FILTERS = {
+	[DRUNK_MESSAGE_ITEM_SELF3] = true,
+	[DRUNK_MESSAGE_ITEM_SELF4] = true,
+	[DRUNK_MESSAGE_SELF3] = true,
+	[DRUNK_MESSAGE_SELF4] = true,
+};
+--[[ 
+########################################################## 
 DRUNK MODE
 ##########################################################
 ]]--
@@ -353,7 +374,7 @@ local _SetDockButtonTheme = function(button, size)
 	local sparkSize = size * 5;
     local sparkOffset = size * 0.5;
 
-    button:SetStylePanel("HeavyButton")
+    button:SetStyle("DockButton")
 
 	local sparks = button.__border:CreateTexture(nil, "OVERLAY", nil, 2)
 	sparks:ModSize(sparkSize, sparkSize)
@@ -377,7 +398,7 @@ local _SetDockButtonTheme = function(button, size)
 	local sparkSize = size * 5;
     local sparkOffset = size * 0.5;
 
-    button:SetStylePanel("Button")
+    button:SetStyle("Button")
 
 	local sparks = button:CreateTexture(nil, "OVERLAY", nil, 2)
 	sparks:ModSize(sparkSize, sparkSize)
@@ -476,10 +497,10 @@ local function SetButtonBasics(frame)
     end 
 end
 
-local _CreateHeavyButton = function(self, inverse, inverted, styleName)
+local _CreateDockButton = function(self, inverse, inverted, styleName)
     if(not self or (self and self.Panel)) then return end
 
-    styleName = styleName or "Heavy";
+    styleName = styleName or "DockButton";
     CreatePanelTemplate(self, styleName, inverse)
 
     if(inverted) then
@@ -518,7 +539,7 @@ local _CreateHeavyButton = function(self, inverse, inverted, styleName)
     SetButtonBasics(self)
 
     if(not self.__registered) then
-        SV.Media.TEMPLATE_UPDATES[self] = true
+        SV.API.LiveUpdates[self] = true
         self.__registered = true
     end
 end;
@@ -550,16 +571,18 @@ function THEME:Load()
 		SV.defaults["font"]["unitauralarge"]   	= {file = "Friz Quadrata TT",   size = 10,  outline = "OUTLINE"}
 	end
 
-	SV.Media.XML["Default"]     = "SVUI_WarcraftTheme_Default";
-	SV.Media.XML["Heavy"]       = "SVUI_WarcraftTheme_Heavy";
-	SV.Media.XML["Composite1"]  = "SVUI_WarcraftTheme_Composite1";
-	SV.Media.XML["Composite2"]  = "SVUI_WarcraftTheme_Composite2";
-	SV.Media.XML["UnitLarge"]   = "SVUI_WarcraftTheme_UnitLarge";
-	SV.Media.XML["UnitSmall"]   = "SVUI_WarcraftTheme_UnitSmall";
-	SV.Media.XML["ActionPanel"] = "SVUI_WarcraftTheme_ActionPanel";
-	SV.Media.XML["Minimap"] 	= "SVUI_WarcraftTheme_Minimap";
+	SV.API.Methods["DockButton"] = _CreateDockButton;
 
-	SV.Media.TEMPLATE_METHODS["HeavyButton"] = _CreateHeavyButton;
+	SV.API.Themes["Warcraft"] = {
+		["Default"]     = "SVUI_WarcraftTheme_Default",
+		["DockButton"]  = "SVUI_WarcraftTheme_DockButton",
+		["Composite1"]  = "SVUI_WarcraftTheme_Composite1",
+		["Composite2"]  = "SVUI_WarcraftTheme_Composite2",
+		["UnitLarge"]   = "SVUI_WarcraftTheme_UnitLarge",
+		["UnitSmall"]   = "SVUI_WarcraftTheme_UnitSmall",
+		["Minimap"] 	= "SVUI_WarcraftTheme_Minimap",
+		["ActionPanel"] = "SVUI_WarcraftTheme_ActionPanel",
+	};
 
 	SV.Media["font"]["default"]   = LSM:Fetch("font", "Arial Narrow");
 	SV.Media["font"]["combat"]    = LSM:Fetch("font", "Morpheus");

@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ##############################################################################
 --]]
 local _G = _G;
@@ -70,7 +70,7 @@ function THEME:LoadMapOverrides()
 	local narr = CreateFrame("Frame", nil, SVUI_MinimapFrame)
 	narr:ModPoint("TOPLEFT", SVUI_MinimapFrame, "TOPLEFT", 2, -2)
 	narr:SetSize(100, 22)
-	narr:SetStylePanel("!_Frame", "Heavy", true)
+	narr:SetStyle("!_Frame")
   	narr:SetPanelColor("yellow")
   	narr:SetBackdropColor(1, 1, 0, 1)
 	narr:SetFrameLevel(Minimap:GetFrameLevel() + 2)

@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -967,7 +967,7 @@ function SV:LoadSystemAlerts()
 		end 
 		_G["SVUI_SystemAlert"..i.."ItemFrameNameFrame"]:Die()
 		_G["SVUI_SystemAlert"..i.."ItemFrame"]:GetNormalTexture():Die()
-		_G["SVUI_SystemAlert"..i.."ItemFrame"]:SetStylePanel("Button")
+		_G["SVUI_SystemAlert"..i.."ItemFrame"]:SetStyle("Button")
 		_G["SVUI_SystemAlert"..i.."ItemFrameIconTexture"]:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 		_G["SVUI_SystemAlert"..i.."ItemFrameIconTexture"]:InsetPoints()
 	end

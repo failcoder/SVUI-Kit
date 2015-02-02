@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -550,7 +550,7 @@ local _hook_GameTooltip_ShowStatusBar = function(self, ...)
 	if bar and not bar.styled then 
 		bar:RemoveTextures()
 		bar:SetStatusBarTexture(SV.BaseTexture)
-		bar:SetStylePanel("!_Frame", 'Inset',true)
+		bar:SetStyle("!_Frame", 'Inset',true)
 		if not bar.border then 
 			local border=CreateFrame("Frame",nil,bar)
 			border:WrapPoints(bar,1,1)

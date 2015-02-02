@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -35,7 +35,7 @@ local function GossipStyle()
 			ItemTextPageText:SetTextColor(1, 1, 1)
 		end 
 	end)
-	ItemTextFrame:SetStylePanel("Frame", "Pattern")
+	ItemTextFrame:SetStyle("Frame", "Pattern")
 	ItemTextFrameInset:Die()
 	MOD:ApplyScrollFrameStyle(ItemTextScrollFrameScrollBar)
 	MOD:ApplyCloseButtonStyle(ItemTextFrameCloseButton)
@@ -44,8 +44,8 @@ local function GossipStyle()
 	for s, t in pairs(r)do 
 		_G[t]:RemoveTextures()
 	end 
-	GossipFrame:SetStylePanel("Frame", "Composite1")
-	GossipGreetingScrollFrame:SetStylePanel("!_Frame", "Inset", true)
+	GossipFrame:SetStyle("Frame", "Composite1")
+	GossipGreetingScrollFrame:SetStyle("!_Frame", "Inset", true)
 	GossipGreetingScrollFrame.spellTex = GossipGreetingScrollFrame:CreateTexture(nil, "ARTWORK")
 	GossipGreetingScrollFrame.spellTex:SetTexture([[Interface\QuestFrame\QuestBG]])
 	GossipGreetingScrollFrame.spellTex:SetPoint("TOPLEFT", 2, -2)
@@ -53,12 +53,12 @@ local function GossipStyle()
 	GossipGreetingScrollFrame.spellTex:SetTexCoord(0, 1, 0.02, 1)
 	_G["GossipFramePortrait"]:Die()
 	_G["GossipFrameGreetingGoodbyeButton"]:RemoveTextures()
-	_G["GossipFrameGreetingGoodbyeButton"]:SetStylePanel("Button")
+	_G["GossipFrameGreetingGoodbyeButton"]:SetStyle("Button")
 	MOD:ApplyCloseButtonStyle(GossipFrameCloseButton, GossipFrame.Panel)
 
 	NPCFriendshipStatusBar:RemoveTextures()
 	NPCFriendshipStatusBar:SetStatusBarTexture(SV.BaseTexture)
-	NPCFriendshipStatusBar:SetStylePanel("Frame", "Bar")
+	NPCFriendshipStatusBar:SetStyle("Frame", "Bar")
 
 	NPCFriendshipStatusBar:ClearAllPoints()
 	NPCFriendshipStatusBar:SetPoint("TOPLEFT", GossipFrame, "TOPLEFT", 58, -34)

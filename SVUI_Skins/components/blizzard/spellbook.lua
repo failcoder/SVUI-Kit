@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -127,7 +127,7 @@ local function AbilityButtonHelper(index)
 		end
 
 		button:RemoveTextures()
-		button:SetStylePanel("Frame", "Slot", true, 2, 0, 0)
+		button:SetStyle("Frame", "Icon", true, 2, 0, 0)
 
 		if(button.iconTexture) then
 			button.iconTexture:SetTexCoord(0.1, 0.9, 0.1, 0.9)
@@ -163,7 +163,7 @@ local ButtonUpdateHelper = function(self)
 		end
 
 		self:RemoveTextures() 
-		self:SetStylePanel("Frame", "Slot", true, 2, 0, 0)
+		self:SetStyle("Frame", "Icon", true, 2, 0, 0)
 
 		if(icon) then
 			icon:SetTexture(iconTex)
@@ -203,7 +203,7 @@ local function SpellBookStyle()
 
 	if(SpellBookFrameInset) then 
 		SpellBookFrameInset:RemoveTextures()
-		SpellBookFrameInset:SetStylePanel("!_Frame", "Inset", true, 6)
+		SpellBookFrameInset:SetStyle("!_Frame", "Inset", true, 6)
 	end
 	if(SpellBookSpellIconsFrame) then SpellBookSpellIconsFrame:RemoveTextures() end
 	if(SpellBookSideTabsFrame) then SpellBookSideTabsFrame:RemoveTextures() end
@@ -273,7 +273,7 @@ local function SpellBookStyle()
 				buttonTex:InsetPoints()
 				button:SetFrameLevel(button:GetFrameLevel() + 2)
 				if not button.Panel then
-					button:SetStylePanel("Frame", "Inset", false, 3, 3, 3)
+					button:SetStyle("Frame", "Inset", false, 3, 3, 3)
 					button.Panel:SetAllPoints()
 				end 
 			end
@@ -294,7 +294,7 @@ local function SpellBookStyle()
 			bar:SetHeight(12)
 			bar:SetStatusBarTexture(SV.Media.bar.default)
 			bar:SetStatusBarColor(0, 220/255, 0)
-			bar:SetStylePanel("Frame", "Default")
+			bar:SetStyle("Frame", "Default")
 			bar.rankText:ClearAllPoints()
 			bar.rankText:SetPoint("CENTER")
 		end

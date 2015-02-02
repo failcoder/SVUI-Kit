@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -48,7 +48,7 @@ function MOD:Docklet_alDamageMeter(parent)
   dmconf.width=parentFrame:GetWidth()
   alDamageMeterFrame:ClearAllPoints()
   alDamageMeterFrame:SetAllPoints(parent)
-  alDamageMeterFrame.backdrop:SetStylePanel("!_Frame", 'Transparent',true)
+  alDamageMeterFrame.backdrop:SetStyle("!_Frame", 'Transparent',true)
   alDamageMeterFrame.bg:Die()
   alDamageMeterFrame:SetFrameStrata('LOW')
 

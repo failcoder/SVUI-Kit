@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -29,12 +29,12 @@ local function TimeManagerStyle()
 	MOD:ApplyDropdownStyle(TimeManagerAlarmHourDropDown, 80)
 	MOD:ApplyDropdownStyle(TimeManagerAlarmMinuteDropDown, 80)
 	MOD:ApplyDropdownStyle(TimeManagerAlarmAMPMDropDown, 80)
-	TimeManagerAlarmMessageEditBox:SetStylePanel("Editbox")
-	TimeManagerAlarmEnabledButton:SetStylePanel("Checkbox", true)
-	TimeManagerMilitaryTimeCheck:SetStylePanel("Checkbox", true)
-	TimeManagerLocalTimeCheck:SetStylePanel("Checkbox", true)
+	TimeManagerAlarmMessageEditBox:SetStyle("Editbox")
+	TimeManagerAlarmEnabledButton:SetStyle("Checkbox")
+	TimeManagerMilitaryTimeCheck:SetStyle("Checkbox")
+	TimeManagerLocalTimeCheck:SetStyle("Checkbox")
 	TimeManagerStopwatchFrame:RemoveTextures()
-	TimeManagerStopwatchCheck:SetStylePanel("!_Frame", "Default")
+	TimeManagerStopwatchCheck:SetStyle("!_Frame", "Default")
 	TimeManagerStopwatchCheck:GetNormalTexture():SetTexCoord(0.1, 0.9, 0.1, 0.9)
 	TimeManagerStopwatchCheck:GetNormalTexture():InsetPoints()
 	local sWatch = TimeManagerStopwatchCheck:CreateTexture(nil, "OVERLAY")
@@ -44,7 +44,7 @@ local function TimeManagerStyle()
 	TimeManagerStopwatchCheck:SetHighlightTexture(sWatch)
 
 	StopwatchFrame:RemoveTextures()
-	StopwatchFrame:SetStylePanel("Frame", 'Transparent')
+	StopwatchFrame:SetStyle("Frame", 'Transparent')
 	StopwatchFrame.Panel:ModPoint("TOPLEFT", 0, -17)
 	StopwatchFrame.Panel:ModPoint("BOTTOMRIGHT", 0, 2)
 

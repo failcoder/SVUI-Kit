@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -29,7 +29,7 @@ AUCTIONLITE
 ]]--
 local function BGHelper(parent)
   parent.bg = CreateFrame("Frame", nil, parent)
-  parent.bg:SetStylePanel("!_Frame", "Inset")
+  parent.bg:SetStyle("!_Frame", "Inset")
   parent.bg:ModPoint("TOPLEFT", parent, "TOPLEFT", 16, -103)
   parent.bg:ModPoint("BOTTOMRIGHT", AuctionFrame, "BOTTOMRIGHT", -8, 36)
   parent.bg:SetFrameLevel(parent.bg:GetFrameLevel() - 1)
@@ -39,24 +39,24 @@ local function StyleAuctionLite(event, ...)
   assert(AuctionFrameTab4, "AddOn Not Loaded")
   if(not event or (event and event == 'PLAYER_ENTERING_WORLD')) then return; end
 
-  BuyName:SetStylePanel("Editbox")
-  BuyQuantity:SetStylePanel("Editbox")
-  SellStacks:SetStylePanel("Editbox")
-  SellSize:SetStylePanel("Editbox")
-  SellBidPriceGold:SetStylePanel("Editbox")
-  SellBidPriceSilver:SetStylePanel("Editbox")
-  SellBidPriceCopper:SetStylePanel("Editbox")
-  SellBuyoutPriceGold:SetStylePanel("Editbox")
-  SellBuyoutPriceSilver:SetStylePanel("Editbox")
-  SellBuyoutPriceCopper:SetStylePanel("Editbox")
+  BuyName:SetStyle("Editbox")
+  BuyQuantity:SetStyle("Editbox")
+  SellStacks:SetStyle("Editbox")
+  SellSize:SetStyle("Editbox")
+  SellBidPriceGold:SetStyle("Editbox")
+  SellBidPriceSilver:SetStyle("Editbox")
+  SellBidPriceCopper:SetStyle("Editbox")
+  SellBuyoutPriceGold:SetStyle("Editbox")
+  SellBuyoutPriceSilver:SetStyle("Editbox")
+  SellBuyoutPriceCopper:SetStyle("Editbox")
 
-  BuySearchButton:SetStylePanel("Button")
-  BuyBidButton:SetStylePanel("Button")
-  BuyBuyoutButton:SetStylePanel("Button")
-  BuyCancelSearchButton:SetStylePanel("Button")
-  BuyCancelAuctionButton:SetStylePanel("Button")
-  BuyScanButton:SetStylePanel("Button")
-  SellCreateAuctionButton:SetStylePanel("Button")
+  BuySearchButton:SetStyle("Button")
+  BuyBidButton:SetStyle("Button")
+  BuyBuyoutButton:SetStyle("Button")
+  BuyCancelSearchButton:SetStyle("Button")
+  BuyCancelAuctionButton:SetStyle("Button")
+  BuyScanButton:SetStyle("Button")
+  SellCreateAuctionButton:SetStyle("Button")
 
   MOD:ApplyPaginationStyle(BuyAdvancedButton)
   MOD:ApplyPaginationStyle(SellRememberButton)

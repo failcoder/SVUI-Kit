@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -423,15 +423,15 @@ local function LoadSpellBinder()
 
 	SVUI_SpellBinderInset:RemoveTextures()
 
-	SpellBinder:SetStylePanel("Frame", "Composite2")
+	SpellBinder:SetStyle("Frame", "Composite2")
 	SpellBinder.Panel:SetPoint("TOPLEFT", -18, 0)
 	SpellBinder.Panel:SetPoint("BOTTOMRIGHT", 0, 0)
 
 	SpellBinder.list:RemoveTextures()
-	SpellBinder.list:SetStylePanel("Frame", "Inset")
+	SpellBinder.list:SetStyle("Frame", "Inset")
 
 	SpellBinder.tab:RemoveTextures()
-	SpellBinder.tab:SetStylePanel("Button")
+	SpellBinder.tab:SetStyle("Button")
 	SpellBinder.tab:SetNormalTexture("Interface\\ICONS\\Achievement_Guild_Doctorisin")
 	SpellBinder.tab:GetNormalTexture():ClearAllPoints()
 	SpellBinder.tab:GetNormalTexture():SetPoint("TOPLEFT", 2, -2)

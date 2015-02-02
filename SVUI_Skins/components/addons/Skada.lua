@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -45,7 +45,7 @@ local function skada_panel_loader(dock, window)
   local bgroup = window.bargroup.backdrop;
   if bgroup then 
     bgroup:Show()
-    bgroup:SetStylePanel("!_Frame", 'Transparent', true) 
+    bgroup:SetStyle("!_Frame", 'Transparent', true) 
   end
 
   dock.FrameLink = window;
@@ -104,7 +104,7 @@ local function StyleSkada()
       panelAnchor = skada.button
       skada.button:ModHeight(22)
       skada.button:RemoveTextures()
-      skada.button:SetStylePanel("Frame", "Transparent")
+      skada.button:SetStyle("Frame", "Transparent")
       --skada.button:SetPanelColor("class")
       local titleFont = skada.button:GetFontString()
       titleFont:SetFont(SV.Media.font.dialog, 13, "NONE")
@@ -112,7 +112,7 @@ local function StyleSkada()
       titleFont:SetShadowOffset(1, -1)
     end
 
-    skada:SetStylePanel("Frame", "Transparent")
+    skada:SetStyle("Frame", "Transparent")
     skada.Panel:ClearAllPoints()
     skada.Panel:SetPoint('TOPLEFT', panelAnchor, 'TOPLEFT', -3, 3)
     skada.Panel:SetPoint('BOTTOMRIGHT', skada, 'BOTTOMRIGHT', 3, -3)

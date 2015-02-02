@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -102,7 +102,7 @@ local function VoidSlotStyler(name, index)
   if(button) then
     local border = button.IconBorder
     if(bg) then bg:Hide() end
-    button:SetStylePanel("Slot", 2, 0, 0)
+    button:SetStyle("ActionSlot")
     if(icon) then
       icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
       icon:InsetPoints(button)
@@ -135,19 +135,19 @@ local function VoidStorageStyle()
   end
 
   VoidStoragePurchaseFrame:SetFrameStrata('DIALOG')
-  VoidStoragePurchaseFrame:SetStylePanel("!_Frame", "Button", true)
+  VoidStoragePurchaseFrame:SetStyle("!_Frame", "Button", true)
   VoidStorageFrameMarbleBg:Die()
   VoidStorageFrameLines:Die()
 
   select(2, VoidStorageFrame:GetRegions()):Die()
 
-  VoidStoragePurchaseButton:SetStylePanel("Button")
-  VoidStorageHelpBoxButton:SetStylePanel("Button")
-  VoidStorageTransferButton:SetStylePanel("Button")
+  VoidStoragePurchaseButton:SetStyle("Button")
+  VoidStorageHelpBoxButton:SetStyle("Button")
+  VoidStorageTransferButton:SetStyle("Button")
 
   MOD:ApplyCloseButtonStyle(VoidStorageBorderFrame.CloseButton)
 
-  VoidItemSearchBox:SetStylePanel("Frame", "Inset")
+  VoidItemSearchBox:SetStyle("Frame", "Inset")
   VoidItemSearchBox.Panel:ModPoint("TOPLEFT", 10, -1)
   VoidItemSearchBox.Panel:ModPoint("BOTTOMRIGHT", 4, 1)
 

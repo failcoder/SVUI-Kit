@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -33,7 +33,7 @@ local function BindingStyle()
 		local btn = _G[gName]
 		if(btn) then
 			btn:RemoveTextures()
-			btn:SetStylePanel("Button")
+			btn:SetStyle("Button")
 		end
 	end
 
@@ -41,19 +41,19 @@ local function BindingStyle()
 		local button1 = _G["KeyBindingFrameBinding"..i.."Key1Button"]
 		if(button1) then
 			button1:RemoveTextures(true)
-			button1:SetStylePanel("Editbox")
+			button1:SetStyle("Editbox")
 		end
 
 		local button2 = _G["KeyBindingFrameBinding"..i.."Key2Button"]
 		if(button2) then
 			button2:RemoveTextures(true)
-			button2:SetStylePanel("Editbox")
+			button2:SetStyle("Editbox")
 		end
 	end
 
 	MOD:ApplyScrollFrameStyle(KeyBindingFrameScrollFrameScrollBar)
 	KeyBindingFrame:RemoveTextures()
-	KeyBindingFrame:SetStylePanel("Frame", "Composite1")
+	KeyBindingFrame:SetStyle("Frame", "Composite1")
 end
 --[[ 
 ########################################################## 

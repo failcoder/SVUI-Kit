@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -23,11 +23,11 @@ local function PetStableStyle()
 	PetStableFrameInset:RemoveTextures()
 	PetStableLeftInset:RemoveTextures()
 	PetStableBottomInset:RemoveTextures()
-	PetStableFrame:SetStylePanel("Frame", "Composite1")
-	PetStableFrameInset:SetStylePanel("!_Frame", 'Inset')
+	PetStableFrame:SetStyle("Frame", "Composite1")
+	PetStableFrameInset:SetStyle("!_Frame", 'Inset')
 	MOD:ApplyCloseButtonStyle(PetStableFrameCloseButton)
-	PetStablePrevPageButton:SetStylePanel("Button")
-	PetStableNextPageButton:SetStylePanel("Button")
+	PetStablePrevPageButton:SetStyle("Button")
+	PetStableNextPageButton:SetStyle("Button")
 	MOD:ApplyPaginationStyle(PetStablePrevPageButton)
 	MOD:ApplyPaginationStyle(PetStableNextPageButton)
 	for j = 1, NUM_PET_ACTIVE_SLOTS do

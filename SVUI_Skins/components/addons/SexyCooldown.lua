@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -65,7 +65,7 @@ local function StyleSexyCooldownIcon(bar, icon)
 end
 
 local function StyleSexyCooldownBackdrop(bar)
-	bar:SetStylePanel("!_Frame", "Transparent")
+	bar:SetStyle("!_Frame", "Transparent")
 end
 
 local function HookSCDBar(bar)

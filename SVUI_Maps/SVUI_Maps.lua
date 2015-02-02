@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -226,7 +226,7 @@ do
 				end 
 			end
 
-			btn:SetStylePanel("Slot", 2, -1, -1)
+			btn:SetStyle("Button", 2, -1, -1)
 
 			if(name == "DBMMinimapButton") then 
 				btn:SetNormalTexture("Interface\\Icons\\INV_Helmet_87")
@@ -703,7 +703,7 @@ function MOD:Load()
 
 	mapHolder.Square = CreateFrame("Frame", nil, Minimap)
 	mapHolder.Square:WrapPoints(mapHolder, 2)
-	mapHolder.Square:SetStylePanel("Frame", "Minimap")
+	mapHolder.Square:SetStyle("Frame", "Minimap")
 	mapHolder.Square:SetPanelColor(MM_COLOR)
 
 	mapHolder.Circle = mapHolder:CreateTexture(nil, "BACKGROUND", nil, -2)
@@ -753,7 +753,7 @@ function MOD:Load()
 
 	QueueStatusMinimapButton:ClearAllPoints()
 	QueueStatusMinimapButton:ModPoint("BOTTOMLEFT", mapHolder, "BOTTOMLEFT", 2, 1)
-	QueueStatusMinimapButton:SetStylePanel("Frame", "Icon", true, 1, -6, -6)
+	QueueStatusMinimapButton:SetStyle("Frame", "Icon", true, 1, -6, -6)
 
 	QueueStatusFrame:SetClampedToScreen(true)
 	QueueStatusMinimapButtonBorder:Hide()

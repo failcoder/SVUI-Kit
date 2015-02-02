@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -26,11 +26,11 @@ local function BarberShopStyle()
 
 	for b = 1, #buttons do 
 		_G[buttons[b]]:RemoveTextures()
-		_G[buttons[b]]:SetStylePanel("Button")
+		_G[buttons[b]]:SetStyle("Button")
 	end
 
 	BarberShopFrame:RemoveTextures()
-	BarberShopFrame:SetStylePanel("Frame", "Composite1")
+	BarberShopFrame:SetStyle("Frame", "Composite1")
 	BarberShopFrame:ModSize(BarberShopFrame:GetWidth()-30, BarberShopFrame:GetHeight()-56)
 
 	local lastframe;
@@ -55,7 +55,7 @@ local function BarberShopStyle()
 	end
 
 	BarberShopFrameMoneyFrame:RemoveTextures()
-	BarberShopFrameMoneyFrame:SetStylePanel("Frame", "Inset")
+	BarberShopFrameMoneyFrame:SetStyle("Frame", "Inset")
 	BarberShopFrameMoneyFrame:ModPoint("TOP", lastframe, "BOTTOM", 0, -10)
 
 	BarberShopFrameBackground:Die()
@@ -65,7 +65,7 @@ local function BarberShopStyle()
 	BarberShopAltFormFrameBorder:RemoveTextures()
 	BarberShopAltFormFrame:ModPoint("BOTTOM", BarberShopFrame, "TOP", 0, 5)
 	BarberShopAltFormFrame:RemoveTextures()
-	BarberShopAltFormFrame:SetStylePanel("Frame", "Composite2")
+	BarberShopAltFormFrame:SetStyle("Frame", "Composite2")
 
 	BarberShopFrameResetButton:ClearAllPoints()
 	BarberShopFrameResetButton:ModPoint("BOTTOM", BarberShopFrame.Panel, "BOTTOM", 0, 4)

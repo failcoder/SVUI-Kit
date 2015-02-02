@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -28,12 +28,12 @@ local function TradeFrameStyle()
 	MOD:ApplyWindowStyle(TradeFrame, true)
 
 	TradeFrameInset:Die()
-	TradeFrameTradeButton:SetStylePanel("Button")
-	TradeFrameCancelButton:SetStylePanel("Button")
+	TradeFrameTradeButton:SetStyle("Button")
+	TradeFrameCancelButton:SetStyle("Button")
 	MOD:ApplyCloseButtonStyle(TradeFrameCloseButton, TradeFrame.Panel)
-	TradePlayerInputMoneyFrameGold:SetStylePanel("Editbox")
-	TradePlayerInputMoneyFrameSilver:SetStylePanel("Editbox")
-	TradePlayerInputMoneyFrameCopper:SetStylePanel("Editbox")
+	TradePlayerInputMoneyFrameGold:SetStyle("Editbox")
+	TradePlayerInputMoneyFrameSilver:SetStyle("Editbox")
+	TradePlayerInputMoneyFrameCopper:SetStyle("Editbox")
 	TradeRecipientItemsInset:Die()
 	TradePlayerItemsInset:Die()
 	TradePlayerInputMoneyInset:Die()
@@ -46,7 +46,7 @@ local function TradeFrameStyle()
 		"TradePlayerInputMoneyFrameCopper"
 	}
 	for _,frame in pairs(inputs)do
-		_G[frame]:SetStylePanel("Editbox")
+		_G[frame]:SetStyle("Editbox")
 		_G[frame].Panel:ModPoint("TOPLEFT", -2, 1)
 		_G[frame].Panel:ModPoint("BOTTOMRIGHT", -12, -1)
 		_G[frame]:SetTextInsets(-1, -1, -2, -2)
@@ -65,20 +65,20 @@ local function TradeFrameStyle()
 			Z:RemoveTextures()
 			b:InsetPoints(Y)
 			b:SetTexCoord(0.1, 0.9, 0.1, 0.9)
-			Y:SetStylePanel("!_Frame", "Button", true)
-			Y:SetStylePanel("Button")
+			Y:SetStyle("!_Frame", "Button", true)
+			Y:SetStyle("Button")
 			Y.bg = CreateFrame("Frame", nil, Y)
-			Y.bg:SetStylePanel("Frame", "Inset")
+			Y.bg:SetStyle("Frame", "Inset")
 			Y.bg:SetPoint("TOPLEFT", Y, "TOPRIGHT", 4, 0)
 			Y.bg:SetPoint("BOTTOMRIGHT", _G["TradePlayerItem"..i.."NameFrame"], "BOTTOMRIGHT", 0, 14)
 			Y.bg:SetFrameLevel(Y:GetFrameLevel()-3)
 			Y:SetFrameLevel(Y:GetFrameLevel()-1)
 			z:InsetPoints(Z)
 			z:SetTexCoord(0.1, 0.9, 0.1, 0.9)
-			Z:SetStylePanel("!_Frame", "Button", true)
-			Z:SetStylePanel("Button")
+			Z:SetStyle("!_Frame", "Button", true)
+			Z:SetStyle("Button")
 			Z.bg = CreateFrame("Frame", nil, Z)
-			Z.bg:SetStylePanel("Frame", "Inset")
+			Z.bg:SetStyle("Frame", "Inset")
 			Z.bg:SetPoint("TOPLEFT", Z, "TOPRIGHT", 4, 0)
 			Z.bg:SetPoint("BOTTOMRIGHT", _G["TradeRecipientItem"..i.."NameFrame"], "BOTTOMRIGHT", 0, 14)
 			Z.bg:SetFrameLevel(Z:GetFrameLevel()-3)

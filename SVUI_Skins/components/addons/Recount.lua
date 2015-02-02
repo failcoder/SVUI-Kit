@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -49,7 +49,7 @@ local function StyleFrame(frame)
   frame:SetBackdrop(nil)
 
   frame.TitleBackground = CreateFrame('Frame', nil, frame)
-  frame.TitleBackground:SetStylePanel("!_Frame", "Transparent")
+  frame.TitleBackground:SetStyle("!_Frame", "Transparent")
   --frame.TitleBackground:SetPanelColor("class")
   frame.TitleBackground:SetPoint('TOP', frame, 'TOP', 0, -8)
   frame.TitleBackground.timeLapse = 0
@@ -103,7 +103,7 @@ local function StyleRecount()
     if Recount_ReportWindow.isStyled then return end
     Recount_ReportWindow.isStyled = true
     MOD:ApplyFrameStyle(Recount_ReportWindow.Whisper)
-    Recount_ReportWindow.ReportButton:SetStylePanel("Button")
+    Recount_ReportWindow.ReportButton:SetStyle("Button")
     MOD:ApplyScrollBarStyle(Recount_ReportWindow_Slider)
     Recount_ReportWindow_Slider:GetThumbTexture():ModSize(6,6)
   end)

@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -53,7 +53,7 @@ local function RaidUIStyle()
 				local slot = _G[name]
 				if(slot) then
 					slot:RemoveTextures()
-					slot:SetStylePanel("Frame", "Inset", true)
+					slot:SetStyle("Frame", "Inset", true)
 				end
 			end
 		end 
@@ -75,20 +75,20 @@ local function RaidInfoStyle()
 
 	for g = 1, #RaidInfoFrameList do 
 		if _G[RaidInfoFrameList[g]] then
-			_G[RaidInfoFrameList[g]]:SetStylePanel("Button")
+			_G[RaidInfoFrameList[g]]:SetStyle("Button")
 		end 
 	end
 
 	RaidInfoScrollFrame:RemoveTextures()
-	RaidInfoFrame:SetStylePanel("Frame", 'Transparent')
+	RaidInfoFrame:SetStyle("Frame", 'Transparent')
 	RaidInfoFrame.Panel:ModPoint("TOPLEFT", RaidInfoFrame, "TOPLEFT")
 	RaidInfoFrame.Panel:ModPoint("BOTTOMRIGHT", RaidInfoFrame, "BOTTOMRIGHT")
 
 	MOD:ApplyCloseButtonStyle(RaidInfoCloseButton, RaidInfoFrame)
 	MOD:ApplyScrollFrameStyle(RaidInfoScrollFrameScrollBar)
 	
-	if RaidFrameRaidBrowserButton then RaidFrameRaidBrowserButton:SetStylePanel("Button") end
-	RaidFrameAllAssistCheckButton:SetStylePanel("Checkbox", true)
+	if RaidFrameRaidBrowserButton then RaidFrameRaidBrowserButton:SetStyle("Button") end
+	RaidFrameAllAssistCheckButton:SetStyle("Checkbox")
 end 
 --[[ 
 ########################################################## 

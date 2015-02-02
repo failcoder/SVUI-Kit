@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -450,7 +450,7 @@ function MOD:Load()
 	SV.private.Docks = SV.private.Docks or {"None", "None"}
 
 	local alert = CreateFrame('Frame', nil, UIParent);
-	alert:SetStylePanel("!_Frame", 'Transparent');
+	alert:SetStyle("!_Frame", 'Transparent');
 	alert:SetSize(250, 70);
 	alert:SetPoint('CENTER', UIParent, 'CENTER');
 	alert:SetFrameStrata('DIALOG');
@@ -472,8 +472,8 @@ function MOD:Load()
 	alert.Close.Text:SetFont(SV.Media.font.dialog, 10);
 	alert.Close.Text:SetPoint('CENTER');
 	alert.Close.Text:SetText(_G.NO);
-	alert.Accept:SetStylePanel("Button");
-	alert.Close:SetStylePanel("Button");
+	alert.Accept:SetStyle("Button");
+	alert.Close:SetStyle("Button");
 	alert:Hide();
 
 	self.Alert = alert;

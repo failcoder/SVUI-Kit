@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -20,10 +20,10 @@ ITEMSOCKETING MODR
 local function ItemSocketStyle()
 	if SV.db.Skins.blizzard.enable ~= true or SV.db.Skins.blizzard.socket ~= true then return end 
 	ItemSocketingFrame:RemoveTextures()
-	ItemSocketingFrame:SetStylePanel("Frame", "Composite2")
+	ItemSocketingFrame:SetStyle("Frame", "Composite2")
 	ItemSocketingFrameInset:Die()
 	ItemSocketingScrollFrame:RemoveTextures()
-	ItemSocketingScrollFrame:SetStylePanel("Frame", "Inset", true)
+	ItemSocketingScrollFrame:SetStyle("Frame", "Inset", true)
 	MOD:ApplyScrollFrameStyle(ItemSocketingScrollFrameScrollBar, 2)
 	for j = 1, MAX_NUM_SOCKETS do 
 		local i = _G[("ItemSocketingSocket%d"):format(j)];
@@ -31,8 +31,8 @@ local function ItemSocketStyle()
 		local D = _G[("ItemSocketingSocket%dBackground"):format(j)];
 		local E = _G[("ItemSocketingSocket%dIconTexture"):format(j)];
 		i:RemoveTextures()
-		i:SetStylePanel("Button")
-		i:SetStylePanel("!_Frame", "Button", true)
+		i:SetStyle("Button")
+		i:SetStyle("!_Frame", "Button", true)
 		C:Die()
 		D:Die()
 		E:SetTexCoord(0.1, 0.9, 0.1, 0.9)
@@ -51,7 +51,7 @@ local function ItemSocketStyle()
 	ItemSocketingFramePortrait:Die()
 	ItemSocketingSocketButton:ClearAllPoints()
 	ItemSocketingSocketButton:ModPoint("BOTTOMRIGHT", ItemSocketingFrame, "BOTTOMRIGHT", -5, 5)
-	ItemSocketingSocketButton:SetStylePanel("Button")
+	ItemSocketingSocketButton:SetStyle("Button")
 	MOD:ApplyCloseButtonStyle(ItemSocketingFrameCloseButton)
 end 
 --[[ 

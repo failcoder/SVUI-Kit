@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -49,7 +49,7 @@ local function MacroUIStyle()
 			button:SetFrameStrata(parentStrata)
 			button:SetFrameLevel(parentLevel + 1)
 			button:RemoveTextures()
-			button:SetStylePanel("Button", false, 1, 1, 1)
+			button:SetStyle("Button", false, 1, 1, 1)
 		end
 	end 
 
@@ -77,16 +77,16 @@ local function MacroUIStyle()
 
 	MacroFrameText:SetFont(SV.Media.font.default, 10, "OUTLINE")
 	MacroFrameTextBackground:RemoveTextures()
-	MacroFrameTextBackground:SetStylePanel("Frame", 'Transparent')
+	MacroFrameTextBackground:SetStyle("Frame", 'Transparent')
 
 	MacroPopupFrame:RemoveTextures()
-	MacroPopupFrame:SetStylePanel("Frame", 'Transparent')
+	MacroPopupFrame:SetStyle("Frame", 'Transparent')
 
 	MacroPopupScrollFrame:RemoveTextures()
-	MacroPopupScrollFrame:SetStylePanel("Frame", "Pattern")
+	MacroPopupScrollFrame:SetStyle("Frame", "Pattern")
 	MacroPopupScrollFrame.Panel:ModPoint("TOPLEFT", 51, 2)
 	MacroPopupScrollFrame.Panel:ModPoint("BOTTOMRIGHT", -4, 4)
-	MacroPopupEditBox:SetStylePanel("Editbox")
+	MacroPopupEditBox:SetStyle("Editbox")
 	MacroPopupNameLeft:SetTexture(0,0,0,0)
 	MacroPopupNameMiddle:SetTexture(0,0,0,0)
 	MacroPopupNameRight:SetTexture(0,0,0,0)
@@ -95,7 +95,7 @@ local function MacroUIStyle()
 
 	MacroButtonContainer:RemoveTextures()
 	MOD:ApplyScrollFrameStyle(MacroButtonScrollFrame)
-	MacroButtonScrollFrame:SetStylePanel("!_Frame", "Inset")
+	MacroButtonScrollFrame:SetStyle("!_Frame", "Inset")
 
 	MacroPopupFrame:HookScript("OnShow", function(c)
 		c:ClearAllPoints()
@@ -105,7 +105,7 @@ local function MacroUIStyle()
 	MacroFrameSelectedMacroButton:SetFrameStrata(parentStrata)
 	MacroFrameSelectedMacroButton:SetFrameLevel(parentLevel + 1)
 	MacroFrameSelectedMacroButton:RemoveTextures()
-	MacroFrameSelectedMacroButton:SetStylePanel("Slot")
+	MacroFrameSelectedMacroButton:SetStyle("ActionSlot")
 	MacroFrameSelectedMacroButtonIcon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 	MacroFrameSelectedMacroButtonIcon:InsetPoints()
 
@@ -119,7 +119,7 @@ local function MacroUIStyle()
 		local button = _G["MacroButton"..i]
 		if(button) then
 			button:RemoveTextures()
-			button:SetStylePanel("Slot")
+			button:SetStyle("ActionSlot")
 
 			local icon = _G["MacroButton"..i.."Icon"]
 			if(icon) then
@@ -131,7 +131,7 @@ local function MacroUIStyle()
 			local popup = _G["MacroPopupButton"..i]
 			if(popup) then
 				popup:RemoveTextures()
-				popup:SetStylePanel("Button")
+				popup:SetStyle("Button")
 				popup:SetBackdropColor(0, 0, 0, 0)
 
 				local popupIcon = _G["MacroPopupButton"..i.."Icon"]

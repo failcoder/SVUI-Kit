@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -121,7 +121,7 @@ local GetAchievementRow = function(self, index)
 		row.Badge = CreateFrame("Frame", nil, row)
 		row.Badge:SetPoint("TOPLEFT", row, "TOPLEFT", 2, -2);
 		row.Badge:SetSize(INNER_HEIGHT, INNER_HEIGHT);
-		row.Badge:SetStylePanel("Frame", "Lite")
+		row.Badge:SetStyle("Frame", "Lite")
 		row.Badge.Icon = row.Badge:CreateTexture(nil,"OVERLAY")
 		row.Badge.Icon:SetAllPoints(row.Badge);
 		row.Badge.Icon:SetTexture(LINE_ACHIEVEMENT_ICON)
@@ -141,7 +141,7 @@ local GetAchievementRow = function(self, index)
 
 		row.Button = CreateFrame("Button", nil, row.Header)
 		row.Button:SetAllPoints(row.Header);
-		row.Button:SetStylePanel("Button", "Lite", 1, 1, 1)
+		row.Button:SetStyle("Button", "Lite", 1, 1, 1)
 		row.Button:SetID(0)
 		row.Button:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 		row.Button:SetScript("OnClick", ViewButton_OnClick)

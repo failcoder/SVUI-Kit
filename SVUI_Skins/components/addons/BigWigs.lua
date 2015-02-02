@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -69,7 +69,7 @@ local function applystyle(bar)
 	else
 		bg = CreateFrame("Frame")
 	end
-	bg:SetStylePanel("!_Frame", 'Transparent', true)
+	bg:SetStyle("!_Frame", 'Transparent', true)
 	bg:SetParent(bar)
 	bg:WrapPoints(bar)
 	bg:SetFrameLevel(bar:GetFrameLevel() - 1)
@@ -84,7 +84,7 @@ local function applystyle(bar)
 			ibg = CreateFrame("Frame")
 		end
 		ibg:SetParent(bar)
-		ibg:SetStylePanel("!_Frame", 'Transparent', true)
+		ibg:SetStyle("!_Frame", 'Transparent', true)
 		ibg:SetBackdropColor(0, 0, 0, 0)
 		ibg:WrapPoints(bar.candyBarIconFrame)
 		ibg:SetFrameLevel(bar:GetFrameLevel() - 1)

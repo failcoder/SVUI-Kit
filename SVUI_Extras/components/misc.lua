@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -49,7 +49,7 @@ local function CreateSimpleButton(frame, label, anchor, x, y, width, height, too
     button:SetHitRectInsets(0, 0, 0, 0);
     button:SetFrameStrata("FULLSCREEN_DIALOG");
     button.TText = tooltip
-    button:SetStylePanel("Button")
+    button:SetStyle("Button")
     button:SetScript("OnEnter", Button_OnEnter)        
     button:SetScript("OnLeave", GameTooltip_Hide)
     return button
@@ -316,8 +316,6 @@ function MOD:LoadDressupHelper()
 	--[[ CLOAK AND HELMET TOGGLES ]]--
 	helmet = CreateFrame('CheckButton', nil, CharacterModelFrame, "OptionsCheckButtonTemplate")
 	helmet:SetSize(16, 16)
-	--helmet:RemoveTextures()
-	--helmet:SetStylePanel("Checkbox")
 	helmet.text = helmet:CreateFontString(nil, 'OVERLAY', "GameFontNormal")
 	helmet.text:SetPoint("LEFT", 24, 0)
 	helmet.TText = "Show/Hide Helmet"
@@ -327,8 +325,6 @@ function MOD:LoadDressupHelper()
 
 	cloak = CreateFrame('CheckButton', nil, CharacterModelFrame, "OptionsCheckButtonTemplate")
 	cloak:SetSize(16, 16)
-	--cloak:RemoveTextures()
-	--cloak:SetStylePanel("Checkbox")
 	cloak.text = cloak:CreateFontString(nil, 'OVERLAY', "GameFontNormal")
 	cloak.text:SetPoint("LEFT", 24, 0)
 	cloak.TText = "Show/Hide Cloak"

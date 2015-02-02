@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -36,7 +36,7 @@ local _hook_ScrollFrameUpdate = function()
 			local indexOffset = offset + i;
 			if(not button.Panel) then 
 				button:RemoveTextures()
-				button:SetStylePanel("Button")
+				button:SetStyle("Button")
 				MOD:ApplyItemButtonStyle(button.Item)
 			end 
 			if indexOffset <= itemCount then 
@@ -57,7 +57,7 @@ local function BlackMarketStyle()
 	MOD:ApplyWindowStyle(BlackMarketFrame)
 
 	BlackMarketFrame.Inset:RemoveTextures()
-	BlackMarketFrame.Inset:SetStylePanel("!_Frame", "Inset")
+	BlackMarketFrame.Inset:SetStyle("!_Frame", "Inset")
 
 	MOD:ApplyCloseButtonStyle(BlackMarketFrame.CloseButton)
 	MOD:ApplyScrollFrameStyle(BlackMarketScrollFrameScrollBar, 4)
@@ -70,10 +70,10 @@ local function BlackMarketStyle()
 	ChangeTab(BlackMarketFrame.ColumnCurrentBid)
 
 	BlackMarketFrame.MoneyFrameBorder:RemoveTextures()
-	BlackMarketBidPriceGold:SetStylePanel("Editbox")
+	BlackMarketBidPriceGold:SetStyle("Editbox")
 	BlackMarketBidPriceGold.Panel:ModPoint("TOPLEFT", -2, 0)
 	BlackMarketBidPriceGold.Panel:ModPoint("BOTTOMRIGHT", -2, 0)
-	BlackMarketFrame.BidButton:SetStylePanel("Button")
+	BlackMarketFrame.BidButton:SetStyle("Button")
 
 	hooksecurefunc("BlackMarketScrollFrame_Update", _hook_ScrollFrameUpdate)
 

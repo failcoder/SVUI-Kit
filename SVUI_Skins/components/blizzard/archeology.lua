@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -22,14 +22,14 @@ local function ArchaeologyStyle()
 
 	ArchaeologyFrame:RemoveTextures()
 	ArchaeologyFrameInset:RemoveTextures()
-	ArchaeologyFrame:SetStylePanel("Frame", "Composite1")
+	ArchaeologyFrame:SetStyle("Frame", "Composite1")
 	ArchaeologyFrame.Panel:SetAllPoints()
 	ArchaeologyFrame.portrait:SetAlpha(0)
-	ArchaeologyFrameInset:SetStylePanel("Frame", "Inset")
+	ArchaeologyFrameInset:SetStyle("Frame", "Inset")
 	ArchaeologyFrameInset.Panel:SetPoint("TOPLEFT")
 	ArchaeologyFrameInset.Panel:SetPoint("BOTTOMRIGHT", -3, -1)
-	ArchaeologyFrameArtifactPageSolveFrameSolveButton:SetStylePanel("Button")
-	ArchaeologyFrameArtifactPageBackButton:SetStylePanel("Button")
+	ArchaeologyFrameArtifactPageSolveFrameSolveButton:SetStyle("Button")
+	ArchaeologyFrameArtifactPageBackButton:SetStyle("Button")
 	ArchaeologyFrameRaceFilter:SetFrameLevel(ArchaeologyFrameRaceFilter:GetFrameLevel()+2)
 	MOD:ApplyDropdownStyle(ArchaeologyFrameRaceFilter, 125)
 	MOD:ApplyPaginationStyle(ArchaeologyFrameCompletedPageNextPageButton)
@@ -37,12 +37,12 @@ local function ArchaeologyStyle()
 	ArchaeologyFrameRankBar:RemoveTextures()
 	ArchaeologyFrameRankBar:SetStatusBarTexture(SV.BaseTexture)
 	ArchaeologyFrameRankBar:SetFrameLevel(ArchaeologyFrameRankBar:GetFrameLevel()+2)
-	ArchaeologyFrameRankBar:SetStylePanel("Frame", "Default")
+	ArchaeologyFrameRankBar:SetStyle("Frame", "Default")
 	ArchaeologyFrameArtifactPageSolveFrameStatusBar:RemoveTextures()
 	ArchaeologyFrameArtifactPageSolveFrameStatusBar:SetStatusBarTexture(SV.BaseTexture)
 	ArchaeologyFrameArtifactPageSolveFrameStatusBar:SetStatusBarColor(0.7, 0.2, 0)
 	ArchaeologyFrameArtifactPageSolveFrameStatusBar:SetFrameLevel(ArchaeologyFrameArtifactPageSolveFrameStatusBar:GetFrameLevel()+2)
-	ArchaeologyFrameArtifactPageSolveFrameStatusBar:SetStylePanel("Frame", "Default")
+	ArchaeologyFrameArtifactPageSolveFrameStatusBar:SetStyle("Frame", "Default")
 
 	for b = 1, ARCHAEOLOGY_MAX_COMPLETED_SHOWN do 
 		local c = _G["ArchaeologyFrameCompletedPageArtifact"..b]
@@ -51,7 +51,7 @@ local function ArchaeologyStyle()
 			_G["ArchaeologyFrameCompletedPageArtifact"..b.."Bg"]:Die()
 			_G["ArchaeologyFrameCompletedPageArtifact"..b.."Icon"]:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 			_G["ArchaeologyFrameCompletedPageArtifact"..b.."Icon"].backdrop = CreateFrame("Frame", nil, c)
-			_G["ArchaeologyFrameCompletedPageArtifact"..b.."Icon"].backdrop:SetStylePanel("!_Frame", "Default")
+			_G["ArchaeologyFrameCompletedPageArtifact"..b.."Icon"].backdrop:SetStyle("!_Frame", "Default")
 			_G["ArchaeologyFrameCompletedPageArtifact"..b.."Icon"].backdrop:WrapPoints(_G["ArchaeologyFrameCompletedPageArtifact"..b.."Icon"])
 			_G["ArchaeologyFrameCompletedPageArtifact"..b.."Icon"].backdrop:SetFrameLevel(c:GetFrameLevel()-2)
 			_G["ArchaeologyFrameCompletedPageArtifact"..b.."Icon"]:SetDrawLayer("OVERLAY")
@@ -60,7 +60,7 @@ local function ArchaeologyStyle()
 	
 	ArchaeologyFrameArtifactPageIcon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 	ArchaeologyFrameArtifactPageIcon.backdrop = CreateFrame("Frame", nil, ArchaeologyFrameArtifactPage)
-	ArchaeologyFrameArtifactPageIcon.backdrop:SetStylePanel("!_Frame", "Default")
+	ArchaeologyFrameArtifactPageIcon.backdrop:SetStyle("!_Frame", "Default")
 	ArchaeologyFrameArtifactPageIcon.backdrop:WrapPoints(ArchaeologyFrameArtifactPageIcon)
 	ArchaeologyFrameArtifactPageIcon.backdrop:SetFrameLevel(ArchaeologyFrameArtifactPage:GetFrameLevel())
 	ArchaeologyFrameArtifactPageIcon:SetParent(ArchaeologyFrameArtifactPageIcon.backdrop)

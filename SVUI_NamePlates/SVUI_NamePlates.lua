@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ##############################################################################
 credit: Elv.       NamePlatess was parently nameplates.lua adapted from ElvUI #
 ##############################################################################
@@ -1229,7 +1229,7 @@ do
 		frame.cast:SetPoint('TOPLEFT', frame.health, 'BOTTOMLEFT', 0, -8)	
 		frame.cast:SetPoint('TOPRIGHT', frame.health, 'BOTTOMRIGHT', 0, -8)
 		frame.cast:SetFrameStrata("BACKGROUND")
-		frame.cast:SetStylePanel("Frame", 'Bar')
+		frame.cast:SetStyle("Frame", 'Bar')
 		frame.cast:SetFrameLevel(0)
 
 		frame.cast.text = frame.cast:CreateFontString(nil, 'OVERLAY')
@@ -1251,7 +1251,7 @@ do
 		bgFrame:WrapPoints(cast.icon)
 		bgFrame:SetFrameLevel(bgFrame:GetFrameLevel() - 1)
 
-		bgFrame:SetStylePanel("Frame", "Bar", true, 2, 0, 0)
+		bgFrame:SetStyle("Frame", "Bar", true, 2, 0, 0)
 
 		--SetPlateBorder(frame.cast, cast.icon)
 

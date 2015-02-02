@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -101,11 +101,11 @@ local function PetJournalStyle()
 	MountJournal.MountCount:RemoveTextures()
 	MountJournalListScrollFrame:RemoveTextures()
 	MountJournalMountButton:RemoveTextures()
-	MountJournalMountButton:SetStylePanel("Button")
-	MountJournalSearchBox:SetStylePanel("Editbox")
+	MountJournalMountButton:SetStyle("Button")
+	MountJournalSearchBox:SetStyle("Editbox")
 
 	MOD:ApplyScrollFrameStyle(MountJournalListScrollFrameScrollBar)
-	MountJournal.MountDisplay:SetStylePanel("!_Frame", "Model")
+	MountJournal.MountDisplay:SetStyle("!_Frame", "Model")
 
 	local buttons = MountJournal.ListScrollFrame.buttons
 	for i = 1, #buttons do
@@ -129,8 +129,8 @@ local function PetJournalStyle()
 	MountJournalListScrollFrame:HookScript("OnMouseWheel", PetJournal_UpdateMounts)
 	PetJournalSummonButton:RemoveTextures()
 	PetJournalFindBattle:RemoveTextures()
-	PetJournalSummonButton:SetStylePanel("Button")
-	PetJournalFindBattle:SetStylePanel("Button")
+	PetJournalSummonButton:SetStyle("Button")
+	PetJournalFindBattle:SetStyle("Button")
 	PetJournalRightInset:RemoveTextures()
 	PetJournalLeftInset:RemoveTextures()
 
@@ -141,9 +141,9 @@ local function PetJournalStyle()
 
 	PetJournalTutorialButton:Die()
 	PetJournal.PetCount:RemoveTextures()
-	PetJournalSearchBox:SetStylePanel("Editbox")
+	PetJournalSearchBox:SetStyle("Editbox")
 	PetJournalFilterButton:RemoveTextures(true)
-	PetJournalFilterButton:SetStylePanel("Button")
+	PetJournalFilterButton:SetStyle("Button")
 	PetJournalListScrollFrame:RemoveTextures()
 	MOD:ApplyScrollFrameStyle(PetJournalListScrollFrameScrollBar)
 
@@ -185,10 +185,10 @@ local function PetJournalStyle()
 		MOD:ApplyItemButtonStyle(pjPet, nil, nil, true)
 		pjPet.setButton:RemoveTextures()
 		_G['PetJournalLoadoutPet'..b..'HealthFrame'].healthBar:RemoveTextures()
-		_G['PetJournalLoadoutPet'..b..'HealthFrame'].healthBar:SetStylePanel("Frame", 'Default')
+		_G['PetJournalLoadoutPet'..b..'HealthFrame'].healthBar:SetStyle("Frame", 'Default')
 		_G['PetJournalLoadoutPet'..b..'HealthFrame'].healthBar:SetStatusBarTexture(SV.Media.bar.default)
 		_G['PetJournalLoadoutPet'..b..'XPBar']:RemoveTextures()
-		_G['PetJournalLoadoutPet'..b..'XPBar']:SetStylePanel("Frame", 'Default')
+		_G['PetJournalLoadoutPet'..b..'XPBar']:SetStyle("Frame", 'Default')
 		_G['PetJournalLoadoutPet'..b..'XPBar']:SetStatusBarTexture(SV.BaseTexture)
 		_G['PetJournalLoadoutPet'..b..'XPBar']:SetFrameLevel(_G['PetJournalLoadoutPet'..b..'XPBar']:GetFrameLevel()+2)
 		for v = 1, 3 do 
@@ -241,39 +241,39 @@ local function PetJournalStyle()
 	R.BorderBottom:SetTexture(0,0,0,0)
 	R.BorderBottomRight:SetTexture(0,0,0,0)
 	R.BorderBottomLeft:SetTexture(0,0,0,0)
-	R:SetStylePanel("!_Frame", "Transparent", true)
+	R:SetStyle("!_Frame", "Transparent", true)
 
 	for b = 1, 6 do 
 		local S = _G['PetJournalPetCardSpell'..b]
 		S:SetFrameLevel(S:GetFrameLevel() + 2)
 		S:DisableDrawLayer('BACKGROUND')
-		S:SetStylePanel("Frame", 'Transparent')
+		S:SetStyle("Frame", 'Transparent')
 		S.Panel:SetAllPoints()
 		S.icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 		S.icon:InsetPoints(S.Panel)
 	end
 
 	PetJournalPetCardHealthFrame.healthBar:RemoveTextures()
-	PetJournalPetCardHealthFrame.healthBar:SetStylePanel("Frame", 'Default')
+	PetJournalPetCardHealthFrame.healthBar:SetStyle("Frame", 'Default')
 	PetJournalPetCardHealthFrame.healthBar:SetStatusBarTexture(SV.BaseTexture)
 	PetJournalPetCardXPBar:RemoveTextures()
-	PetJournalPetCardXPBar:SetStylePanel("Frame", 'Default')
+	PetJournalPetCardXPBar:SetStyle("Frame", 'Default')
 	PetJournalPetCardXPBar:SetStatusBarTexture(SV.BaseTexture)
 
 	MOD:ApplyTabStyle(PetJournalParentTab3)
 	ToyBox:RemoveTextures()
-	ToyBoxProgressBar:SetStylePanel("Frame", "Bar", true)
-	ToyBoxSearchBox:SetStylePanel("Editbox")
+	ToyBoxProgressBar:SetStyle("Frame", "Bar", true)
+	ToyBoxSearchBox:SetStyle("Editbox")
 	ToyBoxFilterButton:RemoveTextures()
-	ToyBoxFilterButton:SetStylePanel("Button")
+	ToyBoxFilterButton:SetStyle("Button")
 	ToyBoxIconsFrame:RemoveTextures()
-	ToyBoxIconsFrame:SetStylePanel("!_Frame", 'Model')
+	ToyBoxIconsFrame:SetStyle("!_Frame", 'Model')
 
 	MountJournalFilterButton:RemoveTextures()
-	MountJournalFilterButton:SetStylePanel("Button")
+	MountJournalFilterButton:SetStyle("Button")
 
 	MountJournal.SummonRandomFavoriteButton:RemoveTextures()
-	MountJournal.SummonRandomFavoriteButton:SetStylePanel("Slot", 2, 0, 0, 0.5)
+	MountJournal.SummonRandomFavoriteButton:SetStyle("ActionSlot")
 	MountJournal.SummonRandomFavoriteButton.texture:SetTexture([[Interface\ICONS\ACHIEVEMENT_GUILDPERK_MOUNTUP]])
 	MountJournal.SummonRandomFavoriteButton.texture:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 
@@ -281,7 +281,7 @@ local function PetJournalStyle()
 		local gName = ("ToySpellButton%d"):format(i)
 		local button = _G[gName]
 		if(button) then
-			button:SetStylePanel("Button")
+			button:SetStyle("Button")
 		end
 	end
 end
@@ -304,11 +304,11 @@ local function CollectionsJournalStyle()
 	MountJournal.MountCount:RemoveTextures()
 	MountJournalListScrollFrame:RemoveTextures()
 	MountJournalMountButton:RemoveTextures()
-	MountJournalMountButton:SetStylePanel("Button")
-	MountJournalSearchBox:SetStylePanel("Editbox")
+	MountJournalMountButton:SetStyle("Button")
+	MountJournalSearchBox:SetStyle("Editbox")
 
 	MOD:ApplyScrollFrameStyle(MountJournalListScrollFrameScrollBar)
-	MountJournal.MountDisplay:SetStylePanel("!_Frame", "Model")
+	MountJournal.MountDisplay:SetStyle("!_Frame", "Model")
 
 	local buttons = MountJournal.ListScrollFrame.buttons
 	for i = 1, #buttons do
@@ -332,8 +332,8 @@ local function CollectionsJournalStyle()
 	MountJournalListScrollFrame:HookScript("OnMouseWheel", PetJournal_UpdateMounts)
 	PetJournalSummonButton:RemoveTextures()
 	PetJournalFindBattle:RemoveTextures()
-	PetJournalSummonButton:SetStylePanel("Button")
-	PetJournalFindBattle:SetStylePanel("Button")
+	PetJournalSummonButton:SetStyle("Button")
+	PetJournalFindBattle:SetStyle("Button")
 	PetJournalRightInset:RemoveTextures()
 	PetJournalLeftInset:RemoveTextures()
 
@@ -344,9 +344,9 @@ local function CollectionsJournalStyle()
 
 	PetJournalTutorialButton:Die()
 	PetJournal.PetCount:RemoveTextures()
-	PetJournalSearchBox:SetStylePanel("Editbox")
+	PetJournalSearchBox:SetStyle("Editbox")
 	PetJournalFilterButton:RemoveTextures(true)
-	PetJournalFilterButton:SetStylePanel("Button")
+	PetJournalFilterButton:SetStyle("Button")
 	PetJournalListScrollFrame:RemoveTextures()
 	MOD:ApplyScrollFrameStyle(PetJournalListScrollFrameScrollBar)
 
@@ -388,10 +388,10 @@ local function CollectionsJournalStyle()
 		MOD:ApplyItemButtonStyle(pjPet, nil, nil, true)
 		pjPet.setButton:RemoveTextures()
 		_G['PetJournalLoadoutPet'..b..'HealthFrame'].healthBar:RemoveTextures()
-		_G['PetJournalLoadoutPet'..b..'HealthFrame'].healthBar:SetStylePanel("Frame", 'Default')
+		_G['PetJournalLoadoutPet'..b..'HealthFrame'].healthBar:SetStyle("Frame", 'Default')
 		_G['PetJournalLoadoutPet'..b..'HealthFrame'].healthBar:SetStatusBarTexture(SV.Media.bar.default)
 		_G['PetJournalLoadoutPet'..b..'XPBar']:RemoveTextures()
-		_G['PetJournalLoadoutPet'..b..'XPBar']:SetStylePanel("Frame", 'Default')
+		_G['PetJournalLoadoutPet'..b..'XPBar']:SetStyle("Frame", 'Default')
 		_G['PetJournalLoadoutPet'..b..'XPBar']:SetStatusBarTexture(SV.BaseTexture)
 		_G['PetJournalLoadoutPet'..b..'XPBar']:SetFrameLevel(_G['PetJournalLoadoutPet'..b..'XPBar']:GetFrameLevel()+2)
 		for v = 1, 3 do 
@@ -444,39 +444,39 @@ local function CollectionsJournalStyle()
 	R.BorderBottom:SetTexture(0,0,0,0)
 	R.BorderBottomRight:SetTexture(0,0,0,0)
 	R.BorderBottomLeft:SetTexture(0,0,0,0)
-	R:SetStylePanel("!_Frame", "Transparent", true)
+	R:SetStyle("!_Frame", "Transparent", true)
 
 	for b = 1, 6 do 
 		local S = _G['PetJournalPetCardSpell'..b]
 		S:SetFrameLevel(S:GetFrameLevel() + 2)
 		S:DisableDrawLayer('BACKGROUND')
-		S:SetStylePanel("Frame", 'Transparent')
+		S:SetStyle("Frame", 'Transparent')
 		S.Panel:SetAllPoints()
 		S.icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 		S.icon:InsetPoints(S.Panel)
 	end
 
 	PetJournalPetCardHealthFrame.healthBar:RemoveTextures()
-	PetJournalPetCardHealthFrame.healthBar:SetStylePanel("Frame", 'Default')
+	PetJournalPetCardHealthFrame.healthBar:SetStyle("Frame", 'Default')
 	PetJournalPetCardHealthFrame.healthBar:SetStatusBarTexture(SV.BaseTexture)
 	PetJournalPetCardXPBar:RemoveTextures()
-	PetJournalPetCardXPBar:SetStylePanel("Frame", 'Default')
+	PetJournalPetCardXPBar:SetStyle("Frame", 'Default')
 	PetJournalPetCardXPBar:SetStatusBarTexture(SV.BaseTexture)
 
 	MOD:ApplyTabStyle(CollectionsJournalTab3)
 	ToyBox:RemoveTextures()
-	ToyBoxProgressBar:SetStylePanel("Frame", "Bar", true)
-	ToyBoxSearchBox:SetStylePanel("Editbox")
+	ToyBoxProgressBar:SetStyle("Frame", "Bar", true)
+	ToyBoxSearchBox:SetStyle("Editbox")
 	ToyBoxFilterButton:RemoveTextures()
-	ToyBoxFilterButton:SetStylePanel("Button")
+	ToyBoxFilterButton:SetStyle("Button")
 	ToyBoxIconsFrame:RemoveTextures()
-	ToyBoxIconsFrame:SetStylePanel("!_Frame", 'Model')
+	ToyBoxIconsFrame:SetStyle("!_Frame", 'Model')
 
 	MountJournalFilterButton:RemoveTextures()
-	MountJournalFilterButton:SetStylePanel("Button")
+	MountJournalFilterButton:SetStyle("Button")
 
 	MountJournal.SummonRandomFavoriteButton:RemoveTextures()
-	MountJournal.SummonRandomFavoriteButton:SetStylePanel("Slot", 2, 0, 0, 0.5)
+	MountJournal.SummonRandomFavoriteButton:SetStyle("ActionSlot")
 	MountJournal.SummonRandomFavoriteButton.texture:SetTexture([[Interface\ICONS\ACHIEVEMENT_GUILDPERK_MOUNTUP]])
 	MountJournal.SummonRandomFavoriteButton.texture:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 
@@ -484,7 +484,7 @@ local function CollectionsJournalStyle()
 		local gName = ("ToySpellButton%d"):format(i)
 		local button = _G[gName]
 		if(button) then
-			button:SetStylePanel("Button")
+			button:SetStyle("Button")
 		end
 	end
 end 

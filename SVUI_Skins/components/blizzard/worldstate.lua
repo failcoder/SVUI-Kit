@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -21,11 +21,11 @@ local function WorldStateStyle()
 	if SV.db.Skins.blizzard.enable ~= true or SV.db.Skins.blizzard.bgscore ~= true then return end 
 	WorldStateScoreScrollFrame:RemoveTextures()
 	WorldStateScoreFrame:RemoveTextures()
-	WorldStateScoreFrame:SetStylePanel("Frame", "Composite1")
+	WorldStateScoreFrame:SetStyle("Frame", "Composite1")
 	MOD:ApplyCloseButtonStyle(WorldStateScoreFrameCloseButton)
 	MOD:ApplyScrollFrameStyle(WorldStateScoreScrollFrameScrollBar)
 	WorldStateScoreFrameInset:SetAlpha(0)
-	WorldStateScoreFrameLeaveButton:SetStylePanel("Button")
+	WorldStateScoreFrameLeaveButton:SetStyle("Button")
 	for b = 1, 3 do 
 		MOD:ApplyTabStyle(_G["WorldStateScoreFrameTab"..b])
 	end 

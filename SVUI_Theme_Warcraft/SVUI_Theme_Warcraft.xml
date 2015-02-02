@@ -37,7 +37,7 @@
             <Frame parentKey="Shadow" inherits="SVUI_ShadowTemplate" />
         </Frames>
     </Frame>
-    <Frame name="SVUI_WarcraftTheme_Heavy" virtual="true">
+    <Frame name="SVUI_WarcraftTheme_DockButton" virtual="true">
         <Attributes>
             <Attribute name="panelID" type="string" value="heavy" />
             <Attribute name="panelPadding" type="number" value="1" />

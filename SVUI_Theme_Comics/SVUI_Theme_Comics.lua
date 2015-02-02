@@ -561,7 +561,7 @@ local _SetDockButtonTheme = function(button, size)
 	local sparkSize = size * 5;
     local sparkOffset = size * 0.5;
 
-    button:SetStylePanel("HeavyButton")
+    button:SetStyle("DockButton")
 
 	local sparks = button.__border:CreateTexture(nil, "OVERLAY", nil, 2)
 	sparks:ModSize(sparkSize, sparkSize)
@@ -705,11 +705,11 @@ local HideAlertFlash = function(self)
     self:ColorBorder(1,0.9,0, nil, true)
 end
 
-local _CreateHeavyButton = function(self, inverse, inverted, styleName)
+local _CreateDockButton = function(self, inverse, inverted, styleName)
     if(not self or (self and self.Panel)) then return end
 
     local borderSize = 2
-    styleName = styleName or "Heavy";
+    styleName = styleName or "DockButton";
     CreatePanelTemplate(self, styleName, inverse, false, 0, -borderSize, -borderSize)
 
     if(inverted) then
@@ -783,7 +783,7 @@ local _CreateHeavyButton = function(self, inverse, inverted, styleName)
     SetButtonBasics(self)
 
     if(not self.__registered) then
-        SV.Media.TEMPLATE_UPDATES[self] = true
+        SV.API.LiveUpdates[self] = true
         self.__registered = true
     end
 end;
@@ -826,16 +826,18 @@ function THEME:Load()
 		SV.defaults.Maps.bordercolor = "light";
 	end
 
-	SV.Media.TEMPLATE_METHODS["HeavyButton"] = _CreateHeavyButton;
+	SV.API.Methods["DockButton"] = _CreateDockButton;
 
-	SV.Media.XML["Default"]     = "SVUI_ComicsTheme_Default";
-	SV.Media.XML["Heavy"]       = "SVUI_ComicsTheme_Heavy";
-	SV.Media.XML["Composite1"]  = "SVUI_ComicsTheme_Composite1";
-	SV.Media.XML["Composite2"]  = "SVUI_ComicsTheme_Composite2";
-	SV.Media.XML["UnitLarge"]   = "SVUI_ComicsTheme_UnitLarge";
-	SV.Media.XML["UnitSmall"]   = "SVUI_ComicsTheme_UnitSmall";
-	SV.Media.XML["Minimap"] 	= "SVUI_ComicsTheme_Minimap";
-	SV.Media.XML["ActionPanel"] = "SVUI_ComicsTheme_ActionPanel";
+	SV.API.Themes["Comics"] = {
+		["Default"]     = "SVUI_ComicsTheme_Default",
+		["DockButton"]  = "SVUI_ComicsTheme_DockButton",
+		["Composite1"]  = "SVUI_ComicsTheme_Composite1",
+		["Composite2"]  = "SVUI_ComicsTheme_Composite2",
+		["UnitLarge"]   = "SVUI_ComicsTheme_UnitLarge",
+		["UnitSmall"]   = "SVUI_ComicsTheme_UnitSmall",
+		["Minimap"] 	= "SVUI_ComicsTheme_Minimap",
+		["ActionPanel"] = "SVUI_ComicsTheme_ActionPanel",
+	};
 
 	SV.Media["font"]["combat"]    = LSM:Fetch("font", "SVUI Combat Font");
 	SV.Media["font"]["narrator"]  = LSM:Fetch("font", "SVUI Narrator Font");

@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -233,7 +233,7 @@ do
     CreateQuestItemButton = function(index)
     	local buttonName = "SVUI_QuestButton" .. index
         local itembutton = CreateFrame('Button', buttonName, UIParent, 'SecureActionButtonTemplate, SecureHandlerStateTemplate, SecureHandlerAttributeTemplate');
-        itembutton:SetStylePanel("Icon");
+        itembutton:SetStyle("Icon");
         itembutton:ModSize(28, 28);
         itembutton:SetID(index);
         itembutton.___overflow = false;
@@ -694,7 +694,7 @@ local GetQuestRow = function(self, index)
 		row.Badge = CreateFrame("Frame", nil, row)
 		row.Badge:SetPoint("TOPLEFT", row, "TOPLEFT", 0, 0);
 		row.Badge:ModSize(QUEST_ROW_HEIGHT, QUEST_ROW_HEIGHT);
-		row.Badge:SetStylePanel("Frame", "Lite")
+		row.Badge:SetStyle("Frame", "Lite")
 
 		row.Badge.Icon = row.Badge:CreateTexture(nil,"OVERLAY")
 		row.Badge.Icon:SetAllPoints(row.Badge);
@@ -703,7 +703,7 @@ local GetQuestRow = function(self, index)
 
 		row.Badge.Button = CreateFrame("Button", nil, row.Badge)
 		row.Badge.Button:SetAllPoints(row.Badge);
-		row.Badge.Button:SetStylePanel("Button", true, 1, 1, 1)
+		row.Badge.Button:SetStyle("Button", true, 1, 1, 1)
 		row.Badge.Button:SetID(0)
 		row.Badge.Button.Icon = row.Badge.Icon;
 		row.Badge.Button:RegisterForClicks("LeftButtonUp", "RightButtonUp")
@@ -740,7 +740,7 @@ local GetQuestRow = function(self, index)
 
 		row.Button = CreateFrame("Button", nil, row.Header)
 		row.Button:SetAllPoints(row.Header);
-		row.Button:SetStylePanel("Button", "Lite", 1, 1, 1)
+		row.Button:SetStyle("Button", "Lite", 1, 1, 1)
 		row.Button:SetID(0)
 		row.Button:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 		row.Button:SetScript("OnClick", ViewButton_OnClick);
@@ -1123,7 +1123,7 @@ function MOD:InitializeQuests()
 	quests:SetWidth(ROW_WIDTH);
 	quests:ModHeight(ROW_HEIGHT);
 	quests:SetPoint("TOPLEFT", self.Headers["Bonus"], "BOTTOMLEFT", 0, -4);
-	--quests:SetStylePanel()
+	--quests:SetStyle()
 
 	quests.Header = CreateFrame("Frame", nil, quests)
 	quests.Header:SetPoint("TOPLEFT", quests, "TOPLEFT", 2, -2);

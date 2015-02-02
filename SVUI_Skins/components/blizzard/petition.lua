@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -25,10 +25,10 @@ local function PetitionFrameStyle()
 	MOD:ApplyWindowStyle(PetitionFrame, nil, true)
 	PetitionFrameInset:Die()
 
-	PetitionFrameSignButton:SetStylePanel("Button")
-	PetitionFrameRequestButton:SetStylePanel("Button")
-	PetitionFrameRenameButton:SetStylePanel("Button")
-	PetitionFrameCancelButton:SetStylePanel("Button")
+	PetitionFrameSignButton:SetStyle("Button")
+	PetitionFrameRequestButton:SetStyle("Button")
+	PetitionFrameRenameButton:SetStyle("Button")
+	PetitionFrameCancelButton:SetStyle("Button")
 
 	MOD:ApplyCloseButtonStyle(PetitionFrameCloseButton)
 

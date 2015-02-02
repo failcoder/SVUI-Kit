@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -36,9 +36,9 @@ MOD.media.buddy = [[Interface\AddOns\SVUI_UnitFrames\assets\UNIT-FRIENDSHIP]];
 MOD.media.playerstate = [[Interface\AddOns\SVUI_UnitFrames\assets\UNIT-PLAYER-STATE]];
 MOD.media.afflicted = [[Interface\AddOns\SVUI_UnitFrames\assets\UNIT-AFFLICTED]];
 
-SV.Media.XML["ActionPanel"] = "SVUI_StyleTemplate_ActionPanel";
-SV.Media.XML["UnitLarge"] 	= "SVUI_StyleTemplate_UnitLarge";
-SV.Media.XML["UnitSmall"] 	= "SVUI_StyleTemplate_UnitSmall";
+SV.API.Templates["ActionPanel"] = "SVUI_StyleTemplate_ActionPanel";
+SV.API.Templates["UnitLarge"] 	= "SVUI_StyleTemplate_UnitLarge";
+SV.API.Templates["UnitSmall"] 	= "SVUI_StyleTemplate_UnitSmall";
 
 SV.Media.backdrop.unit = {
     bgFile = SV.NoTexture, 

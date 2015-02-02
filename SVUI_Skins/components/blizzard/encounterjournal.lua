@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -41,7 +41,7 @@ local function ChangeTabHelper(this, xOffset, yOffset)
   this.backdrop:InsetPoints(this)
   this.backdrop:SetFrameLevel(0)
 
-  this.backdrop:SetStylePanel("Frame", "Heavy", true)
+  this.backdrop:SetStyle("Frame")
   this.backdrop:SetPanelColor("dark")
   this:HookScript("OnEnter",Tab_OnEnter)
   this:HookScript("OnLeave",Tab_OnLeave)
@@ -143,33 +143,33 @@ local function EncounterJournalStyle()
 
   EncounterJournalSearchResults:RemoveTextures(true)
 
-  EncounterJournal:SetStylePanel("Frame", "Composite2")
+  EncounterJournal:SetStyle("Frame", "Composite2")
   EncounterJournal:SetPanelColor("dark")
-  EncounterJournalInset:SetStylePanel("!_Frame", "Inset")
+  EncounterJournalInset:SetStyle("!_Frame", "Inset")
 
-  EncounterJournalInstanceSelectScrollFrameScrollChild:SetStylePanel("!_Frame", "Default")
+  EncounterJournalInstanceSelectScrollFrameScrollChild:SetStyle("!_Frame", "Default")
   EncounterJournalInstanceSelectScrollFrameScrollChild:SetPanelColor("dark")
-  EncounterJournalInstanceSelectScrollDownButton:SetStylePanel("Button")
+  EncounterJournalInstanceSelectScrollDownButton:SetStyle("Button")
   EncounterJournalInstanceSelectScrollDownButton:SetNormalTexture(SV.Media.icon.move_down)
 
-  EncounterJournalEncounterFrameInstanceFrame:SetStylePanel("!_Frame", "Inset")
+  EncounterJournalEncounterFrameInstanceFrame:SetStyle("!_Frame", "Inset")
 
   local comicHolder = CreateFrame('Frame', nil, EncounterJournal.encounter)
   comicHolder:SetPoint("TOPLEFT", EncounterJournalEncounterFrameInfoBossesScrollFrame, "TOPLEFT", -20, 40)
   comicHolder:SetPoint("BOTTOMRIGHT", EncounterJournalEncounterFrameInfoBossesScrollFrame, "BOTTOMRIGHT", 0, 0)
-  comicHolder:SetStylePanel("Frame", "Premium")
+  comicHolder:SetStyle("Frame", "Premium")
   comicHolder:SetPanelColor("dark")
   EncounterJournal.encounter.info.encounterTitle:SetParent(comicHolder)
   EncounterJournal.searchResults.TitleText:SetParent(comicHolder)
 
-  EncounterJournalNavBarHomeButton:SetStylePanel("Button")
-  EncounterJournalEncounterFrameInfoDifficulty:SetStylePanel("Button")
+  EncounterJournalNavBarHomeButton:SetStyle("Button")
+  EncounterJournalEncounterFrameInfoDifficulty:SetStyle("Button")
   EncounterJournalEncounterFrameInfoDifficulty:SetFrameLevel(EncounterJournalEncounterFrameInfoDifficulty:GetFrameLevel() + 10)
-  EncounterJournalEncounterFrameInfoLootScrollFrameFilterToggle:SetStylePanel("Button")
+  EncounterJournalEncounterFrameInfoLootScrollFrameFilterToggle:SetStyle("Button")
   EncounterJournalEncounterFrameInfoLootScrollFrameFilterToggle:SetFrameLevel(EncounterJournalEncounterFrameInfoLootScrollFrameFilterToggle:GetFrameLevel() + 10)
 
-  EncounterJournalInstanceSelectDungeonTab:SetStylePanel("Button")
-  EncounterJournalInstanceSelectRaidTab:SetStylePanel("Button")
+  EncounterJournalInstanceSelectDungeonTab:SetStyle("Button")
+  EncounterJournalInstanceSelectRaidTab:SetStyle("Button")
 
   MOD:ApplyScrollBarStyle(EncounterJournalEncounterFrameInfoLootScrollBar)
 
@@ -179,7 +179,7 @@ local function EncounterJournalStyle()
   bgParent.loreBG:SetPoint("TOPLEFT", bgParent, "TOPLEFT", 0, 0)
   bgParent.loreBG:SetPoint("BOTTOMRIGHT", bgParent, "BOTTOMRIGHT", 0, 90)
 
-  loreParent:SetStylePanel("Frame", "Pattern", true, 1, 1, 5)
+  loreParent:SetStyle("Frame", "Pattern", true, 1, 1, 5)
   loreParent:SetPanelColor("dark")
   loreParent.child.lore:SetTextColor(1, 1, 1)
   EncounterJournal.encounter.infoFrame.description:SetTextColor(1, 1, 1)
@@ -215,7 +215,7 @@ local function EncounterJournalStyle()
       if(not used.button.Panel) then
           used:RemoveTextures(true)
           used.button:RemoveTextures(true)
-          used.button:SetStylePanel("Button")
+          used.button:SetStyle("Button")
       end
       used.description:SetTextColor(1, 1, 1)
       --used.button.portrait.icon:Hide()
@@ -236,7 +236,7 @@ local function EncounterJournalStyle()
       if index <= numLoot then
           item.icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
           if(not item.Panel) then
-            item:SetStylePanel("!_Frame", "Slot")
+            item:SetStyle("!_Frame", "Icon")
           end
           item.slot:SetTextColor(0.5, 1, 0)
           item.armorType:SetTextColor(1, 1, 0)

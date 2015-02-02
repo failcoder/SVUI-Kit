@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -198,7 +198,7 @@ local function GetDataSlot(parent, index)
 		if(SV.db.Reports.backdrop) then
 			slot.barframe:ModPoint("TOPLEFT", slot, "TOPLEFT", 24, -2)
 			slot.barframe:ModPoint("BOTTOMRIGHT", slot, "BOTTOMRIGHT", -2, 2)
-			slot:SetStylePanel(parent.Stats.templateType, parent.Stats.templateName)
+			slot:SetStyle(parent.Stats.templateType, parent.Stats.templateName)
 		else
 			slot.barframe:ModPoint("TOPLEFT", slot, "TOPLEFT", 24, 2)
 			slot.barframe:ModPoint("BOTTOMRIGHT", slot, "BOTTOMRIGHT", 2, -2)
@@ -528,8 +528,8 @@ function MOD:NewHolder(parent, maxCount, tipAnchor, pvpSet, customTemplate, isVe
 		parent.Stats.templateName = customTemplate
 		parent.Stats.textStrata = "LOW"
 	else
-		parent.Stats.templateType = "HeavyButton";
-		parent.Stats.templateName = "Heavy";
+		parent.Stats.templateType = "DockButton";
+		parent.Stats.templateName = "DockButton";
 		parent.Stats.textStrata = "MEDIUM";
 	end
 

@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -664,7 +664,7 @@ do
 		SV:FontManager(chat, "chatdialog", "LEFT")
 		SV:FontManager(tabText, "chattab")
 		if(not chat.Panel) then
-			chat:SetStylePanel("Frame", "Transparent")
+			chat:SetStyle("Frame", "Transparent")
 			chat.Panel:Hide()
 		end
 		if(SV.db.font.chatdialog.outline ~= 'NONE' )then
@@ -724,7 +724,7 @@ do
 			_G[editBoxName.."FocusLeft"]:Die()
 			_G[editBoxName.."FocusMid"]:Die()
 			_G[editBoxName.."FocusRight"]:Die()
-			editBox:SetStylePanel("Frame", "Lite", true, 2, -2, -3)
+			editBox:SetStyle("Frame", "Lite", true, 2, -2, -3)
 			editBox:SetAltArrowKeyMode(false)
 			editBox:SetAllPoints(MOD.Dock.Parent.Alert)
 			editBox:HookScript("OnEditFocusGained", EditBox_OnEditFocusGained)
@@ -753,7 +753,7 @@ do
 			chat.button:SetAlpha(0.35)
 			chat.button:ModSize(38, 18)
 			chat.button:SetPoint('TOPRIGHT', chat, 'TOPRIGHT', 0, 0)
-			chat.button:SetStylePanel('Frame', 'Lite')
+			chat.button:SetStyle("Frame", "Lite")
 			
 			chat.button.Title = chat.button:CreateFontString()
 			chat.button.Title:SetFontObject(SVUI_Font_ChatTab)
@@ -1329,7 +1329,7 @@ function MOD:Load()
 
 	_G.GeneralDockManagerOverflowButton:ClearAllPoints()
 	_G.GeneralDockManagerOverflowButton:SetPoint('BOTTOMRIGHT', self.Dock.Bar, 'BOTTOMRIGHT', -2, 2)
-	_G.GeneralDockManagerOverflowButtonList:SetStylePanel("!_Frame", 'Transparent')
+	_G.GeneralDockManagerOverflowButtonList:SetStyle("!_Frame", 'Transparent')
 	_G.GeneralDockManager:SetAllPoints(self.Dock.Bar)
 
 	SetAllChatHooks()
@@ -1353,7 +1353,6 @@ function MOD:Load()
 
 
 	local frame = CreateFrame("Frame", "SVUI_CopyChatFrame", self.Dock)
-	--frame:SetStylePanel('Frame', 'Transparent')
 	frame:SetPoint('BOTTOMLEFT', self.Dock, 'TOPLEFT', 0, 0)
 	frame:SetPoint('BOTTOMRIGHT', self.Dock, 'TOPRIGHT', 0, 0)
 	frame:SetHeight(self.Dock:GetHeight())

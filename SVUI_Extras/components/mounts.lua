@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -244,6 +244,60 @@ end
 local CheckButton_OnLeave = function(self)
 	GameTooltip:Hide()
 end
+
+local _hook_SetChecked = function(self, checked)
+    local r,g,b = 0,0,0
+    if(checked) then
+        r,g,b = self:GetCheckedTexture():GetVertexColor()
+    end
+    self:SetBackdropBorderColor(r,g,b) 
+end
+
+local function CreateMountCheckBox(name, parent)
+	local frame = CreateFrame("CheckButton", name, parent, "UICheckButtonTemplate")
+    frame:SetStyle("Frame", "Icon", true, 1)
+
+    if(frame.Left) then frame.Left:SetAlpha(0) end 
+    if(frame.Middle) then frame.Middle:SetAlpha(0) end 
+    if(frame.Right) then frame.Right:SetAlpha(0) end 
+    if(frame.SetNormalTexture) then frame:SetNormalTexture("") end 
+    if(frame.SetDisabledTexture) then frame:SetDisabledTexture("") end
+    if(frame.SetCheckedTexture) then frame:SetCheckedTexture("") end
+    if(frame.SetHighlightTexture) then
+        if(not frame.hover) then
+            local hover = frame:CreateTexture(nil, "HIGHLIGHT")
+            hover:InsetPoints(frame.Panel)
+            frame.hover = hover;
+        end
+        frame.hover:SetTexture(0.1, 0.8, 0.8, 0.5)
+        frame:SetHighlightTexture(frame.hover) 
+    end
+    if(frame.SetPushedTexture) then
+        if(not frame.pushed) then 
+            local pushed = frame:CreateTexture(nil, "OVERLAY")
+            pushed:InsetPoints(frame.Panel)
+            frame.pushed = pushed;
+        end
+        frame.pushed:SetTexture(0.1, 0.8, 0.1, 0.3)
+        frame:SetPushedTexture(frame.pushed)
+    end 
+    if(frame.SetCheckedTexture) then
+        if(not frame.checked) then
+            local checked = frame:CreateTexture(nil, "OVERLAY")
+            checked:InsetPoints(frame.Panel)
+            frame.checked = checked
+        end
+
+        frame.checked:SetTexture(SV.Media.bar.gloss)
+        frame.checked:SetVertexColor(0, 1, 0, 1)
+        
+        frame:SetCheckedTexture(frame.checked)
+    end
+
+    hooksecurefunc(frame, "SetChecked", _hook_SetChecked)
+
+    return frame
+end;
 --[[ 
 ########################################################## 
 SLASH FUNCTION
@@ -347,11 +401,10 @@ function MOD:SetMountCheckButtons()
 		buttonBar:SetSize(barWidth, height + 8)
 
 		--[[ CREATE CHECKBOXES ]]--
-		buttonBar["GROUND"] = CreateFrame("CheckButton", ("%s_GROUND"):format(barName), buttonBar, "UICheckButtonTemplate")
+		buttonBar["GROUND"] = CreateMountCheckBox(("%s_GROUND"):format(barName), buttonBar)
 		buttonBar["GROUND"]:SetSize(width,height)
 		buttonBar["GROUND"]:SetPoint("BOTTOMLEFT", buttonBar, "BOTTOMLEFT", 6, 4)
 		buttonBar["GROUND"]:RemoveTextures()
-	    buttonBar["GROUND"]:SetStylePanel("Checkbox", false, 0, 0, true)
 	    buttonBar["GROUND"]:SetPanelColor(0.2, 0.7, 0.1, 0.15)
 	    buttonBar["GROUND"]:GetCheckedTexture():SetVertexColor(0.2, 0.7, 0.1, 1)
 	    buttonBar["GROUND"].key = "GROUND"
@@ -360,11 +413,10 @@ function MOD:SetMountCheckButtons()
 		buttonBar["GROUND"]:SetScript("OnEnter", CheckButton_OnEnter)
 		buttonBar["GROUND"]:SetScript("OnLeave", CheckButton_OnLeave)
 
-	    buttonBar["FLYING"] = CreateFrame("CheckButton", ("%s_FLYING"):format(barName), buttonBar, "UICheckButtonTemplate")
+	    buttonBar["FLYING"] = CreateMountCheckBox(("%s_FLYING"):format(barName), buttonBar)
 		buttonBar["FLYING"]:SetSize(width,height)
 		buttonBar["FLYING"]:SetPoint("BOTTOMLEFT", buttonBar["GROUND"], "BOTTOMRIGHT", 2, 0)
 		buttonBar["FLYING"]:RemoveTextures()
-	    buttonBar["FLYING"]:SetStylePanel("Checkbox", false, 0, 0, true)
 	    buttonBar["FLYING"]:SetPanelColor(1, 1, 0.2, 0.15)
 	    buttonBar["FLYING"]:GetCheckedTexture():SetVertexColor(1, 1, 0.2, 1)
 	    buttonBar["FLYING"].key = "FLYING"
@@ -373,11 +425,10 @@ function MOD:SetMountCheckButtons()
 		buttonBar["FLYING"]:SetScript("OnEnter", CheckButton_OnEnter)
 		buttonBar["FLYING"]:SetScript("OnLeave", CheckButton_OnLeave)
 
-	    buttonBar["SWIMMING"] = CreateFrame("CheckButton", ("%s_SWIMMING"):format(barName), buttonBar, "UICheckButtonTemplate")
+	    buttonBar["SWIMMING"] = CreateMountCheckBox(("%s_SWIMMING"):format(barName), buttonBar)
 		buttonBar["SWIMMING"]:SetSize(width,height)
 		buttonBar["SWIMMING"]:SetPoint("BOTTOMLEFT", buttonBar["FLYING"], "BOTTOMRIGHT", 2, 0)
 		buttonBar["SWIMMING"]:RemoveTextures()
-	    buttonBar["SWIMMING"]:SetStylePanel("Checkbox", false, 0, 0, true)
 	    buttonBar["SWIMMING"]:SetPanelColor(0.2, 0.42, 0.76, 0.15)
 	    buttonBar["SWIMMING"]:GetCheckedTexture():SetVertexColor(0.2, 0.42, 0.76, 1)
 	    buttonBar["SWIMMING"].key = "SWIMMING"
@@ -386,11 +437,10 @@ function MOD:SetMountCheckButtons()
 		buttonBar["SWIMMING"]:SetScript("OnEnter", CheckButton_OnEnter)
 		buttonBar["SWIMMING"]:SetScript("OnLeave", CheckButton_OnLeave)
 
-		buttonBar["SPECIAL"] = CreateFrame("CheckButton", ("%s_SPECIAL"):format(barName), buttonBar, "UICheckButtonTemplate")
+		buttonBar["SPECIAL"] = CreateMountCheckBox(("%s_SPECIAL"):format(barName), buttonBar)
 		buttonBar["SPECIAL"]:SetSize(width,height)
 		buttonBar["SPECIAL"]:SetPoint("BOTTOMLEFT", buttonBar["SWIMMING"], "BOTTOMRIGHT", 2, 0)
 		buttonBar["SPECIAL"]:RemoveTextures()
-	    buttonBar["SPECIAL"]:SetStylePanel("Checkbox", false, 0, 0, true)
 	    buttonBar["SPECIAL"]:SetPanelColor(0.7, 0.1, 0.1, 0.15)
 	    buttonBar["SPECIAL"]:GetCheckedTexture():SetVertexColor(0.7, 0.1, 0.1, 1)
 	    buttonBar["SPECIAL"].key = "SPECIAL"	

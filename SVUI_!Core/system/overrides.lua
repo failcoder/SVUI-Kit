@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -97,7 +97,7 @@ local function MirrorBarRegistry(barType)
 		return RegisteredMirrorBars[barType]
 	end 
 	local bar = CreateFrame('StatusBar', nil, UIParent)
-	bar:SetStylePanel("Frame", "Bar", false, 3, 3, 3)
+	bar:SetStyle("Frame", "Bar", false, 3, 3, 3)
 	bar:SetScript("OnUpdate", MirrorBar_OnUpdate)
 	local r, g, b = unpack(mirrorTypeColor[barType])
 	bar.text = bar:CreateFontString(nil, 'OVERLAY')
@@ -131,7 +131,7 @@ local function SetTimerStyle(bar)
 	end 
 	bar:SetStatusBarTexture(SV.BaseTexture)
 	bar:SetStatusBarColor(0.37, 0.92, 0.08)
-	bar:SetStylePanel("Frame", "Bar", false, 3, 3, 3)
+	bar:SetStyle("Frame", "Bar", false, 3, 3, 3)
 end 
 
 local MirrorBar_OnEvent = function(self, event, arg, ...)
@@ -386,7 +386,7 @@ local function MakeSlots(id)
 	slot.iconFrame:ModHeight(size)
 	slot.iconFrame:ModWidth(size)
 	slot.iconFrame:SetPoint("RIGHT", slot)
-	slot.iconFrame:SetStylePanel("Frame", "Transparent")
+	slot.iconFrame:SetStyle("Frame", "Transparent")
 
 	slot.icon = slot.iconFrame:CreateTexture(nil, "ARTWORK")
 	slot.icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
@@ -448,14 +448,14 @@ local function CreateRollFrame()
 	UpdateLootUpvalues()
 	local rollFrame = CreateFrame("Frame", nil, UIParent)
 	rollFrame:ModSize(LOOT_WIDTH,LOOT_HEIGHT)
-	rollFrame:SetStylePanel("!_Frame", 'Default')
+	rollFrame:SetStyle("!_Frame", 'Default')
 	rollFrame:SetScript("OnEvent",LootRoll_OnEvent)
 	rollFrame:RegisterEvent("CANCEL_LOOT_ROLL")
 	rollFrame:Hide()
 	rollFrame.button = CreateFrame("Button",nil,rollFrame)
 	rollFrame.button:ModPoint("RIGHT",rollFrame,'LEFT',0,0)
 	rollFrame.button:ModSize(LOOT_HEIGHT - 2)
-	rollFrame.button:SetStylePanel("Frame", 'Default')
+	rollFrame.button:SetStyle("Frame", 'Default')
 	rollFrame.button:SetScript("OnEnter",LootItem_SetTooltip)
 	rollFrame.button:SetScript("OnLeave",LootItem_OnLeave)
 	rollFrame.button:SetScript("OnUpdate",LootItem_OnUpdate)
@@ -860,7 +860,7 @@ function SV:SetOverrides()
 	SVUI_BailOut:SetNormalTexture(self.Media.icon.exitIcon)
 	SVUI_BailOut:SetPushedTexture(self.Media.icon.exitIcon)
 	SVUI_BailOut:SetHighlightTexture(self.Media.icon.exitIcon)
-	SVUI_BailOut:SetStylePanel("!_Frame", "Transparent")
+	SVUI_BailOut:SetStyle("!_Frame", "Transparent")
 	SVUI_BailOut:RegisterForClicks("AnyUp")
 	SVUI_BailOut:SetScript("OnClick", VehicleExit)
 	SVUI_BailOut:RegisterEvent("UNIT_ENTERED_VEHICLE")
@@ -896,7 +896,7 @@ function SV:SetOverrides()
 		SV.Layout:Add(SVUI_LootFrameHolder, L["Loot Frame"], nil, nil, "SVUI_LootFrame");
 		
 		SVUI_LootFrame:ModSize(256, 64);
-		SVUI_LootFrame:SetStylePanel("!_Frame", 'Transparent');
+		SVUI_LootFrame:SetStyle("!_Frame", 'Transparent');
 		SVUI_LootFrame.title:SetFontObject(SVUI_Font_Header)
 		SV:ManageVisibility(SVUI_LootFrame);
 		SVUI_LootFrame:Hide();

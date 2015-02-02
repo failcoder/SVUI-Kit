@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -545,7 +545,7 @@ function Layout:New(frame, moveName, title, snap, dragStopFunc, callbackOnEnter)
 	end 
 
 	movable:SetPoint(anchor1, anchorParent, anchor2, xPos, yPos)
-	movable:SetStylePanel("!_Frame", "Transparent")
+	movable:SetStyle("!_Frame", "Transparent")
 	movable:SetAlpha(0.4)
 
 	frame:SetScript("OnSizeChanged", Movable_OnSizeChanged)
@@ -1084,7 +1084,7 @@ end
 local function InitializeMovables()
 	Layout.Anchors = SV.db.LAYOUT or {}
 	
-	SVUI_Layout:SetStylePanel("!_Frame", "Heavy")
+	SVUI_Layout:SetStyle("!_Frame")
 	SVUI_Layout:SetPanelColor("yellow")
 	SVUI_Layout:RegisterForDrag("LeftButton")
 	SVUI_Layout:RegisterEvent("PLAYER_REGEN_DISABLED")
@@ -1093,21 +1093,21 @@ local function InitializeMovables()
 	SVUI_LayoutGridButton:SetScript("OnClick", XML_LayoutGridButton_OnClick)
 	SVUI_LayoutLockButton:SetScript("OnClick", XML_LayoutLockButton_OnClick)
 
-	SVUI_LayoutPrecision:SetStylePanel("Frame", "Transparent")
+	SVUI_LayoutPrecision:SetStyle("Frame", "Transparent")
 	SVUI_LayoutPrecision:EnableMouse(true)
 
-	SVUI_LayoutPrecisionSetX:SetStylePanel("Editbox")
+	SVUI_LayoutPrecisionSetX:SetStyle("Editbox")
 	SVUI_LayoutPrecisionSetX.CurrentValue = 0;
 	SVUI_LayoutPrecisionSetX:SetScript("OnEnterPressed", XML_LayoutPrecisionInputX_EnterPressed)
 
-	SVUI_LayoutPrecisionSetY:SetStylePanel("Editbox")
+	SVUI_LayoutPrecisionSetY:SetStyle("Editbox")
 	SVUI_LayoutPrecisionSetY.CurrentValue = 0;
 	SVUI_LayoutPrecisionSetY:SetScript("OnEnterPressed", XML_LayoutPrecisionInputY_EnterPressed)
 
-	SVUI_LayoutPrecisionUpButton:SetStylePanel("Button")
-	SVUI_LayoutPrecisionDownButton:SetStylePanel("Button")
-	SVUI_LayoutPrecisionLeftButton:SetStylePanel("Button")
-	SVUI_LayoutPrecisionRightButton:SetStylePanel("Button")
+	SVUI_LayoutPrecisionUpButton:SetStyle("Button")
+	SVUI_LayoutPrecisionDownButton:SetStyle("Button")
+	SVUI_LayoutPrecisionLeftButton:SetStyle("Button")
+	SVUI_LayoutPrecisionRightButton:SetStyle("Button")
 	
 	Layout:SetPositions()
 

@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -54,7 +54,7 @@ local GarrMission_Rewards = function(self)
   if(frame and (not frame.Panel)) then
     local size = frame:GetHeight() - 6
     frame:RemoveTextures()
-    frame:SetStylePanel("Frame", 'Icon', true, 2)
+    frame:SetStyle("Frame", 'Icon', true, 2)
     hooksecurefunc(frame, "SetPoint", StyleRewardIcon)
   end
 end

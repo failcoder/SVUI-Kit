@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -95,7 +95,7 @@ local function StyleAlertIcon(frame, icon)
 	if(not frame.IconSlot) then 
 		frame.IconSlot = CreateFrame("Frame", nil, frame)
 		frame.IconSlot:WrapPoints(icon)
-		frame.IconSlot:SetStylePanel("Icon")
+		frame.IconSlot:SetStyle("Icon")
 		icon:SetParent(frame.IconSlot)
 	end
 end
@@ -335,15 +335,15 @@ local function AlertStyle()
 
 			MOD:ApplyAlertStyle(frame)
 
-			frame.buttons[1]:SetStylePanel("Button")
-			frame.buttons[2]:SetStylePanel("Button")
-			frame.buttons[3]:SetStylePanel("Button")
+			frame.buttons[1]:SetStyle("Button")
+			frame.buttons[2]:SetStyle("Button")
+			frame.buttons[3]:SetStyle("Button")
 
-			frame.gold:SetStylePanel("Editbox")
-			frame.silver:SetStylePanel("Editbox")
-			frame.copper:SetStylePanel("Editbox")
+			frame.gold:SetStyle("Editbox")
+			frame.silver:SetStyle("Editbox")
+			frame.copper:SetStyle("Editbox")
 
-			frame.input:SetStylePanel("Editbox")
+			frame.input:SetStyle("Editbox")
 			frame.input.Panel:ModPoint("TOPLEFT", -2, -4)
 			frame.input.Panel:ModPoint("BOTTOMRIGHT", 2, 4)
 		end

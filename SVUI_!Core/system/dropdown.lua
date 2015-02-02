@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -209,7 +209,7 @@ local function InitializeDropdown()
 	SV.Dropdown:SetParent(SV.Screen)
 	SV.Dropdown:SetFrameStrata("DIALOG")
 	SV.Dropdown:SetFrameLevel(99)
-	SV.Dropdown:SetStylePanel("Frame", "Default")
+	SV.Dropdown:SetStyle("Frame", "Default")
 	SV.Dropdown.option = {}
 	SV.Dropdown:SetClampedToScreen(true)
 	SV.Dropdown:SetSize(155, 94)

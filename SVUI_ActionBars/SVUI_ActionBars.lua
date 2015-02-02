@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -165,7 +165,7 @@ local function SaveActionButton(parent)
 	end
 	MOD:FixKeybindText(parent)
 	MOD.ButtonCache[parent] = true 
-	parent:SetStylePanel("Action", 2, 0, 0, 0.75, true)
+	parent:SetStyle("ActionSlot", true)
 	parent:SetCheckedTexture("")
 end 
 
@@ -898,7 +898,7 @@ CreateActionBars = function(self)
 		bg:SetAllPoints()
 		bg:SetFrameLevel(0)
 		thisBar:SetFrameLevel(5)
-		bg:SetStylePanel("Frame", "Heavy")
+		bg:SetStyle("Frame", "Transparent")
 		bg:SetPanelColor("dark")
 		thisBar.backdrop = bg
 
@@ -1087,7 +1087,7 @@ do
 	  local bg = CreateFrame("Frame", nil, stanceBar)
 	  bg:SetAllPoints();
 	  bg:SetFrameLevel(0);
-	  bg:SetStylePanel("Frame", "Heavy")
+	  bg:SetStyle("Frame", "Transparent")
 	  bg:SetPanelColor("dark")
 	  stanceBar.backdrop = bg;
 
@@ -1208,7 +1208,7 @@ do
 		local bg = CreateFrame("Frame", nil, petBar)
 		bg:SetAllPoints();
 		bg:SetFrameLevel(0);
-		bg:SetStylePanel("Frame", "Heavy")
+		bg:SetStyle("Frame", "Transparent")
 		bg:SetPanelColor("dark")
 		petBar.backdrop = bg;
 		for i = 1, NUM_PET_ACTION_SLOTS do 

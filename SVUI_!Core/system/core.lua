@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ############################################################################## ]]-- 
 
 --[[ GLOBALS ]]--
@@ -228,7 +228,9 @@ SV.SystemAlert        = {};
 SV.filterdefaults     = {};
 SV.defaults = {
     ["LAYOUT"] = {},
-    ["THEME"] = {},
+    ["THEME"] = {
+        ["active"] = "Default"
+    },
     ["screen"] = {
         ["autoScale"] = true,
         ["multiMonitor"] = false,
@@ -786,6 +788,7 @@ function SV:Initialize()
 
     SVUILib:LoadThemes();
 
+    SV.API:Initialize();
     self.Dock:Initialize();
     self.Reports:Initialize();
 

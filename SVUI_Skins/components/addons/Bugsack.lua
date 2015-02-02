@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -32,14 +32,14 @@ local function StyleBugSack(event, addon)
 	hooksecurefunc(BugSack, "OpenSack", function()
 		if BugSackFrame.Panel then return end
 		BugSackFrame:RemoveTextures()
-		BugSackFrame:SetStylePanel("Frame", 'Transparent')
+		BugSackFrame:SetStyle("Frame", 'Transparent')
 		MOD:ApplyTabStyle(BugSackTabAll)
 		BugSackTabAll:SetPoint("TOPLEFT", BugSackFrame, "BOTTOMLEFT", 0, 1)
 		MOD:ApplyTabStyle(BugSackTabSession)
 		MOD:ApplyTabStyle(BugSackTabLast)
-		BugSackNextButton:SetStylePanel("Button")
-		BugSackSendButton:SetStylePanel("Button")
-		BugSackPrevButton:SetStylePanel("Button")
+		BugSackNextButton:SetStyle("Button")
+		BugSackSendButton:SetStyle("Button")
+		BugSackPrevButton:SetStyle("Button")
 		MOD:ApplyScrollBarStyle(BugSackScrollScrollBar)
 	end)
 end

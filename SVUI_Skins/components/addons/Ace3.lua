@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -56,7 +56,7 @@ local function Widget_ButtonStyle(frame, strip, bypass)
 	if frame.SetDisabledTexture then frame:SetDisabledTexture("") end 
 	if strip then frame:RemoveTextures() end 
 	if not bypass then 
-		frame:SetStylePanel("Button")
+		frame:SetStyle("Button")
 	end
 end 
 
@@ -223,7 +223,7 @@ local function StyleAceGUI(event, addon)
 					newButton.toggle:RemoveTextures()
 					newButton.toggle.SetNormalTexture = NOOP;
 					newButton.toggle.SetPushedTexture = NOOP;
-					newButton.toggle:SetStylePanel("Button")
+					newButton.toggle:SetStyle("Button")
 					newButton.toggleText = newButton.toggle:CreateFontString(nil, "OVERLAY")
 					newButton.toggleText:SetFont([[Interface\AddOns\SVUI_!Core\assets\fonts\Default.ttf]], 19)
 					newButton.toggleText:SetPoint("CENTER")

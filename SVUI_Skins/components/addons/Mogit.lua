@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -54,7 +54,7 @@ local function StyleMogItPreview()
 		if _G["MogItPreview"..i] then MOD:ApplyFrameStyle(_G["MogItPreview"..i]) end
 		if _G["MogItPreview"..i.."CloseButton"] then MOD:ApplyCloseButtonStyle(_G["MogItPreview"..i.."CloseButton"]) end
 		if _G["MogItPreview"..i.."Inset"] then _G["MogItPreview"..i.."Inset"]:RemoveTextures(true) end
-		if _G["MogItPreview"..i.."Activate"] then _G["MogItPreview"..i.."Activate"]:SetStylePanel("Button") end
+		if _G["MogItPreview"..i.."Activate"] then _G["MogItPreview"..i.."Activate"]:SetStyle("Button") end
 	end
 end
 
@@ -71,7 +71,7 @@ local function StyleMogIt()
 	MOD:ApplyCloseButtonStyle(MogItFrameCloseButton)
 	MOD:ApplyCloseButtonStyle(MogItFiltersCloseButton)
 	MogItFrameFiltersDefaults:RemoveTextures(true)
-	MogItFrameFiltersDefaults:SetStylePanel("Button")
+	MogItFrameFiltersDefaults:SetStyle("Button")
 	MOD:ApplyScrollFrameStyle(MogItScroll)
 	MOD:ApplyScrollFrameStyle(MogItFiltersScrollScrollBar)
 end

@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ##############################################################################
 --]]
 --LUA
@@ -771,7 +771,7 @@ CONSTRUCTORS["arena"] = function(self, unit)
         prep:SetFrameStrata("MEDIUM")
         prep:SetAllPoints(self)
         prep:SetID(selfID)
-        prep:SetStylePanel("Frame", "Bar", true, 3, 1, 1)
+        prep:SetStyle("Frame", "Bar", true, 3, 1, 1)
 
         local health = CreateFrame("StatusBar", nil, prep)
         health:SetAllPoints(prep)

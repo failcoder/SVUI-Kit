@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -209,7 +209,7 @@ function MOD:InitializeZoneButton()
     draenor:ModSize(size,size);
     draenor:ModPoint("CENTER", SVUI_DraenorButtonHolder, "CENTER", 0, 0);
     draenor:SetAlpha(0);
-    draenor:SetStylePanel("Icon");
+    draenor:SetStyle("Icon");
 
     draenor.SetUsage = SetButtonSpell;
     draenor.ClearUsage = ClearButtonSpell;

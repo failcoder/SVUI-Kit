@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -279,7 +279,7 @@ function MOD:CreateClassBar(playerFrame)
 	local mana = CreateFrame("Frame", nil, playerFrame)
 	mana:SetFrameStrata("LOW")
 	mana:InsetPoints(bar, 2, 4)
-	mana:SetStylePanel("!_Frame", "Default")
+	mana:SetStyle("!_Frame", "Default")
 	mana:SetFrameLevel(mana:GetFrameLevel() + 1)
 	mana.colorPower = true;
 	mana.PostUpdatePower = UpdateAltPower;

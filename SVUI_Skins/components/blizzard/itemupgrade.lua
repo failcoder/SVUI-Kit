@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -26,9 +26,9 @@ local function ItemUpgradeStyle()
 
 	MOD:ApplyCloseButtonStyle(ItemUpgradeFrameCloseButton)
 	ItemUpgradeFrameUpgradeButton:RemoveTextures()
-	ItemUpgradeFrameUpgradeButton:SetStylePanel("Button")
+	ItemUpgradeFrameUpgradeButton:SetStyle("Button")
 	ItemUpgradeFrame.ItemButton:RemoveTextures()
-	ItemUpgradeFrame.ItemButton:SetStylePanel("Slot")
+	ItemUpgradeFrame.ItemButton:SetStyle("ActionSlot")
 	ItemUpgradeFrame.ItemButton.IconTexture:InsetPoints()
 	hooksecurefunc('ItemUpgradeFrame_Update', function()
 		if GetItemUpgradeItemInfo() then

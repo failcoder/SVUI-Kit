@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -870,7 +870,7 @@ function SV.Setup:Install(autoLoaded)
 	if not SVUI_InstallerFrame then 
 		local frame = CreateFrame("Button", "SVUI_InstallerFrame", UIParent)
 		frame:ModSize(550, 400)
-		frame:SetStylePanel("Frame", "Composite2")
+		frame:SetStyle("Frame", "Composite2")
 		frame:SetPoint("TOP", SV.Screen, "TOP", 0, -150)
 		frame:SetFrameStrata("TOOLTIP")
 

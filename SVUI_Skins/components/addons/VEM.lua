@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -45,14 +45,14 @@ local function StyleBars(self)
 
 				if not icon1.overlay then
 					icon1.overlay = CreateFrame('Frame', '$parentIcon1Overlay', tbar)
-					icon1.overlay:SetStylePanel("!_Frame")
+					icon1.overlay:SetStyle("!_Frame")
 					icon1.overlay:SetFrameLevel(0)
 					icon1.overlay:ModSize(22)
 					icon1.overlay:ModPoint('BOTTOMRIGHT', frame, 'BOTTOMLEFT', -2, 0)
 				end
 				if not icon2.overlay then
 					icon2.overlay = CreateFrame('Frame', '$parentIcon2Overlay', tbar)
-					icon2.overlay:SetStylePanel("!_Frame")
+					icon2.overlay:SetStyle("!_Frame")
 					icon2.overlay:SetFrameLevel(0)
 					icon2.overlay:ModSize(22)
 					icon2.overlay:ModPoint('BOTTOMLEFT', frame, 'BOTTOMRIGHT', 2, 0)
@@ -88,7 +88,7 @@ local function StyleBars(self)
 				texture:SetTexture(SV.BaseTexture)
 				tbar:InsetPoints(frame)
 
-				frame:SetStylePanel("!_Frame")
+				frame:SetStyle("!_Frame")
 
 				name:ClearAllPoints()
 				name:SetWidth(165)
@@ -163,7 +163,7 @@ local StyleBoss = function()
 				bar:ModPoint('TOPLEFT', prev, 'TOPLEFT', 0, -26)
 			end
 		end
-		bar:SetStylePanel("!_Frame", 'Transparent')
+		bar:SetStyle("!_Frame", 'Transparent')
 		background:SetNormalTexture(nil)
 		progress:SetStatusBarTexture(SV.BaseTexture)
 		progress:ClearAllPoints()
@@ -187,7 +187,7 @@ end
 
 local _hook_OnShow = function(self)
 	if(not self.Panel) then
-		self:SetStylePanel("!_Frame", 'Transparent')
+		self:SetStyle("!_Frame", 'Transparent')
 	end
 end
 
@@ -204,7 +204,7 @@ local function StyleVEM(event, addon)
 			VEM.RangeCheck:Show()
 			VEM.RangeCheck:Hide()
 			VEMRangeCheck:HookScript('OnShow', _hook_OnShow)
-			VEMRangeCheckRadar:SetStylePanel("!_Frame", 'Transparent')
+			VEMRangeCheckRadar:SetStyle("!_Frame", 'Transparent')
 		end
 
 		if not VEM_SavedOptions['DontShowInfoFrame'] then
@@ -230,8 +230,8 @@ local function StyleVEM(event, addon)
 		end)
 		MOD:ApplyTabStyle(VEM_GUI_OptionsFrameTab1)
 		MOD:ApplyTabStyle(VEM_GUI_OptionsFrameTab2)
-		VEM_GUI_OptionsFrameOkay:SetStylePanel("Button")
-		VEM_GUI_OptionsFrameWebsiteButton:SetStylePanel("Button")
+		VEM_GUI_OptionsFrameOkay:SetStyle("Button")
+		VEM_GUI_OptionsFrameWebsiteButton:SetStyle("Button")
 		MOD:ApplyScrollFrameStyle(VEM_GUI_OptionsFramePanelContainerFOVScrollBar)
 		MOD:SafeEventRemoval("VEM", event)
 	end

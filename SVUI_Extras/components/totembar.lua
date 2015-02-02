@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -138,7 +138,7 @@ function MOD:CreateTotemBar()
 		totem.Anchor = CreateFrame("Frame", nil, totem)
 		totem.Anchor:SetAllPoints()
 
-		totem:SetStylePanel("Button")
+		totem:SetStyle("Button")
 
 		totem:EnableMouse(true)
 		totem:SetScript('OnEnter', Totem_OnEnter)

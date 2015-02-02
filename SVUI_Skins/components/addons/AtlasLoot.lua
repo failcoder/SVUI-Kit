@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -127,7 +127,7 @@ local function StyleAtlasLoot(event, addon)
 
 	for _, object in pairs(StripAllTextures) do _G[object]:RemoveTextures()end 
 	for _, object in pairs(SetTemplateDefault) do MOD:ApplyFrameStyle(_G[object], "Default")end 
-	for _, button in pairs(buttons) do _G[button]:SetStylePanel("Button")end 
+	for _, button in pairs(buttons) do _G[button]:SetStyle("Button")end 
 
 	-- Manipulate the main frames
 	MOD:ApplyFrameStyle(_G["AtlasLootDefaultFrame"], "Composite2");
@@ -138,18 +138,18 @@ local function StyleAtlasLoot(event, addon)
 	_G["AtlasLootPanel"]:SetPoint("TOP",_G["AtlasLootDefaultFrame"],"BOTTOM",0,-1);
 	-- Back to the rest
 	MOD:ApplyFrameStyle(_G["AtlasLootCompareFrame"], "Transparent");
-	if AtlasLoot_PanelButton_1 then AtlasLoot_PanelButton_1:SetStylePanel("Button") end
-	if AtlasLoot_PanelButton_2 then AtlasLoot_PanelButton_2:SetStylePanel("Button") end
-	if AtlasLoot_PanelButton_3 then AtlasLoot_PanelButton_3:SetStylePanel("Button") end
-	if AtlasLoot_PanelButton_4 then AtlasLoot_PanelButton_4:SetStylePanel("Button") end
-	if AtlasLoot_PanelButton_5 then AtlasLoot_PanelButton_5:SetStylePanel("Button") end
-	if AtlasLoot_PanelButton_6 then AtlasLoot_PanelButton_6:SetStylePanel("Button") end
-	if AtlasLoot_PanelButton_7 then AtlasLoot_PanelButton_7:SetStylePanel("Button") end
-	if AtlasLoot_PanelButton_8 then AtlasLoot_PanelButton_8:SetStylePanel("Button") end
-	if AtlasLoot_PanelButton_9 then AtlasLoot_PanelButton_9:SetStylePanel("Button") end
-	if AtlasLoot_PanelButton_10 then AtlasLoot_PanelButton_10:SetStylePanel("Button") end
-	if AtlasLoot_PanelButton_11 then AtlasLoot_PanelButton_11:SetStylePanel("Button") end
-	if AtlasLoot_PanelButton_12 then AtlasLoot_PanelButton_12:SetStylePanel("Button") end
+	if AtlasLoot_PanelButton_1 then AtlasLoot_PanelButton_1:SetStyle("Button") end
+	if AtlasLoot_PanelButton_2 then AtlasLoot_PanelButton_2:SetStyle("Button") end
+	if AtlasLoot_PanelButton_3 then AtlasLoot_PanelButton_3:SetStyle("Button") end
+	if AtlasLoot_PanelButton_4 then AtlasLoot_PanelButton_4:SetStyle("Button") end
+	if AtlasLoot_PanelButton_5 then AtlasLoot_PanelButton_5:SetStyle("Button") end
+	if AtlasLoot_PanelButton_6 then AtlasLoot_PanelButton_6:SetStyle("Button") end
+	if AtlasLoot_PanelButton_7 then AtlasLoot_PanelButton_7:SetStyle("Button") end
+	if AtlasLoot_PanelButton_8 then AtlasLoot_PanelButton_8:SetStyle("Button") end
+	if AtlasLoot_PanelButton_9 then AtlasLoot_PanelButton_9:SetStyle("Button") end
+	if AtlasLoot_PanelButton_10 then AtlasLoot_PanelButton_10:SetStyle("Button") end
+	if AtlasLoot_PanelButton_11 then AtlasLoot_PanelButton_11:SetStyle("Button") end
+	if AtlasLoot_PanelButton_12 then AtlasLoot_PanelButton_12:SetStyle("Button") end
 
 	for i = 1, 15 do local f = _G["AtlasLootCompareFrameMainFilterButton"..i]f:RemoveTextures() end 
 
@@ -179,22 +179,22 @@ local function StyleAtlasLoot(event, addon)
 	AtlasLootCompareFrameSearch_StatsListDropDown:SetWidth(240)
 	MOD:ApplyDropdownStyle(AtlasLootCompareFrame_WishlistDropDown)
 	AtlasLootCompareFrame_WishlistDropDown:SetWidth(240)
-	AtlasLootPanelSearch_Box:SetStylePanel("Editbox")
-	AtlasLootCompareFrameSearch_Box:SetStylePanel("Editbox")
+	AtlasLootPanelSearch_Box:SetStyle("Editbox")
+	AtlasLootCompareFrameSearch_Box:SetStyle("Editbox")
 
 	if AtlasLootFilterCheck then 
-		AtlasLootFilterCheck:SetStylePanel("Checkbox", true) 
+		AtlasLootFilterCheck:SetStyle("Checkbox") 
 	end
 	if AtlasLootItemsFrame_Heroic then 
-		AtlasLootItemsFrame_Heroic:SetStylePanel("Checkbox", true) 
+		AtlasLootItemsFrame_Heroic:SetStyle("Checkbox") 
 	end
-	if AtlasLootCompareFrameSearch_FilterCheck then AtlasLootCompareFrameSearch_FilterCheck:SetStylePanel("Checkbox", true)
+	if AtlasLootCompareFrameSearch_FilterCheck then AtlasLootCompareFrameSearch_FilterCheck:SetStyle("Checkbox")
 	end
 	if AtlasLootItemsFrame_RaidFinder then 
-		AtlasLootItemsFrame_RaidFinder:SetStylePanel("Checkbox", true) 
+		AtlasLootItemsFrame_RaidFinder:SetStyle("Checkbox") 
 	end
 	if AtlasLootItemsFrame_Thunderforged then 
-		AtlasLootItemsFrame_Thunderforged:SetStylePanel("Checkbox", true) 
+		AtlasLootItemsFrame_Thunderforged:SetStyle("Checkbox") 
 	end
 
 	AtlasLootPanel.Titel:SetTextColor(23/255, 132/255, 209/255)

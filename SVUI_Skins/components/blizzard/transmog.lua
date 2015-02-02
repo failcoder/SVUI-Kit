@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -62,11 +62,11 @@ local function TransmogStyle()
 	TransmogrifyModelFrame:ClearAllPoints()
 	TransmogrifyModelFrame:ModPoint("TOPLEFT", TransmogrifyFrame, "TOPLEFT", 12, -22)
 	TransmogrifyModelFrame:ModPoint("BOTTOMRIGHT", TransmogrifyFrame, "BOTTOMRIGHT", -12, 36)
-	TransmogrifyModelFrame:SetStylePanel("!_Frame", "Model")
+	TransmogrifyModelFrame:SetStyle("!_Frame", "Model")
 
 	TransmogrifyFrameButtonFrame:GetRegions():Die()
 	TransmogrifyApplyButton:RemoveTextures()
-	TransmogrifyApplyButton:SetStylePanel("Button")
+	TransmogrifyApplyButton:SetStyle("Button")
 	TransmogrifyApplyButton:ModPoint("BOTTOMRIGHT", TransmogrifyFrame, "BOTTOMRIGHT", -4, 4)
 	MOD:ApplyCloseButtonStyle(TransmogrifyArtFrameCloseButton)
 	TransmogrifyArtFrame:RemoveTextures()
@@ -76,7 +76,7 @@ local function TransmogStyle()
 		local a9 = _G["TransmogrifyFrame"..a9 .."Slot"]
 		if a9 then
 			a9:RemoveTextures()
-			a9:SetStylePanel("Slot")
+			a9:SetStyle("ActionSlot")
 			a9:SetFrameLevel(a9:GetFrameLevel()+2)
 			
 			a9.Panel:SetAllPoints()
@@ -88,9 +88,9 @@ local function TransmogStyle()
 	
 	TransmogrifyConfirmationPopup:SetParent(UIParent)
 	TransmogrifyConfirmationPopup:RemoveTextures()
-	TransmogrifyConfirmationPopup:SetStylePanel("Frame", "Pattern")
-	TransmogrifyConfirmationPopup.Button1:SetStylePanel("Button")
-	TransmogrifyConfirmationPopup.Button2:SetStylePanel("Button")
+	TransmogrifyConfirmationPopup:SetStyle("Frame", "Pattern")
+	TransmogrifyConfirmationPopup.Button1:SetStyle("Button")
+	TransmogrifyConfirmationPopup.Button2:SetStyle("Button")
 	MOD:ApplyItemButtonStyle(TransmogrifyConfirmationPopupItemFrame1, true)
 	MOD:ApplyItemButtonStyle(TransmogrifyConfirmationPopupItemFrame2, true)
 end 

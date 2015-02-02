@@ -1232,14 +1232,14 @@ end
 
 function lib:LoadThemes()
     if THEMES then
-        for themeName,themeObj in pairs(THEMES) do
-            if((not themeObj.initialized) and themeObj.Load and type(themeObj.Load) == "function") then
-                local _, catch = pcall(themeObj.Load, themeObj)
-                if(catch) then
-                    HandleErrors(themeName, "Load", catch)
-                else
-                    themeObj.initialized = true
-                end
+        local themeName = CoreObject.db.THEME.active;
+        local themeObj = THEMES[themeName];
+        if(themeObj and (not themeObj.initialized) and themeObj.Load and type(themeObj.Load) == "function") then
+            local _, catch = pcall(themeObj.Load, themeObj)
+            if(catch) then
+                HandleErrors(themeName, "Load", catch)
+            else
+                themeObj.initialized = true
             end
         end
     end

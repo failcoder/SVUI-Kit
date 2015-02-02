@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -41,7 +41,7 @@ MOD.media.mailIcon = [[Interface\AddOns\SVUI_Maps\assets\MINIMAP-MAIL]];
 MOD.media.calendarIcon = [[Interface\AddOns\SVUI_Maps\assets\MINIMAP-CALENDAR]];
 MOD.media.trackingIcon = [[Interface\AddOns\SVUI_Maps\assets\MINIMAP-TRACKING]];
 
-SV.Media.XML["Minimap"] = "SVUI_StyleTemplate_Minimap";
+SV.API.Templates["Minimap"] = "SVUI_StyleTemplate_Minimap";
 
 SV.defaults[Schema] = {
 	["incompatible"] = {

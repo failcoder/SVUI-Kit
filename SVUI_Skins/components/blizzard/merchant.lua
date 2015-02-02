@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -20,7 +20,7 @@ FRAME MODR
 local function MerchantStyle()
 	if SV.db.Skins.blizzard.enable ~= true or SV.db.Skins.blizzard.merchant ~= true then return end 
 	MerchantFrame:RemoveTextures(true)
-	MerchantFrame:SetStylePanel("Frame", "Composite1", false, nil, 2, 4)
+	MerchantFrame:SetStyle("Frame", "Composite1", false, nil, 2, 4)
 	local level = MerchantFrame:GetFrameLevel()
 	if(level > 0) then 
 		MerchantFrame:SetFrameLevel(level - 1)
@@ -28,16 +28,16 @@ local function MerchantStyle()
 		MerchantFrame:SetFrameLevel(0)
 	end
 	MerchantBuyBackItem:RemoveTextures(true)
-	MerchantBuyBackItem:SetStylePanel("Frame", "Inset", true, 2, 2, 3)
+	MerchantBuyBackItem:SetStyle("Frame", "Inset", true, 2, 2, 3)
 	MerchantBuyBackItem.Panel:SetFrameLevel(MerchantBuyBackItem.Panel:GetFrameLevel() + 1)
 	MerchantBuyBackItemItemButton:RemoveTextures()
-	MerchantBuyBackItemItemButton:SetStylePanel("Button")
+	MerchantBuyBackItemItemButton:SetStyle("Button")
 	MerchantExtraCurrencyInset:RemoveTextures()
 	MerchantExtraCurrencyBg:RemoveTextures()
 	MerchantFrameInset:RemoveTextures()
 	MerchantMoneyBg:RemoveTextures()
 	MerchantMoneyInset:RemoveTextures()
-	MerchantFrameInset:SetStylePanel("Frame", "Inset")
+	MerchantFrameInset:SetStyle("Frame", "Inset")
 	MerchantFrameInset.Panel:SetFrameLevel(MerchantFrameInset.Panel:GetFrameLevel() + 1)
 	MOD:ApplyDropdownStyle(MerchantFrameLootFilter)
 	for b = 1, 2 do
@@ -47,9 +47,9 @@ local function MerchantStyle()
 		local d = _G["MerchantItem"..b.."ItemButton"]
 		local e = _G["MerchantItem"..b.."ItemButtonIconTexture"]
 		local o = _G["MerchantItem"..b]o:RemoveTextures(true)
-		o:SetStylePanel("!_Frame", "Inset")
+		o:SetStyle("!_Frame", "Inset")
 		d:RemoveTextures()
-		d:SetStylePanel("Button")
+		d:SetStyle("Button")
 		d:ModPoint("TOPLEFT", o, "TOPLEFT", 4, -4)
 		e:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 		e:InsetPoints()
@@ -57,20 +57,20 @@ local function MerchantStyle()
 		_G["MerchantItem"..b.."MoneyFrame"]:ModPoint("BOTTOMLEFT", d, "BOTTOMRIGHT", 3, 0)
 	end 
 	MerchantBuyBackItemItemButton:RemoveTextures()
-	MerchantBuyBackItemItemButton:SetStylePanel("Button")
+	MerchantBuyBackItemItemButton:SetStyle("Button")
 	MerchantBuyBackItemItemButtonIconTexture:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 	MerchantBuyBackItemItemButtonIconTexture:InsetPoints()
-	MerchantRepairItemButton:SetStylePanel("Button")
+	MerchantRepairItemButton:SetStyle("Button")
 	for b = 1, MerchantRepairItemButton:GetNumRegions()do 
 		local p = select(b, MerchantRepairItemButton:GetRegions())
 		if p:GetObjectType() == "Texture"then
 			p:SetTexCoord(0.04, 0.24, 0.06, 0.5)
 			p:InsetPoints()
 		end 
-	end MerchantGuildBankRepairButton:SetStylePanel("Button")
+	end MerchantGuildBankRepairButton:SetStyle("Button")
 	MerchantGuildBankRepairButtonIcon:SetTexCoord(0.61, 0.82, 0.1, 0.52)
 	MerchantGuildBankRepairButtonIcon:InsetPoints()
-	MerchantRepairAllButton:SetStylePanel("Button")
+	MerchantRepairAllButton:SetStyle("Button")
 	MerchantRepairAllIcon:SetTexCoord(0.34, 0.1, 0.34, 0.535, 0.535, 0.1, 0.535, 0.535)
 	MerchantRepairAllIcon:InsetPoints()
 	MerchantFrame:ModWidth(360)

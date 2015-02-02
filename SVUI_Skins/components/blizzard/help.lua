@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -68,12 +68,12 @@ local function HelpFrameStyle()
 	tinsert(HelpFrameButtonList, "HelpFrameReportBugSubmit")
 	for d = 1, #HelpFrameList do
 		_G[HelpFrameList[d]]:RemoveTextures(true)
-		_G[HelpFrameList[d]]:SetStylePanel("Frame", "Default")
+		_G[HelpFrameList[d]]:SetStyle("Frame", "Default")
 	end 
 	HelpFrameHeader:SetFrameLevel(HelpFrameHeader:GetFrameLevel()+2)
 	HelpFrameKnowledgebaseErrorFrame:SetFrameLevel(HelpFrameKnowledgebaseErrorFrame:GetFrameLevel()+2)
 	HelpFrameReportBugScrollFrame:RemoveTextures()
-	HelpFrameReportBugScrollFrame:SetStylePanel("Frame", "Default")
+	HelpFrameReportBugScrollFrame:SetStyle("Frame", "Default")
 	HelpFrameReportBugScrollFrame.Panel:ModPoint("TOPLEFT", -4, 4)
 	HelpFrameReportBugScrollFrame.Panel:ModPoint("BOTTOMRIGHT", 6, -4)
 	for d = 1, HelpFrameReportBug:GetNumChildren()do 
@@ -84,7 +84,7 @@ local function HelpFrameStyle()
 	end 
 	MOD:ApplyScrollFrameStyle(HelpFrameReportBugScrollFrameScrollBar)
 	HelpFrameSubmitSuggestionScrollFrame:RemoveTextures()
-	HelpFrameSubmitSuggestionScrollFrame:SetStylePanel("Frame", "Default")
+	HelpFrameSubmitSuggestionScrollFrame:SetStyle("Frame", "Default")
 	HelpFrameSubmitSuggestionScrollFrame.Panel:ModPoint("TOPLEFT", -4, 4)
 	HelpFrameSubmitSuggestionScrollFrame.Panel:ModPoint("BOTTOMRIGHT", 6, -4)
 	for d = 1, HelpFrameSubmitSuggestion:GetNumChildren()do 
@@ -95,7 +95,7 @@ local function HelpFrameStyle()
 	end 
 	MOD:ApplyScrollFrameStyle(HelpFrameSubmitSuggestionScrollFrameScrollBar)
 	HelpFrameTicketScrollFrame:RemoveTextures()
-	HelpFrameTicketScrollFrame:SetStylePanel("Frame", "Default")
+	HelpFrameTicketScrollFrame:SetStyle("Frame", "Default")
 	HelpFrameTicketScrollFrame.Panel:ModPoint("TOPLEFT", -4, 4)
 	HelpFrameTicketScrollFrame.Panel:ModPoint("BOTTOMRIGHT", 6, -4)
 	for d = 1, HelpFrameTicket:GetNumChildren()do 
@@ -107,7 +107,7 @@ local function HelpFrameStyle()
 	MOD:ApplyScrollFrameStyle(HelpFrameKnowledgebaseScrollFrame2ScrollBar)
 	for d = 1, #HelpFrameButtonList do
 		_G[HelpFrameButtonList[d]]:RemoveTextures(true)
-		_G[HelpFrameButtonList[d]]:SetStylePanel("Button")
+		_G[HelpFrameButtonList[d]]:SetStyle("Button")
 		if _G[HelpFrameButtonList[d]].text then
 			_G[HelpFrameButtonList[d]].text:ClearAllPoints()
 			_G[HelpFrameButtonList[d]].text:SetPoint("CENTER")
@@ -116,7 +116,7 @@ local function HelpFrameStyle()
 	end 
 	for d = 1, 6 do 
 		local f = _G["HelpFrameButton"..d]
-		f:SetStylePanel("Button")
+		f:SetStyle("Button")
 		f.text:ClearAllPoints()
 		f.text:SetPoint("CENTER")
 		f.text:SetJustifyH("CENTER")
@@ -124,27 +124,27 @@ local function HelpFrameStyle()
 	for d = 1, HelpFrameKnowledgebaseScrollFrameScrollChild:GetNumChildren()do 
 		local f = _G["HelpFrameKnowledgebaseScrollFrameButton"..d]
 		f:RemoveTextures(true)
-		f:SetStylePanel("Button")
+		f:SetStyle("Button")
 	end 
 	HelpFrameKnowledgebaseSearchBox:ClearAllPoints()
 	HelpFrameKnowledgebaseSearchBox:ModPoint("TOPLEFT", HelpFrameMainInset, "TOPLEFT", 13, -10)
 	HelpFrameKnowledgebaseNavBarOverlay:Die()
 	HelpFrameKnowledgebaseNavBar:RemoveTextures()
 	HelpFrame:RemoveTextures(true)
-	HelpFrame:SetStylePanel("Frame", "Composite1")
-	HelpFrameKnowledgebaseSearchBox:SetStylePanel("Editbox")
+	HelpFrame:SetStyle("Frame", "Composite1")
+	HelpFrameKnowledgebaseSearchBox:SetStyle("Editbox")
 	MOD:ApplyScrollFrameStyle(HelpFrameKnowledgebaseScrollFrameScrollBar, 5)
 	MOD:ApplyScrollFrameStyle(HelpFrameTicketScrollFrameScrollBar, 4)
 	MOD:ApplyCloseButtonStyle(HelpFrameCloseButton, HelpFrame.Panel)
 	MOD:ApplyCloseButtonStyle(HelpFrameKnowledgebaseErrorFrameCloseButton, HelpFrameKnowledgebaseErrorFrame.Panel)
-	HelpFrameCharacterStuckHearthstone:SetStylePanel("Button")
-	HelpFrameCharacterStuckHearthstone:SetStylePanel("!_Frame", "Default")
+	HelpFrameCharacterStuckHearthstone:SetStyle("Button")
+	HelpFrameCharacterStuckHearthstone:SetStyle("!_Frame", "Default")
 	HelpFrameCharacterStuckHearthstone.IconTexture:InsetPoints()
 	HelpFrameCharacterStuckHearthstone.IconTexture:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 	hooksecurefunc("NavBar_AddButton", function(h, k)
 		local i = h.navList[#h.navList]
 		if not i.styled then
-			i:SetStylePanel("Button")
+			i:SetStyle("Button")
 			i.styled = true;
 			i:HookScript("OnClick", function()
 				NavBarHelper(h)
@@ -152,14 +152,14 @@ local function HelpFrameStyle()
 		end 
 		NavBarHelper(h)
 	end)
-	HelpFrameGM_ResponseNeedMoreHelp:SetStylePanel("Button")
-	HelpFrameGM_ResponseCancel:SetStylePanel("Button")
+	HelpFrameGM_ResponseNeedMoreHelp:SetStyle("Button")
+	HelpFrameGM_ResponseCancel:SetStyle("Button")
 	for d = 1, HelpFrameGM_Response:GetNumChildren()do 
 		local e = select(d, HelpFrameGM_Response:GetChildren())
 		if e and e:GetObjectType()
 		 == "Frame"and not e:GetName()
 		then
-			e:SetStylePanel("!_Frame", "Default")
+			e:SetStyle("!_Frame", "Default")
 		end 
 	end 
 end 

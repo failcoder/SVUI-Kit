@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -427,7 +427,7 @@ function MOD:Load()
 	scrollBar:SetPoint("TOPRIGHT", self.Docklet, "TOPRIGHT", -4, -2);
 	scrollBar:SetBackdrop({bgFile = bgTex, edgeFile = bdTex, edgeSize = 4, insets = {left = 3, right = 3, top = 3, bottom = 3}});
 	scrollBar:SetFrameLevel(6)
-	scrollBar:SetStylePanel("!_Frame", "Transparent", true);
+	scrollBar:SetStyle("!_Frame", "Transparent", true);
 	scrollBar:SetThumbTexture("Interface\\Buttons\\UI-ScrollBar-Knob");
 	scrollBar:SetOrientation("VERTICAL");
 	scrollBar:SetValueStep(5);

@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -34,10 +34,10 @@ local function StyleAdiBags(event)
 
 	local function SkinFrame(frame)
 		local region = frame.HeaderRightRegion
-		frame:SetStylePanel("Frame", 'Transparent')
-		_G[frame:GetName()..'Bags']:SetStylePanel("Frame", "Default")
+		frame:SetStyle("Frame", 'Transparent')
+		_G[frame:GetName()..'Bags']:SetStyle("Frame", "Default")
 		for i = 1, 3 do
-			region.widgets[i].widget:SetStylePanel("Button")
+			region.widgets[i].widget:SetStyle("Button")
 		end
 	end
 
@@ -46,7 +46,7 @@ local function StyleAdiBags(event)
 			if not AdiBagsContainer1 then ToggleBackpack() ToggleBackpack() end
 			if AdiBagsContainer1 then
 				SkinFrame(AdiBagsContainer1)
-				AdiBagsContainer1SearchBox:SetStylePanel("Editbox")
+				AdiBagsContainer1SearchBox:SetStyle("Editbox")
 				AdiBagsContainer1SearchBox:ModPoint('TOPRIGHT', AdiBagsSimpleLayeredRegion2, 'TOPRIGHT', -75, -1)
 			end
 		end, 1)

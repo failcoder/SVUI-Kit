@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-M O D K I T  By: S.Jackson               #
+S V U I  By: S.Jackson               #
 ##############################################################################
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
@@ -512,7 +512,7 @@ function MOD:CreateCastbar(frame, reversed, moverName, ryu, useFader, isBoss, ha
 	organizer:SetFrameStrata("HIGH")
 
 	local iconHolder = CreateFrame("Frame", nil, organizer)
-	iconHolder:SetStylePanel("!_Frame", "Inset", false)
+	iconHolder:SetStyle("!_Frame", "Inset", false)
 	organizer.Icon = iconHolder
 
 	local buttonIcon = iconHolder:CreateTexture(nil, "BORDER")

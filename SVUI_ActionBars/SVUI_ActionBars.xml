@@ -1,5 +1,6 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
 	<Script file="Loader.lua"/>
+
 	<Frame name="SVUI_DraenorButtonHolder" parent="UIParent" hidden="true">
         <Size x="50" y="50"/>
         <Anchors>

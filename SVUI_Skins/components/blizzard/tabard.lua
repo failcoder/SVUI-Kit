@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -48,10 +48,10 @@ local function TabardFrameStyle()
 		 return 
 	end 
 	cleanT(TabardFrame, true)
-	TabardFrame:SetStylePanel("Frame", "Composite2", false)
-	TabardModel:SetStylePanel("!_Frame", "Transparent")
-	TabardFrameCancelButton:SetStylePanel("Button")
-	TabardFrameAcceptButton:SetStylePanel("Button")
+	TabardFrame:SetStyle("Frame", "Composite2", false)
+	TabardModel:SetStyle("!_Frame", "Transparent")
+	TabardFrameCancelButton:SetStyle("Button")
+	TabardFrameAcceptButton:SetStyle("Button")
 	MOD:ApplyCloseButtonStyle(TabardFrameCloseButton)
 	TabardFrameCostFrame:RemoveTextures()
 	TabardFrameCustomizationFrame:RemoveTextures()

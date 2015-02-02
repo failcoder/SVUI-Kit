@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -42,7 +42,7 @@ local function LossOfControlStyle()
   local IconBackdrop = CreateFrame("Frame", nil, LossOfControlFrame)
   IconBackdrop:WrapPoints(LossOfControlFrame.Icon)
   IconBackdrop:SetFrameLevel(LossOfControlFrame:GetFrameLevel()-1)
-  IconBackdrop:SetStylePanel("Frame", "Slot")
+  IconBackdrop:SetStyle("Frame", "Icon")
   LossOfControlFrame.Icon:SetTexCoord(.1, .9, .1, .9)
   LossOfControlFrame:RemoveTextures()
   LossOfControlFrame.AbilityName:ClearAllPoints()

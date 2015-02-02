@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -54,13 +54,13 @@ function MOD:ApplyFrameStyle(this, template, noStripping, fullStripping)
 	if(not this or (this and this.Panel)) then return end  
 	if not noStripping then this:RemoveTextures(fullStripping) end
 	template = template or "Transparent"
-	this:SetStylePanel("Frame", template)
+	this:SetStyle("Frame", template)
 end 
 
 function MOD:ApplyAdjustedFrameStyle(this, template, xTopleft, yTopleft, xBottomright, yBottomright)
 	if(not this or (this and this.Panel)) then return end
 	template = template or "Transparent"
-	this:SetStylePanel("Frame", template)
+	this:SetStyle("Frame", template)
 	this.Panel:SetPoint("TOPLEFT", this, "TOPLEFT", xTopleft, yTopleft)
 	this.Panel:SetPoint("BOTTOMRIGHT", this, "BOTTOMRIGHT", xBottomright, yBottomright)
 end 
@@ -69,7 +69,7 @@ function MOD:ApplyFixedFrameStyle(this, template, noStripping, fullStripping)
 	if(not this or (this and this.Panel)) then return end  
 	if not noStripping then this:RemoveTextures(fullStripping) end
 	template = template or "Transparent"
-    this:SetStylePanel("!_Frame", template)
+    this:SetStyle("!_Frame", template)
 end
 
 function MOD:ApplyWindowStyle(this, action, fullStrip)
@@ -81,7 +81,7 @@ function MOD:ApplyWindowStyle(this, action, fullStrip)
 	end
 	
 	this:RemoveTextures(fullStrip)
-	this:SetStylePanel("Frame", template)
+	this:SetStyle("Frame", template)
 end
 
 function MOD:ApplyAdjustedWindowStyle(this, action, fullStrip, padding, xOffset, yOffset)
@@ -93,7 +93,7 @@ function MOD:ApplyAdjustedWindowStyle(this, action, fullStrip, padding, xOffset,
 	end
 	
 	this:RemoveTextures(fullStrip)
-	this:SetStylePanel("Frame", template, false, padding, xOffset, yOffset)
+	this:SetStyle("Frame", template, false, padding, xOffset, yOffset)
 end 
 
 function MOD:ApplyWindowHolder(this, fullStrip)
@@ -104,7 +104,7 @@ function MOD:ApplyWindowHolder(this, fullStrip)
 	end
 	
 	this:RemoveTextures(fullStrip)
-	this:SetStylePanel("Frame", "Blackout")
+	this:SetStyle("Frame", "Blackout")
 end
 --[[ 
 ########################################################## 
@@ -128,7 +128,7 @@ end
 
 function MOD:ApplyButtonStyle(this)
 	if not this then return end 
-    this:SetStylePanel("Button")
+    this:SetStyle("Button")
 end
 
 local ArrowButton_OnEnter = function(self)
@@ -142,7 +142,7 @@ end
 function MOD:ApplyArrowButtonStyle(this, direction, anchor)
 	if not this then return end
 	this:RemoveTextures()
-	this:SetStylePanel("Button", nil, 1, -7, -7, nil, "green")
+	this:SetStyle("Button", nil, 1, -7, -7, nil, "green")
 	this:SetFrameLevel(this:GetFrameLevel() + 4)
 	local iconKey = "move_" .. direction:lower()
 	this:SetNormalTexture(SV.Media.icon[iconKey])
@@ -168,7 +168,7 @@ end
 function MOD:ApplyCloseButtonStyle(this, anchor)
 	if not this then return end
 	this:RemoveTextures()
-	this:SetStylePanel("Button", nil, 1, -7, -7, nil, "red")
+	this:SetStyle("Button", nil, 1, -7, -7, nil, "red")
 	this:SetFrameLevel(this:GetFrameLevel() + 4)
 	this:SetNormalTexture(SV.Media.icon.close)
     if not this.hookedColors then 
@@ -192,9 +192,9 @@ function MOD:ApplyItemButtonStyle(frame, adjust, shrink, noScript)
 
 	if(not frame.Panel) then
 		if shrink then 
-			frame:SetStylePanel("Frame", "Button", true, 1, -1, -1)
+			frame:SetStyle("Frame", "Button", true, 1, -1, -1)
 		else
-			frame:SetStylePanel("!_Frame", "Button")
+			frame:SetStyle("!_Frame", "Button")
 		end
 	end
 
@@ -215,7 +215,7 @@ function MOD:ApplyItemButtonStyle(frame, adjust, shrink, noScript)
 
 			frame.IconShadow = CreateFrame("Frame", nil, frame)
 			frame.IconShadow:WrapPoints(iconObject)
-			frame.IconShadow:SetStylePanel("Icon", 2, 0, 0)
+			frame.IconShadow:SetStyle("Icon")
 
 			--iconObject:SetParent(frame.IconShadow)
 		end
@@ -324,7 +324,7 @@ function MOD:ApplyScrollFrameStyle(this, scale, yOffset)
 			this.ScrollBG = CreateFrame("Frame", nil, this)
 			this.ScrollBG:SetPoint("TOPLEFT", upButton, "BOTTOMLEFT", 0, -1)
 			this.ScrollBG:SetPoint("BOTTOMRIGHT", downButton, "TOPRIGHT", 0, 1)
-			this.ScrollBG:SetStylePanel("!_Frame", "Transparent")
+			this.ScrollBG:SetStyle("!_Frame", "Transparent")
 		end 
 
 		if(this:GetThumbTexture()) then 
@@ -355,7 +355,7 @@ function MOD:ApplyScrollBarStyle(this)
 
 	this:RemoveTextures()
 	this:SetBackdrop(nil)
-	this:SetStylePanel("!_Frame", "Heavy")
+	this:SetStyle("!_Frame", "Transparent")
     this:SetBackdropBorderColor(0.2,0.2,0.2)
 	this:SetThumbTexture("Interface\\Buttons\\UI-ScrollBar-Knob")
 
@@ -439,7 +439,7 @@ function MOD:ApplyTabStyle(this, addBackground, xOffset, yOffset)
 		yOffset = yOffset or 3
 		this.backdrop = CreateFrame("Frame", nil, this)
 		this.backdrop:InsetPoints(this, xOffset, yOffset)
-		this.backdrop:SetStylePanel("!_Frame", "Heavy", true)
+		this.backdrop:SetStyle("!_Frame")
 		this.backdrop:SetPanelColor("dark")
 
 		if(this:GetFrameLevel() > 0) then
@@ -477,7 +477,7 @@ function MOD:ApplyPaginationStyle(button, isVertical)
 	button:SetHighlightTexture(0,0,0,0)
 	button:SetDisabledTexture("")
 
-	button:SetStylePanel("!_Button", nil, 1, -7, -7)
+	button:SetStyle("!_Button", nil, 1, -7, -7)
 
 	if not button.icon then 
 		button.icon = button:CreateTexture(nil,'ARTWORK')
@@ -578,7 +578,7 @@ function MOD:ApplyDropdownStyle(this, width)
 		local bg = CreateFrame("Frame", nil, this)
 		bg:ModPoint("TOPLEFT", this, "TOPLEFT", 18, -2)
 		bg:ModPoint("BOTTOMRIGHT", ddButton, "BOTTOMRIGHT", 2, -2)
-		bg:SetStylePanel("Frame", "Blackout")
+		bg:SetStyle("Frame", "Blackout")
 		bg:SetBackdropBorderColor(0,0,0)
 		this.Panel = bg
 	end
@@ -742,7 +742,7 @@ end
 function MOD:ApplyEditBoxStyle(this, width, height, x, y)
 	if not this then return end
 	this:RemoveTextures(true)
-    this:SetStylePanel("Editbox", x, y)
+    this:SetStyle("Editbox", x, y)
     if width then this:ModWidth(width) end
 	if height then this:ModHeight(height) end
 end

@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -24,7 +24,6 @@ GET ADDON DATA
 local SV = _G['SVUI']
 local L = SV.L;
 local MOD = SV.Inventory;
-local TTIP = SV.Tooltip;
 --[[ 
 ########################################################## 
 LOCAL VARS
@@ -222,7 +221,9 @@ local BreakStuff_OnClick = function(self)
 			GameTooltip:Hide()
 			MOD.BagFrame:Show()
 			MOD.BagFrame:RefreshBags()
-			TTIP.GameTooltip_SetDefaultAnchor(GameTooltip,self)
+			if(SV.Tooltip) then
+				SV.Tooltip.GameTooltip_SetDefaultAnchor(GameTooltip,self)
+			end
 		end
 	end
 	GameTooltip:ClearLines()
@@ -301,7 +302,7 @@ function MOD:BreakStuffLoader()
 	BreakStuffButton:ModSize(size, size)
 	BreakStuffButton:ModPoint("RIGHT", SV.Dock.BottomRight.Bar.ToolBar, "LEFT", -6, 0)
 	BreakStuffButton:Show();
-	BreakStuffButton:SetStylePanel("HeavyButton") 
+	BreakStuffButton:SetStyle("DockButton") 
 	BreakStuffButton.icon=BreakStuffButton:CreateTexture(nil,"OVERLAY")
 	BreakStuffButton.icon:InsetPoints(BreakStuffButton,2,2)
 	BreakStuffButton.icon:SetTexture(ICONARTFILE)

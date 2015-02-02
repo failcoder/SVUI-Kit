@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -11,6 +11,8 @@ local _G = _G;
 local unpack        = _G.unpack;
 local select        = _G.select;
 local assert        = _G.assert;
+local table 		= _G.table;
+local tsort 		= table.sort;
 
 local SV = _G["SVUI"];
 local L = SV.L;

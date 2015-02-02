@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -47,8 +47,8 @@ local function TrainerStyle()
 
 	for i=1, 8 do
 		_G["ClassTrainerScrollFrameButton"..i]:RemoveTextures()
-		_G["ClassTrainerScrollFrameButton"..i]:SetStylePanel("!_Frame")
-		_G["ClassTrainerScrollFrameButton"..i]:SetStylePanel("Button")
+		_G["ClassTrainerScrollFrameButton"..i]:SetStyle("!_Frame")
+		_G["ClassTrainerScrollFrameButton"..i]:SetStyle("Button")
 		_G["ClassTrainerScrollFrameButton"..i.."Icon"]:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 		_G["ClassTrainerScrollFrameButton"..i].Panel:WrapPoints(_G["ClassTrainerScrollFrameButton"..i.."Icon"])
 		_G["ClassTrainerScrollFrameButton"..i.."Icon"]:SetParent(_G["ClassTrainerScrollFrameButton"..i].Panel)
@@ -67,19 +67,19 @@ local function TrainerStyle()
 	end
 
 	_G["ClassTrainerTrainButton"]:RemoveTextures()
-	_G["ClassTrainerTrainButton"]:SetStylePanel("Button")
+	_G["ClassTrainerTrainButton"]:SetStyle("Button")
 	MOD:ApplyDropdownStyle(ClassTrainerFrameFilterDropDown, 155)
-	ClassTrainerScrollFrame:SetStylePanel("!_Frame", "Inset")
+	ClassTrainerScrollFrame:SetStyle("!_Frame", "Inset")
 	MOD:ApplyCloseButtonStyle(ClassTrainerFrameCloseButton, ClassTrainerFrame)
 	ClassTrainerFrameSkillStepButton.icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
-	ClassTrainerFrameSkillStepButton:SetStylePanel("!_Frame", "Button", true)
+	ClassTrainerFrameSkillStepButton:SetStyle("!_Frame", "Button", true)
 	--ClassTrainerFrameSkillStepButton.Panel:WrapPoints(ClassTrainerFrameSkillStepButton.icon)
 	--ClassTrainerFrameSkillStepButton.icon:SetParent(ClassTrainerFrameSkillStepButton.Panel)
 	ClassTrainerFrameSkillStepButtonHighlight:SetTexture(1, 1, 1, 0.3)
 	ClassTrainerFrameSkillStepButton.selectedTex:SetTexture(1, 1, 1, 0.3)
 	ClassTrainerStatusBar:RemoveTextures()
 	ClassTrainerStatusBar:SetStatusBarTexture(SV.Media.bar.default)
-	ClassTrainerStatusBar:SetStylePanel("Frame", "Slot", true, 1, 2, 2)
+	ClassTrainerStatusBar:SetStyle("Frame", "Icon", true, 1, 2, 2)
 	ClassTrainerStatusBar.rankText:ClearAllPoints()
 	ClassTrainerStatusBar.rankText:SetPoint("CENTER", ClassTrainerStatusBar, "CENTER")
 end 

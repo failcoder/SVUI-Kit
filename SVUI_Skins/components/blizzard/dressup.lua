@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -29,13 +29,13 @@ local function DressUpStyle()
 	DressUpModel:ModPoint("TOPLEFT", DressUpFrame, "TOPLEFT", 12, -76)
 	DressUpModel:ModPoint("BOTTOMRIGHT", DressUpFrame, "BOTTOMRIGHT", -12, 36)
 
-	DressUpModel:SetStylePanel("!_Frame", "Model")
+	DressUpModel:SetStyle("!_Frame", "Model")
 
 	DressUpFrameCancelButton:ModPoint("BOTTOMRIGHT", DressUpFrame, "BOTTOMRIGHT", -12, 12)
-	DressUpFrameCancelButton:SetStylePanel("Button")
+	DressUpFrameCancelButton:SetStyle("Button")
 
 	DressUpFrameResetButton:ModPoint("RIGHT", DressUpFrameCancelButton, "LEFT", -12, 0)
-	DressUpFrameResetButton:SetStylePanel("Button")
+	DressUpFrameResetButton:SetStyle("Button")
 
 	MOD:ApplyCloseButtonStyle(DressUpFrameCloseButton, DressUpFrame.Panel)
 end 

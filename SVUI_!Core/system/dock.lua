@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-M O D K I T   By: S.Jackson
+S V U I   By: S.Jackson
 ############################################################################## ]]-- 
 --[[ GLOBALS ]]--
 local _G = _G;
@@ -105,7 +105,7 @@ function MOD.SetThemeDockStyle(dock, isBottom)
 end
 
 function MOD:SetButtonTheme(button, ...)
-	button:SetStylePanel("HeavyButton")
+	button:SetStyle("DockButton")
 end
 --[[ 
 ########################################################## 
