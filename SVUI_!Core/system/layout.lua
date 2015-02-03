@@ -337,6 +337,107 @@ end
 HANDLERS
 ##########################################################
 ]]--
+local TheHand = CreateFrame("Frame", "SVUI_HandOfLayout", UIParent)
+TheHand:SetFrameStrata("DIALOG")
+TheHand:SetFrameLevel(99)
+TheHand:SetClampedToScreen(true)
+TheHand:SetSize(128,128)
+TheHand:SetPoint("CENTER")
+TheHand.bg = TheHand:CreateTexture(nil, "OVERLAY")
+TheHand.bg:SetAllPoints(TheHand)
+TheHand.bg:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\Doodads\MENTALO-HAND-OFF]])
+TheHand.energy = TheHand:CreateTexture(nil, "OVERLAY")
+TheHand.energy:SetAllPoints(TheHand)
+TheHand.energy:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\Doodads\MENTALO-ENERGY]])
+SV.Animate:Orbit(TheHand.energy, 10)
+TheHand.flash = TheHand.energy.anim;
+TheHand.energy:Hide()
+TheHand.elapsedTime = 0;
+TheHand.flash:Stop()
+TheHand:Hide()
+TheHand.UserHeld = false;
+
+local TheHand_OnUpdate = function(self, elapsed)
+	self.elapsedTime = self.elapsedTime  +  elapsed
+	if self.elapsedTime > 0.1 then
+		self.elapsedTime = 0
+		local x, y = GetCursorPosition()
+		local scale = SV.Screen:GetEffectiveScale()
+		self:SetPoint("CENTER", SV.Screen, "BOTTOMLEFT", (x  /  scale)  +  50, (y  /  scale)  +  50)
+	end 
+end
+
+function TheHand:Enable()
+	self:Show()
+	self.bg:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\Doodads\MENTALO-HAND-ON]])
+	self.energy:Show()
+	self.flash:Play()
+	self:SetScript("OnUpdate", TheHand_OnUpdate) 
+end
+
+function TheHand:Disable()
+	self.flash:Stop()
+	self.energy:Hide()
+	self.bg:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\Doodads\MENTALO-HAND-OFF]])
+	self:SetScript("OnUpdate", nil)
+	self.elapsedTime = 0
+	self:Hide()
+end
+
+function Layout:PostDragStart(frame)
+	TheHand:Enable()
+	TheHand.UserHeld = true 
+end
+
+function Layout:PostDragStop(frame)
+	TheHand.UserHeld = false;
+	TheHand:Disable()
+end
+
+function Layout:Movable_OnEnter(frame)
+	if TheHand.UserHeld then return end
+	ResetAllAlphas()
+	frame:SetAlpha(1)
+	frame.text:SetTextColor(0, 1, 1)
+	frame:SetBackdropBorderColor(0, 0.7, 1)
+	UpdateFrameTarget = frame;
+	SVUI_Layout.Portrait:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\Doodads\MENTALO-ON]])
+	TheHand:SetPoint("CENTER", frame, "TOP", 0, 0)
+	TheHand:Show()
+	if CurrentFrameTarget ~= frame then 
+		SVUI_LayoutPrecision:Hide()
+		frame:GetScript("OnMouseUp")(frame)
+	end
+end
+
+function Layout:Movable_OnLeave(frame)
+	if TheHand.UserHeld then return end
+	frame.text:SetTextColor(0.5, 0.5, 0.5)
+	frame:SetBackdropBorderColor(0.5, 0.5, 0.5)
+	SVUI_Layout.Portrait:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\Doodads\MENTALO-OFF]])
+	TheHand:Hide()
+	if(CurrentFrameTarget ~= frame and not SVUI_LayoutPrecision:IsShown()) then
+		frame:SetAlpha(0.4)
+	end
+end
+
+function Layout:Movable_OnMouseDown(frame, button)
+	if button == "RightButton" then
+		TheHand.UserHeld = false;
+		if(CurrentFrameTarget == self and not SVUI_LayoutPrecision:IsShown()) then
+			Movable_OnUpdate()
+			SVUI_LayoutPrecision:Show()
+		else
+			SVUI_LayoutPrecision:Hide()
+		end
+		if SV.db.general.stickyFrames then 
+			StickyStopMoving(self)
+		else 
+			self:StopMovingOrSizing()
+		end
+	end
+end
+
 local LayoutUpdateHandler = CreateFrame("Frame", nil)
 
 local Movable_OnMouseUp = function(self)
@@ -400,9 +501,7 @@ local Movable_OnDragStart = function(self)
 	UpdateFrameTarget = self;
 	LayoutUpdateHandler:Show()
 	LayoutUpdateHandler:SetScript("OnUpdate", Movable_OnUpdate)
-	if(Layout.PostDragStart) then
-		Layout:PostDragStart(self)
-	end
+	Layout:PostDragStart(self)
 end
 
 local Movable_OnDragStop = function(self)
@@ -454,57 +553,7 @@ local Movable_OnDragStop = function(self)
 		self:postdrag(Pinpoint(self))
 	end 
 	self:SetUserPlaced(false)
-	if(Layout.PostDragStop) then
-		Layout:PostDragStop(self)
-	end
-end
-
-local Movable_OnEnter = function(self)
-	if(Layout.Override_OnEnter) then
-		Layout:Override_OnEnter(self)
-	else
-		ResetAllAlphas()
-		self:SetAlpha(1)
-		self.text:SetTextColor(0, 1, 1)
-		self:SetBackdropBorderColor(0, 0.7, 1)
-		UpdateFrameTarget = self;
-		if CurrentFrameTarget ~= self then 
-			SVUI_LayoutPrecision:Hide()
-			Movable_OnMouseUp(self)
-		end 
-	end
-end
-
-local Movable_OnLeave = function(self)
-	if(Layout.Override_OnLeave) then
-		Layout:Override_OnLeave(self)
-	else
-		self.text:SetTextColor(0.5, 0.5, 0.5)
-		self:SetBackdropBorderColor(0.5, 0.5, 0.5)
-		if(CurrentFrameTarget ~= self and not SVUI_LayoutPrecision:IsShown()) then
-			self:SetAlpha(0.4)
-		end
-	end
-end
-
-local Movable_OnMouseDown = function(self, arg)
-	if arg == "RightButton" then 
-		if(Layout.Override_OnMouseDown) then
-			Layout:Override_OnMouseDown(self, Movable_OnUpdate)
-		else
-			if(CurrentFrameTarget == self and not SVUI_LayoutPrecision:IsShown()) then
-				Movable_OnUpdate()
-				SVUI_LayoutPrecision:Show()
-			else
-				SVUI_LayoutPrecision:Hide()
-			end
-			if SV.db.general.stickyFrames then 
-				StickyStopMoving(self)
-			else 
-				self:StopMovingOrSizing()
-			end
-		end
-	end 
+	Layout:PostDragStop(self)
 end
 
 local Movable_OnShow = function(self)
@@ -567,10 +616,11 @@ function Layout:New(frame, moveName, title, snap, dragStopFunc, callbackOnEnter)
 	movable:SetScript("OnMouseUp", Movable_OnMouseUp)
 	movable:SetScript("OnDragStart", Movable_OnDragStart)
 	movable:SetScript("OnDragStop", Movable_OnDragStop)
-	movable:SetScript("OnEnter", Movable_OnEnter)
-	movable:SetScript("OnMouseDown", Movable_OnMouseDown)
-	movable:SetScript("OnLeave", Movable_OnLeave)
 	movable:SetScript("OnShow", Movable_OnShow)
+
+	movable:SetScript("OnEnter", Layout.Movable_OnEnter)
+	movable:SetScript("OnMouseDown", Layout.Movable_OnMouseDown)
+	movable:SetScript("OnLeave", Layout.Movable_OnLeave)
 
 	movable:SetMovable(true)
 	movable:Hide()
@@ -1140,6 +1190,8 @@ local function InitializeMovables()
 		hooksecurefunc("UIParent_ManageFramePositions", _hook_UIParent_ManageFramePositions)
 	end
 end
+
+SVUI_Layout.Portrait:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\Doodads\MENTALO-OFF]]);
 
 SV.Events:On("LOAD_ALL_WIDGETS", "InitializeMovables", InitializeMovables);
 

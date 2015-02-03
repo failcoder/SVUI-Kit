@@ -37,6 +37,9 @@
     <Script file="system\_docklets\garrison.lua"/>
     <Script file="system\_docklets\raidleader.lua"/>
 
+    <Script file="system\misc.lua"/>
+    <Script file="system\henchmen.lua"/>
+
     <Script file="system\credits.lua"/>
     <Include file="filtering\_load.xml"/>
     <Include file="setup\_load.xml"/>

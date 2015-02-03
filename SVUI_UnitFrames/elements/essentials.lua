@@ -182,32 +182,6 @@ local function CreateThreat(frame, unit)
 	return threat 
 end
 
-function MOD:CreateActionPanel(frame)
-    if(frame.ActionPanel) then return; end
-
-    local panel = CreateFrame('Frame', nil, frame)
-    panel:ModPoint('TOPLEFT', frame, 'TOPLEFT', -5, 5)
-    panel:ModPoint('BOTTOMRIGHT', frame, 'BOTTOMRIGHT', 5, -5)
-    panel:SetBackdrop({
-		bgFile = [[Interface\AddOns\SVUI_!Core\assets\textures\EMPTY]], 
-	    tile = false, 
-	    tileSize = 0, 
-	    edgeFile = [[Interface\DialogFrame\UI-DialogBox-Border]],
-	    edgeSize = 20,
-	    insets = 
-	    {
-	        left = 0, 
-	        right = 0, 
-	        top = 0, 
-	        bottom = 0, 
-	    },
-	})
-    panel:SetBackdropColor(0,0,0,0)
-    panel:SetBackdropBorderColor(1,1,1,1)
-
-    return panel
-end
-
 local function CreateNameText(frame, unitName)
 	local db = SV.db.UnitFrames
 	if(SV.db.UnitFrames[unitName] and SV.db.UnitFrames[unitName].name) then
@@ -227,6 +201,14 @@ local function CreateNameText(frame, unitName)
     	name:SetJustifyV("MIDDLE")
 	end
 	return name;
+end
+
+local function ADDInfoBG(frame)
+	local bg = frame.InfoPanel:CreateTexture(nil, "BACKGROUND")
+	bg:ModPoint("TOPLEFT", frame.ActionPanel, "BOTTOMLEFT", 0, 1)
+	bg:ModPoint("BOTTOMRIGHT", frame.InfoPanel, "BOTTOMRIGHT", 0, 0)
+	bg:SetTexture(1, 1, 1, 1)
+	bg:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0, 0, 0, 0.7)
 end
 
 function MOD:SetActionPanel(frame, unit, noHealthText, noPowerText, noMiscText)
@@ -424,6 +406,97 @@ function MOD:SetActionPanel(frame, unit, noHealthText, noPowerText, noMiscText)
 end
 --[[ 
 ########################################################## 
+HEALTH ANIMATIONS
+##########################################################
+]]--
+local Anim_OnUpdate = function(self)
+	local parent = self.parent
+	local coord = self._coords;
+	parent:SetTexCoord(coord[1],coord[2],coord[3],coord[4])
+end 
+
+local Anim_OnPlay = function(self)
+	local parent = self.parent
+	parent:SetAlpha(1)
+	if not parent:IsShown() then
+		parent:Show()
+	end
+end 
+
+local Anim_OnStop = function(self)
+	local parent = self.parent
+	parent:SetAlpha(0)
+	if parent:IsShown() then
+		parent:Hide()
+	end
+end 
+
+local function SetNewAnimation(frame, animType, parent)
+	local anim = frame:CreateAnimation(animType)
+	anim.parent = parent
+	return anim
+end
+
+local function SetAnim(frame, parent)
+	local speed = 0.08
+	frame.anim = frame:CreateAnimationGroup("Sprite")
+	frame.anim.parent = parent;
+	frame.anim:SetScript("OnPlay", Anim_OnPlay)
+	frame.anim:SetScript("OnFinished", Anim_OnStop)
+	frame.anim:SetScript("OnStop", Anim_OnStop)
+
+	frame.anim[1] = SetNewAnimation(frame.anim, "Translation", frame)
+	frame.anim[1]:SetOrder(1)
+	frame.anim[1]:SetDuration(speed)
+	frame.anim[1]._coords = {0,0.5,0,0.25}
+	frame.anim[1]:SetScript("OnUpdate", Anim_OnUpdate)
+
+	frame.anim[2] = SetNewAnimation(frame.anim, "Translation", frame)
+	frame.anim[2]:SetOrder(2)
+	frame.anim[2]:SetDuration(speed)
+	frame.anim[2]._coords = {0.5,1,0,0.25}
+	frame.anim[2]:SetScript("OnUpdate", Anim_OnUpdate)
+
+	frame.anim[3] = SetNewAnimation(frame.anim, "Translation", frame)
+	frame.anim[3]:SetOrder(3)
+	frame.anim[3]:SetDuration(speed)
+	frame.anim[3]._coords = {0,0.5,0.25,0.5}
+	frame.anim[3]:SetScript("OnUpdate", Anim_OnUpdate)
+	
+	frame.anim[4] = SetNewAnimation(frame.anim, "Translation", frame)
+	frame.anim[4]:SetOrder(4)
+	frame.anim[4]:SetDuration(speed)
+	frame.anim[4]._coords = {0.5,1,0.25,0.5}
+	frame.anim[4]:SetScript("OnUpdate", Anim_OnUpdate)
+	
+	frame.anim[5] = SetNewAnimation(frame.anim, "Translation", frame)
+	frame.anim[5]:SetOrder(5)
+	frame.anim[5]:SetDuration(speed)
+	frame.anim[5]._coords = {0,0.5,0.5,0.75}
+	frame.anim[5]:SetScript("OnUpdate", Anim_OnUpdate)
+	
+	frame.anim[6] = SetNewAnimation(frame.anim, "Translation", frame)
+	frame.anim[6]:SetOrder(6)
+	frame.anim[6]:SetDuration(speed)
+	frame.anim[6]._coords = {0.5,1,0.5,0.75}
+	frame.anim[6]:SetScript("OnUpdate", Anim_OnUpdate)
+	
+	frame.anim[7] = SetNewAnimation(frame.anim, "Translation", frame)
+	frame.anim[7]:SetOrder(7)
+	frame.anim[7]:SetDuration(speed)
+	frame.anim[7]._coords = {0,0.5,0.75,1}
+	frame.anim[7]:SetScript("OnUpdate", Anim_OnUpdate)
+	
+	frame.anim[8] = SetNewAnimation(frame.anim, "Translation", frame)
+	frame.anim[8]:SetOrder(8)
+	frame.anim[8]:SetDuration(speed)
+	frame.anim[8]._coords = {0.5,1,0.75,1}
+	frame.anim[8]:SetScript("OnUpdate", Anim_OnUpdate)
+
+	frame.anim:SetLooping("REPEAT")
+end
+--[[ 
+########################################################## 
 HEALTH
 ##########################################################
 ]]--
@@ -461,17 +534,34 @@ function MOD:OverlayHealthUpdate(event, unit)
 		mu = (min / max)
 	end
 
+	if(invisible or not health.overlayAnimation) then
+		health.animation[1].anim:Stop()
+		health.animation[1]:SetAlpha(0)
+	end
+
 	if(invisible) then
 		health:SetStatusBarColor(0.6,0.4,1,0.5)
+		health.animation[1]:SetVertexColor(0.8,0.3,1,0.4)
 	elseif(health.colorOverlay) then
 		local t = oUF_SVUI.colors.health
 		health:SetStatusBarColor(t[1], t[2], t[3], 0.9)
 	else
 		health:SetStatusBarColor(1, 0.25 * mu, 0, 0.85)
+		health.animation[1]:SetVertexColor(1, 0.1 * mu, 0, 0.5) 
 	end
 
 	if(bg) then 
 		bg:SetVertexColor(0,0,0,0)
+	end
+
+	if(health.overlayAnimation and not invisible) then 
+		if(mu <= 0.25) then
+			health.animation[1]:SetAlpha(1)
+			health.animation[1].anim:Play()
+		else
+			health.animation[1].anim:Stop()
+			health.animation[1]:SetAlpha(0)
+		end
 	end
 
 	if self.ResurrectIcon then 
@@ -515,6 +605,20 @@ function MOD:CreateHealthBar(frame, hasbg)
 		healthBar.bg.multiplier = 0.25
 	end 
 
+	local flasher = CreateFrame("Frame", nil, frame)
+	flasher:SetFrameLevel(3)
+	flasher:SetAllPoints(healthBar)
+
+	flasher[1] = flasher:CreateTexture(nil, "OVERLAY", nil, 1)
+	flasher[1]:SetTexture([[Interface\Addons\SVUI_UnitFrames\assets\UNIT-HEALTH-ANIMATION]])
+	flasher[1]:SetTexCoord(0, 0.5, 0, 0.25)
+	flasher[1]:SetVertexColor(1, 0.3, 0.1, 0.5)
+	flasher[1]:SetBlendMode("ADD")
+	flasher[1]:SetAllPoints(flasher)
+	SetAnim(flasher[1], flasher)
+	flasher:Hide() 
+
+	healthBar.animation = flasher
 	healthBar.noupdate = false;
 	healthBar.fillInverted = false;
 	healthBar.gridMode = false;
@@ -523,8 +627,8 @@ function MOD:CreateHealthBar(frame, hasbg)
 	healthBar.Override = false;
 
 	frame.RefreshHealthBar = RefreshHealthBar
-
-	return healthBar 
+	
+	return healthBar
 end
 --[[ 
 ########################################################## 

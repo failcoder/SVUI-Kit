@@ -1123,6 +1123,14 @@ function MOD:RefreshUnitLayout(frame, template)
 		end
 	end
 
+	if(frame.XRay) then
+        if(SV.db.UnitFrames.xrayFocus) then
+            frame.XRay:Show()
+        else
+            frame.XRay:Hide()
+        end
+    end
+
 	if(self.PostRefreshUpdate) then
 		self:PostRefreshUpdate(frame, template)
 	end

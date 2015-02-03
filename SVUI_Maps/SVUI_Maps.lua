@@ -29,7 +29,6 @@ local SV = _G['SVUI']
 local L = SV.L
 local MOD = SV.Maps;
 if(not MOD) then return end;
-MOD.MinimapButtons = {}
 --[[ 
 ########################################################## 
 LOCALIZED GLOBALS
@@ -49,6 +48,7 @@ local MMBHolder, MMBBar;
 
 local NewHook = hooksecurefunc
 local Initialized = false
+local CoordPattern = "%.1f";
 --[[ 
 ########################################################## 
 DATA UPVALUES
@@ -64,9 +64,23 @@ local MM_OFFSET_BOTTOM = (MM_SIZE * 0.11)
 local MM_WIDTH = MM_SIZE + (MM_BRDR * 2)
 local MM_HEIGHT = (MM_SIZE - (MM_OFFSET_TOP + MM_OFFSET_BOTTOM) + (MM_BRDR * 2))
 local WM_ALPHA = false;
-local SVUI_MinimapFrame = CreateFrame("Frame", "SVUI_MinimapFrame", UIParent)
-local WMCoords = CreateFrame('Frame', 'SVUI_WorldMapCoords', WorldMapFrame)
-SVUI_MinimapFrame:SetSize(MM_WIDTH, MM_HEIGHT);
+local NARR_TEXT = "Meanwhile";
+local NARR_PREFIX = "In ";
+--[[ 
+########################################################## 
+MODULE CHILDREN
+##########################################################
+]]--
+MOD.MinimapButtons = {}
+MOD.Holder = _G["SVUI_MinimapFrame"];
+MOD.InfoTop = _G["SVUI_MinimapInfoTop"];
+MOD.InfoBottom = _G["SVUI_MinimapInfoBottom"];
+local MiniMapCoords = _G["SVUI_MiniMapCoords"];
+local WorldMapPlayerCoords = _G["SVUI_WorldMapPlayerCoords"];
+local WorldMapMouseCoords = _G["SVUI_WorldMapMouseCoords"];
+--local SVUI_MinimapFrame = CreateFrame("Frame", "SVUI_MinimapFrame", UIParent)
+--local WMCoords = CreateFrame('Frame', 'SVUI_WorldMapCoords', WorldMapFrame)
+--SVUI_MinimapFrame:SetSize(MM_WIDTH, MM_HEIGHT);
 --[[ 
 ########################################################## 
 GENERAL HELPERS
@@ -269,53 +283,63 @@ do
 	end
 end
 
-local function UpdateMapCoords()
-	local xF, yF = "|cffFFCC00X:  |r%.1f", "|cffFFCC00Y:  |r%.1f"
-	local skip = IsInInstance()
-	local c, d = GetPlayerMapPosition("player")
-	if((not skip) and (c ~= 0 and d ~= 0)) then
-		c = parsefloat(100 * c, 2)
-		d = parsefloat(100 * d, 2)
-		if(MM_XY_COORD == "SIMPLE") then
-			xF, yF = "%.1f", "%.1f";
+local function UpdateMouseCoords()
+	local scale = WorldMapDetailFrame:GetEffectiveScale()
+	local width = WorldMapDetailFrame:GetWidth()
+	local height = WorldMapDetailFrame:GetHeight()
+	local centerX, centerY = WorldMapDetailFrame:GetCenter()
+	local cursorX, cursorY = GetCursorPosition()
+	local mouseX = (cursorX / scale - (centerX - (width / 2))) / width;
+	local mouseY = (centerY + (height / 2) - cursorY / scale) / height;
+	if(((mouseX >= 0) and (mouseX <= 1)) and ((mouseY >= 0) and (mouseY <= 1))) then 
+		mouseX = parsefloat(100 * mouseX, 2)
+		mouseY = parsefloat(100 * mouseY, 2)
+		if(not WorldMapMouseCoords:IsShown()) then
+			WorldMapMouseCoords:FadeIn()
 		end
-		if c ~= 0 and d ~= 0 then
-			SVUI_MiniMapCoords.playerXCoords:SetFormattedText(xF, c)
-			SVUI_MiniMapCoords.playerYCoords:SetFormattedText(yF, d)
-			if(WorldMapFrame:IsShown()) then
-				SVUI_WorldMapCoords.playerCoords:SetText(PLAYER..":   "..c..", "..d)
+		WorldMapMouseCoords.X:SetFormattedText(CoordPattern, mouseX)
+		WorldMapMouseCoords.Y:SetFormattedText(CoordPattern, mouseY)
+	else 
+		WorldMapMouseCoords:FadeOut(0.2, 1, 0, true)
+	end
+end
+
+local function UpdateMapCoords()
+	local skip = IsInInstance()
+	local useWM = WorldMapFrame:IsShown()
+	local playerX, playerY = GetPlayerMapPosition("player")
+	if((not skip) and (playerX ~= 0 and playerY ~= 0)) then
+		playerX = parsefloat(100 * playerX, 2)
+		playerY = parsefloat(100 * playerY, 2)
+		if(playerX ~= 0 and playerY ~= 0) then
+			if(not MiniMapCoords:IsShown()) then
+				MiniMapCoords:FadeIn()
+			end
+			MiniMapCoords.X:SetFormattedText(CoordPattern, playerX)
+			MiniMapCoords.Y:SetFormattedText(CoordPattern, playerY)
+			if(useWM) then
+				if(not WorldMapPlayerCoords:IsShown()) then
+					WorldMapPlayerCoords:FadeIn()
+				end
+				WorldMapPlayerCoords.X:SetFormattedText(CoordPattern, playerX)
+				WorldMapPlayerCoords.Y:SetFormattedText(CoordPattern, playerY)
 			end
 		else
-			SVUI_MiniMapCoords.playerXCoords:SetText("")
-			SVUI_MiniMapCoords.playerYCoords:SetText("")
-			if(WorldMapFrame:IsShown()) then
-				SVUI_WorldMapCoords.playerCoords:SetText("")
+			if(MiniMapCoords:IsShown()) then
+				MiniMapCoords:FadeOut(0.2, 1, 0, true)
+			end
+			if(useWM) then
+				WorldMapPlayerCoords:FadeOut(0.2, 1, 0, true)
 			end
 		end
-		if(WorldMapFrame:IsShown()) then
-			local e = WorldMapDetailFrame:GetEffectiveScale()
-			local f = WorldMapDetailFrame:GetWidth()
-			local g = WorldMapDetailFrame:GetHeight()
-			local h, i = WorldMapDetailFrame:GetCenter()
-			local c, d = GetCursorPosition()
-			local j = (c / e - (h - (f / 2))) / f;
-			local k = (i + (g / 2)-d / e) / g;
-			if j >= 0 and k >= 0 and j <= 1 and k <= 1 then 
-				j = parsefloat(100 * j, 2)
-				k = parsefloat(100 * k, 2)
-				SVUI_WorldMapCoords.mouseCoords:SetText(MOUSE_LABEL..":   "..j..", "..k)
-			else 
-				SVUI_WorldMapCoords.mouseCoords:SetText("")
-			end
-		end
+		if(useWM) then UpdateMouseCoords() end
 	else
-		SVUI_MiniMapCoords.playerXCoords:SetText("")
-		SVUI_MiniMapCoords.playerYCoords:SetText("")
-		if(WorldMapFrame:IsShown()) then
-			SVUI_WorldMapCoords.playerCoords:SetText("")
+		if(MiniMapCoords:IsShown()) then
+			MiniMapCoords:FadeOut(0.2, 1, 0, true)
 		end
+		if(useWM) then WorldMapPlayerCoords:FadeOut(0.2, 1, 0, true) end
 	end
-	if(WM_ALPHA and WorldMapFrame:IsShown() and (not WorldMapFrame_InWindowedMode())) then
+	if(WM_ALPHA and useWM and (not WorldMapFrame_InWindowedMode())) then
 		local speed = GetUnitSpeed("player")
 		if(speed ~= 0) then
 			WorldMapFrame:SetAlpha(0.2)
@@ -382,10 +406,10 @@ local function UpdateWorldMapConfig()
 			SV.Timers:RemoveLoop(MOD.CoordTimer)
 			MOD.CoordTimer = nil;
 		end
-		SVUI_MiniMapCoords.playerXCoords:SetText("")
-		SVUI_MiniMapCoords.playerYCoords:SetText("")
+		MiniMapCoords.X:SetText("")
+		MiniMapCoords.Y:SetText("")
 	else
-		if((not InCombatLockdown()) and (not SVUI_MiniMapCoords:IsShown())) then SVUI_MiniMapCoords:Show() end
+		if((not InCombatLockdown()) and (not MiniMapCoords:IsShown())) then MiniMapCoords:Show() end
 		UpdateMapCoords()
 		MOD.CoordTimer = SV.Timers:ExecuteLoop(UpdateMapCoords, 0.1)
 	end
@@ -522,14 +546,27 @@ end
 EVENTS
 ##########################################################
 ]]--
-function MOD:ZONE_CHANGED()
-	local zone = GetRealZoneText() or UNKNOWN
-	self.Zone.Text:SetText(zone)
-end
-
-function MOD:ZONE_CHANGED_NEW_AREA()
-	local zone = GetRealZoneText() or UNKNOWN
-	self.Zone.Text:SetText(zone)
+function MOD:RefreshZoneText()
+	if(not SV.db.Maps.locationText or SV.db.Maps.locationText == "HIDE") then
+		self.InfoTop:Hide();
+		self.InfoBottom:Hide();
+	else
+		if(SV.db.Maps.locationText == "SIMPLE") then
+			self.InfoTop:Hide();
+			self.InfoBottom:Show();
+			self.InfoTop.Text:SetText(NARR_TEXT)
+		else
+			self.InfoTop:Show();
+			self.InfoBottom:Show();
+			NARR_TEXT = L['Meanwhile...'];
+			NARR_PREFIX = L["..at "];
+			self.InfoTop.Text:SetText(NARR_TEXT)
+		end
+		local zone = GetRealZoneText() or UNKNOWN
+		zone = zone:sub(1, 25);
+		local zoneText = ("%s%s"):format(NARR_PREFIX, zone);
+		self.InfoBottom.Text:SetText(zoneText)
+	end
 end
 
 function MOD:ADDON_LOADED(event, addon)
@@ -607,8 +644,8 @@ function MOD:RefreshMiniMap()
 		SV.Dock.TopRight:ModSize(MM_WIDTH, (MM_HEIGHT + 4))
 	end
 
-	self.Zone:SetSize(MM_WIDTH,28)
-	self.Zone.Text:SetSize(MM_WIDTH,32)
+	self.InfoBottom.Textize(MM_WIDTH,28)
+	self.InfoBottom.Text:SetSize(MM_WIDTH,32)
 	self:ZONE_CHANGED()
 
 	if SVUI_AurasAnchor then
@@ -678,11 +715,6 @@ local _hook_BlipTextures = function(self, texture)
 end
 
 function MOD:Load()
-	if(not SV.db.Maps.enable) then 
-		Minimap:SetMaskTexture('Textures\\MinimapMask')
-		return
-	end
-
 	self:UpdateLocals()
 
 	Minimap:SetPlayerTexture(MOD.media.playerArrow)
@@ -696,21 +728,20 @@ function MOD:Load()
 	
 	Minimap:SetClampedToScreen(false)
 
-	local mapHolder = SVUI_MinimapFrame
-	mapHolder:SetFrameStrata(Minimap:GetFrameStrata())
-	mapHolder:ModPoint("TOPRIGHT", SV.Screen, "TOPRIGHT", -10, -15)
-	mapHolder:ModSize(MM_WIDTH, MM_HEIGHT)
+	self.Holder:SetFrameStrata(Minimap:GetFrameStrata())
+	self.Holder:ModPoint("TOPRIGHT", SV.Screen, "TOPRIGHT", -10, -15)
+	self.Holder:ModSize(MM_WIDTH, MM_HEIGHT)
 
-	mapHolder.Square = CreateFrame("Frame", nil, Minimap)
-	mapHolder.Square:WrapPoints(mapHolder, 2)
-	mapHolder.Square:SetStyle("Frame", "Minimap")
-	mapHolder.Square:SetPanelColor(MM_COLOR)
+	self.Holder.Square = CreateFrame("Frame", nil, Minimap)
+	self.Holder.Square:WrapPoints(self.Holder, 2)
+	self.Holder.Square:SetStyle("Frame", "Minimap")
+	self.Holder.Square:SetPanelColor(MM_COLOR)
 
-	mapHolder.Circle = mapHolder:CreateTexture(nil, "BACKGROUND", nil, -2)
-	mapHolder.Circle:WrapPoints(mapHolder, 2)
-	mapHolder.Circle:SetTexture(MOD.media.roundBorder)
-	mapHolder.Circle:SetVertexColor(0,0,0)
-	mapHolder.Circle:Hide()
+	self.Holder.Circle = self.Holder:CreateTexture(nil, "BACKGROUND", nil, -2)
+	self.Holder.Circle:WrapPoints(self.Holder, 2)
+	self.Holder.Circle:SetTexture(MOD.media.roundBorder)
+	self.Holder.Circle:SetVertexColor(0,0,0)
+	self.Holder.Circle:Hide()
 
 	if TimeManagerClockButton then
 		TimeManagerClockButton:Die()
@@ -718,10 +749,10 @@ function MOD:Load()
 
 	Minimap:SetQuestBlobRingAlpha(0) 
 	Minimap:SetArchBlobRingAlpha(0)
-	Minimap:SetParent(mapHolder)
+	Minimap:SetParent(self.Holder)
 	Minimap:SetFrameStrata("LOW")
 	Minimap:SetFrameLevel(Minimap:GetFrameLevel() + 2)
-	mapHolder:SetFrameLevel(Minimap:GetFrameLevel() - 2)
+	self.Holder:SetFrameLevel(Minimap:GetFrameLevel() - 2)
 	ShowUIPanel(SpellBookFrame)
 	HideUIPanel(SpellBookFrame)
 	MinimapBorder:Hide()
@@ -734,25 +765,25 @@ function MOD:Load()
 	MinimapZoneTextButton:Hide()
 	MiniMapTracking:Hide()
 	MiniMapMailFrame:ClearAllPoints()
-	MiniMapMailFrame:ModPoint("TOPRIGHT", mapHolder, 3, 4)
+	MiniMapMailFrame:ModPoint("TOPRIGHT", self.Holder, 3, 4)
 	MiniMapMailBorder:Hide()
 	MiniMapMailIcon:SetTexture(MOD.media.mailIcon)
 	MiniMapWorldMapButton:Hide()
 
 	MiniMapInstanceDifficulty:ClearAllPoints()
 	MiniMapInstanceDifficulty:SetParent(Minimap)
-	MiniMapInstanceDifficulty:ModPoint("LEFT", mapHolder, "LEFT", 0, 0)
+	MiniMapInstanceDifficulty:ModPoint("LEFT", self.Holder, "LEFT", 0, 0)
 
 	GuildInstanceDifficulty:ClearAllPoints()
 	GuildInstanceDifficulty:SetParent(Minimap)
-	GuildInstanceDifficulty:ModPoint("LEFT", mapHolder, "LEFT", 0, 0)
+	GuildInstanceDifficulty:ModPoint("LEFT", self.Holder, "LEFT", 0, 0)
 
 	MiniMapChallengeMode:ClearAllPoints()
 	MiniMapChallengeMode:SetParent(Minimap)
-	MiniMapChallengeMode:ModPoint("LEFT", mapHolder, "LEFT", 12, 0)
+	MiniMapChallengeMode:ModPoint("LEFT", self.Holder, "LEFT", 12, 0)
 
 	QueueStatusMinimapButton:ClearAllPoints()
-	QueueStatusMinimapButton:ModPoint("BOTTOMLEFT", mapHolder, "BOTTOMLEFT", 2, 1)
+	QueueStatusMinimapButton:ModPoint("BOTTOMLEFT", self.Holder, "BOTTOMLEFT", 2, 1)
 	QueueStatusMinimapButton:SetStyle("Frame", "Icon", true, 1, -6, -6)
 
 	QueueStatusFrame:SetClampedToScreen(true)
@@ -763,9 +794,9 @@ function MOD:Load()
 		MiniMapChallengeMode:ModPoint("BOTTOMLEFT", QueueStatusMinimapButton, "TOPRIGHT", 0, 0)
 	end)
 	QueueStatusMinimapButton:SetScript("OnHide", function()
-		MiniMapInstanceDifficulty:ModPoint("LEFT", mapHolder, "LEFT", 0, 0)
-		GuildInstanceDifficulty:ModPoint("LEFT", mapHolder, "LEFT", 0, 0)
-		MiniMapChallengeMode:ModPoint("LEFT", mapHolder, "LEFT", 12, 0)
+		MiniMapInstanceDifficulty:ModPoint("LEFT", self.Holder, "LEFT", 0, 0)
+		GuildInstanceDifficulty:ModPoint("LEFT", self.Holder, "LEFT", 0, 0)
+		MiniMapChallengeMode:ModPoint("LEFT", self.Holder, "LEFT", 12, 0)
 	end)
 
 	if FeedbackUIButton then
@@ -774,29 +805,28 @@ function MOD:Load()
 
 	local mwfont = SV.Media.font.narrator
 
-	local zt = CreateFrame("Frame", nil, mapHolder)
-	zt:ModPoint("BOTTOMRIGHT", mapHolder, "BOTTOMRIGHT", 2, -3)
-	zt:SetSize(MM_WIDTH, 28)
-	zt:SetFrameLevel(Minimap:GetFrameLevel() + 1)
-	zt:SetParent(Minimap)
+	self.InfoTop:ModPoint("TOPLEFT", self.Holder, "TOPLEFT", 2, -2)
+	self.InfoTop:SetSize(100, 22)
+	self.InfoTop:SetStyle("!_Frame")
+  	self.InfoTop:SetPanelColor("yellow")
+  	self.InfoTop:SetBackdropColor(1, 1, 0, 1)
+	self.InfoTop:SetFrameLevel(Minimap:GetFrameLevel() + 2)
 
-	zt.Text = zt:CreateFontString(nil, "ARTWORK", nil, 7)
-	zt.Text:SetFontObject(SVUI_Font_Narrator)
-	zt.Text:SetJustifyH("RIGHT")
-	zt.Text:SetJustifyV("MIDDLE")
-	zt.Text:ModPoint("RIGHT", zt)
-	zt.Text:SetSize(MM_WIDTH, 32)
-	zt.Text:SetTextColor(1, 1, 0)
-	zt.Text:SetShadowColor(0, 0, 0, 0.3)
-	zt.Text:SetShadowOffset(-2, 2)
+	self.InfoTop.Text:SetShadowColor(0, 0, 0, 0.3)
+	self.InfoTop.Text:SetShadowOffset(2, -2)
 
-	self.Zone = zt
+	self.InfoBottom:ModPoint("BOTTOMRIGHT", self.Holder, "BOTTOMRIGHT", 2, -3)
+	self.InfoBottom:SetSize(MM_WIDTH, 28)
+	self.InfoBottom:SetFrameLevel(Minimap:GetFrameLevel() + 1)
+
+	self.InfoBottom.Text:SetShadowColor(0, 0, 0, 0.3)
+	self.InfoBottom.Text:SetShadowOffset(-2, 2)
 
 	Minimap:EnableMouseWheel(true)
 	Minimap:SetScript("OnMouseWheel", MiniMap_MouseWheel)	
 	Minimap:SetScript("OnMouseUp", MiniMap_MouseUp)
 
-	SV.Layout:Add(mapHolder, L["Minimap"]) 
+	SV.Layout:Add(self.Holder, L["Minimap"]) 
 
 	if(SV.db.Maps.tinyWorldMap) then
 		setfenv(WorldMapFrame_OnShow, setmetatable({ UpdateMicroButtons = SV.fubar }, { __index = _G }))
@@ -805,52 +835,33 @@ function MOD:Load()
 		WorldMapFrame:HookScript('OnHide', _hook_WorldMapFrame_OnHide)
 	end
 
-	WMCoords:SetFrameLevel(WorldMapDetailFrame:GetFrameLevel() + 1)
-	WMCoords:SetFrameStrata(WorldMapDetailFrame:GetFrameStrata())
-	WMCoords.playerCoords = WMCoords:CreateFontString(nil,'OVERLAY')
-	WMCoords.mouseCoords = WMCoords:CreateFontString(nil,'OVERLAY')
-	WMCoords.playerCoords:SetTextColor(1,1,0)
-	WMCoords.mouseCoords:SetTextColor(1,1,0)
-	WMCoords.playerCoords:SetFontObject(NumberFontNormal)
-	WMCoords.mouseCoords:SetFontObject(NumberFontNormal)
-	WMCoords.playerCoords:SetPoint("BOTTOMLEFT", WorldMapFrame, "BOTTOMLEFT", 5, 5)
-	WMCoords.playerCoords:SetText(PLAYER..":   0, 0")
-	WMCoords.mouseCoords:SetPoint("BOTTOMLEFT", WMCoords.playerCoords, "TOPLEFT", 0, 5)
-	WMCoords.mouseCoords:SetText(MOUSE_LABEL..":   0, 0")
+	--WorldMapPlayerCoords:SetFrameLevel(WorldMapDetailFrame:GetFrameLevel() + 1)
+	--WorldMapPlayerCoords:SetFrameStrata(WorldMapDetailFrame:GetFrameStrata())
+	WorldMapPlayerCoords.Name:SetText(PLAYER)
+	--WorldMapMouseCoords:SetFrameLevel(WorldMapDetailFrame:GetFrameLevel() + 1)
+	--WorldMapMouseCoords:SetFrameStrata(WorldMapDetailFrame:GetFrameStrata())
+	WorldMapMouseCoords.Name:SetText(MOUSE_LABEL)
 
 	DropDownList1:HookScript('OnShow', _hook_DropDownList1)
 	WorldFrame:SetAllPoints()
 
-	SV:ManageVisibility(mapHolder)
+	SV:ManageVisibility(self.Holder)
 
-	local CoordsHolder = CreateFrame("Frame", "SVUI_MiniMapCoords", Minimap)
-	CoordsHolder:SetFrameLevel(Minimap:GetFrameLevel()  +  1)
-	CoordsHolder:SetFrameStrata(Minimap:GetFrameStrata())
-	CoordsHolder:SetPoint("TOPLEFT", mapHolder, "BOTTOMLEFT", 0, -4)
-	CoordsHolder:SetPoint("TOPRIGHT", mapHolder, "BOTTOMRIGHT", 0, -4)
-	CoordsHolder:SetHeight(22)
-	CoordsHolder:EnableMouse(true)
-	CoordsHolder:SetScript("OnEnter",Tour_OnEnter)
-	CoordsHolder:SetScript("OnLeave",Tour_OnLeave)
-	CoordsHolder:SetScript("OnMouseDown",Tour_OnClick)
+	MiniMapCoords:SetFrameLevel(Minimap:GetFrameLevel() + 1)
+	MiniMapCoords:SetFrameStrata(Minimap:GetFrameStrata())
+	MiniMapCoords:SetPoint("TOPLEFT", self.Holder, "BOTTOMLEFT", 0, -4)
+	MiniMapCoords:SetPoint("TOPRIGHT", self.Holder, "BOTTOMRIGHT", 0, -4)
+	MiniMapCoords:EnableMouse(true)
+	MiniMapCoords:SetScript("OnEnter",Tour_OnEnter)
+	MiniMapCoords:SetScript("OnLeave",Tour_OnLeave)
+	MiniMapCoords:SetScript("OnMouseDown",Tour_OnClick)
 
-	CoordsHolder.playerXCoords = CoordsHolder:CreateFontString(nil, "OVERLAY")
-	CoordsHolder.playerXCoords:SetPoint("BOTTOMLEFT", CoordsHolder, "BOTTOMLEFT", 0, 0)
-	CoordsHolder.playerXCoords:SetWidth(70)
-	CoordsHolder.playerXCoords:SetHeight(22)
-	CoordsHolder.playerXCoords:SetFontObject(SVUI_Font_Number)
-	CoordsHolder.playerXCoords:SetTextColor(cColor.r, cColor.g, cColor.b)
-	
-	CoordsHolder.playerYCoords = CoordsHolder:CreateFontString(nil, "OVERLAY")
-	CoordsHolder.playerYCoords:SetPoint("BOTTOMLEFT", CoordsHolder.playerXCoords, "BOTTOMRIGHT", 4, 0)
-	CoordsHolder.playerXCoords:SetWidth(70)
-	CoordsHolder.playerYCoords:SetHeight(22)
-	CoordsHolder.playerYCoords:SetFontObject(SVUI_Font_Number)
-	CoordsHolder.playerYCoords:SetTextColor(cColor.r, cColor.g, cColor.b)
+	MiniMapCoords.X:SetTextColor(cColor.r, cColor.g, cColor.b)
+	MiniMapCoords.Y:SetTextColor(cColor.r, cColor.g, cColor.b)
 
-	local calendarButton = CreateFrame("Button", "SVUI_CalendarButton", CoordsHolder)
+	local calendarButton = CreateFrame("Button", "SVUI_CalendarButton", MiniMapCoords)
 	calendarButton:SetSize(22,22)
-	calendarButton:SetPoint("RIGHT", CoordsHolder, "RIGHT", 0, 0)
+	calendarButton:SetPoint("RIGHT", MiniMapCoords, "RIGHT", 0, 0)
 	calendarButton:RemoveTextures()
 	calendarButton:SetNormalTexture(MOD.media.calendarIcon)
 	calendarButton:SetPushedTexture(MOD.media.calendarIcon)
@@ -861,7 +872,7 @@ function MOD:Load()
 	calendarButton:SetScript("OnLeave", Basic_OnLeave)
 	calendarButton:SetScript("OnClick", Calendar_OnClick)
 
-	local trackingButton = CreateFrame("Button", "SVUI_TrackingButton", CoordsHolder)
+	local trackingButton = CreateFrame("Button", "SVUI_TrackingButton", MiniMapCoords)
 	trackingButton:SetSize(22,22)
 	trackingButton:SetPoint("RIGHT", calendarButton, "LEFT", -4, 0)
 	trackingButton:RemoveTextures()
@@ -875,9 +886,9 @@ function MOD:Load()
 	trackingButton:SetScript("OnClick", Tracking_OnClick)
 
 	if(SV.db.Maps.minimapbar.enable == true) then
-		MMBHolder = CreateFrame("Frame", "SVUI_MiniMapButtonHolder", mapHolder)
+		MMBHolder = CreateFrame("Frame", "SVUI_MiniMapButtonHolder", self.Holder)
 		MMBHolder:ModPoint("TOPRIGHT", SV.Dock.TopRight, "BOTTOMRIGHT", 0, -4)
-		MMBHolder:ModSize(mapHolder:GetWidth(), 32)
+		MMBHolder:ModSize(self.Holder:GetWidth(), 32)
 		MMBHolder:SetFrameStrata("BACKGROUND")
 		MMBBar = CreateFrame("Frame", "SVUI_MiniMapButtonBar", MMBHolder)
 		MMBBar:SetFrameStrata("LOW")
@@ -889,15 +900,13 @@ function MOD:Load()
 		self:UpdateMinimapButtonSettings()
 	end
 
-	self.Holder = mapHolder
-
 	self:RefreshMiniMap()
 
 	self:RegisterEvent('ADDON_LOADED')
 	self:RegisterEvent('PLAYER_REGEN_ENABLED')
 	self:RegisterEvent('PLAYER_REGEN_DISABLED')
-	self:RegisterEvent("ZONE_CHANGED")
-	self:RegisterEvent("ZONE_CHANGED_NEW_AREA")
+	self:RegisterEvent("ZONE_CHANGED", "RefreshZoneText")
+	self:RegisterEvent("ZONE_CHANGED_NEW_AREA", "RefreshZoneText")
 
 	NewHook("Minimap_UpdateRotationSetting", RotationHook)
 	

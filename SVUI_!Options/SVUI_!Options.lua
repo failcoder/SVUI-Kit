@@ -1048,6 +1048,51 @@ SV.Options.args.Dock = {
 		},
 	}
 }
+
+SV.Options.args.FunStuff = {
+	type = "group",
+	order = 6,
+	name = L["Fun Stuff"],
+	args = {
+		comix = {
+			order = 1,
+			type = 'select',
+			name = L["Comic Popups"],
+			get = function(j)return SV.db.FunStuff.comix end,
+			set = function(j,value) SV.db.FunStuff.comix = value; THEME.Comix:Toggle() end,
+			values = {
+				['NONE'] = NONE,
+				['1'] = 'All Popups',
+				['2'] = 'Only Small Popups',
+			}
+		},
+		afk = {
+			order = 2,
+			type = 'select',
+			name = L["AFK Screen"],
+			get = function(j)return SV.db.FunStuff.afk end,
+			set = function(j,value) SV.db.FunStuff.afk = value; THEME.AFK:Toggle() end,
+			values = {
+				['NONE'] = NONE,
+				['1'] = 'Fully Enabled',
+				['2'] = 'Enabled (No Spinning)',
+			}
+		},
+		gamemenu = {
+			order = 3,
+			type = 'select',
+			name = L["Game Menu"],
+			get = function(j)return SV.db.FunStuff.gamemenu end,
+			set = function(j,value) SV.db.FunStuff.gamemenu = value; SV:StaticPopup_Show("RL_CLIENT") end,
+			values = {
+				['NONE'] = NONE,
+				['1'] = 'You + Henchman',
+				['2'] = 'You x2',
+			}
+		},
+	}
+}
+
 SV.Options.args.Filters = {
 	type = "group",
 	name = L["Aura Filters"],

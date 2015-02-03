@@ -302,6 +302,12 @@ SV.defaults = {
             [SPELL_FAILED_UNIT_NOT_INFRONT] = false,
         }
     },
+    ["FunStuff"] = {
+        ["drunk"] = true,
+        ["comix"] = '1',
+        ["gamemenu"] = '1',
+        ["afk"] = '1', 
+    },
     ["Dock"] = {
         ["dockLeftWidth"] = 412, 
         ["dockLeftHeight"] = 224, 
@@ -791,6 +797,10 @@ function SV:Initialize()
     SV.API:Initialize();
     self.Dock:Initialize();
     self.Reports:Initialize();
+    self.AFK:Initialize();
+    self.Comix:Initialize();
+    self.GameMenu:Initialize();
+    self.Drunk:Initialize();
 
     SVUILib:Launch();
 

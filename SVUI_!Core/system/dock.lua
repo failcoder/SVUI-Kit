@@ -82,30 +82,92 @@ MOD.ErrorSound = SV.Sounds:Blend("Malfunction", "Sparks", "Wired");
 
 function MOD.SetThemeDockStyle(dock, isBottom)
 	if dock.backdrop then return end
+
 	local backdrop = CreateFrame("Frame", nil, dock)
 	backdrop:SetAllPoints(dock)
 	backdrop:SetFrameStrata("BACKGROUND")
-	backdrop:SetBackdrop({
-	    bgFile = [[Interface\DialogFrame\UI-DialogBox-Background]], 
-	    tile = false, 
-	    tileSize = 0, 
-	    edgeFile = [[Interface\BUTTONS\WHITE8X8]],
-	    edgeSize = 1,
-	    insets = 
-	    {
-	        left = 0, 
-	        right = 0, 
-	        top = 0, 
-	        bottom = 0, 
-	    }, 
-	});
-	backdrop:SetBackdropColor(0,0,0,0.5);
-	backdrop:SetBackdropBorderColor(0,0,0,0.8);
+
+	backdrop.bg = backdrop:CreateTexture(nil, "BORDER")
+	backdrop.bg:InsetPoints(backdrop)
+	backdrop.bg:SetTexture(1, 1, 1, 1)
+	
+	if(isBottom) then
+		backdrop.bg:SetGradientAlpha("VERTICAL", 0, 0, 0, 0.8, 0, 0, 0, 0)
+	else
+		backdrop.bg:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0, 0, 0, 0.8)
+	end
+
+	backdrop.left = backdrop:CreateTexture(nil, "OVERLAY")
+	backdrop.left:SetTexture(1, 1, 1, 1)
+	backdrop.left:ModPoint("TOPLEFT", 1, -1)
+	backdrop.left:ModPoint("BOTTOMLEFT", -1, -1)
+	backdrop.left:ModWidth(4)
+	if(isBottom) then
+		backdrop.left:SetGradientAlpha("VERTICAL", 0, 0, 0, 1, 0, 0, 0, 0)
+	else
+		backdrop.left:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0, 0, 0, 1)
+	end
+
+	backdrop.right = backdrop:CreateTexture(nil, "OVERLAY")
+	backdrop.right:SetTexture(1, 1, 1, 1)
+	backdrop.right:ModPoint("TOPRIGHT", -1, -1)
+	backdrop.right:ModPoint("BOTTOMRIGHT", -1, -1)
+	backdrop.right:ModWidth(4)
+	if(isBottom) then
+		backdrop.right:SetGradientAlpha("VERTICAL", 0, 0, 0, 1, 0, 0, 0, 0)
+	else
+		backdrop.right:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0, 0, 0, 1)
+	end
+
+	backdrop.bottom = backdrop:CreateTexture(nil, "OVERLAY")
+	backdrop.bottom:ModPoint("BOTTOMLEFT", 1, -1)
+	backdrop.bottom:ModPoint("BOTTOMRIGHT", -1, -1)
+	if(isBottom) then
+		backdrop.bottom:SetTexture(0, 0, 0, 1)
+		backdrop.bottom:ModHeight(4)
+	else
+		backdrop.bottom:SetTexture(0, 0, 0, 0)
+		backdrop.bottom:SetAlpha(0)
+		backdrop.bottom:ModHeight(1)
+	end
+
+	backdrop.top = backdrop:CreateTexture(nil, "OVERLAY")
+	backdrop.top:ModPoint("TOPLEFT", 1, -1)
+	backdrop.top:ModPoint("TOPRIGHT", -1, 1)
+	if(isBottom) then
+		backdrop.top:SetTexture(0, 0, 0, 0)
+		backdrop.top:SetAlpha(0)
+		backdrop.top:ModHeight(1)
+	else
+		backdrop.top:SetTexture(0, 0, 0, 1)
+		backdrop.top:ModHeight(4)
+	end
+
 	return backdrop 
 end
 
-function MOD:SetButtonTheme(button, ...)
-	button:SetStyle("DockButton")
+function MOD:SetButtonTheme(button, size)
+	local sparkSize = size * 5;
+    local sparkOffset = size * 0.5;
+
+    button:SetStyle("DockButton")
+
+	local sparks = button:CreateTexture(nil, "OVERLAY", nil, 2)
+	sparks:ModSize(sparkSize, sparkSize)
+	sparks:SetPoint("CENTER", button, "BOTTOMRIGHT", -sparkOffset, 4)
+	sparks:SetTexture(SV.Media.dock.sparks[1])
+	sparks:SetVertexColor(0.7, 0.6, 0.5)
+	sparks:SetBlendMode("ADD")
+	sparks:SetAlpha(0)
+
+	SV.Animate:Sprite8(sparks, 0.08, 2, false, true)
+
+	button.Sparks = sparks;
+
+	button.ClickTheme = function(self)
+		self.Sparks:SetTexture(SV.Media.dock.sparks[random(1,3)])
+		self.Sparks.anim:Play()
+	end
 end
 --[[ 
 ########################################################## 

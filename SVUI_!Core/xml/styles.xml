@@ -104,17 +104,17 @@
         <Attributes>
             <Attribute name="panelID" type="string" value="dockbutton" />
             <Attribute name="panelPadding" type="number" value="1" />
-            <Attribute name="panelColor" type="string" value="dark" />
-            <Attribute name="panelGradient" type="string" value="dark" />
+            <Attribute name="panelColor" type="string" value="default" />
+            <Attribute name="panelGradient" type="string" value="default" />
             <Attribute name="panelTexUpdate" type="boolean" value="true" />
             <Attribute name="panelSkipUpdate" type="boolean" value="false" />
             <Attribute name="panelOffset" type="number" value="0" />
         </Attributes>
-        <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\BUTTONS\WHITE8X8" tile="false">
+        <Backdrop bgFile="Interface\BUTTONS\WHITE8X8" edgeFile="Interface\BUTTONS\WHITE8X8" tile="false">
             <EdgeSize val="1" />
             <TileSize val="0" />
             <BackgroundInsets left="0" right="0" top="0" bottom="0" />
-            <Color r="0" g="0" b="0" a="1" />
+            <Color r="0.2" g="0.2" b="0.2" a="1" />
             <BorderColor r="0" g="0" b="0" a="1" />
         </Backdrop>
         <Frames>

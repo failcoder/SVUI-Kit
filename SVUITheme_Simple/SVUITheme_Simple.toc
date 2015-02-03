@@ -1,0 +1,15 @@
+## Interface: 60000
+## Author: S.Jackson
+## Version: 1.0.0
+## Title: |cffFF9900SVUI Theme: Simple|r
+## Notes: Theme for [|cff9911FFSVUI Framework|r].
+## RequiredDeps: SVUI_!Core
+## OptionalDeps: Blizzard_CombatText, LibSharedMedia-3.0, SVUI_Maps, SVUI_UnitFrames, SVUI_Tooltip, SVUI_Skins
+## X-SVUITheme: Simple
+## X-Email: munglunch@gmail.com
+## X-Website: http://www.supervillainui.com
+## X-Donate: PayPal:munglunch@gmail.com
+## X-License: All Rights Reserved
+## X-Category: Interface Enhancements
+
+SVUITheme_Simple.xml

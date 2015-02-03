@@ -127,6 +127,14 @@ LSM:Register("sound", "Toasty", [[Interface\AddOns\SVUI_!Core\assets\sounds\toas
 LSM:Register("font", "SVUI Default Font", [[Interface\AddOns\SVUI_!Core\assets\fonts\Default.ttf]],LSM.LOCALE_BIT_ruRU+LSM.LOCALE_BIT_western)
 LSM:Register("font", "SVUI Pixel Font", [[Interface\AddOns\SVUI_!Core\assets\fonts\Pixel.ttf]],LSM.LOCALE_BIT_ruRU+LSM.LOCALE_BIT_western)
 LSM:Register("font", "SVUI Caps Font", [[Interface\AddOns\SVUI_!Core\assets\fonts\Caps.ttf]],LSM.LOCALE_BIT_ruRU+LSM.LOCALE_BIT_western)
+LSM:Register("font", "SVUI Classic Font", [[Interface\AddOns\SVUI_!Core\assets\fonts\Classic.ttf]])
+LSM:Register("font", "SVUI Combat Font", [[Interface\AddOns\SVUI_!Core\assets\fonts\Combat.ttf]])
+LSM:Register("font", "SVUI Dialog Font", [[Interface\AddOns\SVUI_!Core\assets\fonts\Dialog.ttf]])
+LSM:Register("font", "SVUI Number Font", [[Interface\AddOns\SVUI_!Core\assets\fonts\Numbers.ttf]])
+LSM:Register("font", "SVUI Zone Font", [[Interface\AddOns\SVUI_!Core\assets\fonts\Zone.ttf]])
+LSM:Register("font", "SVUI Flash Font", [[Interface\AddOns\SVUI_!Core\assets\fonts\Flash.ttf]])
+LSM:Register("font", "SVUI Alert Font", [[Interface\AddOns\SVUI_!Core\assets\fonts\Alert.ttf]])
+LSM:Register("font", "SVUI Narrator Font", [[Interface\AddOns\SVUI_!Core\assets\fonts\Narrative.ttf]])
 --[[ 
 ########################################################## 
 CREATE AND POPULATE MEDIA DATA
@@ -135,26 +143,25 @@ CREATE AND POPULATE MEDIA DATA
 SV.BaseTexture = [[Interface\AddOns\SVUI_!Core\assets\textures\DEFAULT]];
 SV.NoTexture = [[Interface\AddOns\SVUI_!Core\assets\textures\EMPTY]];
 
-SV.defaults["font"] = {
-	["default"]     	= {file = "SVUI Default Font",  size = 12,  outline = "OUTLINE"},
-	["dialog"]      	= {file = "SVUI Default Font",  size = 12,  outline = "OUTLINE"},
-	["title"]       	= {file = "SVUI Default Font",  size = 16,  outline = "OUTLINE"}, 
-	["number"]      	= {file = "SVUI Caps Font",   size = 12,  outline = "OUTLINE"},
-	["number_big"]    	= {file = "SVUI Caps Font",   size = 18,  outline = "OUTLINE"},
-	["header"]      	= {file = "SVUI Caps Font",   size = 18,  outline = "OUTLINE"},  
-	["combat"]      	= {file = "SVUI Default Font",   size = 64,  outline = "OUTLINE"}, 
-	["alert"]       	= {file = "SVUI Default Font",    size = 20,  outline = "OUTLINE"},
-	["zone"]      		= {file = "SVUI Default Font",     size = 16,  outline = "OUTLINE"},
-	["caps"]      		= {file = "SVUI Caps Font",     size = 12,  outline = "OUTLINE"},
-	["aura"]      		= {file = "SVUI Caps Font",   size = 12,  outline = "OUTLINE"},
-	["data"]      		= {file = "SVUI Caps Font",   size = 14,  outline = "OUTLINE"},
-	["narrator"]    	= {file = "SVUI Default Font", size = 14,  outline = "OUTLINE"},
-	["pixel"]       	= {file = "SVUI Pixel Font",    size = 8,   outline = "MONOCHROMEOUTLINE"},
-	["lootdialog"]    	= {file = "SVUI Default Font",  size = 14,  outline = "OUTLINE"},
-	["lootnumber"]    	= {file = "SVUI Caps Font",   size = 14,  outline = "OUTLINE"},
-	["rolldialog"]    	= {file = "SVUI Default Font",  size = 14,  outline = "OUTLINE"},
-	["rollnumber"]    	= {file = "SVUI Caps Font",   size = 14,  outline = "OUTLINE"},
-};
+SV.defaults["font"] = {};
+SV.defaults["font"]["default"]     	= {file = "SVUI Default Font",  size = 12,  outline = "OUTLINE"};
+SV.defaults["font"]["dialog"]      	= {file = "SVUI Default Font",  size = 12,  outline = "OUTLINE"};
+SV.defaults["font"]["title"]       	= {file = "SVUI Default Font",  size = 16,  outline = "OUTLINE"}; 
+SV.defaults["font"]["number"]      	= {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"};
+SV.defaults["font"]["number_big"]   = {file = "SVUI Number Font",   size = 18,  outline = "OUTLINE"};
+SV.defaults["font"]["header"]      	= {file = "SVUI Number Font",   size = 18,  outline = "OUTLINE"};  
+SV.defaults["font"]["combat"]      	= {file = "SVUI Combat Font",   size = 64,  outline = "OUTLINE"}; 
+SV.defaults["font"]["alert"]       	= {file = "SVUI Alert Font",    size = 20,  outline = "OUTLINE"};
+SV.defaults["font"]["zone"]      	= {file = "SVUI Zone Font",     size = 16,  outline = "OUTLINE"};
+SV.defaults["font"]["caps"]      	= {file = "SVUI Caps Font",     size = 12,  outline = "OUTLINE"};
+SV.defaults["font"]["aura"]      	= {file = "SVUI Number Font",   size = 10,  outline = "OUTLINE"};
+SV.defaults["font"]["data"]      	= {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"};
+SV.defaults["font"]["narrator"]    	= {file = "SVUI Narrator Font", size = 12,  outline = "OUTLINE"};
+SV.defaults["font"]["lootdialog"]   = {file = "SVUI Default Font",  size = 14,  outline = "OUTLINE"};
+SV.defaults["font"]["lootnumber"]   = {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"};
+SV.defaults["font"]["rolldialog"]   = {file = "SVUI Default Font",  size = 14,  outline = "OUTLINE"};
+SV.defaults["font"]["rollnumber"]   = {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"};
+SV.defaults["font"]["pixel"]       	= {file = "SVUI Pixel Font",    size = 8,   outline = "MONOCHROMEOUTLINE"};
 	
 SV.defaults["media"] = {
 	["textures"] = { 
@@ -238,14 +245,14 @@ do
 
 	SV.Media["font"] = {
 		["default"]   = LSM:Fetch("font", "SVUI Default Font"),
-		["combat"]    = LSM:Fetch("font", "SVUI Default Font"),
-		["narrator"]  = LSM:Fetch("font", "SVUI Default Font"),
-		["zones"]     = LSM:Fetch("font", "SVUI Default Font"),
-		["alert"]     = LSM:Fetch("font", "SVUI Default Font"),
-		["numbers"]   = LSM:Fetch("font", "SVUI Caps Font"),
+		["combat"]    = LSM:Fetch("font", "SVUI Combat Font"),
+		["narrator"]  = LSM:Fetch("font", "SVUI Narrator Font"),
+		["zones"]     = LSM:Fetch("font", "SVUI Zone Font"),
+		["alert"]     = LSM:Fetch("font", "SVUI Alert Font"),
+		["numbers"]   = LSM:Fetch("font", "SVUI Number Font"),
 		["pixel"]     = LSM:Fetch("font", "SVUI Pixel Font"),
 		["caps"]      = LSM:Fetch("font", "SVUI Caps Font"),
-		["flash"]     = LSM:Fetch("font", "SVUI Default Font"),
+		["flash"]     = LSM:Fetch("font", "SVUI Flash Font"),
 		["dialog"]    = LSM:Fetch("font", "SVUI Default Font"),
 	}
 
@@ -355,7 +362,12 @@ do
 		    [165] 	= {0.5,0.75,0.5,0.75}, 			-- PRO-LEATHERWORKING
 		    [186] 	= {0.75,1,0.5,0.75}, 			-- PRO-MINING
 		    [197] 	= {0.25,0.5,0.75,1}, 			-- PRO-TAILORING
-		}
+		},
+		["sparks"] = {
+			[[Interface\AddOns\SVUI_!Core\assets\textures\Dock\DOCK-SPARKS-1]],
+			[[Interface\AddOns\SVUI_!Core\assets\textures\Dock\DOCK-SPARKS-2]],
+			[[Interface\AddOns\SVUI_!Core\assets\textures\Dock\DOCK-SPARKS-3]],
+		},
 	}
 end
 --[[ 

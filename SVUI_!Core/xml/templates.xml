@@ -42,4 +42,81 @@
             <Attribute name="isLoaded" type="boolean" value="false" />
         </Attributes>
     </Frame>
+
+    <Frame name="SVUI_MovingPanelTemplate" virtual="true" movable="true" clampedToScreen="true" toplevel="true">
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBG" setAllPoints="true"/>
+            </Layer>
+            <Layer level="OVERLAY">
+                <Texture name="$parentTitleBG">
+                    <Anchors>
+                        <Anchor point="TOPLEFT"/>
+                        <Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT">
+                            <Offset x="0" y="-30"/>
+                        </Anchor>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        <Frames>
+            <Frame name="$parentTitleButton">
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentTitleBG"/>
+                    <Anchor point="BOTTOMRIGHT" relativeTo="$parentTitleBG"/>
+                </Anchors>
+            </Frame>
+        </Frames>
+    </Frame>
+
+    <Frame name="SVUI_MessagePanelTemplate" virtual="true" toplevel="true">
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBG" setAllPoints="true"/>
+            </Layer>
+            <Layer level="OVERLAY">
+                <Texture name="$parentTitleBG">
+                    <Anchors>
+                        <Anchor point="TOPLEFT">
+                            <Offset x="8" y="-8"/>
+                        </Anchor>
+                        <Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT">
+                            <Offset x="-32" y="-24"/>
+                        </Anchor>
+                    </Anchors>
+                </Texture>
+                <Texture name="$parentDialogBG">
+                    <Anchors>
+                        <Anchor point="TOPLEFT">
+                            <Offset x="8" y="-32"/>
+                        </Anchor>
+                        <Anchor point="BOTTOMRIGHT">
+                            <Offset x="-32" y="32"/>
+                        </Anchor>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="ARTWORK">
+                <FontString parentKey="Title" inherits="GameFontNormal">
+                    <Anchors>
+                        <Anchor point="TOPLEFT">
+                            <Offset x="8" y="-8"/>
+                        </Anchor>
+                        <Anchor point="TOPRIGHT">
+                            <Offset x="-32" y="-24"/>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        <Frames>
+            <Button parentKey="Close" inherits="UIPanelCloseButton">
+                <Anchors>
+                    <Anchor point="TOPRIGHT">
+                        <Offset x="-2" y="-2"/>
+                    </Anchor>
+                </Anchors>
+            </Button>
+        </Frames>
+    </Frame>
 </Ui>
