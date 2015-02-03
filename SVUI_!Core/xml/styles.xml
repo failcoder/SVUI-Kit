@@ -15,6 +15,12 @@
             <Color r="0.2" g="0.2" b="0.2" a="1" />
             <BorderColor r="0" g="0" b="0" a="1" />
         </Backdrop>
+        <Layers>
+            <Layer level="BACKGROUND" textureSubLevel="1">
+                <Texture parentKey="Skin" nonBlocking="true" file="Interface\AddOns\SVUI_!Core\assets\textures\DEFAULT" setAllPoints="true" />
+                <Color r="0.2" g="0.2" b="0.2" a="1" />
+            </Layer>
+        </Layers>
     </Frame>
 
     <Frame name="SVUI_CoreStyle_Transparent" virtual="true">

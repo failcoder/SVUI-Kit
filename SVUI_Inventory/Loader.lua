@@ -39,8 +39,10 @@ MOD.media.vendorIcon = [[Interface\AddOns\SVUI_Inventory\assets\BAGS-VENDOR]];
 MOD.media.buttonBg = [[Interface\AddOns\SVUI_Inventory\assets\BUTTON-BG]];
 MOD.media.buttonFg = [[Interface\AddOns\SVUI_Inventory\assets\BUTTON-FG]];
 
-SV.defaults["font"]["bagdialog"]     	= {file = "SVUI Default Font",  size = 11,  outline = "OUTLINE"}
-SV.defaults["font"]["bagnumber"]     	= {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"}
+SV.defaults["font"]["bagdialog"]     		= {file = "SVUI Default Font",  size = 11,  outline = "OUTLINE"}
+SV.defaults["font"]["bagnumber"]     		= {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"}
+SV.GlobalFontList["SVUI_Font_Bag"] 			= "bagdialog";
+SV.GlobalFontList["SVUI_Font_Bag_Number"] 	= "bagnumber";
 
 SV.defaults[Schema] = {
 	["incompatible"] = {

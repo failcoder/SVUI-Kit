@@ -408,9 +408,28 @@ SV.Options.args.primary = {
 			type = "description", 
 			width = "full", 
 			fontSize = "large", 
-		}, 
+		},
 		quickGroup1 = {
 			order = 3, 
+			name = "", 
+			type = "group", 
+			width = "full", 
+			guiInline = true, 
+			args = {
+				Themes = {
+					order = 1, 
+					width = "full", 
+					type = "select", 
+					name = L["Active Theme"], 
+					desc = L["Select an installed SVUI theme."], 
+					get = function() return SV.db.THEME.active end,
+					set = function(key,value) SV.db.THEME.active = value; SV:StaticPopup_Show("RL_CLIENT") end,
+					values = function() return SVUILib:ListThemes() end
+				},
+			}, 
+		},
+		quickGroup2 = {
+			order = 4, 
 			name = "", 
 			type = "group", 
 			width = "full", 

@@ -644,9 +644,9 @@ function MOD:RefreshMiniMap()
 		SV.Dock.TopRight:ModSize(MM_WIDTH, (MM_HEIGHT + 4))
 	end
 
-	self.InfoBottom.Textize(MM_WIDTH,28)
+	self.InfoTop.Text:SetSize(MM_WIDTH,28)
 	self.InfoBottom.Text:SetSize(MM_WIDTH,32)
-	self:ZONE_CHANGED()
+	self:RefreshZoneText()
 
 	if SVUI_AurasAnchor then
 		SVUI_AurasAnchor:ModHeight(MM_HEIGHT)
@@ -835,11 +835,11 @@ function MOD:Load()
 		WorldMapFrame:HookScript('OnHide', _hook_WorldMapFrame_OnHide)
 	end
 
-	--WorldMapPlayerCoords:SetFrameLevel(WorldMapDetailFrame:GetFrameLevel() + 1)
-	--WorldMapPlayerCoords:SetFrameStrata(WorldMapDetailFrame:GetFrameStrata())
+	WorldMapPlayerCoords:SetFrameLevel(WorldMapDetailFrame:GetFrameLevel() + 1)
+	WorldMapPlayerCoords:SetFrameStrata(WorldMapDetailFrame:GetFrameStrata())
 	WorldMapPlayerCoords.Name:SetText(PLAYER)
-	--WorldMapMouseCoords:SetFrameLevel(WorldMapDetailFrame:GetFrameLevel() + 1)
-	--WorldMapMouseCoords:SetFrameStrata(WorldMapDetailFrame:GetFrameStrata())
+	WorldMapMouseCoords:SetFrameLevel(WorldMapDetailFrame:GetFrameLevel() + 1)
+	WorldMapMouseCoords:SetFrameStrata(WorldMapDetailFrame:GetFrameStrata())
 	WorldMapMouseCoords.Name:SetText(MOUSE_LABEL)
 
 	DropDownList1:HookScript('OnShow', _hook_DropDownList1)

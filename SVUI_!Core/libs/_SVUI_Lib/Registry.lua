@@ -1245,6 +1245,18 @@ function lib:LoadThemes()
     end
 end
 
+local THEMETABLE = {};
+function lib:ListThemes()
+    wipe(THEMETABLE)
+    THEMETABLE["NONE"] = "No Theme";
+    if THEMES then
+        for themeName,data in pairs(THEMES) do
+            THEMETABLE[themeName] = themeName;
+        end
+    end
+    return THEMETABLE
+end
+
 function lib:Launch()
     if LoadOnDemand then
         for schema,name in pairs(LoadOnDemand) do

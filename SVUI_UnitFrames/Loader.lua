@@ -119,6 +119,13 @@ SV.Media["bg"]["unitsmall"]   	= LSM:Fetch("background", "SVUI Artwork")
 SV.Media["border"]["unitlarge"] = LSM:Fetch("border", "SVUI FancyBorder")
 SV.Media["border"]["unitsmall"] = LSM:Fetch("border", "SVUI FancyBorder")
 
+SV.GlobalFontList["SVUI_Font_Unit"] = "unitprimary";
+SV.GlobalFontList["SVUI_Font_Unit_Small"] = "unitsecondary";
+SV.GlobalFontList["SVUI_Font_UnitAura"] = "unitauramedium";
+SV.GlobalFontList["SVUI_Font_UnitAura_Bar"] = "unitaurabar";
+SV.GlobalFontList["SVUI_Font_UnitAura_Small"] = "unitaurasmall";
+SV.GlobalFontList["SVUI_Font_UnitAura_Large"] = "unitauralarge";
+
 SV.defaults[Schema] = {
 	["enable"] = true,
 	["themed"] = true,

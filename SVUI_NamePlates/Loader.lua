@@ -46,6 +46,10 @@ SV.defaults["font"]["platename"]     	= {file = "SVUI Caps Font",   	size = 9,  
 SV.defaults["font"]["platenumber"]   	= {file = "SVUI Caps Font",   	size = 9,   outline = "OUTLINE"}
 SV.defaults["font"]["plateaura"]     	= {file = "SVUI Caps Font",   	size = 9,   outline = "OUTLINE"}
 
+SV.GlobalFontList["SVUI_Font_NamePlate"] = "platename";
+SV.GlobalFontList["SVUI_Font_NamePlate_Aura"] = "plateaura";
+SV.GlobalFontList["SVUI_Font_NamePlate_Number"] = "platenumber";
+
 SV.defaults[Schema] = {
 	["enable"] = true,
 	["themed"] = true,

@@ -262,14 +262,14 @@
     <Frame name="SVUI_GameMenuFrame" parent="GameMenuFrame">
         <Layers>
             <Layer level="BACKGROUND" textureSubLevel="-7">
-                <Texture file="Interface\AddOns\SVUI_Theme_Comics\assets\artwork\Template\DEFAULT">
+                <Texture file="Interface\AddOns\SVUI_!Core\assets\textures\Template\DEFAULT">
                     <Anchors>
                         <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="0" y="0" />
                         <Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT" x="0" y="-300" />
                     </Anchors>
                     <Color r="0" g="0" b="0" a="0.8" />
                 </Texture>
-                <Texture file="Interface\AddOns\SVUI_Theme_Comics\assets\artwork\Template\DEFAULT">
+                <Texture file="Interface\AddOns\SVUI_!Core\assets\textures\Template\DEFAULT">
                     <Anchors>
                         <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" x="0" y="0" />
                         <Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="300" />
@@ -299,14 +299,14 @@
     <Frame name="SVUI_AFKFrame">
         <Layers>
             <Layer level="BACKGROUND" textureSubLevel="-7">
-                <Texture file="Interface\AddOns\SVUI_Theme_Comics\assets\artwork\Template\DEFAULT">
+                <Texture file="Interface\AddOns\SVUI_!Core\assets\textures\Template\DEFAULT">
                     <Anchors>
                         <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="0" y="0" />
                         <Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT" x="0" y="-64" />
                     </Anchors>
                     <Color r="0" g="0" b="0" a="0.8" />
                 </Texture>
-                <Texture file="Interface\AddOns\SVUI_Theme_Comics\assets\artwork\Template\DEFAULT">
+                <Texture file="Interface\AddOns\SVUI_!Core\assets\textures\Template\DEFAULT">
                     <Anchors>
                         <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" x="0" y="0" />
                         <Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="90" />
@@ -315,7 +315,7 @@
                 </Texture>
             </Layer>
             <Layer level="BACKGROUND">
-                <Texture parentKey="BG" file="Interface\AddOns\SVUI_Theme_Comics\assets\artwork\Template\AFK-BG">
+                <Texture parentKey="BG" file="Interface\AddOns\SVUI_!Core\assets\textures\Doodads\AFK-BG">
                     <Size x="600" y="600"/>
                     <Anchors>
                         <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="0" />
@@ -357,7 +357,7 @@
         </Anchors>
         <Layers>
             <Layer level="ARTWORK">
-                <Texture parentKey="tex" file="Interface\AddOns\SVUI_Theme_Comics\assets\artwork\Doodads\DRUNK-PARTYTIME" setAllPoints="true" />
+                <Texture parentKey="tex" file="Interface\AddOns\SVUI_!Core\assets\textures\Doodads\DRUNK-PARTYTIME" setAllPoints="true" />
             </Layer>
         </Layers>
     </Frame>
@@ -371,7 +371,7 @@
         </Anchors>
         <Layers>
             <Layer level="ARTWORK">
-                <Texture parentKey="tex" file="Interface\AddOns\SVUI_Theme_Comics\assets\artwork\Doodads\COMICS-TYPE1" setAllPoints="true" />
+                <Texture parentKey="tex" file="Interface\AddOns\SVUI_!Core\assets\textures\Doodads\COMICS-TYPE1" setAllPoints="true" />
             </Layer>
         </Layers>
     </Frame>
@@ -383,7 +383,7 @@
         </Anchors>
         <Layers>
             <Layer level="ARTWORK">
-                <Texture parentKey="tex" file="Interface\AddOns\SVUI_Theme_Comics\assets\artwork\Doodads\COMICS-TYPE2" setAllPoints="true" />
+                <Texture parentKey="tex" file="Interface\AddOns\SVUI_!Core\assets\textures\Doodads\COMICS-TYPE2" setAllPoints="true" />
             </Layer>
         </Layers>
     </Frame>
@@ -395,7 +395,7 @@
         </Anchors>
         <Layers>
             <Layer level="ARTWORK">
-                <Texture parentKey="tex" file="Interface\AddOns\SVUI_Theme_Comics\assets\artwork\Doodads\COMICS-TYPE3" setAllPoints="true" />
+                <Texture parentKey="tex" file="Interface\AddOns\SVUI_!Core\assets\textures\Doodads\COMICS-TYPE3" setAllPoints="true" />
             </Layer>
         </Layers>
         <Frames>
@@ -406,7 +406,7 @@
                 </Anchors>
                 <Layers>
                     <Layer level="ARTWORK">
-                        <Texture parentKey="tex" file="Interface\AddOns\SVUI_Theme_Comics\assets\artwork\Doodads\COMICS-TYPE3-BG" setAllPoints="true" />
+                        <Texture parentKey="tex" file="Interface\AddOns\SVUI_!Core\assets\textures\Doodads\COMICS-TYPE3-BG" setAllPoints="true" />
                     </Layer>
                 </Layers>
             </Frame>

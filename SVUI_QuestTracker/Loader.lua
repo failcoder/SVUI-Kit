@@ -31,6 +31,10 @@ SV.defaults["font"]["questdialog"]   	= {file = "SVUI Default Font", size = 12, 
 SV.defaults["font"]["questheader"]   	= {file = "SVUI Caps Font",    size = 16,  outline = "OUTLINE"}
 SV.defaults["font"]["questnumber"]   	= {file = "SVUI Number Font",  size = 11,  outline = "OUTLINE"}
 
+SV.GlobalFontList["SVUI_Font_Quest"] = "questdialog";
+SV.GlobalFontList["SVUI_Font_Quest_Header"] = "questheader";
+SV.GlobalFontList["SVUI_Font_Quest_Number"] = "questnumber";
+
 local questFonts = {
 	["questdialog"] = {
 		order = 1,

@@ -104,7 +104,7 @@ local MicroButton_OnLeave = function(self)
 		SVUI_MicroBar:FadeOut(1,SVUI_MicroBar:GetAlpha(),0)
 	end
 	if InCombatLockdown()then return end 
-	self.overlay:SetPanelColor("special")
+	self.overlay:SetPanelColor("default")
 	self.overlay.icon:SetGradient("VERTICAL", 0.5, 0.53, 0.55, 0.8, 0.8, 1)
 end
 --[[ 

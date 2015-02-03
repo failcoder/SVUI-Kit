@@ -430,7 +430,7 @@ end
 local DockButtonActivate = function(self)
 	--print('DockButtonActivate')
 	self:SetAttribute("isActive", true)
-	self:SetPanelColor("checked")
+	self:SetPanelColor("default")
 	self.Icon:SetGradient(unpack(SV.Media.gradient.checked))
 	if(self.FrameLink) then
 		if(not InCombatLockdown()) then
@@ -497,11 +497,12 @@ end
 local DockletButton_OnLeave = function(self, ...)
 	MOD:ExitFade()
 
+	self:SetPanelColor("default")
 	if(self:GetAttribute("isActive")) then
-		self:SetPanelColor("checked")
+		-- self:SetPanelColor("checked")
 		self.Icon:SetGradient(unpack(SV.Media.gradient.checked))
 	else
-		self:SetPanelColor("default")
+		-- self:SetPanelColor("default")
 		self.Icon:SetGradient(unpack(SV.Media.gradient.icon))
 	end
 

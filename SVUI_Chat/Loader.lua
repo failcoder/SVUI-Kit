@@ -20,6 +20,8 @@ local Schema = MOD.Schema;
 
 SV.defaults["font"]["chatdialog"]   = {file = "SVUI Default Font", size = 12,  outline = "OUTLINE"}
 SV.defaults["font"]["chattab"]     	= {file = "SVUI Caps Font",    size = 12,  outline = "OUTLINE"}
+SV.GlobalFontList["SVUI_Font_Chat"]   = "chatdialog";
+SV.GlobalFontList["SVUI_Font_ChatTab"] = "chattab";
 
 MOD.media = {}
 MOD.media.whisperSound = [[Interface\AddOns\SVUI_Chat\assets\whisper.mp3]];

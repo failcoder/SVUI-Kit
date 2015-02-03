@@ -1,6 +1,69 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
-    <Script file="Loader.lua"/>
-    <Include file="libs\_load.xml"/>
+    <Font name="SVUI_Font_Unit" font="Fonts\MORPHEUS.ttf" virtual="true">
+        <Shadow>
+            <Offset>
+                <AbsDimension x="1" y="-1"/>
+            </Offset>
+            <Color r="0" g="0" b="0" a="0.25"/>
+        </Shadow>
+        <FontHeight>
+            <AbsValue val="11"/>
+        </FontHeight>
+    </Font>
+    
+    <Font name="SVUI_Font_Unit_Small" font="Fonts\MORPHEUS.ttf" virtual="true">
+        <Shadow>
+            <Offset>
+                <AbsDimension x="1" y="-1"/>
+            </Offset>
+            <Color r="0" g="0" b="0" a="0.25"/>
+        </Shadow>
+        <FontHeight>
+            <AbsValue val="11"/>
+        </FontHeight>
+    </Font>
+
+    <Font name="SVUI_Font_UnitAura" font="Fonts\ARIALN.TTF" virtual="true">
+        <Shadow>
+            <Offset>
+                <AbsDimension x="1" y="-1"/>
+            </Offset>
+            <Color r="0" g="0" b="0" a="0.25"/>
+        </Shadow>
+        <FontHeight>
+            <AbsValue val="10"/>
+        </FontHeight>
+    </Font>
+
+    <Font name="SVUI_Font_UnitAura_Bar" font="Fonts\skurri.ttf" virtual="true">
+        <Shadow>
+            <Offset>
+                <AbsDimension x="1" y="-1"/>
+            </Offset>
+            <Color r="0" g="0" b="0" a="0.25"/>
+        </Shadow>
+        <FontHeight>
+            <AbsValue val="10"/>
+        </FontHeight>
+    </Font>
+
+    <Font name="SVUI_Font_UnitAura_Small" font="Fonts\skurri.ttf" monochrome="true" virtual="true">
+        <FontHeight>
+            <AbsValue val="8"/>
+        </FontHeight>
+    </Font>
+
+    <Font name="SVUI_Font_UnitAura_Large" font="Fonts\MORPHEUS.ttf" virtual="true">
+        <Shadow>
+            <Offset>
+                <AbsDimension x="1" y="-1"/>
+            </Offset>
+            <Color r="0" g="0" b="0" a="0.25"/>
+        </Shadow>
+        <FontHeight>
+            <AbsValue val="11"/>
+        </FontHeight>
+    </Font>
 
     <Frame name="SVUI_StyleTemplate_ActionPanel" virtual="true">
         <Attributes>
@@ -56,6 +119,9 @@
             </Layer>
         </Layers>
     </Frame>
+
+    <Script file="Loader.lua"/>
+    <Include file="libs\_load.xml"/>
 
     <Button name="SVUI_UNITTARGET" inherits="SecureUnitButtonTemplate" hidden="true" virtual="true">
         <Frames>    

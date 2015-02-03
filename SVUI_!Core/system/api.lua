@@ -644,7 +644,7 @@ function SV.API:Initialize()
     local active = SV.db.THEME.active;
     local theme;
 
-    if(active) then
+    if(active and active ~= 'NONE') then
         theme = self.Themes[active]
         if(theme) then
             for templateName, templateFile in pairs(self.Templates) do

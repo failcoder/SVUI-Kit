@@ -43,6 +43,11 @@ MOD.media.trackingIcon = [[Interface\AddOns\SVUI_Maps\assets\MINIMAP-TRACKING]];
 
 SV.API.Templates["Minimap"] = "SVUI_StyleTemplate_Minimap";
 
+SV.defaults["font"]["mapinfo"]     		     = {file = "SVUI Default Font",  size = 13,  outline = "OUTLINE"}
+SV.defaults["font"]["mapcoords"]     	     = {file = "SVUI Narrator Font", size = 13,  outline = "OUTLINE"}
+SV.GlobalFontList["SVUI_Font_MinimapInfo"]   = "mapinfo";
+SV.GlobalFontList["SVUI_Font_MinimapCoords"] = "mapcoords";
+
 SV.defaults[Schema] = {
 	["incompatible"] = {
 		["SexyMap"] = true,
@@ -56,8 +61,9 @@ SV.defaults[Schema] = {
 	["size"] = 240, 
 	["customshape"] = true,  
 	["playercoords"] = "CUSTOM", 
-	["bordersize"] = 1, 
-	["bordercolor"] = "dark", 
+	["bordersize"] = 4, 
+	["bordercolor"] = "light", 
+	["locationText"] = "CUSTOM",
 	["minimapbar"] = {
 		["enable"] = true, 
 		["styleType"] = "HORIZONTAL", 

@@ -447,6 +447,35 @@ FONT TEMPLATING METHODS
 ##########################################################
 ]]--
 local ManagedFonts = {};
+SV.GlobalFontList = {
+	["SVUI_Font_Default"] = "default",
+	["SVUI_Font_Aura"] = "aura",
+	["SVUI_Font_Number"] = "number",
+	["SVUI_Font_Number_Huge"] = "number_big",
+	["SVUI_Font_Header"] = "header",
+	["SVUI_Font_Data"] = "data",
+	["SVUI_Font_Caps"] = "caps",
+	["SVUI_Font_Narrator"] = "narrator",
+	["SVUI_Font_Pixel"] = "pixel",
+	["SVUI_Font_Quest"] = "questdialog",
+	["SVUI_Font_Quest_Header"] = "questheader",
+	["SVUI_Font_Quest_Number"] = "questnumber",
+	["SVUI_Font_NamePlate"] = "platename",
+	["SVUI_Font_NamePlate_Aura"] = "plateaura",
+	["SVUI_Font_NamePlate_Number"] = "platenumber",
+	["SVUI_Font_Bag"] = "bagdialog",
+	["SVUI_Font_Bag_Number"] = "bagnumber",
+	["SVUI_Font_Roll"] = "rolldialog",
+	["SVUI_Font_Roll_Number"] = "rollnumber",
+	["SVUI_Font_Loot"] = "lootdialog",
+	["SVUI_Font_Loot_Number"] = "lootnumber",
+	["SVUI_Font_Unit"] = "unitprimary",
+	["SVUI_Font_Unit_Small"] = "unitsecondary",
+	["SVUI_Font_UnitAura"] = "unitauramedium",
+	["SVUI_Font_UnitAura_Bar"] = "unitaurabar",
+	["SVUI_Font_UnitAura_Small"] = "unitaurasmall",
+	["SVUI_Font_UnitAura_Large"] = "unitauralarge",
+};
 
 function SV:FontManager(obj, template, arg, sizeMod, styleOverride, colorR, colorG, colorB)
 	if not obj then return end
@@ -498,12 +527,6 @@ local function _alterFont(globalName, template, sizeMod, styleOverride, cR, cG, 
 	if(not _G[globalName]) then return end
 	styleOverride = styleOverride or "NONE"
 	SV:FontManager(_G[globalName], template, "SYSTEM", sizeMod, styleOverride, cR, cG, cB);
-end
-
-local function _defineFont(globalName, template)
-	if(not template) then return end
-	if(not _G[globalName]) then return end
-	SV:FontManager(_G[globalName], template);
 end
 
 local function ChangeSystemFonts()
@@ -574,39 +597,23 @@ local function ChangeSystemFonts()
 	_alterFont("GameTooltipHeader", "tipheader")
 	_alterFont("Tooltip_Med", "tipdialog")
 	_alterFont("Tooltip_Small", "tipdialog", -1)
-	--SVUI CUSTOM FONTS
-	_defineFont("SVUI_Font_Default", "default")
-	_defineFont("SVUI_Font_Aura", "aura")
-	_defineFont("SVUI_Font_Number", "number")
-	_defineFont("SVUI_Font_Number_Huge", "number_big")
-	_defineFont("SVUI_Font_Header", "header")
-	_defineFont("SVUI_Font_Data", "data")
-	_defineFont("SVUI_Font_Caps", "caps")
-	_defineFont("SVUI_Font_Narrator", "narrator")
-	_defineFont("SVUI_Font_Pixel", "pixel")
-	_defineFont("SVUI_Font_Quest", "questdialog")
-	_defineFont("SVUI_Font_Quest_Header", "questheader")
-	_defineFont("SVUI_Font_Quest_Number", "questnumber")
-	--_defineFont("SVUI_Font_Chat", "chatdialog", "LEFT")
-	--_defineFont("SVUI_Font_ChatTab", "chattab")
-	_defineFont("SVUI_Font_NamePlate", "platename")
-	_defineFont("SVUI_Font_NamePlate_Aura", "plateaura")
-	_defineFont("SVUI_Font_NamePlate_Number", "platenumber")
-	_defineFont("SVUI_Font_Bag", "bagdialog")
-	_defineFont("SVUI_Font_Bag_Number", "bagnumber")
-	_defineFont("SVUI_Font_Roll", "rolldialog")
-	_defineFont("SVUI_Font_Roll_Number", "rollnumber")
-	_defineFont("SVUI_Font_Loot", "lootdialog")
-	_defineFont("SVUI_Font_Loot_Number", "lootnumber")
-	_defineFont("SVUI_Font_Unit", "unitprimary")
-	_defineFont("SVUI_Font_Unit_Small", "unitsecondary")
-	_defineFont("SVUI_Font_UnitAura", "unitauramedium")
-	_defineFont("SVUI_Font_UnitAura_Bar", "unitaurabar")
-	_defineFont("SVUI_Font_UnitAura_Small", "unitaurasmall")
-	_defineFont("SVUI_Font_UnitAura_Large", "unitauralarge")
-
 	_alterFont("SystemFont_Shadow_Huge3", "combat", 0, "OUTLINE")
 	_alterFont("CombatTextFont", "combat", 64, "OUTLINE")
+end
+
+local function _defineFont(globalName, template)
+	if(not template) then return end
+	if(not _G[globalName]) then return end
+	SV:FontManager(_G[globalName], template);
+end
+
+function SV:RegisterFonts()
+	for globalName, id in pairs(self.GlobalFontList) do
+		local obj = _G[globalName];
+		if(obj) then
+			self:FontManager(obj, id);
+		end
+	end
 end
 
 local function UpdateFontTemplate(template)
@@ -680,6 +687,7 @@ function SV:RefreshAllSystemMedia()
 	self.Media:Update();
 	ChangeGlobalFonts();
 	ChangeSystemFonts();
+	self:RegisterFonts();
 	self.Events:Trigger("ALL_FONTS_UPDATED");
 	self.MediaInitialized = true;
 end
