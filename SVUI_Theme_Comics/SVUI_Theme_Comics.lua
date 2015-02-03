@@ -21,6 +21,7 @@ GET ADDON DATA
 local SV = _G['SVUI']
 local L = SV.L;
 local THEME = SV:GetTheme("Comics");
+local LSM = LibStub("LibSharedMedia-3.0");
 --[[ 
 ########################################################## 
 AFK
@@ -335,6 +336,9 @@ local DRUNK_FILTERS = {
 	[DRUNK_MESSAGE_SELF3] = true,
 	[DRUNK_MESSAGE_SELF4] = true,
 };
+THEME.Drunk.YeeHaw = _G["SVUI_ComicsTheme_DrunkenYeeHaw"]
+THEME.Drunk.YeeHaw:SetParent(THEME.Drunk)
+THEME.Drunk:Hide()
 --[[ 
 ########################################################## 
 DRUNK MODE
@@ -448,8 +452,6 @@ function THEME.Drunk:Initialize()
 	self.ScreenEffect3:SetCamDistanceScale(0.25)
 	--self.ScreenEffect3:SetPosition(-0.21,-0.15,0)
 
-	self.YeeHaw = _G["SVUI_ComicsTheme_DrunkenYeeHaw"]
-	self.YeeHaw:SetParent(self)
 	self.YeeHaw:SetSize(512,350)
 	self.YeeHaw:SetPoint("TOP", SV.Screen, "TOP", 0, -50);
 
@@ -557,13 +559,13 @@ function THEME.GameMenu:Toggle()
 	end
 end
 
-local _SetDockButtonTheme = function(button, size)
+local _SetDockButtonTheme = function(_, button, size)
 	local sparkSize = size * 5;
     local sparkOffset = size * 0.5;
 
     button:SetStyle("DockButton")
 
-	local sparks = button.__border:CreateTexture(nil, "OVERLAY", nil, 2)
+	local sparks = button:CreateTexture(nil, "OVERLAY", nil, 2)
 	sparks:ModSize(sparkSize, sparkSize)
 	sparks:SetPoint("CENTER", button, "BOTTOMRIGHT", -sparkOffset, 4)
 	sparks:SetTexture(THEME.media.dockSparks[1])
@@ -705,24 +707,24 @@ local HideAlertFlash = function(self)
     self:ColorBorder(1,0.9,0, nil, true)
 end
 
-local _CreateDockButton = function(self, inverse, inverted, styleName)
-    if(not self or (self and self.Panel)) then return end
+local _CreateDockButton = function(self, frame, inverse, inverted, styleName)
+    if(not frame or (frame and frame.Panel)) then return end
 
     local borderSize = 2
     styleName = styleName or "DockButton";
-    CreatePanelTemplate(self, styleName, inverse, false, 0, -borderSize, -borderSize)
+    self:APPLY(frame, styleName, inverse, false, 0, -borderSize, -borderSize)
 
     if(inverted) then
-        self.Panel:SetAttribute("panelGradient", "darkest2")
+        frame.Panel:SetAttribute("panelGradient", "darkest2")
     else
-        self.Panel:SetAttribute("panelGradient", "darkest")
+        frame.Panel:SetAttribute("panelGradient", "darkest")
     end
 
-    if(not self.__border) then
+    if(not frame.__border) then
         local t = SV.Media.color.default
         local r,g,b = t[1], t[2], t[3]
 
-        local border = CreateFrame("Frame", nil, self)
+        local border = CreateFrame("Frame", nil, frame)
         border:SetAllPoints()
 
         border[1] = border:CreateTexture(nil,"BORDER")
@@ -773,18 +775,11 @@ local _CreateDockButton = function(self, inverse, inverted, styleName)
         bottomoutline:SetPoint("BOTTOMRIGHT", 2, -2)
         bottomoutline:SetHeight(1)
 
-        self.__border = border
-        self.__border.__previous = 'default';
-        self.ColorBorder = SetFrameBorderColor
-        self.StartAlert = ShowAlertFlash
-        self.StopAlert = HideAlertFlash
-    end
-
-    SetButtonBasics(self)
-
-    if(not self.__registered) then
-        SV.API.LiveUpdates[self] = true
-        self.__registered = true
+        frame.__border = border
+        frame.__border.__previous = 'default';
+        frame.ColorBorder = SetFrameBorderColor
+        frame.StartAlert = ShowAlertFlash
+        frame.StopAlert = HideAlertFlash
     end
 end;
 
@@ -868,58 +863,6 @@ function THEME:Load()
 	    [186] 	= {0.75,1,0.5,0.75}, 			-- PRO-MINING
 	    [197] 	= {0.25,0.5,0.75,1}, 			-- PRO-TAILORING
 	}
-
-	SV.Options.args.Themes.args.Comics = {
-		type = "group",
-		name = L["Comics Theme"],
-		guiInline = true,  
-		args = {
-			themeGroup = {
-				order = 1, 
-				type = "group", 
-				guiInline = true, 
-				name = L["Fun Stuff"],
-				args = {
-					comix = {
-						order = 1,
-						type = 'select',
-						name = L["Super Comic Popups"],
-						get = function(j)return SV.db.THEME["Comics"].comix end,
-						set = function(j,value) SV.db.THEME["Comics"].comix = value; THEME.Comix:Toggle() end,
-						values = {
-							['NONE'] = NONE,
-							['1'] = 'All Popups',
-							['2'] = 'Only Small Popups',
-						}
-					},
-					afk = {
-						order = 2,
-						type = 'select',
-						name = L["Super AFK Screen"],
-						get = function(j)return SV.db.THEME["Comics"].afk end,
-						set = function(j,value) SV.db.THEME["Comics"].afk = value; THEME.AFK:Toggle() end,
-						values = {
-							['NONE'] = NONE,
-							['1'] = 'Fully Enabled',
-							['2'] = 'Enabled (No Spinning)',
-						}
-					},
-					gamemenu = {
-						order = 3,
-						type = 'select',
-						name = L["Super Game Menu"],
-						get = function(j)return SV.db.THEME["Comics"].gamemenu end,
-						set = function(j,value) SV.db.THEME["Comics"].gamemenu = value; SV:StaticPopup_Show("RL_CLIENT") end,
-						values = {
-							['NONE'] = NONE,
-							['1'] = 'You + Henchman',
-							['2'] = 'You x2',
-						}
-					},
-				}
-			},
-		}
-	};
 
 	SV.Dock.SetButtonTheme = _SetDockButtonTheme
 	SV.Dock.SetThemeDockStyle = _SetDockStyleTheme

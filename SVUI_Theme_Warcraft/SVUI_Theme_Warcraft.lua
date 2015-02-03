@@ -21,6 +21,7 @@ GET ADDON DATA
 local SV = _G['SVUI']
 local L = SV.L;
 local THEME = SV:GetTheme("Warcraft");
+local LSM = LibStub("LibSharedMedia-3.0");
 --[[ 
 ########################################################## 
 AFK
@@ -144,6 +145,9 @@ local DRUNK_FILTERS = {
 	[DRUNK_MESSAGE_SELF3] = true,
 	[DRUNK_MESSAGE_SELF4] = true,
 };
+THEME.Drunk.YeeHaw = _G["SVUI_WarcraftTheme_DrunkenYeeHaw"]
+THEME.Drunk.YeeHaw:SetParent(THEME.Drunk)
+THEME.Drunk:Hide()
 --[[ 
 ########################################################## 
 DRUNK MODE
@@ -257,8 +261,6 @@ function THEME.Drunk:Initialize()
 	self.ScreenEffect3:SetCamDistanceScale(0.25)
 	--self.ScreenEffect3:SetPosition(-0.21,-0.15,0)
 
-	self.YeeHaw = _G["SVUI_WarcraftTheme_DrunkenYeeHaw"]
-	self.YeeHaw:SetParent(self)
 	self.YeeHaw:SetSize(512,350)
 	self.YeeHaw:SetPoint("TOP", SV.Screen, "TOP", 0, -50);
 
@@ -370,31 +372,7 @@ end
 MISC
 ##########################################################
 ]]--
-local _SetDockButtonTheme = function(button, size)
-	local sparkSize = size * 5;
-    local sparkOffset = size * 0.5;
-
-    button:SetStyle("DockButton")
-
-	local sparks = button.__border:CreateTexture(nil, "OVERLAY", nil, 2)
-	sparks:ModSize(sparkSize, sparkSize)
-	sparks:SetPoint("CENTER", button, "BOTTOMRIGHT", -sparkOffset, 4)
-	sparks:SetTexture(THEME.media.dockSparks[1])
-	sparks:SetVertexColor(0.7, 0.6, 0.5)
-	sparks:SetBlendMode("ADD")
-	sparks:SetAlpha(0)
-
-	SV.Animate:Sprite8(sparks, 0.08, 2, false, true)
-
-	button.Sparks = sparks;
-
-	button.ClickTheme = function(self)
-		self.Sparks:SetTexture(THEME.media.dockSparks[random(1,3)])
-		self.Sparks.anim:Play()
-	end
-end
-
-local _SetDockButtonTheme = function(button, size)
+local _SetDockButtonTheme = function(_, button, size)
 	local sparkSize = size * 5;
     local sparkOffset = size * 0.5;
 
@@ -497,22 +475,22 @@ local function SetButtonBasics(frame)
     end 
 end
 
-local _CreateDockButton = function(self, inverse, inverted, styleName)
-    if(not self or (self and self.Panel)) then return end
+local _CreateDockButton = function(self, frame, inverse, inverted, styleName)
+    if(not frame or (frame and frame.Panel)) then return end
 
     styleName = styleName or "DockButton";
-    CreatePanelTemplate(self, styleName, inverse)
+    self:APPLY(frame, styleName, inverse)
 
     if(inverted) then
-        self.Panel:SetAttribute("panelGradient", "darkest2")
+        frame.Panel:SetAttribute("panelGradient", "darkest2")
     else
-        self.Panel:SetAttribute("panelGradient", "darkest")
+        frame.Panel:SetAttribute("panelGradient", "darkest")
     end
 
-    if(not self.__border) then
-        local border = CreateFrame("Frame", nil, self)
-        border:SetPoint("TOPLEFT", self, "TOPLEFT", -5, 5)
-        border:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 5, -5)
+    if(not frame.__border) then
+        local border = CreateFrame("Frame", nil, frame)
+        border:SetPoint("TOPLEFT", frame, "TOPLEFT", -5, 5)
+        border:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 5, -5)
         border:SetBackdrop({
             bgFile = [[Interface\AddOns\SVUI_!Core\assets\textures\EMPTY]], 
             edgeFile = [[Interface\DialogFrame\UI-DialogBox-Border]], 
@@ -529,18 +507,11 @@ local _CreateDockButton = function(self, inverse, inverted, styleName)
         });
         border:SetBackdropBorderColor(1,1,1,1)
 
-        self.__border = border
-        self.__border.__previous = 'light';
-        self.ColorBorder = SetFrameBorderColor
-        self.StartAlert = ShowAlertFlash
-        self.StopAlert = HideAlertFlash
-    end
-
-    SetButtonBasics(self)
-
-    if(not self.__registered) then
-        SV.API.LiveUpdates[self] = true
-        self.__registered = true
+        frame.__border = border
+        frame.__border.__previous = 'light';
+        frame.ColorBorder = SetFrameBorderColor
+        frame.StartAlert = ShowAlertFlash
+        frame.StopAlert = HideAlertFlash
     end
 end;
 
@@ -616,12 +587,6 @@ function THEME:Load()
 	    [186] 	= {0.75,1,0.5,0.75}, 			-- PRO-MINING
 	    [197] 	= {0.25,0.5,0.75,1}, 			-- PRO-TAILORING
 	}
-	SV.defaults.THEME["Warcraft"] = {};
-	SV.Options.args.Themes.args.Warcraft = {
-		type = "group",
-		name = L["Warcraft Theme"],
-		args = {}
-	};
 
 	SV.Dock.SetButtonTheme = _SetDockButtonTheme
 	SV.Dock.SetThemeDockStyle = _SetDockStyleTheme

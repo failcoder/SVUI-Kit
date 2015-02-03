@@ -72,3 +72,55 @@ SV.defaults.THEME["Comics"] = {
     ["afk"] = '1', 
     ["drunk"] = true,
 };
+
+SV.Options.args.Themes.args.Comics = {
+	type = "group",
+	name = L["Comics Theme"],
+	guiInline = true,  
+	args = {
+		themeGroup = {
+			order = 1, 
+			type = "group", 
+			guiInline = true, 
+			name = L["Fun Stuff"],
+			args = {
+				comix = {
+					order = 1,
+					type = 'select',
+					name = L["Super Comic Popups"],
+					get = function(j)return SV.db.THEME["Comics"].comix end,
+					set = function(j,value) SV.db.THEME["Comics"].comix = value; THEME.Comix:Toggle() end,
+					values = {
+						['NONE'] = NONE,
+						['1'] = 'All Popups',
+						['2'] = 'Only Small Popups',
+					}
+				},
+				afk = {
+					order = 2,
+					type = 'select',
+					name = L["Super AFK Screen"],
+					get = function(j)return SV.db.THEME["Comics"].afk end,
+					set = function(j,value) SV.db.THEME["Comics"].afk = value; THEME.AFK:Toggle() end,
+					values = {
+						['NONE'] = NONE,
+						['1'] = 'Fully Enabled',
+						['2'] = 'Enabled (No Spinning)',
+					}
+				},
+				gamemenu = {
+					order = 3,
+					type = 'select',
+					name = L["Super Game Menu"],
+					get = function(j)return SV.db.THEME["Comics"].gamemenu end,
+					set = function(j,value) SV.db.THEME["Comics"].gamemenu = value; SV:StaticPopup_Show("RL_CLIENT") end,
+					values = {
+						['NONE'] = NONE,
+						['1'] = 'You + Henchman',
+						['2'] = 'You x2',
+					}
+				},
+			}
+		},
+	}
+};

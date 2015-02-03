@@ -848,6 +848,7 @@ EXTERNALLY ACCESSIBLE METHODS
 ##########################################################
 ]]--
 function MOD:SetDockButton(location, displayName, texture, onclick, globalName, tipFunction, primaryTemplate)
+	if(not self.private) then return end
 	if(self.private.Locations[globalName]) then
 		location = self.private.Locations[globalName];
 	else

@@ -617,8 +617,13 @@ local _hook_Cooldown_SetCooldown = function(self, start, duration, elapsed)
     end 
 end
 
-local SetFrameBorderColor = function(self, ...)
-    self.Panel.Shadow:SetBackdropBorderColor(...)
+local SetFrameBorderColor = function(self, r, g, b, setPrevious, reset)
+    if(setPrevious) then
+        self.Panel.__previous = setPrevious
+    elseif(reset) then
+        r,g,b = unpack(SV.Media.color[self.Panel.__previous])
+    end
+    self.Panel.Shadow:SetBackdropBorderColor(r, g, b)
 end
 
 local ShowAlertFlash = function(self)
@@ -628,7 +633,7 @@ end
 
 local HideAlertFlash = function(self)
     SV.Animate:StopFlash(self.Panel.Shadow)
-    self:ColorBorder(0,0,0)
+    self:ColorBorder(1,0.9,0, nil, true)
 end
 --[[ 
 ########################################################## 
@@ -653,6 +658,7 @@ end
 
 function SV.API:FLASH(frame)
     if(frame.Panel.Shadow) then
+        frame.Panel.__previous = 'darkest';
         frame.ColorBorder = SetFrameBorderColor
         frame.StartAlert = ShowAlertFlash
         frame.StopAlert = HideAlertFlash
@@ -1128,27 +1134,18 @@ local SetPanelColor = function(self, ...)
             if(arg1 == "VERTICAL" or arg1 == "HORIZONTAL") then
                 self.Panel.Skin:SetGradient(...)
             elseif(SV.Media.gradient[arg1]) then
-                if self.ColorBorder then
-                    local d,r,g,b,r2,g2,b2 = unpack(SV.Media.gradient[arg1])
-                    self:ColorBorder(r2,g2,b2,arg1)
-                else
-                    self.Panel.Skin:SetGradient(unpack(SV.Media.gradient[arg1]))
-                    if(SV.Media.color[arg1]) then
-                        local t = SV.Media.color[arg1]
-                        local r,g,b,a = t[1], t[2], t[3], t[4] or 1;
-                        self:SetBackdropColor(r,g,b,a)
-                    end
+                self.Panel.Skin:SetGradient(unpack(SV.Media.gradient[arg1]))
+                if(SV.Media.color[arg1]) then
+                    local t = SV.Media.color[arg1]
+                    local r,g,b,a = t[1], t[2], t[3], t[4] or 1;
+                    self:SetBackdropColor(r,g,b,a)
                 end
             end 
         end 
     elseif(type(arg1) == "string" and SV.Media.color[arg1]) then
         local t = SV.Media.color[arg1]
         local r,g,b,a = t[1], t[2], t[3], t[4] or 1;
-        if self.ColorBorder then
-            self:ColorBorder(r,g,b,arg1)
-        else
-            self:SetBackdropColor(r,g,b)
-        end
+        self:SetBackdropColor(r,g,b)
     elseif(arg1 and type(arg1) == "number") then
         self:SetBackdropColor(...)
     end 
