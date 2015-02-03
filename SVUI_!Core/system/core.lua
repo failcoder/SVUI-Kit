@@ -229,7 +229,7 @@ SV.filterdefaults     = {};
 SV.defaults = {
     ["LAYOUT"] = {},
     ["THEME"] = {
-        ["active"] = "Default"
+        ["active"] = "Comics"
     },
     ["screen"] = {
         ["autoScale"] = true,

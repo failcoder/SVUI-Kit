@@ -617,17 +617,17 @@ local _hook_Cooldown_SetCooldown = function(self, start, duration, elapsed)
     end 
 end
 
-local SetFrameBorderColor = function(self, r, g, b, reset)
-    self.Shadow:SetBackdropBorderColor(r,g,b)
+local SetFrameBorderColor = function(self, ...)
+    self.Panel.Shadow:SetBackdropBorderColor(...)
 end
 
 local ShowAlertFlash = function(self)
     self:ColorBorder(1,0.9,0)
-    SV.Animate:Flash(self.Shadow, 0.75, true)
+    SV.Animate:Flash(self.Panel.Shadow, 0.75, true)
 end
 
 local HideAlertFlash = function(self)
-    SV.Animate:StopFlash(self.Shadow)
+    SV.Animate:StopFlash(self.Panel.Shadow)
     self:ColorBorder(0,0,0)
 end
 --[[ 
@@ -652,7 +652,7 @@ function SV.API:Initialize()
 end
 
 function SV.API:FLASH(frame)
-    if(frame.Shadow) then
+    if(frame.Panel.Shadow) then
         frame.ColorBorder = SetFrameBorderColor
         frame.StartAlert = ShowAlertFlash
         frame.StopAlert = HideAlertFlash
@@ -680,7 +680,7 @@ function SV.API:CD(button, noSwipe)
     end
 end
 
-function SV.API:APPLY(frame, templateName, isButton, underlay, padding, xOffset, yOffset, defaultColor)
+function SV.API:APPLY(frame, templateName, underlay, padding, xOffset, yOffset, defaultColor)
     local xmlTemplate = self.Templates[templateName] or self.Templates.Default;
 
     local borderColor = {0,0,0,1}
@@ -1105,15 +1105,12 @@ SV.API.Methods["Frame"] = function(self, frame, inverse, styleName, noupdate, ov
     if(overridePadding and type(overridePadding) == "number") then
         padding = overridePadding
     end
-
-    if(noupdate) then
-        frame.Panel:SetAttribute("panelSkipUpdate", true)
-    end
-    
     styleName = styleName or "Default";
     local underlay = (not inverse)
     self:APPLY(frame, styleName, underlay, padding, xOffset, yOffset, defaultColor)
-
+    if(noupdate) then
+        frame.Panel:SetAttribute("panelSkipUpdate", true)
+    end
     if((not noupdate) and (not frame.Panel:GetAttribute("panelSkipUpdate"))) then
         frame.Panel.___Live = true
     end

@@ -890,7 +890,7 @@ do
 		bar.oldTex = icon:GetTexture()
 		bar:RemoveTextures()
 		bar:SetStyle("!_Frame", "Default")
-		bar:SetStyle("!_Slot", 1, nil, nil, true)
+		bar:SetStyle("!_ActionSlot", 1, nil, nil, true)
 		icon:SetTexture(bar.oldTex)
 		icon:InsetPoints()
 		icon:SetTexCoord(0.1, 0.9, 0.1, 0.9 )

@@ -108,6 +108,7 @@
             <Attribute name="panelGradient" type="string" value="dark" />
             <Attribute name="panelTexUpdate" type="boolean" value="true" />
             <Attribute name="panelSkipUpdate" type="boolean" value="false" />
+            <Attribute name="panelOffset" type="number" value="0" />
         </Attributes>
         <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\BUTTONS\WHITE8X8" tile="false">
             <EdgeSize val="1" />
