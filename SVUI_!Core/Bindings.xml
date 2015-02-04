@@ -15,7 +15,7 @@
     SVUILetsRide()
   </Binding>
   <Binding name="SVUI_DRAENORZONE" description="Draenor Zone Ability Button" category="ADDONS" runOnUp="false" />
-  <Binding name="SVUI_FRAMEDEBUGGER" description="Frame Stack Analyzer" header="SVUIDEBUG" runOnUp="false">
+  <Binding name="SVUI_FRAMEDEBUGGER" description="Frame Stack Analyzer" category="ADDONS" runOnUp="false">
     DebugThisFrame()
   </Binding>
   <ModifiedClick action="VENDORMARKITEM" default="ALT-BUTTON2"/>

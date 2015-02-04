@@ -1067,10 +1067,228 @@ SV.Options.args.Dock = {
 		},
 	}
 }
-
+SV.Options.args.Extras = {
+	type = "group", 
+	order = 6,
+	name = "Extras",
+	get = function(a)return SV.db["Extras"][a[#a]]end, 
+	set = function(a,b)MOD:ChangeDBVar(b,a[#a]); end, 
+	args = {
+		common = {
+			order = 1, 
+			type = "group", 
+			name = L["General"], 
+			guiInline = true, 
+			args = {
+				woot = {
+					order = 1,
+					type = 'toggle',
+					name = L["Say Thanks"],
+					desc = L["Thank someone when they cast specific spells on you. Typically resurrections"], 
+					get = function(j)return SV.db["Extras"].woot end,
+					set = function(j,value)SV.db["Extras"].woot = value;MOD:ToggleReactions()end
+				},
+				pvpinterrupt = {
+					order = 2,
+					type = 'toggle',
+					name = L["Report PVP Actions"],
+					desc = L["Announce your interrupts, as well as when you have been sapped!"],
+					get = function(j)return SV.db["Extras"].pvpinterrupt end,
+					set = function(j,value)SV.db["Extras"].pvpinterrupt = value;MOD:ToggleReactions()end
+				},
+				lookwhaticando = {
+					order = 3,
+					type = 'toggle',
+					name = L["Report Spells"],
+					desc = L["Announce various helpful spells cast by players in your party/raid"],
+					get = function(j)return SV.db["Extras"].lookwhaticando end,
+					set = function(j,value)SV.db["Extras"].lookwhaticando = value;MOD:ToggleReactions()end
+				},
+				sharingiscaring = {
+					order = 4,
+					type = 'toggle',
+					name = L["Report Shareables"],
+					desc = L["Announce when someone in your party/raid has laid a feast or repair bot"],
+					get = function(j)return SV.db["Extras"].sharingiscaring end,
+					set = function(j,value)SV.db["Extras"].sharingiscaring = value;MOD:ToggleReactions()end
+				},
+				reactionChat = {
+					order = 5,
+					type = 'toggle',
+					name = L["Report in Chat"],
+					desc = L["Announcements will be sent to group chat channels"],
+					get = function(j)return SV.db["Extras"].reactionChat end,
+					set = function(j,value)SV.db["Extras"].reactionChat = value;MOD:ToggleReactions()end
+				},
+				reactionEmote = {
+					order = 6,
+					type = 'toggle',
+					name = L["Auto Emotes"],
+					desc = L["Some announcements are accompanied by player emotes."],
+					get = function(j)return SV.db["Extras"].reactionEmote end,
+					set = function(j,value)SV.db["Extras"].reactionEmote = value;MOD:ToggleReactions()end
+				},
+				threatbar = {
+					order = 7, 
+					type = "toggle", 
+					name = L['Threat Thermometer'], 
+					get = function(j)return SV.db["Extras"].threatbar end, 
+					set = function(j, value)SV.db["Extras"].threatbar = value;SV:StaticPopup_Show("RL_CLIENT")end
+				},
+				bubbles = {
+					order = 13,
+					type = "toggle",
+					name = L['Chat Bubbles Style'],
+					desc = L['Style the blizzard chat bubbles.'],
+					get = function(j)return SV.db["Extras"].bubbles end,
+					set = function(j,value)SV.db["Extras"].bubbles = value;SV:StaticPopup_Show("RL_CLIENT")end
+				},
+			}
+		},	
+		automations = {
+			order = 2, 
+			type = "group", 
+			name = L["General"], 
+			guiInline = true, 
+			args = {
+				intro = {
+					order = 1, 
+					type = "description", 
+					name = L["Adjust the behavior of the many automations."]
+				},
+				automationGroup1 = {
+					order = 2, 
+					type = "group", 
+					guiInline = true, 
+					name = L["Task Minions"],
+					desc = L['Minions that can make certain tasks easier by handling them automatically.'],
+					args = {
+						mailOpener = {
+							order = 1,
+							type = 'toggle',
+							name = L["Enable Mail Helper"],
+							get = function(j)return SV.db["Extras"].mailOpener end,
+							set = function(j,value)SV.db["Extras"].mailOpener = value;SV:ToggleMailMinions()end
+						},
+						autoAcceptInvite = {
+							order = 2,
+							name = L['Accept Invites'],
+							desc = L['Automatically accept invites from guild/friends.'],
+							type = 'toggle',
+							get = function(j)return SV.db["Extras"].autoAcceptInvite end,
+							set = function(j,value)SV.db["Extras"].autoAcceptInvite = value end
+						},
+						vendorGrays = {
+							order = 3,
+							name = L['Vendor Grays'],
+							desc = L['Automatically vendor gray items when visiting a vendor.'],
+							type = 'toggle',
+							get = function(j)return SV.db["Extras"].vendorGrays end,
+							set = function(j,value)SV.db["Extras"].vendorGrays = value end
+						},
+						autoRoll = {
+							order = 4,
+							name = L['Auto Greed/DE'],
+							desc = L['Automatically select greed or disenchant (when available) on green quality items. This will only work if you are the max level.'],
+							type = 'toggle',
+							get = function(j)return SV.db["Extras"].autoRoll end,
+							set = function(j,value)SV.db["Extras"].autoRoll = value end,
+							disabled = function()return not SV.db.general.lootRoll end
+						},
+						pvpautorelease = {
+							order = 5,
+							type = "toggle",
+							name = L['PvP Autorelease'],
+							desc = L['Automatically release body when killed inside a battleground.'],
+							get = function(j)return SV.db["Extras"].pvpautorelease end,
+							set = function(j,value)SV.db["Extras"].pvpautorelease = value;SV:StaticPopup_Show("RL_CLIENT")end
+						},
+						autorepchange = {
+							order = 6,
+							type = "toggle",
+							name = L['Track Reputation'],
+							desc = L['Automatically change your watched faction on the reputation bar to the faction you got reputation points for.'],
+							get = function(j)return SV.db["Extras"].autorepchange end,
+							set = function(j,value)SV.db["Extras"].autorepchange = value end
+						},
+						skipcinematics = {
+							order = 7,
+							type = "toggle",
+							name = L['Skip Cinematics'],
+							desc = L['Automatically skip any cinematic sequences.'],
+							get = function(j)return SV.db["Extras"].skipcinematics end,
+							set = function(j,value) SV.db["Extras"].skipcinematics = value; SV:StaticPopup_Show("RL_CLIENT") end
+						},
+						autoRepair = {
+							order = 8,
+							name = L['Auto Repair'],
+							desc = L['Automatically repair using the following method when visiting a merchant.'],
+							type = 'select',
+							values = {
+								['NONE'] = NONE,
+								['GUILD'] = GUILD,
+								['PLAYER'] = PLAYER
+							},
+							get = function(j)return SV.db["Extras"].autoRepair end,
+							set = function(j,value)SV.db["Extras"].autoRepair = value end
+						},
+					}
+				},
+				automationGroup2 = {
+					order = 3, 
+					type = "group", 
+					guiInline = true, 
+					name = L["Quest Minions"],
+					desc = L['Minions that can make questing easier by automatically accepting/completing quests.'],
+					args = {
+						autoquestaccept = {
+							order = 1,
+							type = "toggle",
+							name = L['Accept Quests'],
+							desc = L['Automatically accepts quests as they are presented to you.'],
+							get = function(j)return SV.db["Extras"].autoquestaccept end,
+							set = function(j,value) SV.db["Extras"].autoquestaccept = value end
+						},
+						autoquestcomplete = {
+							order = 2,
+							type = "toggle",
+							name = L['Complete Quests'],
+							desc = L['Automatically complete quests when possible.'],
+							get = function(j)return SV.db["Extras"].autoquestcomplete end,
+							set = function(j,value)SV.db["Extras"].autoquestcomplete = value end
+						},
+						autoquestreward = {
+							order = 3,
+							type = "toggle",
+							name = L['Select Quest Reward'],
+							desc = L['Automatically select the quest reward with the highest vendor sell value.'],
+							get = function(j)return SV.db["Extras"].autoquestreward end,
+							set = function(j,value)SV.db["Extras"].autoquestreward = value end
+						},
+						autodailyquests = {
+							order = 4,
+							type = "toggle",
+							name = L['Only Automate Dailies'],
+							desc = L['Force the auto accept functions to only respond to daily quests. NOTE: This does not apply to daily heroics for some reason.'],
+							get = function(j)return SV.db["Extras"].autodailyquests end,
+							set = function(j,value)SV.db["Extras"].autodailyquests = value end
+						},
+						autopvpquests = {
+							order = 5,
+							type = "toggle",
+							name = L['Accept PVP Quests'],
+							get = function(j)return SV.db["Extras"].autopvpquests end,
+							set = function(j,value)SV.db["Extras"].autopvpquests = value end
+						},
+					}
+				}, 
+			}
+		}
+	}
+}
 SV.Options.args.FunStuff = {
 	type = "group",
-	order = 6,
+	order = 7,
 	name = L["Fun Stuff"],
 	args = {
 		comix = {

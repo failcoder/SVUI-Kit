@@ -18,10 +18,12 @@ local random = math.random;
 GET ADDON DATA
 ##########################################################
 ]]--
-local SV = _G['SVUI']
+local SV = _G["SVUI"];
 local L = SV.L;
-local THEME = SV:GetTheme("Simple");
+local THEME = SV:NewTheme(...);
 local LSM = LibStub("LibSharedMedia-3.0");
+
+SV.defaults.THEME["Simple"] = {};
 
 local _SetDockStyleTheme = function(dock, isBottom)
 	if dock.backdrop then return end

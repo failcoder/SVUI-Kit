@@ -7,554 +7,626 @@ LOCALIZED LUA FUNCTIONS
 ]]--
 --[[ GLOBALS ]]--
 local _G = _G;
-local unpack        = _G.unpack;
-local select        = _G.select;
+local unpack 	= _G.unpack;
+local select 	= _G.select;
+local pairs 	= _G.pairs;
+local ipairs 	= _G.ipairs;
+local type 		= _G.type;
+local tinsert 	= _G.tinsert;
+local math 		= _G.math;
+local cos, deg, rad, sin = math.cos, math.deg, math.rad, math.sin;
+
+local hooksecurefunc = _G.hooksecurefunc;
 --[[ 
 ########################################################## 
 GET ADDON DATA
 ##########################################################
 ]]--
-local SV = select(2, ...)
-local SVUILib = Librarian("Registry");
+local SV = select(2, ...);
 local L = SV.L;
 --[[ 
 ########################################################## 
-LOCAL VARS
+LOCALS
 ##########################################################
 ]]--
---[[ 
-########################################################## 
-AFK
-##########################################################
-]]--
-SV.AFK = _G["SVUI_AFKFrame"];
-local AFK_SEQUENCES = {
-	[1] = 120,
-	[2] = 141,
-	[3] = 119,
-	[4] = 5,
-};
-
-function SV.AFK:Activate(enabled)
-	if(InCombatLockdown()) then return end
-	if(enabled) then
-		local sequence = random(1, 4);
-		if(SV.db.FunStuff.afk == '1') then
-			MoveViewLeftStart(0.05);
-		end
-		self:Show();
-		UIParent:Hide();
-		self:SetAlpha(1);
-		self.Model:SetAnimation(AFK_SEQUENCES[sequence])
-		DoEmote("READ")
-	else
-		UIParent:Show();
-		self:SetAlpha(0);
-		self:Hide();
-		if(SV.db.FunStuff.afk == '1') then
-			MoveViewLeftStop();
-		end
-	end
-end
-
-local AFK_OnEvent = function(self, event)
-	if(event == "PLAYER_FLAGS_CHANGED") then
-		if(UnitIsAFK("player")) then
-			self:Activate(true)
-		else
-			self:Activate(false)
-		end
-	else
-		self:Activate(false)
-	end
-end
-
-function SV.AFK:Initialize()
-	local classToken = select(2,UnitClass("player"))
-	local color = CUSTOM_CLASS_COLORS[classToken]
-	self.BG:SetVertexColor(color.r, color.g, color.b)
-	self.BG:ClearAllPoints()
-	self.BG:SetSize(500,600)
-	self.BG:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 0, 0)
-
-	self:SetFrameLevel(0)
-	self:SetAllPoints(SV.Screen)
-
-	local narr = self.Model:CreateTexture(nil, "OVERLAY")
-	narr:SetSize(300, 150)
-	narr:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\Doodads\AFK-NARRATIVE]])
-	narr:SetPoint("TOPLEFT", SV.Screen, "TOPLEFT", 15, -15)
-
-	self.Model:ClearAllPoints()
-	self.Model:SetSize(600,600)
-	self.Model:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 64, -64)
-	self.Model:SetUnit("player")
-	self.Model:SetCamDistanceScale(1.15)
-	self.Model:SetFacing(6)
-
-	local splash = self.Model:CreateTexture(nil, "OVERLAY")
-	splash:SetSize(350, 175)
-	splash:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\Doodads\PLAYER-AFK]])
-	splash:SetPoint("BOTTOMRIGHT", self.Model, "CENTER", -75, 75)
-
-	self:Hide()
-	if(SV.db.FunStuff.afk ~= 'NONE') then
-		self:RegisterEvent("PLAYER_FLAGS_CHANGED")
-		self:RegisterEvent("PLAYER_REGEN_DISABLED")
-		self:RegisterEvent("PLAYER_ENTERING_WORLD")
-		self:RegisterEvent("PET_BATTLE_OPENING_START")
-		self:SetScript("OnEvent", AFK_OnEvent)
-	end
-end
-
-function SV.AFK:Toggle()
-	if(SV.db.FunStuff.afk ~= 'NONE') then
-		self:RegisterEvent("PLAYER_FLAGS_CHANGED")
-		self:RegisterEvent("PLAYER_REGEN_DISABLED")
-		self:RegisterEvent("PLAYER_ENTERING_WORLD")
-		self:RegisterEvent("PET_BATTLE_OPENING_START")
-		self:RegisterEvent("PLAYER_DEAD")
-		self:SetScript("OnEvent", AFK_OnEvent)
-	else
-		self:UnregisterEvent("PLAYER_FLAGS_CHANGED")
-		self:UnregisterEvent("PLAYER_REGEN_DISABLED")
-		self:UnregisterEvent("PLAYER_ENTERING_WORLD")
-		self:UnregisterEvent("PET_BATTLE_OPENING_START")
-		self:UnregisterEvent("PLAYER_DEAD")
-		self:SetScript("OnEvent", nil)
-	end
-end
---[[ 
-########################################################## 
-COMIX
-##########################################################
-]]--
-SV.Comix = _G["SVUI_ComixFrame"];
-local animReady = true;
-local COMIX_DATA = {
-	{
-		{0,0.25,0,0.25},
-		{0.25,0.5,0,0.25},
-		{0.5,0.75,0,0.25},
-		{0.75,1,0,0.25},
-		{0,0.25,0.25,0.5},
-		{0.25,0.5,0.25,0.5},
-		{0.5,0.75,0.25,0.5},
-		{0.75,1,0.25,0.5},
-		{0,0.25,0.5,0.75},
-		{0.25,0.5,0.5,0.75},
-		{0.5,0.75,0.5,0.75},
-		{0.75,1,0.5,0.75},
-		{0,0.25,0.75,1},
-		{0.25,0.5,0.75,1},
-		{0.5,0.75,0.75,1},
-		{0.75,1,0.75,1}
+local PlayerName = UnitName("player");
+local Reactions = {
+	Woot = {
+		[29166] = true, [20484] = true, [61999] = true, 
+		[20707] = true, [50769] = true, [2006] = true, 
+		[7328] = true, [2008] = true, [115178] = true, 
+		[110478] = true, [110479] = true, [110482] = true, 
+		[110483] = true, [110484] = true, [110485] = true, 
+		[110486] = true, [110488] = true, [110490] = true, 
+		[110491] = true
 	},
-	{
-		{220, 210, 50, -50, 220, 210, -1, 5},
-	    {230, 210, 50, 5, 280, 210, -5, 1},
-	    {280, 160, 1, 50, 280, 210, -1, 5},
-	    {220, 210, 50, -50, 220, 210, -1, 5},
-	    {210, 190, 50, 50, 220, 210, -1, 5},
-	    {220, 210, 50, -50, 220, 210, -1, 5},
-	    {230, 210, 50, 5, 280, 210, -5, 1},
-	    {280, 160, 1, 50, 280, 210, -1, 5},
-	    {220, 210, 50, -50, 220, 210, -1, 5},
-	    {210, 190, 50, 50, 220, 210, -1, 5},
-	    {220, 210, 50, -50, 220, 210, -1, 5},
-	    {230, 210, 50, 5, 280, 210, -5, 1},
-	    {280, 160, 1, 50, 280, 210, -1, 5},
-	    {220, 210, 50, -50, 220, 210, -1, 5},
-	    {210, 190, 50, 50, 220, 210, -1, 5},
-	    {210, 190, 50, 50, 220, 210, -1, 5}
+	LookWhatICanDo = {
+		34477, 19801, 57934, 633, 20484, 113269, 61999, 
+		20707, 2908, 120668, 16190, 64901, 108968
+	},
+	Toys = {
+		[61031] = true, [49844] = true
+	},
+	Bots = {
+		[22700] = true, [44389] = true, [54711] = true, 
+		[67826] = true, [126459] = true
+	},
+	Portals = {
+		[10059] = true, [11416] = true, [11419] = true, 
+		[32266] = true, [49360] = true, [33691] = true, 
+		[88345] = true, [132620] = true, [11417] = true, 
+		[11420] = true, [11418] = true, [32267] = true, 
+		[49361] = true, [35717] = true, [88346] = true, 
+		[132626] = true, [53142] = true
+	},
+	StupidHat = {
+		[1] = {88710, 33820, 19972, 46349, 92738}, 
+		[2] = {32757}, 
+		[8] = {50287, 19969}, 
+		[15] = {65360, 65274}, 
+		[16] = {44050, 19970, 84660, 84661, 45992, 86559, 45991}, 
+		[17] = {86558}
 	}
 };
+local SAPPED_MESSAGE = {
+	"Oh Hell No ... {rt8}SAPPED{rt8}", 
+	"{rt8}SAPPED{rt8} ...Someone's about to get slapped!", 
+	"Mother Fu... {rt8}SAPPED{rt8}", 
+	"{rt8}SAPPED{rt8} ...How cute", 
+	"{rt8}SAPPED{rt8} ...Ain't Nobody Got Time For That!", 
+	"Uh-Oh... {rt8}SAPPED{rt8}"
+};
+local ReactionEmotes = {
+	"SALUTE",
+	"THANK",
+	"DRINK"
+};
+local REACTION_INTERRUPT, REACTION_WOOT, REACTION_LOOKY, REACTION_SHARE, REACTION_EMOTE, REACTION_CHAT = false, false, false, false, false, false;
 
-local function ComixReadyState(state)
-	if(state == nil) then return animReady end
-	animReady = state
+local MsgTest = function(warning)
+	if IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
+		return "INSTANCE_CHAT"
+	elseif IsInRaid(LE_PARTY_CATEGORY_HOME) then
+		if warning and (UnitIsGroupLeader("player") or UnitIsGroupAssistant("player") or IsEveryoneAssistant()) then
+			return "RAID_WARNING"
+		else
+			return "RAID"
+		end
+	elseif IsInGroup(LE_PARTY_CATEGORY_HOME) then
+		return "PARTY"
+	end
+	return "SAY"
 end
-
-local Comix_OnUpdate = function() ComixReadyState(true) end
-local Toasty_OnUpdate = function(self) ComixReadyState(true); self.parent:SetAlpha(0) end
 --[[ 
 ########################################################## 
-CORE FUNCTIONS
+MERCHANT MAX STACK
 ##########################################################
 ]]--
-function SV.Comix:LaunchPremiumPopup()
-	ComixReadyState(false)
-
-	local rng = random(1, 16);
-	local coords = COMIX_DATA[1][rng];
-	local offsets = COMIX_DATA[2][rng]
-
-	self.Premium.tex:SetTexCoord(coords[1],coords[2],coords[3],coords[4])
-	self.Premium.bg.tex:SetTexCoord(coords[1],coords[2],coords[3],coords[4])
-	self.Premium.anim[1]:SetOffset(offsets[1],offsets[2])
-	self.Premium.anim[2]:SetOffset(offsets[3],offsets[4])
-	self.Premium.anim[3]:SetOffset(0,0)
-	self.Premium.bg.anim[1]:SetOffset(offsets[5],offsets[6])
-	self.Premium.bg.anim[2]:SetOffset(offsets[7],offsets[8])
-	self.Premium.bg.anim[3]:SetOffset(0,0)
-	self.Premium.anim:Play()
-	self.Premium.bg.anim:Play() 
-end
-
-function SV:ToastyKombat()
-	ComixToastyPanelBG.anim[2]:SetOffset(256, -256)
-	ComixToastyPanelBG.anim[2]:SetOffset(0, 0)
-	ComixToastyPanelBG.anim:Play()
-	PlaySoundFile([[Interface\AddOns\SVUI_!Core\assets\sounds\toasty.mp3]])
-end
-
-_G.SlashCmdList["KOMBAT"] = function(msg)
-	SV:ToastyKombat()
-end
-_G.SLASH_KOMBAT1 = "/kombat"
-
-function SV.Comix:LaunchPopup()
-	ComixReadyState(false)
-
-	local coords, step1_x, step1_y, step2_x, step2_y, size;
-	local rng = random(1, 32);
-
-	if(rng == 32) then
-		if(SV.db.FunStuff.comix == '1') then
-			ComixToastyPanelBG.anim[2]:SetOffset(256, -256)
-			ComixToastyPanelBG.anim[2]:SetOffset(0, 0)
-			ComixToastyPanelBG.anim:Play()
-			PlaySoundFile([[Interface\AddOns\SVUI_!Core\assets\sounds\toasty.mp3]])
+local BuyMaxStack = function(self, ...)
+	if ( IsAltKeyDown() ) then
+		local itemLink = GetMerchantItemLink(self:GetID())
+		if not itemLink then return end
+		local maxStack = select(8, GetItemInfo(itemLink))
+		if ( maxStack and maxStack > 1 ) then
+			BuyMerchantItem(self:GetID(), GetMerchantItemMaxStack(self:GetID()))
 		end
-	elseif(rng > 16) then
-		local key = rng - 16;
-		coords = COMIX_DATA[1][key];
-		step1_x = random(-150, 150);
-		if(step1_x > -20 and step1_x < 20) then step1_x = step1_x * 3 end
-		step1_y = random(50, 150);
-		step2_x = step1_x * 0.5;
-		step2_y = step1_y * 0.75;
-		self.Deluxe.tex:SetTexCoord(coords[1],coords[2],coords[3],coords[4]);
-		self.Deluxe.anim[1]:SetOffset(step1_x, step1_y);
-		self.Deluxe.anim[2]:SetOffset(step2_x, step2_y);
-		self.Deluxe.anim[3]:SetOffset(0,0);
-		self.Deluxe.anim:Play();
-	else
-		coords = COMIX_DATA[1][rng];
-		step1_x = random(-100, 100);
-		step1_y = random(-50, 1);
-		size = random(96,128);
-		self.Basic:SetSize(size,size);
-		self.Basic.tex:SetTexCoord(coords[1],coords[2],coords[3],coords[4]);
-		self.Basic:ClearAllPoints();
-		self.Basic:SetPoint("CENTER", SV.Screen, "CENTER", step1_x, step1_y);
-		self.Basic.anim:Play();
 	end
 end
 
-local Comix_OnEvent = function(self, event, ...)
-	local _, subEvent, _, guid = ...;
-	if((subEvent == "PARTY_KILL" and guid == UnitGUID('player')) and ComixReadyState()) then
-		self:LaunchPopup()
-	end  
+local MaxStackTooltip = function(self)
+	wipe(GameTooltip.InjectedDouble)
+	local itemLink = GetMerchantItemLink(self:GetID())
+	if not itemLink then return end
+	local maxStack = select(8, GetItemInfo(itemLink))
+	if(not (maxStack > 1)) then return end
+    GameTooltip.InjectedDouble[1] = "[Alt + Click]"
+    GameTooltip.InjectedDouble[2] = "Buy a full stack."
+    GameTooltip.InjectedDouble[3] = 0
+    GameTooltip.InjectedDouble[4] = 0.5
+    GameTooltip.InjectedDouble[5] = 1
+    GameTooltip.InjectedDouble[6] = 0.5
+    GameTooltip.InjectedDouble[7] = 1
+    GameTooltip.InjectedDouble[8] = 0.5
 end
+--[[ 
+########################################################## 
+RAIDMARKERS
+##########################################################
+]]--
+local RaidMarkFrame = _G["SVUI_RaidMarkFrame"];
+RaidMarkFrame.Active = false;
 
-function SV.Comix:Toggle()
-	if(SV.db.FunStuff.comix == 'NONE') then 
-		self:UnregisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
-		self:SetScript("OnEvent", nil)
-	else 
-		self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
-		self:SetScript("OnEvent", Comix_OnEvent)
+do
+	RaidMarkFrame:EnableMouse(true)
+	RaidMarkFrame:SetSize(100, 100)
+	RaidMarkFrame:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
+	RaidMarkFrame:SetFrameStrata("DIALOG")
+
+	local RaidMarkButton_OnEnter = function(self)
+		self.Texture:ClearAllPoints()
+		self.Texture:ModPoint("TOPLEFT",-10,10)
+		self.Texture:ModPoint("BOTTOMRIGHT",10,-10)
 	end 
-end 
 
-function SV.Comix:Initialize()
-	self.Basic = _G["SVUI_ComixPopup1"]
-	self.Deluxe = _G["SVUI_ComixPopup2"]
-	self.Premium = _G["SVUI_ComixPopup3"]
+	local RaidMarkButton_OnLeave = function(self)
+		self.Texture:SetAllPoints()
+	end 
 
-	self.Basic:SetParent(SV.Screen)
-	self.Basic:SetSize(128,128)
-	self.Basic.tex:SetTexCoord(0,0.25,0,0.25)
-	SV.Animate:Kapow(self.Basic, true, true)
-	self.Basic:SetAlpha(0)
-	self.Basic.anim[2]:SetScript("OnFinished", Comix_OnUpdate)
+	local RaidMarkButton_OnClick = function(self, button)
+		PlaySound("UChatScrollButton")
+		SetRaidTarget("target", button ~= "RightButton" and self:GetID() or 0)
+		self:GetParent():FadeOut(0.2, 1, 0, true)
+	end 
 
-	self.Deluxe:SetParent(SV.Screen)
-	self.Deluxe:SetSize(128,128)
-	self.Deluxe.tex:SetTexCoord(0,0.25,0,0.25)
-	SV.Animate:RandomSlide(self.Deluxe, true)
-	self.Deluxe:SetAlpha(0)
-	self.Deluxe.anim[3]:SetScript("OnFinished", Comix_OnUpdate)
-
-	self.Premium:SetParent(SV.Screen)
-	self.Premium.tex:SetTexCoord(0,0.25,0,0.25)
-	SV.Animate:RandomSlide(self.Premium, true)
-	self.Premium:SetAlpha(0)
-	self.Premium.anim[3]:SetScript("OnFinished", Comix_OnUpdate)
-
-	self.Premium.bg.tex:SetTexCoord(0,0.25,0,0.25)
-	SV.Animate:RandomSlide(self.Premium.bg, false)
-	self.Premium.bg:SetAlpha(0)
-	self.Premium.bg.anim[3]:SetScript("OnFinished", Comix_OnUpdate)
-
-	--MOD
-	local toasty = CreateFrame("Frame", "ComixToastyPanelBG", SV.Screen)
-	toasty:SetSize(256, 256)
-	toasty:SetFrameStrata("DIALOG")
-	toasty:SetPoint("BOTTOMRIGHT", SV.Screen, "BOTTOMRIGHT", 0, 0)
-	toasty.tex = toasty:CreateTexture(nil, "ARTWORK")
-	toasty.tex:InsetPoints(toasty)
-	toasty.tex:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\Doodads\TOASTY]])
-	SV.Animate:Slide(toasty, 256, -256, true)
-	toasty:SetAlpha(0)
-	toasty.anim[4]:SetScript("OnFinished", Toasty_OnUpdate)
-
-	ComixReadyState(true)
-
-	self:Toggle()
-end
---[[ 
-########################################################## 
-DRUNK
-##########################################################
-]]--
-SV.Drunk = _G["SVUI_BoozedUpFrame"];
-local WORN_ITEMS = {};
-local DRUNK_EFFECT = [[Spells\Largebluegreenradiationfog.m2]];
-local DRUNK_EFFECT2 = [[Spells\Monk_drunkenhaze_impact.m2]];
-local TIPSY_FILTERS = {
-	[DRUNK_MESSAGE_ITEM_SELF1] = true,
-	[DRUNK_MESSAGE_ITEM_SELF2] = true,
-	[DRUNK_MESSAGE_SELF1] = true,
-	[DRUNK_MESSAGE_SELF2] = true,
-};
-local DRUNK_FILTERS = {
-	[DRUNK_MESSAGE_ITEM_SELF3] = true,
-	[DRUNK_MESSAGE_ITEM_SELF4] = true,
-	[DRUNK_MESSAGE_SELF3] = true,
-	[DRUNK_MESSAGE_SELF4] = true,
-};
-SV.Drunk.YeeHaw = _G["SVUI_DrunkenYeeHaw"]
-SV.Drunk.YeeHaw:SetParent(SV.Drunk)
-SV.Drunk:Hide()
---[[ 
-########################################################## 
-DRUNK MODE
-##########################################################
-]]--
-local function GetNekkid()
-	for c = 1, 19 do
-		if CursorHasItem() then 
-			ClearCursor()
-		end
-		local item = GetInventoryItemID("player", c);
-		WORN_ITEMS[c] = item;
-		PickupInventoryItem(c);
-		for b = 1, 4 do 
-			if CursorHasItem() then
-				PutItemInBag(b)
-			end  
+	for i=1,8 do 
+		local mark = CreateFrame("Button", "RaidMarkIconButton"..i, RaidMarkFrame)
+		mark:SetSize(40, 40)
+		mark:SetID(i)
+		mark.Texture = mark:CreateTexture(mark:GetName().."NormalTexture", "ARTWORK")
+		mark.Texture:SetTexture([[Interface\TargetingFrame\UI-RaidTargetingIcons]])
+		mark.Texture:SetAllPoints()
+		SetRaidTargetIconTexture(mark.Texture, i)
+		mark:RegisterForClicks("LeftbuttonUp", "RightbuttonUp")
+		mark:SetScript("OnClick", RaidMarkButton_OnClick)
+		mark:SetScript("OnEnter", RaidMarkButton_OnEnter)
+		mark:SetScript("OnLeave", RaidMarkButton_OnLeave)
+		if(i == 8) then 
+			mark:SetPoint("CENTER")
+		else 
+			local radian = 360 / 7 * i;
+			mark:SetPoint("CENTER", sin(radian) * 60, cos(radian) * 60)
 		end 
-	end
+	end 
 end
 
-local function GetDressed()
-	for c, item in pairs(WORN_ITEMS) do 
-		if(item) then
-			EquipItemByName(item)
-			WORN_ITEMS[c] = false
-		end
-	end
-end
-
-function SV.Drunk:PartysOver()
-	SetCVar("Sound_MusicVolume", 0)
-	SetCVar("Sound_EnableMusic", 0)
-	StopMusic()
-	SV.Drunk:Hide()
-	SV.Drunk.PartyMode = nil
-	SV:AddonMessage("Party's Over...")
-	--GetDressed()
-end
-
-function SV.Drunk:LetsParty()
-	--GetNekkid()
-	self.PartyMode = true
-	SetCVar("Sound_MusicVolume", 100)
-	SetCVar("Sound_EnableMusic", 1)
-	StopMusic()
-	PlayMusic([[Interface\AddOns\SVUI_!Core\assets\sounds\beer30.mp3]])
-	self:Show()
-	self.ScreenEffect1:ClearModel()
-	self.ScreenEffect1:SetModel(DRUNK_EFFECT)
-	self.ScreenEffect2:ClearModel()
-	self.ScreenEffect2:SetModel(DRUNK_EFFECT2)
-	self.ScreenEffect3:ClearModel()
-	self.ScreenEffect3:SetModel(DRUNK_EFFECT2)
-	SV:AddonMessage("YEEEEEEEEE-HAW!!!")
-	DoEmote("dance")
-	-- SV.Timers:ExecuteTimer(PartysOver, 60)
-end 
-
-local DrunkAgain_OnEvent = function(self, event, message, ...)
-	if(self.PartyMode) then
-		for pattern,_ in pairs(TIPSY_FILTERS) do
-			if(message:find(pattern)) then
-				self:PartysOver()
-				break
-			end
+function RaidMarkFrame:IsAllowed(button)
+	if(button and button == "down") then
+		if GetNumGroupMembers()>0 then
+			if UnitIsGroupLeader('player') or UnitIsGroupAssistant("player") then 
+				self.Active = true 
+			elseif IsInGroup() and not IsInRaid() then 
+				self.Active = true 
+			else
+				UIErrorsFrame:AddMessage(L["You don't have permission to mark targets."], 1.0, 0.1, 0.1, 1.0, UIERRORS_HOLD_TIME)
+				self.Active = false 
+			end 
+		else
+			self.Active = true 
 		end
 	else
-		for pattern,_ in pairs(DRUNK_FILTERS) do
-			if(message:find(pattern)) then
-				self:LetsParty()
-				break
-			end
-		end
-	end 
+		self.Active = false
+	end
+end 
+
+function RaidMarkFrame:Toggle(button)
+	local canFade = false;
+	if(button) then
+		canFade = true;
+		self:IsAllowed(button)
+	end
+	if(self.Active) then
+		if not UnitExists("target") or UnitIsDead("target") then return end 
+		local x,y = GetCursorPosition()
+		local scale = SV.Screen:GetEffectiveScale()
+		self:SetPoint("CENTER", SV.Screen, "BOTTOMLEFT", (x / scale), (y / scale))
+		self:FadeIn()
+	elseif(canFade) then
+		self:FadeOut(0.2, 1, 0, true)
+	end
 end
 
-function SV.Drunk:Toggle()
-	if(not SV.db.FunStuff.drunk) then 
-		self:UnregisterEvent("CHAT_MSG_SYSTEM")
-		self:SetScript("OnEvent", nil)
-	else 
-		self:RegisterEvent("CHAT_MSG_SYSTEM")
-		self:SetScript("OnEvent", DrunkAgain_OnEvent)
-	end 
+local RaidMarkFrame_OnEvent = function(self, event)
+	self:Toggle();
 end
 
-function SV.Drunk:Initialize()
-	self:SetParent(SV.Screen)
-	self:ClearAllPoints()
-	self:SetAllPoints(SV.Screen)
-
-	self.ScreenEffect1:SetParent(self)
-	self.ScreenEffect1:SetAllPoints(SV.Screen)
-	self.ScreenEffect1:SetModel(DRUNK_EFFECT)
-	self.ScreenEffect1:SetCamDistanceScale(1)
-
-	self.ScreenEffect2:SetParent(self)
-	self.ScreenEffect2:SetPoint("BOTTOMLEFT", SV.Screen, "BOTTOMLEFT", 0, 0)
-	self.ScreenEffect2:SetPoint("TOPRIGHT", SV.Screen, "TOP", 0, 0)
-	--self.ScreenEffect2:SetSize(350, 600)
-	self.ScreenEffect2:SetModel(DRUNK_EFFECT2)
-	self.ScreenEffect2:SetCamDistanceScale(0.25)
-	--self.ScreenEffect2:SetPosition(-0.21,-0.15,0)
-
-	self.ScreenEffect3:SetParent(self)
-	self.ScreenEffect3:SetPoint("BOTTOMRIGHT", SV.Screen, "BOTTOMRIGHT", 0, 0)
-	self.ScreenEffect3:SetPoint("TOPLEFT", SV.Screen, "TOP", 0, 0)
-	--self.ScreenEffect3:SetSize(350, 600)
-	self.ScreenEffect3:SetModel(DRUNK_EFFECT2)
-	self.ScreenEffect3:SetCamDistanceScale(0.25)
-	--self.ScreenEffect3:SetPosition(-0.21,-0.15,0)
-
-	self.YeeHaw:SetSize(512,350)
-	self.YeeHaw:SetPoint("TOP", SV.Screen, "TOP", 0, -50);
-
-	self:Hide()
-
-	self:Toggle()
+_G.RaidMark_HotkeyPressed = function(button)
+	RaidMarkFrame:Toggle(button)
 end
 --[[ 
 ########################################################## 
-GAMEMENU
+DRESSUP HELPERS by: Leatrix
 ##########################################################
 ]]--
-SV.GameMenu = _G["SVUI_GameMenuFrame"];
---[[
-141 - kneel loop
-138 - craft loop
-120 - half-crouch loop
-119 - stealth walk
-111 - attack ready
-55 - roar pose (paused)
-40 - falling loop
-203 - cannibalize
-225 - cower loop
+local CreateCharacterToggles;
+do
+	local HelmetToggle;
+	local CloakToggle;
+	local DressUpdateTimer = 0;
+	local HShowing, CShowing, HChecked, CChecked
 
+
+	local function LockItem(item, lock)
+		if lock then
+			item:Disable()
+			item:SetAlpha(0.3)
+		else
+			item:Enable()
+			item:SetAlpha(1.0)
+		end
+	end
+
+	local function SetVanityPlacement()
+		HelmetToggle:ClearAllPoints();
+		HelmetToggle:SetPoint("TOPLEFT", 166, -326)
+		HelmetToggle:SetHitRectInsets(0, -10, 0, 0);
+		HelmetToggle.text:SetText("H");
+		HelmetToggle:SetAlpha(0.7);
+
+		CloakToggle:ClearAllPoints();
+		CloakToggle:SetPoint("TOPLEFT", 206, -326)
+		CloakToggle:SetHitRectInsets(0, -10, 0, 0);
+		CloakToggle.text:SetText("C");
+		CloakToggle:SetAlpha(0.7);
+	end
+
+	local MouseEventHandler = function(self, btn)
+		if btn == "RightButton" and IsShiftKeyDown() then
+			SetVanityPlacement();
+		end
+	end
+
+	local DressUpdateHandler = function(self, elapsed)
+		DressUpdateTimer = DressUpdateTimer + elapsed;
+		while (DressUpdateTimer > 0.05) do
+			if UnitIsDeadOrGhost("player") then
+				LockItem(HelmetToggle,true)
+				LockItem(CloakToggle,true)
+				return
+			else
+				LockItem(HelmetToggle,false)
+				LockItem(CloakToggle,false)
+			end
+
+			HShowing = ShowingHelm()
+			CShowing = ShowingCloak()
+			HChecked = HelmetToggle:GetChecked()
+			CChecked = CloakToggle:GetChecked()
+
+			if(HChecked ~= HShowing) then
+				if HelmetToggle:IsEnabled() then
+					HelmetToggle:Disable()
+				end
+			else
+				if not HelmetToggle:IsEnabled() then
+					HelmetToggle:Enable()
+				end
+			end
+
+			if(CChecked ~= CShowing) then
+				if CloakToggle:IsEnabled() then
+					CloakToggle:Disable()
+				end
+			else
+				if not CloakToggle:IsEnabled() then
+					CloakToggle:Enable()
+				end
+			end
+
+			HelmetToggle:SetChecked(HShowing);
+			CloakToggle:SetChecked(CShowing);
+			DressUpdateTimer = 0;
+		end
+	end
+
+	local DressUp_OnEnter = function(self)
+		if InCombatLockdown() then return end
+		GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 4)
+		GameTooltip:ClearLines()
+		GameTooltip:AddLine(self.TText, 1, 1, 1)
+		GameTooltip:Show()
+	end
+
+	local DressUp_OnLeave = function(self)
+		if InCombatLockdown() then return end
+		if(GameTooltip:IsShown()) then GameTooltip:Hide() end
+	end
+
+	local Button_OnEnter = function(self, ...)
+	    if InCombatLockdown() then return end 
+	    GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 4)
+	    GameTooltip:ClearLines()
+	    GameTooltip:AddLine(self.TText, 1, 1, 1)
+	    GameTooltip:Show()
+	end 
+
+	local function CreateSimpleButton(frame, label, anchor, x, y, width, height, tooltip)
+	    local button = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
+	    button:SetWidth(width)
+	    button:SetHeight(height) 
+	    button:SetPoint(anchor, x, y)
+	    button:SetText(label) 
+	    button:RegisterForClicks("AnyUp") 
+	    button:SetHitRectInsets(0, 0, 0, 0);
+	    button:SetFrameStrata("FULLSCREEN_DIALOG");
+	    button.TText = tooltip
+	    button:SetStyle("Button")
+	    button:SetScript("OnEnter", Button_OnEnter)        
+	    button:SetScript("OnLeave", GameTooltip_Hide)
+	    return button
+	end
+
+	function CreateCharacterToggles()
+		local BtnStrata = SideDressUpModelResetButton:GetFrameStrata();
+		local BtnLevel = SideDressUpModelResetButton:GetFrameLevel();
+
+		local tabard1 = CreateSimpleButton(DressUpFrame, "Tabard", "BOTTOMLEFT", 12, 12, 80, 22, "")
+		tabard1:SetScript("OnClick", function()
+			DressUpModel:UndressSlot(19)
+		end)
+
+		local tabard2 = CreateSimpleButton(SideDressUpFrame, "Tabard", "BOTTOMLEFT", 14, 20, 60, 22, "")
+		tabard2:SetFrameStrata(BtnStrata);
+		tabard2:SetFrameLevel(BtnLevel);
+		tabard2:SetScript("OnClick", function()
+			SideDressUpModel:UndressSlot(19)
+		end)
+
+		local nude1 = CreateSimpleButton(DressUpFrame, "Nude", "BOTTOMLEFT", 104, 12, 80, 22, "")
+		nude1:SetScript("OnClick", function()
+			DressUpFrameResetButton:Click()
+			for i = 1, 19 do
+				DressUpModel:UndressSlot(i)
+			end
+		end)
+
+		local nude2 = CreateSimpleButton(SideDressUpFrame, "Nude", "BOTTOMRIGHT", -18, 20, 60, 22, "")
+		nude2:SetFrameStrata(BtnStrata);
+		nude2:SetFrameLevel(BtnLevel);
+		nude2:SetScript("OnClick", function()
+			SideDressUpModelResetButton:Click()
+			for i = 1, 19 do
+				SideDressUpModel:UndressSlot(i)
+			end
+		end)
+
+		HelmetToggle = CreateFrame('CheckButton', nil, CharacterModelFrame, "OptionsCheckButtonTemplate")
+		HelmetToggle:SetSize(16, 16)
+		HelmetToggle.text = HelmetToggle:CreateFontString(nil, 'OVERLAY', "GameFontNormal")
+		HelmetToggle.text:SetPoint("LEFT", 24, 0)
+		HelmetToggle.TText = "Show/Hide Helmet"
+		HelmetToggle:SetScript('OnEnter', DressUp_OnEnter)
+		HelmetToggle:SetScript('OnLeave', DressUp_OnLeave)
+		HelmetToggle:SetScript('OnUpdate', DressUpdateHandler)
+
+		CloakToggle = CreateFrame('CheckButton', nil, CharacterModelFrame, "OptionsCheckButtonTemplate")
+		CloakToggle:SetSize(16, 16)
+		CloakToggle.text = CloakToggle:CreateFontString(nil, 'OVERLAY', "GameFontNormal")
+		CloakToggle.text:SetPoint("LEFT", 24, 0)
+		CloakToggle.TText = "Show/Hide Cloak"
+		CloakToggle:SetScript('OnEnter', DressUp_OnEnter)
+		CloakToggle:SetScript('OnLeave', DressUp_OnLeave)
+
+		HelmetToggle:SetScript('OnClick', function(self, btn)
+			ShowHelm(HelmetToggle:GetChecked())
+		end)
+		CloakToggle:SetScript('OnClick', function(self, btn)
+			ShowCloak(CloakToggle:GetChecked())
+		end)
+
+		HelmetToggle:SetScript('OnMouseDown', MouseEventHandler)
+		CloakToggle:SetScript('OnMouseDown', MouseEventHandler)
+		CharacterModelFrame:HookScript("OnShow", SetVanityPlacement)
+	end
+end
+--[[ 
+########################################################## 
+VARIOUS COMBAT REACTIONS
+##########################################################
 ]]--
-local Sequences = {
-	--{65, 1000}, --shrug
-	--{120, 1000}, --stealth
-	--{74, 1000}, --roar
-	--{203, 1000}, --cannibalize
-	--{119, 1000}, --stealth walk
-	--{125, 1000}, --spell2
-	--{225, 1000}, --cower
-	{26, 1000}, --attack
-	{52, 1000}, --attack
-	--{138, 1000}, --craft
-	{111, 1000}, --attack ready
-	--{4, 1000}, --walk
-	--{5, 1000}, --run
-	{69, 1000}, --dance
-};
+local ReactionListener = CreateFrame("Frame")
 
-local function rng()
-	return random(1, #Sequences)
+local function Thanks_Emote(sourceName)
+	if not REACTION_EMOTE then return end
+	local index = random(1,#ReactionEmotes)
+	DoEmote(ReactionEmotes[index], sourceName)
 end
 
-local Activate = function(self)
-	if(SV.db.FunStuff.gamemenu == 'NONE') then
-		self:Toggle()
-		return
+local function StupidHatEventHandler()
+	if(not IsInInstance()) then return end
+	local item = {}
+	for i = 1, 17 do
+		if Reactions.StupidHat[i] ~= nil then
+			item[i] = GetInventoryItemID("player", i) or 0
+			for j, baditem in pairs(Reactions.StupidHat[i]) do
+				if item[i] == baditem then
+					PlaySound("RaidWarning", "master")
+					RaidNotice_AddMessage(RaidWarningFrame, format("%s %s", CURRENTLY_EQUIPPED, GetItemInfo(item[i]).."!!!"), ChatTypeInfo["RAID_WARNING"])
+					print(format("|cffff3300%s %s", CURRENTLY_EQUIPPED, GetItemInfo(item[i]).."!!!|r"))
+				end
+			end
+		end
+	end
+end
+
+local function ChatLogEventHandler(...)
+	local _, subEvent, _, sourceGUID, sourceName, _, _, destGUID, destName, _, _, spellID, _, _, otherSpellID = ...
+
+	if not sourceName then return end
+
+	if(REACTION_INTERRUPT) then
+		if ((spellID == 6770) and (destName == PlayerName) and (subEvent == "SPELL_AURA_APPLIED" or subEvent == "SPELL_AURA_REFRESH")) then
+			local msg = SAPPED_MESSAGE[random(1,6)]
+			SendChatMessage(msg, "SAY")
+			SV:AddonMessage("Sapped by: "..sourceName)
+			DoEmote("CRACK", sourceName)
+		elseif(subEvent == "SPELL_INTERRUPT" and sourceGUID == UnitGUID("player") and IsInGroup()) then
+			SendChatMessage(INTERRUPTED.." "..destName..": "..GetSpellLink(otherSpellID), MsgTest())
+		end
 	end
 
-	local key = rng()
-	local emote = Sequences[key][1]
-	self:SetAlpha(1)
-	self.ModelLeft:SetAnimation(emote)
-	self.ModelRight:SetAnimation(69)
-end
-
-function SV.GameMenu:Initialize()
-	self:SetFrameLevel(0)
-	self:SetAllPoints(SV.Screen)
-
-	self.ModelLeft:SetUnit("player")
-	self.ModelLeft:SetRotation(1)
-	self.ModelLeft:SetPortraitZoom(0.05)
-	self.ModelLeft:SetPosition(0,0,-0.25)
-
-	if(SV.db.FunStuff.gamemenu == '1') then
-		self.ModelRight:SetDisplayInfo(49084)
-		self.ModelRight:SetRotation(-1)
-		self.ModelRight:SetCamDistanceScale(1.9)
-		self.ModelRight:SetFacing(6)
-		self.ModelRight:SetPosition(0,0,-0.3)
-	elseif(SV.db.FunStuff.gamemenu == '2') then
-		self.ModelRight:SetUnit("player")
-		self.ModelRight:SetRotation(-1)
-		self.ModelRight:SetCamDistanceScale(1.9)
-		self.ModelRight:SetFacing(6)
-		self.ModelRight:SetPosition(0,0,-0.3)
+	if(REACTION_WOOT) then
+		for key, value in pairs(Reactions.Woot) do
+			if spellID == key and value == true and destName == PlayerName and sourceName ~= PlayerName and (subEvent == "SPELL_AURA_APPLIED" or subEvent == "SPELL_CAST_SUCCESS") then
+				Thanks_Emote(sourceName)
+				--SendChatMessage(L["Thanks for "]..GetSpellLink(spellID)..", "..sourceName, "WHISPER", nil, sourceName)
+				print(GetSpellLink(spellID)..L[" received from "]..sourceName)
+			end
+		end
 	end
 
-	-- local effectFrame = CreateFrame("PlayerModel", nil, self.ModelRight)
-	-- effectFrame:SetAllPoints(self.ModelRight)
-	-- effectFrame:SetCamDistanceScale(1)
-	-- effectFrame:SetPortraitZoom(0)
-	-- effectFrame:SetModel([[Spells\Blackmagic_precast_base.m2]])
+	if(REACTION_LOOKY) then
+		local outbound;
+		local spells = Reactions.LookWhatICanDo
+		local _, _, difficultyID = GetInstanceInfo()
 
-	-- local splash = self:CreateTexture(nil, "OVERLAY")
-	-- splash:SetSize(600, 300)
-	-- splash:SetTexture("Interface\\AddOns\\SVUI_!Core\\assets\\textures\\SPLASH-BLACK")
-	-- splash:SetBlendMode("ADD")
-	-- splash:SetPoint("TOP", 0, 0)
+		if(difficultyID ~= 0 and subEvent == "SPELL_CAST_SUCCESS") then
+			if(not (sourceGUID == UnitGUID("player") and sourceName == PlayerName)) then
+				for i, spells in pairs(spells) do
+					if(spellID == spells) then
+						if(destName == nil) then
+							outbound = (L["%s used a %s."]):format(sourceName, GetSpellLink(spellID))
+						else
+							outbound = (L["%s used a %s."]):format(sourceName, GetSpellLink(spellID).." -> "..destName)
+						end
+						if(REACTION_CHAT) then
+							SendChatMessage(outbound, MsgTest())
+						else
+							print(outbound)
+						end
+					end
+				end
+			else
+				if(not (sourceGUID == UnitGUID("player") and sourceName == PlayerName)) then return end
+				for i, spells in pairs(spells) do
+					if(spellID == spells) then
+						if(destName == nil) then
+							outbound = (L["%s used a %s."]):format(sourceName, GetSpellLink(spellID))
+						else
+							outbound = GetSpellLink(spellID).." -> "..destName
+						end
+						if(REACTION_CHAT) then
+							SendChatMessage(outbound, MsgTest())
+						else
+							print(outbound)
+						end
+					end
+				end
+			end
+		end
+	end
 
-	self:SetScript("OnShow", Activate)
+	if(REACTION_SHARE) then
+		if not IsInGroup() or InCombatLockdown() or not subEvent or not spellID then return end
+		if not UnitInRaid(sourceName) and not UnitInParty(sourceName) then return end
+
+		local sourceName = format(sourceName:gsub("%-[^|]+", ""))
+		if(not sourceName) then return end
+		local thanks = false
+		local outbound
+		if subEvent == "SPELL_CAST_SUCCESS" then
+			-- Feasts
+			if (spellID == 126492 or spellID == 126494) then
+				outbound = (L["%s has prepared a %s - [%s]."]):format(sourceName, GetSpellLink(spellID), SPELL_STAT1_NAME)
+			elseif (spellID == 126495 or spellID == 126496) then
+				outbound = (L["%s has prepared a %s - [%s]."]):format(sourceName, GetSpellLink(spellID), SPELL_STAT2_NAME)
+			elseif (spellID == 126501 or spellID == 126502) then
+				outbound = (L["%s has prepared a %s - [%s]."]):format(sourceName, GetSpellLink(spellID), SPELL_STAT3_NAME)
+			elseif (spellID == 126497 or spellID == 126498) then
+				outbound = (L["%s has prepared a %s - [%s]."]):format(sourceName, GetSpellLink(spellID), SPELL_STAT4_NAME)
+			elseif (spellID == 126499 or spellID == 126500) then
+				outbound = (L["%s has prepared a %s - [%s]."]):format(sourceName, GetSpellLink(spellID), SPELL_STAT5_NAME)
+			elseif (spellID == 104958 or spellID == 105193 or spellID == 126503 or spellID == 126504 or spellID == 145166 or spellID == 145169 or spellID == 145196) then
+				outbound = (L["%s has prepared a %s."]):format(sourceName, GetSpellLink(spellID))
+			-- Refreshment Table
+			elseif spellID == 43987 then
+				outbound = (L["%s has prepared a %s."]):format(sourceName, GetSpellLink(spellID))
+			-- Ritual of Summoning
+			elseif spellID == 698 then
+				outbound = (L["%s is casting %s. Click!"]):format(sourceName, GetSpellLink(spellID))
+			-- Piccolo of the Flaming Fire
+			elseif spellID == 18400 then
+				outbound = (L["%s used a %s."]):format(sourceName, GetSpellLink(spellID))
+			end
+			if(outbound) then thanks = true end
+		elseif subEvent == "SPELL_SUMMON" then
+			-- Repair Bots
+			if Reactions.Bots[spellID] then
+				outbound = (L["%s has put down a %s."]):format(sourceName, GetSpellLink(spellID))
+				thanks = true
+			end
+		elseif subEvent == "SPELL_CREATE" then
+			-- Ritual of Souls and MOLL-E
+			if (spellID == 29893 or spellID == 54710) then
+				outbound = (L["%s has put down a %s."]):format(sourceName, GetSpellLink(spellID))
+				thanks = true
+			-- Toys
+			elseif Reactions.Toys[spellID] then
+				outbound = (L["%s has put down a %s."]):format(sourceName, GetSpellLink(spellID))
+			-- Portals
+			elseif Reactions.Portals[spellID] then
+				outbound = (L["%s is casting %s."]):format(sourceName, GetSpellLink(spellID))
+			end
+		elseif subEvent == "SPELL_AURA_APPLIED" then
+			-- Turkey Feathers and Party G.R.E.N.A.D.E.
+			if (spellID == 61781 or ((spellID == 51508 or spellID == 51510) and destName == PlayerName)) then
+				outbound = (L["%s used a %s."]):format(sourceName, GetSpellLink(spellID))
+			end
+		end
+
+		if(outbound) then
+			if(REACTION_CHAT) then
+				SendChatMessage(outbound, MsgTest(true))
+			else
+				print(outbound)
+			end
+			if(thanks and sourceName) then
+				Thanks_Emote(sourceName)
+			end
+		end
+	end
 end
 
-function SV.GameMenu:Toggle()
-	if(SV.db.FunStuff.gamemenu ~= 'NONE') then
-		self:Show()
-		self:SetScript("OnShow", Activate)
+local ReactionListener_OnEvent = function(self, event, ...)
+	if(event == "ZONE_CHANGED_NEW_AREA") then
+		StupidHatEventHandler()
+	elseif(event == "COMBAT_LOG_EVENT_UNFILTERED") then
+		ChatLogEventHandler(...)
+	end
+end
+--[[ 
+########################################################## 
+LOAD BY TRIGGER
+##########################################################
+]]--
+local function InitializeMisc()
+	local settings = SV.db.Extras
+
+	REACTION_INTERRUPT = settings.pvpinterrupt
+	REACTION_WOOT = settings.woot
+	REACTION_LOOKY = settings.lookwhaticando
+	REACTION_SHARE = settings.sharingiscaring
+	REACTION_EMOTE = settings.reactionEmote
+	REACTION_CHAT = settings.reactionChat
+
+	if(settings.stupidhat) then
+		ReactionListener:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 	else
-		self:Hide()
-		self:SetScript("OnShow", nil)
+		ReactionListener:UnregisterEvent("ZONE_CHANGED_NEW_AREA")
+	end
+
+	if(not REACTION_SHARE) and (not REACTION_INTERRUPT) and (not REACTION_WOOT) and (not REACTION_LOOKY) then
+		ReactionListener:UnregisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+	else
+		ReactionListener:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+	end
+
+	ReactionListener:SetScript("OnEvent", ReactionListener_OnEvent)
+
+	hooksecurefunc("MerchantItemButton_OnEnter", MaxStackTooltip);
+	hooksecurefunc("MerchantItemButton_OnModifiedClick", BuyMaxStack);
+
+	RaidMarkFrame:RegisterEvent("PLAYER_TARGET_CHANGED")
+	RaidMarkFrame:SetScript("OnEvent", RaidMarkFrame_OnEvent)
+
+	if(not IsAddOnLoaded("DressingRoomFunctions")) then
+		CreateCharacterToggles()
 	end
 end
+
+SV.Events:On("CORE_INITIALIZED", "LoadMisc", InitializeMisc);
+--[[ 
+########################################################## 
+DIRTY DEEDS
+##########################################################
+]]--
+LFRParentFrame:SetScript("OnHide", nil)

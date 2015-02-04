@@ -11,6 +11,9 @@ local _G = _G;
 local unpack 	= _G.unpack;
 local select 	= _G.select;
 local math 		= _G.math;
+local table 	 =  _G.table;
+--[[ TABLE METHODS ]]--
+local tsort = table.sort;
 --[[ MATH METHODS ]]--
 local random = math.random;
 --[[ 
@@ -18,10 +21,19 @@ local random = math.random;
 GET ADDON DATA
 ##########################################################
 ]]--
-local SV = _G['SVUI']
+local SV = _G["SVUI"];
 local L = SV.L;
-local THEME = SV:GetTheme("Warcraft");
+local THEME = SV:NewTheme(...);
 local LSM = LibStub("LibSharedMedia-3.0");
+
+THEME.media = {}
+THEME.media.dockSparks = {
+	[[Interface\AddOns\SVUITheme_Warcraft\assets\artwork\Dock\DOCK-SPARKS-1]],
+	[[Interface\AddOns\SVUITheme_Warcraft\assets\artwork\Dock\DOCK-SPARKS-2]],
+	[[Interface\AddOns\SVUITheme_Warcraft\assets\artwork\Dock\DOCK-SPARKS-3]],
+};
+
+SV.defaults.THEME["Warcraft"] = {};
 --[[ 
 ########################################################## 
 MISC

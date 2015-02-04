@@ -2,6 +2,8 @@
 
     <Frame name="SVUI_DropdownFrame" frameStrata="DIALOG" hidden="true" />
 
+    <Frame name="SVUI_RaidMarkFrame" frameStrata="DIALOG" hidden="true" />
+
     <Frame name="SVUI_LayoutPrecision" hidden="true" frameStrata="DIALOG">
         <Size x="130" y="60"/>
         <Anchors>

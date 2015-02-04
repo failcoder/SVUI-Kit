@@ -300,6 +300,5 @@
         </Layers>
     </Frame>
 
-    <Script file="Loader.lua"/>
     <Script file="SVUITheme_Warcraft.lua"/>
 </Ui>

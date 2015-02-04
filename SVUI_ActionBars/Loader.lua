@@ -61,7 +61,14 @@ SV.defaults[Schema] = {
 		["buttonsize"] = 30, 
 		["buttonspacing"] = 4, 
 		["yOffset"] = 4
-	}, 
+	},
+	["Totem"] = {
+	    ["enable"] = true, 
+	    ["showBy"] = "VERTICAL", 
+	    ["sortDirection"] = "ASCENDING", 
+	    ["buttonsize"] = 40, 
+	    ["buttonspacing"] = 4
+	},
 	["Bar1"] = {
 		["enable"] = true, 
 		["buttons"] = 12, 
@@ -361,584 +368,15 @@ SV.defaults[Schema] = {
 	}
 };
 
-local bar_configs;
-local function BarConfigLoader()
-	local count = SV.db.ActionBars.barCount or 6
-	local b = {["TOPLEFT"] = "TOPLEFT", ["TOPRIGHT"] = "TOPRIGHT", ["BOTTOMLEFT"] = "BOTTOMLEFT", ["BOTTOMRIGHT"] = "BOTTOMRIGHT"}
-	for d = 1, count do 
-		local name = L["Bar "]..d;
-		bar_configs["Bar"..d] = {
-			order = d, 
-			name = name, 
-			type = "group", 
-			order = (d  +  10), 
-			guiInline = false, 
-			disabled = function()return not SV.db[Schema].enable end, 
-			get = function(key) 
-				return SV.db[Schema]["Bar"..d][key[#key]] 
-			end, 
-			set = function(key, value)
-				MOD:ChangeDBVar(value, key[#key], "Bar"..d);
-				MOD:RefreshBar("Bar"..d)
-			end, 
-			args = {
-				enable = {
-					order = 1, 
-					type = "toggle", 
-					name = L["Enable"], 
-				}, 
-				backdrop = {
-					order = 2, 
-					name = L["Background"], 
-					type = "toggle", 
-					disabled = function()return not SV.db[Schema]["Bar"..d].enable end, 
-				}, 
-				mouseover = {
-					order = 3, 
-					name = L["Mouse Over"], 
-					desc = L["The frame is not shown unless you mouse over the frame."], 
-					type = "toggle", 
-					disabled = function()return not SV.db[Schema]["Bar"..d].enable end, 
-				}, 
-				restorePosition = {
-					order = 4, 
-					type = "execute", 
-					name = L["Restore Bar"], 
-					desc = L["Restore the actionbars default settings"], 
-					func = function()
-						SV:ResetData("ActionBars", "Bar"..d)
-						SV.Layout:Reset("Bar "..d)
-						MOD:RefreshBar("Bar"..d)
-					end, 
-					disabled = function()return not SV.db[Schema]["Bar"..d].enable end, 
-				}, 
-				adjustGroup = {
-					name = L["Bar Adjustments"], 
-					type = "group", 
-					order = 5, 
-					guiInline = true, 
-					disabled = function()return not SV.db[Schema]["Bar"..d].enable end, 
-					args = {
-						point = {
-							order = 1, 
-							type = "select", 
-							name = L["Anchor Point"], 
-							desc = L["The first button anchors itself to this point on the bar."], 
-							values = b
-						}, 
-						buttons = {
-							order = 2, 
-							type = "range", 
-							name = L["Buttons"], 
-							desc = L["The amount of buttons to display."], 
-							min = 1, 
-							max = NUM_ACTIONBAR_BUTTONS, 
-							step = 1
-						}, 
-						buttonsPerRow = {
-							order = 3, 
-							type = "range", 
-							name = L["Buttons Per Row"], 
-							desc = L["The amount of buttons to display per row."], 
-							min = 1, 
-							max = NUM_ACTIONBAR_BUTTONS, 
-							step = 1
-						}, 
-						buttonsize = {
-							type = "range", 
-							name = L["Button Size"], 
-							desc = L["The size of the action buttons."], 
-							min = 15, 
-							max = 60, 
-							step = 1, 
-							order = 4
-						}, 
-						buttonspacing = {
-							type = "range", 
-							name = L["Button Spacing"], 
-							desc = L["The spacing between buttons."], 
-							min = 1, 
-							max = 10, 
-							step = 1, 
-							order = 5
-						}, 
-						alpha = {
-							order = 6, 
-							type = "range", 
-							name = L["Alpha"], 
-							isPercent = true, 
-							min = 0, 
-							max = 1, 
-							step = 0.01
-						}, 
-					}
-				}, 
-				pagingGroup = {
-					name = L["Bar Paging"], 
-					type = "group", 
-					order = 6, 
-					guiInline = true, 
-					disabled = function()return not SV.db[Schema]["Bar"..d].enable end, 
-					args = {
-						useCustomPaging = {
-							order = 1, 
-							type = "toggle", 
-							name = L["Enable"], 
-							desc = L["Allow the use of custom paging for this bar"], 
-							get = function()return SV.db[Schema]["Bar"..d].useCustomPaging end, 
-							set = function(e, f)
-								SV.db[Schema]["Bar"..d].useCustomPaging = f;
-								MOD:UpdateBarPagingDefaults();
-								MOD:RefreshBar("Bar"..d)
-							end
-						}, 
-						resetStates = {
-							order = 2, 
-							type = "execute", 
-							name = L["Restore Defaults"], 
-							desc = L["Restore default paging attributes for this bar"], 
-							func = function()
-								SV:ResetData("ActionBars", "Bar"..d, "customPaging")
-								MOD:UpdateBarPagingDefaults();
-								MOD:RefreshBar("Bar"..d)
-							end
-						}, 
-						customPaging = {
-							order = 3, 
-							type = "input", 
-							width = "full", 
-							name = L["Paging"], 
-							desc = L["|cffFF0000ADVANCED:|r Set the paging attributes for this bar"], 
-							get = function(e)return SV.db[Schema]["Bar"..d].customPaging[SV.class] end, 
-							set = function(e, f)
-								SV.db[Schema]["Bar"..d].customPaging[SV.class] = f;
-								MOD:UpdateBarPagingDefaults();
-								MOD:RefreshBar("Bar"..d)
-							end, 
-							disabled = function()return not SV.db[Schema]["Bar"..d].useCustomPaging end, 
-						}, 
-						useCustomVisibility = {
-							order = 4, 
-							type = "toggle", 
-							name = L["Enable"], 
-							desc = L["Allow the use of custom paging for this bar"], 
-							get = function()return SV.db[Schema]["Bar"..d].useCustomVisibility end, 
-							set = function(e, f)
-								SV.db[Schema]["Bar"..d].useCustomVisibility = f;
-								MOD:UpdateBarPagingDefaults();
-								MOD:RefreshBar("Bar"..d)
-							end
-						}, 
-						resetVisibility = {
-							order = 5, 
-							type = "execute", 
-							name = L["Restore Defaults"], 
-							desc = L["Restore default visibility attributes for this bar"], 
-							func = function()
-								--SV:ResetData("ActionBars", "Bar"..d, "customVisibility")
-								SV.db[Schema]["Bar"..d].customVisibility = SV.defaults[Schema]["Bar"..d].customVisibility;
-								MOD:UpdateBarPagingDefaults();
-								MOD:RefreshBar("Bar"..d)
-							end
-						}, 
-						customVisibility = {
-							order = 6, 
-							type = "input", 
-							width = "full", 
-							name = L["Visibility"], 
-							desc = L["|cffFF0000ADVANCED:|r Set the visibility attributes for this bar"], 
-							get = function(e)return SV.db[Schema]["Bar"..d].customVisibility end, 
-							set = function(e, f)
-								SV.db[Schema]["Bar"..d].customVisibility = f;
-								MOD:UpdateBarPagingDefaults();
-								MOD:RefreshBar("Bar"..d)
-							end, 
-							disabled = function()return not SV.db[Schema]["Bar"..d].useCustomVisibility end, 
-						}, 
-
-					}
-				}
-			}
-		}
-	end 
-
-	bar_configs["Pet"] = {
-		order = 7,
-		name = L["Pet Bar"],
-		type = "group",
-		order = 200,
-		guiInline = false,
-		disabled = function()return not SV.db[Schema].enable end,
-		get = function(e)return SV.db[Schema]["Pet"][e[#e]]end,
-		set = function(key, value)
-			MOD:ChangeDBVar(value, key[#key], "Pet");
-			MOD:RefreshBar("Pet")
-		end,
-		args = {
-			enable = {
-				order = 1,
-				type = "toggle",
-				name = L["Enable"]
-			},
-			backdrop = {
-				order = 2,
-				name = L["Background"],
-				type = "toggle",
-				disabled = function()return not SV.db[Schema]["Pet"].enable end,
-			},
-			mouseover = {
-				order = 3,
-				name = L["Mouse Over"],
-				desc = L["The frame is not shown unless you mouse over the frame."],
-				type = "toggle",
-				disabled = function()return not SV.db[Schema]["Pet"].enable end,
-			},
-			restorePosition = {
-				order = 4,
-				type = "execute",
-				name = L["Restore Bar"],
-				desc = L["Restore the actionbars default settings"],
-				func = function()
-					SV:ResetData("ActionBars", "Pet")
-					SV.Layout:Reset("Pet Bar")
-					MOD:RefreshBar("Pet")
-				end,
-				disabled = function()return not SV.db[Schema]["Pet"].enable end,
-			},
-			adjustGroup = {
-				name = L["Bar Adjustments"],
-				type = "group",
-				order = 5,
-				guiInline = true,
-				disabled = function()return not SV.db[Schema]["Pet"].enable end,
-				args = {	
-					point = {
-						order = 1,
-						type = "select",
-						name = L["Anchor Point"],
-						desc = L["The first button anchors itself to this point on the bar."],
-						values = b
-					},
-					buttons = {
-						order = 2,
-						type = "range",
-						name = L["Buttons"],
-						desc = L["The amount of buttons to display."],
-						min = 1,
-						max = NUM_PET_ACTION_SLOTS,
-						step = 1
-					},
-					buttonsPerRow = {
-						order = 3,
-						type = "range",
-						name = L["Buttons Per Row"],
-						desc = L["The amount of buttons to display per row."],
-						min = 1,
-						max = NUM_PET_ACTION_SLOTS,
-						step = 1
-					},
-					buttonsize = {
-						order = 4,
-						type = "range",
-						name = L["Button Size"],
-						desc = L["The size of the action buttons."],
-						min = 15,
-						max = 60,
-						step = 1,
-						disabled = function()return not SV.db[Schema].enable end
-					},
-					buttonspacing = {
-						order = 5,
-						type = "range",
-						name = L["Button Spacing"],
-						desc = L["The spacing between buttons."],
-						min = 1,
-						max = 10,
-						step = 1,
-						disabled = function()return not SV.db[Schema].enable end
-					},
-					alpha = {
-						order = 6,
-						type = "range",
-						name = L["Alpha"],
-						isPercent = true,
-						min = 0,
-						max = 1,
-						step = 0.01
-					},
-				}
-			},
-			customGroup = {
-				name = L["Visibility Options"],
-				type = "group",
-				order = 6,
-				guiInline = true,
-				args = {
-					useCustomVisibility = {
-						order = 1,
-						type = "toggle",
-						name = L["Enable"],
-						desc = L["Allow the use of custom paging for this bar"],
-						get = function()return SV.db[Schema]["Pet"].useCustomVisibility end,
-						set = function(e,f)
-							SV.db[Schema]["Pet"].useCustomVisibility = f;
-							MOD:RefreshBar("Pet")
-						end
-					},
-					resetVisibility = {
-						order = 2,
-						type = "execute",
-						name = L["Restore Defaults"],
-						desc = L["Restore default visibility attributes for this bar"],
-						func = function()
-							SV:ResetData("ActionBars", "Pet", "customVisibility")
-							MOD:RefreshBar("Pet")
-						end
-					},
-					customVisibility = {
-						order = 3,
-						type = "input",
-						width = "full",
-						name = L["Visibility"],
-						desc = L["|cffFF0000ADVANCED:|r Set the visibility attributes for this bar"],
-						get = function(e)return SV.db[Schema]["Pet"].customVisibility end,
-						set = function(e,f)
-							SV.db[Schema]["Pet"].customVisibility = f;
-							MOD:RefreshBar("Pet")
-						end,
-						disabled = function()return not SV.db[Schema]["Pet"].useCustomVisibility end,
-					},
-				}
-			}
-		}
-	};
-
-	bar_configs["Stance"] = {
-		order = 8,
-		name = L["Stance Bar"],
-		type = "group",
-		order = 300,
-		guiInline = false,
-		disabled = function()return not SV.db[Schema].enable end,
-		get = function(e)return SV.db[Schema]["Stance"][e[#e]]end,
-		set = function(key, value)
-			MOD:ChangeDBVar(value, key[#key], "Stance");
-			MOD:RefreshBar("Stance")
-		end,
-		args = {
-			enable = {
-				order = 1,
-				type = "toggle",
-				name = L["Enable"]
-			},
-			backdrop = {
-				order = 2,
-				name = L["Background"],
-				type = "toggle",
-				disabled = function()return not SV.db[Schema]["Stance"].enable end,
-			},
-			mouseover = {
-				order = 3,
-				name = L["Mouse Over"],
-				desc = L["The frame is not shown unless you mouse over the frame."],
-				type = "toggle",
-				disabled = function()return not SV.db[Schema]["Stance"].enable end,
-			},
-			restorePosition = {
-				order = 4,
-				type = "execute",
-				name = L["Restore Bar"],
-				desc = L["Restore the actionbars default settings"],
-				func = function()
-					SVUILib:SetDefault("ActionBars","Stance")
-					SV.Layout:Reset("Stance Bar")
-					MOD:RefreshBar("Stance")
-				end,
-				disabled = function()return not SV.db[Schema]["Stance"].enable end,
-			},
-			adjustGroup = {
-				name = L["Bar Adjustments"],
-				type = "group",
-				order = 5,
-				guiInline = true,
-				disabled = function()return not SV.db[Schema]["Stance"].enable end,
-				args = {
-					point = {
-						order = 1,
-						type = "select",
-						name = L["Anchor Point"],
-						desc = L["The first button anchors itself to this point on the bar."],
-						values = b
-					},
-					buttons = {
-						order = 2,
-						type = "range",
-						name = L["Buttons"],
-						desc = L["The amount of buttons to display."],
-						min = 1,
-						max = NUM_STANCE_SLOTS,
-						step = 1
-					},
-					buttonsPerRow = {
-						order = 3,
-						type = "range",
-						name = L["Buttons Per Row"],
-						desc = L["The amount of buttons to display per row."],
-						min = 1,
-						max = NUM_STANCE_SLOTS,
-						step = 1
-					},
-					buttonsize = {
-						order = 4,
-						type = "range",
-						name = L["Button Size"],
-						desc = L["The size of the action buttons."],
-						min = 15,
-						max = 60,
-						step = 1
-					},
-					buttonspacing = {
-						order = 5,
-						type = "range",
-						name = L["Button Spacing"],
-						desc = L["The spacing between buttons."],
-						min = 1,
-						max = 10,
-						step = 1
-					},
-					alpha = {
-						order = 6,
-						type = "range",
-						name = L["Alpha"],
-						isPercent = true,
-						min = 0,
-						max = 1,
-						step = 0.01
-					}, 
-				}
-			},
-			customGroup = {
-				name = L["Visibility Options"],
-				type = "group",
-				order = 6,
-				guiInline = true,
-				disabled = function()return not SV.db[Schema]["Stance"].enable end,
-				args = {
-					style = {
-						order = 1,
-						type = "select",
-						name = L["Style"],
-						desc = L["This setting will be updated upon changing stances."],
-						values = {
-							["darkenInactive"] = L["Darken Inactive"],
-							["classic"] = L["Classic"]
-						}
-					},
-					spacer1 = {
-						order = 2,
-						type = "description",
-						name = "",
-					},
-					spacer2 = {
-						order = 3,
-						type = "description",
-						name = "",
-					},
-					useCustomVisibility = {
-						order = 4,
-						type = "toggle",
-						name = L["Enable"],
-						desc = L["Allow the use of custom paging for this bar"],
-						get = function()return SV.db[Schema]["Stance"].useCustomVisibility end,
-						set = function(e,f)
-							SV.db[Schema]["Stance"].useCustomVisibility = f;
-							MOD:RefreshBar("Stance")
-						end
-					},
-					resetVisibility = {
-						order = 5,
-						type = "execute",
-						name = L["Restore Defaults"],
-						desc = L["Restore default visibility attributes for this bar"],
-						func = function()
-							SV:ResetData("ActionBars", "Stance", "customVisibility")
-							MOD:RefreshBar("Stance")
-						end
-					},
-					customVisibility = {
-						order = 6,
-						type = "input",
-						width = "full",
-						name = L["Visibility"],
-						desc = L["|cffFF0000ADVANCED:|r Set the visibility attributes for this bar"],
-						get = function(e)return SV.db[Schema]["Stance"].customVisibility end,
-						set = function(e,f)
-							SV.db[Schema]["Stance"].customVisibility = f;
-							MOD:RefreshBar("Stance")
-						end,
-						disabled = function()return not SV.db[Schema]["Stance"].useCustomVisibility end,
-					},
-				}
-			}
-		}
-	};
-
-	bar_configs["Micro"] = {
-		order = 9,
-		name = L["Micro Menu"],
-		type = "group",
-		order = 100,
-		guiInline = false,
-		disabled = function()return not SV.db[Schema].enable end,
-		get = function(key) 
-			return SV.db[Schema]["Micro"][key[#key]] 
-		end, 
-		set = function(key, value)
-			MOD:ChangeDBVar(value, key[#key], "Micro");
-			MOD:UpdateMicroButtons()
-		end,
-		args = {
-			enable = {
-				order = 1,
-				type = "toggle",
-				name = L["Enable"],
-				set = function(key, value)
-					MOD:ChangeDBVar(value, key[#key], "Micro");
-					SV:StaticPopup_Show("RL_CLIENT")
-				end,
-			},
-			mouseover = {
-				order = 2,
-				name = L["Mouse Over"],
-				desc = L["The frame is not shown unless you mouse over the frame."],
-				disabled = function()return not SV.db[Schema]["Micro"].enable end,
-				type = "toggle"
-			},
-			buttonsize = {
-				order = 3,
-				type = "range",
-				name = L["Button Size"],
-				desc = L["The size of the action buttons."],
-				min = 15,
-				max = 60,
-				step = 1,
-				disabled = function()return not SV.db[Schema]["Micro"].enable end,
-			},
-			buttonspacing = {
-				order = 4,
-				type = "range",
-				name = L["Button Spacing"],
-				desc = L["The spacing between buttons."],
-				min = 1,
-				max = 10,
-				step = 1,
-				disabled = function()return not SV.db[Schema]["Micro"].enable end,
-			},
-		}
-	};
-end 
-
 function MOD:LoadOptions()
+	local count = SV.db.ActionBars.barCount or 6
+	local POSITION_VALUES = {
+		["TOPLEFT"] = "TOPLEFT", 
+		["TOPRIGHT"] = "TOPRIGHT", 
+		["BOTTOMLEFT"] = "BOTTOMLEFT", 
+		["BOTTOMRIGHT"] = "BOTTOMRIGHT",
+	}
+
 	SV.Options.args.primary.args.quickGroup1.args.toggleKeybind = {
 		order = 5, 
 		width = "full", 
@@ -1076,10 +514,638 @@ function MOD:LoadOptions()
 							},
 						}
 					},
+					Pet = {
+						order = (count + 2),
+						name = L["Pet Bar"],
+						type = "group",
+						guiInline = false,
+						disabled = function()return not SV.db[Schema].enable end,
+						get = function(e)return SV.db[Schema]["Pet"][e[#e]]end,
+						set = function(key, value)
+							MOD:ChangeDBVar(value, key[#key], "Pet");
+							MOD:RefreshBar("Pet")
+						end,
+						args = {
+							enable = {
+								order = 1,
+								type = "toggle",
+								name = L["Enable"]
+							},
+							backdrop = {
+								order = 2,
+								name = L["Background"],
+								type = "toggle",
+								disabled = function()return not SV.db[Schema]["Pet"].enable end,
+							},
+							mouseover = {
+								order = 3,
+								name = L["Mouse Over"],
+								desc = L["The frame is not shown unless you mouse over the frame."],
+								type = "toggle",
+								disabled = function()return not SV.db[Schema]["Pet"].enable end,
+							},
+							restorePosition = {
+								order = 4,
+								type = "execute",
+								name = L["Restore Bar"],
+								desc = L["Restore the actionbars default settings"],
+								func = function()
+									SV:ResetData("ActionBars", "Pet")
+									SV.Layout:Reset("Pet Bar")
+									MOD:RefreshBar("Pet")
+								end,
+								disabled = function()return not SV.db[Schema]["Pet"].enable end,
+							},
+							adjustGroup = {
+								name = L["Bar Adjustments"],
+								type = "group",
+								order = 5,
+								guiInline = true,
+								disabled = function()return not SV.db[Schema]["Pet"].enable end,
+								args = {	
+									point = {
+										order = 1,
+										type = "select",
+										name = L["Anchor Point"],
+										desc = L["The first button anchors itself to this point on the bar."],
+										values = POSITION_VALUES
+									},
+									buttons = {
+										order = 2,
+										type = "range",
+										name = L["Buttons"],
+										desc = L["The amount of buttons to display."],
+										min = 1,
+										max = NUM_PET_ACTION_SLOTS,
+										step = 1
+									},
+									buttonsPerRow = {
+										order = 3,
+										type = "range",
+										name = L["Buttons Per Row"],
+										desc = L["The amount of buttons to display per row."],
+										min = 1,
+										max = NUM_PET_ACTION_SLOTS,
+										step = 1
+									},
+									buttonsize = {
+										order = 4,
+										type = "range",
+										name = L["Button Size"],
+										desc = L["The size of the action buttons."],
+										min = 15,
+										max = 60,
+										step = 1,
+										disabled = function()return not SV.db[Schema].enable end
+									},
+									buttonspacing = {
+										order = 5,
+										type = "range",
+										name = L["Button Spacing"],
+										desc = L["The spacing between buttons."],
+										min = 1,
+										max = 10,
+										step = 1,
+										disabled = function()return not SV.db[Schema].enable end
+									},
+									alpha = {
+										order = 6,
+										type = "range",
+										name = L["Alpha"],
+										isPercent = true,
+										min = 0,
+										max = 1,
+										step = 0.01
+									},
+								}
+							},
+							customGroup = {
+								name = L["Visibility Options"],
+								type = "group",
+								order = 6,
+								guiInline = true,
+								args = {
+									useCustomVisibility = {
+										order = 1,
+										type = "toggle",
+										name = L["Enable"],
+										desc = L["Allow the use of custom paging for this bar"],
+										get = function()return SV.db[Schema]["Pet"].useCustomVisibility end,
+										set = function(e,f)
+											SV.db[Schema]["Pet"].useCustomVisibility = f;
+											MOD:RefreshBar("Pet")
+										end
+									},
+									resetVisibility = {
+										order = 2,
+										type = "execute",
+										name = L["Restore Defaults"],
+										desc = L["Restore default visibility attributes for this bar"],
+										func = function()
+											SV:ResetData("ActionBars", "Pet", "customVisibility")
+											MOD:RefreshBar("Pet")
+										end
+									},
+									customVisibility = {
+										order = 3,
+										type = "input",
+										width = "full",
+										name = L["Visibility"],
+										desc = L["|cffFF0000ADVANCED:|r Set the visibility attributes for this bar"],
+										get = function(e)return SV.db[Schema]["Pet"].customVisibility end,
+										set = function(e,f)
+											SV.db[Schema]["Pet"].customVisibility = f;
+											MOD:RefreshBar("Pet")
+										end,
+										disabled = function()return not SV.db[Schema]["Pet"].useCustomVisibility end,
+									},
+								}
+							}
+						}
+					},
+					Stance = {
+						order = (count + 3),
+						name = L["Stance Bar"],
+						type = "group",
+						guiInline = false,
+						disabled = function()return not SV.db[Schema].enable end,
+						get = function(e)return SV.db[Schema]["Stance"][e[#e]]end,
+						set = function(key, value)
+							MOD:ChangeDBVar(value, key[#key], "Stance");
+							MOD:RefreshBar("Stance")
+						end,
+						args = {
+							enable = {
+								order = 1,
+								type = "toggle",
+								name = L["Enable"]
+							},
+							backdrop = {
+								order = 2,
+								name = L["Background"],
+								type = "toggle",
+								disabled = function()return not SV.db[Schema]["Stance"].enable end,
+							},
+							mouseover = {
+								order = 3,
+								name = L["Mouse Over"],
+								desc = L["The frame is not shown unless you mouse over the frame."],
+								type = "toggle",
+								disabled = function()return not SV.db[Schema]["Stance"].enable end,
+							},
+							restorePosition = {
+								order = 4,
+								type = "execute",
+								name = L["Restore Bar"],
+								desc = L["Restore the actionbars default settings"],
+								func = function()
+									SVUILib:SetDefault("ActionBars","Stance")
+									SV.Layout:Reset("Stance Bar")
+									MOD:RefreshBar("Stance")
+								end,
+								disabled = function()return not SV.db[Schema]["Stance"].enable end,
+							},
+							adjustGroup = {
+								name = L["Bar Adjustments"],
+								type = "group",
+								order = 5,
+								guiInline = true,
+								disabled = function()return not SV.db[Schema]["Stance"].enable end,
+								args = {
+									point = {
+										order = 1,
+										type = "select",
+										name = L["Anchor Point"],
+										desc = L["The first button anchors itself to this point on the bar."],
+										values = POSITION_VALUES
+									},
+									buttons = {
+										order = 2,
+										type = "range",
+										name = L["Buttons"],
+										desc = L["The amount of buttons to display."],
+										min = 1,
+										max = NUM_STANCE_SLOTS,
+										step = 1
+									},
+									buttonsPerRow = {
+										order = 3,
+										type = "range",
+										name = L["Buttons Per Row"],
+										desc = L["The amount of buttons to display per row."],
+										min = 1,
+										max = NUM_STANCE_SLOTS,
+										step = 1
+									},
+									buttonsize = {
+										order = 4,
+										type = "range",
+										name = L["Button Size"],
+										desc = L["The size of the action buttons."],
+										min = 15,
+										max = 60,
+										step = 1
+									},
+									buttonspacing = {
+										order = 5,
+										type = "range",
+										name = L["Button Spacing"],
+										desc = L["The spacing between buttons."],
+										min = 1,
+										max = 10,
+										step = 1
+									},
+									alpha = {
+										order = 6,
+										type = "range",
+										name = L["Alpha"],
+										isPercent = true,
+										min = 0,
+										max = 1,
+										step = 0.01
+									}, 
+								}
+							},
+							customGroup = {
+								name = L["Visibility Options"],
+								type = "group",
+								order = 6,
+								guiInline = true,
+								disabled = function()return not SV.db[Schema]["Stance"].enable end,
+								args = {
+									style = {
+										order = 1,
+										type = "select",
+										name = L["Style"],
+										desc = L["This setting will be updated upon changing stances."],
+										values = {
+											["darkenInactive"] = L["Darken Inactive"],
+											["classic"] = L["Classic"]
+										}
+									},
+									spacer1 = {
+										order = 2,
+										type = "description",
+										name = "",
+									},
+									spacer2 = {
+										order = 3,
+										type = "description",
+										name = "",
+									},
+									useCustomVisibility = {
+										order = 4,
+										type = "toggle",
+										name = L["Enable"],
+										desc = L["Allow the use of custom paging for this bar"],
+										get = function()return SV.db[Schema]["Stance"].useCustomVisibility end,
+										set = function(e,f)
+											SV.db[Schema]["Stance"].useCustomVisibility = f;
+											MOD:RefreshBar("Stance")
+										end
+									},
+									resetVisibility = {
+										order = 5,
+										type = "execute",
+										name = L["Restore Defaults"],
+										desc = L["Restore default visibility attributes for this bar"],
+										func = function()
+											SV:ResetData("ActionBars", "Stance", "customVisibility")
+											MOD:RefreshBar("Stance")
+										end
+									},
+									customVisibility = {
+										order = 6,
+										type = "input",
+										width = "full",
+										name = L["Visibility"],
+										desc = L["|cffFF0000ADVANCED:|r Set the visibility attributes for this bar"],
+										get = function(e)return SV.db[Schema]["Stance"].customVisibility end,
+										set = function(e,f)
+											SV.db[Schema]["Stance"].customVisibility = f;
+											MOD:RefreshBar("Stance")
+										end,
+										disabled = function()return not SV.db[Schema]["Stance"].useCustomVisibility end,
+									},
+								}
+							}
+						}
+					},
+					Totem = {
+						order = (count + 4),
+						name = L["Totem Bar"],
+						type = "group",
+						guiInline = false,
+						disabled = function()return not SV.db[Schema].enable end,
+						get = function(key) 
+							return SV.db[Schema]["Totem"][key[#key]] 
+						end, 
+						set = function(key, value)
+							MOD:ChangeDBVar(value, key[#key], "Totem");
+							SV:StaticPopup_Show("RL_CLIENT")
+						end,
+						args = {
+							enable = {
+								order = 1,
+								type = "toggle",
+								name = L["Enable"],
+								set = function(key, value)
+									MOD:ChangeDBVar(value, key[#key], "Totem");
+									SV:StaticPopup_Show("RL_CLIENT")
+								end,
+							},
+							buttonsize = {
+								order = 2,
+								type = "range",
+								name = L["Button Size"],
+								desc = L["The size of the action buttons."],
+								min = 15,
+								max = 60,
+								step = 1,
+								disabled = function()return not SV.db[Schema]["Totem"].enable end,
+							},
+							buttonspacing = {
+								order = 3,
+								type = "range",
+								name = L["Button Spacing"],
+								desc = L["The spacing between buttons."],
+								min = 1,
+								max = 10,
+								step = 1,
+								disabled = function()return not SV.db[Schema]["Totem"].enable end,
+							},
+							sortDirection = {
+								order = 4, 
+								type = 'select', 
+								name = L["Sort Order"], 
+								values = {
+									['ASCENDING'] = L['Ascending'], 
+									['DESCENDING'] = L['Descending']
+								},
+								disabled = function()return not SV.db[Schema]["Totem"].enable end,
+							},
+							showBy = {
+								order = 5, 
+								type = 'select', 
+								name = L["Bar Direction"], 
+								values = {
+									['VERTICAL'] = L['Vertical'], 
+									['HORIZONTAL'] = L['Horizontal']
+								},
+								disabled = function()return not SV.db[Schema]["Totem"].enable end,
+							},
+						}
+					},
+					Micro = {
+						order = (count + 5),
+						name = L["Micro Menu"],
+						type = "group",
+						guiInline = false,
+						disabled = function()return not SV.db[Schema].enable end,
+						get = function(key) 
+							return SV.db[Schema]["Micro"][key[#key]] 
+						end, 
+						set = function(key, value)
+							MOD:ChangeDBVar(value, key[#key], "Micro");
+							MOD:UpdateMicroButtons()
+						end,
+						args = {
+							enable = {
+								order = 1,
+								type = "toggle",
+								name = L["Enable"],
+								set = function(key, value)
+									MOD:ChangeDBVar(value, key[#key], "Micro");
+									SV:StaticPopup_Show("RL_CLIENT")
+								end,
+							},
+							mouseover = {
+								order = 2,
+								name = L["Mouse Over"],
+								desc = L["The frame is not shown unless you mouse over the frame."],
+								disabled = function()return not SV.db[Schema]["Micro"].enable end,
+								type = "toggle"
+							},
+							buttonsize = {
+								order = 3,
+								type = "range",
+								name = L["Button Size"],
+								desc = L["The size of the action buttons."],
+								min = 15,
+								max = 60,
+								step = 1,
+								disabled = function()return not SV.db[Schema]["Micro"].enable end,
+							},
+							buttonspacing = {
+								order = 4,
+								type = "range",
+								name = L["Button Spacing"],
+								desc = L["The spacing between buttons."],
+								min = 1,
+								max = 10,
+								step = 1,
+								disabled = function()return not SV.db[Schema]["Micro"].enable end,
+							},
+						}
+					},
 				}
 			}
 		}
 	}
-	bar_configs = SV.Options.args[Schema].args.barGroup.args
-	BarConfigLoader();
+	
+	for barNumber = 1, count do 
+		local barKey = L["Bar"] .. barNumber;
+		SV.Options.args[Schema].args.barGroup.args[barKey] = {
+			order = (barNumber + 1),
+			name = L["Bar"] .. " " .. barNumber, 
+			type = "group", 
+			guiInline = false, 
+			disabled = function()return not SV.db[Schema].enable end, 
+			get = function(key) 
+				return SV.db[Schema][barKey][key[#key]] 
+			end, 
+			set = function(key, value)
+				MOD:ChangeDBVar(value, key[#key], barKey);
+				MOD:RefreshBar(barKey)
+			end, 
+			args = {
+				enable = {
+					order = 1, 
+					type = "toggle", 
+					name = L["Enable"], 
+				}, 
+				backdrop = {
+					order = 2, 
+					name = L["Background"], 
+					type = "toggle", 
+					disabled = function()return not SV.db[Schema][barKey].enable end, 
+				}, 
+				mouseover = {
+					order = 3, 
+					name = L["Mouse Over"], 
+					desc = L["The frame is not shown unless you mouse over the frame."], 
+					type = "toggle", 
+					disabled = function()return not SV.db[Schema][barKey].enable end, 
+				}, 
+				restorePosition = {
+					order = 4, 
+					type = "execute", 
+					name = L["Restore Bar"], 
+					desc = L["Restore the actionbars default settings"], 
+					func = function()
+						SV:ResetData("ActionBars", barKey)
+						SV.Layout:Reset("Bar "..d)
+						MOD:RefreshBar(barKey)
+					end, 
+					disabled = function()return not SV.db[Schema][barKey].enable end, 
+				}, 
+				adjustGroup = {
+					name = L["Bar Adjustments"], 
+					type = "group", 
+					order = 5, 
+					guiInline = true, 
+					disabled = function()return not SV.db[Schema][barKey].enable end, 
+					args = {
+						point = {
+							order = 1, 
+							type = "select", 
+							name = L["Anchor Point"], 
+							desc = L["The first button anchors itself to this point on the bar."], 
+							values = POSITION_VALUES
+						}, 
+						buttons = {
+							order = 2, 
+							type = "range", 
+							name = L["Buttons"], 
+							desc = L["The amount of buttons to display."], 
+							min = 1, 
+							max = NUM_ACTIONBAR_BUTTONS, 
+							step = 1
+						}, 
+						buttonsPerRow = {
+							order = 3, 
+							type = "range", 
+							name = L["Buttons Per Row"], 
+							desc = L["The amount of buttons to display per row."], 
+							min = 1, 
+							max = NUM_ACTIONBAR_BUTTONS, 
+							step = 1
+						}, 
+						buttonsize = {
+							type = "range", 
+							name = L["Button Size"], 
+							desc = L["The size of the action buttons."], 
+							min = 15, 
+							max = 60, 
+							step = 1, 
+							order = 4
+						}, 
+						buttonspacing = {
+							type = "range", 
+							name = L["Button Spacing"], 
+							desc = L["The spacing between buttons."], 
+							min = 1, 
+							max = 10, 
+							step = 1, 
+							order = 5
+						}, 
+						alpha = {
+							order = 6, 
+							type = "range", 
+							name = L["Alpha"], 
+							isPercent = true, 
+							min = 0, 
+							max = 1, 
+							step = 0.01
+						}, 
+					}
+				}, 
+				pagingGroup = {
+					name = L["Bar Paging"], 
+					type = "group", 
+					order = 6, 
+					guiInline = true, 
+					disabled = function()return not SV.db[Schema][barKey].enable end, 
+					args = {
+						useCustomPaging = {
+							order = 1, 
+							type = "toggle", 
+							name = L["Enable"], 
+							desc = L["Allow the use of custom paging for this bar"], 
+							get = function()return SV.db[Schema][barKey].useCustomPaging end, 
+							set = function(e, f)
+								SV.db[Schema][barKey].useCustomPaging = f;
+								MOD:UpdateBarPagingDefaults();
+								MOD:RefreshBar(barKey)
+							end
+						}, 
+						resetStates = {
+							order = 2, 
+							type = "execute", 
+							name = L["Restore Defaults"], 
+							desc = L["Restore default paging attributes for this bar"], 
+							func = function()
+								SV:ResetData("ActionBars", barKey, "customPaging")
+								MOD:UpdateBarPagingDefaults();
+								MOD:RefreshBar(barKey)
+							end
+						}, 
+						customPaging = {
+							order = 3, 
+							type = "input", 
+							width = "full", 
+							name = L["Paging"], 
+							desc = L["|cffFF0000ADVANCED:|r Set the paging attributes for this bar"], 
+							get = function(e)return SV.db[Schema][barKey].customPaging[SV.class] end, 
+							set = function(e, f)
+								SV.db[Schema][barKey].customPaging[SV.class] = f;
+								MOD:UpdateBarPagingDefaults();
+								MOD:RefreshBar(barKey)
+							end, 
+							disabled = function()return not SV.db[Schema][barKey].useCustomPaging end, 
+						}, 
+						useCustomVisibility = {
+							order = 4, 
+							type = "toggle", 
+							name = L["Enable"], 
+							desc = L["Allow the use of custom paging for this bar"], 
+							get = function()return SV.db[Schema][barKey].useCustomVisibility end, 
+							set = function(e, f)
+								SV.db[Schema][barKey].useCustomVisibility = f;
+								MOD:UpdateBarPagingDefaults();
+								MOD:RefreshBar(barKey)
+							end
+						}, 
+						resetVisibility = {
+							order = 5, 
+							type = "execute", 
+							name = L["Restore Defaults"], 
+							desc = L["Restore default visibility attributes for this bar"], 
+							func = function()
+								--SV:ResetData("ActionBars", barKey, "customVisibility")
+								SV.db[Schema][barKey].customVisibility = SV.defaults[Schema][barKey].customVisibility;
+								MOD:UpdateBarPagingDefaults();
+								MOD:RefreshBar(barKey)
+							end
+						}, 
+						customVisibility = {
+							order = 6, 
+							type = "input", 
+							width = "full", 
+							name = L["Visibility"], 
+							desc = L["|cffFF0000ADVANCED:|r Set the visibility attributes for this bar"], 
+							get = function(e)return SV.db[Schema][barKey].customVisibility end, 
+							set = function(e, f)
+								SV.db[Schema][barKey].customVisibility = f;
+								MOD:UpdateBarPagingDefaults();
+								MOD:RefreshBar(barKey)
+							end, 
+							disabled = function()return not SV.db[Schema][barKey].useCustomVisibility end, 
+						}, 
+
+					}
+				}
+			}
+		}
+	end 
 end

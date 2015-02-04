@@ -118,6 +118,5 @@
         </Backdrop>
     </Frame>
 
-    <Script file="Loader.lua"/>
     <Script file="SVUITheme_Simple.lua"/>
 </Ui>

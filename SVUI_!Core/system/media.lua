@@ -177,7 +177,7 @@ SV.defaults["media"] = {
 	["colors"] = {
 		["default"]      = {0.2, 0.2, 0.2, 1}, 
 		["special"]      = {0.37, 0.32, 0.29, 1}, 
-		["specialdark"]  = {0.37, 0.32, 0.29, 1}, 
+		["specialdark"]  = {0.37, 0.32, 0.29, 1},
 	},
 };
 

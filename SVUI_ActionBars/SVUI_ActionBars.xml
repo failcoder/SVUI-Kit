@@ -12,4 +12,5 @@
 	<Script file="components\keybind.lua"/>
 	<Script file="components\micro.lua"/>
 	<Script file="components\zone.lua"/>
+	<Script file="components\totem.lua"/>
 </Ui>

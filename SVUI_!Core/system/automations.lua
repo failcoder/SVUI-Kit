@@ -1,0 +1,344 @@
+--[[
+##############################################################################
+S V U I   By: S.Jackson
+##############################################################################
+--]]
+--[[ GLOBALS ]]--
+local _G = _G;
+--LUA
+local unpack        = _G.unpack;
+local select        = _G.select;
+local assert        = _G.assert;
+local type          = _G.type;
+local error         = _G.error;
+local pcall         = _G.pcall;
+local print         = _G.print;
+local ipairs        = _G.ipairs;
+local pairs         = _G.pairs;
+local next          = _G.next;
+local rawset        = _G.rawset;
+local rawget        = _G.rawget;
+local tostring      = _G.tostring;
+local tonumber      = _G.tonumber;
+local getmetatable  = _G.getmetatable;
+local setmetatable  = _G.setmetatable;
+--STRING
+local string        = _G.string;
+local upper         = string.upper;
+local format        = string.format;
+local find          = string.find;
+local match         = string.match;
+local gsub          = string.gsub;
+--MATH
+local math          = _G.math;
+local floor         = math.floor;
+local random        = math.random;
+--TABLE
+local table         = _G.table;
+local tsort         = table.sort;
+local tconcat       = table.concat;
+local tinsert       = _G.tinsert;
+local tremove       = _G.tremove;
+local twipe         = _G.wipe;
+--BLIZZARD API
+local ReloadUI              = _G.ReloadUI;
+local GetLocale             = _G.GetLocale;
+local CreateFrame           = _G.CreateFrame;
+local IsAddOnLoaded         = _G.IsAddOnLoaded;
+local InCombatLockdown      = _G.InCombatLockdown;
+local GetAddOnInfo          = _G.GetAddOnInfo;
+local LoadAddOn             = _G.LoadAddOn;
+local SendAddonMessage      = _G.SendAddonMessage;
+local LibStub               = _G.LibStub;
+local GetAddOnMetadata      = _G.GetAddOnMetadata;
+local GetCVarBool           = _G.GetCVarBool;
+local GameTooltip           = _G.GameTooltip;
+local StaticPopup_Hide      = _G.StaticPopup_Hide;
+local ERR_NOT_IN_COMBAT     = _G.ERR_NOT_IN_COMBAT;
+
+local SV = select(2, ...);
+--[[ 
+########################################################## 
+LOCAL VARS
+##########################################################
+]]--
+local incpat 	  = gsub(gsub(FACTION_STANDING_INCREASED, "(%%s)", "(.+)"), "(%%d)", "(.+)");
+local changedpat  = gsub(gsub(FACTION_STANDING_CHANGED, "(%%s)", "(.+)"), "(%%d)", "(.+)");
+local decpat	  = gsub(gsub(FACTION_STANDING_DECREASED, "(%%s)", "(.+)"), "(%%d)", "(.+)");
+local standing    = ('%s:'):format(STANDING);
+local reputation  = ('%s:'):format(REPUTATION);
+local hideStatic = false;
+local AutomatedEvents = {
+	"CHAT_MSG_COMBAT_FACTION_CHANGE",
+	"MERCHANT_SHOW",
+	"QUEST_COMPLETE",
+	"QUEST_GREETING",
+	"GOSSIP_SHOW",
+	"QUEST_DETAIL",
+	"QUEST_ACCEPT_CONFIRM",
+	"QUEST_PROGRESS"
+}
+--[[ 
+########################################################## 
+INVITE AUTOMATONS
+##########################################################
+]]--
+function SV:PARTY_INVITE_REQUEST(event, invitedBy)
+	if(not self.db.Extras.autoAcceptInvite) then return; end
+
+	if(QueueStatusMinimapButton:IsShown() or IsInGroup()) then return end
+	if(GetNumFriends() > 0) then 
+		ShowFriends() 
+	end
+	if(IsInGuild()) then 
+		GuildRoster() 
+	end
+
+	hideStatic = true;
+	local invited = false;
+
+	for f = 1, GetNumFriends() do 
+		local friend = gsub(GetFriendInfo(f), "-.*", "")
+		if(friend == invitedBy) then 
+			AcceptGroup()
+			invited = true;
+			self:AddonMessage("Accepted an Invite From Your Friends!")
+			break;
+		end 
+	end
+
+	if(not invited) then 
+		for b = 1, BNGetNumFriends() do 
+			local _, _, _, _, friend = BNGetFriendInfo(b)
+			invitedBy = invitedBy:match("(.+)%-.+") or invitedBy;
+			if(friend == invitedBy) then 
+				AcceptGroup()
+				invited = true;
+				self:AddonMessage("Accepted an Invite From Your Friends!")
+				break;
+			end 
+		end 
+	end
+
+	if(not invited) then 
+		for g = 1, GetNumGuildMembers(true) do 
+			local guildMate = gsub(GetGuildRosterInfo(g), "-.*", "")
+			if(guildMate == invitedBy) then 
+				AcceptGroup()
+				invited = true;
+				self:AddonMessage("Accepted an Invite From Your Guild!")
+				break;
+			end 
+		end 
+	end
+
+	if(invited) then
+		local popup = StaticPopup_FindVisible("PARTY_INVITE")
+		if(popup) then
+			popup.inviteAccepted = 1
+			StaticPopup_Hide("PARTY_INVITE")
+		else
+			popup = StaticPopup_FindVisible("PARTY_INVITE_XREALM")
+			if(popup) then
+				popup.inviteAccepted = 1
+				StaticPopup_Hide("PARTY_INVITE_XREALM")
+			end
+		end
+	end 
+end
+--[[ 
+########################################################## 
+REPAIR AUTOMATONS
+##########################################################
+]]--
+function SV:MERCHANT_SHOW()
+	if(self.Inventory and self.db.Extras.vendorGrays) then 
+		self.Inventory:VendorGrays(nil, true) 
+	end
+	local autoRepair = self.db.Extras.autoRepair;
+	local guildRepair = (autoRepair == "GUILD");
+	if IsShiftKeyDown() or autoRepair == "NONE" or not CanMerchantRepair() then return end 
+	local repairCost,canRepair = GetRepairAllCost()
+		 
+	if repairCost > 0 then
+		local loan = GetGuildBankWithdrawMoney()
+		if(guildRepair and ((not CanGuildBankRepair()) or (loan ~= -1 and (repairCost > loan)))) then 
+			guildRepair = false 
+		end
+		if canRepair then 
+			RepairAllItems(guildRepair)
+			local x,y,z= repairCost % 100,floor((repairCost % 10000)/100), floor(repairCost / 10000)
+			if(guildRepair) then 
+				self:AddonMessage("Repairs Complete! ...Using Guild Money!\n"..GetCoinTextureString(repairCost,12))
+			else 
+				self:AddonMessage("Repairs Complete!\n"..GetCoinTextureString(repairCost,12))
+			end 
+		else 
+			self:AddonMessage("The Minions Say You Are Too Broke To Repair! They Are Laughing..")
+		end 
+	end 
+end
+--[[ 
+########################################################## 
+REP AUTOMATONS
+##########################################################
+]]--
+function SV:CHAT_MSG_COMBAT_FACTION_CHANGE(event, msg)
+	if not self.db.Extras.autorepchange then return end 
+	local _, _, faction, amount = msg:find(incpat)
+	if not faction then 
+		_, _, faction, amount = msg:find(changedpat) or msg:find(decpat) 
+	end
+	if faction and faction ~= GUILD_REPUTATION then
+		local active = GetWatchedFactionInfo()
+		for factionIndex = 1, GetNumFactions() do
+			local name = GetFactionInfo(factionIndex)
+			if name == faction and name ~= active then
+				SetWatchedFactionIndex(factionIndex)
+				local strMsg = ("Watching Faction: %s"):format(name)
+				self:AddonMessage(strMsg)
+				break
+			end
+		end
+	end
+end
+--[[ 
+########################################################## 
+QUEST AUTOMATONS
+##########################################################
+]]--
+function SV:AutoQuestProxy()
+	if(IsShiftKeyDown()) then return false; end
+    if((not QuestIsDaily() or not QuestIsWeekly()) and (self.db.Extras.autodailyquests)) then return false; end
+    if(QuestFlagsPVP() and (not self.db.Extras.autopvpquests)) then return false; end
+    return true
+end
+
+function SV:QUEST_GREETING()
+    if(self.db.Extras.autoquestaccept == true and self:AutoQuestProxy()) then
+        local active,available = GetNumActiveQuests(), GetNumAvailableQuests()
+        if(active + available == 0) then return end
+        if(available > 0) then
+            SelectAvailableQuest(1)
+        end
+        if(active > 0) then
+            SelectActiveQuest(1)
+        end
+    end
+end
+
+function SV:GOSSIP_SHOW()
+    if(self.db.Extras.autoquestaccept == true and self:AutoQuestProxy()) then
+        if GetGossipAvailableQuests() then
+            SelectGossipAvailableQuest(1)
+        elseif GetGossipActiveQuests() then
+            SelectGossipActiveQuest(1)
+        end
+    end
+end
+
+function SV:QUEST_DETAIL()
+    if(self.db.Extras.autoquestaccept == true and self:AutoQuestProxy()) then 
+        if not QuestGetAutoAccept() then
+			AcceptQuest()
+		else
+			CloseQuest()
+		end
+    end
+end
+
+function SV:QUEST_ACCEPT_CONFIRM()
+    if(self.db.Extras.autoquestaccept == true and self:AutoQuestProxy()) then
+        ConfirmAcceptQuest()
+        StaticPopup_Hide("QUEST_ACCEPT_CONFIRM")
+    end
+end
+
+function SV:QUEST_PROGRESS()
+	if(IsShiftKeyDown()) then return false; end
+    if(self.db.Extras.autoquestcomplete == true and IsQuestCompletable()) then
+        CompleteQuest()
+    end
+end
+
+function SV:QUEST_COMPLETE()
+	if(not self.db.Extras.autoquestcomplete and (not self.db.Extras.autoquestreward)) then return end 
+	if(IsShiftKeyDown()) then return false; end
+	local rewards = GetNumQuestChoices()
+	local rewardsFrame = QuestInfoFrame.rewardsFrame;
+	if(rewards > 1) then
+		local auto_select = QuestFrameRewardPanel.itemChoice or QuestInfoFrame.itemChoice;
+		local selection, value = 1, 0;
+		
+		for i = 1, rewards do 
+			local iLink = GetQuestItemLink("choice", i)
+			if iLink then 
+				local iValue = select(11,GetItemInfo(iLink))
+				if iValue and iValue > value then 
+					value = iValue;
+					selection = i 
+				end 
+			end 
+		end
+
+		local chosenItem = QuestInfo_GetRewardButton(rewardsFrame, selection)
+		
+		if chosenItem.type == "choice" then 
+			QuestInfoItemHighlight:ClearAllPoints()
+			QuestInfoItemHighlight:SetAllPoints(chosenItem)
+			QuestInfoItemHighlight:Show()
+			QuestInfoFrame.itemChoice = chosenItem:GetID()
+			self:AddonMessage("A Minion Has Chosen Your Reward!")
+		end
+
+		auto_select = selection
+
+		if self.db.Extras.autoquestreward == true then
+			GetQuestReward(auto_select)
+		end
+	else
+		if(self.db.Extras.autoquestcomplete == true) then
+			GetQuestReward(rewards)
+		end
+	end
+end 
+--[[ 
+########################################################## 
+BUILD FUNCTION / UPDATE
+##########################################################
+]]--
+function SV:InitializeAutomations()
+	self:RegisterEvent('PARTY_INVITE_REQUEST')
+
+	for _,event in pairs(AutomatedEvents) do
+		self:RegisterEvent(event)
+	end
+
+	if self.db.Extras.pvpautorelease then 
+		local autoReleaseHandler = CreateFrame("frame")
+		autoReleaseHandler:RegisterEvent("PLAYER_DEAD")
+		autoReleaseHandler:SetScript("OnEvent",function(self,event)
+			local isInstance, instanceType = IsInInstance()
+			if(isInstance and instanceType == "pvp") then 
+				local spell = GetSpellInfo(20707)
+				if(self.class ~= "SHAMAN" and not(spell and UnitBuff("player",spell))) then 
+					RepopMe()
+				end 
+			end 
+			for i=1,GetNumWorldPVPAreas() do 
+				local _,localizedName, isActive = GetWorldPVPAreaInfo(i)
+				if(GetRealZoneText() == localizedName and isActive) then RepopMe() end 
+			end 
+		end)
+	end 
+
+	if(self.db.Extras.skipcinematics) then
+		local skippy = CreateFrame("Frame")
+		skippy:RegisterEvent("CINEMATIC_START")
+		skippy:SetScript("OnEvent", function(self, event)
+			CinematicFrame_CancelCinematic()
+		end)
+
+		MovieFrame:SetScript("OnEvent", function() GameMovieFinished() end)
+	end
+end 

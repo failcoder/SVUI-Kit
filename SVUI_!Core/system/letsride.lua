@@ -22,18 +22,13 @@ local twipe,band 	= table.wipe, bit.band;
 GET ADDON DATA
 ##########################################################
 ]]--
-local SV = _G['SVUI']
-local L = SV.L;
-local MOD = SV.Extras;
+local SV = select(2, ...);
 --[[ 
 ########################################################## 
 LOCAL VARIABLES
 ##########################################################
 ]]--
-local ttSummary = "";
-local NewHook = hooksecurefunc;
-local CountMounts, MountInfo, RandomMount, MountUp, UnMount;
-
+local TOOLTIP_SUMMARY = "";
 local MountListener = CreateFrame("Frame");
 MountListener.favorites = false
 --[[ 
@@ -41,24 +36,28 @@ MountListener.favorites = false
 LOCAL FUNCTIONS
 ##########################################################
 ]]--
-function CountMounts()
+local function CountMounts()
 	return C_MountJournal.GetNumMounts()
 end
-function MountInfo(index)
+
+local function MountInfo(index)
 	return true, C_MountJournal.GetMountInfo(index)
 end
-function RandomMount()
+
+local function RandomMount()
 	if(MountListener.favorites) then
 		return 0
 	end
 	local maxMounts = C_MountJournal.GetNumMounts()
 	return random(1, maxMounts)
 end
-function MountUp(index)
+
+local function MountUp(index)
 	index = index or RandomMount()
 	return C_MountJournal.Summon(index)
 end
-UnMount = C_MountJournal.Dismiss
+
+local UnMount = C_MountJournal.Dismiss
 
 local function UpdateMountCheckboxes(button, index)
 	local _, creatureName = MountInfo(index);
@@ -76,36 +75,36 @@ local function UpdateMountCheckboxes(button, index)
 	    bar["SPECIAL"].index = index
 	    bar["SPECIAL"].name = creatureName
 
-		if(MOD.private.Mounts.names["GROUND"] == creatureName) then
-			if(MOD.private.Mounts.types["GROUND"] ~= index) then
-				MOD.private.Mounts.types["GROUND"] = index
+		if(SV.private.Mounts.names["GROUND"] == creatureName) then
+			if(SV.private.Mounts.types["GROUND"] ~= index) then
+				SV.private.Mounts.types["GROUND"] = index
 			end
 			bar["GROUND"]:SetChecked(true)
 		else
 			bar["GROUND"]:SetChecked(false)
 		end
 
-		if(MOD.private.Mounts.names["FLYING"] == creatureName) then
-			if(MOD.private.Mounts.types["FLYING"] ~= index) then
-				MOD.private.Mounts.types["FLYING"] = index
+		if(SV.private.Mounts.names["FLYING"] == creatureName) then
+			if(SV.private.Mounts.types["FLYING"] ~= index) then
+				SV.private.Mounts.types["FLYING"] = index
 			end
 			bar["FLYING"]:SetChecked(true)
 		else
 			bar["FLYING"]:SetChecked(false)
 		end
 
-		if(MOD.private.Mounts.names["SWIMMING"] == creatureName) then
-			if(MOD.private.Mounts.types["SWIMMING"] ~= index) then
-				MOD.private.Mounts.types["SWIMMING"] = index
+		if(SV.private.Mounts.names["SWIMMING"] == creatureName) then
+			if(SV.private.Mounts.types["SWIMMING"] ~= index) then
+				SV.private.Mounts.types["SWIMMING"] = index
 			end
 			bar["SWIMMING"]:SetChecked(true)
 		else
 			bar["SWIMMING"]:SetChecked(false)
 		end
 
-		if(MOD.private.Mounts.names["SPECIAL"] == creatureName) then
-			if(MOD.private.Mounts.types["SPECIAL"] ~= index) then
-				MOD.private.Mounts.types["SPECIAL"] = index
+		if(SV.private.Mounts.names["SPECIAL"] == creatureName) then
+			if(SV.private.Mounts.types["SPECIAL"] ~= index) then
+				SV.private.Mounts.types["SPECIAL"] = index
 			end
 			bar["SPECIAL"]:SetChecked(true)
 		else
@@ -124,24 +123,24 @@ local function UpdateMountsCache()
 		if(favorite == true) then
 			MountListener.favorites = true
 		end
-		if(MOD.private.Mounts.names["GROUND"] == info) then
-			if(MOD.private.Mounts.types["GROUND"] ~= index) then
-				MOD.private.Mounts.types["GROUND"] = index
+		if(SV.private.Mounts.names["GROUND"] == info) then
+			if(SV.private.Mounts.types["GROUND"] ~= index) then
+				SV.private.Mounts.types["GROUND"] = index
 			end
 		end
-		if(MOD.private.Mounts.names["FLYING"] == info) then
-			if(MOD.private.Mounts.types["FLYING"] ~= index) then
-				MOD.private.Mounts.types["FLYING"] = index
+		if(SV.private.Mounts.names["FLYING"] == info) then
+			if(SV.private.Mounts.types["FLYING"] ~= index) then
+				SV.private.Mounts.types["FLYING"] = index
 			end
 		end
-		if(MOD.private.Mounts.names["SWIMMING"] == info) then
-			if(MOD.private.Mounts.types["SWIMMING"] ~= index) then
-				MOD.private.Mounts.types["SWIMMING"] = index
+		if(SV.private.Mounts.names["SWIMMING"] == info) then
+			if(SV.private.Mounts.types["SWIMMING"] ~= index) then
+				SV.private.Mounts.types["SWIMMING"] = index
 			end
 		end
-		if(MOD.private.Mounts.names["SPECIAL"] == info) then
-			if(MOD.private.Mounts.types["SPECIAL"] ~= index) then
-				MOD.private.Mounts.types["SPECIAL"] = index
+		if(SV.private.Mounts.names["SPECIAL"] == info) then
+			if(SV.private.Mounts.types["SPECIAL"] ~= index) then
+				SV.private.Mounts.types["SPECIAL"] = index
 			end
 		end
 	end
@@ -172,34 +171,34 @@ local ProxyUpdate_Mounts = function(self, event, ...)
 end
 
 local function UpdateCurrentMountSelection()
-	ttSummary = ""
+	TOOLTIP_SUMMARY = ""
 	local creatureName
 
-	if(MOD.private.Mounts.types["FLYING"]) then
-		creatureName = MOD.private.Mounts.names["FLYING"]
+	if(SV.private.Mounts.types["FLYING"]) then
+		creatureName = SV.private.Mounts.names["FLYING"]
 		if(creatureName) then
-			ttSummary = ttSummary .. "\nFlying: " .. creatureName
+			TOOLTIP_SUMMARY = TOOLTIP_SUMMARY .. "\nFlying: " .. creatureName
 		end
 	end
 
-	if(MOD.private.Mounts.types["SWIMMING"]) then
-		creatureName = MOD.private.Mounts.names["SWIMMING"]
+	if(SV.private.Mounts.types["SWIMMING"]) then
+		creatureName = SV.private.Mounts.names["SWIMMING"]
 		if(creatureName) then
-			ttSummary = ttSummary .. "\nSwimming: " .. creatureName
+			TOOLTIP_SUMMARY = TOOLTIP_SUMMARY .. "\nSwimming: " .. creatureName
 		end
 	end
 
-	if(MOD.private.Mounts.types["GROUND"]) then
-		creatureName = MOD.private.Mounts.names["GROUND"]
+	if(SV.private.Mounts.types["GROUND"]) then
+		creatureName = SV.private.Mounts.names["GROUND"]
 		if(creatureName) then
-			ttSummary = ttSummary .. "\nGround: " .. creatureName
+			TOOLTIP_SUMMARY = TOOLTIP_SUMMARY .. "\nGround: " .. creatureName
 		end
 	end
 
-	if(MOD.private.Mounts.types["SPECIAL"]) then
-		creatureName = MOD.private.Mounts.names["SPECIAL"]
+	if(SV.private.Mounts.types["SPECIAL"]) then
+		creatureName = SV.private.Mounts.names["SPECIAL"]
 		if(creatureName) then
-			ttSummary = ttSummary .. "\nSpecial: " .. creatureName
+			TOOLTIP_SUMMARY = TOOLTIP_SUMMARY .. "\nSpecial: " .. creatureName
 		end
 	end
 end
@@ -211,11 +210,11 @@ local CheckButton_OnClick = function(self)
 
 	if(index) then
 		if(self:GetChecked() == true) then
-			MOD.private.Mounts.types[key] = index
-			MOD.private.Mounts.names[key] = name
+			SV.private.Mounts.types[key] = index
+			SV.private.Mounts.names[key] = name
 		else
-			MOD.private.Mounts.types[key] = false
-			MOD.private.Mounts.names[key] = ""
+			SV.private.Mounts.types[key] = false
+			SV.private.Mounts.names[key] = ""
 		end
 		Update_MountCheckButtons()
 		UpdateCurrentMountSelection()
@@ -236,7 +235,7 @@ local CheckButton_OnEnter = function(self)
 		GameTooltip:AddLine("",1,1,0)
 		GameTooltip:AddLine("Hold |cff00FF00[SHIFT]|r or |cff00FF00[CTRL]|r while \nclicking to force this mount \nover all others.",1,1,1)
 	end
-	GameTooltip:AddLine(ttSummary,1,1,1)
+	GameTooltip:AddLine(TOOLTIP_SUMMARY,1,1,1)
 	
 	GameTooltip:Show()
 end
@@ -300,82 +299,27 @@ local function CreateMountCheckBox(name, parent)
 end;
 --[[ 
 ########################################################## 
-SLASH FUNCTION
+LOAD BY TRIGGER
 ##########################################################
 ]]--
-_G.SVUILetsRide = function()
-	local maxMounts = CountMounts()
-
-	if(not maxMounts or IsMounted()) then
-		UnMount()
-		return
-	end
-
-	if(CanExitVehicle()) then
-		VehicleExit()
-		return
-	end
-
-	MOD.private.Mounts = MOD.private.Mounts or {}
-	if not MOD.private.Mounts.types then 
-		MOD.private.Mounts.types = {
-			["GROUND"] = false, 
-			["FLYING"] = false, 
-			["SWIMMING"] = false, 
-			["SPECIAL"] = false
-		}
-	end
-
-	local continent = GetCurrentMapContinent()
-	local checkList = MOD.private.Mounts.types
-	local letsFly = (IsFlyableArea() and (continent ~= 962 and continent ~= 7))
-	local letsSwim = IsSwimming()
-
-	if(IsModifierKeyDown() and checkList["SPECIAL"]) then
-		MountUp(checkList["SPECIAL"])
-	else
-		if(letsSwim) then
-			if(checkList["SWIMMING"]) then
-				MountUp(checkList["SWIMMING"])
-			elseif(letsFly) then
-				MountUp(checkList["FLYING"])
-			else
-				MountUp(checkList["GROUND"])
-			end
-		elseif(letsFly) then
-			if(checkList["FLYING"]) then
-				MountUp(checkList["FLYING"])
-			else
-				MountUp(checkList["GROUND"])
-			end
-		else
-			MountUp(checkList["GROUND"])
-		end
-	end
-end
---[[ 
-########################################################## 
-ADDING CHECKBOXES TO JOURNAL
-##########################################################
-]]--
-function MOD:SetMountCheckButtons()
+local function InitializeLetsRide()
 	if(SV.GameVersion > 60000) then
 		LoadAddOn("Blizzard_Collections")
 	else
 		LoadAddOn("Blizzard_PetJournal")
 	end
-	MOD.private.Mounts = MOD.private.Mounts or {}
+	SV.private.Mounts = SV.private.Mounts or {}
 
-	if not MOD.private.Mounts.types then 
-		MOD.private.Mounts.types = {
+	if not SV.private.Mounts.types then 
+		SV.private.Mounts.types = {
 			["GROUND"] = false, 
 			["FLYING"] = false, 
 			["SWIMMING"] = false, 
 			["SPECIAL"] = false
 		}
 	end
-	if not MOD.private.Mounts.names then 
-		MOD.private.Mounts.names = {
+	if not SV.private.Mounts.names then 
+		SV.private.Mounts.names = {
 			["GROUND"] = "", 
 			["FLYING"] = "", 
 			["SWIMMING"] = "", 
@@ -457,7 +401,6 @@ function MOD:SetMountCheckButtons()
 	UpdateCurrentMountSelection()
 
 	MountListener:RegisterEvent("MOUNT_JOURNAL_USABILITY_CHANGED")
-	
 	MountListener:RegisterEvent("COMPANION_LEARNED")
 	MountListener:RegisterEvent("COMPANION_UNLEARNED")
 	MountListener:RegisterEvent("COMPANION_UPDATE")
@@ -465,5 +408,62 @@ function MOD:SetMountCheckButtons()
 
 	scrollFrame:HookScript("OnMouseWheel", Update_MountCheckButtons)
 	scrollBar:HookScript("OnValueChanged", Update_MountCheckButtons)
-	NewHook("MountJournal_UpdateMountList", Update_MountCheckButtons)
+	hooksecurefunc("MountJournal_UpdateMountList", Update_MountCheckButtons)
+end
+
+SV.Events:On("CORE_INITIALIZED", "LoadLetsRide", InitializeLetsRide);
+--[[ 
+########################################################## 
+KEYBIND FUNCTION
+##########################################################
+]]--
+_G.SVUILetsRide = function()
+	local maxMounts = CountMounts()
+
+	if(not maxMounts or IsMounted()) then
+		UnMount()
+		return
+	end
+
+	if(CanExitVehicle()) then
+		VehicleExit()
+		return
+	end
+
+	SV.private.Mounts = SV.private.Mounts or {}
+	if not SV.private.Mounts.types then 
+		SV.private.Mounts.types = {
+			["GROUND"] = false, 
+			["FLYING"] = false, 
+			["SWIMMING"] = false, 
+			["SPECIAL"] = false
+		}
+	end
+
+	local continent = GetCurrentMapContinent()
+	local checkList = SV.private.Mounts.types
+	local letsFly = (IsFlyableArea() and (continent ~= 962 and continent ~= 7))
+	local letsSwim = IsSwimming()
+
+	if(IsModifierKeyDown() and checkList["SPECIAL"]) then
+		MountUp(checkList["SPECIAL"])
+	else
+		if(letsSwim) then
+			if(checkList["SWIMMING"]) then
+				MountUp(checkList["SWIMMING"])
+			elseif(letsFly) then
+				MountUp(checkList["FLYING"])
+			else
+				MountUp(checkList["GROUND"])
+			end
+		elseif(letsFly) then
+			if(checkList["FLYING"]) then
+				MountUp(checkList["FLYING"])
+			else
+				MountUp(checkList["GROUND"])
+			end
+		else
+			MountUp(checkList["GROUND"])
+		end
+	end
 end

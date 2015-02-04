@@ -1440,6 +1440,7 @@ function MOD:Load()
 	CreateExtraBar(self)
 	self:InitializeMicroBar()
 	self:InitializeZoneButton()
+	self:InitializeTotemBar()
 	
 	self:LoadKeyBinder()
 

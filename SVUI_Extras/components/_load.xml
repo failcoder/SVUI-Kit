@@ -1,8 +1,0 @@
-﻿<Ui xmlns="http://www.blizzard.com/wow/ui/">
-	<Script file="misc.lua"/>
-	<Script file="totembar.lua"/>
-	<Script file="threatbar.lua"/>
-    <Script file="mounts.lua"/>
-    <Script file="reactions.lua"/>
-    <!-- <Script file="spellbind.lua"/> -->
-</Ui>
