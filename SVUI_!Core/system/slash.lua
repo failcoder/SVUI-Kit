@@ -90,13 +90,16 @@ LOAD ALL SLASH FUNCTIONS
 ##########################################################
 ]]--
 _G.SlashCmdList["SVUISV"] = SVUIMasterCommand;
-_G.SLASH_SVUISV1="/sv"
+_G.SLASH_SVUISV1 = "/sv"
 
 _G.SlashCmdList["SVUIENABLE"] = EnableAddon;
 _G.SLASH_SVUIENABLE1="/enable"
 
 _G.SlashCmdList["SVUIDISABLE"] = DisableAddon;
 _G.SLASH_SVUIDISABLE1="/disable"
+
+_G.SlashCmdList["SVUI_FRAME_DEBUG"] = DebugThisFrame;
+_G.SLASH_SVUI_FRAME_DEBUG1 = "/svdf"
 
 _G.SlashCmdList["LOLWUT"] = function(msg)
 	PlaySoundFile("Sound\\Character\\Human\\HumanVocalFemale\\HumanFemalePissed04.wav")

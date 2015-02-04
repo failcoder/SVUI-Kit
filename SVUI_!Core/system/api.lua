@@ -1160,7 +1160,7 @@ local SetStyle = function(self, method, ...)
     if(fn) then
         local pass, catch = pcall(fn, SV.API, self, inverse, ...)
         if(catch) then
-            SV:Debugger(catch)
+            SV:HandleError("API", "SetStyle", catch);
             return
         elseif(self.Panel and self.Panel.___Live) then
             LIVE_UPDATE_FRAMES[self] = true;
@@ -1186,7 +1186,7 @@ local StealAtlas = function(self, atlas)
         local fn = ATLAS_HACKS[hack] or ATLAS_HACKS["default"]
         local pass, catch = pcall(fn, self, atlas)
         if(catch) then
-            SV:Debugger(catch)
+            SV:HandleError("API", "SetStyle", catch);
             return
         end
     end

@@ -94,6 +94,8 @@ local FILTERS_FILENAME      = CoreGlobalName.."_Filters";
 local GLOBAL_SV, PRIVATE_SV, FILTER_SV, ERROR_CACHE, MODS, MODULES, THEMES;
 local PluginString = ""
 local LoadOnDemand, ScriptQueue = {},{};
+local debugHeader = "|cffFF2F00%s|r [|cff992FFF%s|r]|cffFF2F00:|r";
+local debugPattern = '|cffFF2F00%s|r [|cff0affff%s|r]|cffFF2F00:|r @|cffFF0000(|r%s|cffFF0000)|r - %s';
 
 local playerClass           = select(2,UnitClass("player"));
 local playerName            = UnitName("player");
@@ -497,25 +499,13 @@ end
 
 --REGISTRY LOCAL HELPERS
 
-local function HandleErrors(schema, action, catch)
-    schema = schema or "Librarian:Registry"
-    action = action or "Unknown Function"
-    local timestamp = date("%m/%d/%y %H:%M:%S")
-    local err_message = ("%s [%s] - (%s) %s"):format(schema, action, timestamp, catch)
-    tinsert(ERROR_CACHE.FOUND, err_message)
-    if(CoreObject.DebugMode == true) then
-        --ScriptErrorsFrame_OnError(catch, false, true)
-        CoreObject:Debugger(err_message)
-    end
-end
-
 local function LoadingProxy(schema, obj)
     if(not obj) then return end
     if(not obj.initialized) then
         if(obj.Load and type(obj.Load) == "function") then
             local _, catch = pcall(obj.Load, obj)
             if(catch) then
-                HandleErrors(schema, "Load", catch)
+                CoreObject:HandleError(schema, "Load", catch)
             else
                 obj.initialized = true
             end
@@ -524,7 +514,7 @@ local function LoadingProxy(schema, obj)
         if(obj.ReLoad and type(obj.ReLoad) == "function") then
             local _, catch = pcall(obj.ReLoad, obj)
             if(catch) then
-                HandleErrors(schema, "ReLoad", catch)
+                CoreObject:HandleError(schema, "ReLoad", catch)
             end
         end
     end
@@ -536,7 +526,7 @@ local function OptionsProxy(schema, obj)
         if(obj.LoadOptions and type(obj.LoadOptions) == "function") then
             local _, catch = pcall(obj.LoadOptions, obj)
             if(catch) then
-                HandleErrors(schema, "LoadOptions", catch)
+                CoreObject:HandleError(schema, "LoadOptions", catch)
             else
                 obj.optionsLoaded = true
             end
@@ -599,7 +589,7 @@ local innerOnEvent = function(self, event, ...)
         local _, catch = pcall(fn, obj, event, ...)
         if(catch) then
             local schema = obj.Schema
-            HandleErrors(schema, event, catch)
+            CoreObject:HandleError(schema, event, catch)
         end
     end
 end
@@ -639,7 +629,7 @@ local innerOnUpdate = function(self, elapsed)
             local _, catch = pcall(fn, obj)
             if(catch and CoreObject.Debugging) then
                 local schema = obj.Schema
-                HandleErrors(schema, "OnUpdate", catch)
+                CoreObject:HandleError(schema, "OnUpdate", catch)
             end
         end
 
@@ -1070,6 +1060,18 @@ local Core_ResetFilter = function(self, key)
     tablecopy(sv, src)
 end
 
+local Core_HandleError = function(self, schema, action, catch)
+    schema = schema or "Librarian:Registry"
+    action = action or "Unknown Function"
+    local timestamp = date("%m/%d/%y %H:%M:%S")
+    local err_message = (debugPattern):format(schema, action, timestamp, catch)
+    tinsert(self.ERRORLOG, err_message)
+    if(self.DebugMode == true) then
+        self.HasErrors = true;
+        --self:Debugger(err_message)
+    end
+end
+
 function lib:NewCore(gfile, efile, pfile, ffile)
     --meta assurance
     local mt = {};
@@ -1102,6 +1104,7 @@ function lib:NewCore(gfile, efile, pfile, ffile)
     CoreObject.Version              = AddonVersion;
     CoreObject.GameVersion          = tonumber(InterfaceVersion);
     CoreObject.DebugMode            = true;
+    CoreObject.HasErrors            = false;
     CoreObject.Schema               = GetAddOnMetadata(CoreName, SchemaFromMeta);
     CoreObject.TitleID              = GetAddOnMetadata(CoreName, HeaderFromMeta);
 
@@ -1117,6 +1120,8 @@ function lib:NewCore(gfile, efile, pfile, ffile)
     CoreObject.ResetFilter          = Core_ResetFilter
     CoreObject.NewTheme             = Core_NewTheme
     CoreObject.GetTheme             = Core_GetTheme
+
+    CoreObject.HandleError          = Core_HandleError
 
     if(not CoreObject.defaults) then 
         CoreObject.defaults = {} 
@@ -1211,6 +1216,8 @@ function lib:Initialize()
     private.data       = PRIVATE_SV
     CoreObject.private = private
 
+    CoreObject.ERRORLOG = ERROR_CACHE.FOUND
+
     --check for LOD plugins
     local addonCount = GetNumAddOns()
 
@@ -1237,7 +1244,7 @@ function lib:LoadThemes()
         if(themeObj and (not themeObj.initialized) and themeObj.Load and type(themeObj.Load) == "function") then
             local _, catch = pcall(themeObj.Load, themeObj)
             if(catch) then
-                HandleErrors(themeName, "Load", catch)
+                CoreObject:HandleError(themeName, "Load", catch)
             else
                 themeObj.initialized = true
             end

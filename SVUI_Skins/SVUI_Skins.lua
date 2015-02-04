@@ -56,7 +56,6 @@ CORE FUNCTIONS
 ##########################################################
 ]]--
 local charming = {"Spiffy", "Pimped Out", "Fancy", "Awesome", "Bad Ass", "Sparkly", "Gorgeous", "Handsome", "Shiny"}
-local errorMessage = '%s: |cffff0000There was an error in the|r |cff0affff%s|r |cffff0000skin|r. |cffFF0000[[|r%s|cffFF0000]]|r'
 local styleMessage = '|cffFFAA00[Skinned]|r |cff00FF77%s|r Is Now %s!'
 
 local function SendAddonMessage(msg, prefix)
@@ -83,7 +82,7 @@ end
 function MOD:Style(style, fn, ...)
 	local pass, catch = pcall(fn, ...)
 	if(catch and self.Debugging) then
-		SV:Debugger(errorMessage:format(VERSION, style, catch))
+		SV:HandleError("SKINS", style, catch);
 		return
 	end
 	if(pass and (not style:find("Blizzard")) and not self.SkinsdAddons[style]) then

@@ -63,7 +63,6 @@ local ticks = {}
 local function SpellName(id)
 	local name, _, _, _, _, _, _, _, _ = GetSpellInfo(id) 	
 	if not name then
-		--SV:Debugger('|cffFF9900SV:|r Spell not found: (#ID) '..id)
 		name = "Voodoo Doll";
 	end
 	return name

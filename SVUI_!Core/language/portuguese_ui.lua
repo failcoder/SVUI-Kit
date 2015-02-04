@@ -125,7 +125,7 @@ L["Thats it! All done! Now we just need to hand these choices off to the henchme
 L["Click the button below to reload and get on your way! Good luck villain!"] = true;
 L["THE_BUTTON_BELOW"] = "THE\nBUTTON\nBELOW";
 --[[UI TEXTS]]--
-L["Meanwhile..."]=true;
+L["Meanwhile"]=true;
 L["..at "]=true;
 L["A taint has occured that is preventing you from using the queue system. Please reload your user interface and try again."]="Um erro aconteceu que está previnindo você de usar o sistema de fila. Por favor recarregue sua interface e tente novamente."
 L["Binding"]="Ligações"

@@ -18,6 +18,7 @@
     <Script file="system\dropdown.lua"/>
     <Script file="system\overrides.lua"/>
     <Script file="system\errors.lua"/>
+    <Script file="system\debug.lua"/>
 
     <Script file="system\_reports\bags.lua"/>
     <Script file="system\_reports\cta.lua"/>

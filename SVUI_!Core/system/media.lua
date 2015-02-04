@@ -48,6 +48,7 @@ local DIALOGUE_FONTNAME = "SVUI Dialog Font";
 if(GetLocale() ~= "enUS") then
 	DIALOGUE_FONTNAME = "SVUI Default Font"
 end
+SV.DialogFontDefault = DIALOGUE_FONTNAME;
 --[[ 
 ########################################################## 
 FORCIBLY CHANGE THE GAME WORLD COMBAT TEXT FONT

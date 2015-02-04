@@ -65,16 +65,6 @@ lib.UnlockCallback = {};
 
 --LOCAL HELPERS
 
-local function HandleErrors(schema, action, catch)
-    schema = schema or "Librarian:Events"
-    action = action or "Unknown Function"
-    local timestamp = date("%m/%d/%y %H:%M:%S")
-    local err_message = ("%s [%s] - (%s) %s"):format(schema, action, timestamp, catch)
-    if(CoreObject.DebugMode == true) then
-        CoreObject:Debugger(err_message)
-    end
-end
-
 function lib:Trigger(eventName, ...)
     if(not eventName) then return end;
     local eventCallabcks = self.Triggers[eventName];
@@ -83,7 +73,7 @@ function lib:Trigger(eventName, ...)
         if(fn and type(fn) == "function") then
             local _, catch = pcall(fn, ...)
             if(catch) then
-                HandleErrors("Librarian:Events:Trigger(" .. eventName .. "):", id, catch)
+                CoreObject:HandleError("Librarian:Events:Trigger(" .. eventName .. "):", id, catch)
             end
         end
     end
@@ -124,7 +114,7 @@ local Library_OnEvent = function(self, event, arg, ...)
             if(fn and type(fn) == "function") then
                 local _, catch = pcall(fn, ...)
                 if(catch) then
-                    HandleErrors("Librarian:Events:Trigger(" .. eventName .. "):", id, catch)
+                    CoreObject:HandleError("Librarian:Events:Trigger(" .. eventName .. "):", id, catch)
                 end
             end
         end
@@ -133,7 +123,7 @@ local Library_OnEvent = function(self, event, arg, ...)
             if(fn and type(fn) == "function") then
                 local _, catch = pcall(fn, ...)
                 if(catch) then
-                    HandleErrors("Librarian:Events:Trigger(" .. eventName .. "):", id, catch)
+                    CoreObject:HandleError("Librarian:Events:Trigger(" .. eventName .. "):", id, catch)
                 end
             end
         end

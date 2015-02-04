@@ -144,7 +144,7 @@ L["Thats it! All done! Now we just need to hand these choices off to the henchme
 L["Click the button below to reload and get on your way! Good luck villain!"] = true;
 L["THE_BUTTON_BELOW"] = "THE\nBUTTON\nBELOW";
 --[[UI TEXTS]]--
-L["Meanwhile..."]=true;
+L["Meanwhile"]=true;
 L["..at "]=true;
 L["A taint has occured that is preventing you from using the queue system. Please reload your user interface and try again."]="發生一個錯誤導致你無法使用隊列系統,請重新加載你的用戶界面,然後再試一次."
 L["Binding"]="綁定"

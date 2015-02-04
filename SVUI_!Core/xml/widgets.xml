@@ -412,4 +412,135 @@
             </Frame>
         </Frames>
     </Frame>
+
+    <Frame name="SVUI_ScriptError" movable="true" hidden="true" frameStrata="DIALOG">
+        <Size x="484" y="550"/>
+        <Anchors>
+            <Anchor point="TOPLEFT"/>
+        </Anchors>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture name="$parentBG" setAllPoints="true"/>
+            </Layer>
+            <Layer level="OVERLAY">
+                <Texture name="$parentTitleBG">
+                    <Anchors>
+                        <Anchor point="TOPLEFT">
+                            <Offset x="8" y="-8"/>
+                        </Anchor>
+                        <Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT">
+                            <Offset x="-32" y="-24"/>
+                        </Anchor>
+                    </Anchors>
+                </Texture>
+                <Texture name="$parentDialogBG">
+                    <Anchors>
+                        <Anchor point="TOPLEFT">
+                            <Offset x="8" y="-32"/>
+                        </Anchor>
+                        <Anchor point="BOTTOMRIGHT">
+                            <Offset x="-32" y="32"/>
+                        </Anchor>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="ARTWORK">
+                <FontString parentKey="Title" inherits="GameFontNormal">
+                    <Anchors>
+                        <Anchor point="TOPLEFT">
+                            <Offset x="8" y="-8"/>
+                        </Anchor>
+                        <Anchor point="TOPRIGHT">
+                            <Offset x="-32" y="-24"/>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+                <FontString parentKey="sourceLabel" font="GameFontNormalCenter">
+                    <Size x="140" y="16"/>
+                    <Anchors>
+                        <Anchor point="BOTTOMLEFT">
+                            <Offset x="104" y="8"/>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        <Frames>      
+            <ScrollFrame name="$parentDialog" parentKey="Dialog" inherits="MinimalScrollFrameTemplate">
+                <Size x="443" y="484"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT">
+                        <Offset x="12" y="-30"/>
+                    </Anchor>
+                </Anchors>
+                <ScrollChild>
+                    <EditBox parentKey="Input" multiLine="true" letters="4000" autoFocus="false">
+                        <Size x="443" y="484"/>
+                        <Scripts>
+                            <OnCursorChanged function="ScrollingEdit_OnCursorChanged"/>
+                            <OnUpdate>
+                                ScrollingEdit_OnUpdate(self, elapsed, self:GetParent());
+                            </OnUpdate>
+                            <OnEditFocusGained>
+                                self:HighlightText(0);
+                            </OnEditFocusGained>
+                            <OnEscapePressed function="EditBox_ClearFocus"/>
+                        </Scripts>
+                        <FontString inherits="ChatFontNormal"/>
+                    </EditBox>
+                </ScrollChild>
+            </ScrollFrame>
+            <Button parentKey="Clear" inherits="UIPanelButtonTemplate" text="RESET">
+                <Size x="96" y="24"/>
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT">
+                        <Offset x="8" y="4"/>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        local frame = _G["SVUI_ScriptErrorDialog"];
+                        frame.Input:SetText("");
+                    </OnClick>
+                </Scripts>
+            </Button>
+            <!-- <Button parentKey="Taintlog" inherits="UIPanelButtonTemplate" text="RECORD">
+                <Size x="96" y="24"/>
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT">
+                        <Offset x="112" y="4"/>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        local logging = GetCVar('taintLog');
+                        if(logging and logging ~= '0') then
+                            SetCVar('taintLog',1)
+                            self:SetText("END");
+                        else
+                            SetCVar('taintLog',0)
+                            self:SetText("RECORD");
+                        end
+                    </OnClick>
+                </Scripts>
+            </Button> -->
+            <Button parentKey="Close" inherits="UIPanelCloseButton">
+                <Anchors>
+                    <Anchor point="TOPRIGHT">
+                        <Offset x="-2" y="-2"/>
+                    </Anchor>
+                </Anchors>
+            </Button>
+        </Frames>
+        <Scripts>
+            <OnDragStart>
+                _G["SVUI_ScriptError"].moving = true;
+                _G["SVUI_ScriptError"]:StartMoving();
+            </OnDragStart>
+            <OnDragStop>
+                _G["SVUI_ScriptError"].moving = nil;
+                _G["SVUI_ScriptError"]:StopMovingOrSizing();
+            </OnDragStop>
+        </Scripts>
+    </Frame>
 </Ui>

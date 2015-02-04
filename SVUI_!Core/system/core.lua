@@ -59,10 +59,14 @@ local ERR_NOT_IN_COMBAT     = _G.ERR_NOT_IN_COMBAT;
 
 --[[  CONSTANTS ]]--
 
-_G.BINDING_HEADER_SVUI = "SVUI";
+_G.BINDING_HEADER_SVUI = "SuperVillain UI";
 _G.BINDING_NAME_SVUI_MARKERS = "Raid Markers";
-_G.BINDING_NAME_SVUI_DOCKS = "Toggle Docks";
+_G.BINDING_NAME_SVUI_DOCKS = "Toggle Both Docks";
+_G.BINDING_NAME_SVUI_DOCKS_LEFT = "Toggle Left Dock";
+_G.BINDING_NAME_SVUI_DOCKS_RIGHT = "Toggle Right Dock";
 _G.BINDING_NAME_SVUI_RIDE = "Let's Ride";
+_G.BINDING_NAME_SVUI_DRAENORZONE = "Draenor Zone Ability";
+_G.BINDING_NAME_SVUI_FRAMEDEBUGGER = "Supervillain UI: Frame Analyzer";
 
 _G.SlashCmdList.RELOADUI = ReloadUI
 _G.SLASH_RELOADUI1 = "/rl"
@@ -486,15 +490,9 @@ do
         local second = commandments[2][random(1,5)]
         local custom_msg = (self.L["LOGIN_MSG"]):format(first, second)
         _send_message(custom_msg, prefix)
-        --local login_msg = (self.L["LOGIN_MSG2"]):format(self.Version)
-        local login_msg = (testPattern):format(self.Version, self.GameVersion)
+        local login_msg = (self.L["LOGIN_MSG2"]):format(self.Version)
+        --local login_msg = (testPattern):format(self.Version, self.GameVersion)
         _send_message(login_msg, prefix)
-    end
-
-    function SV:Debugger(msg)
-        if(not self.DebugMode) then return end
-        local outbound = (debugPattern):format(self.NameID, "DEBUG")
-        _send_message(msg, outbound) 
     end
 
     function SV:SCTMessage(...)
@@ -756,6 +754,19 @@ function SV:TaintHandler(event, taint, sourceName, sourceFunc)
     self:AddonMessage(errorString)
 end
 
+local function ShowErrors()
+    local ERRORSTRING = table.concat(SV.ERRORLOG, "\n\n");
+    -- for i=1, #SV.ERRORLOG do
+    --     ERRORSTRING = ERRORSTRING .. SV.ERRORLOG[i];
+    --     ERRORSTRING = ERRORSTRING .. "\n";
+    --     print(ERRORSTRING)
+    -- end
+    SV.ScriptError:DebugOutput(ERRORSTRING)
+end
+
+_G.SlashCmdList["SVUI_SHOW_ERRORS"] = ShowErrors;
+_G.SLASH_SVUI_SHOW_ERRORS1 = "/showerrors"
+
 --[[ LOAD FUNCTIONS ]]--
 
 function SV:ReLoad()
@@ -792,6 +803,8 @@ function SV:Initialize()
     self.Events:Trigger("LOAD_ALL_WIDGETS");
     self.safedata = SVUILib:GetSafeData();
 
+    self.ScriptError:Initialize()
+
     SVUILib:LoadThemes();
 
     SV.API:Initialize();
@@ -822,6 +835,10 @@ function SV:Initialize()
 
     if self.db.general.loginmessage then
         SetLoginMessage(self)
+    end
+
+    if(self.DebugMode and self.HasErrors and self.ScriptError) then
+        ShowErrors()
     end
 end
 --[[ 

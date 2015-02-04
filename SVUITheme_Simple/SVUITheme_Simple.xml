@@ -39,6 +39,7 @@
         </Frames>
     </Frame>
 
+    <Frame name="SVUITheme_Simple_Container" inherits="SVUI_CoreStyle_Pattern" virtual="true" />
     <Frame name="SVUITheme_Simple_Composite1" inherits="SVUI_CoreStyle_Pattern" virtual="true" />
     <Frame name="SVUITheme_Simple_Composite2" inherits="SVUI_CoreStyle_Pattern" virtual="true" />
 
@@ -118,5 +119,5 @@
     </Frame>
 
     <Script file="Loader.lua"/>
-    <Script file="SVUI_Theme_Comics.lua"/>
+    <Script file="SVUITheme_Simple.lua"/>
 </Ui>

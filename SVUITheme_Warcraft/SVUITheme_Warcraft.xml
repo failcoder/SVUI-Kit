@@ -1,0 +1,305 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+    <Frame name="SVUITheme_Warcraft_Default" virtual="true">
+        <Attributes>
+            <Attribute name="panelID" type="string" value="default" />
+            <Attribute name="panelPadding" type="number" value="1" />
+            <Attribute name="panelColor" type="string" value="default" />
+            <Attribute name="panelGradient" type="string" value="default" />
+            <Attribute name="panelTexUpdate" type="boolean" value="false" />
+            <Attribute name="panelSkipUpdate" type="boolean" value="false" />
+            <Attribute name="panelBorderColor" type="string" value="light" />
+        </Attributes>
+        <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\Glues\COMMON\TextPanel-Border" tile="false">
+            <EdgeSize val="15" />
+            <TileSize val="0" />
+            <BackgroundInsets left="0" right="0" top="0" bottom="0" />
+            <Color r="0.2" g="0.2" b="0.2" a="1" />
+            <BorderColor r="1" g="1" b="1" a="1" />
+        </Backdrop>
+    </Frame>
+    <Frame name="SVUITheme_Warcraft_Pattern" virtual="true">
+        <Attributes>
+            <Attribute name="panelID" type="string" value="pattern" />
+            <Attribute name="panelPadding" type="number" value="3" />
+            <Attribute name="panelColor" type="string" value="special" />
+            <Attribute name="panelGradient" type="string" value="special" />
+            <Attribute name="panelTexUpdate" type="boolean" value="true" />
+            <Attribute name="panelSkipUpdate" type="boolean" value="false" />
+        </Attributes>
+        <Backdrop bgFile="Interface\FrameGeneral\UI-Background-Marble" edgeFile="Interface\Glues\COMMON\TextPanel-Border" tile="false">
+            <EdgeSize val="15" />
+            <TileSize val="0" />
+            <BackgroundInsets left="0" right="0" top="0" bottom="0" />
+            <Color r="0.37" g="0.32" b="0.29" a="1" />
+            <BorderColor r="0" g="0" b="0" a="1" />
+        </Backdrop>
+        <Frames>
+            <Frame parentKey="Shadow" inherits="SVUI_ShadowTemplate" />
+        </Frames>
+    </Frame>
+    <Frame name="SVUITheme_Warcraft_DockButton" virtual="true">
+        <Attributes>
+            <Attribute name="panelID" type="string" value="heavy" />
+            <Attribute name="panelPadding" type="number" value="1" />
+            <Attribute name="panelColor" type="string" value="default" />
+            <Attribute name="panelGradient" type="string" value="default" />
+            <Attribute name="panelTexUpdate" type="boolean" value="true" />
+            <Attribute name="panelSkipUpdate" type="boolean" value="false" />
+        </Attributes>
+        <Backdrop bgFile="Interface\BUTTONS\WHITE8X8" edgeFile="Interface\BUTTONS\WHITE8X8" tile="false">
+            <EdgeSize val="1" />
+            <TileSize val="0" />
+            <BackgroundInsets left="0" right="0" top="0" bottom="0" />
+            <Color r="0.2" g="0.2" b="0.2" a="1" />
+            <BorderColor r="0" g="0" b="0" a="1" />
+        </Backdrop>
+        <Layers>
+            <Layer level="BACKGROUND" textureSubLevel="1">
+                <Texture parentKey="Skin" nonBlocking="true" file="Interface\AddOns\SVUI_!Core\assets\textures\HEAVY" setAllPoints="true" />
+                <Color r="0.2" g="0.2" b="0.2" a="1" />
+            </Layer>
+            <Layer level="BORDER">
+                <Texture parentKey="BorderLeft" file="Interface\BUTTONS\WHITE8X8">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativePoint="TOPLEFT" />
+                        <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" />
+                    </Anchors>
+                    <Size>
+                        <AbsDimension x="1" />
+                    </Size>
+                    <Color r="0" g="0" b="0" a="1" />
+                </Texture>
+                <Texture parentKey="BorderRight" file="Interface\BUTTONS\WHITE8X8">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" />
+                        <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" />
+                    </Anchors>
+                    <Size>
+                        <AbsDimension x="1" />
+                    </Size>
+                    <Color r="0" g="0" b="0" a="1" />
+                </Texture>
+                <Texture parentKey="BorderTop" file="Interface\BUTTONS\WHITE8X8">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativePoint="TOPLEFT" />
+                        <Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" />
+                    </Anchors>
+                    <Size>
+                        <AbsDimension y="1" />
+                    </Size>
+                    <Color r="0" g="0" b="0" a="1" />
+                </Texture>
+                <Texture parentKey="BorderBottom" file="Interface\BUTTONS\WHITE8X8">
+                    <Anchors>
+                        <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" />
+                        <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" />
+                    </Anchors>
+                    <Size>
+                        <AbsDimension y="1" />
+                    </Size>
+                    <Color r="0" g="0" b="0" a="1" />
+                </Texture>
+            </Layer>
+        </Layers>
+        <Frames>
+            <Frame parentKey="Shadow" inherits="SVUI_ShadowTemplate" />
+        </Frames>
+    </Frame>
+    <Frame name="SVUITheme_Warcraft_Composite1" virtual="true">
+        <Attributes>
+            <Attribute name="panelID" type="string" value="composite1" />
+            <Attribute name="panelPadding" type="number" value="2" />
+            <Attribute name="panelColor" type="string" value="light" />
+            <Attribute name="panelGradient" type="string" value="light" />
+            <Attribute name="panelTexUpdate" type="boolean" value="true" />
+            <Attribute name="panelSkipUpdate" type="boolean" value="false" />
+            <Attribute name="panelOffset" type="number" value="6" />
+            <Attribute name="panelBorderColor" type="string" value="light" />
+        </Attributes>
+        <Backdrop bgFile="Interface\FrameGeneral\UI-Background-Rock" edgeFile="Interface\Glues\COMMON\TextPanel-Border" tile="false">
+            <EdgeSize val="20" />
+            <TileSize val="0" />
+            <BackgroundInsets left="3" right="3" top="3" bottom="3" />
+            <Color r="1" g="1" b="1" a="1" />
+            <BorderColor r="1" g="1" b="1" a="1" />
+        </Backdrop>
+        <Layers>
+            <Layer level="BACKGROUND" textureSubLevel="2">
+                <Texture parentKey="CompositeTopLeft" nonBlocking="true" file="Interface\AddOns\SVUI_!Core\assets\textures\EMPTY">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="5" y="-5" />
+                        <Anchor point="TOPRIGHT" relativePoint="TOP" x="0" y="-5" />
+                        <Anchor point="BOTTOMLEFT" relativePoint="LEFT" x="5" y="0" />
+                    </Anchors>
+                    <Color r="0.05" g="0.05" b="0.05" a="0.5" />
+                </Texture>
+                <Texture parentKey="CompositeTopRight" nonBlocking="true" file="Interface\AddOns\SVUI_!Core\assets\textures\EMPTY">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" x="-5" y="-5" />
+                        <Anchor point="TOPLEFT" relativePoint="TOP" x="0" y="-5" />
+                        <Anchor point="BOTTOMRIGHT" relativePoint="RIGHT" x="-5" y="0" />
+                    </Anchors>
+                    <Color r="0.05" g="0.05" b="0.05" a="0.5" />
+                </Texture>
+                <Texture parentKey="CompositeBottomLeft" nonBlocking="true" file="Interface\AddOns\SVUI_!Core\assets\textures\EMPTY">
+                    <Anchors>
+                        <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" x="5" y="5" />
+                        <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOM" x="0" y="5" />
+                        <Anchor point="TOPLEFT" relativePoint="LEFT" x="5" y="0" />
+                    </Anchors>
+                    <Color r="0.1" g="0.1" b="0.1" a="0.5" />
+                </Texture>
+                <Texture parentKey="CompositeBottomRight" nonBlocking="true" file="Interface\AddOns\SVUI_!Core\assets\textures\EMPTY">
+                    <Anchors>
+                        <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="-5" y="5" />
+                        <Anchor point="BOTTOMLEFT" relativePoint="BOTTOM" x="0" y="5" />
+                        <Anchor point="TOPRIGHT" relativePoint="RIGHT" x="-5" y="0" />
+                    </Anchors>
+                    <Color r="0.1" g="0.1" b="0.1" a="0.5" />
+                </Texture>
+            </Layer>
+        </Layers>
+    </Frame>
+    <Frame name="SVUITheme_Warcraft_Composite2" virtual="true">
+        <Attributes>
+            <Attribute name="panelID" type="string" value="composite2" />
+            <Attribute name="panelPadding" type="number" value="2" />
+            <Attribute name="panelColor" type="string" value="light" />
+            <Attribute name="panelGradient" type="string" value="light" />
+            <Attribute name="panelTexUpdate" type="boolean" value="true" />
+            <Attribute name="panelSkipUpdate" type="boolean" value="false" />
+             <Attribute name="panelOffset" type="number" value="6" />
+            <Attribute name="panelBorderColor" type="string" value="light" />
+        </Attributes>
+        <Backdrop bgFile="Interface\FrameGeneral\UI-Background-Marble" edgeFile="Interface\Glues\COMMON\TextPanel-Border" tile="false">
+            <EdgeSize val="20" />
+            <TileSize val="0" />
+            <BackgroundInsets left="3" right="3" top="3" bottom="3" />
+            <Color r="1" g="1" b="1" a="1" />
+            <BorderColor r="1" g="1" b="1" a="1" />
+        </Backdrop>
+        <Layers>
+            <Layer level="BACKGROUND" textureSubLevel="2">
+                <Texture parentKey="CompositeTopLeft" nonBlocking="true" file="Interface\AddOns\SVUI_!Core\assets\textures\EMPTY">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="5" y="-5" />
+                        <Anchor point="TOPRIGHT" relativePoint="TOP" x="0" y="-5" />
+                        <Anchor point="BOTTOMLEFT" relativePoint="LEFT" x="5" y="0" />
+                    </Anchors>
+                    <Color r="0.05" g="0.05" b="0.05" a="0.5" />
+                </Texture>
+                <Texture parentKey="CompositeTopRight" nonBlocking="true" file="Interface\AddOns\SVUI_!Core\assets\textures\EMPTY">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" x="-5" y="-5" />
+                        <Anchor point="TOPLEFT" relativePoint="TOP" x="0" y="-5" />
+                        <Anchor point="BOTTOMRIGHT" relativePoint="RIGHT" x="-5" y="0" />
+                    </Anchors>
+                    <Color r="0.05" g="0.05" b="0.05" a="0.5" />
+                </Texture>
+                <Texture parentKey="CompositeBottomLeft" nonBlocking="true" file="Interface\AddOns\SVUI_!Core\assets\textures\EMPTY">
+                    <Anchors>
+                        <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" x="5" y="5" />
+                        <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOM" x="0" y="5" />
+                        <Anchor point="TOPLEFT" relativePoint="LEFT" x="5" y="0" />
+                    </Anchors>
+                    <Color r="0.1" g="0.1" b="0.1" a="0.5" />
+                </Texture>
+                <Texture parentKey="CompositeBottomRight" nonBlocking="true" file="Interface\AddOns\SVUI_!Core\assets\textures\EMPTY">
+                    <Anchors>
+                        <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="-5" y="5" />
+                        <Anchor point="BOTTOMLEFT" relativePoint="BOTTOM" x="0" y="5" />
+                        <Anchor point="TOPRIGHT" relativePoint="RIGHT" x="-5" y="0" />
+                    </Anchors>
+                    <Color r="0.1" g="0.1" b="0.1" a="0.5" />
+                </Texture>
+            </Layer>
+        </Layers>
+    </Frame>
+    <Frame name="SVUITheme_Warcraft_UnitLarge" virtual="true">
+        <Attributes>
+            <Attribute name="panelID" type="string" value="unitlarge" />
+            <Attribute name="panelPadding" type="number" value="0" />
+            <Attribute name="panelColor" type="string" value="special" />
+            <Attribute name="panelGradient" type="boolean" value="false" />
+            <Attribute name="panelTexUpdate" type="boolean" value="true" />
+            <Attribute name="panelOffset" type="number" value="3" />
+            <Attribute name="panelSkipUpdate" type="boolean" value="false" />
+        </Attributes>
+        <Backdrop bgFile="Interface\FrameGeneral\UI-Background-Rock" edgeFile="Interface\BUTTONS\WHITE8X8" tile="false">
+            <EdgeSize val="1" />
+            <TileSize val="128" />
+            <BackgroundInsets left="0" right="0" top="0" bottom="0" />
+            <Color r="1" g="1" b="1" a="1" />
+            <BorderColor r="0" g="0" b="0" a="1" />
+        </Backdrop>
+    </Frame>
+    <Frame name="SVUITheme_Warcraft_UnitSmall" virtual="true">
+        <Attributes>
+            <Attribute name="panelID" type="string" value="unitsmall" />
+            <Attribute name="panelPadding" type="number" value="0" />
+            <Attribute name="panelColor" type="string" value="special" />
+            <Attribute name="panelGradient" type="boolean" value="false" />
+            <Attribute name="panelTexUpdate" type="boolean" value="true" />
+            <Attribute name="panelOffset" type="number" value="3" />
+            <Attribute name="panelSkipUpdate" type="boolean" value="false" />
+        </Attributes>
+        <Backdrop bgFile="Interface\FrameGeneral\UI-Background-Rock" edgeFile="Interface\BUTTONS\WHITE8X8" tile="false">
+            <EdgeSize val="1" />
+            <TileSize val="64" />
+            <BackgroundInsets left="0" right="0" top="0" bottom="0" />
+            <Color r="1" g="1" b="1" a="1" />
+            <BorderColor r="0" g="0" b="0" a="1" />
+        </Backdrop>
+    </Frame>
+    <Frame name="SVUITheme_Warcraft_ActionPanel" virtual="true">
+        <Attributes>
+            <Attribute name="panelID" type="string" value="actionpanel" />
+            <Attribute name="panelKeyOverride" type="string" value="ActionPanel" />
+            <Attribute name="panelPadding" type="number" value="1" />
+            <Attribute name="panelColor" type="string" value="invisible" />
+            <Attribute name="panelGradient" type="boolean" value="false" />
+            <Attribute name="panelTexUpdate" type="boolean" value="false" />
+            <Attribute name="panelSkipUpdate" type="boolean" value="false" />
+            <Attribute name="panelBorderColor" type="string" value="light" />
+            <Attribute name="panelOffset" type="number" value="5" />
+        </Attributes>
+        <Backdrop bgFile="Interface\AddOns\SVUI_!Core\assets\textures\EMPTY" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="false">
+            <EdgeSize val="20" />
+            <TileSize val="0" />
+            <BackgroundInsets left="0" right="0" top="0" bottom="0" />
+            <Color r="0" g="0" b="0" a="0" />
+            <BorderColor r="1" g="1" b="1" a="1" />
+        </Backdrop>
+    </Frame>
+    <Frame name="SVUITheme_Warcraft_Minimap" virtual="true">
+        <Attributes>
+            <Attribute name="panelID" type="string" value="minimap" />
+            <Attribute name="panelPadding" type="number" value="2" />
+            <Attribute name="panelColor" type="string" value="light" />
+            <Attribute name="panelGradient" type="string" value="light" />
+            <Attribute name="panelTexUpdate" type="boolean" value="true" />
+            <Attribute name="panelSkipUpdate" type="boolean" value="false" />
+            <Attribute name="panelOffset" type="number" value="0" />
+            <Attribute name="panelBorderColor" type="string" value="light" />
+        </Attributes>
+        <Backdrop bgFile="Interface\AddOns\SVUI_!Core\assets\textures\EMPTY" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="false">
+            <EdgeSize val="32" />
+            <TileSize val="0" />
+            <BackgroundInsets left="0" right="0" top="0" bottom="0" />
+            <Color r="0" g="0" b="0" a="0" />
+            <BorderColor r="1" g="1" b="1" a="1" />
+        </Backdrop>
+        <Layers>
+            <Layer level="BACKGROUND" textureSubLevel="1">
+                <Texture parentKey="Skin" nonBlocking="true" file="Interface\AddOns\SVUI_!Core\assets\textures\EMPTY">
+                    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="5" y="-5" />
+                    <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="-5" y="5" />
+                    <Color r="0" g="0" b="0" a="0" />
+                </Texture>
+            </Layer>
+        </Layers>
+    </Frame>
+
+    <Script file="Loader.lua"/>
+    <Script file="SVUITheme_Warcraft.lua"/>
+</Ui>

@@ -558,7 +558,7 @@ function MOD:RefreshZoneText()
 		else
 			self.InfoTop:Show();
 			self.InfoBottom:Show();
-			NARR_TEXT = L['Meanwhile...'];
+			NARR_TEXT = L['Meanwhile'];
 			NARR_PREFIX = L["..at "];
 			self.InfoTop.Text:SetText(NARR_TEXT)
 		end
