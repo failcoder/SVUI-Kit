@@ -468,6 +468,7 @@ function SV.Setup:ColorTheme(style, preserve)
 end 
 
 function SV.Setup:UnitframeLayout(style, preserve)
+	if(not SV.UnitFrames) then return end
 	preset_unitstyle = style or "default";
 
 	if not preserve then
@@ -504,6 +505,7 @@ function SV.Setup:UnitframeLayout(style, preserve)
 end 
 
 function SV.Setup:GroupframeLayout(style, preserve)
+	if(not SV.UnitFrames) then return end
 	preset_groupstyle = style or "default";
 
 	self:CopyPreset("layouts", preset_groupstyle)
@@ -518,6 +520,7 @@ function SV.Setup:GroupframeLayout(style, preserve)
 end 
 
 function SV.Setup:BarLayout(style, preserve)
+	if(not SV.ActionBars) then return end
 	preset_barstyle = style or "default";
 
 	if not preserve then 
@@ -552,6 +555,7 @@ function SV.Setup:BarLayout(style, preserve)
 end 
 
 function SV.Setup:Auralayout(style, preserve)
+	if(not SV.Auras) then return end
 	preset_aurastyle = style or "default";
 	self:CopyPreset("auras", preset_aurastyle)
 

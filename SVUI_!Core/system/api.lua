@@ -1009,10 +1009,14 @@ SV.API.Methods["Checkbox"] = function(self, frame, inverse, x, y)
 
     if(frame.SetCheckedTexture) then
         frame:SetCheckedTexture([[Interface\AddOns\SVUI_!Core\assets\textures\CHECK]])
+        local ct = frame:GetCheckedTexture()
+        ct:SetTexCoord(0, 1, 0, 1)
     end
 
     if(frame.SetDisabledCheckedTexture) then
         frame:SetDisabledCheckedTexture([[Interface\AddOns\SVUI_!Core\assets\textures\CHECK-DISABLED]])
+        local ct = frame:GetDisabledCheckedTexture()
+        ct:SetTexCoord(0, 1, 0, 1)
     end
 end;
 

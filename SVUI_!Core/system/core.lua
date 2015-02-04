@@ -832,13 +832,9 @@ function SV:Initialize()
 
     SVUILib:LoadThemes();
 
-    SV.API:Initialize();
+    self.API:Initialize();
     self.Dock:Initialize();
     self.Reports:Initialize();
-    self.AFK:Initialize();
-    self.Comix:Initialize();
-    self.GameMenu:Initialize();
-    self.Drunk:Initialize();
 
     SVUILib:Launch();
 
@@ -853,6 +849,8 @@ function SV:Initialize()
 
     self.Dock:UpdateAllDocks();
     self:SanitizeFilters();
+    self:InitializeHenchmen();
+    self:InitializeAutomations();
 
     self.Events:Trigger("CORE_INITIALIZED");
 
