@@ -385,44 +385,44 @@ function TheHand:Disable()
 	self:Hide()
 end
 
-function Layout:PostDragStart(frame)
+function Layout:PostDragStart()
 	TheHand:Enable()
 	TheHand.UserHeld = true 
 end
 
-function Layout:PostDragStop(frame)
+function Layout:PostDragStop()
 	TheHand.UserHeld = false;
 	TheHand:Disable()
 end
 
-function Layout:Movable_OnEnter(frame)
+function Layout:Movable_OnEnter()
 	if TheHand.UserHeld then return end
 	ResetAllAlphas()
-	frame:SetAlpha(1)
-	frame.text:SetTextColor(0, 1, 1)
-	frame:SetBackdropBorderColor(0, 0.7, 1)
-	UpdateFrameTarget = frame;
+	self:SetAlpha(1)
+	self.text:SetTextColor(0, 1, 1)
+	self:SetBackdropBorderColor(0, 0.7, 1)
+	UpdateFrameTarget = self;
 	SVUI_Layout.Portrait:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\Doodads\MENTALO-ON]])
-	TheHand:SetPoint("CENTER", frame, "TOP", 0, 0)
+	TheHand:SetPoint("CENTER", self, "TOP", 0, 0)
 	TheHand:Show()
-	if CurrentFrameTarget ~= frame then 
+	if CurrentFrameTarget ~= self then 
 		SVUI_LayoutPrecision:Hide()
-		frame:GetScript("OnMouseUp")(frame)
+		self:GetScript("OnMouseUp")(self)
 	end
 end
 
-function Layout:Movable_OnLeave(frame)
+function Layout:Movable_OnLeave()
 	if TheHand.UserHeld then return end
-	frame.text:SetTextColor(0.5, 0.5, 0.5)
-	frame:SetBackdropBorderColor(0.5, 0.5, 0.5)
+	self.text:SetTextColor(0.5, 0.5, 0.5)
+	self:SetBackdropBorderColor(0.5, 0.5, 0.5)
 	SVUI_Layout.Portrait:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\Doodads\MENTALO-OFF]])
 	TheHand:Hide()
-	if(CurrentFrameTarget ~= frame and not SVUI_LayoutPrecision:IsShown()) then
-		frame:SetAlpha(0.4)
+	if(CurrentFrameTarget ~= self and not SVUI_LayoutPrecision:IsShown()) then
+		self:SetAlpha(0.4)
 	end
 end
 
-function Layout:Movable_OnMouseDown(frame, button)
+function Layout:Movable_OnMouseDown(button)
 	if button == "RightButton" then
 		TheHand.UserHeld = false;
 		if(CurrentFrameTarget == self and not SVUI_LayoutPrecision:IsShown()) then
