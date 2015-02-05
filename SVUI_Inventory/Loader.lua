@@ -127,16 +127,8 @@ function MOD:LoadOptions()
 				type = "description", 
 				name = L["BAGS_DESC"]
 			},
-			enable = {
-				order = 2, 
-				type = "toggle", 
-				name = L["Enable"], 
-				desc = L["Enable/Disable the all-in-one bag."],
-				get = function(a)return SV.db[Schema].enable end,
-				set = function(a,b)SV.db[Schema].enable = b;SV:StaticPopup_Show("RL_CLIENT")end
-			},
 			bagGroups={
-				order = 3,
+				order = 2,
 				type = 'group',
 				name = L['Bag Options'],
 				guiInline = true, 
@@ -145,8 +137,7 @@ function MOD:LoadOptions()
 						order = 1, 
 						type = "group",
 						guiInline = true, 
-						name = L["General"], 
-						disabled = function()return not SV.db[Schema].enable end, 
+						name = L["General"],
 						args = {
 							bagSize = {
 								order = 1, 
@@ -232,7 +223,6 @@ function MOD:LoadOptions()
 						type = "group", 
 						guiInline = true, 
 						name = L["Bag/Bank Positioning"], 
-						disabled = function()return not SV.db[Schema].enable end, 
 						args = {
 							alignToChat = {
 								order = 1, 
@@ -248,7 +238,6 @@ function MOD:LoadOptions()
 								guiInline = true, 
 								get = function(key) return SV.db[Schema].bags[key[#key]] end,
 								set = function(key, value) MOD:ChangeDBVar(value, key[#key], "bags"); MOD:ModifyBags() end,
-								disabled = function() return not SV.db[Schema].enable end, 
 								args = {
 									point = {
 										order = 1, 
@@ -281,7 +270,6 @@ function MOD:LoadOptions()
 								guiInline = true, 
 								get = function(key) return SV.db[Schema].bank[key[#key]] end,
 								set = function(key, value) MOD:ChangeDBVar(value, key[#key], "bank"); MOD:ModifyBags() end,
-								disabled = function() return not SV.db[Schema].enable end, 
 								args = {
 									point = {
 										order = 1, 
@@ -547,7 +535,6 @@ function MOD:LoadOptions()
 								order = 8,
 								get = function(e) return SV.db[Schema].misc[e[#e]] end,
 								set = function(e,value) SV.db[Schema].misc[e[#e]] = value end,
-								disabled = function() return not SV.db[Schema].enable end,
 								args = {
 									setoverlay = {
 										type = "toggle",

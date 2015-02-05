@@ -26,5 +26,5 @@
 	<Script file='SVUI_Inventory.lua'/>
 	<Script file="components\organization.lua"/>
 	<Script file="components\sorting.lua"/>
-	<Script file="components\breakstuff.lua"/>
+	<Script file="components\gear.lua"/>
 </Ui>

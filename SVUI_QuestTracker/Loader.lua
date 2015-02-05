@@ -54,14 +54,14 @@ local questFonts = {
 };
 
 
-function MOD:LoadOptions()
-	SV:GenerateFontOptionGroup("QuestTracker", 6, "Fonts used in the SVUI Quest Tracker.", questFonts)
+-- function MOD:LoadOptions()
+-- 	SV:GenerateFontOptionGroup("QuestTracker", 6, "Fonts used in the SVUI Quest Tracker.", questFonts)
 	
-	SV.Options.args[Schema] = {
-		type = "group", 
-		name = Schema, 
-		get = function(a)return SV.db[Schema][a[#a]]end, 
-		set = function(a,b)MOD:ChangeDBVar(b,a[#a]); end, 
-		args = {}
-	}
-end
+-- 	SV.Options.args[Schema] = {
+-- 		type = "group", 
+-- 		name = Schema, 
+-- 		get = function(a)return SV.db[Schema][a[#a]]end, 
+-- 		set = function(a,b)MOD:ChangeDBVar(b,a[#a]); end, 
+-- 		args = {}
+-- 	}
+-- end

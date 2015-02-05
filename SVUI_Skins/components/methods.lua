@@ -168,7 +168,7 @@ end
 function MOD:ApplyCloseButtonStyle(this, anchor)
 	if not this then return end
 	this:RemoveTextures()
-	this:SetStyle("Button", nil, 1, -7, -7, nil, "red")
+	this:SetStyle("!_Button", nil, 1, -5, -5, nil, "red")
 	this:SetFrameLevel(this:GetFrameLevel() + 4)
 	this:SetNormalTexture(SV.Media.icon.close)
     if not this.hookedColors then 
@@ -577,8 +577,8 @@ function MOD:ApplyDropdownStyle(this, width)
 
 		local bg = CreateFrame("Frame", nil, this)
 		bg:ModPoint("TOPLEFT", this, "TOPLEFT", 18, -2)
-		bg:ModPoint("BOTTOMRIGHT", ddButton, "BOTTOMRIGHT", 2, -2)
-		bg:SetStyle("Frame", "Blackout")
+		bg:ModPoint("BOTTOMRIGHT", ddButton, "BOTTOMRIGHT", 2, 2)
+		bg:SetStyle("Frame", "Inset")
 		bg:SetBackdropBorderColor(0,0,0)
 		this.Panel = bg
 	end

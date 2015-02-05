@@ -80,9 +80,9 @@ local function LoadPresetData()
 				},
 				["textures"] = {
 					["pattern"] = "SVUI Backdrop 1",
-					["comic"] = "SVUI Artwork 1",
-					["unitlarge"] = "SVUI Unit BG 1",
-					["unitsmall"] = "SVUI SmallUnit BG 1",
+					["premium"] = "SVUI Artwork 1",
+					["unitlarge"] = "SVUI UnitBG 1",
+					["unitsmall"] = "SVUI SmallUnitBG 1",
 				},
 				["unitframes"] = {
 					["buff_bars"] = {.91, .91, .31, 1},
@@ -98,9 +98,9 @@ local function LoadPresetData()
 				},
 				["textures"] = {
 					["pattern"] = "SVUI Backdrop 2",
-					["comic"] = "SVUI Artwork 2",
-					["unitlarge"] = "SVUI Unit BG 2",
-					["unitsmall"] = "SVUI SmallUnit BG 2",
+					["premium"] = "SVUI Artwork 2",
+					["unitlarge"] = "SVUI UnitBG 2",
+					["unitsmall"] = "SVUI SmallUnitBG 2",
 				},
 				["unitframes"] = {
 					["buff_bars"] = {.51, .79, 0, 1},
@@ -116,9 +116,9 @@ local function LoadPresetData()
 				},
 				["textures"] = {
 					["pattern"] = "SVUI Backdrop 3",
-					["comic"] = "SVUI Artwork 3",
-					["unitlarge"] = "SVUI Unit BG 3",
-					["unitsmall"] = "SVUI SmallUnit BG 3",
+					["premium"] = "SVUI Artwork 3",
+					["unitlarge"] = "SVUI UnitBG 3",
+					["unitsmall"] = "SVUI SmallUnitBG 3",
 				},
 				["unitframes"] = {
 					["buff_bars"] = {scc.r, scc.g, scc.b, 1},
@@ -134,9 +134,9 @@ local function LoadPresetData()
 				},
 				["textures"] = {
 					["pattern"] = "SVUI Backdrop 4",
-					["comic"] = "SVUI Artwork 4",
-					["unitlarge"] = "SVUI Unit BG 4",
-					["unitsmall"] = "SVUI SmallUnit BG 4",
+					["premium"] = "SVUI Artwork 4",
+					["unitlarge"] = "SVUI UnitBG 4",
+					["unitsmall"] = "SVUI SmallUnitBG 4",
 				},
 				["unitframes"] = {
 					["buff_bars"] = {.45, .55, .15, 1},

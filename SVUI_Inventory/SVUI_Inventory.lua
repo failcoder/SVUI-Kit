@@ -1578,11 +1578,8 @@ local function _closeBags()
 	if(MOD.ReagentFrame) then 
 		MOD.ReagentFrame:Hide()
 	end
-	if(BreakStuffHandler and BreakStuffButton and BreakStuffButton.icon) then
-		BreakStuffHandler:MODIFIER_STATE_CHANGED()
-		BreakStuffHandler.ReadyToSmash = false
-		BreakStuffButton.ttText = "BreakStuff : OFF";
-		BreakStuffButton.icon:SetGradient("VERTICAL", 0.5, 0.53, 0.55, 0.8, 0.8, 1)
+	if(SV.Dock.CloseBreakStuff) then
+		SV.Dock:CloseBreakStuff()
 	end
 	if(SV.Tooltip) then
 		SV.Tooltip.GameTooltip_SetDefaultAnchor(GameTooltip)
@@ -1670,6 +1667,7 @@ end
 function MOD:PLAYER_ENTERING_WORLD()
 	self:UpdateGoldText()
 	self.BagFrame:RefreshBags()
+	self:BuildGearInfo()
 end 
 --[[ 
 ########################################################## 
@@ -1680,6 +1678,7 @@ function MOD:ReLoad()
 	self:RefreshBagFrames()
 	self:ModifyBags();
 	self:ModifyBagBar();
+	self:UpdateGearInfo()
 end 
 
 function MOD:Load()
@@ -1697,9 +1696,7 @@ function MOD:Load()
 	for i = 1, NUM_CONTAINER_FRAMES do
 		local frame = _G["ContainerFrame"..i]
 		if(frame) then frame:Die() end
-	end 
-
-	SV.Timers:ExecuteTimer(self.BreakStuffLoader, 5)
+	end
 
 	hooksecurefunc("OpenAllBags", _openBags)
 	hooksecurefunc("CloseAllBags", _closeBags)
@@ -1707,7 +1704,6 @@ function MOD:Load()
 	hooksecurefunc("ToggleAllBags", _toggleBackpack)
 	hooksecurefunc("ToggleBackpack", _toggleBackpack)
 	hooksecurefunc("BackpackTokenFrame_Update", self.RefreshTokens)
-
 	hooksecurefunc("ContainerFrameItemButton_OnModifiedClick", _hook_OnModifiedClick)
 
 	self:RegisterEvent("BANKFRAME_OPENED")
@@ -1718,6 +1714,8 @@ function MOD:Load()
 	self:RegisterEvent("PLAYER_TRADE_MONEY", "UpdateGoldText")
 	self:RegisterEvent("TRADE_MONEY_CHANGED", "UpdateGoldText")
 	self:RegisterEvent("PLAYERBANKBAGSLOTS_CHANGED")
+
+	self:InitializeGearInfo()
 
 	StackSplitFrame:SetFrameStrata("DIALOG")
 

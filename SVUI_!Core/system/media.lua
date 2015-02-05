@@ -110,8 +110,16 @@ DEFINE SHARED MEDIA
 ]]--
 local LSM = LibStub("LibSharedMedia-3.0")
 
-LSM:Register("background", "SVUI Backdrop", [[Interface\DialogFrame\UI-DialogBox-Background]])
-LSM:Register("background", "SVUI Artwork", [[Interface\FrameGeneral\UI-Background-Rock]])
+LSM:Register("background", "SVUI Backdrop 1", [[Interface\AddOns\SVUI_!Core\assets\textures\Backgrounds\PATTERN1]])
+LSM:Register("background", "SVUI Backdrop 2", [[Interface\AddOns\SVUI_!Core\assets\textures\Backgrounds\PATTERN2]])
+LSM:Register("background", "SVUI Backdrop 3", [[Interface\AddOns\SVUI_!Core\assets\textures\Backgrounds\PATTERN3]])
+LSM:Register("background", "SVUI Backdrop 4", [[Interface\AddOns\SVUI_!Core\assets\textures\Backgrounds\PATTERN4]])
+LSM:Register("background", "SVUI Backdrop 5", [[Interface\AddOns\SVUI_!Core\assets\textures\Backgrounds\PATTERN5]])
+LSM:Register("background", "SVUI Artwork 1", [[Interface\AddOns\SVUI_!Core\assets\textures\Backgrounds\COMIC1]])
+LSM:Register("background", "SVUI Artwork 2", [[Interface\AddOns\SVUI_!Core\assets\textures\Backgrounds\COMIC2]])
+LSM:Register("background", "SVUI Artwork 3", [[Interface\AddOns\SVUI_!Core\assets\textures\Backgrounds\COMIC3]])
+LSM:Register("background", "SVUI Artwork 4", [[Interface\AddOns\SVUI_!Core\assets\textures\Backgrounds\COMIC4]])
+LSM:Register("background", "SVUI Artwork 5", [[Interface\AddOns\SVUI_!Core\assets\textures\Backgrounds\COMIC5]])
 LSM:Register("border", "SVUI BasicBorder", [[Interface\Glues\COMMON\TextPanel-Border]])
 LSM:Register("border", "SVUI FancyBorder", [[Interface\DialogFrame\UI-DialogBox-Border]])
 LSM:Register("border", "SVUI ShadowBorder", [[Interface\AddOns\SVUI_!Core\assets\textures\GLOW]])
@@ -166,8 +174,8 @@ SV.defaults["font"]["pixel"]       	= {file = "SVUI Pixel Font",    size = 8,   
 	
 SV.defaults["media"] = {
 	["textures"] = { 
-		["pattern"]      = "SVUI Backdrop", 
-		["premium"]      = "SVUI Artwork"
+		["pattern"]      = "SVUI Backdrop 1", 
+		["premium"]      = "SVUI Artwork 1"
 	},
 	["borders"] = { 
 		["pattern"]      = "SVUI BasicBorder", 
@@ -288,8 +296,8 @@ do
 	}
 
 	SV.Media["bg"] = {
-		["pattern"]     = LSM:Fetch("background", "SVUI Backdrop"),
-		["premium"]     = LSM:Fetch("background", "SVUI Artwork"),
+		["pattern"]     = LSM:Fetch("background", "SVUI Backdrop 1"),
+		["premium"]     = LSM:Fetch("background", "SVUI Artwork 1"),
 	}
 
 	SV.Media["border"] = {
@@ -458,24 +466,10 @@ SV.GlobalFontList = {
 	["SVUI_Font_Caps"] = "caps",
 	["SVUI_Font_Narrator"] = "narrator",
 	["SVUI_Font_Pixel"] = "pixel",
-	["SVUI_Font_Quest"] = "questdialog",
-	["SVUI_Font_Quest_Header"] = "questheader",
-	["SVUI_Font_Quest_Number"] = "questnumber",
-	["SVUI_Font_NamePlate"] = "platename",
-	["SVUI_Font_NamePlate_Aura"] = "plateaura",
-	["SVUI_Font_NamePlate_Number"] = "platenumber",
-	["SVUI_Font_Bag"] = "bagdialog",
-	["SVUI_Font_Bag_Number"] = "bagnumber",
 	["SVUI_Font_Roll"] = "rolldialog",
 	["SVUI_Font_Roll_Number"] = "rollnumber",
 	["SVUI_Font_Loot"] = "lootdialog",
 	["SVUI_Font_Loot_Number"] = "lootnumber",
-	["SVUI_Font_Unit"] = "unitprimary",
-	["SVUI_Font_Unit_Small"] = "unitsecondary",
-	["SVUI_Font_UnitAura"] = "unitauramedium",
-	["SVUI_Font_UnitAura_Bar"] = "unitaurabar",
-	["SVUI_Font_UnitAura_Small"] = "unitaurasmall",
-	["SVUI_Font_UnitAura_Large"] = "unitauralarge",
 };
 
 function SV:FontManager(obj, template, arg, sizeMod, styleOverride, colorR, colorG, colorB)

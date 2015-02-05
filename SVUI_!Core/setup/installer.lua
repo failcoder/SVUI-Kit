@@ -113,12 +113,14 @@ local function forceCVars()
 end
 
 local function ShowLayout(show)
+	if(not SV.UnitFrames) then return end
 	if(not _G["SVUI_Raid"] or (show and _G["SVUI_Raid"].forceShow == true)) then return end
 	if(not show and _G["SVUI_Raid"].forceShow ~= true) then return end
 	SV.UnitFrames:ViewGroupFrames(_G["SVUI_Raid"], show)
 end
 
 local function ShowAuras(show)
+	if(not SV.UnitFrames) then return end
 	if(not _G["SVUI_Player"] or (show and _G["SVUI_Player"].forceShowAuras)) then return end
 	if(not show and not _G["SVUI_Player"].forceShowAuras) then return end
 	_G["SVUI_Player"].forceShowAuras = show
@@ -126,6 +128,7 @@ local function ShowAuras(show)
 end
 
 local function BarShuffle()
+	if(not SV.ActionBars) then return end
 	local bar2 = SV.db.ActionBars.Bar2.enable;
 	local base = 30;
 	local bS = SV.db.ActionBars.Bar1.buttonspacing;
@@ -148,6 +151,7 @@ local function BarShuffle()
 end 
 
 local function UFMoveBottomQuadrant(toggle)
+	if(not SV.UnitFrames) then return end
 	local anchors = SV.private.Anchors
 	if not toggle then
 		anchors.SVUI_Player_MOVE = "BOTTOMSVUIParentBOTTOM-278182"
@@ -189,6 +193,7 @@ local function UFMoveBottomQuadrant(toggle)
 end 
 
 local function UFMoveLeftQuadrant(toggle)
+	if(not SV.UnitFrames) then return end
 	local anchors = SV.private.Anchors
 	if not toggle then
 		anchors.SVUI_Assist_MOVE = "TOPLEFTSVUIParentTOPLEFT"..XOFF.."-250"
@@ -210,6 +215,7 @@ local function UFMoveLeftQuadrant(toggle)
 end 
 
 local function UFMoveTopQuadrant(toggle)
+	if(not SV.UnitFrames) then return end
 	local anchors = SV.private.Anchors
 	if not toggle then
 		anchors.GM_MOVE = "TOPLEFTSVUIParentTOPLEFT250-25"
@@ -227,6 +233,7 @@ local function UFMoveTopQuadrant(toggle)
 end 
 
 local function UFMoveRightQuadrant(toggle)
+	if(not SV.UnitFrames) then return end
 	local anchors = SV.private.Anchors
 	local dH = SV.db.Dock.dockRightHeight  +  60
 	if not toggle or toggle == "high" then
@@ -259,26 +266,30 @@ function SV.Setup:UserScreen(rez, preserve)
 			SV.db.Dock.dockLeftHeight = 180;
 			SV.db.Dock.dockRightWidth = 350;
 			SV.db.Dock.dockRightHeight = 180;
-			SV.db.Auras.wrapAfter = 10
-			SV.db.UnitFrames.fontSize = 10;
-			SV.db.UnitFrames.player.width = 200;
-			SV.db.UnitFrames.player.castbar.width = 200;
-			SV.db.UnitFrames.player.classbar.fill = "fill"
-			SV.db.UnitFrames.player.health.tags = "[health:color][health:current]"
-			SV.db.UnitFrames.target.width = 200;
-			SV.db.UnitFrames.target.castbar.width = 200;
-			SV.db.UnitFrames.target.health.tags = "[health:color][health:current]"
-			SV.db.UnitFrames.pet.power.enable = false;
-			SV.db.UnitFrames.pet.width = 200;
-			SV.db.UnitFrames.pet.height = 26;
-			SV.db.UnitFrames.targettarget.debuffs.enable = false;
-			SV.db.UnitFrames.targettarget.power.enable = false;
-			SV.db.UnitFrames.targettarget.width = 200;
-			SV.db.UnitFrames.targettarget.height = 26;
-			SV.db.UnitFrames.boss.width = 200;
-			SV.db.UnitFrames.boss.castbar.width = 200;
-			SV.db.UnitFrames.arena.width = 200;
-			SV.db.UnitFrames.arena.castbar.width = 200 
+			if(SV.Auras) then
+				SV.db.Auras.wrapAfter = 10;
+			end
+			if(SV.UnitFrames) then
+				SV.db.UnitFrames.fontSize = 10;
+				SV.db.UnitFrames.player.width = 200;
+				SV.db.UnitFrames.player.castbar.width = 200;
+				SV.db.UnitFrames.player.classbar.fill = "fill"
+				SV.db.UnitFrames.player.health.tags = "[health:color][health:current]"
+				SV.db.UnitFrames.target.width = 200;
+				SV.db.UnitFrames.target.castbar.width = 200;
+				SV.db.UnitFrames.target.health.tags = "[health:color][health:current]"
+				SV.db.UnitFrames.pet.power.enable = false;
+				SV.db.UnitFrames.pet.width = 200;
+				SV.db.UnitFrames.pet.height = 26;
+				SV.db.UnitFrames.targettarget.debuffs.enable = false;
+				SV.db.UnitFrames.targettarget.power.enable = false;
+				SV.db.UnitFrames.targettarget.width = 200;
+				SV.db.UnitFrames.targettarget.height = 26;
+				SV.db.UnitFrames.boss.width = 200;
+				SV.db.UnitFrames.boss.castbar.width = 200;
+				SV.db.UnitFrames.arena.width = 200;
+				SV.db.UnitFrames.arena.castbar.width = 200 
+			end
 		end 
 		if not mungs then
 			UFMoveBottomQuadrant(true)
@@ -585,29 +596,40 @@ function SV.Setup:EZDefault()
 	self:BarLayout("default", true);
 	self:Auralayout("default", true);
 
-	SV.db.general.comix = true;
-	SV.db.general.gamemenu = true;
-	SV.db.general.afk = true;
-	SV.db.general.woot = true;
+	SV.db.FunStuff.comix = '1';
+	SV.db.FunStuff.gamemenu = '1';
+	SV.db.FunStuff.afk = '1';
 
+	SV.db.general.woot = true;
 	SV.db.general.arenadrink = true;
 	SV.db.general.stupidhat = true;
-	SV.db.Auras.hyperBuffs.enable = true;
-	SV.db.Inventory.bagTools = true;
+	
 	SV.db.Dock.leftDockBackdrop = true;
 	SV.db.Dock.rightDockBackdrop = true;
 	SV.db.Dock.dataBackdrop = true;
 
-	SV.db.Inventory.enable = true;
-	SV.db.Maps.customIcons = true;
-	SV.db.Maps.bordersize = 6;
-	SV.db.Maps.locationText = "";
-	SV.db.Maps.playercoords = "";
-	SV.db.NamePlates.themed = true;
-	SV.db.Tooltip.themed = true;
-	SV.db.Docklets.enable = true;
-	SV.db.UnitFrames.themed = true;
-
+	if(SV.Auras) then
+		SV.db.Auras.hyperBuffs.enable = true;
+	end
+	if(SV.Inventory) then
+		SV.db.Inventory.bagTools = true;
+		SV.db.Inventory.enable = true;
+	end
+	if(SV.Maps) then
+		SV.db.Maps.customIcons = true;
+		SV.db.Maps.bordersize = 6;
+		SV.db.Maps.locationText = "";
+		SV.db.Maps.playercoords = "";
+	end
+	if(SV.NamePlates) then
+		SV.db.NamePlates.themed = true;
+	end
+	if(SV.Tooltip) then
+		SV.db.Tooltip.themed = true;
+	end
+	if(SV.UnitFrames) then
+		SV.db.UnitFrames.themed = true;
+	end
 	SVUILib:SaveSafeData("install_version", SV.Version)
 	StopMusic()
 	SetCVar("Sound_MusicVolume", user_music_vol or 0)
@@ -630,41 +652,46 @@ function SV.Setup:Minimalist()
 	SV.db.general.gamemenu = false;
 	SV.db.general.afk = false;
 	SV.db.general.woot = false;
-
 	SV.db.general.arenadrink = false;
 	SV.db.general.stupidhat = false;
-	SV.db.Auras.hyperBuffs.enable = false;
-	SV.db.Inventory.bagTools = false;
-	--SV.db.Dock.leftDockBackdrop = false;
-	--SV.db.Dock.rightDockBackdrop = false;
+
 	SV.db.Dock.dataBackdrop = false;
-
-	SV.db.Inventory.enable = false;
-	SV.db.Maps.customIcons = false;
-	SV.db.Maps.bordersize = 2;
-	SV.db.Maps.bordercolor = "dark";
-	SV.db.Maps.locationText = "HIDE";
-	SV.db.Maps.playercoords = "HIDE";
-	SV.db.NamePlates.themed = false;
-	SV.db.Tooltip.themed = false;
-	--SV.db.Docklets.enable = false;
-	SV.db.UnitFrames.themed = false;
-
-	SV.db.UnitFrames.player.height = 22;
-	SV.db.UnitFrames.player.power.height = 6;
-
-	SV.db.UnitFrames.target.height = 22;
-	SV.db.UnitFrames.target.power.height = 6;
-	SV.db.UnitFrames.targettarget.height = 22;
-	SV.db.UnitFrames.targettarget.power.height = 6;
-	SV.db.UnitFrames.pet.height = 22;
-	SV.db.UnitFrames.pet.power.height = 6;
-	SV.db.UnitFrames.focus.height = 22;
-	SV.db.UnitFrames.focus.power.height = 6;
-	SV.db.UnitFrames.boss.height = 22;
-	SV.db.UnitFrames.boss.power.height = 6;
-
-	UFMoveBottomQuadrant("minimal")
+	if(SV.Auras) then
+		SV.db.Auras.hyperBuffs.enable = false;
+	end
+	if(SV.Inventory) then
+		SV.db.Inventory.bagTools = false;
+		SV.db.Inventory.enable = false;
+	end
+	if(SV.Maps) then
+		SV.db.Maps.customIcons = false;
+		SV.db.Maps.bordersize = 2;
+		SV.db.Maps.bordercolor = "dark";
+		SV.db.Maps.locationText = "HIDE";
+		SV.db.Maps.playercoords = "HIDE";
+	end
+	if(SV.NamePlates) then
+		SV.db.NamePlates.themed = false;
+	end
+	if(SV.Tooltip) then
+		SV.db.Tooltip.themed = false;
+	end
+	if(SV.UnitFrames) then
+		SV.db.UnitFrames.themed = false;
+		SV.db.UnitFrames.player.height = 22;
+		SV.db.UnitFrames.player.power.height = 6;
+		SV.db.UnitFrames.target.height = 22;
+		SV.db.UnitFrames.target.power.height = 6;
+		SV.db.UnitFrames.targettarget.height = 22;
+		SV.db.UnitFrames.targettarget.power.height = 6;
+		SV.db.UnitFrames.pet.height = 22;
+		SV.db.UnitFrames.pet.power.height = 6;
+		SV.db.UnitFrames.focus.height = 22;
+		SV.db.UnitFrames.focus.power.height = 6;
+		SV.db.UnitFrames.boss.height = 22;
+		SV.db.UnitFrames.boss.power.height = 6;
+		UFMoveBottomQuadrant("minimal")
+	end
 
 	SVUILib:SaveSafeData("install_version", SV.Version)
 	StopMusic()

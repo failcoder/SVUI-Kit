@@ -353,6 +353,7 @@ SV.defaults = {
         ["garrison"] = true,
         ["professions"] = true,
         ["raidTool"] = true,
+        ["breakstuff"] = true
     },
     ["Reports"] = {
         ["holders"] = {
@@ -417,12 +418,6 @@ SV.Options = {
             type = "group", 
             name = SV.L["Profiles"], 
             childGroups = "tab", 
-            args = {}
-        },
-        Themes = {
-            type = "group",
-            name = SV.L["Themes"],
-            order = 9998,
             args = {}
         },
         plugins = {

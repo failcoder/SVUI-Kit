@@ -21,18 +21,26 @@ local tremove, tcopy, twipe, tsort, tcat = table.remove, table.copy, table.wipe,
 GET ADDON DATA
 ##########################################################
 ]]--
-local SV = _G['SVUI']
+local SV = select(2, ...)
 local L = SV.L;
-local MOD = SV.Inventory;
+local MOD = SV.Dock;
 --[[ 
 ########################################################## 
 LOCAL VARS
 ##########################################################
 ]]--
-local BreakStuffButton = CreateFrame("Button", "BreakStuffButton", UIParent)
 local BreakStuff_Cache = {}
 local DE, PICK, SMITH, BreakStuffParser;
 local ICONARTFILE = [[Interface\AddOns\SVUI_Docklets\assets\DOCK-ICON-BREAKSTUFF]];
+
+local BreakStuffButton = CreateFrame("Button", "BreakStuffButton", UIParent);
+BreakStuffButton.icon = BreakStuffButton:CreateTexture(nil,"OVERLAY")
+BreakStuffButton.icon:InsetPoints(BreakStuffButton,2,2)
+BreakStuffButton.icon:SetTexture(ICONARTFILE)
+BreakStuffButton.icon:SetGradient("VERTICAL", 0.5, 0.53, 0.55, 0.8, 0.8, 1)
+BreakStuffButton.ttText = "BreakStuff : OFF";
+BreakStuffButton.subText = "";
+
 local BreakStuffHandler = CreateFrame('Button', "BreakStuffHandler", UIParent, 'SecureActionButtonTemplate, AutoCastShineTemplate')
 BreakStuffHandler:SetScript('OnEvent', function(self, event, ...) self[event](self, ...) end)
 BreakStuffHandler:SetPoint("LEFT",UIParent,"RIGHT",500)
@@ -217,12 +225,14 @@ local BreakStuff_OnClick = function(self)
 		self.ttText = "BreakStuff : ON";
 		self:SetPanelColor("green")
 		self.icon:SetGradient(unpack(SV.Media.gradient.green))
-		if(not MOD.BagFrame:IsShown()) then
-			GameTooltip:Hide()
-			MOD.BagFrame:Show()
-			MOD.BagFrame:RefreshBags()
-			if(SV.Tooltip) then
-				SV.Tooltip.GameTooltip_SetDefaultAnchor(GameTooltip,self)
+		if(SV.Inventory and SV.Inventory.BagFrame) then
+			if(not SV.Inventory.BagFrame:IsShown()) then
+				GameTooltip:Hide()
+				SV.Inventory.BagFrame:Show()
+				SV.Inventory.BagFrame:RefreshBags()
+				if(SV.Tooltip) then
+					SV.Tooltip.GameTooltip_SetDefaultAnchor(GameTooltip,self)
+				end
 			end
 		end
 	end
@@ -234,11 +244,11 @@ end
 function BreakStuffHandler:PLAYER_REGEN_ENABLED()
 	self:UnregisterEvent('PLAYER_REGEN_ENABLED')
 	BreakStuff_OnModifier(self)
-end 
+end
 
 function MOD:PLAYER_REGEN_ENABLED()
 	self:UnregisterEvent('PLAYER_REGEN_ENABLED')
-	self:BreakStuffLoader()
+	self:LoadBreakStuff()
 end
 
 local SetClonedTip = function(self)
@@ -252,7 +262,7 @@ local SetClonedTip = function(self)
 	GameTooltip:Show()
 end
 
-function MOD:BreakStuffLoader()
+local function LoadToolBreakStuff()
 	if(InCombatLockdown()) then MOD:RegisterEvent("PLAYER_REGEN_ENABLED"); return end
 	local allowed, spellListing, spellName, _ = false, {};
 
@@ -295,20 +305,17 @@ function MOD:BreakStuffLoader()
 		tinsert(spellListing, SMITH)
 	end
 
+	MOD.BreakStuffLoaded = true;
+
 	if not allowed then return end
 
-	BreakStuffButton:SetParent(SV.Dock.BottomRight.Bar.ToolBar)
-	local size = SV.Dock.BottomRight.Bar.ToolBar:GetHeight()
+	BreakStuffButton:SetParent(MOD.BottomRight.Bar.ToolBar)
+	local size = MOD.BottomRight.Bar.ToolBar:GetHeight()
 	BreakStuffButton:ModSize(size, size)
-	BreakStuffButton:ModPoint("RIGHT", SV.Dock.BottomRight.Bar.ToolBar, "LEFT", -6, 0)
+	BreakStuffButton:ModPoint("RIGHT", MOD.BottomRight.Bar.ToolBar, "LEFT", -6, 0)
 	BreakStuffButton:Show();
 	BreakStuffButton:SetStyle("DockButton") 
-	BreakStuffButton.icon=BreakStuffButton:CreateTexture(nil,"OVERLAY")
-	BreakStuffButton.icon:InsetPoints(BreakStuffButton,2,2)
-	BreakStuffButton.icon:SetTexture(ICONARTFILE)
-	BreakStuffButton.icon:SetGradient("VERTICAL", 0.5, 0.53, 0.55, 0.8, 0.8, 1)
-	BreakStuffButton.ttText = "BreakStuff : OFF";
-	BreakStuffButton.subText = "";
+	
 	BreakStuffButton:SetScript("OnEnter", BreakStuff_OnEnter);
 	BreakStuffButton:SetScript("OnLeave", BreakStuff_OnLeave);
 	BreakStuffButton:SetScript("OnClick", BreakStuff_OnClick);
@@ -329,4 +336,17 @@ function MOD:BreakStuffLoader()
 		sparks:SetHeight(sparks:GetHeight() * 3)
 		sparks:SetWidth(sparks:GetWidth() * 3)
 	end
+end
+
+function MOD:CloseBreakStuff()
+	if((not SV.db.Dock.breakstuff) or self.BreakStuffLoaded) then return end
+	BreakStuffHandler:MODIFIER_STATE_CHANGED()
+	BreakStuffHandler.ReadyToSmash = false
+	BreakStuffButton.ttText = "BreakStuff : OFF";
+	BreakStuffButton.icon:SetGradient("VERTICAL", 0.5, 0.53, 0.55, 0.8, 0.8, 1)
+end
+
+function MOD:LoadBreakStuff()
+	if((not SV.db.Dock.breakstuff) or self.BreakStuffLoaded) then return end
+	SV.Timers:ExecuteTimer(LoadToolBreakStuff, 5)
 end

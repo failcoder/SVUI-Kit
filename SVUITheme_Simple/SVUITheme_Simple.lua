@@ -23,6 +23,9 @@ local L = SV.L;
 local THEME = SV:NewTheme(...);
 local LSM = LibStub("LibSharedMedia-3.0");
 
+LSM:Register("background", "SVUI Backdrop", [[Interface\DialogFrame\UI-DialogBox-Background]])
+LSM:Register("background", "SVUI Artwork", [[Interface\FrameGeneral\UI-Background-Rock]])
+
 SV.defaults.THEME["Simple"] = {};
 
 local _SetDockStyleTheme = function(dock, isBottom)

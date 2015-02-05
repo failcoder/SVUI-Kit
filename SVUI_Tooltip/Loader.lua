@@ -77,26 +77,19 @@ function MOD:LoadOptions()
 			commonGroup = {
 				order = 1, 
 				type = "group", 
-				name = L["Tooltip Options"], 
-				childGroups = "tree", 
+				name = L["Tooltip Options"],
+				guiInline = true, 
 				args = {
 					intro = {
 						order = 1, 
 						type = "description", 
 						name = L["TOOLTIP_DESC"]
 					},
-					enable = {
-						order = 2, 
-						type = "toggle", 
-						name = L["Enable"], 
-						get = function(a)return SV.db[Schema][a[#a]]end, 
-						set = function(a, b)SV.db[Schema][a[#a]] = b;SV:StaticPopup_Show("RL_CLIENT") end
-					},
 					common = {
 						order = 3, 
 						type = "group", 
-						name = L["General"], 
-						disabled = function() return not SV.db[Schema].enable end, 
+						name = L["General"],
+						guiInline = true, 
 						args = {
 							cursorAnchor = {
 								order = 1, 
@@ -142,6 +135,7 @@ function MOD:LoadOptions()
 					visibility={
 						order=100,
 						type="group",
+						guiInline = true, 
 						name=L["Visibility"],
 						get=function(a)return SV.db[Schema].visibility[a[#a]]end,
 						set=function(a,b)SV.db[Schema].visibility[a[#a]]=b end,
@@ -153,6 +147,7 @@ function MOD:LoadOptions()
 					healthBar={
 						order=200,
 						type="group",
+						guiInline = true, 
 						name=L["Health Bar"],
 						get=function(a)return SV.db[Schema].healthBar[a[#a]]end,
 						set=function(a,b)SV.db[Schema].healthBar[a[#a]]=b end,

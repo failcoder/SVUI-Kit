@@ -23,7 +23,7 @@ GET ADDON DATA
 ]]--
 local SV = _G['SVUI']
 local L = SV.L
-local MOD = SV:NewPackage("Inventory", L["Gear Managment"]);
+local MOD = SV.Inventory;
 --[[ 
 ########################################################## 
 LOCAL VARS
@@ -201,7 +201,7 @@ local function RefreshInspectedGear()
 	end
 end
 
-local function RefreshGear()
+function MOD:UpdateGearInfo()
 	if(not MOD.PreBuildComplete) then return end 
 	if(InCombatLockdown()) then 
 		MOD:RegisterEvent("PLAYER_REGEN_ENABLED", RefreshGear)
@@ -241,19 +241,20 @@ local function GearSwap()
 	end
 end
 
-function MOD:PLAYER_ENTERING_WORLD()
-	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
-	SHOW_LEVEL = SV.db.Inventory.itemlevel.enable
-	SHOW_DURABILITY = SV.db.Inventory.durability.enable
-	ONLY_DAMAGED = SV.db.Inventory.durability.onlydamaged
-	MAX_LEVEL, AVG_LEVEL = GetAverageItemLevel()
-	LoadAddOn("Blizzard_InspectUI")
-	SetDisplayStats("Character")
-	SetDisplayStats("Inspect")
-	NewHook('InspectFrame_UpdateTabs', Gear_UpdateTabs)
-	SV.Timers:ExecuteTimer(RefreshGear, 10)
-	GearSwap()
-	self.PreBuildComplete = true
+function MOD:BuildGearInfo()
+	if(not self.PreBuildComplete) then
+		SHOW_LEVEL = SV.db.Inventory.itemlevel.enable
+		SHOW_DURABILITY = SV.db.Inventory.durability.enable
+		ONLY_DAMAGED = SV.db.Inventory.durability.onlydamaged
+		MAX_LEVEL, AVG_LEVEL = GetAverageItemLevel()
+		LoadAddOn("Blizzard_InspectUI")
+		SetDisplayStats("Character")
+		SetDisplayStats("Inspect")
+		NewHook('InspectFrame_UpdateTabs', Gear_UpdateTabs)
+		SV.Timers:ExecuteTimer(MOD.UpdateGearInfo, 10)
+		GearSwap()
+		self.PreBuildComplete = true
+	end
 end
 
 local MSG_PREFIX = "You have equipped equipment set: "
@@ -272,19 +273,14 @@ function MOD:UpdateLocals()
 	MAX_LEVEL, AVG_LEVEL = GetAverageItemLevel()
 end
 
-function MOD:ReLoad()
-	RefreshGear()
-end
-
-function MOD:Load()
+function MOD:InitializeGearInfo()
 	MSG_PREFIX = L["You have equipped equipment set: "]
 	self.PreBuildComplete = false
-	self:RegisterEvent("UPDATE_INVENTORY_DURABILITY", RefreshGear)
-	self:RegisterEvent("PLAYER_EQUIPMENT_CHANGED", RefreshGear)
-	self:RegisterEvent("SOCKET_INFO_UPDATE", RefreshGear)
-	self:RegisterEvent("COMBAT_RATING_UPDATE", RefreshGear)
-	self:RegisterEvent("MASTERY_UPDATE", RefreshGear)
+	self:RegisterEvent("UPDATE_INVENTORY_DURABILITY", "UpdateGearInfo")
+	self:RegisterEvent("PLAYER_EQUIPMENT_CHANGED", "UpdateGearInfo")
+	self:RegisterEvent("SOCKET_INFO_UPDATE", "UpdateGearInfo")
+	self:RegisterEvent("COMBAT_RATING_UPDATE", "UpdateGearInfo")
+	self:RegisterEvent("MASTERY_UPDATE", "UpdateGearInfo")
 	self:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED", GearSwap)
 	self:RegisterEvent("EQUIPMENT_SWAP_FINISHED", GearSwapComplete)
-	self:RegisterEvent("PLAYER_ENTERING_WORLD")
 end

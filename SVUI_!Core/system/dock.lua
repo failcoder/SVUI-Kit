@@ -1308,4 +1308,5 @@ function MOD:Initialize()
 	self:LoadProfessionTools();
 	self:LoadGarrisonTool();
 	self:LoadRaidLeaderTools();
+	self:LoadBreakStuff();
 end

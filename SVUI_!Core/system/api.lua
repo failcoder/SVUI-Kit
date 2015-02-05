@@ -716,11 +716,11 @@ function SV.API:APPLY(frame, templateName, underlay, padding, xOffset, yOffset, 
     local forcedOffset  = panel:GetAttribute("panelOffset")
 
     if(forcedOffset) then
-        xOffset = forcedOffset
-        yOffset = forcedOffset
+        xOffset = xOffset or forcedOffset
+        yOffset = yOffset or forcedOffset
     else
-        xOffset = xOffset or 1
-        yOffset = yOffset or 1
+        xOffset = xOffset or 0
+        yOffset = yOffset or 0
     end
 
     --panel:WrapPoints(frame, xOffset, yOffset)
