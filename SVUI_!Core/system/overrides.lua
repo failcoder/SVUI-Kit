@@ -818,6 +818,70 @@ local BailOut_OnEvent = function(self, event, ...)
  		self:Hide()
  	end
 end
+
+local function AlterBlizzMainBar()
+	if(not SV.ActionBars and MainMenuBar) then
+		MainMenuBar:ClearAllPoints()
+		MainMenuBar:SetPoint("BOTTOM", self.BottomCenter, "TOP", 0, 4)
+		if(MainMenuBarTexture0) then
+			MainMenuBarTexture0:SetTexture(SV.NoTexture)
+		end
+		if(MainMenuBarTexture1) then
+			MainMenuBarTexture1:SetTexture(SV.NoTexture)
+		end
+		if(MainMenuBarTexture2) then
+			MainMenuBarTexture2:SetTexture(SV.NoTexture)
+		end
+		if(MainMenuBarTexture3) then
+			MainMenuBarTexture3:SetTexture(SV.NoTexture)
+		end
+		if(MainMenuBarLeftEndCap) then
+			MainMenuBarLeftEndCap:SetTexture(SV.NoTexture)
+		end
+		if(MainMenuBarRightEndCap) then
+			MainMenuBarRightEndCap:SetTexture(SV.NoTexture)
+		end
+		if(MainMenuXPBar) then
+			MainMenuXPBar:Die()
+		end
+		if(ReputationWatchBar) then
+			ReputationWatchBar:Die()
+		end
+		-- if(MainMenuXPBarTextureLeftCap) then
+		-- 	MainMenuXPBarTextureLeftCap:SetTexture(SV.NoTexture)
+		-- end
+		-- if(MainMenuXPBarTextureRightCap) then
+		-- 	MainMenuXPBarTextureRightCap:SetTexture(SV.NoTexture)
+		-- end
+		-- if(MainMenuXPBarTextureMid) then
+		-- 	MainMenuXPBarTextureMid:SetTexture(SV.NoTexture)
+		-- end
+		-- if(ReputationWatchBarTexture0) then
+		-- 	ReputationWatchBarTexture0:SetTexture(SV.NoTexture)
+		-- end
+		-- if(ReputationWatchBarTexture1) then
+		-- 	ReputationWatchBarTexture1:SetTexture(SV.NoTexture)
+		-- end
+		-- if(ReputationWatchBarTexture2) then
+		-- 	ReputationWatchBarTexture2:SetTexture(SV.NoTexture)
+		-- end
+		-- if(ReputationWatchBarTexture3) then
+		-- 	ReputationWatchBarTexture3:SetTexture(SV.NoTexture)
+		-- end
+		-- if(ReputationXPBarTexture0) then
+		-- 	ReputationXPBarTexture0:SetTexture(SV.NoTexture)
+		-- end
+		-- if(ReputationXPBarTexture1) then
+		-- 	ReputationXPBarTexture1:SetTexture(SV.NoTexture)
+		-- end
+		-- if(ReputationXPBarTexture2) then
+		-- 	ReputationXPBarTexture2:SetTexture(SV.NoTexture)
+		-- end
+		-- if(ReputationXPBarTexture3) then
+		-- 	ReputationXPBarTexture3:SetTexture(SV.NoTexture)
+		-- end
+	end
+end
 --[[ 
 ########################################################## 
 PACKAGE CALL
@@ -923,4 +987,6 @@ function SV:SetOverrides()
 
 		LootingEventFrame:SetScript("OnEvent", LootFrame_OnEvent);
 	end
+
+	AlterBlizzMainBar()
 end

@@ -320,8 +320,7 @@ SV.defaults = {
         ["skipcinematics"] = false, 
         ["mailOpener"] = true,
         ["autoRepair"] = "PLAYER",
-        ["threatbar"] = false, 
-        ["bubbles"] = true, 
+        ["threatbar"] = false,  
         ["woot"] = true, 
         ["pvpinterrupt"] = true, 
         ["lookwhaticando"] = false,
@@ -598,7 +597,7 @@ end
 function SV:VersionCheck()
     local version = self.safedata.install_version;
     if(_needsupdate(version, 1)) then
-        --self.Setup:Install(true)
+        self.Setup:Install(true)
     end
 end
 

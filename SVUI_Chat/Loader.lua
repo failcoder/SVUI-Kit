@@ -53,6 +53,7 @@ SV.defaults[Schema] = {
 	["timeStampFormat"] = "NONE", 
 	["secretWords"] = "%MYNAME%, SVUI", 
 	["basicTools"] = true,
+	["bubbles"] = true,
 };
 
 local chatFonts = {

@@ -254,7 +254,7 @@ local function CharacterFrameStyle()
 		 return 
 	end
 
-	MOD:ApplyWindowStyle(CharacterFrame, true)
+	MOD:ApplyAdjustedWindowStyle(CharacterFrame, true, true, 1, 3, 3)
 
 	MOD:ApplyCloseButtonStyle(CharacterFrameCloseButton)
 	MOD:ApplyScrollFrameStyle(CharacterStatsPaneScrollBar)

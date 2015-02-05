@@ -19,14 +19,7 @@ GET ADDON DATA
 ##########################################################
 ]]--
 local SV = _G["SVUI"];
-local L = SV.L;
 local THEME = SV:NewTheme(...);
-local LSM = LibStub("LibSharedMedia-3.0");
-
-LSM:Register("background", "SVUI Backdrop", [[Interface\DialogFrame\UI-DialogBox-Background]])
-LSM:Register("background", "SVUI Artwork", [[Interface\FrameGeneral\UI-Background-Rock]])
-
-SV.defaults.THEME["Simple"] = {};
 
 local _SetDockStyleTheme = function(dock, isBottom)
 	if dock.backdrop then return end
@@ -52,7 +45,53 @@ local _SetDockStyleTheme = function(dock, isBottom)
 	return backdrop 
 end
 
+local _SetBorderTheme = function(self)
+	self.Border.Top:ModPoint("TOPLEFT", SV.Screen, "TOPLEFT", -1, 1)
+	self.Border.Top:ModPoint("TOPRIGHT", SV.Screen, "TOPRIGHT", 1, 1)
+	self.Border.Top:ModHeight(10)
+	self.Border.Top:SetBackdrop({
+		bgFile = [[Interface\BUTTONS\WHITE8X8]], 
+		edgeFile = [[Interface\BUTTONS\WHITE8X8]], 
+		tile = false, 
+		tileSize = 0, 
+		edgeSize = 1, 
+		insets = {left = 0, right = 0, top = 0, bottom = 0}
+	})
+	self.Border.Top:SetBackdropColor(0,0,0,0)
+	self.Border.Top:SetBackdropBorderColor(0,0,0,0)
+	self.Border.Top:SetFrameLevel(0)
+	self.Border.Top:SetFrameStrata('BACKGROUND')
+	self.Border.Top:SetScript("OnShow", function(self)
+		self:SetFrameLevel(0)
+		self:SetFrameStrata('BACKGROUND')
+	end)
+
+	self.Border.Bottom:ModPoint("BOTTOMLEFT", SV.Screen, "BOTTOMLEFT", -1, -1)
+	self.Border.Bottom:ModPoint("BOTTOMRIGHT", SV.Screen, "BOTTOMRIGHT", 1, -1)
+	self.Border.Bottom:ModHeight(10)
+	self.Border.Bottom:SetBackdrop({
+		bgFile = [[Interface\BUTTONS\WHITE8X8]], 
+		edgeFile = [[Interface\BUTTONS\WHITE8X8]], 
+		tile = false, 
+		tileSize = 0, 
+		edgeSize = 1, 
+		insets = {left = 0, right = 0, top = 0, bottom = 0}
+	})
+	self.Border.Bottom:SetBackdropColor(0,0,0,0)
+	self.Border.Bottom:SetBackdropBorderColor(0,0,0,0)
+	self.Border.Bottom:SetFrameLevel(0)
+	self.Border.Bottom:SetFrameStrata('BACKGROUND')
+	self.Border.Bottom:SetScript("OnShow", function(self)
+		self:SetFrameLevel(0)
+		self:SetFrameStrata('BACKGROUND')
+	end)
+end
+
 function THEME:Load()
+	local LSM = LibStub("LibSharedMedia-3.0");
+	LSM:Register("background", "SVUI Backdrop", [[Interface\DialogFrame\UI-DialogBox-Background]])
+	LSM:Register("background", "SVUI Artwork", [[Interface\FrameGeneral\UI-Background-Rock]])
+
 	SV.DialogFontDefault = "SVUI Default Font";
 
 	if(GetLocale() == "enUS") then
@@ -118,4 +157,5 @@ function THEME:Load()
 	};
 
 	SV.Dock.SetThemeDockStyle = _SetDockStyleTheme
+	SV.Dock.SetBorderTheme = _SetBorderTheme
 end 

@@ -79,7 +79,7 @@ local function AuctionStyle()
 	--MOD.Debugging = true
 	if(SV.db.Skins.blizzard.enable ~= true or SV.db.Skins.blizzard.auctionhouse ~= true) then return end 
 
-	MOD:ApplyWindowStyle(AuctionFrame, false, true)
+	MOD:ApplyAdjustedWindowStyle(AuctionFrame, false, true, 1, 2, -8)
 	
 	BrowseFilterScrollFrame:RemoveTextures()
 	BrowseScrollFrame:RemoveTextures()
@@ -190,8 +190,8 @@ local function AuctionStyle()
 	end 
 
 	for _,field in pairs(AuctionTextFields) do
-		_G[field]:RemoveTextures()
-		_G[field]:SetStyle("Editbox")
+		--_G[field]:RemoveTextures()
+		_G[field]:SetStyle("Editbox", 2, 2)
 		_G[field]:SetTextInsets(-1, -1, -2, -2)
 	end
 

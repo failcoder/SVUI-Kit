@@ -55,21 +55,21 @@ SV.Media.backdrop.unit = {
 };
 
 LSM:Register("background", "SVUI UnitBG 1", [[Interface\AddOns\SVUI_UnitFrames\assets\Background\UNIT-BG1]])
-LSM:Register("background", "SVUI UnitBG 2", [[Interface\AddOns\SVUI_UnitFrames\assets\Background\UNIT-BG1]])
-LSM:Register("background", "SVUI UnitBG 3", [[Interface\AddOns\SVUI_UnitFrames\assets\Background\UNIT-BG1]])
-LSM:Register("background", "SVUI UnitBG 4", [[Interface\AddOns\SVUI_UnitFrames\assets\Background\UNIT-BG1]])
+LSM:Register("background", "SVUI UnitBG 2", [[Interface\AddOns\SVUI_UnitFrames\assets\Background\UNIT-BG2]])
+LSM:Register("background", "SVUI UnitBG 3", [[Interface\AddOns\SVUI_UnitFrames\assets\Background\UNIT-BG3]])
+LSM:Register("background", "SVUI UnitBG 4", [[Interface\AddOns\SVUI_UnitFrames\assets\Background\UNIT-BG4]])
 LSM:Register("background", "SVUI SmallUnitBG 1", [[Interface\AddOns\SVUI_UnitFrames\assets\Background\UNIT-SMALL-BG1]])
-LSM:Register("background", "SVUI SmallUnitBG 2", [[Interface\AddOns\SVUI_UnitFrames\assets\Background\UNIT-SMALL-BG1]])
-LSM:Register("background", "SVUI SmallUnitBG 3", [[Interface\AddOns\SVUI_UnitFrames\assets\Background\UNIT-SMALL-BG1]])
-LSM:Register("background", "SVUI SmallUnitBG 4", [[Interface\AddOns\SVUI_UnitFrames\assets\Background\UNIT-SMALL-BG1]])
+LSM:Register("background", "SVUI SmallUnitBG 2", [[Interface\AddOns\SVUI_UnitFrames\assets\Background\UNIT-SMALL-BG2]])
+LSM:Register("background", "SVUI SmallUnitBG 3", [[Interface\AddOns\SVUI_UnitFrames\assets\Background\UNIT-SMALL-BG3]])
+LSM:Register("background", "SVUI SmallUnitBG 4", [[Interface\AddOns\SVUI_UnitFrames\assets\Background\UNIT-SMALL-BG4]])
 LSM:Register("border", "SVUI UnitBorder 1", [[Interface\BUTTONS\WHITE8X8]])
 LSM:Register("border", "SVUI SmallBorder 1", [[Interface\BUTTONS\WHITE8X8]])
 
 SV.defaults["font"]["unitprimary"]   	= {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"}
 SV.defaults["font"]["unitsecondary"]   	= {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"}
 SV.defaults["font"]["unitaurabar"]   	= {file = "SVUI Alert Font",  	size = 10,  outline = "OUTLINE"}
-SV.defaults["font"]["unitauramedium"]  	= {file = "SVUI Default Font",  size = 10,  outline = "OUTLINE"}
-SV.defaults["font"]["unitauralarge"]   	= {file = "SVUI Number Font",   size = 10,  outline = "OUTLINE"}
+SV.defaults["font"]["unitauramedium"]  	= {file = "SVUI Caps Font",  	size = 18,  outline = "OUTLINE"}
+SV.defaults["font"]["unitauralarge"]   	= {file = "SVUI Caps Font",   	size = 14,  outline = "OUTLINE"}
 SV.defaults["font"]["unitaurasmall"]   	= {file = "SVUI Pixel Font",  	size = 8,   outline = "MONOCHROMEOUTLINE"}
 
 SV.defaults["media"]["textures"]["unitlarge"]   = "SVUI UnitBG 1";
@@ -113,10 +113,10 @@ SV.defaults["media"]["unitframes"] = {
 	}
 };
 
-SV.Media["bg"]["unitlarge"]   	= LSM:Fetch("background", "SVUI Artwork")
-SV.Media["bg"]["unitsmall"]   	= LSM:Fetch("background", "SVUI Artwork")
-SV.Media["border"]["unitlarge"] = LSM:Fetch("border", "SVUI FancyBorder")
-SV.Media["border"]["unitsmall"] = LSM:Fetch("border", "SVUI FancyBorder")
+SV.Media["bg"]["unitlarge"]   	= LSM:Fetch("background", "SVUI UnitBG 1")
+SV.Media["bg"]["unitsmall"]   	= LSM:Fetch("background", "SVUI SmallUnitBG 1")
+SV.Media["border"]["unitlarge"] = LSM:Fetch("border", "SVUI UnitBorder 1")
+SV.Media["border"]["unitsmall"] = LSM:Fetch("border", "SVUI SmallBorder 1")
 
 SV.GlobalFontList["SVUI_Font_Unit"] = "unitprimary";
 SV.GlobalFontList["SVUI_Font_Unit_Small"] = "unitsecondary";

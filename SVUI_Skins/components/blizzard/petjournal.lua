@@ -105,7 +105,7 @@ local function PetJournalStyle()
 	MountJournalSearchBox:SetStyle("Editbox")
 
 	MOD:ApplyScrollFrameStyle(MountJournalListScrollFrameScrollBar)
-	MountJournal.MountDisplay:SetStyle("!_Frame", "Model")
+	MountJournal.MountDisplay:SetStyle("!_Frame", "ModelBorder")
 
 	local buttons = MountJournal.ListScrollFrame.buttons
 	for i = 1, #buttons do
@@ -267,7 +267,7 @@ local function PetJournalStyle()
 	ToyBoxFilterButton:RemoveTextures()
 	ToyBoxFilterButton:SetStyle("Button")
 	ToyBoxIconsFrame:RemoveTextures()
-	ToyBoxIconsFrame:SetStyle("!_Frame", 'Model')
+	ToyBoxIconsFrame:SetStyle("!_Frame", 'ModelBorder')
 
 	MountJournalFilterButton:RemoveTextures()
 	MountJournalFilterButton:SetStyle("Button")

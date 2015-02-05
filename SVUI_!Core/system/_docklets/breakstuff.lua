@@ -31,12 +31,10 @@ LOCAL VARS
 ]]--
 local BreakStuff_Cache = {}
 local DE, PICK, SMITH, BreakStuffParser;
-local ICONARTFILE = [[Interface\AddOns\SVUI_Docklets\assets\DOCK-ICON-BREAKSTUFF]];
 
 local BreakStuffButton = CreateFrame("Button", "BreakStuffButton", UIParent);
 BreakStuffButton.icon = BreakStuffButton:CreateTexture(nil,"OVERLAY")
 BreakStuffButton.icon:InsetPoints(BreakStuffButton,2,2)
-BreakStuffButton.icon:SetTexture(ICONARTFILE)
 BreakStuffButton.icon:SetGradient("VERTICAL", 0.5, 0.53, 0.55, 0.8, 0.8, 1)
 BreakStuffButton.ttText = "BreakStuff : OFF";
 BreakStuffButton.subText = "";
@@ -313,6 +311,7 @@ local function LoadToolBreakStuff()
 	local size = MOD.BottomRight.Bar.ToolBar:GetHeight()
 	BreakStuffButton:ModSize(size, size)
 	BreakStuffButton:ModPoint("RIGHT", MOD.BottomRight.Bar.ToolBar, "LEFT", -6, 0)
+	BreakStuffButton.icon:SetTexture(SV.Media.dock.breakStuffIcon)
 	BreakStuffButton:Show();
 	BreakStuffButton:SetStyle("DockButton") 
 	

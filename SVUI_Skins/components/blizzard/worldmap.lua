@@ -135,6 +135,7 @@ local function WorldMapStyle()
   MOD:ApplyWindowStyle(WorldMapFrame, true, true)
   WorldMapFrame.Panel:SetStyle("Frame", "Blackout")
 
+  MOD:ApplyScrollFrameStyle(QuestScrollFrameScrollBar)
   MOD:ApplyScrollFrameStyle(WorldMapQuestScrollFrameScrollBar)
   MOD:ApplyScrollFrameStyle(WorldMapQuestDetailScrollFrameScrollBar, 4)
   MOD:ApplyScrollFrameStyle(WorldMapQuestRewardScrollFrameScrollBar, 4)

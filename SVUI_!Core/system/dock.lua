@@ -146,6 +146,48 @@ function MOD.SetThemeDockStyle(dock, isBottom)
 	return backdrop 
 end
 
+function MOD:SetBorderTheme()	
+	self.Border.Top:ModPoint("TOPLEFT", SV.Screen, "TOPLEFT", -1, 1)
+	self.Border.Top:ModPoint("TOPRIGHT", SV.Screen, "TOPRIGHT", 1, 1)
+	self.Border.Top:ModHeight(10)
+	self.Border.Top:SetBackdrop({
+		bgFile = SV.Media.misc.button, 
+		edgeFile = [[Interface\BUTTONS\WHITE8X8]], 
+		tile = false, 
+		tileSize = 0, 
+		edgeSize = 1, 
+		insets = {left = 0, right = 0, top = 0, bottom = 0}
+	})
+	self.Border.Top:SetBackdropColor(unpack(SV.Media.color.dark))
+	self.Border.Top:SetBackdropBorderColor(0,0,0,1)
+	self.Border.Top:SetFrameLevel(0)
+	self.Border.Top:SetFrameStrata('BACKGROUND')
+	self.Border.Top:SetScript("OnShow", function(self)
+		self:SetFrameLevel(0)
+		self:SetFrameStrata('BACKGROUND')
+	end)
+
+	self.Border.Bottom:ModPoint("BOTTOMLEFT", SV.Screen, "BOTTOMLEFT", -1, -1)
+	self.Border.Bottom:ModPoint("BOTTOMRIGHT", SV.Screen, "BOTTOMRIGHT", 1, -1)
+	self.Border.Bottom:ModHeight(10)
+	self.Border.Bottom:SetBackdrop({
+		bgFile = SV.Media.misc.button, 
+		edgeFile = [[Interface\BUTTONS\WHITE8X8]], 
+		tile = false, 
+		tileSize = 0, 
+		edgeSize = 1, 
+		insets = {left = 0, right = 0, top = 0, bottom = 0}
+	})
+	self.Border.Bottom:SetBackdropColor(unpack(SV.Media.color.dark))
+	self.Border.Bottom:SetBackdropBorderColor(0,0,0,1)
+	self.Border.Bottom:SetFrameLevel(0)
+	self.Border.Bottom:SetFrameStrata('BACKGROUND')
+	self.Border.Bottom:SetScript("OnShow", function(self)
+		self:SetFrameLevel(0)
+		self:SetFrameStrata('BACKGROUND')
+	end)
+end
+
 function MOD:SetButtonTheme(button, size)
 	local sparkSize = size * 5;
     local sparkOffset = size * 0.5;
@@ -943,7 +985,7 @@ end
 
 function MOD:NewDocklet(location, globalName, readableName, texture, onclick)
 	if(DOCK_REGISTRY[globalName]) then return end;
-	
+
 	if(self.private.Locations[globalName]) then
 		location = self.private.Locations[globalName];
 	else
@@ -952,6 +994,7 @@ function MOD:NewDocklet(location, globalName, readableName, texture, onclick)
 
 	local newParent = self[location];
 	if(not newParent) then return end
+	newParent.backdrop:Show()
 	local frame = _G[globalName] or CreateFrame("Frame", globalName, UIParent, "SVUI_DockletWindowTemplate");
 	frame:SetParent(newParent.Window);
 	frame:SetSize(newParent.Window:GetSize());
@@ -985,7 +1028,7 @@ function MOD:NewAdvancedDocklet(location, globalName)
 
 	local newParent = self[location];
 	if(not newParent) then return end
-
+	newParent.backdrop:Show()
 	local frame = CreateFrame("Frame", globalName, UIParent, "SVUI_DockletWindowTemplate");
 	frame:SetParent(newParent.Window);
 	frame:SetSize(newParent.Window:GetSize());
@@ -1174,49 +1217,11 @@ function MOD:Initialize()
 
 	-- [[ TOP AND BOTTOM BORDERS ]] --
 
-	local borderTop = CreateFrame("Frame", "SVUIDock_TopBorder", UIParent)
-	borderTop:ModPoint("TOPLEFT", SV.Screen, "TOPLEFT", -1, 1)
-	borderTop:ModPoint("TOPRIGHT", SV.Screen, "TOPRIGHT", 1, 1)
-	borderTop:ModHeight(10)
-	borderTop:SetBackdrop({
-		bgFile = [[Interface\BUTTONS\WHITE8X8]], 
-		edgeFile = [[Interface\BUTTONS\WHITE8X8]], 
-		tile = false, 
-		tileSize = 0, 
-		edgeSize = 1, 
-		insets = {left = 0, right = 0, top = 0, bottom = 0}
-	})
-	borderTop:SetBackdropColor(0,0,0,0)
-	borderTop:SetBackdropBorderColor(0,0,0,0)
-	borderTop:SetFrameLevel(0)
-	borderTop:SetFrameStrata('BACKGROUND')
-	borderTop:SetScript("OnShow", function(this)
-		this:SetFrameLevel(0)
-		this:SetFrameStrata('BACKGROUND')
-	end)
-	self:TopBorderVisibility()
-
-	local borderBottom = CreateFrame("Frame", "SVUIDock_BottomBorder", UIParent)
-	borderBottom:ModPoint("BOTTOMLEFT", SV.Screen, "BOTTOMLEFT", -1, -1)
-	borderBottom:ModPoint("BOTTOMRIGHT", SV.Screen, "BOTTOMRIGHT", 1, -1)
-	borderBottom:ModHeight(10)
-	borderBottom:SetBackdrop({
-		bgFile = [[Interface\BUTTONS\WHITE8X8]], 
-		edgeFile = [[Interface\BUTTONS\WHITE8X8]], 
-		tile = false, 
-		tileSize = 0, 
-		edgeSize = 1, 
-		insets = {left = 0, right = 0, top = 0, bottom = 0}
-	})
-	borderBottom:SetBackdropColor(0,0,0,0)
-	borderBottom:SetBackdropBorderColor(0,0,0,0)
-	borderBottom:SetFrameLevel(0)
-	borderBottom:SetFrameStrata('BACKGROUND')
-	borderBottom:SetScript("OnShow", function(this)
-		this:SetFrameLevel(0)
-		this:SetFrameStrata('BACKGROUND')
-	end)
-	self:BottomBorderVisibility()
+	self.Border.Top = CreateFrame("Frame", "SVUIDock_TopBorder", SV.Screen);
+	self.Border.Bottom = CreateFrame("Frame", "SVUIDock_BottomBorder", SV.Screen);
+	self:SetBorderTheme();
+	self:TopBorderVisibility();
+	self:BottomBorderVisibility();
 
 	for location, settings in pairs(DOCK_LOCATIONS) do
 		local width, height = self:GetDimensions(location);
@@ -1271,6 +1276,7 @@ function MOD:Initialize()
 
 		if(isBottom) then
 			dock.backdrop = self.SetThemeDockStyle(dock.Window, isBottom)
+			dock.backdrop:Hide()
 			dock.Alert.backdrop = self.SetThemeDockStyle(dock.Alert, isBottom)
 			dock.Alert.backdrop:Hide()
 			SV.Layout:Add(dock.Bar, location .. " Dock ToolBar");

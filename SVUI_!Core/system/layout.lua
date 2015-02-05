@@ -42,7 +42,7 @@ UIPanels["CalendarFrame"] 					= { moving = false, snapped = false, canupdate = 
 UIPanels["CharacterFrame"] 					= { moving = false, snapped = false, canupdate = false, cansetpoint = false, centered = false };
 UIPanels["ClassTrainerFrame"] 				= { moving = false, snapped = false, canupdate = false, cansetpoint = false, centered = false };
 UIPanels["DressUpFrame"] 					= { moving = false, snapped = false, canupdate = false, cansetpoint = false, centered = false };
---UIPanels["DraenorZoneAbilityFrame"] 		= { moving = false, snapped = false, canupdate = false, cansetpoint = false, centered = false };
+UIPanels["DraenorZoneAbilityFrame"] 		= { moving = false, snapped = false, canupdate = false, cansetpoint = false, centered = false };
 UIPanels["EncounterJournal"] 				= { moving = false, snapped = false, canupdate = false, cansetpoint = false, centered = false };
 UIPanels["FriendsFrame"] 					= { moving = false, snapped = false, canupdate = false, cansetpoint = false, centered = false };
 UIPanels["GMSurveyFrame"] 					= { moving = false, snapped = false, canupdate = false, cansetpoint = false, centered = true };
@@ -63,6 +63,7 @@ UIPanels["MacOptionsFrame"] 				= { moving = false, snapped = false, canupdate =
 UIPanels["MacroFrame"] 						= { moving = false, snapped = false, canupdate = false, cansetpoint = false, centered = false };
 UIPanels["MailFrame"] 						= { moving = false, snapped = false, canupdate = false, cansetpoint = false, centered = false };
 UIPanels["MerchantFrame"] 					= { moving = false, snapped = false, canupdate = false, cansetpoint = false, centered = false };
+UIPanels["ObjectiveTrackerFrame"] 			= { moving = false, snapped = false, canupdate = false, cansetpoint = false, centered = false };
 UIPanels["PlayerTalentFrame"] 				= { moving = false, snapped = false, canupdate = false, cansetpoint = false, centered = false };
 UIPanels["PetJournalParent"] 				= { moving = false, snapped = false, canupdate = false, cansetpoint = false, centered = false };
 UIPanels["PetStableFrame"] 					= { moving = false, snapped = false, canupdate = false, cansetpoint = false, centered = false };
@@ -1167,10 +1168,6 @@ local function InitializeMovables()
 	else
 		SV.private.Draggables = {}
 		Dragger.Frames = {}
-	end
-
-	if(not SV.db.QuestTracker.enable) then
-		UIPanels["ObjectiveTrackerFrame"] = { moving = false, snapped = false, canupdate = false, cansetpoint = false, centered = false };
 	end
 
 	Dragger.EventsActive = true

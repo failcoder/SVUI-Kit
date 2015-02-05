@@ -648,8 +648,9 @@ function SV.API:Initialize()
         theme = self.Themes[active]
         if(theme) then
             for templateName, templateFile in pairs(self.Templates) do
-                if(theme[templateName]) then
-                    self.Templates[templateName] = theme[templateName]
+                local replacement = theme[templateName]
+                if(replacement) then
+                    self.Templates[templateName] = replacement
                 end
             end
         end
@@ -786,11 +787,10 @@ function SV.API:APPLY(frame, templateName, underlay, padding, xOffset, yOffset, 
     end
 
     if(panel.Skin) then
+        panel.Skin:ClearAllPoints()
+        panel.Skin:SetAllPoints(panel)
         if(not underlay) then
             panel.Skin:SetParent(frame)
-            panel.Skin:InsetPoints(frame, xOffset, yOffset)
-        else
-            panel.Skin:InsetPoints(panel, xOffset, yOffset)
         end
         if(gradientName and SV.Media.gradient[gradientName]) then
             panel.Skin:SetGradient(unpack(SV.Media.gradient[gradientName]))
@@ -1031,7 +1031,10 @@ SV.API.Methods["Editbox"] = function(self, frame, inverse, x, y)
     if frame.BottomTex then frame.BottomTex:Die() end 
     if frame.LeftTex then frame.LeftTex:Die() end 
     if frame.RightTex then frame.RightTex:Die() end 
-    if frame.MiddleTex then frame.MiddleTex:Die() end 
+    if frame.MiddleTex then frame.MiddleTex:Die() end
+    if frame.Left then frame.Left:Die() end 
+    if frame.Right then frame.Right:Die() end 
+    if frame.Middle then frame.Middle:Die() end
 
     local underlay = (not inverse)
     self:APPLY(frame, "Inset", underlay, 1, x, y)

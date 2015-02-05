@@ -170,6 +170,8 @@ SV.defaults["font"]["lootdialog"]   = {file = "SVUI Default Font",  size = 14,  
 SV.defaults["font"]["lootnumber"]   = {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"};
 SV.defaults["font"]["rolldialog"]   = {file = "SVUI Default Font",  size = 14,  outline = "OUTLINE"};
 SV.defaults["font"]["rollnumber"]   = {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"};
+SV.defaults["font"]["tipdialog"]    = {file = "SVUI Default Font",  size = 12,  outline = "NONE"}
+SV.defaults["font"]["tipheader"]    = {file = "SVUI Default Font",  size = 14,  outline = "NONE"}
 SV.defaults["font"]["pixel"]       	= {file = "SVUI Pixel Font",    size = 8,   outline = "MONOCHROMEOUTLINE"};
 	
 SV.defaults["media"] = {
@@ -209,7 +211,7 @@ do
 		["class"]       = {r1, g1, b1, 1},
 		["bizzaro"]     = {ir1, ig1, ib1, 1},
 		["medium"]      = {0.47, 0.47, 0.47},
-		["dark"]        = {0, 0, 0, 1},
+		["dark"]        = {0.1, 0.1, 0.1, 1},
 		["darkest"]     = {0, 0, 0, 1},
 		["light"]       = {0.95, 0.95, 0.95, 1},
 		["light2"]      = {0.65, 0.65, 0.65, 1},
@@ -307,6 +309,7 @@ do
 	}
 
 	SV.Media["misc"] = {
+		["button"]      = [[Interface\AddOns\SVUI_!Core\assets\textures\BUTTON]],
 		["splash"] 		= [[Interface\AddOns\SVUI_!Core\assets\textures\SPLASH]],
 	}
 
@@ -354,6 +357,7 @@ do
 		["durabilityLabel"] = [[Interface\AddOns\SVUI_!Core\assets\textures\Dock\LABEL-DUR]],
 		["reputationLabel"] = [[Interface\AddOns\SVUI_!Core\assets\textures\Dock\LABEL-REP]],
 		["experienceLabel"] = [[Interface\AddOns\SVUI_!Core\assets\textures\Dock\LABEL-XP]],
+		["breakStuffIcon"] = [[Interface\AddOns\SVUI_!Core\assets\textures\Dock\DOCK-ICON-BREAKSTUFF]],
 		["hearthIcon"] = [[Interface\AddOns\SVUI_!Core\assets\textures\Dock\DOCK-ICON-HEARTH]],
 		["raidToolIcon"] = [[Interface\AddOns\SVUI_!Core\assets\textures\Dock\DOCK-ICON-RAIDTOOL]],
 		["garrisonToolIcon"] = [[Interface\AddOns\SVUI_!Core\assets\textures\Dock\DOCK-ICON-GARRISON]],

@@ -4,7 +4,7 @@
 ## Title: |cffFF9900SVUI Theme: |r|cff00EFFFWarcraft|r
 ## Notes: Warcraft Theme for [|cff9911FFSVUI Framework|r].
 ## RequiredDeps: SVUI_!Core
-## OptionalDeps: Blizzard_CombatText, LibSharedMedia-3.0, SVUI_Maps, SVUI_UnitFrames, SVUI_Tooltip, SVUI_Skins
+## OptionalDeps: LibSharedMedia-3.0
 ## X-SVUITheme: Warcraft
 ## X-Email: munglunch@gmail.com
 ## X-Website: http://www.supervillainui.com

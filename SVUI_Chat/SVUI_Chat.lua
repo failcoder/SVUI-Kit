@@ -412,9 +412,10 @@ do
 	local Tab_OnEnter = function(self)
 		SV.Dock:EnterFade()
 		local chatFrame = _G[("ChatFrame%d"):format(self:GetID())];
+		local tabText = self.text:GetText() or "Chat "..chatID;
 		GameTooltip:SetOwner(self, "ANCHOR_TOPRIGHT");
 		GameTooltip:ClearLines();
-		GameTooltip:AddLine(self.TText,1,1,1);
+		GameTooltip:AddLine(tabText,1,1,1);
 	    if ( chatFrame.isTemporary and chatFrame.chatType == "BN_CONVERSATION" ) then
 	        BNConversation_DisplayConversationTooltip(tonumber(chatFrame.chatTarget));
 	    else
@@ -451,7 +452,6 @@ do
 		end
 		if(chatFrame.isDocked) then
 	        self.IsOpen = true
-	        self:SetPanelColor("green")
 	        self.icon:SetGradient(unpack(SV.Media.gradient.green))
 	    end
 	end
@@ -586,7 +586,7 @@ do
 		end
 		frame:SetParent(chat)
 		frame:ClearAllPoints()
-		frame:ModPoint("TOPLEFT", chat, "BOTTOMLEFT", 0, 0)
+		frame:ModPoint("TOPLEFT", chat, "BOTTOMLEFT", -3, -6)
 		TABS_DIRTY = true
 		_repositionDockedTabs()
 	end
@@ -608,7 +608,6 @@ do
 		if(tab.IsStyled) then return end 
 		local tabName = tab:GetName();
 		local tabSize = MOD.Dock.Bar:GetHeight();
-		local tabText = tab.text:GetText() or "Chat "..chatID;
 
 		local holder = CreateFrame("Frame", ("SVUI_ChatTab%s"):format(chatID), MOD.Dock.Bar)
 		holder:SetWidth(tabSize * 1.75)
@@ -630,11 +629,9 @@ do
 		end
 		if(chatID == 1) then
 			tab.IsOpen = true
-	        tab:SetPanelColor("green")
 	        tab.icon:SetGradient(unpack(SV.Media.gradient.green))
 		end
 		tab.icon:SetAlpha(0.5)
-		tab.TText = tabText;
 		tab:SetAlpha(1);
 
 		tab.SetAlpha = SV.fubar
@@ -664,7 +661,7 @@ do
 		SV:FontManager(chat, "chatdialog", "LEFT")
 		SV:FontManager(tabText, "chattab")
 		if(not chat.Panel) then
-			chat:SetStyle("Frame", "Transparent")
+			chat:SetStyle("Frame", "Transparent", true, 1, 3, 6)
 			chat.Panel:Hide()
 		end
 		if(SV.db.font.chatdialog.outline ~= 'NONE' )then
@@ -810,6 +807,7 @@ do
 			local tabText = _G[name.."TabText"]
 			_modifyChat(chat, tabText)
 			tab.owner = chat;
+			chat:SetBackdropColor(0,0,0,0);
 			if not chat.isDocked and chat:IsShown() then
 				--print("setting size "..id .. " = " ..CHAT_WIDTH)
 				chat:SetSize(CHAT_WIDTH, CHAT_HEIGHT)
@@ -826,11 +824,14 @@ do
 						_removeTab(tab.Holder, chat)
 					end
 				end
+				if chat:IsMovable() then
+					chat:SetUserPlaced(true)
+				end 
 			else
+				--print("Setting: " .. name)
 				chat:ClearAllPoints();
 				chat:SetPoint("CENTER", MOD.Dock, "CENTER", 0, 0);
 				chat:SetSize(CHAT_WIDTH - 4, CHAT_HEIGHT - 4);
-				chat:SetBackdropColor(0,0,0,0);
 				chat.Panel:Hide();
 
 				FCF_SavePositionAndDimensions(chat)
@@ -847,9 +848,6 @@ do
 						_addTab(tab.Holder, id)
 					end
 				end
-				if chat:IsMovable() then
-					chat:SetUserPlaced(true)
-				end 
 			end 
 		end 
 		refreshLocked = true 
@@ -1001,7 +999,7 @@ local function _hook_SetTabPosition(chatFrame)
 		if(not chatFrame.isLocked) then
 			frame.isDocked = false;
 			frame:ClearAllPoints();
-			frame:SetPoint("TOPLEFT", chatFrame, "BOTTOMLEFT", 0, 0);
+			frame:SetPoint("TOPLEFT", chatFrame, "BOTTOMLEFT", -3, -6);
 			TABS_DIRTY = true;
 			AnchorInsertHighlight();
 		end
@@ -1318,6 +1316,13 @@ function MOD:Load()
 	ScrollIndicator:Hide()
 	ScrollIndicator:SetScript("OnMouseDown", ScrollFullButton)
 
+	NewHook(ChatFrame2, "SetPoint", function(self, a1, p, a2, x, y)
+		if((a1 ~= 'CENTER') or (a2 ~= 'CENTER') or (x ~= 0) or (y ~= 0)) then
+			self:ClearAllPoints()
+			self:SetPoint('CENTER', p, 'CENTER', 0, 0)
+		end  
+	end)
+
 	self:RegisterEvent('UPDATE_CHAT_WINDOWS', 'RefreshChatFrames')
 	self:RegisterEvent('UPDATE_FLOATING_CHAT_WINDOWS', 'RefreshChatFrames')
 	self:RegisterEvent('PET_BATTLE_CLOSE')
@@ -1344,13 +1349,6 @@ function MOD:Load()
 	_G.InterfaceOptionsSocialPanelChatStyle:EnableMouse(false)
 	_G.InterfaceOptionsSocialPanelChatStyleButton:Hide()
 	_G.InterfaceOptionsSocialPanelChatStyle:SetAlpha(0)
-
-	NewHook(ChatFrame2, "SetPoint", function(self, a1, p, a2, x, y) 
-		if(x > 2) then
-			self:SetPoint(a1, p, a2, 2, y)
-		end  
-	end)
-
 
 	local frame = CreateFrame("Frame", "SVUI_CopyChatFrame", self.Dock)
 	frame:SetPoint('BOTTOMLEFT', self.Dock, 'TOPLEFT', 0, 0)
@@ -1405,6 +1403,8 @@ function MOD:Load()
 		self:RegisterEvent("CHAT_MSG_WHISPER")
 		self:RegisterEvent("CHAT_MSG_BN_WHISPER")
 	end
+
+	self:LoadChatBubbles()
 
 	SV.Events:On("DOCK_LEFT_FADE_IN", "DockFadeInChat", DockFadeInChat);
 	SV.Events:On("DOCK_LEFT_FADE_OUT", "DockFadeOutChat", DockFadeOutChat);

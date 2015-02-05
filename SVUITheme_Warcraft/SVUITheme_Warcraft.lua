@@ -32,8 +32,6 @@ THEME.media.dockSparks = {
 	[[Interface\AddOns\SVUITheme_Warcraft\assets\artwork\Dock\DOCK-SPARKS-2]],
 	[[Interface\AddOns\SVUITheme_Warcraft\assets\artwork\Dock\DOCK-SPARKS-3]],
 };
-
-SV.defaults.THEME["Warcraft"] = {};
 --[[ 
 ########################################################## 
 MISC

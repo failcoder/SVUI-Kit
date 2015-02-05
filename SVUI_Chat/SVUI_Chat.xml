@@ -24,4 +24,5 @@
     
 	<Script file="Loader.lua"/>
 	<Script file="SVUI_Chat.lua"/>
+    <Script file="components\bubbles.lua"/>
 </Ui>

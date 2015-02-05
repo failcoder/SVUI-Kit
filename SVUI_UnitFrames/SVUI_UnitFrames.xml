@@ -104,7 +104,7 @@
     
     <Frame name="SVUI_StyleTemplate_UnitSmall" virtual="true">
         <Attributes>
-            <Attribute name="panelID" type="string" value="unitlarge" />
+            <Attribute name="panelID" type="string" value="unitsmall" />
             <Attribute name="panelPadding" type="number" value="2" />
             <Attribute name="panelColor" type="string" value="special" />
             <Attribute name="panelGradient" type="boolean" value="false" />

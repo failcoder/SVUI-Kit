@@ -536,9 +536,15 @@ function MOD:ReLoad()
 end 
 
 function MOD:Load()
-	local maxShown = #MOD.media.hyperAuraIcons - 1
-	local CB_HEIGHT = Minimap:GetHeight() - 50
-	local CB_WIDTH = (CB_HEIGHT / maxShown) + 4
+	local maxShown = #MOD.media.hyperAuraIcons - 1;
+	local CB_HEIGHT = Minimap:GetHeight() - 50;
+	local CB_WIDTH = (CB_HEIGHT / maxShown) + 4;
+	local offsetX = -8;
+
+	if(not SV.Maps) then
+		offsetX = -32;
+		CB_HEIGHT = Minimap:GetHeight();
+	end
 
 	if SV.db.Auras.disableBlizzard then 
 		BuffFrame:Die()
@@ -549,7 +555,7 @@ function MOD:Load()
 
 	local auras = CreateFrame("Frame", "SVUI_AurasAnchor", UIParent)
 	auras:SetSize(CB_WIDTH, CB_HEIGHT)
-	auras:ModPoint("TOPRIGHT", Minimap, "TOPLEFT", -8, 0)
+	auras:ModPoint("TOPRIGHT", Minimap, "TOPLEFT", offsetX, 0)
 	SV:ManageVisibility(auras)
 	
 	self.BuffFrame = CreateAuraHeader("HELPFUL")

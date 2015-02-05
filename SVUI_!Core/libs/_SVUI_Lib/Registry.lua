@@ -937,14 +937,15 @@ local Core_NewTheme = function(self, themeName, themeObject)
     addonmeta.__tostring = rootstring
     setmetatable( themeObject, addonmeta )
 
-    THEMES[schema] = themeObject
-    
-    return THEMES[schema]
+    THEMES[schema] = themeName
+    _G[themeName] = themeObject
+    return _G[themeName]
 end
 
 local Core_GetTheme = function(self, themeName)
-    if(THEMES and THEMES[themeName]) then 
-        return THEMES[themeName]
+    if(THEMES and THEMES[themeName]) then
+        local globalName = THEMES[themeName] 
+        return _G[globalName]
     else
         return false
     end
@@ -1240,7 +1241,8 @@ end
 function lib:LoadThemes()
     if THEMES then
         local themeName = CoreObject.db.THEME.active;
-        local themeObj = THEMES[themeName];
+        local globalName = THEMES[themeName] 
+        local themeObj = _G[globalName]
         if(themeObj and (not themeObj.initialized) and themeObj.Load and type(themeObj.Load) == "function") then
             local _, catch = pcall(themeObj.Load, themeObj)
             if(catch) then
@@ -1257,7 +1259,7 @@ function lib:ListThemes()
     wipe(THEMETABLE)
     THEMETABLE["NONE"] = "No Theme";
     if THEMES then
-        for themeName,data in pairs(THEMES) do
+        for themeName,_ in pairs(THEMES) do
             THEMETABLE[themeName] = themeName;
         end
     end

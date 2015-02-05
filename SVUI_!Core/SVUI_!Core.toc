@@ -5,7 +5,7 @@
 ## Notes: SVUI [|cff9911FFCore Framework|r].
 ## SavedVariables: SVUI_Global, SVUI_Errors, SVUI_Filters
 ## SavedVariablesPerCharacter: SVUI_Private
-## OptionalDeps: Blizzard_DebugTools, Blizzard_PetJournal, Blizzard_ObjectiveTracker, Blizzard_CombatText, LibSharedMedia-3.0
+## OptionalDeps: Blizzard_DebugTools, LibSharedMedia-3.0
 ## X-SVUIName: SVUI
 ## X-SVUISchema: Core
 ## X-Email: munglunch@gmail.com

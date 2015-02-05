@@ -91,7 +91,7 @@ local function GetDockCooldown(itemID)
 	end 
 end
 
-local function GarrisonButton_OnEvent(self, event, ...)
+local GarrisonButton_OnEvent = function(self, event, ...)
     if (event == "GARRISON_HIDE_LANDING_PAGE") then
         if(not InCombatLockdown() and SVUI_Garrison:IsShown()) then
         	SVUI_Garrison.Parent:SetWidth(SVUI_Garrison.Parent:GetWidth() - SVUI_Garrison:GetWidth())
