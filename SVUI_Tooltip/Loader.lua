@@ -14,7 +14,7 @@ local assert        = _G.assert;
 
 local SV = _G["SVUI"];
 local L = SV.L
-local MOD = SV:NewPackage(...);
+local MOD = SV:NewModule(...);
 local Schema = MOD.Schema;
 local LSM = LibStub("LibSharedMedia-3.0");
 
@@ -26,7 +26,6 @@ MOD.media.rightArt = [[Interface\AddOns\SVUI_Tooltip\assets\TT-RIGHT]];
 MOD.media.leftArt = [[Interface\AddOns\SVUI_Tooltip\assets\TT-LEFT]];
 
 SV.defaults[Schema] = {
-	["enable"] = true, 
 	["themed"] = true,
 	["cursorAnchor"] = false, 
 	["targetInfo"] = true, 
@@ -127,8 +126,16 @@ function MOD:LoadOptions()
 								name = L["Spell/Item IDs"], 
 								desc = L["Display the spell or item ID when mousing over a spell or item tooltip."],
 								get = function(a)return SV.db[Schema].spellID end, 
-								set = function(a, b)SV.db[Schema].spellID = b; SV:StaticPopup_Show("RL_CLIENT") end,
-							}
+								set = function(a, b) MOD:ChangeDBVar(b, "spellID") end,
+							},
+							itemCount = {
+								order = 7, 
+								type = "toggle", 
+								name = L["Item Counts"], 
+								desc = L["Display the total owned of an item across all recently played characters."],
+								get = function(a)return SV.db[Schema].itemCount end, 
+								set = function(a, b) MOD:ChangeDBVar(b, "itemCount") end,
+							},
 						}
 
 					},

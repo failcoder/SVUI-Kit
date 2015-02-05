@@ -223,4 +223,4 @@ local function InitializeDropdown()
 	SV:ManageVisibility(SV.Dropdown)
 end
 
-SV.Events:On("LOAD_ALL_WIDGETS", "InitializeDropdown", InitializeDropdown);
+SV.Events:On("LOAD_ALL_WIDGETS", InitializeDropdown);

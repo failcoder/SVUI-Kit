@@ -293,4 +293,4 @@ local function LoadMailMinions()
 	end
 end
 
-SV.Events:On("CORE_INITIALIZED", "LoadMailMinions", LoadMailMinions);
+SV.Events:On("CORE_INITIALIZED", LoadMailMinions);

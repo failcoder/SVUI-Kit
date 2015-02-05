@@ -91,7 +91,7 @@ local GLOBAL_FILENAME       = CoreGlobalName.."_Global";
 local ERROR_FILENAME        = CoreGlobalName.."_Errors";
 local PRIVATE_FILENAME      = CoreGlobalName.."_Private";
 local FILTERS_FILENAME      = CoreGlobalName.."_Filters";
-local GLOBAL_SV, PRIVATE_SV, FILTER_SV, ERROR_CACHE, MODS, MODULES, THEMES;
+local GLOBAL_SV, PRIVATE_SV, FILTER_SV, ERROR_CACHE, MODS, MODULES, THEMES, PACKAGES;
 local PluginString = ""
 local LoadOnDemand, ScriptQueue = {},{};
 local debugHeader = "|cffFF2F00%s|r [|cff992FFF%s|r]|cffFF2F00:|r";
@@ -379,6 +379,7 @@ local function LiveProfileChange()
             CoreObject.db      = db
 
             if(CoreObject.ReLoad) then
+                CoreObject.Timers:ClearAllTimers()
                 CoreObject:ReLoad()
             end
 
@@ -686,14 +687,23 @@ function lib:RefreshPlugin(schema)
 end
 
 function lib:RefreshAll()
-    for _,schema in pairs(MODULES) do
-        local obj = CoreObject[schema]
-        LoadingProxy(schema, obj)
+    if(PACKAGES) then
+        for _,schema in pairs(PACKAGES) do
+            local obj = CoreObject[schema]
+            LoadingProxy(schema, obj)
+        end
     end
 
-    for schema,_ in pairs(MODS) do
-        local obj = _G[schema]
-        LoadingProxy(schema, obj)
+    if(MODULES) then
+        for _,schema in pairs(MODULES) do
+            local obj = CoreObject[schema]
+            LoadingProxy(schema, obj)
+        end
+
+        for schema,_ in pairs(MODS) do
+            local obj = _G[schema]
+            LoadingProxy(schema, obj)
+        end
     end
 end
 
@@ -723,59 +733,6 @@ function lib:ToggleDualProfile(enabled)
         LiveProfileChange()
     else
         self.EventManager:UnregisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
-    end
-end
-
-function lib:LoadQueuedModules()
-    if MODULES then
-        for i=1,#MODULES do 
-            local schema = MODULES[i]
-            local obj = CoreObject[schema]
-            local data = CoreObject.db[schema]
-            if(obj and (not obj.initialized)) then
-                local halt = false
-                if(data and data.incompatible) then
-                    for addon,_ in pairs(data.incompatible) do
-                        if IsAddOnLoaded(addon) then halt = true end
-                    end
-                end
-        
-                if(not halt) then
-                    if MODS and MODS[schema] then
-                        local files = MODS[schema]
-                        if(not PRIVATE_SV.SAFEDATA[schema]) then
-                            PRIVATE_SV.SAFEDATA[schema] = {["enable"] = true}
-                        end
-
-                        if(files.PRIVATE) then
-                            if not _G[files.PRIVATE] then _G[files.PRIVATE] = {} end
-                            local private = setmetatable({}, meta_database)
-                            private.data = _G[files.PRIVATE]
-                            obj.private = private
-                        end
-
-                        if(files.PUBLIC) then
-                            if not _G[files.PUBLIC] then _G[files.PUBLIC] = {} end
-                            local public = setmetatable({}, meta_database)
-                            public.data = _G[files.PUBLIC]
-                            obj.public = public
-                        end
-
-                        if(obj.db and obj.db.incompatible) then
-                            for addon,_ in pairs(obj.db.incompatible) do
-                                if IsAddOnLoaded(addon) then halt = true end
-                            end
-                        end
-
-                        if(not halt) then
-                            LoadingProxy(schema, obj)
-                        end
-                    else
-                        LoadingProxy(schema, obj)
-                    end
-                end
-            end
-        end
     end
 end
 
@@ -833,6 +790,7 @@ local Library_OnEvent = function(self, event, arg, ...)
     elseif(event == "ADDON_LOADED") then
         if(arg == CoreName) then
             if(not CoreObject.___loaded and CoreObject.PreLoad) then
+                CoreObject.Timers:ClearAllTimers()
                 CoreObject:PreLoad()
                 CoreObject.___loaded = true
                 self:UnregisterEvent("ADDON_LOADED")
@@ -851,33 +809,36 @@ end
 
 -- CORE OBJECT CONSTRUCT
 
-local addNewSubClass = function(self, schema)
-    if(self[schema]) then return end
+-- local addNewSubClass = function(self, schema)
+--     if(self[schema]) then return end
 
-    local obj = {
-        parent              = self,
-        Schema              = schema,
-        RegisterEvent       = registerEvent,
-        UnregisterEvent     = unregisterEvent,
-        RegisterUpdate      = registerUpdate,
-        UnregisterUpdate    = unregisterUpdate
-    }
+--     local obj = {
+--         parent              = self,
+--         Schema              = schema,
+--         RegisterEvent       = registerEvent,
+--         UnregisterEvent     = unregisterEvent,
+--         RegisterUpdate      = registerUpdate,
+--         UnregisterUpdate    = unregisterUpdate
+--     }
 
-    local addonmeta = {}
-    local oldmeta = getmetatable(obj)
-    if oldmeta then
-        for k, v in pairs(oldmeta) do addonmeta[k] = v end
-    end
-    addonmeta.__tostring = rootstring
-    setmetatable( obj, addonmeta )
+--     local addonmeta = {}
+--     local oldmeta = getmetatable(obj)
+--     if oldmeta then
+--         for k, v in pairs(oldmeta) do addonmeta[k] = v end
+--     end
+--     addonmeta.__tostring = rootstring
+--     setmetatable( obj, addonmeta )
 
-    self[schema] = obj
+--     self[schema] = obj
     
-    return self[schema]
-end
+--     return self[schema]
+-- end
 
-local Core_NewClass = function(self, schema, header)
+local Core_NewPackage = function(self, schema, header)
     if(self[schema]) then return end
+
+    if(not PACKAGES) then PACKAGES = {} end
+    PACKAGES[#PACKAGES+1] = schema;
 
     local addonName = ("SVUI [%s]"):format(schema)
 
@@ -892,7 +853,7 @@ local Core_NewClass = function(self, schema, header)
         UnregisterEvent     = unregisterEvent,
         RegisterUpdate      = registerUpdate,
         UnregisterUpdate    = unregisterUpdate,
-        NewSubClass         = addNewSubClass
+        --NewSubClass         = addNewSubClass
     }
 
     local addonmeta = {}
@@ -957,7 +918,7 @@ local Core_NewScript = function(self, fn)
     end 
 end
 
-local Core_NewPackage = function(self, addonName, addonObject, gfile, pfile)
+local Core_NewModule = function(self, addonName, addonObject, gfile, pfile)
     local version   = GetAddOnMetadata(addonName, "Version")
     local header    = GetAddOnMetadata(addonName, HeaderFromMeta)
     local schema    = GetAddOnMetadata(addonName, SchemaFromMeta)
@@ -1062,7 +1023,7 @@ local Core_ResetFilter = function(self, key)
 end
 
 local Core_HandleError = function(self, schema, action, catch)
-    schema = schema or "Librarian:Registry"
+    schema = schema or "Lib:Registry"
     action = action or "Unknown Function"
     local timestamp = date("%m/%d/%y %H:%M:%S")
     local err_message = (debugPattern):format(schema, action, timestamp, catch)
@@ -1115,14 +1076,22 @@ function lib:NewCore(gfile, efile, pfile, ffile)
     CoreObject.UnregisterUpdate     = unregisterUpdate
 
     CoreObject.NewScript            = Core_NewScript
+    CoreObject.NewModule            = Core_NewModule
     CoreObject.NewPackage           = Core_NewPackage
-    CoreObject.NewClass             = Core_NewClass
     CoreObject.ResetData            = Core_ResetData
     CoreObject.ResetFilter          = Core_ResetFilter
     CoreObject.NewTheme             = Core_NewTheme
     CoreObject.GetTheme             = Core_GetTheme
-
     CoreObject.HandleError          = Core_HandleError
+
+    --[[ EMBEDDED LIBS ]]--
+
+    CoreObject.L                    = Librarian("Linguist"):Lang()
+    CoreObject.Events               = Librarian("Events")
+    CoreObject.Animate              = Librarian("Animate")
+    CoreObject.Timers               = Librarian("Timers")
+    CoreObject.Sounds               = Librarian("Sounds")
+    CoreObject.SpecialFX            = Librarian("SpecialFX")
 
     if(not CoreObject.defaults) then 
         CoreObject.defaults = {} 
@@ -1238,22 +1207,6 @@ function lib:Initialize()
     CoreObject.initialized = true
 end
 
-function lib:LoadThemes()
-    if THEMES then
-        local themeName = CoreObject.db.THEME.active;
-        local globalName = THEMES[themeName] 
-        local themeObj = _G[globalName]
-        if(themeObj and (not themeObj.initialized) and themeObj.Load and type(themeObj.Load) == "function") then
-            local _, catch = pcall(themeObj.Load, themeObj)
-            if(catch) then
-                CoreObject:HandleError(themeName, "Load", catch)
-            else
-                themeObj.initialized = true
-            end
-        end
-    end
-end
-
 local THEMETABLE = {};
 function lib:ListThemes()
     wipe(THEMETABLE)
@@ -1267,6 +1220,32 @@ function lib:ListThemes()
 end
 
 function lib:Launch()
+    CoreObject.Timers:Initialize()
+
+    if THEMES then
+        local themeName = CoreObject.db.THEME.active;
+        local globalName = THEMES[themeName] 
+        local themeObj = _G[globalName]
+        if(themeObj and (not themeObj.initialized) and themeObj.Load and type(themeObj.Load) == "function") then
+            local _, catch = pcall(themeObj.Load, themeObj)
+            if(catch) then
+                CoreObject:HandleError(themeName, "Load", catch)
+            else
+                themeObj.initialized = true
+            end
+        end
+    end
+
+    if PACKAGES then
+        for i=1,#PACKAGES do 
+            local schema = PACKAGES[i]
+            local obj = CoreObject[schema]
+            if(obj and (not obj.initialized)) then
+                LoadingProxy(schema, obj)
+            end
+        end
+    end
+
     if LoadOnDemand then
         for schema,name in pairs(LoadOnDemand) do
 
@@ -1287,8 +1266,61 @@ function lib:Launch()
         end
     end
 
-    self:LoadQueuedModules()
+    if MODULES then
+        for i=1,#MODULES do 
+            local schema = MODULES[i]
+            local obj = CoreObject[schema]
+            local data = CoreObject.db[schema]
+            if(obj and (not obj.initialized)) then
+                local halt = false
+                if(data and data.incompatible) then
+                    for addon,_ in pairs(data.incompatible) do
+                        if IsAddOnLoaded(addon) then halt = true end
+                    end
+                end
+        
+                if(not halt) then
+                    if MODS and MODS[schema] then
+                        local files = MODS[schema]
+                        if(not PRIVATE_SV.SAFEDATA[schema]) then
+                            PRIVATE_SV.SAFEDATA[schema] = {["enable"] = true}
+                        end
 
+                        if(files.PRIVATE) then
+                            if not _G[files.PRIVATE] then _G[files.PRIVATE] = {} end
+                            local private = setmetatable({}, meta_database)
+                            private.data = _G[files.PRIVATE]
+                            obj.private = private
+                        end
+
+                        if(files.PUBLIC) then
+                            if not _G[files.PUBLIC] then _G[files.PUBLIC] = {} end
+                            local public = setmetatable({}, meta_database)
+                            public.data = _G[files.PUBLIC]
+                            obj.public = public
+                        end
+
+                        if(obj.db and obj.db.incompatible) then
+                            for addon,_ in pairs(obj.db.incompatible) do
+                                if IsAddOnLoaded(addon) then halt = true end
+                            end
+                        end
+
+                        if(not halt) then
+                            LoadingProxy(schema, obj)
+                        end
+                    else
+                        LoadingProxy(schema, obj)
+                    end
+                end
+            end
+        end
+    end
+
+    PRIVATE_SV.SAFEDATA.NEEDSLIVEUPDATE = C_PetBattles.IsInBattle()
+end
+
+function lib:LoadScripts()
     if ScriptQueue then
         for i=1, #ScriptQueue do 
             local fn = ScriptQueue[i]
@@ -1299,6 +1331,4 @@ function lib:Launch()
 
         ScriptQueue = nil
     end
-
-    PRIVATE_SV.SAFEDATA.NEEDSLIVEUPDATE = C_PetBattles.IsInBattle()
 end

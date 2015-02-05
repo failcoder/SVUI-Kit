@@ -39,24 +39,38 @@ local L = SV.L;
 LOCAL SLASH FUNCTIONS
 ##########################################################
 ]]--
-SV.SlashRegistry = {};
+local SVUI_SLASH_COMMANDS = {
+	["install"] = SV.Setup.Install,
+	["move"] = SV.MoveAnchors,
+	["reset"] = SV.ResetAllUI,
+	["help"] = SV.CommandHelp,
+};
+local SVUI_SLASH_COMMAND_INFO = {
+	["install"] = "Open the SVUI installer window.",
+	["move"] = "Lock/Unlock frames for moving.",
+	["reset"] = "Reset All SVUI Settings.",
+	["help"] = "I feel like you MIGHT have already discovered this one.",
+};
+
+function SV:AddSlashCommand(cmd, desc, fn)
+	if((not cmd) or (not desc) or (not fn or (fn and type(fn) ~= "function"))) then return end
+    SVUI_SLASH_COMMANDS[cmd] = fn;
+    SVUI_SLASH_COMMAND_INFO[cmd] = desc;
+end
+
+local msgPattern = "|cff00FF00%s|r |cffFFFFFF%s|r";
+function SV:CommandHelp()
+	for cmd,desc in pairs(SVUI_SLASH_COMMAND_INFO) do
+		local outbound = (msgPattern):format(cmd, desc);
+        print(outbound)
+	end
+end
 
 local function SVUIMasterCommand(msg)
 	if msg then
 		msg = lower(trim(msg))
-		if (msg == "install") then
-			SV.Setup:Install()
-		elseif (msg == "move") then
-			SV.Layout:Toggle()
-		elseif (msg == "reset" or msg == "resetui") then
-			SV:ResetAllUI()
-		elseif(SV.SlashRegistry[msg] and (type(SV.SlashRegistry[msg]) == 'function')) then
-			SV.SlashRegistry[msg]()
-		-- elseif (msg == "bg" or msg == "pvp") then
-		-- 	local MOD = SV.Dock
-		-- 	MOD.ForceHideBGStats = nil;
-		-- 	MOD:UpdateAllReports()
-		-- 	SV:AddonMessage(L['Battleground statistics will now show again if you are inside a battleground.'])
+		if(SVUI_SLASH_COMMANDS[msg] and (type(SVUI_SLASH_COMMANDS[msg]) == 'function')) then
+			SVUI_SLASH_COMMANDS[msg]()
 		else
 			SV:ToggleConfig()
 		end
@@ -97,9 +111,6 @@ _G.SLASH_SVUIENABLE1="/enable"
 
 _G.SlashCmdList["SVUIDISABLE"] = DisableAddon;
 _G.SLASH_SVUIDISABLE1="/disable"
-
-_G.SlashCmdList["SVUI_FRAME_DEBUG"] = DebugThisFrame;
-_G.SLASH_SVUI_FRAME_DEBUG1 = "/svdf"
 
 _G.SlashCmdList["LOLWUT"] = function(msg)
 	PlaySoundFile("Sound\\Character\\Human\\HumanVocalFemale\\HumanFemalePissed04.wav")

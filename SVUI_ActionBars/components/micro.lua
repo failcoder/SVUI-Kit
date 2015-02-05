@@ -190,7 +190,7 @@ function MOD:InitializeMicroBar()
 	SVUIMicroButtonsParent(microBar)
 	SVUIMicroButton_SetNormal()
 
-	SV.Layout:Add(microBar, L["Micro Bar"])
+	SV:NewAnchor(microBar, L["Micro Bar"])
 
 	RefreshMicrobar()
 	SVUI_MicroBar:SetAlpha(0)

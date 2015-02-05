@@ -259,7 +259,7 @@ CONSTRUCTORS["player"] = function(self, unit)
     self.ResolveBar = MOD:CreateResolveBar(self)
     self.CombatFade = true;
     self:ModPoint("BOTTOMLEFT", SV.Screen, "BOTTOM", -413, 182)
-    SV.Layout:Add(self, L["Player Frame"])
+    SV:NewAnchor(self, L["Player Frame"])
 
     self.MediaUpdate = MOD.RefreshUnitMedia
     self.Update = UpdatePlayerFrame
@@ -358,7 +358,7 @@ CONSTRUCTORS["target"] = function(self, unit)
     self.Range = { insideAlpha = 1, outsideAlpha = 1 }
     
     self:ModPoint("BOTTOMRIGHT", SV.Screen, "BOTTOM", 413, 182)
-    SV.Layout:Add(self, L["Target Frame"])
+    SV:NewAnchor(self, L["Target Frame"])
 
     self.MediaUpdate = MOD.RefreshUnitMedia
     self.Update = UpdateTargetFrame
@@ -400,7 +400,7 @@ CONSTRUCTORS["targettarget"] = function(self, unit)
     self.RaidIcon = MOD:CreateRaidIcon(self)
     self.Range = { insideAlpha = 1, outsideAlpha = 1 }
     self:ModPoint("BOTTOM", SV.Screen, "BOTTOM", 0, 182)
-    SV.Layout:Add(self, L["TargetTarget Frame"])
+    SV:NewAnchor(self, L["TargetTarget Frame"])
 
     self.MediaUpdate = MOD.RefreshUnitMedia
     self.Update = UpdateTargetTargetFrame
@@ -450,7 +450,7 @@ CONSTRUCTORS["pet"] = function(self, unit)
     self.RaidIcon = MOD:CreateRaidIcon(self)
     self.Range = { insideAlpha = 1, outsideAlpha = 1 }
     self:ModPoint("RIGHT", SVUI_Player, "LEFT", -2, 0)
-    SV.Layout:Add(self, L["Pet Frame"])
+    SV:NewAnchor(self, L["Pet Frame"])
     self.MediaUpdate = MOD.RefreshUnitMedia
     self.Update = UpdatePetFrame
     return self 
@@ -494,7 +494,7 @@ CONSTRUCTORS["pettarget"] = function(self, unit)
     self.Debuffs = MOD:CreateDebuffs(self, key)
     self.Range = { insideAlpha = 1, outsideAlpha = 1 }
     self:ModPoint("BOTTOM", SVUI_Pet, "TOP", 0, 7)
-    SV.Layout:Add(self, L["PetTarget Frame"], -7)
+    SV:NewAnchor(self, L["PetTarget Frame"], -7)
 
     self.MediaUpdate = MOD.RefreshUnitMedia
     self.Update = UpdatePetTargetFrame
@@ -572,7 +572,7 @@ CONSTRUCTORS["focus"] = function(self, unit)
     self.XRay = xray
 
     self:ModPoint("BOTTOMRIGHT", SVUI_Target, "TOPRIGHT", 0, 220)
-    SV.Layout:Add(self, L["Focus Frame"])
+    SV:NewAnchor(self, L["Focus Frame"])
 
     self.MediaUpdate = MOD.RefreshUnitMedia
     self.Update = UpdateFocusFrame
@@ -613,7 +613,7 @@ CONSTRUCTORS["focustarget"] = function(self, unit)
     self.RaidIcon = MOD:CreateRaidIcon(self)
     self.Range = { insideAlpha = 1, outsideAlpha = 1 }
     self:ModPoint("LEFT", SVUI_Focus, "RIGHT", 12, 0)
-    SV.Layout:Add(self, L["FocusTarget Frame"], -7)
+    SV:NewAnchor(self, L["FocusTarget Frame"], -7)
 
     self.MediaUpdate = MOD.RefreshUnitMedia
     self.Update = UpdateFocusTargetFrame
@@ -690,7 +690,7 @@ CONSTRUCTORS["boss"] = function(self, unit)
 
     if(not _G["SVUI_Boss_MOVE"]) then
         self:ModPoint("RIGHT", SV.Screen, "RIGHT", -105, 0)
-        SV.Layout:Add(self, L["Boss Frames"], nil, nil, "SVUI_Boss")
+        SV:NewAnchor(self, L["Boss Frames"], nil, nil, "SVUI_Boss")
     else
         self:ModPoint("TOPRIGHT", lastBossFrame, "BOTTOMRIGHT", 0, -20)
     end
@@ -858,7 +858,7 @@ CONSTRUCTORS["arena"] = function(self, unit)
 
     if(not _G["SVUI_Arena_MOVE"]) then
         self:ModPoint("RIGHT", SV.Screen, "RIGHT", -105, 0)
-        SV.Layout:Add(self, L["Arena Frames"], nil, nil, "SVUI_Arena")
+        SV:NewAnchor(self, L["Arena Frames"], nil, nil, "SVUI_Arena")
     else
         self:ModPoint("TOPRIGHT", lastArenaFrame, "BOTTOMRIGHT", 0, -20)
     end

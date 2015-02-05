@@ -512,8 +512,8 @@ function MOD:LoadKeyBinder()
   saveButton:SetPoint("BOTTOMRIGHT", -14, 10)
   discardButton:SetPoint("BOTTOMLEFT", 14, 10)
 
-  SV.SlashRegistry["kb"] = ToggleKeyBindingMode
-  SV.SlashRegistry["bind"] = ToggleKeyBindingMode
+  SV:AddSlashCommand("kb", "Toggle Key Binding Mode", ToggleKeyBindingMode);
+  SV:AddSlashCommand("bind", "Toggle Key Binding Mode", ToggleKeyBindingMode);
 
   SV.SystemAlert["KEYBIND_MODE"] = {
     text = L["Hover your mouse over any actionbutton or spellbook button to bind it. Press the escape key or right click to clear the current actionbutton's keybinding."], 

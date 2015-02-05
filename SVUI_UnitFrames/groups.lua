@@ -286,7 +286,7 @@ UpdateTemplates["party"] = function(self)
         groupFrame:ClearAllPoints()
         groupFrame:ModPoint("BOTTOMLEFT", SV.Dock.BottomLeft, "TOPLEFT", 0, 80)
         RegisterStateDriver(groupFrame, "visibility", "[group:raid][nogroup] hide;show")
-        SV.Layout:Add(groupFrame, L['Party Frames']);
+        SV:NewAnchor(groupFrame, L['Party Frames']);
         groupFrame.positioned = true;
     end
 
@@ -425,7 +425,7 @@ UpdateTemplates["raid"] = function(self)
         groupFrame:ClearAllPoints()
         groupFrame:ModPoint("BOTTOMLEFT", SV.Dock.BottomLeft, "TOPLEFT", 0, 80)
         RegisterStateDriver(groupFrame, "visibility", "[group:raid] show;hide")
-        SV.Layout:Add(groupFrame, "Raid Frames")
+        SV:NewAnchor(groupFrame, "Raid Frames")
         groupFrame.positioned = true 
     end
 
@@ -522,7 +522,7 @@ UpdateTemplates["raidpet"] = function(self)
         groupFrame:ClearAllPoints()
         groupFrame:ModPoint("BOTTOMLEFT", SV.Screen, "BOTTOMLEFT", 4, 433)
         RegisterStateDriver(groupFrame, "visibility", "[group:raid] show;hide")
-        SV.Layout:Add(groupFrame, L["Raid Pet Frames"])
+        SV:NewAnchor(groupFrame, L["Raid Pet Frames"])
         groupFrame.positioned = true;
     end
 
@@ -662,7 +662,7 @@ UpdateTemplates["tank"] = function(self)
     if not self.positioned then 
         self:ClearAllPoints()
         self:ModPoint("BOTTOMLEFT", SV.Dock.TopLeft, "BOTTOMLEFT", 0, 0)
-        SV.Layout:Add(self, L["Tank Frames"])
+        SV:NewAnchor(self, L["Tank Frames"])
         self.Grip.positionOverride = "TOPLEFT"
         self:SetAttribute("minHeight", self.dirtyHeight)
         self:SetAttribute("minWidth", self.dirtyWidth)
@@ -772,7 +772,7 @@ UpdateTemplates["assist"] = function(self)
     if not self.positioned then 
         self:ClearAllPoints()
         self:ModPoint("TOPLEFT", SV.Dock.TopLeft, "BOTTOMLEFT", 0, -10)
-        SV.Layout:Add(self, L["Assist Frames"])
+        SV:NewAnchor(self, L["Assist Frames"])
         self.Grip.positionOverride = "TOPLEFT"
         self:SetAttribute("minHeight", self.dirtyHeight)
         self:SetAttribute("minWidth", self.dirtyWidth)

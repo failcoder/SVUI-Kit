@@ -301,44 +301,45 @@ function SV:QUEST_COMPLETE()
 			GetQuestReward(rewards)
 		end
 	end
-end 
+end
+
+local AutoRelease_OnEvent = function(self, event)
+	local isInstance, instanceType = IsInInstance()
+	if(isInstance and instanceType == "pvp") then 
+		local spell = GetSpellInfo(20707)
+		if(SV.class ~= "SHAMAN" and not(spell and UnitBuff("player", spell))) then 
+			RepopMe()
+		end 
+	end 
+	for i=1,GetNumWorldPVPAreas() do 
+		local _,localizedName, isActive = GetWorldPVPAreaInfo(i)
+		if(GetRealZoneText() == localizedName and isActive) then RepopMe() end 
+	end 
+end
 --[[ 
 ########################################################## 
 BUILD FUNCTION / UPDATE
 ##########################################################
 ]]--
-function SV:InitializeAutomations()
-	self:RegisterEvent('PARTY_INVITE_REQUEST')
+local function InitializeAutomations()
+	SV:RegisterEvent('PARTY_INVITE_REQUEST')
 
 	for _,event in pairs(AutomatedEvents) do
-		self:RegisterEvent(event)
+		SV:RegisterEvent(event)
 	end
 
-	if self.db.Extras.pvpautorelease then 
+	if SV.db.Extras.pvpautorelease then 
 		local autoReleaseHandler = CreateFrame("frame")
 		autoReleaseHandler:RegisterEvent("PLAYER_DEAD")
-		autoReleaseHandler:SetScript("OnEvent",function(self,event)
-			local isInstance, instanceType = IsInInstance()
-			if(isInstance and instanceType == "pvp") then 
-				local spell = GetSpellInfo(20707)
-				if(self.class ~= "SHAMAN" and not(spell and UnitBuff("player",spell))) then 
-					RepopMe()
-				end 
-			end 
-			for i=1,GetNumWorldPVPAreas() do 
-				local _,localizedName, isActive = GetWorldPVPAreaInfo(i)
-				if(GetRealZoneText() == localizedName and isActive) then RepopMe() end 
-			end 
-		end)
+		autoReleaseHandler:SetScript("OnEvent", AutoRelease_OnEvent)
 	end 
 
-	if(self.db.Extras.skipcinematics) then
+	if(SV.db.Extras.skipcinematics) then
 		local skippy = CreateFrame("Frame")
 		skippy:RegisterEvent("CINEMATIC_START")
-		skippy:SetScript("OnEvent", function(self, event)
-			CinematicFrame_CancelCinematic()
-		end)
-
-		MovieFrame:SetScript("OnEvent", function() GameMovieFinished() end)
+		skippy:SetScript("OnEvent", CinematicFrame_CancelCinematic)
+		MovieFrame:SetScript("OnEvent", GameMovieFinished)
 	end
-end 
+end
+
+SV:NewScript(InitializeAutomations)

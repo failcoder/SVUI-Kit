@@ -36,11 +36,16 @@ local L = SV.L
 local LSM = LibStub("LibSharedMedia-3.0")
 local MOD = SV.Auras;
 if(not MOD) then return end;
+
+MOD.Holder = CreateFrame("Frame", "SVUI_AurasAnchor", UIParent)
+MOD.HyperBuffFrame = CreateFrame('Frame', 'SVUI_ConsolidatedBuffs', UIParent)
 --[[ 
 ########################################################## 
 LOCAL VARS
 ##########################################################
 ]]--
+local HOLDER_OFFSET = -8;
+local AURA_FADE_TIME = 5;
 local DIRECTION_TO_POINT = {
 	DOWN_RIGHT = "TOPLEFT",
 	DOWN_LEFT = "TOPRIGHT",
@@ -50,8 +55,7 @@ local DIRECTION_TO_POINT = {
 	RIGHT_UP = "BOTTOMLEFT",
 	LEFT_DOWN = "TOPRIGHT",
 	LEFT_UP = "BOTTOMRIGHT",
-}
-
+};
 local DIRECTION_TO_HORIZONTAL_SPACING_MULTIPLIER = {
 	DOWN_RIGHT = 1,
 	DOWN_LEFT = -1,
@@ -61,8 +65,7 @@ local DIRECTION_TO_HORIZONTAL_SPACING_MULTIPLIER = {
 	RIGHT_UP = 1,
 	LEFT_DOWN = -1,
 	LEFT_UP = -1,
-}
-
+};
 local DIRECTION_TO_VERTICAL_SPACING_MULTIPLIER = {
 	DOWN_RIGHT = -1,
 	DOWN_LEFT = -1,
@@ -72,43 +75,13 @@ local DIRECTION_TO_VERTICAL_SPACING_MULTIPLIER = {
 	RIGHT_UP = 1,
 	LEFT_DOWN = -1,
 	LEFT_UP = 1,
-}
-
+};
 local IS_HORIZONTAL_GROWTH = {
 	RIGHT_DOWN = true,
 	RIGHT_UP = true,
 	LEFT_DOWN = true,
 	LEFT_UP = true,
-}
-
-local AURA_FADE_TIME = 5;
-local SVUI_ConsolidatedBuffs = CreateFrame('Frame', 'SVUI_ConsolidatedBuffs', UIParent)
-
-local function CreateHyperBuff(index)
-	local buff = CreateFrame("Button", nil, SVUI_ConsolidatedBuffs)
-	local texture = MOD.media.hyperAuraIcons[index]
-	local bar = CreateFrame("StatusBar", nil, buff)
-	bar:SetAllPoints(buff)
-	bar:SetStatusBarTexture(texture)
-	bar:SetOrientation("VERTICAL")
-	bar:SetMinMaxValues(0, 100)
-	bar:SetValue(0)
-	local bg = bar:CreateTexture(nil, "BACKGROUND", nil, -2)
-	bg:WrapPoints(buff, 1, 1)
-	bg:SetTexture(texture)
-	bg:SetVertexColor(0, 0, 0, 0.5)
-	local empty = bar:CreateTexture(nil, "BACKGROUND", nil, -1)
-	empty:SetAllPoints(buff)
-	empty:SetTexture(texture)
-	empty:SetDesaturated(true)
-	empty:SetVertexColor(0.5, 0.5, 0.5)
-	empty:SetBlendMode("ADD")
-	buff.bar = bar;
-	buff.bg = bg;
-	buff.empty = empty;
-	buff:SetAlpha(0.1)
-	return buff 
-end 
+};
 --[[ 
 ########################################################## 
 CORE FUNCTIONS
@@ -311,7 +284,7 @@ do
 		if(event == "UNIT_AURA" and arg ~= "player") then return end 
 		for i = 1, NUM_LE_RAID_BUFF_TYPES do 
 			local name, _, _, duration, expiration, _, slot = GetRaidBuffTrayAuraInfo(i)
-			local buff = SVUI_ConsolidatedBuffs[i]
+			local buff = MOD.HyperBuffFrame[i]
 
 			--[[ EXPERIMENTAL ]]--
 			if(not name and slot) then
@@ -348,13 +321,13 @@ do
 	end
 
 	function MOD:ToggleConsolidatedBuffs()
-		if SV.db.Auras.hyperBuffs.enable then
+		if(SV.db.Auras.hyperBuffsEnabled) then
 			local maxShown = #MOD.media.hyperAuraIcons - 1
 			local CB_HEIGHT = Minimap:GetHeight()
 			local CB_WIDTH = (CB_HEIGHT / maxShown) + 4
 			--print("ToggleConsolidatedBuffs "..CB_WIDTH)
 			SVUI_AurasAnchor:SetSize(CB_WIDTH, CB_HEIGHT)
-			SVUI_ConsolidatedBuffs:Show()
+			MOD.HyperBuffFrame:Show()
 			BuffFrame:RegisterUnitEvent("UNIT_AURA", "player")
 			MOD:RegisterEvent("UNIT_AURA", UpdateConsolidatedReminder)
 			MOD:RegisterEvent("GROUP_ROSTER_UPDATE", UpdateConsolidatedReminder)
@@ -362,7 +335,7 @@ do
 			SV.RoleChangedCallback = MOD.Update_ConsolidatedBuffsSettings
 			UpdateConsolidatedReminder()
 		else 
-			SVUI_ConsolidatedBuffs:Hide()
+			MOD.HyperBuffFrame:Hide()
 			BuffFrame:UnregisterEvent("UNIT_AURA")
 			MOD:UnregisterEvent("UNIT_AURA")
 			MOD:UnregisterEvent("GROUP_ROSTER_UPDATE")
@@ -392,9 +365,9 @@ do
 	end 
 
 	function MOD:Update_ConsolidatedBuffsSettings(event)
-		SVUI_ConsolidatedBuffs:SetAllPoints(SVUI_AurasAnchor)
+		MOD.HyperBuffFrame:SetAllPoints(SVUI_AurasAnchor)
 		local hideIndex;
-		if SV.db.Auras.hyperBuffs.filter then 
+		if(SV.db.Auras.hyperBuffsFiltered) then 
 			if SV.ClassRole == 'C' then 
 				hideIndex = 3
 			else
@@ -407,13 +380,13 @@ do
 		local buffSize = (CB_HEIGHT / maxShown) + 4
 
 		for i=1, NUM_LE_RAID_BUFF_TYPES do 
-			local buff = SVUI_ConsolidatedBuffs[i]
+			local buff = MOD.HyperBuffFrame[i]
 			local lastIndex = (i - 1)
 			if(buff) then
 				buff:ClearAllPoints()
 
 				if i==1 then 
-					buff:ModPoint("TOP", SVUI_ConsolidatedBuffs, "TOP", 0, 0)
+					buff:ModPoint("TOP", MOD.HyperBuffFrame, "TOP", 0, 0)
 					lastGoodFrame = buff
 				else
 					buff:ModPoint("TOP", lastGoodFrame, "BOTTOM", 0, -4)
@@ -430,8 +403,8 @@ do
 
 				local tip = _G[("ConsolidatedBuffsTooltipBuff%d"):format(i)]
 				tip:ClearAllPoints()
-				tip:SetAllPoints(SVUI_ConsolidatedBuffs[i])
-				tip:SetParent(SVUI_ConsolidatedBuffs[i])
+				tip:SetAllPoints(MOD.HyperBuffFrame[i])
+				tip:SetParent(MOD.HyperBuffFrame[i])
 				tip:SetAlpha(0)
 				tip:SetScript("OnEnter",AuraButton_OnEnter)
 				tip:SetScript("OnLeave",AuraButton_OnLeave)
@@ -450,7 +423,7 @@ function MOD:UpdateAuraHeader(auraHeader, auraType)
 	local showBy = db.showBy
 
 	if(auraType == "buffs") then 
-		auraHeader:SetAttribute("consolidateTo", SV.db.Auras.hyperBuffs.enable == true and 1 or 0)
+		auraHeader:SetAttribute("consolidateTo", SV.db.Auras.hyperBuffsEnabled == true and 1 or 0)
 		auraHeader:SetAttribute("weaponTemplate", ("SVUI_AuraTemplate%d"):format(db.size))
 	end
 
@@ -500,25 +473,23 @@ function MOD:UpdateAuraHeader(auraHeader, auraType)
 		i = i + 1;
 		auraChild = select(i, auraHeader:GetChildren())
 	end 
-end 
+end
 
-local function CreateAuraHeader(filter)
-	local frameName, auraType = "SVUI_PlayerDebuffs", "debuffs"
-	if filter == "HELPFUL" then frameName = "SVUI_PlayerBuffs"; auraType = "buffs" end 
-	local auraHeader = CreateFrame("Frame", frameName, SVUI_AurasAnchor, "SecureAuraHeaderTemplate")
-	auraHeader:SetClampedToScreen(true)
-	auraHeader:SetAttribute("unit", "player")
-	auraHeader:SetAttribute("filter", filter)
-	RegisterStateDriver(auraHeader, "visibility", "[petbattle] hide; show")
-	RegisterAttributeDriver(auraHeader, "unit", "[vehicleui] vehicle; player")
-	if filter == "HELPFUL" then 
-		auraHeader:SetAttribute("consolidateDuration", -1)
-		auraHeader:SetAttribute("includeWeapons", 1)
-	end 
-	MOD:UpdateAuraHeader(auraHeader, auraType)
-	auraHeader:Show()
-	return auraHeader 
-end 
+function MOD:UpdateAuraHolder(newHeight, referenceHolder)
+	if(not newHeight) then return end
+	self.Holder:ModHeight(newHeight)
+	if(self.Holder.Grip) then
+		self.Holder.Grip:ModHeight(newHeight)
+		if((not self.Holder.Grip:HasMoved()) and (referenceHolder and referenceHolder.HasMoved and (not referenceHolder:HasMoved()))) then
+			HOLDER_OFFSET = -8;
+			self.Holder.Grip:ClearAllPoints()
+			self.Holder.Grip:ModPoint("TOPRIGHT", referenceHolder, "TOPLEFT", HOLDER_OFFSET, 0)
+		end
+	end
+	if(self.HyperBuffFrame) then
+		self:Update_HyperBuffsSettings()
+	end
+end
 --[[ 
 ########################################################## 
 UPDATE AND BUILD
@@ -539,41 +510,81 @@ function MOD:Load()
 	local maxShown = #MOD.media.hyperAuraIcons - 1;
 	local CB_HEIGHT = Minimap:GetHeight() - 50;
 	local CB_WIDTH = (CB_HEIGHT / maxShown) + 4;
-	local offsetX = -8;
 
 	if(not SV.Maps) then
-		offsetX = -32;
+		HOLDER_OFFSET = -32;
 		CB_HEIGHT = Minimap:GetHeight();
 	end
 
-	if SV.db.Auras.disableBlizzard then 
+	self.Holder:SetSize(CB_WIDTH, CB_HEIGHT)
+	self.Holder:ModPoint("TOPRIGHT", Minimap, "TOPLEFT", HOLDER_OFFSET, 0)
+	SV:ManageVisibility(self.Holder)
+
+	if(SV.db.Auras.aurasEnabled) then 
 		BuffFrame:Die()
-		ConsolidatedBuffs:Die()
 		TemporaryEnchantFrame:Die()
 		InterfaceOptionsFrameCategoriesButton12:SetScale(0.0001)
+
+		local buffHeader = CreateFrame("Frame", "SVUI_PlayerBuffs", self.Holder, "SecureAuraHeaderTemplate")
+		buffHeader:SetClampedToScreen(true)
+		buffHeader:SetPoint("TOPRIGHT", self.Holder, "TOPLEFT", -8, 0)
+		buffHeader:SetAttribute("unit", "player")
+		buffHeader:SetAttribute("filter", "HELPFUL")
+		RegisterStateDriver(buffHeader, "visibility", "[petbattle] hide; show")
+		RegisterAttributeDriver(buffHeader, "unit", "[vehicleui] vehicle; player")
+		buffHeader:SetAttribute("consolidateDuration", -1)
+		buffHeader:SetAttribute("includeWeapons", 1) 
+		self:UpdateAuraHeader(buffHeader, "buffs")
+		buffHeader:Show()
+
+		local debuffHeader = CreateFrame("Frame", "SVUI_PlayerDebuffs", self.Holder, "SecureAuraHeaderTemplate")
+		debuffHeader:SetClampedToScreen(true)
+		debuffHeader:SetPoint( "BOTTOMRIGHT", self.Holder, "BOTTOMLEFT", -8, 0)
+		debuffHeader:SetAttribute("unit", "player")
+		debuffHeader:SetAttribute("filter", "HELPFUL")
+		RegisterStateDriver(debuffHeader, "visibility", "[petbattle] hide; show")
+		RegisterAttributeDriver(debuffHeader, "unit", "[vehicleui] vehicle; player") 
+		self:UpdateAuraHeader(debuffHeader, "debuffs")
+		debuffHeader:Show()
 	end
 
-	local auras = CreateFrame("Frame", "SVUI_AurasAnchor", UIParent)
-	auras:SetSize(CB_WIDTH, CB_HEIGHT)
-	auras:ModPoint("TOPRIGHT", Minimap, "TOPLEFT", offsetX, 0)
-	SV:ManageVisibility(auras)
-	
-	self.BuffFrame = CreateAuraHeader("HELPFUL")
-	self.BuffFrame:SetPoint("TOPRIGHT", auras, "TOPLEFT", -8, 0)
-	self.DebuffFrame = CreateAuraHeader("HARMFUL")
-	self.DebuffFrame:SetPoint( "BOTTOMRIGHT", auras, "BOTTOMLEFT", -8, 0)
+	if(SV.db.Auras.hyperBuffsEnabled) then 
+		ConsolidatedBuffs:Die()
 
-	-- SVUI_ConsolidatedBuffs:SetParent(SV.Screen)
-	SVUI_ConsolidatedBuffs:SetAllPoints(auras)
-	SVUI_ConsolidatedBuffs:SetFrameStrata("BACKGROUND")
-	SV:ManageVisibility(SVUI_ConsolidatedBuffs)
+		self.HyperBuffFrame:SetAllPoints(self.Holder)
+		self.HyperBuffFrame:SetFrameStrata("BACKGROUND")
+		SV:ManageVisibility(self.HyperBuffFrame)
 
-	for i = 1, NUM_LE_RAID_BUFF_TYPES do 
-		SVUI_ConsolidatedBuffs[i] = CreateHyperBuff(i)
-		SVUI_ConsolidatedBuffs[i]:SetID(i)
-	end 
+		for i = 1, NUM_LE_RAID_BUFF_TYPES do 
+			local texture = self.media.hyperAuraIcons[i]
+			local buff = CreateFrame("Button", nil, self.HyperBuffFrame)
+			buff.bar = CreateFrame("StatusBar", nil, buff)
+			buff.bar:SetAllPoints(buff)
+			buff.bar:SetStatusBarTexture(texture)
+			buff.bar:SetOrientation("VERTICAL")
+			buff.bar:SetMinMaxValues(0, 100)
+			buff.bar:SetValue(0)
 
-	self:Update_ConsolidatedBuffsSettings()
+			buff.bg = buff.bar:CreateTexture(nil, "BACKGROUND", nil, -2)
+			buff.bg:WrapPoints(buff, 1, 1)
+			buff.bg:SetTexture(texture)
+			buff.bg:SetVertexColor(0, 0, 0, 0.5)
 
-	SV.Layout:Add(auras, L["Auras Frame"])
+			buff.empty = buff.bar:CreateTexture(nil, "BACKGROUND", nil, -1)
+			buff.empty:SetAllPoints(buff)
+			buff.empty:SetTexture(texture)
+			buff.empty:SetDesaturated(true)
+			buff.empty:SetVertexColor(0.5, 0.5, 0.5)
+			buff.empty:SetBlendMode("ADD")
+
+			buff:SetAlpha(0.1)
+			buff:SetID(i)
+
+			self.HyperBuffFrame[i] = buff
+		end
+
+		self:Update_ConsolidatedBuffsSettings()
+	end
+
+	SV:NewAnchor(self.Holder, L["Auras Frame"])
 end

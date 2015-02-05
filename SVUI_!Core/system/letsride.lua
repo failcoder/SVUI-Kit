@@ -425,7 +425,7 @@ local function InitializeLetsRide()
 	hooksecurefunc("MountJournal_UpdateMountList", Update_MountCheckButtons)
 end
 
-SV.Events:On("CORE_INITIALIZED", "LoadLetsRide", InitializeLetsRide);
+SV.Events:On("CORE_INITIALIZED", InitializeLetsRide);
 --[[ 
 ########################################################## 
 KEYBIND FUNCTION

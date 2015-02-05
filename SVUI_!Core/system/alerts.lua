@@ -914,7 +914,7 @@ local AlertButton_OnClick = function(self)
 	SysPop_Event_Click(self:GetParent(), self:GetID())
 end
 
-function SV:LoadSystemAlerts()
+local function LoadSystemAlerts()
 	if not _G["SVUI_ConfigAlert"] then 
 		local configAlert = CreateFrame("Frame", "SVUI_ConfigAlert", UIParent)
 		configAlert:SetFrameStrata("TOOLTIP")
@@ -930,7 +930,7 @@ function SV:LoadSystemAlerts()
 		configAlert.bg:SetFrameLevel(979)
 		local bgtex = configAlert.bg:CreateTexture(nil, "BACKGROUND")
 		bgtex:SetAllPoints()
-		bgtex:SetTexture(self.Media.alert.saved[1])
+		bgtex:SetTexture(SV.Media.alert.saved[1])
 		SetConfigAlertAnim(configAlert.bg)
 
 		configAlert.fg = CreateFrame("Frame", nil, configAlert)
@@ -940,10 +940,10 @@ function SV:LoadSystemAlerts()
 		configAlert.fg:SetFrameLevel(999)
 		local fgtex = configAlert.fg:CreateTexture(nil, "ARTWORK")
 		fgtex:SetAllPoints()
-		fgtex:SetTexture(self.Media.alert.saved[2])
+		fgtex:SetTexture(SV.Media.alert.saved[2])
 		SetConfigAlertAnim(configAlert.fg)
 
-		self.Animate:Orbit(configAlert.bg, 10, false, true)
+		SV.Animate:Orbit(configAlert.bg, 10, false, true)
 	end 
 	for i = 1, 4 do 
 		local alert = CreateFrame("Frame", "SVUI_SystemAlert"..i, UIParent, "StaticPopupTemplate")
@@ -973,7 +973,7 @@ function SV:LoadSystemAlerts()
 	end
 
 	SVUI_AlertFrame:ModSize(180, 20);
-	SV.Layout:Add(SVUI_AlertFrame, L["Loot / Alert Frames"], nil, AlertFramePostMove_Hook, nil, true)
+	SV:NewAnchor(SVUI_AlertFrame, L["Loot / Alert Frames"], nil, AlertFramePostMove_Hook, nil, true)
 
 	NewHook('AlertFrame_FixAnchors', AlertFramePostMove_Hook)
 	NewHook('AlertFrame_SetLootAnchors', _hook_AlertFrame_SetLootAnchors)
@@ -986,4 +986,6 @@ function SV:LoadSystemAlerts()
 	NewHook('AlertFrame_SetScenarioAnchors', _hook_AlertFrame_SetScenarioAnchors)
 	NewHook('AlertFrame_SetGuildChallengeAnchors', _hook_AlertFrame_SetGuildChallengeAnchors)
 	NewHook('AlertFrame_SetStorePurchaseAnchors', _hook_AlertFrame_SetStorePurchaseAnchors)
-end 
+end
+
+SV.Events:On("LOAD_ALL_ESSENTIALS", LoadSystemAlerts);

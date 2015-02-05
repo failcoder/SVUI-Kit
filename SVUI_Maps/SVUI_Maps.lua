@@ -54,7 +54,9 @@ local CoordPattern = "%.1f";
 DATA UPVALUES
 ##########################################################
 ]]--
-local MM_XY_COORD = "SIMPLE";
+local MM_XY_COORD = false;
+local WMP_XY_COORD = false;
+local WMM_XY_COORD = false;
 local WM_TINY = false;
 local MM_COLOR = "darkest"
 local MM_BRDR = 0
@@ -76,8 +78,7 @@ MOD.Holder = _G["SVUI_MinimapFrame"];
 MOD.InfoTop = _G["SVUI_MinimapInfoTop"];
 MOD.InfoBottom = _G["SVUI_MinimapInfoBottom"];
 local MiniMapCoords = _G["SVUI_MiniMapCoords"];
-local WorldMapPlayerCoords = _G["SVUI_WorldMapPlayerCoords"];
-local WorldMapMouseCoords = _G["SVUI_WorldMapMouseCoords"];
+local WorldMapCoords = _G["SVUI_WorldMapCoords"];
 --local SVUI_MinimapFrame = CreateFrame("Frame", "SVUI_MinimapFrame", UIParent)
 --local WMCoords = CreateFrame('Frame', 'SVUI_WorldMapCoords', WorldMapFrame)
 --SVUI_MinimapFrame:SetSize(MM_WIDTH, MM_HEIGHT);
@@ -283,30 +284,9 @@ do
 	end
 end
 
-local function UpdateMouseCoords()
-	local scale = WorldMapDetailFrame:GetEffectiveScale()
-	local width = WorldMapDetailFrame:GetWidth()
-	local height = WorldMapDetailFrame:GetHeight()
-	local centerX, centerY = WorldMapDetailFrame:GetCenter()
-	local cursorX, cursorY = GetCursorPosition()
-	local mouseX = (cursorX / scale - (centerX - (width / 2))) / width;
-	local mouseY = (centerY + (height / 2) - cursorY / scale) / height;
-	if(((mouseX >= 0) and (mouseX <= 1)) and ((mouseY >= 0) and (mouseY <= 1))) then 
-		mouseX = parsefloat(100 * mouseX, 2)
-		mouseY = parsefloat(100 * mouseY, 2)
-		if(not WorldMapMouseCoords:IsShown()) then
-			WorldMapMouseCoords:FadeIn()
-		end
-		WorldMapMouseCoords.X:SetFormattedText(CoordPattern, mouseX)
-		WorldMapMouseCoords.Y:SetFormattedText(CoordPattern, mouseY)
-	else 
-		WorldMapMouseCoords:FadeOut(0.2, 1, 0, true)
-	end
-end
-
-local function UpdateMapCoords()
+local function UpdateMiniMapCoords()
+	if(WMP_XY_COORD and WorldMapFrame:IsShown()) then return end
 	local skip = IsInInstance()
-	local useWM = WorldMapFrame:IsShown()
 	local playerX, playerY = GetPlayerMapPosition("player")
 	if((not skip) and (playerX ~= 0 and playerY ~= 0)) then
 		playerX = parsefloat(100 * playerX, 2)
@@ -317,29 +297,63 @@ local function UpdateMapCoords()
 			end
 			MiniMapCoords.X:SetFormattedText(CoordPattern, playerX)
 			MiniMapCoords.Y:SetFormattedText(CoordPattern, playerY)
-			if(useWM) then
-				if(not WorldMapPlayerCoords:IsShown()) then
-					WorldMapPlayerCoords:FadeIn()
-				end
-				WorldMapPlayerCoords.X:SetFormattedText(CoordPattern, playerX)
-				WorldMapPlayerCoords.Y:SetFormattedText(CoordPattern, playerY)
-			end
 		else
 			if(MiniMapCoords:IsShown()) then
 				MiniMapCoords:FadeOut(0.2, 1, 0, true)
 			end
-			if(useWM) then
-				WorldMapPlayerCoords:FadeOut(0.2, 1, 0, true)
-			end
 		end
-		if(useWM) then UpdateMouseCoords() end
 	else
 		if(MiniMapCoords:IsShown()) then
 			MiniMapCoords:FadeOut(0.2, 1, 0, true)
 		end
-		if(useWM) then WorldMapPlayerCoords:FadeOut(0.2, 1, 0, true) end
 	end
-	if(WM_ALPHA and useWM and (not WorldMapFrame_InWindowedMode())) then
+end
+
+local function UpdateWorldMapCoords()
+	if(not WorldMapFrame:IsShown()) then return end
+
+	if(WMP_XY_COORD) then
+		local skip = IsInInstance()
+		local playerX, playerY = GetPlayerMapPosition("player")
+		if((not skip) and (playerX ~= 0 and playerY ~= 0)) then
+			playerX = parsefloat(100 * playerX, 2)
+			playerY = parsefloat(100 * playerY, 2)
+			if(playerX ~= 0 and playerY ~= 0) then
+				if(not WorldMapCoords.Player:IsShown()) then
+					WorldMapCoords.Player:FadeIn()
+				end
+				WorldMapCoords.Player.X:SetFormattedText(CoordPattern, playerX)
+				WorldMapCoords.Player.Y:SetFormattedText(CoordPattern, playerY)
+			else
+				WorldMapCoords.Player:FadeOut(0.2, 1, 0, true)
+			end
+		else
+			WorldMapCoords.Player:FadeOut(0.2, 1, 0, true)
+		end
+	end
+
+	if(WMM_XY_COORD) then
+		local scale = WorldMapDetailFrame:GetEffectiveScale()
+		local width = WorldMapDetailFrame:GetWidth()
+		local height = WorldMapDetailFrame:GetHeight()
+		local centerX, centerY = WorldMapDetailFrame:GetCenter()
+		local cursorX, cursorY = GetCursorPosition()
+		local mouseX = (cursorX / scale - (centerX - (width / 2))) / width;
+		local mouseY = (centerY + (height / 2) - cursorY / scale) / height;
+		if(((mouseX >= 0) and (mouseX <= 1)) and ((mouseY >= 0) and (mouseY <= 1))) then 
+			mouseX = parsefloat(100 * mouseX, 2)
+			mouseY = parsefloat(100 * mouseY, 2)
+			if(not WorldMapCoords.Mouse:IsShown()) then
+				WorldMapCoords.Mouse:FadeIn()
+			end
+			WorldMapCoords.Mouse.X:SetFormattedText(CoordPattern, mouseX)
+			WorldMapCoords.Mouse.Y:SetFormattedText(CoordPattern, mouseY)
+		else 
+			WorldMapCoords.Mouse:FadeOut(0.2, 1, 0, true)
+		end
+	end
+
+	if(WM_ALPHA and (not WorldMapFrame_InWindowedMode())) then
 		local speed = GetUnitSpeed("player")
 		if(speed ~= 0) then
 			WorldMapFrame:SetAlpha(0.2)
@@ -401,17 +415,30 @@ local function AdjustMapSize()
 end  
 
 local function UpdateWorldMapConfig()
-	if(not MM_XY_COORD or MM_XY_COORD == "HIDE") then
-		if MOD.CoordTimer then
-			SV.Timers:RemoveLoop(MOD.CoordTimer)
-			MOD.CoordTimer = nil;
+	if(not MM_XY_COORD) then
+		if MOD.MMCoordTimer then
+			SV.Timers:RemoveLoop(MOD.MMCoordTimer)
+			MOD.MMCoordTimer = nil;
 		end
 		MiniMapCoords.X:SetText("")
 		MiniMapCoords.Y:SetText("")
 	else
-		if((not InCombatLockdown()) and (not MiniMapCoords:IsShown())) then MiniMapCoords:Show() end
-		UpdateMapCoords()
-		MOD.CoordTimer = SV.Timers:ExecuteLoop(UpdateMapCoords, 0.1)
+		UpdateMiniMapCoords()
+		MOD.MMCoordTimer = SV.Timers:ExecuteLoop(UpdateMiniMapCoords, 0.1)
+	end
+
+	if((not WMP_XY_COORD) and (not WMM_XY_COORD)) then
+		if MOD.WMCoordTimer then
+			SV.Timers:RemoveLoop(MOD.WMCoordTimer)
+			MOD.WMCoordTimer = nil;
+		end
+		if(WorldMapFrame:IsShown()) then
+			WorldMapCoords.Player:FadeOut(0.2, 1, 0, true)
+			WorldMapCoords.Mouse:FadeOut(0.2, 1, 0, true)
+		end
+	else
+		UpdateWorldMapCoords()
+		MOD.WMCoordTimer = SV.Timers:ExecuteLoop(UpdateWorldMapCoords, 0.1)
 	end
 
 	if InCombatLockdown()then return end
@@ -640,6 +667,10 @@ function MOD:RefreshMiniMap()
 		Minimap:SetParent(self.Holder)
 		Minimap:SetZoom(1)
 		Minimap:SetZoom(0)
+
+		if(SV.Auras and self.Holder.Grip) then
+			SV.Auras:UpdateAuraHolder(MM_HEIGHT, self.Holder.Grip)
+		end
 	else
 		SV.Dock.TopRight:ModSize(MM_WIDTH, (MM_HEIGHT + 4))
 	end
@@ -647,20 +678,7 @@ function MOD:RefreshMiniMap()
 	self.InfoTop.Text:SetSize(MM_WIDTH,28)
 	self.InfoBottom.Text:SetSize(MM_WIDTH,32)
 	self:RefreshZoneText()
-
-	if SVUI_AurasAnchor then
-		SVUI_AurasAnchor:ModHeight(MM_HEIGHT)
-		if SVUI_AurasAnchor_MOVE and not SV.Layout:HasMoved('SVUI_AurasAnchor_MOVE') and not SV.Layout:HasMoved('SVUI_MinimapFrame_MOVE') then
-			SVUI_AurasAnchor_MOVE:ClearAllPoints()
-			SVUI_AurasAnchor_MOVE:ModPoint("TOPRIGHT", SVUI_MinimapFrame_MOVE, "TOPLEFT", -8, 0)
-		end
-		if SVUI_AurasAnchor_MOVE then
-			SVUI_AurasAnchor_MOVE:ModHeight(MM_HEIGHT)
-		end
-	end
-	if SVUI_HyperBuffs then
-		SV.Auras:Update_HyperBuffsSettings()
-	end
+		
 	if TimeManagerClockButton then
 		TimeManagerClockButton:Die()
 	end
@@ -680,7 +698,9 @@ function MOD:UpdateLocals()
 	local db = SV.db.Maps
 	if not db then return end
 
-	MM_XY_COORD = db.playercoords;
+	MM_XY_COORD = db.miniPlayerXY;
+	WMP_XY_COORD = db.worldPlayerXY;
+	WMM_XY_COORD = db.worldMouseXY;
 	WM_TINY = db.tinyWorldMap;
 	MM_COLOR = db.bordercolor
 	MM_BRDR = db.bordersize or 0
@@ -826,7 +846,7 @@ function MOD:Load()
 	Minimap:SetScript("OnMouseWheel", MiniMap_MouseWheel)	
 	Minimap:SetScript("OnMouseUp", MiniMap_MouseUp)
 
-	SV.Layout:Add(self.Holder, L["Minimap"]) 
+	SV:NewAnchor(self.Holder, L["Minimap"]) 
 
 	if(SV.db.Maps.tinyWorldMap) then
 		setfenv(WorldMapFrame_OnShow, setmetatable({ UpdateMicroButtons = SV.fubar }, { __index = _G }))
@@ -835,12 +855,16 @@ function MOD:Load()
 		WorldMapFrame:HookScript('OnHide', _hook_WorldMapFrame_OnHide)
 	end
 
-	WorldMapPlayerCoords:SetFrameLevel(WorldMapDetailFrame:GetFrameLevel() + 1)
-	WorldMapPlayerCoords:SetFrameStrata(WorldMapDetailFrame:GetFrameStrata())
-	WorldMapPlayerCoords.Name:SetText(PLAYER)
-	WorldMapMouseCoords:SetFrameLevel(WorldMapDetailFrame:GetFrameLevel() + 1)
-	WorldMapMouseCoords:SetFrameStrata(WorldMapDetailFrame:GetFrameStrata())
-	WorldMapMouseCoords.Name:SetText(MOUSE_LABEL)
+	WorldMapCoords:SetStyle("Frame", "Transparent");
+	WorldMapCoords:SetFrameLevel(WorldMapDetailFrame:GetFrameLevel() + 1);
+	WorldMapCoords:SetFrameStrata(WorldMapDetailFrame:GetFrameStrata());
+	WorldMapCoords:SetMovable(true);
+	WorldMapCoords:RegisterForDrag("LeftButton");
+	WorldMapCoords:SetClampedToScreen(true);
+	WorldMapCoords.Player.Name:SetText(PLAYER);
+	WorldMapCoords.Mouse.Name:SetText(MOUSE_LABEL);
+
+	SV:NewAnchor(WorldMapCoords, L["WorldMap Coordinates"])
 
 	DropDownList1:HookScript('OnShow', _hook_DropDownList1)
 	WorldFrame:SetAllPoints()
@@ -885,6 +909,8 @@ function MOD:Load()
 	trackingButton:SetScript("OnLeave", Basic_OnLeave)
 	trackingButton:SetScript("OnClick", Tracking_OnClick)
 
+	SV:NewAnchor(MiniMapCoords, L["Minimap ToolBar"])
+
 	if(SV.db.Maps.minimapbar.enable == true) then
 		MMBHolder = CreateFrame("Frame", "SVUI_MiniMapButtonHolder", self.Holder)
 		MMBHolder:ModPoint("TOPRIGHT", SV.Dock.TopRight, "BOTTOMRIGHT", 0, -4)
@@ -896,7 +922,7 @@ function MOD:Load()
 		MMBBar:SetPoint("CENTER", MMBHolder, "CENTER", 0, 0)
 		MMBBar:SetScript("OnEnter", MMB_OnEnter)
 		MMBBar:SetScript("OnLeave", MMB_OnLeave)
-		SV.Layout:Add(MMBHolder, L["Minimap Button Bar"])
+		SV:NewAnchor(MMBHolder, L["Minimap Button Bar"])
 		self:UpdateMinimapButtonSettings()
 	end
 
@@ -910,5 +936,5 @@ function MOD:Load()
 
 	NewHook("Minimap_UpdateRotationSetting", RotationHook)
 	
-	SV.Events:On("CORE_INITIALIZED", "MapTriggerFired", MapTriggerFired);
+	SV.Events:On("CORE_INITIALIZED", MapTriggerFired);
 end

@@ -156,38 +156,45 @@
         </Layers>
     </Frame>
 
-    <Frame name="SVUI_WorldMapPlayerCoords" parent="WorldMapFrame" inherits="SVUI_CoordHolderTemplate">
-        <Size x="100" y="22"/>
+    <Frame name="SVUI_WorldMapCoords" parent="WorldMapFrame" >
+        <Size x="212" y="54"/>
         <Anchors>
             <Anchor point="BOTTOMLEFT" relativeTo="$parent" relativePoint="BOTTOMLEFT" x="100" y="5" />
         </Anchors>
-        <Layers>
-            <Layer level="ARTWORK">
-                <FontString name="$parentName" parentKey="Name" inherits="SVUI_Font_MinimapInfo" text="" justifyH="LEFT" justifyV="MIDDLE">
-                    <Anchors>
-                        <Anchor point="RIGHT" relativeTo="$parent" relativePoint="LEFT" x="-2" y="0" />
-                    </Anchors>
-                    <Color r="1" g="1" b="1" a="1"/>
-                </FontString>
-            </Layer>
-        </Layers>
-    </Frame>
-
-    <Frame name="SVUI_WorldMapMouseCoords" parent="WorldMapFrame" inherits="SVUI_CoordHolderTemplate">
-        <Size x="100" y="22"/>
-        <Anchors>
-            <Anchor point="BOTTOMLEFT" relativeTo="$parent" relativePoint="BOTTOMLEFT" x="100" y="30" />
-        </Anchors>
-        <Layers>
-            <Layer level="ARTWORK">
-                <FontString name="$parentName" parentKey="Name" inherits="SVUI_Font_MinimapInfo" text="" justifyH="LEFT" justifyV="MIDDLE">
-                    <Anchors>
-                        <Anchor point="RIGHT" relativeTo="$parent" relativePoint="LEFT" x="-2" y="0" />
-                    </Anchors>
-                    <Color r="1" g="1" b="1" a="1"/>
-                </FontString>
-            </Layer>
-        </Layers>
+        <Frames>
+            <Frame name="$parentPlayer" inherits="SVUI_CoordHolderTemplate">
+                <Size x="100" y="22"/>
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT" relativeTo="$parent" relativePoint="BOTTOMLEFT" x="100" y="5" />
+                </Anchors>
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <FontString name="$parentName" parentKey="Name" inherits="SVUI_Font_MinimapInfo" text="" justifyH="LEFT" justifyV="MIDDLE">
+                            <Anchors>
+                                <Anchor point="RIGHT" relativeTo="$parent" relativePoint="LEFT" x="-2" y="0" />
+                            </Anchors>
+                            <Color r="1" g="1" b="1" a="1"/>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </Frame>
+            <Frame name="$parentMouse" inherits="SVUI_CoordHolderTemplate">
+                <Size x="100" y="22"/>
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT" relativeTo="$parent" relativePoint="BOTTOMLEFT" x="100" y="30" />
+                </Anchors>
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <FontString name="$parentName" parentKey="Name" inherits="SVUI_Font_MinimapInfo" text="" justifyH="LEFT" justifyV="MIDDLE">
+                            <Anchors>
+                                <Anchor point="RIGHT" relativeTo="$parent" relativePoint="LEFT" x="-2" y="0" />
+                            </Anchors>
+                            <Color r="1" g="1" b="1" a="1"/>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </Frame>
+        </Frames>
     </Frame>
 
     <Frame name="SVUI_MiniMapCoords" parent="Minimap" inherits="SVUI_CoordHolderTemplate">

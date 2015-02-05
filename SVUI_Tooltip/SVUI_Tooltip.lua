@@ -30,15 +30,18 @@ local L = SV.L
 local LSM = LibStub("LibSharedMedia-3.0")
 local MOD = SV.Tooltip;
 if(not MOD) then return end;
-local ID = _G.ID;
+
+MOD.Holder = CreateFrame("Frame", "SVUI_ToolTip", UIParent)
 --[[ 
 ########################################################## 
 LOCAL VARIABLES
 ##########################################################
 ]]--
-local NewHook = hooksecurefunc;
 local _G = getfenv(0);
-local GameTooltip, GameTooltipStatusBar = _G["GameTooltip"], _G["GameTooltipStatusBar"];
+local ID = _G.ID;
+local GameTooltip = _G.GameTooltip;
+local GameTooltipStatusBar = _G.GameTooltipStatusBar;
+local NewHook = _G.hooksecurefunc;
 local playerGUID = UnitGUID("player");
 local targetList, inspectCache = {}, {};
 
@@ -101,6 +104,7 @@ local VISIBILITY_UNITS = "NONE";
 local VISIBILITY_COMBAT = false;
 local BAR_TEXT = true;
 local BAR_HEIGHT = 10;
+local ITEM_COUNTS = true;
 
 local VisibilityTest = {
 	NONE = function() return false end,
@@ -514,7 +518,7 @@ local _hook_GameTooltip_OnTooltipSetItem = function(self)
 			self.SuperBorder:SetMaskBorderColor(r, g, b)
 		end
 
-		if(SV.Inventory and SV.Inventory.LootCache[key]) then
+		if(ITEM_COUNTS and SV.Inventory and SV.Inventory.LootCache[key]) then
 			self:AddLine(" ")
 			self:AddDoubleLine("|cFFFFDD3C[Character]|r","|cFFFFDD3C[Count]|r")
 			for alt,amt in pairs(SV.Inventory.LootCache[key]) do
@@ -642,7 +646,7 @@ local _hook_GameTooltip_SetDefaultAnchor = function(self, parent)
 			self:SetOwner(parent, "ANCHOR_NONE")
 		end 
 	end 
-	if(not SV.Layout:HasMoved("SVUI_ToolTip_MOVE")) then
+	if(MOD.Holder.Grip and (not MOD.Holder.Grip:HasMoved())) then
 		self:ClearAllPoints()
 		if(SV.Inventory and SV.Inventory.BagFrame and SV.Inventory.BagFrame:IsShown()) then
 			self:SetPoint("BOTTOMLEFT", SV.Inventory.BagFrame, "TOPLEFT", 0, 24)
@@ -652,16 +656,16 @@ local _hook_GameTooltip_SetDefaultAnchor = function(self, parent)
 			self:SetPoint("BOTTOMLEFT", SV.Dock.BottomRight.Bar, "TOPLEFT", 0, 24)
 		end 
 	else
-		local point = Pinpoint(SVUI_ToolTip_MOVE)
+		local point = Pinpoint(MOD.Holder.Grip)
 		self:ClearAllPoints()
 		if(point == "TOPLEFT") then 
-			self:SetPoint("TOPLEFT", SVUI_ToolTip_MOVE, "TOPLEFT", 0, 0)
+			self:SetPoint("TOPLEFT", MOD.Holder.Grip, "TOPLEFT", 0, 0)
 		elseif(point == "TOPRIGHT") then 
-			self:SetPoint("TOPRIGHT", SVUI_ToolTip_MOVE, "TOPRIGHT", 0, 0)
+			self:SetPoint("TOPRIGHT", MOD.Holder.Grip, "TOPRIGHT", 0, 0)
 		elseif(point == "BOTTOMLEFT" or point == "LEFT" )then 
-			self:SetPoint("BOTTOMLEFT", SVUI_ToolTip_MOVE, "BOTTOMLEFT", 0, 0)
+			self:SetPoint("BOTTOMLEFT", MOD.Holder.Grip, "BOTTOMLEFT", 0, 0)
 		else 
-			self:SetPoint("BOTTOMRIGHT", SVUI_ToolTip_MOVE, "BOTTOMRIGHT", 0, 0)
+			self:SetPoint("BOTTOMRIGHT", MOD.Holder.Grip, "BOTTOMRIGHT", 0, 0)
 		end 
 	end 
 end
@@ -903,6 +907,7 @@ function MOD:UpdateLocals()
 	INSPECT_INFO = SV.db.Tooltip.inspectInfo;
 	GUILD_INFO = SV.db.Tooltip.guildRanks;
 	VISIBILITY_UNITS = SV.db.Tooltip.visibility.unitFrames;
+	ITEM_COUNTS = SV.db.Tooltip.itemCount;
 end
 
 function MOD:ReLoad()
@@ -914,18 +919,17 @@ end
 function MOD:Load()
 	self:UpdateLocals()
 
-	local anchor = CreateFrame("Frame", "SVUI_ToolTip", UIParent)
-	anchor:ModPoint("BOTTOMLEFT", SV.Dock.BottomRight, "TOPLEFT", 0, 24)
-	anchor:ModSize(130, 20)
-	anchor:SetFrameLevel(anchor:GetFrameLevel()  +  50)
-	SV.Layout:Add(anchor, L["Tooltip"])
+	self.Holder:ModPoint("BOTTOMLEFT", SV.Dock.BottomRight, "TOPLEFT", 0, 24)
+	self.Holder:ModSize(130, 20)
+	self.Holder:SetFrameLevel(self.Holder:GetFrameLevel() + 50)
+	SV:NewAnchor(self.Holder, L["Tooltip"])
 
 	GameTooltipStatusBar:SetHeight(BAR_HEIGHT)
 	GameTooltipStatusBar:SetStatusBarTexture(SV.Media.bar.default)
 
 	BNToastFrame:ClearAllPoints()
 	BNToastFrame:ModPoint("BOTTOMRIGHT", SV.Dock.BottomLeft, "TOPRIGHT", 0, 20)
-	SV.Layout:Add(BNToastFrame, L["BattleNet Frame"], nil, nil, "BattleNetToasts")
+	SV:NewAnchor(BNToastFrame, L["BattleNet Frame"], nil, nil, "BattleNetToasts")
 	NewHook(BNToastFrame, "SetPoint", _hook_BNToastOnShow)
 
 	ApplyTooltipSkins()

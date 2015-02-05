@@ -623,7 +623,7 @@ local function InitializeMisc()
 	end
 end
 
-SV.Events:On("CORE_INITIALIZED", "LoadMisc", InitializeMisc);
+SV.Events:On("CORE_INITIALIZED", InitializeMisc);
 --[[ 
 ########################################################## 
 DIRTY DEEDS

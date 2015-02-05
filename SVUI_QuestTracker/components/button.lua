@@ -120,7 +120,7 @@ function MOD:InitializeQuestItem()
 	SVUI_QuestItemBar:ModPoint("BOTTOM", SV.Screen, "BOTTOM", 0, 250)
 	SVUI_QuestItemBar:ModSize(40,40)
 
-	SV.Layout:Add(SVUI_QuestItemBar, L["Quest Item Button"])
+	SV:NewAnchor(SVUI_QuestItemBar, L["Quest Item Button"])
 
 	local questitem = SV:CreateSecureButton("item", "SVUI_QuestItemBar", "SVUI_QuestAutoItemButton", UpdateButton);
 	questitem.ArtFile = MOD.media.buttonArt;

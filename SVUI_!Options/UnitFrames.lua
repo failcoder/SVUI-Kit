@@ -2900,7 +2900,7 @@ SV.Options.args[Schema] = {
 							name = L['Restore Defaults'],
 							func = function(l,m)
 								MOD:ResetUnitOptions('player')
-								SV.Layout:Reset('Player Frame')
+								SV:ResetAnchors('Player Frame')
 							end
 						},
 						spacer1 = {
@@ -3084,7 +3084,7 @@ SV.Options.args[Schema] = {
 					set = function(l, m)MOD:ChangeDBVar(m, l[#l], "pet");MOD:SetUnitFrame("pet")end, 
 					args = {
 						enable = {type = "toggle", order = 1, name = L["Enable"]}, 
-						resetSettings = {type = "execute", order = 2, name = L["Restore Defaults"], func = function(l, m)MOD:ResetUnitOptions("pet")SV.Layout:Reset("Pet Frame")end}, 
+						resetSettings = {type = "execute", order = 2, name = L["Restore Defaults"], func = function(l, m)MOD:ResetUnitOptions("pet")SV:ResetAnchors("Pet Frame")end}, 
 						spacer1 = {
 							order = 3, 
 							name = "", 
@@ -3195,7 +3195,7 @@ SV.Options.args[Schema] = {
 					set = function(l, m)MOD:ChangeDBVar(m, l[#l], "pettarget");MOD:SetUnitFrame("pettarget")end, 
 					args = {
 						enable = {type = "toggle", order = 1, name = L["Enable"]}, 
-						resetSettings = {type = "execute", order = 2, name = L["Restore Defaults"], func = function(l, m)MOD:ResetUnitOptions("pettarget")SV.Layout:Reset("PetTarget Frame")end},
+						resetSettings = {type = "execute", order = 2, name = L["Restore Defaults"], func = function(l, m)MOD:ResetUnitOptions("pettarget")SV:ResetAnchors("PetTarget Frame")end},
 						spacer1 = {
 							order = 3, 
 							name = "", 
@@ -3275,7 +3275,7 @@ SV.Options.args[Schema] = {
 					set=function(l,m)MOD:ChangeDBVar(m, l[#l], "target");MOD:SetUnitFrame('target')end,
 					args={
 						enable={type='toggle',order=1,name=L['Enable']},
-						resetSettings={type='execute',order=2,name=L['Restore Defaults'],func=function(l,m)MOD:ResetUnitOptions('target')SV.Layout:Reset('Target Frame')end},
+						resetSettings={type='execute',order=2,name=L['Restore Defaults'],func=function(l,m)MOD:ResetUnitOptions('target')SV:ResetAnchors('Target Frame')end},
 						spacer1 = {
 							order = 3, 
 							name = "", 
@@ -3422,7 +3422,7 @@ SV.Options.args[Schema] = {
 					set = function(l,m)MOD:ChangeDBVar(m, l[#l], "targettarget");MOD:SetUnitFrame('targettarget')end,
 					args={
 						enable={type='toggle',order=1,name=L['Enable']},
-						resetSettings={type='execute',order=2,name=L['Restore Defaults'],func=function(l,m)MOD:ResetUnitOptions('targettarget')SV.Layout:Reset('TargetTarget Frame')end},
+						resetSettings={type='execute',order=2,name=L['Restore Defaults'],func=function(l,m)MOD:ResetUnitOptions('targettarget')SV:ResetAnchors('TargetTarget Frame')end},
 						spacer1 = {
 							order = 3, 
 							name = "", 
@@ -3525,7 +3525,7 @@ SV.Options.args[Schema] = {
 					set = function(l, m)MOD:ChangeDBVar(m, l[#l], "focus");MOD:SetUnitFrame("focus")end, 
 					args = {
 						enable = {type = "toggle", order = 1, name = L["Enable"]}, 
-						resetSettings = {type = "execute", order = 2, name = L["Restore Defaults"], func = function(l, m)MOD:ResetUnitOptions("focus");SV.Layout:Reset("Focus Frame")end},
+						resetSettings = {type = "execute", order = 2, name = L["Restore Defaults"], func = function(l, m)MOD:ResetUnitOptions("focus");SV:ResetAnchors("Focus Frame")end},
 						spacer1 = {
 							order = 3, 
 							name = "", 
@@ -3630,7 +3630,7 @@ SV.Options.args[Schema] = {
 					set = function(l, m)MOD:ChangeDBVar(m, l[#l], "focustarget");MOD:SetUnitFrame("focustarget")end, 
 					args = {
 						enable = {type = "toggle", order = 1, name = L["Enable"]}, 
-						resetSettings = {type = "execute", order = 2, name = L["Restore Defaults"], func = function(l, m)MOD:ResetUnitOptions("focustarget")SV.Layout:Reset("FocusTarget Frame")end}, 
+						resetSettings = {type = "execute", order = 2, name = L["Restore Defaults"], func = function(l, m)MOD:ResetUnitOptions("focustarget")SV:ResetAnchors("FocusTarget Frame")end}, 
 						spacer1 = {
 							order = 3, 
 							name = "", 
@@ -3723,7 +3723,7 @@ SV.Options.args[Schema] = {
 							type = 'execute',
 							order = 3,
 							name = L['Restore Defaults'],
-							func = function(l, m)MOD:ResetUnitOptions('party')SV.Layout:Reset('Party Frames')end,
+							func = function(l, m)MOD:ResetUnitOptions('party')SV:ResetAnchors('Party Frames')end,
 						},
 						spacer1 = {
 							order = 4, 
@@ -4081,7 +4081,7 @@ SV.Options.args[Schema] = {
 							type = "execute", 
 							order = 3, 
 							name = L["Restore Defaults"], 
-							func = function(l, m)MOD:ResetUnitOptions("raid") SV.Layout:Reset("Raid Frames") end, 
+							func = function(l, m)MOD:ResetUnitOptions("raid") SV:ResetAnchors("Raid Frames") end, 
 						}, 
 						spacer1 = {
 							order = 4, 
@@ -4456,7 +4456,7 @@ SV.Options.args[Schema] = {
 							type = 'execute',
 							order = 3,
 							name = L['Restore Defaults'],
-							func = function(l, m) MOD:ResetUnitOptions('raidpet'); SV.Layout:Reset('Raid Pet Frames'); MOD:SetGroupFrame('raidpet', true); end,
+							func = function(l, m) MOD:ResetUnitOptions('raidpet'); SV:ResetAnchors('Raid Pet Frames'); MOD:SetGroupFrame('raidpet', true); end,
 						},
 						spacer1 = {
 							order = 4, 
@@ -4700,7 +4700,7 @@ SV.Options.args[Schema] = {
 					args = {
 						enable = {type = "toggle", order = 1, name = L["Enable"]},
 						displayFrames = {type = "execute", order = 2, name = L["Display Frames"], func = function()MOD:ViewEnemyFrames("boss", 4)end}, 
-						resetSettings = {type = "execute", order = 3, name = L["Restore Defaults"], func = function(l, m)MOD:ResetUnitOptions("boss")SV.Layout:Reset("Boss Frames")end},
+						resetSettings = {type = "execute", order = 3, name = L["Restore Defaults"], func = function(l, m)MOD:ResetUnitOptions("boss")SV:ResetAnchors("Boss Frames")end},
 						spacer1 = {
 							order = 4, 
 							name = "", 
@@ -4768,7 +4768,7 @@ SV.Options.args[Schema] = {
 					args = {
 						enable = {type = "toggle", order = 1, name = L["Enable"]}, 
 						displayFrames = {type = "execute", order = 2, name = L["Display Frames"], func = function()MOD:ViewEnemyFrames("arena", 5)end},
-						resetSettings = {type = "execute", order = 3, name = L["Restore Defaults"], func = function(l, m)MOD:ResetUnitOptions("arena")SV.Layout:Reset("Arena Frames")end},
+						resetSettings = {type = "execute", order = 3, name = L["Restore Defaults"], func = function(l, m)MOD:ResetUnitOptions("arena")SV:ResetAnchors("Arena Frames")end},
 						spacer1 = {
 							order = 4, 
 							name = "", 

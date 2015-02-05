@@ -1406,6 +1406,6 @@ function MOD:Load()
 
 	self:LoadChatBubbles()
 
-	SV.Events:On("DOCK_LEFT_FADE_IN", "DockFadeInChat", DockFadeInChat);
-	SV.Events:On("DOCK_LEFT_FADE_OUT", "DockFadeOutChat", DockFadeOutChat);
+	SV.Events:On("DOCK_LEFT_FADE_IN", DockFadeInChat, "DockFadeInChat");
+	SV.Events:On("DOCK_LEFT_FADE_OUT", DockFadeOutChat, "DockFadeOutChat");
 end

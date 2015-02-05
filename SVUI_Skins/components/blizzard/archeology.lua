@@ -70,7 +70,7 @@ local function ArchaeologyStyle()
 	local progressBarHolder = CreateFrame("Frame", "SVUI_ArcheologyProgressBar", nil)
 	progressBarHolder:SetSize(240, 24)
 	progressBarHolder:SetPoint("BOTTOM", CastingBarFrame, "TOP", 0, 10)
-	SV.Layout:Add(progressBarHolder, "Archeology Progress Bar")
+	SV:NewAnchor(progressBarHolder, "Archeology Progress Bar")
 	
 	ArcheologyDigsiteProgressBar:SetAllPoints(progressBarHolder)
 	progressBarHolder:SetParent(ArcheologyDigsiteProgressBar)

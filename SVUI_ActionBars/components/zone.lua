@@ -283,7 +283,7 @@ function MOD:InitializeZoneButton()
 	draenor:RegisterEvent("UPDATE_BINDINGS");
     draenor:SetScript('OnEvent', DraenorButton_OnEvent);
 
-    SV.Layout:Add(draenor, L["Zone Ability Button"]);
+    SV:NewAnchor(draenor, L["Zone Ability Button"]);
 
 	DraenorZoneAbilityFrame:UnregisterAllEvents()
 end

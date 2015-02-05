@@ -31,6 +31,9 @@ GET ADDON DATA
 local SV = select(2, ...)
 local L = SV.L;
 
+local Layout = _G["SVUI_Layout"];
+Layout.Frames = {};
+
 local UIPanels = {};
 UIPanels["AchievementFrame"] 				= { moving = false, snapped = false, canupdate = false, cansetpoint = false, centered = false };
 UIPanels["AuctionFrame"] 					= { moving = false, snapped = false, canupdate = false, cansetpoint = false, centered = false };
@@ -87,11 +90,8 @@ UIPanels["TransmogrifyFrame"] 				= { moving = false, snapped = false, canupdate
 UIPanels["TutorialFrame"] 					= { moving = false, snapped = false, canupdate = false, cansetpoint = false, centered = true };
 UIPanels["VideoOptionsFrame"] 				= { moving = false, snapped = false, canupdate = false, cansetpoint = false, centered = true };
 UIPanels["VoidStorageFrame"] 				= { moving = false, snapped = false, canupdate = false, cansetpoint = false, centered = false };
-
 UIPanels["ScrollOfResurrectionSelectionFrame"] = { moving = false, snapped = false, canupdate = false, cansetpoint = false, centered = false };
 
-local Layout = SV:NewClass("Layout", L["UI Frame Layout"]);
-Layout.Frames = {}
 
 local Sticky = {};
 Sticky.Frames = {};
@@ -282,6 +282,11 @@ local function CurrentPosition(frame)
 	return ("%s\031%s\031%s\031%d\031%d"):format(anchor1, parentName, anchor2, parsefloat(x), parsefloat(y))
 end
 
+local function SaveAnchor(frameName)
+	if((not _G[frameName]) or (not Layout.Anchors)) then return end 
+	Layout.Anchors[frameName] = CurrentPosition(_G[frameName])
+end
+
 local function GrabUsableRegions(frame)
 	local parent = frame or SV.Screen
 	local right = parent:GetRight()
@@ -335,10 +340,10 @@ local function ResetAllAlphas()
 end
 --[[ 
 ########################################################## 
-HANDLERS
+MOVING ANIMATION WIDGET
 ##########################################################
 ]]--
-local TheHand = CreateFrame("Frame", "SVUI_HandOfLayout", UIParent)
+local TheHand = CreateFrame("Frame", nil, UIParent)
 TheHand:SetFrameStrata("DIALOG")
 TheHand:SetFrameLevel(99)
 TheHand:SetClampedToScreen(true)
@@ -384,64 +389,15 @@ function TheHand:Disable()
 	self.elapsedTime = 0
 	self:Hide()
 end
-
-function Layout:PostDragStart()
-	TheHand:Enable()
-	TheHand.UserHeld = true 
-end
-
-function Layout:PostDragStop()
-	TheHand.UserHeld = false;
-	TheHand:Disable()
-end
-
-function Layout:Movable_OnEnter()
-	if TheHand.UserHeld then return end
-	ResetAllAlphas()
-	self:SetAlpha(1)
-	self.text:SetTextColor(0, 1, 1)
-	self:SetBackdropBorderColor(0, 0.7, 1)
-	UpdateFrameTarget = self;
-	SVUI_Layout.Portrait:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\Doodads\MENTALO-ON]])
-	TheHand:SetPoint("CENTER", self, "TOP", 0, 0)
-	TheHand:Show()
-	if CurrentFrameTarget ~= self then 
-		SVUI_LayoutPrecision:Hide()
-		self:GetScript("OnMouseUp")(self)
-	end
-end
-
-function Layout:Movable_OnLeave()
-	if TheHand.UserHeld then return end
-	self.text:SetTextColor(0.5, 0.5, 0.5)
-	self:SetBackdropBorderColor(0.5, 0.5, 0.5)
-	SVUI_Layout.Portrait:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\Doodads\MENTALO-OFF]])
-	TheHand:Hide()
-	if(CurrentFrameTarget ~= self and not SVUI_LayoutPrecision:IsShown()) then
-		self:SetAlpha(0.4)
-	end
-end
-
-function Layout:Movable_OnMouseDown(button)
-	if button == "RightButton" then
-		TheHand.UserHeld = false;
-		if(CurrentFrameTarget == self and not SVUI_LayoutPrecision:IsShown()) then
-			Movable_OnUpdate()
-			SVUI_LayoutPrecision:Show()
-		else
-			SVUI_LayoutPrecision:Hide()
-		end
-		if SV.db.general.stickyFrames then 
-			StickyStopMoving(self)
-		else 
-			self:StopMovingOrSizing()
-		end
-	end
-end
-
+--[[ 
+########################################################## 
+HANDLERS
+##########################################################
+]]--
 local LayoutUpdateHandler = CreateFrame("Frame", nil)
 
-local Movable_OnMouseUp = function(self)
+function Layout:Movable_OnMouseUp()
+	if(not SVUI_LayoutPrecision) then return end;
 	CurrentFrameTarget = self;
 	local xOffset, yOffset, anchor = CalculateOffsets()
 
@@ -454,7 +410,7 @@ local Movable_OnMouseUp = function(self)
 	SVUI_LayoutPrecision.Title:SetText(self.textString)
 end
 
-local Movable_OnUpdate = function(self)
+function Layout:Movable_OnUpdate()
 	local frame = UpdateFrameTarget;
 	if not frame then return end
 	local rightPos, topPos, centerPos = GrabUsableRegions()
@@ -476,14 +432,15 @@ local Movable_OnUpdate = function(self)
 	elseif centerX <= calc1 then 
 		anchor1 = "LEFT"
 		anchor2 = "RIGHT"
-	end 
+	end
+	if(not SVUI_LayoutPrecision) then return end;
 	SVUI_LayoutPrecision:ClearAllPoints()
 	SVUI_LayoutPrecision:SetPoint(anchor1, frame, anchor2, 0, 0)
 	SVUI_LayoutPrecision:SetFrameLevel(frame:GetFrameLevel() + 20)
-	Movable_OnMouseUp(frame)
+	Layout.Movable_OnMouseUp(frame)
 end
 
-local Movable_OnSizeChanged = function(self)
+function Layout:Movable_OnSizeChanged()
 	if InCombatLockdown()then return end 
 	if self.dirtyWidth and self.dirtyHeight then 
 		self.Grip:ModSize(self.dirtyWidth, self.dirtyHeight)
@@ -492,7 +449,7 @@ local Movable_OnSizeChanged = function(self)
 	end 
 end
 
-local Movable_OnDragStart = function(self)
+function Layout:Movable_OnDragStart()
 	if InCombatLockdown() then SV:AddonMessage(ERR_NOT_IN_COMBAT)return end 
 	if SV.db.general.stickyFrames then 
 		StickyStartMoving(self, self.snapOffset, -2)
@@ -501,11 +458,12 @@ local Movable_OnDragStart = function(self)
 	end 
 	UpdateFrameTarget = self;
 	LayoutUpdateHandler:Show()
-	LayoutUpdateHandler:SetScript("OnUpdate", Movable_OnUpdate)
-	Layout:PostDragStart(self)
+	LayoutUpdateHandler:SetScript("OnUpdate", Layout.Movable_OnUpdate())
+	TheHand:Enable()
+	TheHand.UserHeld = true 
 end
 
-local Movable_OnDragStop = function(self)
+function Layout:Movable_OnDragStop()
 	if InCombatLockdown()then SV:AddonMessage(ERR_NOT_IN_COMBAT)return end 
 	if SV.db.general.stickyFrames then 
 		StickyStopMoving(self)
@@ -539,10 +497,10 @@ local Movable_OnDragStop = function(self)
 	self:ClearAllPoints()
 	self:ModPoint(newAnchor, SV.Screen, newAnchor, cX, cY)
 
-	Layout:SaveMovable(self.name)
+	SaveAnchor(self.name)
 
 	if SVUI_LayoutPrecision then 
-		Movable_OnMouseUp(self)
+		Layout.Movable_OnMouseUp(self)
 	end
 
 	UpdateFrameTarget = nil;
@@ -554,21 +512,77 @@ local Movable_OnDragStop = function(self)
 		self:postdrag(Pinpoint(self))
 	end 
 	self:SetUserPlaced(false)
-	Layout:PostDragStop(self)
+	TheHand.UserHeld = false;
+	TheHand:Disable()
 end
 
-local Movable_OnShow = function(self)
+function Layout:Movable_OnShow()
 	self:SetBackdropBorderColor(0.5, 0.5, 0.5)
+end
+
+function Layout:Movable_OnEnter()
+	if TheHand.UserHeld then return end
+	ResetAllAlphas()
+	self:SetAlpha(1)
+	self.text:SetTextColor(0, 1, 1)
+	self:SetBackdropBorderColor(0, 0.7, 1)
+	UpdateFrameTarget = self;
+	Layout.Portrait:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\Doodads\MENTALO-ON]])
+	TheHand:SetPoint("CENTER", self, "TOP", 0, 0)
+	TheHand:Show()
+	if(not SVUI_LayoutPrecision) then return end;
+	if CurrentFrameTarget ~= self then 
+		SVUI_LayoutPrecision:Hide()
+		self:GetScript("OnMouseUp")(self)
+	end
+end
+
+function Layout:Movable_OnLeave()
+	if TheHand.UserHeld then return end
+	self.text:SetTextColor(0.5, 0.5, 0.5)
+	self:SetBackdropBorderColor(0.5, 0.5, 0.5)
+	Layout.Portrait:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\Doodads\MENTALO-OFF]])
+	TheHand:Hide()
+	if(not SVUI_LayoutPrecision) then return end;
+	if(CurrentFrameTarget ~= self and not SVUI_LayoutPrecision:IsShown()) then
+		self:SetAlpha(0.4)
+	end
+end
+
+function Layout:Movable_OnMouseDown(button)
+	if button == "RightButton" then
+		TheHand.UserHeld = false;
+		if(SV.db.general.stickyFrames) then 
+			StickyStopMoving(self)
+		else 
+			self:StopMovingOrSizing()
+		end
+		if(not SVUI_LayoutPrecision) then return end;
+		if(CurrentFrameTarget == self and not SVUI_LayoutPrecision:IsShown()) then
+			Layout:Movable_OnUpdate()
+			SVUI_LayoutPrecision:Show()
+		else
+			SVUI_LayoutPrecision:Hide()
+		end
+	end
+end
+
+function Layout:Movable_HasMoved()
+	if(Layout.Anchors and Layout.Anchors[self.name]) then 
+		return true 
+	else 
+		return false 
+	end 
 end
 --[[ 
 ########################################################## 
 CONSTRUCTS
 ##########################################################
 ]]--
-function Layout:New(frame, moveName, title, snap, dragStopFunc, callbackOnEnter)
-	if(not frame or (self.Frames[moveName] ~= nil)) then return end
+local function SetNewAnchor(frame, moveName, title, snap, dragStopFunc, callbackOnEnter)
+	if(not frame or (Layout.Frames[moveName] ~= nil)) then return end
 
-	self.Frames[moveName] = {
+	Layout.Frames[moveName] = {
 		text = title,
 		postdrag = dragStopFunc,
 		point = CurrentPosition(frame)
@@ -585,11 +599,12 @@ function Layout:New(frame, moveName, title, snap, dragStopFunc, callbackOnEnter)
 	movable.name = moveName;
 	movable.textString = title;
 	movable.postdrag = dragStopFunc;
+	movable.HasMoved = Layout.Movable_HasMoved
 	movable.snapOffset = snap or -2; 
 
 	local anchor1, anchorParent, anchor2, xPos, yPos
-	if(self.Anchors and self.Anchors[moveName] and (type(self.Anchors[moveName]) == "string")) then 
-		anchor1, anchorParent, anchor2, xPos, yPos = split("\031", self.Anchors[moveName])
+	if(Layout.Anchors and Layout.Anchors[moveName] and (type(Layout.Anchors[moveName]) == "string")) then 
+		anchor1, anchorParent, anchor2, xPos, yPos = split("\031", Layout.Anchors[moveName])
 	else
 		anchor1, anchorParent, anchor2, xPos, yPos = split("\031", CurrentPosition(frame))
 	end 
@@ -614,11 +629,11 @@ function Layout:New(frame, moveName, title, snap, dragStopFunc, callbackOnEnter)
 	movable.text = mtext;
 
 	movable:RegisterForDrag("LeftButton", "RightButton")
-	movable:SetScript("OnMouseUp", Movable_OnMouseUp)
-	movable:SetScript("OnDragStart", Movable_OnDragStart)
-	movable:SetScript("OnDragStop", Movable_OnDragStop)
-	movable:SetScript("OnShow", Movable_OnShow)
 
+	movable:SetScript("OnMouseUp", Layout.Movable_OnMouseUp)
+	movable:SetScript("OnDragStart", Layout.Movable_OnDragStart)
+	movable:SetScript("OnDragStop", Layout.Movable_OnDragStop)
+	movable:SetScript("OnShow", Layout.Movable_OnShow)
 	movable:SetScript("OnEnter", Layout.Movable_OnEnter)
 	movable:SetScript("OnMouseDown", Layout.Movable_OnMouseDown)
 	movable:SetScript("OnLeave", Layout.Movable_OnLeave)
@@ -636,32 +651,7 @@ function Layout:New(frame, moveName, title, snap, dragStopFunc, callbackOnEnter)
 	end 
 
 	Sticky.Frames[#Sticky.Frames + 1] = movable;
-end
-
-function Layout:HasMoved(frameName)
-	if(self.Anchors and self.Anchors[frameName]) then 
-		return true 
-	else 
-		return false 
-	end 
-end 
-
-function Layout:SaveMovable(frameName)
-	if((not _G[frameName]) or (not self.Anchors)) then return end 
-	self.Anchors[frameName] = CurrentPosition(_G[frameName])
-end
-
-function Layout:ChangeSnapOffset(frameName, snapOffset)
-	if(not _G[frameName]) then return end 
-	_G[frameName].snapOffset = snapOffset or -2;
-end 
-
-function Layout:Add(frame, title, snapOffset, dragStopFunc, overrideName, callbackOnEnter)
-	if(not frame or (not overrideName and not frame:GetName())) then return end
-	local frameName = overrideName or frame:GetName()
-	local moveName = ("%s_MOVE"):format(frameName) 
-	self:New(frame, moveName, title, snapOffset, dragStopFunc, callbackOnEnter)
-end
+end  
 
 function Layout:Reset(request, bypass)
 	if(request == "" or request == nil) then 
@@ -700,9 +690,9 @@ function Layout:Reset(request, bypass)
 			end
 		end 
 	end 
-end 
+end
 
-function Layout:SetPositions()
+function Layout:Update()
 	for frameName, frameData in pairs(self.Frames) do 
 		local frame = _G[frameName];
 		local anchor1, parent, anchor2, x, y;
@@ -723,7 +713,7 @@ end
 function Layout:Toggle(isConfigMode)
 	if(InCombatLockdown()) then return end 
 	local enabled = false;
-	if(isConfigMode  ~= nil and isConfigMode  ~= "") then 
+	if((isConfigMode ~= nil) and (isConfigMode ~= "")) then 
 		self.ConfigurationMode = isConfigMode 
 	end 
 
@@ -739,10 +729,10 @@ function Layout:Toggle(isConfigMode)
 		self.ConfigurationMode = false
 	end
 
-	if(SVUI_Layout:IsShown()) then
-		SVUI_Layout:Hide()
+	if(self:IsShown()) then
+		self:Hide()
 	else
-		SVUI_Layout:Show()
+		self:Show()
 		enabled = true
 	end
 
@@ -873,7 +863,7 @@ local XML_LayoutPrecisionInputX_EnterPressed = function(self)
 			yOffset = tonumber(SVUI_LayoutPrecisionSetY.CurrentValue)
 			CurrentFrameTarget:ClearAllPoints()
 			CurrentFrameTarget:ModPoint(anchor, SVUIParent, anchor, current, yOffset)
-			Layout:SaveMovable(CurrentFrameTarget.name)
+			SaveAnchor(CurrentFrameTarget.name)
 		end
 		self.CurrentValue = current
 	end
@@ -889,7 +879,7 @@ local XML_LayoutPrecisionInputY_EnterPressed = function(self)
 			xOffset = tonumber(SVUI_LayoutPrecisionSetX.CurrentValue)
 			CurrentFrameTarget:ClearAllPoints()
 			CurrentFrameTarget:ModPoint(anchor, SVUIParent, anchor, xOffset, current)
-			Layout:SaveMovable(CurrentFrameTarget.name)
+			SaveAnchor(CurrentFrameTarget.name)
 		end
 		self.CurrentValue = current
 	end
@@ -933,8 +923,6 @@ local function SaveCurrentPosition(frame)
 		Dragger.Frames[frameName] = ("%s\031%s\031%s\031%d\031%d"):format(anchor1, parentName, anchor2, parsefloat(x), parsefloat(y))
 	end
 end
-
---[[SCRIPT AND EVENT HANDLERS]]--
 
 local DraggerFrame_OnDragStart = function(self)
 	if(not self:IsMovable()) then return; end 
@@ -1131,15 +1119,19 @@ function Dragger:Reset()
 
 	ReloadUI() 
 end
-
+--[[ 
+########################################################## 
+LOAD BY TRIGGER
+##########################################################
+]]--
 local function InitializeMovables()
 	Layout.Anchors = SV.db.LAYOUT or {}
-	
-	SVUI_Layout:SetStyle("!_Frame")
-	SVUI_Layout:SetPanelColor("yellow")
-	SVUI_Layout:RegisterForDrag("LeftButton")
-	SVUI_Layout:RegisterEvent("PLAYER_REGEN_DISABLED")
-	SVUI_Layout:SetScript("OnEvent", XML_Layout_OnEvent)
+	Layout:SetStyle("!_Frame")
+	Layout:SetPanelColor("yellow")
+	Layout:RegisterForDrag("LeftButton")
+	Layout:RegisterEvent("PLAYER_REGEN_DISABLED")
+	Layout:SetScript("OnEvent", XML_Layout_OnEvent)
+	Layout.Portrait:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\Doodads\MENTALO-OFF]])
 
 	SVUI_LayoutGridButton:SetScript("OnClick", XML_LayoutGridButton_OnClick)
 	SVUI_LayoutLockButton:SetScript("OnClick", XML_LayoutLockButton_OnClick)
@@ -1160,7 +1152,7 @@ local function InitializeMovables()
 	SVUI_LayoutPrecisionLeftButton:SetStyle("Button")
 	SVUI_LayoutPrecisionRightButton:SetStyle("Button")
 	
-	Layout:SetPositions()
+	Layout:Update()
 
 	if(SV.db.general.saveDraggable) then
 		SV.private.Draggables = SV.private.Draggables or {}
@@ -1188,15 +1180,36 @@ local function InitializeMovables()
 	end
 end
 
-SVUI_Layout.Portrait:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\Doodads\MENTALO-OFF]]);
+SV.Events:On("LOAD_ALL_WIDGETS", InitializeMovables);
+--[[ 
+########################################################## 
+CORE FUNCTIONS
+##########################################################
+]]--
+function SV:NewAnchor(frame, title, snapOffset, dragStopFunc, overrideName, callbackOnEnter)
+	if(not frame or (not overrideName and not frame:GetName())) then return end
+	local frameName = overrideName or frame:GetName()
+	local moveName = ("%s_MOVE"):format(frameName) 
+	SetNewAnchor(frame, moveName, title, snapOffset, dragStopFunc, callbackOnEnter)
+end
 
-SV.Events:On("LOAD_ALL_WIDGETS", "InitializeMovables", InitializeMovables);
+function SV:MoveAnchors(...)
+	Layout:Toggle(...)
+end
+
+function SV:UpdateAnchors()
+	Layout:Update()
+end
+
+function SV:ResetAnchors(...)
+	Layout:Reset(...)
+end
 
 SV.SystemAlert["RESETBLIZZARD_CHECK"] = {
 	text = L["Are you sure you want to all draggable Blizzard frames to their original positions? This will reload your UI."], 
 	button1 = ACCEPT, 
 	button2 = CANCEL, 
-	OnAccept = function(a)Dragger:Reset()end, 
+	OnAccept = function(a) Dragger:Reset() end, 
 	timeout = 0, 
 	whileDead = 1
 };

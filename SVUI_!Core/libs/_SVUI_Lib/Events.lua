@@ -60,34 +60,83 @@ local CoreName, CoreObject  = ...
 --[[ LIB CALLBACK STORAGE ]]--
 
 lib.Triggers = {};
+lib.FireOnce = {};
 lib.LockCallback = {};
 lib.UnlockCallback = {};
 
---LOCAL HELPERS
+--[[ EVENT TRIGGERING ]]--
 
 function lib:Trigger(eventName, ...)
     if(not eventName) then return end;
-    local eventCallabcks = self.Triggers[eventName];
-    if(not eventCallabcks) then return end;
-    for id, fn in pairs(eventCallabcks) do 
-        if(fn and type(fn) == "function") then
-            local _, catch = pcall(fn, ...)
-            if(catch) then
-                CoreObject:HandleError("Librarian:Events:Trigger(" .. eventName .. "):", id, catch)
+    if(self.Triggers[eventName]) then
+        for id, fn in pairs(self.Triggers[eventName]) do 
+            if(fn and type(fn) == "function") then
+                local _, catch = pcall(fn, ...)
+                if(catch) then
+                    CoreObject:HandleError("Librarian:Events:Trigger(" .. eventName .. "):", id, catch)
+                end
             end
         end
+    elseif(self.FireOnce[eventName]) then
+        for i=1, #self.FireOnce[eventName] do
+            local fn = self.FireOnce[eventName][i];
+            if(fn and type(fn) == "function") then
+                local _, catch = pcall(fn, ...)
+                if(catch) then
+                    CoreObject:HandleError("Librarian:Events:Trigger(" .. eventName .. "):", id, catch)
+                end
+            end
+        end
+
+        self.FireOnce[eventName] = nil;
     end
 end
 
---[[ CONSTRUCTORS ]]--
-
-function lib:On(event, id, callback)
-    if((not event) or (not id)) then return end; 
-    if(callback and type(callback) == "function") then
-        if(not self.Triggers[event]) then
-            self.Triggers[event] = {}
+function lib:TriggerOnce(eventName, ...)
+    if(not eventName) then return end;
+    if(self.Triggers[eventName]) then
+        for id, fn in pairs(self.Triggers[eventName]) do 
+            if(fn and type(fn) == "function") then
+                local _, catch = pcall(fn, ...)
+                if(catch) then
+                    CoreObject:HandleError("Librarian:Events:Trigger(" .. eventName .. "):", id, catch)
+                end
+            end
         end
-        self.Triggers[event][id] = callback
+
+        self.Triggers[eventName] = nil;
+        
+    elseif(self.FireOnce[eventName]) then
+        for i=1, #self.FireOnce[eventName] do
+            local fn = self.FireOnce[eventName][i];
+            if(fn and type(fn) == "function") then
+                local _, catch = pcall(fn, ...)
+                if(catch) then
+                    CoreObject:HandleError("Librarian:Events:Trigger(" .. eventName .. "):", id, catch)
+                end
+            end
+        end
+
+        self.FireOnce[eventName] = nil;
+    end
+end
+
+--[[ REGISTRATION ]]--
+
+function lib:On(event, callback, id)
+    if((not event) or (not callback)) then return end; 
+    if(type(callback) == "function") then
+        if(id and type(id) == "string") then
+            if(not self.Triggers[event]) then
+                self.Triggers[event] = {}
+            end
+            self.Triggers[event][id] = callback
+        else
+            if(not self.FireOnce[event]) then
+                self.FireOnce[event] = {}
+            end
+            self.FireOnce[event][#self.FireOnce[event] + 1] = callback
+        end
     end 
 end
 

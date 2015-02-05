@@ -107,7 +107,6 @@ end
 
 local function _needsupdate(value, lowest)
     local minimumVersion = 5;
-    --print(table.dump(self.safedata))
     local version = value or '0.0';
     if(version and type(version) ~= string) then
         version = tostring(version)
@@ -227,6 +226,15 @@ SV.Allegiance         = UnitFactionGroup("player");
 SV.ClassRole          = "";
 SV.UnitRole           = "NONE";
 SV.ConfigurationMode  = false;
+
+SV.Screen = CreateFrame("Frame", "SVUIParent", UIParent);
+SV.Screen:SetFrameLevel(UIParent:GetFrameLevel());
+SV.Screen:SetPoint("CENTER", UIParent, "CENTER");
+SV.Screen:SetSize(UIParent:GetSize());
+
+SV.Hidden = CreateFrame("Frame", nil, UIParent);
+SV.Hidden:Hide();
+
 SV.RollFrames         = {};
 SV.SystemAlert        = {};
 SV.filterdefaults     = {};
@@ -387,21 +395,6 @@ SV.defaults = {
 
 --[[ EMBEDDED LIBS ]]--
 
-SV.L          = Librarian("Linguist"):Lang();
-SV.Events     = Librarian("Events");
-SV.Animate    = Librarian("Animate");
-SV.Timers     = Librarian("Timers");
-SV.Sounds     = Librarian("Sounds");
-SV.SpecialFX  = Librarian("SpecialFX");
-
-SV.Screen = CreateFrame("Frame", "SVUIParent", UIParent);
-SV.Screen:SetFrameLevel(UIParent:GetFrameLevel());
-SV.Screen:SetPoint("CENTER", UIParent, "CENTER");
-SV.Screen:SetSize(UIParent:GetSize());
-
-SV.Hidden = CreateFrame("Frame", nil, UIParent);
-SV.Hidden:Hide();
-
 SV.Options = { 
     type = "group", 
     name = "|cff339fffUI Options|r", 
@@ -525,6 +518,25 @@ do
     end
 end
 
+local function ShowErrors(msg)
+    if msg then
+        if(msg == "off") then
+            SV.DebugMode = false
+            SV:AddonMessage("Debug Mode |cffFF0000DISABLED|r")
+        elseif(msg == "on") then
+            SV.DebugMode = true
+            SV:AddonMessage("Debug Mode |cff00FF00ENABLED|r")
+        end
+    end
+
+    if(SV.DebugMode) then
+        local ERRORSTRING = table.concat(SV.ERRORLOG, "\n\n");
+        SV.ScriptError:DebugOutput(ERRORSTRING)
+    else
+        SV:AddonMessage("Debug Mode Not Enabled! Try using |cff00FF00/showerrors on|r")
+    end
+end
+
 --[[ CORE FUNCTIONS ]]--
 
 function SV:fubar() return end
@@ -557,7 +569,7 @@ function SV:ResetUI(confirmed)
         self:StaticPopup_Show('RESETMOVERS_CHECK')
         return 
     end 
-    self.Layout:Reset()
+    self:ResetAnchors()
 end
 
 function SV:ImportProfile(key)
@@ -595,15 +607,15 @@ function SV:ToggleConfig()
 end 
 
 function SV:VersionCheck()
-    local version = self.safedata.install_version;
-    if(_needsupdate(version, 1)) then
+    local version = SVUILib:GetSafeData("install_version");
+    if(not version or (version and _needsupdate(version, 1))) then
         self.Setup:Install(true)
     end
 end
 
 function SV:RefreshEverything(bypass)
     self.Media:Update();
-    self.Layout:SetPositions();
+    self:UpdateAnchors();
     SVUILib:RefreshAll();
     if not bypass then
         self:VersionCheck()
@@ -773,31 +785,15 @@ function SV:TaintHandler(event, taint, sourceName, sourceFunc)
     self:AddonMessage(errorString)
 end
 
-local function ShowErrors()
-    local ERRORSTRING = table.concat(SV.ERRORLOG, "\n\n");
-    -- for i=1, #SV.ERRORLOG do
-    --     ERRORSTRING = ERRORSTRING .. SV.ERRORLOG[i];
-    --     ERRORSTRING = ERRORSTRING .. "\n";
-    --     print(ERRORSTRING)
-    -- end
-    SV.ScriptError:DebugOutput(ERRORSTRING)
-end
-
-_G.SlashCmdList["SVUI_SHOW_ERRORS"] = ShowErrors;
-_G.SLASH_SVUI_SHOW_ERRORS1 = "/showerrors"
-
 --[[ LOAD FUNCTIONS ]]--
 
 function SV:ReLoad()
-    self.Timers:ClearAllTimers();
     self:RefreshAllSystemMedia();
-    self.Layout:SetPositions();
+    self:UpdateAnchors();
     self:AddonMessage("All user settings reloaded");
 end
 
 function SV:PreLoad()
-    self.Timers:ClearAllTimers()
-
     self:RegisterEvent('PLAYER_REGEN_DISABLED');
     self:RegisterEvent("PLAYER_ENTERING_WORLD");
     self:RegisterEvent("UI_SCALE_CHANGED");
@@ -814,49 +810,33 @@ end
 
 function SV:Initialize()
     SVUILib:Initialize();
-
+    
     self:UI_SCALE_CHANGED()
-    self:LoadSystemAlerts();
-    self.Timers:Initialize();
-
-    self.Events:Trigger("LOAD_ALL_WIDGETS");
-    self.safedata = SVUILib:GetSafeData();
-
-    self.ScriptError:Initialize()
-
-    SVUILib:LoadThemes();
-
-    self.API:Initialize();
-    self.Dock:Initialize();
-    self.Reports:Initialize();
+    self.Events:TriggerOnce("LOAD_ALL_ESSENTIALS");
+    self.Events:TriggerOnce("LOAD_ALL_WIDGETS");
 
     SVUILib:Launch();
-
-    self:SetOverrides();
-    self:SetErrorFilters();
 
     self:UI_SCALE_CHANGED("PLAYER_LOGIN")
     self:PlayerInfoUpdate();
     self:VersionCheck();
     self:RefreshAllSystemMedia();
+
+    SVUILib:LoadScripts();
+
+    self.Events:TriggerOnce("CORE_INITIALIZED");
+
     hooksecurefunc("StaticPopup_Show", self.StaticPopup_Show);
 
-    self.Dock:UpdateAllDocks();
-    self:SanitizeFilters();
-    self:InitializeHenchmen();
-    self:InitializeAutomations();
-
-    self.Events:Trigger("CORE_INITIALIZED");
-
-    collectgarbage("collect")
-
     if self.db.general.loginmessage then
-        SetLoginMessage(self)
+        SetLoginMessage(self);
     end
 
     if(self.DebugMode and self.HasErrors and self.ScriptError) then
-        ShowErrors()
+        ShowErrors();
     end
+
+    collectgarbage("collect");
 end
 --[[ 
 ########################################################## 
@@ -875,3 +855,10 @@ Consuela:SetScript("OnEvent", function(self, event)
         LemonPledge = 0;
     end
 end)
+--[[ 
+########################################################## 
+REVEAL INTERNAL ERRORS
+##########################################################
+]]--
+_G.SlashCmdList["SVUI_SHOW_ERRORS"] = ShowErrors;
+_G.SLASH_SVUI_SHOW_ERRORS1 = "/showerrors"

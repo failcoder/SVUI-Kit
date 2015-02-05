@@ -30,6 +30,9 @@ local L = SV.L;
 SV.ScriptError = _G["SVUI_ScriptError"];
 local ScriptErrorDialog = _G["SVUI_ScriptErrorDialog"];
 local ScriptErrorScrollBar = _G["SVUI_ScriptErrorDialogScrollBar"];
+
+local DevTools_Dump = _G.DevTools_Dump;
+local DevTools_RunDump = _G.DevTools_RunDump;
 --[[ 
 ########################################################## 
 CUSTOM MESSAGE WINDOW
@@ -107,7 +110,7 @@ function SV.ScriptError:ShowDebug(header, ...)
     self:DebugOutput(value)
 end
 
-function DebugThisFrame(arg)
+_G.DebugThisFrame = function(arg)
     local outputString = " ";
     if arg then
         arg = _G[arg] or GetMouseFocus()
@@ -288,14 +291,19 @@ function DebugThisFrame(arg)
     --ScriptErrorDialog:SetVerticalScroll(1)
 end
 
+_G.SlashCmdList["SVUI_FRAME_DEBUG"] = DebugThisFrame;
+_G.SLASH_SVUI_FRAME_DEBUG1 = "/svdf"
+
 --SetCVar('scriptProfile',1)
 
-function SV.ScriptError:Initialize()
-    self:SetParent(SV.Screen)
-    self.Source = "";
-    self:SetStyle("!_Frame", "Transparent")
-    self:SetScript("OnShow", ScriptError_OnShow)
+local function InitializeScriptError()
+    SV.ScriptError:SetParent(SV.Screen)
+    SV.ScriptError.Source = "";
+    SV.ScriptError:SetStyle("!_Frame", "Transparent")
+    SV.ScriptError:SetScript("OnShow", ScriptError_OnShow)
     ScriptErrorDialog:SetStyle("!_Frame", "Transparent")
     ScriptErrorDialog.Input:SetScript("OnTextChanged", ScriptError_OnTextChanged)
-    self:RegisterForDrag("LeftButton");
+    SV.ScriptError:RegisterForDrag("LeftButton");
 end
+
+SV.Events:On("LOAD_ALL_ESSENTIALS", InitializeScriptError);

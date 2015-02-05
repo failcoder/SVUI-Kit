@@ -15,7 +15,7 @@ local assert        = _G.assert;
 local SV = _G["SVUI"];
 local L = SV.L
 local name, obj = ...
-local MOD = SV:NewPackage(name, obj, nil, "SVUI_Private_ChatCache");
+local MOD = SV:NewModule(name, obj, nil, "SVUI_Private_ChatCache");
 local Schema = MOD.Schema;
 
 SV.defaults["font"]["chatdialog"]   = {file = "SVUI Default Font", size = 12,  outline = "OUTLINE"}
@@ -30,7 +30,6 @@ MOD.media.scrollIcon = [[Interface\AddOns\SVUI_Chat\assets\CHAT-SCROLL]];
 MOD.media.whisperIcon = [[Interface\AddOns\SVUI_Chat\assets\CHAT-WHISPER]];
 
 SV.defaults[Schema] = {
-	["enable"] = true, 
 	["docked"] = "BottomLeft",
 	["tabHeight"] = 20, 
 	["tabWidth"] = 75, 
@@ -81,17 +80,11 @@ function MOD:LoadOptions()
 			intro = {
 				order = 1, 
 				type = "description", 
-				name = L["CHAT_DESC"]
-			},
-			enable = {
-				order = 2, 
-				type = "toggle", 
-				name = L["Enable"], 
-				get = function(a)return SV.db[Schema].enable end, 
-				set = function(a,b)SV.db[Schema].enable = b;SV:StaticPopup_Show("RL_CLIENT")end
+				name = L["CHAT_DESC"],
+				width = 'full'
 			},
 			common = {
-				order = 3, 
+				order = 2, 
 				type = "group", 
 				name = L["General"], 
 				guiInline = true, 

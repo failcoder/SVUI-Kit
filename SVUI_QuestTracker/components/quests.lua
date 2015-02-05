@@ -1110,7 +1110,7 @@ function MOD:InitializeQuests()
 	ItemBar:ModPoint("TOPRIGHT", SV.Dock.BottomRight, "TOPLEFT", -4, 0);
 	ItemBar:SetWidth(barWidth);
 	ItemBar:SetHeight(barHeight);
-	SV.Layout:Add(ItemBar, L["Quest Items"]);
+	SV:NewAnchor(ItemBar, L["Quest Items"]);
 	for i = 1, 5 do
 		ItemBar.Buttons[i] = CreateQuestItemButton(i)
 	end
@@ -1173,5 +1173,5 @@ function MOD:InitializeQuests()
 
 	ItemBar:Show()
 
-	SV.Events:On("QUEST_UPVALUES_UPDATED", "UpdateQuestLocals", UpdateQuestLocals);
+	SV.Events:On("QUEST_UPVALUES_UPDATED", UpdateQuestLocals, "UpdateQuestLocals");
 end

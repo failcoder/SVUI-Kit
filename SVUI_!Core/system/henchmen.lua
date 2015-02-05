@@ -465,8 +465,9 @@ local function CreateHenchmenFrame()
 	SV.PostLoaded = true
 end
 
+
 function SV:ToggleHenchman()
-	if InCombatLockdown()then return end 
+	if(InCombatLockdown() or (not self.HenchmenButton)) then return end 
 	if(not SV.PostLoaded) then
 		CreateHenchmenFrame()
 	end
@@ -494,7 +495,7 @@ function SV:ToggleHenchman()
 			minion:Show()
 			minion.anim:Play()
 		end 
-		SV.DockButton.Icon:SetGradient(unpack(SV.Media.gradient.green))
+		self.HenchmenButton.Icon:SetGradient(unpack(SV.Media.gradient.green))
 	else 
 		UpdateHenchmanModel(true)
 		for _,frame in pairs(SUBOPTIONS)do
@@ -518,7 +519,7 @@ function SV:ToggleHenchman()
 			minion.anim:Finish()
 			minion:Hide()
 		end 
-		SV.DockButton.Icon:SetGradient("VERTICAL", 0.5, 0.53, 0.55, 0.8, 0.8, 1)
+		self.HenchmenButton.Icon:SetGradient("VERTICAL", 0.5, 0.53, 0.55, 0.8, 0.8, 1)
 	end 
 end
 --[[ 
@@ -533,7 +534,9 @@ local function LockdownCallback()
     end
 end
 
-function SV:InitializeHenchmen()
-	self.DockButton = SV.Dock:SetDockButton("BottomRight", "Call Henchman!", [[Interface\AddOns\SVUI_!Core\assets\textures\Dock\DOCK-ICON-HENCHMAN]], SV.ToggleHenchman, "SVUI_Henchmen")
+local function InitializeHenchmen()
+	SV.HenchmenButton = SV.Dock:SetDockButton("BottomRight", "Call Henchman!", [[Interface\AddOns\SVUI_!Core\assets\textures\Dock\DOCK-ICON-HENCHMAN]], SV.ToggleHenchman, "SVUI_Henchmen")
 	SV.Events:OnLock("HenchmenFrameLock", LockdownCallback);
-end 
+end
+
+SV:NewScript(InitializeHenchmen)

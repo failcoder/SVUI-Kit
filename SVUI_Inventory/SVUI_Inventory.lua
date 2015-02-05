@@ -995,7 +995,7 @@ do
 
 	    if not SVUI_BagBar_MOVE then
 	    	SVUI_BagBar:SetStyle("Frame", "Default")
-	        SV.Layout:Add(SVUI_BagBar, L["Bags Bar"])
+	        SV:NewAnchor(SVUI_BagBar, L["Bags Bar"])
 	    end
 
 	    if SV.db.Inventory.bagBar.showBackdrop then 

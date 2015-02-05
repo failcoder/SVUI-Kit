@@ -44,7 +44,7 @@ local SV = select(2, ...)
 local L = SV.L
 local LSM = LibStub("LibSharedMedia-3.0")
 local LDB = LibStub("LibDataBroker-1.1", true)
-local MOD = SV:NewClass("Reports", L["Informative Panels"]);
+local MOD = SV:NewPackage("Reports", L["Informative Panels"]);
 
 MOD.ReportHolders = {};
 MOD.HolderLookup = {};
@@ -590,13 +590,13 @@ function MOD:Initialize()
 	local bottomLeft = CreateFrame("Frame", "SVUI_ReportsGroup1", SV.Dock.BottomCenter)
 	bottomLeft:SetSize(dockWidth, dockHeight)
 	bottomLeft:SetPoint("BOTTOMLEFT", SV.Dock.BottomCenter, "BOTTOMLEFT", 0, 0)
-	SV.Layout:Add(bottomLeft, L["Data Reports 1"])
+	SV:NewAnchor(bottomLeft, L["Data Reports 1"])
 	self:NewHolder(bottomLeft, 3, "ANCHOR_CURSOR")
 
 	local bottomRight = CreateFrame("Frame", "SVUI_ReportsGroup2", SV.Dock.BottomCenter)
 	bottomRight:SetSize(dockWidth, dockHeight)
 	bottomRight:SetPoint("BOTTOMRIGHT", SV.Dock.BottomCenter, "BOTTOMRIGHT", 0, 0)
-	SV.Layout:Add(bottomRight, L["Data Reports 2"])
+	SV:NewAnchor(bottomRight, L["Data Reports 2"])
 	self:NewHolder(bottomRight, 3, "ANCHOR_CURSOR")
 	--SV:ManageVisibility(self.BottomCenter)
 
@@ -605,14 +605,14 @@ function MOD:Initialize()
 	topLeft:SetSize(dockWidth, dockHeight)
 	topLeft:SetPoint("TOPLEFT", SV.Dock.TopCenter, "TOPLEFT", 0, 0)
 
-	SV.Layout:Add(topLeft, L["Data Reports 3"])
+	SV:NewAnchor(topLeft, L["Data Reports 3"])
 	self:NewHolder(topLeft, 3, "ANCHOR_CURSOR", 1)
 
 	local topRight = CreateFrame("Frame", "SVUI_ReportsGroup4", SV.Dock.TopCenter)
 	topRight:SetSize(dockWidth, dockHeight)
 	topRight:SetPoint("TOPRIGHT", SV.Dock.TopCenter, "TOPRIGHT", 0, 0)
 
-	SV.Layout:Add(topRight, L["Data Reports 4"])
+	SV:NewAnchor(topRight, L["Data Reports 4"])
 	self:NewHolder(topRight, 3, "ANCHOR_CURSOR", 2)
 
 	self.ReportGroup1 = bottomLeft;
@@ -686,8 +686,9 @@ function MOD:Initialize()
 	self:UpdateAllReports()
 	self:RegisterEvent("PLAYER_ENTERING_WORLD", "UpdateAllReports");
 
-	SV.Events:On("DOCKS_UPDATED", "RefreshReports", MOD.UpdateAllReports);
+	SV.Events:On("DOCKS_UPDATED", MOD.UpdateAllReports, "RefreshReports");
 
-	SV.SlashRegistry["bg"] = SlashPvPStats;
-  	SV.SlashRegistry["pvp"] = SlashPvPStats;
+	local slashDesc = L['Battleground statistics will now show again if you are inside a battleground.']
+	SV:AddSlashCommand("bg", slashDesc, SlashPvPStats);
+	SV:AddSlashCommand("pvp", slashDesc, SlashPvPStats);
 end

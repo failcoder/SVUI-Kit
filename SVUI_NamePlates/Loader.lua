@@ -14,7 +14,7 @@ local assert        = _G.assert;
 
 local SV = _G["SVUI"];
 local L = SV.L
-local MOD = SV:NewPackage(...);
+local MOD = SV:NewModule(...);
 local Schema = MOD.Schema;
 local positionTable = {
 	TOPLEFT = "TOPLEFT", 
@@ -51,7 +51,6 @@ SV.GlobalFontList["SVUI_Font_NamePlate_Aura"] = "plateaura";
 SV.GlobalFontList["SVUI_Font_NamePlate_Number"] = "platenumber";
 
 SV.defaults[Schema] = {
-	["enable"] = true,
 	["themed"] = true,
 	["filter"] = {}, 
 	["font"] = DIALOGUE_FONT, 
@@ -222,11 +221,11 @@ function MOD:LoadOptions()
 				name = L['NamePlate Options'],
 				childGroups = "tree",
 				args = {
-					intro = {order = 1, type = "description", name = L["NAMEPLATE_DESC"]},
-					enable={
-						order=2,type="toggle",name=L["Enable"],
-						get=function(d)return SV.db[Schema][d[#d]]end,
-						set=function(d,e)SV.db[Schema][d[#d]]=e;SV:StaticPopup_Show("RL_CLIENT")end,
+					intro={
+						order = 1,
+						type = 'description',
+						name = L["NAMEPLATE_DESC"],
+						width = 'full'
 					},
 					common = {
 						order = 1,
@@ -234,7 +233,6 @@ function MOD:LoadOptions()
 						name = L["General"],
 						get = function(d)return SV.db[Schema][d[#d]]end,
 						set = function(d,e)MOD:ChangeDBVar(e,d[#d]);MOD:UpdateAllPlates() end,
-						disabled = function()return not SV.db[Schema].enable end,
 						args = {
 							combatHide = {
 								type = "toggle",
@@ -325,7 +323,6 @@ function MOD:LoadOptions()
 						type = "group",
 						order = 2,
 						name = L["Health Bar"],
-						disabled = function()return not SV.db[Schema].enable end,
 						get = function(d)return SV.db[Schema].healthBar[d[#d]]end,
 						set = function(d,e)MOD:ChangeDBVar(e,d[#d],"healthBar");MOD:UpdateAllPlates()end,
 						args = {
@@ -425,7 +422,6 @@ function MOD:LoadOptions()
 						type = "group",
 						order = 3,
 						name = L["Cast Bar"],
-						disabled = function()return not SV.db[Schema].enable end,
 						get = function(d)return SV.db[Schema].castBar[d[#d]]end,
 						set = function(d,e)MOD:ChangeDBVar(e,d[#d],"castBar");MOD:UpdateAllPlates()end,
 						args = {
@@ -713,7 +709,6 @@ function MOD:LoadOptions()
 						type = "group",
 						order = 200,
 						name = L["Filters"],
-						disabled = function()return not SV.db[Schema].enable end,
 						args = {
 							addname = {
 								type = "input",

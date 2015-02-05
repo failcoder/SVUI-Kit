@@ -14,7 +14,7 @@ local assert        = _G.assert;
 
 local SV = _G["SVUI"];
 local L = SV.L
-local MOD = SV:NewPackage(...);
+local MOD = SV:NewModule(...);
 local Schema = MOD.Schema;
 
 MOD.media = {}

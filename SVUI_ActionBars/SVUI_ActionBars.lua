@@ -749,7 +749,11 @@ do
 				bar:Hide()
 				UnregisterStateDriver(bar, "visibility")
 			end
-			SV.Layout:ChangeSnapOffset(("SVUI_Action%d_MOVE"):format(id), (space  /  2))
+			
+			local moverName = ("SVUI_Action%d_MOVE"):format(id);
+			if(_G[moverName]) then
+				_G[moverName].snapOffset = (space * 0.5)
+			end
 		end
 	end 
 end 
@@ -952,7 +956,7 @@ CreateActionBars = function(self)
 		]])
 
 		self:RefreshBar(barID)
-		SV.Layout:Add(thisBar, L[barID])
+		SV:NewAnchor(thisBar, L[barID])
 	end 
 end
 
@@ -1109,7 +1113,7 @@ do
 	  self:RegisterEvent("UPDATE_SHAPESHIFT_FORM", SetStanceBarButtons)
 	  self:RegisterEvent("ACTIONBAR_PAGE_CHANGED", SetStanceBarButtons)
 	  UpdateShapeshiftForms()
-	  SV.Layout:Add(stanceBar, L["Stance Bar"], -3)
+	  SV:NewAnchor(stanceBar, L["Stance Bar"], -3)
 	  self:RefreshBar("Stance")
 	  SetStanceBarButtons()
 	  self:UpdateBarBindings(false, true)
@@ -1238,7 +1242,7 @@ do
 		self:RegisterEvent("PLAYER_FARSIGHT_FOCUS_CHANGED", RefreshPet)
 		self:RegisterEvent("PET_BAR_UPDATE_COOLDOWN", PetActionBar_UpdateCooldowns)
 
-		SV.Layout:Add(petBar, L["Pet Bar"])
+		SV:NewAnchor(petBar, L["Pet Bar"])
 	end 
 end
 
@@ -1272,7 +1276,7 @@ local CreateExtraBar = function(self)
 	if HasExtraActionBar()then 
 		ExtraActionBarFrame:Show()
 	end
-	SV.Layout:Add(specialBar, L["Extra Action Button"])
+	SV:NewAnchor(specialBar, L["Extra Action Button"])
 end
 --[[ 
 ########################################################## 

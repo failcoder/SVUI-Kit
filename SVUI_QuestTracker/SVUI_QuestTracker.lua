@@ -484,5 +484,5 @@ function MOD:Load()
 
 	self.Headers["Popups"]:Refresh()
 
-	SV.Events:On("DOCK_RIGHT_EXPANDED", "ExpandQuestTracker", ExpandQuestTracker);
+	SV.Events:On("DOCK_RIGHT_EXPANDED", ExpandQuestTracker, "ExpandQuestTracker");
 end

@@ -95,7 +95,7 @@ local Reposition = function(self)
 	local dbOffset = (size * 0.15)
 	bar.Holder:ModSize(width, size)
     if(not db.classbar.detachFromFrame) then
-    	SV.Layout:Reset(L["Classbar"], true)
+    	SV:ResetAnchors(L["Classbar"], true)
     end
     local holderUpdate = bar.Holder:GetScript('OnSizeChanged')
     if holderUpdate then
@@ -274,7 +274,7 @@ function MOD:CreateClassBar(playerFrame)
 	classBarHolder:ModPoint("TOPLEFT", playerFrame, "BOTTOMLEFT", 0, -2)
 	bar:SetPoint("TOPLEFT", classBarHolder, "TOPLEFT", 0, 0)
 	bar.Holder = classBarHolder
-	SV.Layout:Add(bar.Holder, L["Classbar"], nil, OnMove)
+	SV:NewAnchor(bar.Holder, L["Classbar"], nil, OnMove)
 
 	playerFrame.MaxClassPower = max;
 	playerFrame.RefreshClassBar = Reposition;

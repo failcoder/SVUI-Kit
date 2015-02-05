@@ -223,6 +223,6 @@ local TimeColorUpdate = function()
 	end 
 end 
 
-SV.Events:On("MEDIA_COLORS_UPDATED", "TimeColorUpdates", TimeColorUpdate)
+SV.Events:On("MEDIA_COLORS_UPDATED", TimeColorUpdate, "TimeColorUpdates")
 
 Reports:NewReportType('Time', {"UPDATE_INSTANCE_INFO"}, OnEvent, Update, Click, OnEnter, OnLeave)

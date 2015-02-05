@@ -14,7 +14,7 @@ local assert        = _G.assert;
 
 local SV = _G["SVUI"];
 local L = SV.L;
-local MOD = SV:NewPackage(...);
+local MOD = SV:NewModule(...);
 local Schema = MOD.Schema;
 
 MOD.media = {}
@@ -36,7 +36,6 @@ MOD.media.microMenuCoords = {
 }
 
 SV.defaults[Schema] = {
-	["enable"] = true, 
 	["barCount"] = 6,
 	["font"] = "SVUI Default Font", 
 	["fontSize"] = 11,  
@@ -401,13 +400,6 @@ function MOD:LoadOptions()
 			MOD:RefreshActionBars()
 		end, 
 		args = {
-			enable = {
-				order = 1, 
-				type = "toggle", 
-				name = L["Enable"], 
-				get = function(e)return SV.db[Schema][e[#e]]end, 
-				set = function(e, f)SV.db[Schema][e[#e]] = f;SV:StaticPopup_Show("RL_CLIENT")end
-			},
 			barCount = {
 				order = 2, 
 				type = "range", 
@@ -424,7 +416,6 @@ function MOD:LoadOptions()
 				type = "group", 
 				name = L["Bar Options"], 
 				childGroups = "tree",
-				disabled = function()return not SV.db[Schema].enable end, 
 				args = {
 					commonGroup = {
 						order = 1, 
@@ -519,7 +510,6 @@ function MOD:LoadOptions()
 						name = L["Pet Bar"],
 						type = "group",
 						guiInline = false,
-						disabled = function()return not SV.db[Schema].enable end,
 						get = function(e)return SV.db[Schema]["Pet"][e[#e]]end,
 						set = function(key, value)
 							MOD:ChangeDBVar(value, key[#key], "Pet");
@@ -551,7 +541,7 @@ function MOD:LoadOptions()
 								desc = L["Restore the actionbars default settings"],
 								func = function()
 									SV:ResetData("ActionBars", "Pet")
-									SV.Layout:Reset("Pet Bar")
+									SV:ResetAnchors("Pet Bar")
 									MOD:RefreshBar("Pet")
 								end,
 								disabled = function()return not SV.db[Schema]["Pet"].enable end,
@@ -596,7 +586,6 @@ function MOD:LoadOptions()
 										min = 15,
 										max = 60,
 										step = 1,
-										disabled = function()return not SV.db[Schema].enable end
 									},
 									buttonspacing = {
 										order = 5,
@@ -606,7 +595,6 @@ function MOD:LoadOptions()
 										min = 1,
 										max = 10,
 										step = 1,
-										disabled = function()return not SV.db[Schema].enable end
 									},
 									alpha = {
 										order = 6,
@@ -668,7 +656,6 @@ function MOD:LoadOptions()
 						name = L["Stance Bar"],
 						type = "group",
 						guiInline = false,
-						disabled = function()return not SV.db[Schema].enable end,
 						get = function(e)return SV.db[Schema]["Stance"][e[#e]]end,
 						set = function(key, value)
 							MOD:ChangeDBVar(value, key[#key], "Stance");
@@ -700,7 +687,7 @@ function MOD:LoadOptions()
 								desc = L["Restore the actionbars default settings"],
 								func = function()
 									SVUILib:SetDefault("ActionBars","Stance")
-									SV.Layout:Reset("Stance Bar")
+									SV:ResetAnchors("Stance Bar")
 									MOD:RefreshBar("Stance")
 								end,
 								disabled = function()return not SV.db[Schema]["Stance"].enable end,
@@ -836,7 +823,6 @@ function MOD:LoadOptions()
 						name = L["Totem Bar"],
 						type = "group",
 						guiInline = false,
-						disabled = function()return not SV.db[Schema].enable end,
 						get = function(key) 
 							return SV.db[Schema]["Totem"][key[#key]] 
 						end, 
@@ -901,7 +887,7 @@ function MOD:LoadOptions()
 						name = L["Micro Menu"],
 						type = "group",
 						guiInline = false,
-						disabled = function()return not SV.db[Schema].enable end,
+						
 						get = function(key) 
 							return SV.db[Schema]["Micro"][key[#key]] 
 						end, 
@@ -960,7 +946,6 @@ function MOD:LoadOptions()
 			name = L["Bar"] .. " " .. barNumber, 
 			type = "group", 
 			guiInline = false, 
-			disabled = function()return not SV.db[Schema].enable end, 
 			get = function(key) 
 				return SV.db[Schema][barKey][key[#key]] 
 			end, 
@@ -994,7 +979,7 @@ function MOD:LoadOptions()
 					desc = L["Restore the actionbars default settings"], 
 					func = function()
 						SV:ResetData("ActionBars", barKey)
-						SV.Layout:Reset("Bar "..d)
+						SV:ResetAnchors("Bar "..d)
 						MOD:RefreshBar(barKey)
 					end, 
 					disabled = function()return not SV.db[Schema][barKey].enable end, 

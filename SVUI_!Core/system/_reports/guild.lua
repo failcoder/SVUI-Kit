@@ -295,6 +295,6 @@ local GuildColorUpdate = function()
 		Guild_OnEvent(currentObject, 'SVUI_COLOR_UPDATE')
 	end 
 end 
-SV.Events:On("MEDIA_COLORS_UPDATED", "GuildColorUpdates", GuildColorUpdate)
+SV.Events:On("MEDIA_COLORS_UPDATED", GuildColorUpdate, "GuildColorUpdates")
 
 Reports:NewReportType('Guild', StatEvents, Guild_OnEvent, nil, Guild_OnClick, Guild_OnEnter)

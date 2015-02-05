@@ -14,7 +14,7 @@ local assert        = _G.assert;
 
 local SV = _G["SVUI"];
 local L = SV.L
-local MOD = SV:NewPackage(...);
+local MOD = SV:NewModule(...);
 local Schema = MOD.Schema;
 local textSelect = {
 	['HIDE'] = L['Hide This'], 
@@ -67,13 +67,14 @@ SV.defaults[Schema] = {
 		["SquareMap"] = true,
 		["PocketPlot"] = true,
 	},
-	["enable"] = true,
 	["customIcons"] = true,
 	["mapAlpha"] = 1, 
 	["tinyWorldMap"] = true, 
 	["size"] = 240, 
 	["customshape"] = true,  
-	["playercoords"] = "CUSTOM", 
+	["miniPlayerXY"] = true,
+	["worldPlayerXY"] = true,
+	["worldMouseXY"] = true,
 	["bordersize"] = 4, 
 	["bordercolor"] = "light", 
 	["locationText"] = "CUSTOM",
@@ -99,23 +100,15 @@ function MOD:LoadOptions()
 			intro={
 				order = 1,
 				type = 'description',
-				name = L["Options for the Minimap"]
-			},
-			enable={
-				type = "toggle",
-				order = 2,
-				name = L['Enable'],
-				desc = L['Enable/Disable the Custom Minimap.'],
-				get = function(a)return SV.db[Schema].enable end,
-				set = function(a,b)SV.db[Schema].enable=b; SV:StaticPopup_Show("RL_CLIENT") end
+				name = L["Options for the Minimap"],
+				width = 'full'
 			},
 			common = {
-				order = 3,
+				order = 2,
 				type = "group", 
 				name = MINIMAP_LABEL,
 				desc = L['General display settings'],
 				guiInline = true,
-				disabled = function()return not SV.db[Schema].enable end,
 				args = {
 					size = {
 						order = 1,
@@ -170,9 +163,8 @@ function MOD:LoadOptions()
 				order = 5,
 				type = "group", 
 				name = "Labels and Info",
-				desc = L['Configure various minimap texts'],
+				desc = L['Configure various worldmap and minimap texts'],
 				guiInline = true,
-				disabled = function()return not SV.db[Schema].enable end,
 				args = {
 					locationText = {
 						order = 1,
@@ -181,11 +173,22 @@ function MOD:LoadOptions()
 						values = textSelect,
 						set = function(a,b)MOD:ChangeDBVar(b,a[#a])MOD:ReLoad()end
 					},
-					playercoords = {
+					miniPlayerXY = {
 						order = 2,
-						type = "select",
-						name = L["Player Coords"],
-						values = textSelect,
+						type = "toggle",
+						name = L["Minimap X/Y Coordinates"],
+						set = function(a,b)MOD:ChangeDBVar(b,a[#a])MOD:ReLoad()end
+					},
+					worldPlayerXY = {
+						order = 3,
+						type = "toggle",
+						name = L["WorldMap Player X/Y Coordinates"],
+						set = function(a,b)MOD:ChangeDBVar(b,a[#a])MOD:ReLoad()end
+					},
+					worldMouseXY = {
+						order = 4,
+						type = "toggle",
+						name = L["WorldMap Mouse X/Y Coordinates"],
 						set = function(a,b)MOD:ChangeDBVar(b,a[#a])MOD:ReLoad()end
 					}
 				}
@@ -203,7 +206,6 @@ function MOD:LoadOptions()
 				name = "Minimap Buttons",
 				get = function(j)return SV.db[Schema].minimapbar[j[#j]]end,
 				guiInline = true,
-				disabled = function()return not SV.db[Schema].enable end,
 				args = {
 					enable = {
 						order = 1,

@@ -1336,7 +1336,7 @@ function MOD:Load()
 		CompactUnitFrameProfiles:RegisterEvent("VARIABLES_LOADED")
 	end
 
-	SV.Events:On("AURA_FILTER_OPTIONS_CHANGED", "UpdateUnitFrames", UpdateUnitFrames);
+	SV.Events:On("AURA_FILTER_OPTIONS_CHANGED", UpdateUnitFrames, "UpdateUnitFrames");
 	
 	local rDebuffs = SV.oUF_RaidDebuffs or oUF_RaidDebuffs;
 	if not rDebuffs then return end

@@ -14,7 +14,7 @@ local assert        = _G.assert;
 
 local SV = _G["SVUI"];
 local L = SV.L
-local MOD = SV:NewPackage(...);
+local MOD = SV:NewModule(...);
 local Schema = MOD.Schema;
 
 MOD.media = {}
@@ -31,8 +31,9 @@ MOD.media.hyperAuraIcons = {
 };
 
 SV.defaults[Schema] = {
-	["enable"] = true, 
-	["disableBlizzard"] = true, 
+	["aurasEnabled"] = true,
+	["hyperBuffsEnabled"] = true,
+	["hyperBuffsFiltered"] = true,
 	["font"] = "SVUI Number Font", 
 	["fontSize"] = 12, 
 	["fontOutline"] = "THINOUTLINE", 
@@ -40,10 +41,6 @@ SV.defaults[Schema] = {
 	["countOffsetH"] = 0, 
 	["timeOffsetV"] = -4, 
 	["timeOffsetH"] = 0, 
-	["hyperBuffs"] = {
-		["enable"] = true, 
-		["filter"] = true, 
-	}, 
 	["fadeBy"] = 5, 
 	["buffs"] = {
 		["showBy"] = "LEFT_DOWN", 
@@ -192,7 +189,7 @@ function MOD:LoadOptions()
 		type = "group", 
 		name = Schema, 
 		childGroups = "tab", 
-		get = function(a)return SV.db[Schema][a[#a]]end,
+		get = function(a)return SV.db[Schema][a[#a]] end,
 		set = function(a,b)
 			MOD:ChangeDBVar(b,a[#a]);
 			MOD:UpdateAuraHeader(SVUI_PlayerBuffs, "buffs")
@@ -200,31 +197,38 @@ function MOD:LoadOptions()
 		end,
 		args = {
 			intro = {
-				order = 1, 
+				order = 1,
+				width = 'full',
 				type = "description", 
 				name = L["AURAS_DESC"]
 			},
-			enable = {
+			aurasEnabled = {
 				order = 2, 
 				type = "toggle", 
-				name = L["Enable"],
-				get = function(a)return SV.db[Schema].enable end,
-				set = function(a,b)SV.db[Schema].enable = b;SV:StaticPopup_Show("RL_CLIENT")end
+				name = L["Auras Enabled"],
+				get = function(a) return SV.db[Schema].aurasEnabled end,
+				set = function(a,b)SV.db[Schema].aurasEnabled = b;SV:StaticPopup_Show("RL_CLIENT") end
 			},
-			disableBlizzard = {
+			hyperBuffsEnabled = {
 				order = 3, 
 				type = "toggle", 
-				name = L["Disabled Blizzard"],
-				disabled = function() return not SV.db[Schema].enable end,
-				get = function(a)return SV.db[Schema].disableBlizzard end,
-				set = function(a,b)SV.db[Schema].disableBlizzard = b;SV:StaticPopup_Show("RL_CLIENT")end
+				name = L["Hyper Auras Enabled"],
+				get = function(a)return SV.db[Schema].hyperBuffsEnabled end,
+				set = function(a,b)SV.db[Schema].hyperBuffsEnabled = b;SV:StaticPopup_Show("RL_CLIENT")end
+			},
+			hyperBuffsFiltered = {
+				order = 4, 
+				type = "toggle", 
+				name = L["Hyper Auras Filtered"],
+				get = function(a)return SV.db[Schema].hyperBuffsFiltered end,
+				set = function(a,b)SV.db[Schema].hyperBuffsFiltered = b;SV:StaticPopup_Show("RL_CLIENT")end
 			},
 			auraGroups = {
-				order = 4, 
+				order = 5, 
 				type = "group", 
 				name = L["Options"], 
-				childGroups = "tree", 
-				disabled = function() return not SV.db[Schema].enable end,
+				childGroups = "tree",
+				disabled = function() return not SV.db[Schema].aurasEnabled end,
 				args = {
 					common = {
 						order = 10, 
@@ -271,34 +275,6 @@ function MOD:LoadOptions()
 								min = -60, 
 								max = 60, 
 								step = 1
-							}
-						}
-					},
-					hyperBuffs = {
-						order = 20, 
-						type = "group", 
-						name = L["Hyper Buffs"], 
-						get = function(b)return SV.db[Schema].hyperBuffs[b[#b]]end,
-						set = function(a,b)
-							MOD:ChangeDBVar(b,a[#a],"hyperBuffs"); 
-							MOD:ToggleConsolidatedBuffs(); 
-							SV.Maps:ReLoad(); 
-							MOD:UpdateAuraHeader(SVUI_PlayerBuffs, "buffs") 
-						end,
-						args = {
-							enable = {
-								order = 1, 
-								type = "toggle", 
-								name = L["Enable"], 
-								desc = L["Display the consolidated buffs bar."],
-								disabled = function()return not SV.db.Maps.enable end,
-							},
-							filter = {
-								order = 2, 
-								name = L["Filter Hyper"], 
-								desc = L["Only show consolidated icons on the consolidated bar that your class/spec is interested in. This is useful for raid leading."], 
-								type = "toggle",
-								disabled = function()return not SV.db[Schema].hyperBuffs.enable end,
 							}
 						}
 					},

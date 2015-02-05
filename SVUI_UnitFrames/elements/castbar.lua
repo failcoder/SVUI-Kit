@@ -707,7 +707,7 @@ function MOD:CreateCastbar(frame, reversed, moverName, ryu, useFader, isBoss, ha
 	castbar.SparkColor = oUF_SVUI.colors.spark
 
 	if moverName then 
-		SV.Layout:Add(castbar.Holder, moverName, -6)
+		SV:NewAnchor(castbar.Holder, moverName, -6)
 	end 
 	
 	if useFader then

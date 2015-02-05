@@ -523,4 +523,4 @@ local function InitializeFunStuff()
 	gamemenu:SetScript("OnShow", GameMenu_Activate)
 end
 
-SV.Events:On("CORE_INITIALIZED", "LoadFunStuff", InitializeFunStuff);
+SV.Events:On("CORE_INITIALIZED", InitializeFunStuff);

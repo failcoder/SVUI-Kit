@@ -34,6 +34,7 @@ GET ADDON DATA
 local SV = select(2, ...)
 local L = SV.L;
 local SVUILib = Librarian("Registry");
+local MOD = SV:NewPackage("API", L["API"]);
 --[[ 
 ########################################################## 
 LOCALS
@@ -50,9 +51,8 @@ local LIVE_UPDATE_FRAMES = {};
 LOOKUP TABLE
 ##########################################################
 ]]--
-SV.API = {};
-SV.API.Themes = {};
-SV.API.Templates = {
+MOD.Themes = {};
+MOD.Templates = {
     ["Default"]     = "SVUI_CoreStyle_Default",
     ["Transparent"] = "SVUI_CoreStyle_Transparent",
     ["Button"]      = "SVUI_CoreStyle_Button",
@@ -74,7 +74,7 @@ SV.API.Templates = {
     ["Composite1"]  = "SVUI_CoreStyle_Composite1",
     ["Composite2"]  = "SVUI_CoreStyle_Composite2",
 };
-SV.API.Methods = {};
+MOD.Methods = {};
 --[[ 
 ########################################################## 
 UI SCALING
@@ -640,24 +640,7 @@ end
 TEMPLATE HELPERS
 ##########################################################
 ]]--
-function SV.API:Initialize()
-    local active = SV.db.THEME.active;
-    local theme;
-
-    if(active and active ~= 'NONE') then
-        theme = self.Themes[active]
-        if(theme) then
-            for templateName, templateFile in pairs(self.Templates) do
-                local replacement = theme[templateName]
-                if(replacement) then
-                    self.Templates[templateName] = replacement
-                end
-            end
-        end
-    end
-end
-
-function SV.API:FLASH(frame)
+function MOD:FLASH(frame)
     if(frame.Panel.Shadow) then
         frame.Panel.__previous = 'darkest';
         frame.ColorBorder = SetFrameBorderColor
@@ -666,7 +649,7 @@ function SV.API:FLASH(frame)
     end
 end
 
-function SV.API:CD(button, noSwipe)
+function MOD:CD(button, noSwipe)
     local bn = button:GetName()
     if(bn) then
         local cooldown = _G[bn.."Cooldown"];
@@ -687,7 +670,7 @@ function SV.API:CD(button, noSwipe)
     end
 end
 
-function SV.API:APPLY(frame, templateName, underlay, padding, xOffset, yOffset, defaultColor)
+function MOD:APPLY(frame, templateName, underlay, padding, xOffset, yOffset, defaultColor)
     local xmlTemplate = self.Templates[templateName] or self.Templates.Default;
 
     local borderColor = {0,0,0,1}
@@ -819,7 +802,7 @@ end
 UI ELEMENT METHODS
 ##########################################################
 ]]--
-SV.API.Methods["Button"] = function(self, frame, inverse, alteration, overridePadding, xOffset, yOffset, keepNormal, defaultColor)
+MOD.Methods["Button"] = function(self, frame, inverse, alteration, overridePadding, xOffset, yOffset, keepNormal, defaultColor)
     if(not frame or (frame and frame.Panel)) then return end
 
     local padding = 1
@@ -909,7 +892,7 @@ SV.API.Methods["Button"] = function(self, frame, inverse, alteration, overridePa
     self:CD(frame)
 end;
 
-SV.API.Methods["ActionSlot"] = function(self, frame, inverse, addChecked)
+MOD.Methods["ActionSlot"] = function(self, frame, inverse, addChecked)
     if(not frame or (frame and frame.Panel)) then return end
 
     local underlay = (not inverse)
@@ -973,7 +956,7 @@ SV.API.Methods["ActionSlot"] = function(self, frame, inverse, addChecked)
     self:CD(frame, true)
 end;
 
-SV.API.Methods["Checkbox"] = function(self, frame, inverse, x, y)
+MOD.Methods["Checkbox"] = function(self, frame, inverse, x, y)
     if(not frame or (frame and frame.Panel)) then return end
 
     local width, height = frame:GetSize()
@@ -1020,7 +1003,7 @@ SV.API.Methods["Checkbox"] = function(self, frame, inverse, x, y)
     end
 end;
 
-SV.API.Methods["Editbox"] = function(self, frame, inverse, x, y)
+MOD.Methods["Editbox"] = function(self, frame, inverse, x, y)
     if(not frame or (frame and frame.Panel)) then return end
 
     if frame.TopLeftTex then frame.TopLeftTex:Die() end 
@@ -1061,13 +1044,13 @@ end;
 CUSTOM TEMPLATING METHODS
 ##########################################################
 ]]--
-SV.API.Methods["Icon"] = function(self, frame, inverse, ...)
+MOD.Methods["Icon"] = function(self, frame, inverse, ...)
     if(not frame or (frame and frame.Panel)) then return end
     local underlay = (not inverse)
     self:APPLY(frame, "Icon", underlay, ...)
 end;
 
-SV.API.Methods["DockButton"] = function(self, frame, inverse)
+MOD.Methods["DockButton"] = function(self, frame, inverse)
     if(not frame or (frame and frame.Panel)) then return end
 
     self:APPLY(frame, "DockButton", inverse)
@@ -1112,7 +1095,7 @@ SV.API.Methods["DockButton"] = function(self, frame, inverse)
     end
 end;
 
-SV.API.Methods["Frame"] = function(self, frame, inverse, styleName, noupdate, overridePadding, xOffset, yOffset, defaultColor)
+MOD.Methods["Frame"] = function(self, frame, inverse, styleName, noupdate, overridePadding, xOffset, yOffset, defaultColor)
     if(not frame or (frame and frame.Panel)) then return end
     local padding = false;
     if(overridePadding and type(overridePadding) == "number") then
@@ -1163,9 +1146,9 @@ local SetStyle = function(self, method, ...)
     method = method or "Frame";
     local methodName, flags = method:gsub("!_", "");
     local inverse = (flags and flags > 0) and true or false;
-    local fn = SV.API.Methods[methodName];
+    local fn = MOD.Methods[methodName];
     if(fn) then
-        local pass, catch = pcall(fn, SV.API, self, inverse, ...)
+        local pass, catch = pcall(fn, MOD, self, inverse, ...)
         if(catch) then
             SV:HandleError("API", "SetStyle", catch);
             return
@@ -1243,7 +1226,7 @@ local function FrameTemplateUpdates()
     end
 end
 
-SV.Events:On("MEDIA_COLORS_UPDATED", "FrameTemplateUpdates", FrameTemplateUpdates);
+SV.Events:On("MEDIA_COLORS_UPDATED", FrameTemplateUpdates, "FrameTemplateUpdates");
 --[[ 
 ########################################################## 
 CORE FUNCTIONS
@@ -1425,4 +1408,25 @@ CURRENT_OBJECT = EnumerateFrames()
 while CURRENT_OBJECT do
     AppendFrameMethods(CURRENT_OBJECT)
     CURRENT_OBJECT = EnumerateFrames(CURRENT_OBJECT)
+end
+--[[ 
+########################################################## 
+LOAD
+##########################################################
+]]--
+function MOD:Load()
+    local active = SV.db.THEME.active;
+    local theme;
+
+    if(active and active ~= 'NONE') then
+        theme = self.Themes[active]
+        if(theme) then
+            for templateName, templateFile in pairs(self.Templates) do
+                local replacement = theme[templateName]
+                if(replacement) then
+                    self.Templates[templateName] = replacement
+                end
+            end
+        end
+    end
 end

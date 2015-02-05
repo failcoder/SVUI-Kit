@@ -409,27 +409,8 @@ SV.Options.args.primary = {
 			width = "full", 
 			fontSize = "large", 
 		},
-		quickGroup1 = {
-			order = 3, 
-			name = "", 
-			type = "group", 
-			width = "full", 
-			guiInline = true, 
-			args = {
-				Themes = {
-					order = 1, 
-					width = "full", 
-					type = "select", 
-					name = L["Active Theme"], 
-					desc = L["Select an installed SVUI theme."], 
-					get = function() return SV.db.THEME.active end,
-					set = function(key,value) SV.db.THEME.active = value; SV:StaticPopup_Show("RL_CLIENT") end,
-					values = function() return SVUILib:ListThemes() end
-				},
-			}, 
-		},
 		quickGroup2 = {
-			order = 4, 
+			order = 3, 
 			name = "", 
 			type = "group", 
 			width = "full", 
@@ -443,16 +424,24 @@ SV.Options.args.primary = {
 					desc = L["Run the installation process."], 
 					func = function() SV.Setup:Install() SV:ToggleConfig() end
 				},
-				ToggleAnchors = {
+				Themes = {
 					order = 2, 
+					width = "full", 
+					type = "execute", 
+					name = L["Themes"], 
+					desc = L["Select an available theme."], 
+					func = function() SV.Setup:SelectTheme() SV:ToggleConfig() end
+				},
+				ToggleAnchors = {
+					order = 3, 
 					width = "full", 
 					type = "execute", 
 					name = L["Move Frames"], 
 					desc = L["Unlock various elements of the UI to be repositioned."], 
-					func = function() SV.Layout:Toggle() end
+					func = function() SV:MoveAnchors() end
 				},
 				ResetMoveables = {
-					order = 3, 
+					order = 4, 
 					width = "full", 
 					type = "execute", 
 					name = L["Reset SVUI Anchors"], 
@@ -460,7 +449,7 @@ SV.Options.args.primary = {
 					func = function() SV:StaticPopup_Show("RESETLAYOUT_CHECK") end
 				},
 				ResetDraggables = {
-					order = 4, 
+					order = 5, 
 					width = "full", 
 					type = "execute", 
 					name = L["Reset Blizzard Anchors"], 

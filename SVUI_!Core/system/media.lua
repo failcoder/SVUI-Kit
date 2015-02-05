@@ -315,7 +315,8 @@ do
 
 	SV.Media["setup"] = {
 		["option"] 		= [[Interface\AddOns\SVUI_!Core\assets\textures\SETUP-OPTION]],
-		["arrow"] 		= [[Interface\AddOns\SVUI_!Core\assets\textures\SETUP-ARROW]]
+		["arrow"] 		= [[Interface\AddOns\SVUI_!Core\assets\textures\SETUP-ARROW]],
+		["theme"] 		= [[Interface\AddOns\SVUI_!Core\assets\textures\THEME-DEFAULT]]
 	}
 
 	SV.Media["icon"] = {
@@ -651,8 +652,8 @@ local function UpdateFontGroup(...)
 	end
 end
 
-SV.Events:On("ALL_FONTS_UPDATED", "UpdateAllFontTemplates", UpdateAllFontTemplates);
-SV.Events:On("FONT_GROUP_UPDATED", "UpdateFontGroup", UpdateFontGroup);
+SV.Events:On("ALL_FONTS_UPDATED", UpdateAllFontTemplates, "UpdateAllFontTemplates");
+SV.Events:On("FONT_GROUP_UPDATED", UpdateFontGroup, "UpdateFontGroup");
 --[[ 
 ########################################################## 
 MEDIA UPDATES

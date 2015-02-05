@@ -70,17 +70,19 @@ function SV:UpdateErrorFilters()
 end
 --[[ 
 ########################################################## 
-PACKAGE CALL
+LOAD
 ##########################################################
 ]]--
-function SV:SetErrorFilters()
+local function SetErrorFilters()
 	if(SV.db.general.filterErrors) then
-		self:CacheFilters()
+		SV:CacheFilters()
 		UIErrorsFrame:UnregisterEvent('UI_ERROR_MESSAGE')
-		self:RegisterEvent('UI_ERROR_MESSAGE')
+		SV:RegisterEvent('UI_ERROR_MESSAGE')
 		if(SV.db.general.hideErrorFrame) then
-			self:RegisterEvent('PLAYER_REGEN_DISABLED', ErrorFrameHandler)
-			self:RegisterEvent('PLAYER_REGEN_ENABLED', ErrorFrameHandler)
+			SV:RegisterEvent('PLAYER_REGEN_DISABLED', ErrorFrameHandler)
+			SV:RegisterEvent('PLAYER_REGEN_ENABLED', ErrorFrameHandler)
 		end
 	end
 end
+
+SV:NewScript(SetErrorFilters)

@@ -254,7 +254,7 @@ GLOBAL/MODULE FUNCTIONS
 function SV.Setup:UserScreen(rez, preserve)
 	if not preserve then
 		if okToResetMOVE then 
-			SV.Layout:Reset("")
+			SV:ResetAnchors("")
 			okToResetMOVE = false;
 		end
 		SV:ResetData("UnitFrames")
@@ -486,7 +486,7 @@ function SV.Setup:UnitframeLayout(style, preserve)
 		SV:ResetData("UnitFrames")
 		SV:ResetData("Dock")
 		if okToResetMOVE then
-			SV.Layout:Reset('')
+			SV:ResetAnchors('')
 			okToResetMOVE = false
 		end
 	end
@@ -537,7 +537,7 @@ function SV.Setup:BarLayout(style, preserve)
 	if not preserve then 
 		SV:ResetData("ActionBars")
 		if okToResetMOVE then
-			SV.Layout:Reset('')
+			SV:ResetAnchors('')
 			okToResetMOVE=false
 		end
 	end 

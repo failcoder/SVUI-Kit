@@ -797,7 +797,7 @@ local Vehicle_OnSetPoint = function(self, _, parent)
 			VehicleSeatIndicator:ModPoint("BOTTOM", VehicleSeatIndicator_MOVE, "BOTTOM", 0, 0)
 		else
 			VehicleSeatIndicator:ModPoint("TOPLEFT", SV.Dock.TopLeft, "TOPLEFT", 0, 0)
-			SV.Layout:Add(VehicleSeatIndicator, L["Vehicle Seat Frame"])
+			SV:NewAnchor(VehicleSeatIndicator, L["Vehicle Seat Frame"])
 		end 
 		VehicleSeatIndicator:SetScale(0.8)
 	end 
@@ -884,10 +884,10 @@ local function AlterBlizzMainBar()
 end
 --[[ 
 ########################################################## 
-PACKAGE CALL
+LOAD
 ##########################################################
 ]]--
-function SV:SetOverrides()
+local function SetOverrides()
 	if(CompanionsMicroButtonAlert) then
 		CompanionsMicroButtonAlert:Die()
 	end
@@ -897,7 +897,7 @@ function SV:SetOverrides()
 	
 	TicketStatusFrame:ClearAllPoints()
 	TicketStatusFrame:SetPoint("TOPRIGHT", SV.Dock.TopLeft, "TOPRIGHT", 0, 0)
-	SV.Layout:Add(TicketStatusFrame, L["GM Ticket Frame"], nil, nil, "GM")
+	SV:NewAnchor(TicketStatusFrame, L["GM Ticket Frame"], nil, nil, "GM")
 
 	HelpPlate:Die()
 	HelpPlateTooltip:Die()
@@ -910,7 +910,7 @@ function SV:SetOverrides()
 	VehicleSeatIndicator:SetPoint("TOPLEFT", MinimapCluster, "TOPLEFT", 2, 2)
 	
 	SVUI_WorldStateHolder:ModSize(200, 45)
-	SV.Layout:Add(SVUI_WorldStateHolder, L["Capture Bars"])
+	SV:NewAnchor(SVUI_WorldStateHolder, L["Capture Bars"])
 	NewHook("UIParent_ManageFramePositions", CaptureBarHandler)
 
 	SVUI_AltPowerBar:ModSize(128, 50)
@@ -918,12 +918,12 @@ function SV:SetOverrides()
 	PlayerPowerBarAlt:ClearAllPoints()
 	PlayerPowerBarAlt:SetPoint("CENTER", SVUI_AltPowerBar, "CENTER", 0, 0)
 	PlayerPowerBarAlt.ignoreFramePositionManager = true;
-	SV.Layout:Add(SVUI_AltPowerBar, L["Alternative Power"])
+	SV:NewAnchor(SVUI_AltPowerBar, L["Alternative Power"])
 
 	SVUI_BailOut:ModSize(30, 30)
-	SVUI_BailOut:SetNormalTexture(self.Media.icon.exitIcon)
-	SVUI_BailOut:SetPushedTexture(self.Media.icon.exitIcon)
-	SVUI_BailOut:SetHighlightTexture(self.Media.icon.exitIcon)
+	SVUI_BailOut:SetNormalTexture(SV.Media.icon.exitIcon)
+	SVUI_BailOut:SetPushedTexture(SV.Media.icon.exitIcon)
+	SVUI_BailOut:SetHighlightTexture(SV.Media.icon.exitIcon)
 	SVUI_BailOut:SetStyle("!_Frame", "Transparent")
 	SVUI_BailOut:RegisterForClicks("AnyUp")
 	SVUI_BailOut:SetScript("OnClick", VehicleExit)
@@ -932,16 +932,16 @@ function SV:SetOverrides()
  	SVUI_BailOut:RegisterEvent("VEHICLE_UPDATE")
  	SVUI_BailOut:RegisterEvent("PLAYER_ENTERING_WORLD")
  	SVUI_BailOut:SetScript("OnEvent", BailOut_OnEvent)
-	SV.Layout:Add(SVUI_BailOut, L["Bail Out"])
+	SV:NewAnchor(SVUI_BailOut, L["Bail Out"])
 	SVUI_BailOut:Hide()
 
 	LossOfControlFrame:ClearAllPoints()
 	LossOfControlFrame:ModPoint("CENTER", SV.Screen, "CENTER", -146, -40)
-	SV.Layout:Add(LossOfControlFrame, L["Loss Control Icon"], nil, nil, "LoC")
+	SV:NewAnchor(LossOfControlFrame, L["Loss Control Icon"], nil, nil, "LoC")
 
-	self:RegisterEvent("CHAT_MSG_BG_SYSTEM_HORDE", PVPRaidNoticeHandler)
-	self:RegisterEvent("CHAT_MSG_BG_SYSTEM_ALLIANCE", PVPRaidNoticeHandler)
-	self:RegisterEvent("CHAT_MSG_BG_SYSTEM_NEUTRAL", PVPRaidNoticeHandler)
+	SV:RegisterEvent("CHAT_MSG_BG_SYSTEM_HORDE", PVPRaidNoticeHandler)
+	SV:RegisterEvent("CHAT_MSG_BG_SYSTEM_ALLIANCE", PVPRaidNoticeHandler)
+	SV:RegisterEvent("CHAT_MSG_BG_SYSTEM_NEUTRAL", PVPRaidNoticeHandler)
 	
 	UIParent:UnregisterEvent("MIRROR_TIMER_START")
 	MirrorBarEventFrame:RegisterEvent("CVAR_UPDATE")
@@ -957,7 +957,7 @@ function SV:SetOverrides()
 		LootFrame:UnregisterAllEvents();
 
 		SVUI_LootFrameHolder:ModSize(150, 22);
-		SV.Layout:Add(SVUI_LootFrameHolder, L["Loot Frame"], nil, nil, "SVUI_LootFrame");
+		SV:NewAnchor(SVUI_LootFrameHolder, L["Loot Frame"], nil, nil, "SVUI_LootFrame");
 		
 		SVUI_LootFrame:ModSize(256, 64);
 		SVUI_LootFrame:SetStyle("!_Frame", 'Transparent');
@@ -990,3 +990,5 @@ function SV:SetOverrides()
 
 	AlterBlizzMainBar()
 end
+
+SV:NewScript(SetOverrides)

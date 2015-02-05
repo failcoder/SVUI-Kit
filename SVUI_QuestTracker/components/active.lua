@@ -403,5 +403,5 @@ function MOD:InitializeActive()
 
 	self:RegisterEvent("SUPER_TRACKED_QUEST_CHANGED", self.UpdateActiveObjective);
 
-	SV.Events:On("QUEST_UPVALUES_UPDATED", "UpdateActiveLocals", UpdateActiveLocals);
+	SV.Events:On("QUEST_UPVALUES_UPDATED", UpdateActiveLocals, "UpdateActiveLocals");
 end

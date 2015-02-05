@@ -69,7 +69,7 @@ for id in InitAuraBars:gmatch("([^,]+)") do
     end
 end
 
-function SV:SanitizeFilters()
+local function SanitizeFilters()
     local filter = SV.filters.BuffWatch
     for id, watchData in pairs(filter) do
         if((not watchData.id) or (tonumber(id) ~= watchData.id)) then 
@@ -84,3 +84,5 @@ function SV:SanitizeFilters()
         end 
     end
 end
+
+SV:NewScript(SanitizeFilters);

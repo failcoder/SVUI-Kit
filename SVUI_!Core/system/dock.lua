@@ -54,7 +54,7 @@ ADDON
 ]]--
 local SV = select(2, ...);
 local L = SV.L;
-local MOD = SV:NewClass("Dock", L["Docks"]);
+local MOD = SV:NewPackage("Dock", L["Docks"]);
 MOD.Border = {};
 --[[ 
 ########################################################## 
@@ -946,7 +946,7 @@ local function BorderColorUpdates()
 	SVUIDock_BottomBorder:SetBackdropBorderColor(0,0,0,0.8)
 end
 
---SV.Events:On("MEDIA_COLORS_UPDATED", "BorderColorUpdates", BorderColorUpdates)
+--SV.Events:On("MEDIA_COLORS_UPDATED", BorderColorUpdates, "BorderColorUpdates")
 --[[ 
 ########################################################## 
 EXTERNALLY ACCESSIBLE METHODS
@@ -1051,7 +1051,7 @@ function MOD:NewAdvancedDocklet(location, globalName)
 	frame.Bar = CreateFrame("Frame", nil, newParent);
 	frame.Bar:SetSize(1, height);
 	frame.Bar:ModPoint(barAnchor, newParent.Bar.ToolBar, barReverse, (spacing * mod), 0)
-	SV.Layout:Add(frame.Bar, globalName .. " Dock Bar");
+	SV:NewAnchor(frame.Bar, globalName .. " Dock Bar");
 
 	DOCK_REGISTRY[globalName] = frame;
 	return frame
@@ -1104,14 +1104,6 @@ function MOD:ResetAllButtons()
 	wipe(MOD.private.Order)
 	wipe(MOD.private.Locations)
 	ReloadUI()
-end
-
-function MOD:UpdateAllDocks()
-	for location, settings in pairs(DOCK_LOCATIONS) do
-		local dock = self[location];
-		dock.Bar:Cycle()
-		dock.Bar:GetDefault()
-	end
 end
 
 function MOD:Refresh()
@@ -1174,7 +1166,7 @@ function MOD:PLAYER_REGEN_ENABLED()
 	end
 end
 
-function MOD:Initialize()
+function MOD:Load()
 	if(not SV.private.Docks) then
 		SV.private.Docks = {}
 	end
@@ -1279,8 +1271,8 @@ function MOD:Initialize()
 			dock.backdrop:Hide()
 			dock.Alert.backdrop = self.SetThemeDockStyle(dock.Alert, isBottom)
 			dock.Alert.backdrop:Hide()
-			SV.Layout:Add(dock.Bar, location .. " Dock ToolBar");
-			SV.Layout:Add(dock, location .. " Dock Window")
+			SV:NewAnchor(dock.Bar, location .. " Dock ToolBar");
+			SV:NewAnchor(dock, location .. " Dock Window")
 		end
 	end
 
@@ -1316,3 +1308,13 @@ function MOD:Initialize()
 	self:LoadRaidLeaderTools();
 	self:LoadBreakStuff();
 end
+
+local function UpdateAllDocks()
+	for location, settings in pairs(DOCK_LOCATIONS) do
+		local dock = MOD[location];
+		dock.Bar:Cycle()
+		dock.Bar:GetDefault()
+	end
+end
+
+SV:NewScript(UpdateAllDocks)

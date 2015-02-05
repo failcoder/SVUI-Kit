@@ -505,6 +505,6 @@ function MOD:Load()
 	self:RegisterEvent("PLAYER_ENTERING_WORLD");
 	self:RegisterEvent("ADDON_LOADED");
 
-	SV.Events:On("DOCK_RIGHT_FADE_IN", "DockFadeInDocklet", DockFadeInDocklet);
-	SV.Events:On("DOCK_RIGHT_FADE_OUT", "DockFadeOutDocklet", DockFadeOutDocklet);
+	SV.Events:On("DOCK_RIGHT_FADE_IN", DockFadeInDocklet, "DockFadeInDocklet");
+	SV.Events:On("DOCK_RIGHT_FADE_OUT", DockFadeOutDocklet, "DockFadeOutDocklet");
 end

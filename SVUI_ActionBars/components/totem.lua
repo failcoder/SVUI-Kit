@@ -197,5 +197,5 @@ function MOD:InitializeTotemBar()
 	Totems:SetScript("OnEvent", Totems_OnEvent)
 	Totems:Update()
 
-	SV.Layout:Add(Totems, MOVER_NAME)
+	SV:NewAnchor(Totems, MOVER_NAME)
 end
