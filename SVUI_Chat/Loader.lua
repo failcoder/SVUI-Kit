@@ -161,6 +161,14 @@ function MOD:LoadOptions()
 						width = "full",
 						set = function(a,b) MOD:ChangeDBVar(b,a[#a]) end
 					},
+					bubbles = {
+						order = 10,
+						type = "toggle",
+						name = L['Chat Bubbles'],
+						desc = L['Style the blizzard chat bubbles.'],
+						get = function(j)return SV.db[Schema][a[#a]] end,
+						set = function(a,b) MOD:ChangeDBVar(b,a[#a]);SV:StaticPopup_Show("RL_CLIENT")end
+					},
 				}
 			},
 		}

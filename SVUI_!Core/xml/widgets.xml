@@ -1,7 +1,34 @@
 ﻿<Ui xmlns="http://www.blizzard.com/wow/ui/">
 
     <Frame name="SVUI_DropdownFrame" frameStrata="DIALOG" hidden="true" />
-
+    <Frame name="SVUI_MailMinion" parent="InboxFrame" hidden="true">
+        <Size x="150" y="25"/>
+        <Anchors>
+            <Anchor point="CENTER" relativePoint="TOP" x="-22" y="-400" />
+        </Anchors>
+        <Frames>
+            <Button name="$parentGetMail" parentKey="GetMail" inherits="UIPanelButtonTemplate" text="Get All">
+                <Size x="70" y="25"/>
+                <Anchors>
+                    <Anchor point="LEFT" />
+                </Anchors>
+            </Button>
+            <Button name="$parentGetGold" parentKey="GetGold" inherits="UIPanelButtonTemplate" text="Get Gold">
+                <Size x="70" y="25"/>
+                <Anchors>
+                    <Anchor point="RIGHT" />
+                </Anchors>
+            </Button>
+            <Button name="$parentDelete" parentKey="Delete" inherits="UIPanelButtonTemplate" text="Delete All">
+                <Size x="70" y="25"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="InboxFrame" relativePoint="TOPLEFT">
+                        <Offset x="16" y="-30"/>
+                    </Anchor>
+                </Anchors>
+            </Button>
+        </Frames>
+    </Frame>
     <Frame name="SVUI_RaidMarkFrame" frameStrata="DIALOG" hidden="true" />
 
     <Frame name="SVUI_LayoutPrecision" hidden="true" frameStrata="DIALOG">
