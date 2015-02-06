@@ -409,7 +409,7 @@ SV.Options.args.primary = {
 			width = "full", 
 			fontSize = "large", 
 		},
-		quickGroup2 = {
+		quickGroup1 = {
 			order = 3, 
 			name = "", 
 			type = "group", 
