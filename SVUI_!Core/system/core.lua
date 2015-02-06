@@ -81,8 +81,8 @@ local SVUILib = Librarian("Registry");
 local rez = GetCVar("gxResolution");
 local baseHeight = tonumber(rez:match("%d+x(%d+)"))
 local baseWidth = tonumber(rez:match("(%d+)x%d+"))
-local defaultDockWidth = baseWidth * 0.5;
-local defaultCenterWidth = min(defaultDockWidth, 800);
+local defaultDockWidth = baseWidth * 0.66;
+local defaultCenterWidth = min(defaultDockWidth, 900);
 local callbacks = {};
 local numCallbacks = 0;
 local playerClass = select(2, UnitClass("player"));
@@ -834,7 +834,10 @@ function SV:Initialize()
 
     if(self.DebugMode and self.HasErrors and self.ScriptError) then
         ShowErrors();
+        wipe(self.ERRORLOG)
     end
+    
+    --print(p1 .. ", " .. p2:GetName() .. ", " .. p3 .. ", " .. p4 .. ", " .. p5)
 
     collectgarbage("collect");
 end

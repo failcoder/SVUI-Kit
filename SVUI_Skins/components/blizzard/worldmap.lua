@@ -35,7 +35,7 @@ local function WorldMap_SmallView()
   WorldMapFrame.Panel:WrapPoints(WorldMapFrame, 4, 4)
   WorldMapFrame.Panel.Panel:WrapPoints(WorldMapFrame.Panel)
   if(SVUI_WorldMapCoords) then
-    SVUI_WorldMapCoords.playerCoords:SetPoint("BOTTOMLEFT", WorldMapFrame, "BOTTOMLEFT", 5, 5)
+    SVUI_WorldMapCoords:SetPoint("BOTTOMLEFT", WorldMapFrame, "BOTTOMLEFT", 5, 5)
   end
 end 
 
@@ -49,7 +49,7 @@ local function WorldMap_FullView()
   WorldMapFrame.Panel:ModPoint("TOP", WorldMapFrame, "TOP", 0, 0)
   WorldMapFrame.Panel.Panel:WrapPoints(WorldMapFrame.Panel)
   if(SVUI_WorldMapCoords) then
-    SVUI_WorldMapCoords.playerCoords:SetPoint("BOTTOMLEFT", WorldMapFrame.Panel, "BOTTOMLEFT", 5, 5)
+    SVUI_WorldMapCoords:SetPoint("BOTTOMLEFT", WorldMapFrame.Panel, "BOTTOMLEFT", 5, 5)
   end
 end 
 

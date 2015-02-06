@@ -795,7 +795,6 @@ do
 	end
 
 	function MOD:RefreshChatFrames(forced)
-		if (not SV.db.Chat.enable) then return; end
 		if ((not forced) and (refreshLocked and (IsMouseButtonDown("LeftButton") or InCombatLockdown()))) then return; end
 
 		CHAT_WIDTH, CHAT_HEIGHT = MOD.Dock:GetSize();	
@@ -968,13 +967,13 @@ EVENTS
 ##########################################################
 ]]--
 function MOD:CHAT_MSG_WHISPER(event, ...)
-	if(SV.db.Chat.enable and self.db.general.saveChats) then
+	if(self.db.general.saveChats) then
 		self:SAVE_CHAT_HISTORY(event, ...)
 	end
 end
 
 function MOD:CHAT_MSG_BN_WHISPER(event, ...)
-	if(SV.db.Chat.enable and self.db.general.saveChats) then
+	if(self.db.general.saveChats) then
 		self:SAVE_CHAT_HISTORY(event, ...)
 	end
 end
@@ -1281,7 +1280,6 @@ function MOD:UpdateLocals()
 end
 
 function MOD:ReLoad()
-	if(not SV.db.Chat.enable) then return end
 	self:RefreshChatFrames(true) 
 end
 

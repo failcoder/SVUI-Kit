@@ -24,7 +24,7 @@ MOD.media.completeIcon = [[Interface\AddOns\SVUI_QuestTracker\assets\QUEST-COMPL
 MOD.media.incompleteIcon = [[Interface\AddOns\SVUI_QuestTracker\assets\QUEST-INCOMPLETE-ICON]];
 
 SV.defaults[Schema] = {
-	["enable"] = true, 
+	["itemBarDirection"] = 'VERTICAL', 
 };
 
 SV.defaults["font"]["questdialog"]   	= {file = "SVUI Default Font", size = 12,  outline = "OUTLINE"}
@@ -54,14 +54,24 @@ local questFonts = {
 };
 
 
--- function MOD:LoadOptions()
--- 	SV:GenerateFontOptionGroup("QuestTracker", 6, "Fonts used in the SVUI Quest Tracker.", questFonts)
+function MOD:LoadOptions()
+	SV:GenerateFontOptionGroup("QuestTracker", 6, "Fonts used in the SVUI Quest Tracker.", questFonts)
 	
--- 	SV.Options.args[Schema] = {
--- 		type = "group", 
--- 		name = Schema, 
--- 		get = function(a)return SV.db[Schema][a[#a]]end, 
--- 		set = function(a,b)MOD:ChangeDBVar(b,a[#a]); end, 
--- 		args = {}
--- 	}
--- end
+	SV.Options.args[Schema] = {
+		type = "group", 
+		name = Schema, 
+		get = function(a)return SV.db[Schema][a[#a]]end, 
+		set = function(a,b)MOD:ChangeDBVar(b,a[#a]); end, 
+		args = {
+			itemBarDirection = {
+				order = 1, 
+				type = 'select', 
+				name = L["Item Bar Direction"], 
+				values = {
+					['VERTICAL'] = L['Vertical'], 
+					['HORIZONTAL'] = L['Horizontal']
+				},
+			},
+		}
+	}
+end

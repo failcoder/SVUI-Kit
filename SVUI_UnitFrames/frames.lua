@@ -964,7 +964,7 @@ function MOD:SetUnitFrame(key)
     if frame:GetParent() ~= SVUI_UnitFrameParent then 
         frame:SetParent(SVUI_UnitFrameParent)
     end
-    if(SV.db.UnitFrames.enable and SV.db.UnitFrames[key].enable) then 
+    if(SV.db.UnitFrames[key].enable) then 
         frame:Enable()
         frame:Update()
     else
@@ -991,7 +991,7 @@ function MOD:SetEnemyFrame(key, maxCount)
         if frame:GetParent() ~= SVUI_UnitFrameParent then 
             frame:SetParent(SVUI_UnitFrameParent)
         end
-        if(SV.db.UnitFrames.enable and SV.db.UnitFrames[key].enable) then 
+        if(SV.db.UnitFrames[key].enable) then 
             frame:Enable()
             frame:Update() 
         else 

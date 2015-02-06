@@ -1166,7 +1166,6 @@ end
 
 function MOD:SetGroupFrame(token, forceUpdate)
     if(InCombatLockdown()) then self:RegisterEvent("PLAYER_REGEN_ENABLED"); return end
-    if(not SV.db.UnitFrames.enable) then return end
     local settings = SV.db.UnitFrames[token]
     local realName = token:gsub("(.)", upper, 1)
     local layout = "SVUI_"..realName

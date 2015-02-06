@@ -30,7 +30,7 @@ TSDW
 local function StyleTradeSkillDW()
 	assert(TradeSkillDW_QueueFrame, "AddOn Not Loaded")
 
-	TradeSkillFrame:SetStyle("Frame", "Composite2")
+	TradeSkillFrame:SetStyle("Frame", "WindowAlternate")
 	TradeSkillListScrollFrame:RemoveTextures(true)
 	TradeSkillDetailScrollFrame:RemoveTextures(true)
 	TradeSkillFrameInset:RemoveTextures(true)

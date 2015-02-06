@@ -20,7 +20,7 @@ FRAME MODR
 local function MerchantStyle()
 	if SV.db.Skins.blizzard.enable ~= true or SV.db.Skins.blizzard.merchant ~= true then return end 
 	MerchantFrame:RemoveTextures(true)
-	MerchantFrame:SetStyle("Frame", "Composite1", false, nil, 2, 4)
+	MerchantFrame:SetStyle("Frame", "Window", false, nil, 2, 4)
 	local level = MerchantFrame:GetFrameLevel()
 	if(level > 0) then 
 		MerchantFrame:SetFrameLevel(level - 1)

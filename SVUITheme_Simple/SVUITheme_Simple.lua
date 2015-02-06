@@ -116,8 +116,7 @@ function THEME:Load()
 		SV.defaults["font"]["unitprimary"]   	= {file = "SVUI Caps Font",   size = 14,  outline = "OUTLINE"}
 		SV.defaults["font"]["unitsecondary"]   	= {file = "SVUI Caps Font",   size = 14,  outline = "OUTLINE"}
 		SV.defaults["font"]["unitaurabar"]   	= {file = "SVUI Default Font",  size = 14,  outline = "OUTLINE"}
-		SV.defaults["font"]["unitauramedium"]  	= {file = "SVUI Default Font",  size = 14,  outline = "OUTLINE"}
-		SV.defaults["font"]["unitauralarge"]   	= {file = "SVUI Caps Font",   size = 14,  outline = "OUTLINE"}
+		SV.defaults["font"]["unitaura"]  		= {file = "SVUI Default Font",  size = 14,  outline = "OUTLINE"}
 		SV.defaults["media"]["textures"]["unitlarge"]   = "SVUI Artwork";
 		SV.defaults["media"]["textures"]["unitsmall"]   = "SVUI Artwork";
 
@@ -147,8 +146,8 @@ function THEME:Load()
 	SV.API.Themes["Simple"] = {
 		["Default"]     = "SVUITheme_Simple_Default",
 		["DockButton"]  = "SVUITheme_Simple_DockButton",
-		["Composite1"]  = "SVUITheme_Simple_Composite1",
-		["Composite2"]  = "SVUITheme_Simple_Composite2",
+		["Window"]  = "SVUITheme_Simple_Window",
+		["WindowAlternate"]  = "SVUITheme_Simple_WindowAlternate",
 		["UnitLarge"]   = "SVUITheme_Simple_UnitLarge",
 		["UnitSmall"]   = "SVUITheme_Simple_UnitSmall",
 		["Minimap"] 	= "SVUITheme_Simple_Minimap",

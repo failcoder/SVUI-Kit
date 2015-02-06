@@ -50,7 +50,7 @@ local function InspectStyle()
 	end 
 	InspectFrame:RemoveTextures(true)
 	InspectFrameInset:RemoveTextures(true)
-	InspectFrame:SetStyle("Frame", "Composite2")
+	InspectFrame:SetStyle("Frame", "WindowAlternate")
 	MOD:ApplyCloseButtonStyle(InspectFrameCloseButton)
 	for d = 1, 4 do
 		MOD:ApplyTabStyle(_G["InspectFrameTab"..d])

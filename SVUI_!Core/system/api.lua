@@ -71,8 +71,8 @@ MOD.Templates = {
     ["Premium"]     = "SVUI_CoreStyle_Premium",
     ["Model"]       = "SVUI_CoreStyle_Model",
     ["ModelBorder"] = "SVUI_CoreStyle_ModelBorder",
-    ["Composite1"]  = "SVUI_CoreStyle_Composite1",
-    ["Composite2"]  = "SVUI_CoreStyle_Composite2",
+    ["Window"]  = "SVUI_CoreStyle_Window",
+    ["WindowAlternate"]  = "SVUI_CoreStyle_WindowAlternate",
 };
 MOD.Methods = {};
 --[[ 
@@ -1158,6 +1158,15 @@ local SetStyle = function(self, method, ...)
         end
     end
 end
+
+-- hooksecurefunc("CreateFrame", function(arg1, globalName, parent, template)
+--     if(template and template == "UIPanelCloseButton") then
+--         print("Close Button Found")
+--         if(globalName) then
+--             print(globalName)
+--         end
+--     end
+-- end)
 --[[ 
 ########################################################## 
 HOOKED ATLAS HIJACKER
@@ -1371,7 +1380,6 @@ local function AppendFrameMethods(OBJECT)
         if not OBJECT.FadeIn then META.FadeIn = SecureFadeIn end
         if not OBJECT.FadeOut then META.FadeOut = SecureFadeOut end
         if not OBJECT.FadeCallback then META.FadeCallback = SecureFadeCallback end
-
         MODIFIED_OBJECTS[objType] = true
     end
 end

@@ -20,7 +20,7 @@ ITEMSOCKETING MODR
 local function ItemSocketStyle()
 	if SV.db.Skins.blizzard.enable ~= true or SV.db.Skins.blizzard.socket ~= true then return end 
 	ItemSocketingFrame:RemoveTextures()
-	ItemSocketingFrame:SetStyle("Frame", "Composite2")
+	ItemSocketingFrame:SetStyle("Frame", "WindowAlternate")
 	ItemSocketingFrameInset:Die()
 	ItemSocketingScrollFrame:RemoveTextures()
 	ItemSocketingScrollFrame:SetStyle("Frame", "Inset", true)

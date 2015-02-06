@@ -143,7 +143,7 @@ local function EncounterJournalStyle()
 
   EncounterJournalSearchResults:RemoveTextures(true)
 
-  EncounterJournal:SetStyle("Frame", "Composite2")
+  EncounterJournal:SetStyle("Frame", "WindowAlternate")
   EncounterJournal:SetPanelColor("dark")
   EncounterJournalInset:SetStyle("!_Frame", "Inset")
 

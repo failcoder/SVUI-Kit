@@ -48,7 +48,7 @@ local function TabardFrameStyle()
 		 return 
 	end 
 	cleanT(TabardFrame, true)
-	TabardFrame:SetStyle("Frame", "Composite2", false)
+	TabardFrame:SetStyle("Frame", "WindowAlternate", false)
 	TabardModel:SetStyle("!_Frame", "Transparent")
 	TabardFrameCancelButton:SetStyle("Button")
 	TabardFrameAcceptButton:SetStyle("Button")

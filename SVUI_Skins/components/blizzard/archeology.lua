@@ -22,7 +22,7 @@ local function ArchaeologyStyle()
 
 	ArchaeologyFrame:RemoveTextures()
 	ArchaeologyFrameInset:RemoveTextures()
-	ArchaeologyFrame:SetStyle("Frame", "Composite1")
+	ArchaeologyFrame:SetStyle("Frame", "Window")
 	ArchaeologyFrame.Panel:SetAllPoints()
 	ArchaeologyFrame.portrait:SetAlpha(0)
 	ArchaeologyFrameInset:SetStyle("Frame", "Inset")

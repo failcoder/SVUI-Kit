@@ -574,7 +574,7 @@ function MOD:SetAccountantData(dataType, cacheType, defaultValue)
 	end
 end 
 
-function MOD:Initialize()
+function MOD:Load()
 	local baseWidth, dockHeight = SV.Dock.BottomCenter:GetSize()
 	local dockWidth = baseWidth * 0.5;
 

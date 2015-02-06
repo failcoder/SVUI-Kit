@@ -284,8 +284,8 @@ local function LoadToolBarGarrison()
 	garrison:RegisterEvent("GARRISON_INVASION_UNAVAILABLE");
 	garrison:RegisterEvent("SHIPMENT_UPDATE");
 
-	garrison:SetScript("OnEvent", GarrisonButton_OnEvent)
-
+	garrison:SetScript("OnEvent", GarrisonButton_OnEvent);
+	C_Garrison.RequestLandingPageShipmentInfo();
 	MOD.GarrisonLoaded = true
 end
 --[[ 

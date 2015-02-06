@@ -53,18 +53,6 @@
         </FontHeight>
     </Font>
 
-    <Font name="SVUI_Font_UnitAura_Large" font="Fonts\MORPHEUS.ttf" virtual="true">
-        <Shadow>
-            <Offset>
-                <AbsDimension x="1" y="-1"/>
-            </Offset>
-            <Color r="0" g="0" b="0" a="0.25"/>
-        </Shadow>
-        <FontHeight>
-            <AbsValue val="11"/>
-        </FontHeight>
-    </Font>
-
     <Frame name="SVUI_StyleTemplate_ActionPanel" virtual="true">
         <Attributes>
             <Attribute name="panelID" type="string" value="actionpanel" />
@@ -120,9 +108,6 @@
         </Layers>
     </Frame>
 
-    <Script file="Loader.lua"/>
-    <Include file="libs\_load.xml"/>
-
     <Button name="SVUI_UNITTARGET" inherits="SecureUnitButtonTemplate" hidden="true" virtual="true">
         <Frames>    
             <Button name="$parentTarget" inherits="SecureUnitButtonTemplate">
@@ -162,6 +147,9 @@
             </Button>
         </Frames>
     </Button>
+
+    <Script file="Loader.lua"/>
+    <Include file="libs\_load.xml"/>
 
 	<Script file="SVUI_UnitFrames.lua"/>
 

@@ -155,7 +155,6 @@ do
 	end
 
 	function oUF_SVUI:DisableBlizzard(unit)
-		if(not SV.db.UnitFrames.enable) then return end
 		if (not unit) or InCombatLockdown() then return end
 
 		if (unit == "player") then
@@ -258,7 +257,7 @@ function MOD:RefreshUnitColors()
 end
 
 function MOD:RefreshAllUnitMedia()
-	if(not SV.db.UnitFrames or (SV.db.UnitFrames and SV.db.UnitFrames.enable ~= true)) then return end
+	if(not SV.db.UnitFrames) then return end
 	self:RefreshUnitColors()
 	for unit,frame in pairs(self.Units)do
 		if SV.db.UnitFrames[frame.___key].enable then 
@@ -276,7 +275,7 @@ function MOD:RefreshUnitFrames()
 	if(InCombatLockdown()) then self:RegisterEvent("PLAYER_REGEN_ENABLED"); return end
 	self:RefreshUnitColors()
 	for unit,frame in pairs(self.Units)do
-		if(SV.db.UnitFrames.enable == true and SV.db.UnitFrames[frame.___key].enable) then 
+		if(SV.db.UnitFrames[frame.___key].enable) then 
 			frame:Enable()
 			frame:Update()
 		else 
@@ -313,7 +312,7 @@ end
 function MOD:RefreshUnitMedia(unitName)
     local db = SV.db.UnitFrames
     local key = unitName or self.___key
-    if(not (db and db.enable) or not self) then return end
+    if((not db) or (not self)) then return end
     local CURRENT_BAR_TEXTURE = LSM:Fetch("statusbar", db.statusbar)
     local CURRENT_AURABAR_TEXTURE = LSM:Fetch("statusbar", db.auraBarStatusbar);
     local CURRENT_AURABAR_FONT = LSM:Fetch("font", db.auraFont);
@@ -812,7 +811,6 @@ function MOD:RefreshUnitLayout(frame, template)
 		if db.castbar.enable and not frame:IsElementEnabled('Castbar')then 
 			frame:EnableElement('Castbar')
 		elseif not db.castbar.enable and frame:IsElementEnabled('Castbar')then
-			SV:AddonMessage("No castbar")
 			frame:DisableElement('Castbar') 
 		end
 	end 
@@ -1276,12 +1274,10 @@ BUILD FUNCTION / UPDATE
 ##########################################################
 ]]--
 function MOD:ReLoad()
-	if(not SV.db.UnitFrames.enable) then return end
 	self:RefreshUnitFrames()
 end
 
 function MOD:Load()
-	if(not SV.db.UnitFrames.enable) then return end
 	self:RefreshUnitColors()
 
 	local SVUI_UnitFrameParent = CreateFrame("Frame", "SVUI_UnitFrameParent", SV.Screen, "SecureHandlerStateTemplate")

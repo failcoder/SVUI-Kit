@@ -68,8 +68,7 @@ LSM:Register("border", "SVUI SmallBorder 1", [[Interface\BUTTONS\WHITE8X8]])
 SV.defaults["font"]["unitprimary"]   	= {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"}
 SV.defaults["font"]["unitsecondary"]   	= {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"}
 SV.defaults["font"]["unitaurabar"]   	= {file = "SVUI Alert Font",  	size = 10,  outline = "OUTLINE"}
-SV.defaults["font"]["unitauramedium"]  	= {file = "SVUI Caps Font",  	size = 18,  outline = "OUTLINE"}
-SV.defaults["font"]["unitauralarge"]   	= {file = "SVUI Caps Font",   	size = 14,  outline = "OUTLINE"}
+SV.defaults["font"]["unitaura"]  	= {file = "SVUI Caps Font",  	size = 18,  outline = "OUTLINE"}
 SV.defaults["font"]["unitaurasmall"]   	= {file = "SVUI Pixel Font",  	size = 8,   outline = "MONOCHROMEOUTLINE"}
 
 SV.defaults["media"]["textures"]["unitlarge"]   = "SVUI UnitBG 1";
@@ -120,13 +119,11 @@ SV.Media["border"]["unitsmall"] = LSM:Fetch("border", "SVUI SmallBorder 1")
 
 SV.GlobalFontList["SVUI_Font_Unit"] = "unitprimary";
 SV.GlobalFontList["SVUI_Font_Unit_Small"] = "unitsecondary";
-SV.GlobalFontList["SVUI_Font_UnitAura"] = "unitauramedium";
+SV.GlobalFontList["SVUI_Font_UnitAura"] = "unitaura";
 SV.GlobalFontList["SVUI_Font_UnitAura_Bar"] = "unitaurabar";
 SV.GlobalFontList["SVUI_Font_UnitAura_Small"] = "unitaurasmall";
-SV.GlobalFontList["SVUI_Font_UnitAura_Large"] = "unitauralarge";
 
 SV.defaults[Schema] = {
-	["enable"] = true,
 	["themed"] = true,
 	["disableBlizzard"] = true, 
 	["smoothbars"] = false, 

@@ -23,8 +23,11 @@ local tostring      = _G.tostring;
 local tonumber      = _G.tonumber;
 local getmetatable  = _G.getmetatable;
 local setmetatable  = _G.setmetatable;
-local tinsert 	 =  _G.tinsert;
-local table 	 =  _G.table;
+local tinsert 	 	= _G.tinsert;
+local table 	 	= _G.table;
+local string 	 	= _G.string;
+local upper 		= string.upper;
+local gsub 			= string.gsub;
 --[[ TABLE METHODS ]]--
 local tsort = table.sort;
 
@@ -122,28 +125,23 @@ local unitFonts = {
 		name = "Unitframe AuraBar",
 		desc = "Used on unit aurabars."
 	},
-    ["unitauramedium"] = {
+    ["unitaura"] = {
 		order = 2,
-		name = "Unitframe Aura (Medium)",
-		desc = "Used on unit frames for auras (medium scale)."
-	},
-    ["unitauralarge"] = {
-		order = 3,
-		name = "Unitframe Aura (Large)",
-		desc = "Used on unit frames for auras (large scale)."
+		name = "Unitframe Aura",
+		desc = "Used on unit frames for auras (normal scale)."
 	},
     ["unitaurasmall"] = {
-		order = 4,
+		order = 3,
 		name = "Unitframe Aura (Small)",
 		desc = "Used on unit frames for auras (small scale)."
 	},
     ["unitprimary"] = {
-		order = 5,
+		order = 4,
 		name = "Unitframe Values",
 		desc = "Used on all primary unit frames for health, power and misc values.\nUnits: player, pet, target, focus, boss and arena"
 	},
     ["unitsecondary"] = {
-		order = 6,
+		order = 5,
 		name = "Unitframe Values",
 		desc = "Used on all non-primary unit frames for health, power and misc values.\nUnits: pettarget, targettarget, focustarget, party, raid, raidpet, tank and assist."
 	},

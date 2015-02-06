@@ -134,13 +134,13 @@ HELPERS
 ]]--
 local ChatGeneric_OnShow = function(self)
 	 if(not self.Panel) then 
-	 	self:SetStyle("Frame", "Composite1") 
+	 	self:SetStyle("Frame", "Window") 
 	end 
 end
 
 local ChatMenu_OnShow = function(self) 
 	if(not self.Panel) then 
-		self:SetStyle("Frame", "Composite1") 
+		self:SetStyle("Frame", "Window") 
 	end 
 	self:ClearAllPoints() 
 	self:ModPoint("BOTTOMLEFT", ChatFrame1, "TOPLEFT", 0, 30) 
@@ -395,7 +395,7 @@ local function ChatStyle()
 	if(_G["CombatConfigTab5"]) then _G["CombatConfigTab5"]:RemoveTextures() end
 
 	CombatConfigSettingsNameEditBox:SetStyle("Editbox")
-	ChatConfigFrame:SetStyle("Frame", "Composite1", true)
+	ChatConfigFrame:SetStyle("Frame", "Window", true)
 
 	for i = 1, #ChatFrameList3 do
 		local frame = _G[ChatFrameList3[i]]

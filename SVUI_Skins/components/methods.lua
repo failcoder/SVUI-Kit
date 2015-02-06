@@ -74,7 +74,7 @@ end
 
 function MOD:ApplyWindowStyle(this, action, fullStrip)
 	if(not this or (this and this.Panel)) then return end
-	local template = action and "Composite2" or "Composite1"
+	local template = action and "WindowAlternate" or "Window"
 	local baselevel = this:GetFrameLevel()
 	if(baselevel < 1) then 
 		this:SetFrameLevel(1)
@@ -86,7 +86,7 @@ end
 
 function MOD:ApplyAdjustedWindowStyle(this, action, fullStrip, padding, xOffset, yOffset)
 	if(not this or (this and this.Panel)) then return end
-	local template = action and "Composite2" or "Composite1"
+	local template = action and "WindowAlternate" or "Window"
 	local baselevel = this:GetFrameLevel()
 	if(baselevel < 1) then 
 		this:SetFrameLevel(1)

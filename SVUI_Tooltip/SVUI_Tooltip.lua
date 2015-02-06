@@ -32,6 +32,7 @@ local MOD = SV.Tooltip;
 if(not MOD) then return end;
 
 MOD.Holder = CreateFrame("Frame", "SVUI_ToolTip", UIParent)
+MOD.DefaultPadding = 24;
 --[[ 
 ########################################################## 
 LOCAL VARIABLES
@@ -649,11 +650,11 @@ local _hook_GameTooltip_SetDefaultAnchor = function(self, parent)
 	if(MOD.Holder.Grip and (not MOD.Holder.Grip:HasMoved())) then
 		self:ClearAllPoints()
 		if(SV.Inventory and SV.Inventory.BagFrame and SV.Inventory.BagFrame:IsShown()) then
-			self:SetPoint("BOTTOMLEFT", SV.Inventory.BagFrame, "TOPLEFT", 0, 24)
+			self:SetPoint("BOTTOMLEFT", SV.Inventory.BagFrame, "TOPLEFT", 0, MOD.DefaultPadding)
 		elseif(SV.Dock.BottomRight:GetAlpha() == 1 and SV.Dock.BottomRight:IsShown()) then 
-			self:SetPoint("BOTTOMLEFT", SV.Dock.BottomRight.Window, "TOPLEFT", 0, 24)
+			self:SetPoint("BOTTOMLEFT", SV.Dock.BottomRight.Window, "TOPLEFT", 0, MOD.DefaultPadding)
 		else 
-			self:SetPoint("BOTTOMLEFT", SV.Dock.BottomRight.Bar, "TOPLEFT", 0, 24)
+			self:SetPoint("BOTTOMLEFT", SV.Dock.BottomRight.Bar, "TOPLEFT", 0, MOD.DefaultPadding)
 		end 
 	else
 		local point = Pinpoint(MOD.Holder.Grip)
@@ -919,7 +920,7 @@ end
 function MOD:Load()
 	self:UpdateLocals()
 
-	self.Holder:ModPoint("BOTTOMLEFT", SV.Dock.BottomRight, "TOPLEFT", 0, 24)
+	self.Holder:ModPoint("BOTTOMLEFT", SV.Dock.BottomRight, "TOPLEFT", 0, 56)
 	self.Holder:ModSize(130, 20)
 	self.Holder:SetFrameLevel(self.Holder:GetFrameLevel() + 50)
 	SV:NewAnchor(self.Holder, L["Tooltip"])

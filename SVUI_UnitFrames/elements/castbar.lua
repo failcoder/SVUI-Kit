@@ -652,6 +652,7 @@ function MOD:CreateCastbar(frame, reversed, moverName, ryu, useFader, isBoss, ha
 		bgFrame:SetAllPoints(castbarHolder)
 		bgFrame:SetFrameLevel(bgFrame:GetFrameLevel() - 1)
 
+
 		castbar.LatencyTexture:SetTexture(SV.Media.bar.default)
 
 		if reversed then 
@@ -706,7 +707,7 @@ function MOD:CreateCastbar(frame, reversed, moverName, ryu, useFader, isBoss, ha
 	castbar.CastColor = oUF_SVUI.colors.casting
 	castbar.SparkColor = oUF_SVUI.colors.spark
 
-	if moverName then 
+	if moverName then
 		SV:NewAnchor(castbar.Holder, moverName, -6)
 	end 
 	

@@ -781,9 +781,9 @@
         </Frames>
     </Frame>
 
-    <Frame name="SVUI_CoreStyle_Composite1" virtual="true">
+    <Frame name="SVUI_CoreStyle_Window" virtual="true">
         <Attributes>
-            <Attribute name="panelID" type="string" value="composite1" />
+            <Attribute name="panelID" type="string" value="window" />
             <Attribute name="panelPadding" type="number" value="2" />
             <Attribute name="panelColor" type="string" value="default" />
             <Attribute name="panelGradient" type="string" value="special" />
@@ -884,9 +884,9 @@
         </Frames>
     </Frame>
     
-    <Frame name="SVUI_CoreStyle_Composite2" virtual="true">
+    <Frame name="SVUI_CoreStyle_WindowAlternate" virtual="true">
         <Attributes>
-            <Attribute name="panelID" type="string" value="composite2" />
+            <Attribute name="panelID" type="string" value="windowalternate" />
             <Attribute name="panelPadding" type="number" value="2" />
             <Attribute name="panelColor" type="string" value="default" />
             <Attribute name="panelGradient" type="string" value="special" />

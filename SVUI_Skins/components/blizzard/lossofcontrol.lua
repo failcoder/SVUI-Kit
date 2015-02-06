@@ -46,7 +46,6 @@ local function LossOfControlStyle()
   LossOfControlFrame.Icon:SetTexCoord(.1, .9, .1, .9)
   LossOfControlFrame:RemoveTextures()
   LossOfControlFrame.AbilityName:ClearAllPoints()
-  LossOfControlFrame:ModSize(LossOfControlFrame.Icon:GetWidth() + 50)
   --local bg = CreateFrame("Frame", nil, LossOfControlFrame)
   hooksecurefunc("LossOfControlFrame_SetUpDisplay", _hook_LossOfControl)
 end 

@@ -181,7 +181,7 @@
     </Frame>
 
     <Frame name="SVUI_Layout" movable="true" hidden="true" frameStrata="DIALOG">
-        <Size x="300" y="30"/>
+        <Size x="220" y="30"/>
         <Anchors>
             <Anchor point="CENTER"/>
         </Anchors>
@@ -200,16 +200,18 @@
                 </Texture>
             </Layer>
             <Layer level="ARTWORK">
-                <FontString parentKey="Title" inherits="SystemFont_Small" justifyH="LEFT" text="Layout The Frame Layout!">
+                <FontString parentKey="Title" inherits="SVUI_Font_Narrator" justifyH="CENTER" text="Mentalo The Frame Mover!">
                     <Anchors>
-                        <Anchor point="TOPLEFT" relativeTo="$parentTitleBG">
-                            <Offset x="4" y="0"/>
+                        <Anchor point="BOTTOMLEFT" relativeTo="$parentTitleBG" relativePoint="TOPLEFT">
+                            <Offset x="4" y="4"/>
                         </Anchor>
-                        <Anchor point="BOTTOMRIGHT" relativeTo="$parentTitleBG"/>
+                        <Anchor point="BOTTOMRIGHT" relativeTo="$parentTitleBG" relativePoint="TOPRIGHT">
+                            <Offset x="-4" y="4"/>
+                        </Anchor>
                     </Anchors>
                     <Color r="1" g="1" b="1" a="1"/>
                 </FontString>
-                <FontString parentKey="SubTitle" inherits="FriendsFont_Small" justifyH="CENTER" text="Right-click frames to move with precision.">
+                <FontString parentKey="SubTitle" inherits="SVUI_Font_Caps" justifyH="CENTER" text="Right-click frames to move with precision.">
                     <Anchors>
                         <Anchor point="TOPLEFT" relativeTo="$parentTitleBG" relativePoint="BOTTOMLEFT">
                             <Offset x="4" y="-4"/>
@@ -230,7 +232,7 @@
         </Layers>
         <Frames>
             <Button name="$parentGridButton" inherits="OptionsButtonTemplate" text="Grid">
-                <Size x="48" y="24"/>
+                <Size x="104" y="24"/>
                 <Anchors>
                     <Anchor point="RIGHT" relativeTo="$parentBG">
                         <Offset x="-4" y="0"/>
@@ -238,7 +240,7 @@
                 </Anchors>
             </Button>
             <Button name="$parentLockButton" inherits="OptionsButtonTemplate" text="Lock">
-                <Size x="48" y="24"/>
+                <Size x="104" y="24"/>
                 <Anchors>
                     <Anchor point="RIGHT" relativeTo="$parentGridButton" relativePoint="LEFT">
                         <Offset x="-4" y="0"/>

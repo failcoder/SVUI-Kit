@@ -142,11 +142,9 @@ local CreateAuraIcon = function(icons, index)
 
     --hooksecurefunc(aura, "SetBackdropBorderColor", _hook_AuraBGBorderColor)
 
-    local fontgroup = "SVUI_Font_UnitAura_Large";
+    local fontgroup = "SVUI_Font_UnitAura";
     if(baseSize < 18) then
     	fontgroup = "SVUI_Font_UnitAura_Small";
-    elseif(baseSize < 24) then
-    	fontgroup = "SVUI_Font_UnitAura";
     end
     --print(baseSize)
     --print(fontgroup)

@@ -44,7 +44,7 @@ local function GossipStyle()
 	for s, t in pairs(r)do 
 		_G[t]:RemoveTextures()
 	end 
-	GossipFrame:SetStyle("Frame", "Composite1")
+	GossipFrame:SetStyle("Frame", "Window")
 	GossipGreetingScrollFrame:SetStyle("!_Frame", "Inset", true)
 	GossipGreetingScrollFrame.spellTex = GossipGreetingScrollFrame:CreateTexture(nil, "ARTWORK")
 	GossipGreetingScrollFrame.spellTex:SetTexture([[Interface\QuestFrame\QuestBG]])

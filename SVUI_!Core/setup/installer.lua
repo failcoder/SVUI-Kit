@@ -609,7 +609,7 @@ function SV.Setup:EZDefault()
 	SV.db.Dock.dataBackdrop = true;
 
 	if(SV.Auras) then
-		SV.db.Auras.hyperBuffs.enable = true;
+		SV.db.Auras.hyperBuffsEnabled = true;
 	end
 	if(SV.Inventory) then
 		SV.db.Inventory.bagTools = true;
@@ -657,7 +657,7 @@ function SV.Setup:Minimalist()
 
 	SV.db.Dock.dataBackdrop = false;
 	if(SV.Auras) then
-		SV.db.Auras.hyperBuffs.enable = false;
+		SV.db.Auras.hyperBuffsEnabled = false;
 	end
 	if(SV.Inventory) then
 		SV.db.Inventory.bagTools = false;
@@ -901,7 +901,7 @@ function SV.Setup:Install(autoLoaded)
 	if not SVUI_InstallerFrame then 
 		local frame = CreateFrame("Button", "SVUI_InstallerFrame", UIParent)
 		frame:ModSize(550, 400)
-		frame:SetStyle("Frame", "Composite2")
+		frame:SetStyle("Frame", "WindowAlternate")
 		frame:SetPoint("TOP", SV.Screen, "TOP", 0, -150)
 		frame:SetFrameStrata("TOOLTIP")
 

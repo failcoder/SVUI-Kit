@@ -326,7 +326,7 @@ do
 			local CB_HEIGHT = Minimap:GetHeight()
 			local CB_WIDTH = (CB_HEIGHT / maxShown) + 4
 			--print("ToggleConsolidatedBuffs "..CB_WIDTH)
-			SVUI_AurasAnchor:SetSize(CB_WIDTH, CB_HEIGHT)
+			MOD.Holder:SetSize(CB_WIDTH, CB_HEIGHT)
 			MOD.HyperBuffFrame:Show()
 			BuffFrame:RegisterUnitEvent("UNIT_AURA", "player")
 			MOD:RegisterEvent("UNIT_AURA", UpdateConsolidatedReminder)
@@ -365,7 +365,7 @@ do
 	end 
 
 	function MOD:Update_ConsolidatedBuffsSettings(event)
-		MOD.HyperBuffFrame:SetAllPoints(SVUI_AurasAnchor)
+		MOD.HyperBuffFrame:SetAllPoints(MOD.Holder)
 		local hideIndex;
 		if(SV.db.Auras.hyperBuffsFiltered) then 
 			if SV.ClassRole == 'C' then 
@@ -487,7 +487,7 @@ function MOD:UpdateAuraHolder(newHeight, referenceHolder)
 		end
 	end
 	if(self.HyperBuffFrame) then
-		self:Update_HyperBuffsSettings()
+		self:Update_ConsolidatedBuffsSettings()
 	end
 end
 --[[ 
@@ -497,17 +497,17 @@ UPDATE AND BUILD
 ]]--
 function MOD:ReLoad()
 	if(InCombatLockdown()) then return end
-	local maxShown = #MOD.media.hyperAuraIcons - 1
+	local maxShown = #self.media.hyperAuraIcons - 1
 	local CB_HEIGHT = Minimap:GetHeight() - 50
 	local CB_WIDTH = (CB_HEIGHT / maxShown) + 4
-	SVUI_AurasAnchor:SetSize(CB_WIDTH, CB_HEIGHT)
+	self.Holder:SetSize(CB_WIDTH, CB_HEIGHT)
 	AURA_FADE_TIME = SV.db.Auras.fadeBy
-	MOD:UpdateAuraHeader(SVUI_PlayerBuffs, "buffs");
-	MOD:UpdateAuraHeader(SVUI_PlayerDebuffs, "debuffs");
+	self:UpdateAuraHeader(SVUI_PlayerBuffs, "buffs");
+	self:UpdateAuraHeader(SVUI_PlayerDebuffs, "debuffs");
 end 
 
 function MOD:Load()
-	local maxShown = #MOD.media.hyperAuraIcons - 1;
+	local maxShown = #self.media.hyperAuraIcons - 1;
 	local CB_HEIGHT = Minimap:GetHeight() - 50;
 	local CB_WIDTH = (CB_HEIGHT / maxShown) + 4;
 
@@ -518,35 +518,6 @@ function MOD:Load()
 
 	self.Holder:SetSize(CB_WIDTH, CB_HEIGHT)
 	self.Holder:ModPoint("TOPRIGHT", Minimap, "TOPLEFT", HOLDER_OFFSET, 0)
-	SV:ManageVisibility(self.Holder)
-
-	if(SV.db.Auras.aurasEnabled) then 
-		BuffFrame:Die()
-		TemporaryEnchantFrame:Die()
-		InterfaceOptionsFrameCategoriesButton12:SetScale(0.0001)
-
-		local buffHeader = CreateFrame("Frame", "SVUI_PlayerBuffs", self.Holder, "SecureAuraHeaderTemplate")
-		buffHeader:SetClampedToScreen(true)
-		buffHeader:SetPoint("TOPRIGHT", self.Holder, "TOPLEFT", -8, 0)
-		buffHeader:SetAttribute("unit", "player")
-		buffHeader:SetAttribute("filter", "HELPFUL")
-		RegisterStateDriver(buffHeader, "visibility", "[petbattle] hide; show")
-		RegisterAttributeDriver(buffHeader, "unit", "[vehicleui] vehicle; player")
-		buffHeader:SetAttribute("consolidateDuration", -1)
-		buffHeader:SetAttribute("includeWeapons", 1) 
-		self:UpdateAuraHeader(buffHeader, "buffs")
-		buffHeader:Show()
-
-		local debuffHeader = CreateFrame("Frame", "SVUI_PlayerDebuffs", self.Holder, "SecureAuraHeaderTemplate")
-		debuffHeader:SetClampedToScreen(true)
-		debuffHeader:SetPoint( "BOTTOMRIGHT", self.Holder, "BOTTOMLEFT", -8, 0)
-		debuffHeader:SetAttribute("unit", "player")
-		debuffHeader:SetAttribute("filter", "HELPFUL")
-		RegisterStateDriver(debuffHeader, "visibility", "[petbattle] hide; show")
-		RegisterAttributeDriver(debuffHeader, "unit", "[vehicleui] vehicle; player") 
-		self:UpdateAuraHeader(debuffHeader, "debuffs")
-		debuffHeader:Show()
-	end
 
 	if(SV.db.Auras.hyperBuffsEnabled) then 
 		ConsolidatedBuffs:Die()
@@ -586,5 +557,34 @@ function MOD:Load()
 		self:Update_ConsolidatedBuffsSettings()
 	end
 
+	if(SV.db.Auras.aurasEnabled) then 
+		BuffFrame:Die()
+		TemporaryEnchantFrame:Die()
+		InterfaceOptionsFrameCategoriesButton12:SetScale(0.0001)
+
+		local buffHeader = CreateFrame("Frame", "SVUI_PlayerBuffs", self.Holder, "SecureAuraHeaderTemplate")
+		buffHeader:SetClampedToScreen(true)
+		buffHeader:SetPoint("TOPRIGHT", self.Holder, "TOPLEFT", -8, 0)
+		buffHeader:SetAttribute("unit", "player")
+		buffHeader:SetAttribute("filter", "HELPFUL")
+		RegisterStateDriver(buffHeader, "visibility", "[petbattle] hide; show")
+		RegisterAttributeDriver(buffHeader, "unit", "[vehicleui] vehicle; player")
+		buffHeader:SetAttribute("consolidateDuration", -1)
+		buffHeader:SetAttribute("includeWeapons", 1) 
+		self:UpdateAuraHeader(buffHeader, "buffs")
+		buffHeader:Show()
+
+		local debuffHeader = CreateFrame("Frame", "SVUI_PlayerDebuffs", self.Holder, "SecureAuraHeaderTemplate")
+		debuffHeader:SetClampedToScreen(true)
+		debuffHeader:SetPoint( "BOTTOMRIGHT", self.Holder, "BOTTOMLEFT", -8, 0)
+		debuffHeader:SetAttribute("unit", "player")
+		debuffHeader:SetAttribute("filter", "HARMFUL")
+		RegisterStateDriver(debuffHeader, "visibility", "[petbattle] hide; show")
+		RegisterAttributeDriver(debuffHeader, "unit", "[vehicleui] vehicle; player") 
+		self:UpdateAuraHeader(debuffHeader, "debuffs")
+		debuffHeader:Show()
+	end
+
 	SV:NewAnchor(self.Holder, L["Auras Frame"])
+	SV:ManageVisibility(self.Holder)
 end

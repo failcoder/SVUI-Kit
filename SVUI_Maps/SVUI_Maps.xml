@@ -159,13 +159,13 @@
     <Frame name="SVUI_WorldMapCoords" parent="WorldMapFrame" >
         <Size x="212" y="54"/>
         <Anchors>
-            <Anchor point="BOTTOMLEFT" relativeTo="$parent" relativePoint="BOTTOMLEFT" x="100" y="5" />
+            <Anchor point="BOTTOMLEFT" relativeTo="$parent" relativePoint="BOTTOMLEFT" x="5" y="5" />
         </Anchors>
         <Frames>
-            <Frame name="$parentPlayer" inherits="SVUI_CoordHolderTemplate">
-                <Size x="100" y="22"/>
+            <Frame name="$parentPlayer" parentKey="Player" inherits="SVUI_CoordHolderTemplate">
+                <Size x="142" y="22"/>
                 <Anchors>
-                    <Anchor point="BOTTOMLEFT" relativeTo="$parent" relativePoint="BOTTOMLEFT" x="100" y="5" />
+                    <Anchor point="BOTTOMLEFT" relativeTo="$parent" relativePoint="BOTTOMLEFT" x="70" y="5" />
                 </Anchors>
                 <Layers>
                     <Layer level="ARTWORK">
@@ -178,10 +178,10 @@
                     </Layer>
                 </Layers>
             </Frame>
-            <Frame name="$parentMouse" inherits="SVUI_CoordHolderTemplate">
-                <Size x="100" y="22"/>
+            <Frame name="$parentMouse" parentKey="Mouse" inherits="SVUI_CoordHolderTemplate">
+                <Size x="142" y="22"/>
                 <Anchors>
-                    <Anchor point="BOTTOMLEFT" relativeTo="$parent" relativePoint="BOTTOMLEFT" x="100" y="30" />
+                    <Anchor point="BOTTOMLEFT" relativeTo="$parent" relativePoint="BOTTOMLEFT" x="70" y="30" />
                 </Anchors>
                 <Layers>
                     <Layer level="ARTWORK">

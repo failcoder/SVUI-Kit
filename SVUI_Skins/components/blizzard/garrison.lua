@@ -380,7 +380,7 @@ local function LoadGarrisonStyle()
 	GarrisonMissionFrameMissions:RemoveTextures()
 	GarrisonMissionFrameMissions:SetStyle("!_Frame", "Inset")
 	GarrisonMissionFrameMissions.CompleteDialog.BorderFrame:RemoveTextures()
-	GarrisonMissionFrameMissions.CompleteDialog.BorderFrame:SetStyle("Frame", 'Composite1', false, 4, 0, 0)
+	GarrisonMissionFrameMissions.CompleteDialog.BorderFrame:SetStyle("Frame", 'Window', false, 4, 0, 0)
 	GarrisonMissionFrameMissions.CompleteDialog.BorderFrame.Stage:RemoveTextures()
 	GarrisonMissionFrameMissions.CompleteDialog.BorderFrame.Stage:SetStyle("!_Frame", "Model")
 	GarrisonMissionFrameMissions.CompleteDialog.BorderFrame.ViewButton:RemoveTextures(true)
@@ -469,7 +469,7 @@ local function LoadGarrisonStyle()
 	display.CapacitiveDisplay:SetStyle("Frame", 'Transparent')
 	display.CapacitiveDisplay.ShipmentIconFrame:SetStyle("Icon")
 	display.CapacitiveDisplay.ShipmentIconFrame.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
-	display:SetStyle("Frame", "Composite2")
+	display:SetStyle("Frame", "WindowAlternate")
 
 	local reagents = display.CapacitiveDisplay.Reagents;
     for i = 1, #reagents do

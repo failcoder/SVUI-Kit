@@ -30,7 +30,7 @@ local function BarberShopStyle()
 	end
 
 	BarberShopFrame:RemoveTextures()
-	BarberShopFrame:SetStyle("Frame", "Composite1")
+	BarberShopFrame:SetStyle("Frame", "Window")
 	BarberShopFrame:ModSize(BarberShopFrame:GetWidth()-30, BarberShopFrame:GetHeight()-56)
 
 	local lastframe;
@@ -65,7 +65,7 @@ local function BarberShopStyle()
 	BarberShopAltFormFrameBorder:RemoveTextures()
 	BarberShopAltFormFrame:ModPoint("BOTTOM", BarberShopFrame, "TOP", 0, 5)
 	BarberShopAltFormFrame:RemoveTextures()
-	BarberShopAltFormFrame:SetStyle("Frame", "Composite2")
+	BarberShopAltFormFrame:SetStyle("Frame", "WindowAlternate")
 
 	BarberShopFrameResetButton:ClearAllPoints()
 	BarberShopFrameResetButton:ModPoint("BOTTOM", BarberShopFrame.Panel, "BOTTOM", 0, 4)

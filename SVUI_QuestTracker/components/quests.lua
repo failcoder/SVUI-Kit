@@ -338,11 +338,25 @@ function ItemBar:Update()
 	local maxIndex = #self.Buttons;
 	local firstButton = self.Buttons[1];
 	local itemLink = firstButton.itemLink;
-	firstButton:ClearAllPoints();
-	firstButton:SetPoint("TOP", self, "TOP", 0, -2);
-
 	if(itemLink and ACTIVE_ITEMS[itemLink]) then
 		SWAP_ITEMS[itemLink] = 1
+	end
+
+	firstButton:ClearAllPoints();
+
+	local a1, a2, x, y = "BOTTOM", "TOP", 0, 2;
+	if(SV.db.QuestTracker.itemBarDirection == 'HORIZONTAL') then
+		a1, a2, x, y = "LEFT", "RIGHT", 2, 0;
+		firstButton:SetPoint("LEFT", self, "LEFT", 2, 0);
+		if(SV.Tooltip and (not self.tipanchorchecked) and SV.Tooltip.Holder and SV.Tooltip.Holder.Grip and (not SV.Tooltip.Holder.Grip:HasMoved())) then
+			SV.Tooltip.DefaultPadding = 56
+			self.tipanchorchecked = true
+		end
+		-- if(SV.Tooltip and SV.Tooltip.Holder and SV.Tooltip.Holder.Grip) then
+		-- 	print(SV.Tooltip.Holder.Grip:GetPoint())
+		-- end
+	else
+		firstButton:SetPoint("TOP", self, "TOP", 0, -2);
 	end
 
 	local lastButton, totalShown, button = firstButton, 1;
@@ -356,14 +370,14 @@ function ItemBar:Update()
 			totalShown = totalShown + 1;
 			if(totalShown > 5) then
 				if(totalShown == 6) then
-					button:SetPoint("BOTTOM", firstButton, "TOP", 0, 2)
+					button:SetPoint(a1, firstButton, a2, x, y)
 				else
-					button:SetPoint("BOTTOM", lastButton, "TOP", 0, 2)
+					button:SetPoint(a1, lastButton, a2, x, y)
 				end
 				button.___overflow = true;
 				button:FadeOut();
 			else
-				button:SetPoint("TOP", lastButton, "BOTTOM", 0, -2)
+				button:SetPoint(a2, lastButton, a1, x, -y)
 				button.___overflow = false;
 				button:FadeIn();
 			end
@@ -1104,12 +1118,18 @@ local _hook_QuestDock_OnHide = function(self)
 end
 
 function MOD:InitializeQuests()
-	local barWidth = 32;
-	local barHeight = barWidth * 5;
+	ItemBar:ClearAllPoints();
 	ItemBar:SetParent(SV.Screen);
-	ItemBar:ModPoint("TOPRIGHT", SV.Dock.BottomRight, "TOPLEFT", -4, 0);
-	ItemBar:SetWidth(barWidth);
-	ItemBar:SetHeight(barHeight);
+	if(SV.db.QuestTracker.itemBarDirection == 'HORIZONTAL') then
+		ItemBar:ModPoint("BOTTOMLEFT", SV.Dock.BottomRight, "TOPLEFT", 0, 4);
+		ItemBar:SetWidth(SV.Dock.BottomRight:GetWidth());
+		ItemBar:SetHeight(32);
+	else
+		ItemBar:ModPoint("TOPRIGHT", SV.Dock.BottomRight, "TOPLEFT", -4, 0);
+		ItemBar:SetWidth(32);
+		ItemBar:SetHeight(SV.Dock.BottomRight:GetHeight());
+	end
+
 	SV:NewAnchor(ItemBar, L["Quest Items"]);
 	for i = 1, 5 do
 		ItemBar.Buttons[i] = CreateQuestItemButton(i)

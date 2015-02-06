@@ -21,7 +21,7 @@ local function WorldStateStyle()
 	if SV.db.Skins.blizzard.enable ~= true or SV.db.Skins.blizzard.bgscore ~= true then return end 
 	WorldStateScoreScrollFrame:RemoveTextures()
 	WorldStateScoreFrame:RemoveTextures()
-	WorldStateScoreFrame:SetStyle("Frame", "Composite1")
+	WorldStateScoreFrame:SetStyle("Frame", "Window")
 	MOD:ApplyCloseButtonStyle(WorldStateScoreFrameCloseButton)
 	MOD:ApplyScrollFrameStyle(WorldStateScoreScrollFrameScrollBar)
 	WorldStateScoreFrameInset:SetAlpha(0)

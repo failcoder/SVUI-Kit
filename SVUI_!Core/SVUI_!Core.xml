@@ -10,7 +10,6 @@
 	<Script file="system\media.lua"/>
     <Script file="system\api.lua"/>
     <Script file="system\utilities.lua"/>
-    <Script file="system\slash.lua"/>
     <Script file="system\alerts.lua"/>
     <Script file="system\dock.lua"/>
     <Script file="system\reports.lua"/>
@@ -19,6 +18,10 @@
     <Script file="system\overrides.lua"/>
     <Script file="system\errors.lua"/>
     <Script file="system\debug.lua"/>
+
+    <Include file="setup\_load.xml"/>
+
+    <Script file="system\slash.lua"/>
 
     <Script file="system\_reports\bags.lua"/>
     <Script file="system\_reports\cta.lua"/>
@@ -48,5 +51,4 @@
 
     <Script file="system\credits.lua"/>
     <Include file="filtering\_load.xml"/>
-    <Include file="setup\_load.xml"/>
 </Ui>

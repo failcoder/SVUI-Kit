@@ -53,7 +53,7 @@ local function BindingStyle()
 
 	MOD:ApplyScrollFrameStyle(KeyBindingFrameScrollFrameScrollBar)
 	KeyBindingFrame:RemoveTextures()
-	KeyBindingFrame:SetStyle("Frame", "Composite1")
+	KeyBindingFrame:SetStyle("Frame", "Window")
 end
 --[[ 
 ########################################################## 

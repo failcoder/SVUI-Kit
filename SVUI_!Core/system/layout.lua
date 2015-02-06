@@ -458,7 +458,7 @@ function Layout:Movable_OnDragStart()
 	end 
 	UpdateFrameTarget = self;
 	LayoutUpdateHandler:Show()
-	LayoutUpdateHandler:SetScript("OnUpdate", Layout.Movable_OnUpdate())
+	LayoutUpdateHandler:SetScript("OnUpdate", Layout.Movable_OnUpdate)
 	TheHand:Enable()
 	TheHand.UserHeld = true 
 end
@@ -613,7 +613,7 @@ local function SetNewAnchor(frame, moveName, title, snap, dragStopFunc, callback
 	movable:SetStyle("!_Frame", "Transparent")
 	movable:SetAlpha(0.4)
 
-	frame:SetScript("OnSizeChanged", Movable_OnSizeChanged)
+	frame:SetScript("OnSizeChanged", Layout.Movable_OnSizeChanged)
 	frame.Grip = movable;
 	frame:ClearAllPoints()
 	frame:SetPoint(anchor1, movable, anchor1, 0, 0)
@@ -1126,8 +1126,8 @@ LOAD BY TRIGGER
 ]]--
 local function InitializeMovables()
 	Layout.Anchors = SV.db.LAYOUT or {}
-	Layout:SetStyle("!_Frame")
-	Layout:SetPanelColor("yellow")
+	Layout:SetStyle("!_Frame", "Transparent")
+	--Layout:SetPanelColor("yellow")
 	Layout:RegisterForDrag("LeftButton")
 	Layout:RegisterEvent("PLAYER_REGEN_DISABLED")
 	Layout:SetScript("OnEvent", XML_Layout_OnEvent)
@@ -1135,6 +1135,9 @@ local function InitializeMovables()
 
 	SVUI_LayoutGridButton:SetScript("OnClick", XML_LayoutGridButton_OnClick)
 	SVUI_LayoutLockButton:SetScript("OnClick", XML_LayoutLockButton_OnClick)
+
+	SVUI_LayoutGridButton:SetStyle("Button")
+	SVUI_LayoutLockButton:SetStyle("Button")
 
 	SVUI_LayoutPrecision:SetStyle("Frame", "Transparent")
 	SVUI_LayoutPrecision:EnableMouse(true)
@@ -1187,10 +1190,11 @@ CORE FUNCTIONS
 ##########################################################
 ]]--
 function SV:NewAnchor(frame, title, snapOffset, dragStopFunc, overrideName, callbackOnEnter)
-	if(not frame or (not overrideName and not frame:GetName())) then return end
+	if(not frame or (not frame:GetName() and not overrideName)) then return end
 	local frameName = overrideName or frame:GetName()
-	local moveName = ("%s_MOVE"):format(frameName) 
+	local moveName = ("%s_MOVE"):format(frameName)
 	SetNewAnchor(frame, moveName, title, snapOffset, dragStopFunc, callbackOnEnter)
+	return moveName
 end
 
 function SV:MoveAnchors(...)

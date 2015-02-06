@@ -936,6 +936,7 @@ local function SetOverrides()
 	SVUI_BailOut:Hide()
 
 	LossOfControlFrame:ClearAllPoints()
+	LossOfControlFrame:ModSize(75, 75)
 	LossOfControlFrame:ModPoint("CENTER", SV.Screen, "CENTER", -146, -40)
 	SV:NewAnchor(LossOfControlFrame, L["Loss Control Icon"], nil, nil, "LoC")
 

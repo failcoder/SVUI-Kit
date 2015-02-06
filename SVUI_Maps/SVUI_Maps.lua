@@ -626,7 +626,6 @@ CORE FUNCTIONS
 ##########################################################
 ]]--
 function MOD:RefreshMiniMap()
-	if(not SV.db.Maps.enable) then return; end
 	if(InCombatLockdown()) then 
 		self.CombatLocked = true
 		return 
@@ -713,13 +712,11 @@ function MOD:UpdateLocals()
 end
 
 function MOD:ReLoad()
-	if(not SV.db.Maps.enable) then return; end
 	self:RefreshMiniMap()
 	self:UpdateMinimapButtonSettings()
 end
 
 local function MapTriggerFired()
-	if(not SV.db.Maps.enable) then return; end
 	MOD:RefreshMiniMap()
 	MOD:UpdateMinimapButtonSettings()
 end
@@ -855,12 +852,8 @@ function MOD:Load()
 		WorldMapFrame:HookScript('OnHide', _hook_WorldMapFrame_OnHide)
 	end
 
-	WorldMapCoords:SetStyle("Frame", "Transparent");
 	WorldMapCoords:SetFrameLevel(WorldMapDetailFrame:GetFrameLevel() + 1);
 	WorldMapCoords:SetFrameStrata(WorldMapDetailFrame:GetFrameStrata());
-	WorldMapCoords:SetMovable(true);
-	WorldMapCoords:RegisterForDrag("LeftButton");
-	WorldMapCoords:SetClampedToScreen(true);
 	WorldMapCoords.Player.Name:SetText(PLAYER);
 	WorldMapCoords.Mouse.Name:SetText(MOUSE_LABEL);
 
@@ -871,10 +864,11 @@ function MOD:Load()
 
 	SV:ManageVisibility(self.Holder)
 
+	MiniMapCoords:ClearAllPoints()
 	MiniMapCoords:SetFrameLevel(Minimap:GetFrameLevel() + 1)
 	MiniMapCoords:SetFrameStrata(Minimap:GetFrameStrata())
 	MiniMapCoords:SetPoint("TOPLEFT", self.Holder, "BOTTOMLEFT", 0, -4)
-	MiniMapCoords:SetPoint("TOPRIGHT", self.Holder, "BOTTOMRIGHT", 0, -4)
+	MiniMapCoords:SetWidth(self.Holder:GetWidth())
 	MiniMapCoords:EnableMouse(true)
 	MiniMapCoords:SetScript("OnEnter",Tour_OnEnter)
 	MiniMapCoords:SetScript("OnLeave",Tour_OnLeave)

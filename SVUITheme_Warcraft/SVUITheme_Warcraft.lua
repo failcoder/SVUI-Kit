@@ -110,15 +110,14 @@ function THEME:Load()
 		SV.defaults["font"]["unitprimary"]   	= {file = "Friz Quadrata TT",   size = 11,  outline = "OUTLINE"}
 		SV.defaults["font"]["unitsecondary"]   	= {file = "Friz Quadrata TT",   size = 11,  outline = "OUTLINE"}
 		SV.defaults["font"]["unitaurabar"]   	= {file = "Skurri",  	size = 10,  outline = "OUTLINE"}
-		SV.defaults["font"]["unitauramedium"]  	= {file = "Arial Narrow",  size = 10,  outline = "OUTLINE"}
-		SV.defaults["font"]["unitauralarge"]   	= {file = "Friz Quadrata TT",   size = 10,  outline = "OUTLINE"}
+		SV.defaults["font"]["unitaura"]  		= {file = "Arial Narrow",  size = 10,  outline = "OUTLINE"}
 	end
 
 	SV.API.Themes["Warcraft"] = {
 		["Default"]     = "SVUITheme_Warcraft_Default",
 		["DockButton"]  = "SVUITheme_Warcraft_DockButton",
-		["Composite1"]  = "SVUITheme_Warcraft_Composite1",
-		["Composite2"]  = "SVUITheme_Warcraft_Composite2",
+		["Window"]  = "SVUITheme_Warcraft_Window",
+		["WindowAlternate"]  = "SVUITheme_Warcraft_WindowAlternate",
 		["UnitLarge"]   = "SVUITheme_Warcraft_UnitLarge",
 		["UnitSmall"]   = "SVUITheme_Warcraft_UnitSmall",
 		["Minimap"] 	= "SVUITheme_Warcraft_Minimap",

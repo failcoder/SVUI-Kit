@@ -53,7 +53,7 @@ local function StyleAltoholic(event, addon)
 
 		AltoholicFramePortrait:Die()
 
-		MOD:ApplyFrameStyle(AltoholicFrame, "Composite2", false, true)
+		MOD:ApplyFrameStyle(AltoholicFrame, "WindowAlternate", false, true)
 		MOD:ApplyFrameStyle(AltoMsgBox)
 		MOD:ApplyButtonStyle(AltoMsgBoxYesButton)
 		MOD:ApplyButtonStyle(AltoMsgBoxNoButton)
