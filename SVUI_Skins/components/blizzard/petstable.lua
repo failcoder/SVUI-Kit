@@ -36,7 +36,7 @@ local function PetStableStyle()
 	for j = 1, NUM_PET_STABLE_SLOTS do
 		 MOD:ApplyItemButtonStyle(_G['PetStableStabledPet'..j], true)
 	end 
-	PetStableSelectedPetIcon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+	PetStableSelectedPetIcon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 end 
 --[[ 
 ########################################################## 

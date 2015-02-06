@@ -43,7 +43,7 @@ local function StyleMoneyRewards(frameName)
       frame:RemoveTextures()
       frame:SetStyle("!_Frame", "Inset")
       icon:SetTexture(texture)
-      icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+      icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
       icon:ClearAllPoints()
       icon:SetPoint("TOPLEFT", frame, "TOPLEFT", 3, -3)
       icon:SetSize(size, size)
@@ -78,7 +78,7 @@ local LFDQueueRandom_OnUpdate = function()
         local x = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..u.."ShortageBorder"]
         local y = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..u.."Count"]
         local z = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..u.."NameFrame"]
-        icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+        icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
         icon:SetDrawLayer("OVERLAY")
         y:SetDrawLayer("OVERLAY")
         z:SetTexture()
@@ -110,7 +110,7 @@ local ScenarioQueueRandom_OnUpdate = function()
       if not t.restyled then 
         local x = _G["ScenarioQueueFrameRandomScrollFrameChildFrameItem"..u.."ShortageBorder"]
         local y = _G["ScenarioQueueFrameRandomScrollFrameChildFrameItem"..u.."Count"]
-        local z = _G["ScenarioQueueFrameRandomScrollFrameChildFrameItem"..u.."NameFrame"]icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+        local z = _G["ScenarioQueueFrameRandomScrollFrameChildFrameItem"..u.."NameFrame"]icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
         icon:SetDrawLayer("OVERLAY")
         y:SetDrawLayer("OVERLAY")
         z:SetTexture()
@@ -257,7 +257,7 @@ local function LFDFrameStyle()
       button.bg:SetAllPoints()
       button:SetStyle("Frame", 'Button')
       button:SetStyle("Button")
-      button.icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+      button.icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
       button.icon:SetDrawLayer("OVERLAY")
       button.icon:ModSize(40)
       button.icon:ClearAllPoints()
@@ -306,7 +306,7 @@ local function LFDFrameStyle()
         local y = _G["RaidFinderQueueFrameScrollFrameChildFrameItem"..u.."Count"]
         local z = _G["RaidFinderQueueFrameScrollFrameChildFrameItem"..u.."NameFrame"]
         t:RemoveTextures()
-        icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+        icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
         icon:SetDrawLayer("OVERLAY")
         y:SetDrawLayer("OVERLAY")
         z:SetTexture()
@@ -363,7 +363,7 @@ local function LFDFrameStyle()
       for u = 1, 2 do 
         local C = _G['LFRParentFrameSideTab'..u]
         C:DisableDrawLayer('BACKGROUND')
-        C:GetNormalTexture():SetTexCoord(0.1, 0.9, 0.1, 0.9)
+        C:GetNormalTexture():SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
         C:GetNormalTexture():InsetPoints()
         C.pushed = true;
         C:SetStyle("Frame", "Default")

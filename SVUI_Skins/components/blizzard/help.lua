@@ -140,7 +140,7 @@ local function HelpFrameStyle()
 	HelpFrameCharacterStuckHearthstone:SetStyle("Button")
 	HelpFrameCharacterStuckHearthstone:SetStyle("!_Frame", "Default")
 	HelpFrameCharacterStuckHearthstone.IconTexture:InsetPoints()
-	HelpFrameCharacterStuckHearthstone.IconTexture:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+	HelpFrameCharacterStuckHearthstone.IconTexture:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 	hooksecurefunc("NavBar_AddButton", function(h, k)
 		local i = h.navList[#h.navList]
 		if not i.styled then

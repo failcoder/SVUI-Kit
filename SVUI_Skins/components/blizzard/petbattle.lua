@@ -28,7 +28,7 @@ local ITEM_QUALITY_COLORS = _G.ITEM_QUALITY_COLORS;
 local function PetBattleButtonHelper(frame)
 	frame:SetStyle("Frame", "Blackout")
 	frame:SetNormalTexture("")
-	frame.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+	frame.Icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 	frame.Icon:SetDrawLayer('BORDER')
 	frame.Icon:SetParent(frame.Panel)
 	if(frame.SelectedHighlight) then frame.SelectedHighlight:SetAlpha(0) end
@@ -91,7 +91,7 @@ local _hook_AuraHolderUpdate = function(self)
 			if not frame.isStyled then
 				frame:SetStyle("Icon", 2, -8,-2)
 				frame.Icon:InsetPoints(frame.Panel, 2, 2)
-				frame.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+				frame.Icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 				frame.isStyled = true
 			end 
 			if isBuff then
@@ -127,7 +127,7 @@ local _hook_WeatherFrameUpdate = function(self)
 end
 
 local _hook_UpdateDisplay = function(self)
-	self.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+	self.Icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 	--Update the pet rarity border
     if (self.IconBackdrop) then
     	local petOwner = self.petOwner;

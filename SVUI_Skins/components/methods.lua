@@ -42,14 +42,6 @@ local NewHook = hooksecurefunc;
 |__/     |__/  |__/|__/  |__/|__/     |__/|________/
 ##########################################################
 ]]--
-local levelDiff = 2
-
-local _hook_WindowLevel = function(self, level)
-	local adjustment = level - levelDiff;
-	if(adjustment < 0) then adjustment = 0 end
-	self.Panel:SetFrameLevel(adjustment)
-end
-
 function MOD:ApplyFrameStyle(this, template, noStripping, fullStripping)
 	if(not this or (this and this.Panel)) then return end  
 	if not noStripping then this:RemoveTextures(fullStripping) end
@@ -94,17 +86,6 @@ function MOD:ApplyAdjustedWindowStyle(this, action, fullStrip, padding, xOffset,
 	
 	this:RemoveTextures(fullStrip)
 	this:SetStyle("Frame", template, false, padding, xOffset, yOffset)
-end 
-
-function MOD:ApplyWindowHolder(this, fullStrip)
-	if(not this or (this and this.Panel)) then return end
-	local baselevel = this:GetFrameLevel()
-	if(baselevel < 1) then 
-		this:SetFrameLevel(1)
-	end
-	
-	this:RemoveTextures(fullStrip)
-	this:SetStyle("Frame", "Blackout")
 end
 --[[ 
 ########################################################## 
@@ -126,11 +107,6 @@ local Button_OnLeave = function(self)
     self:SetBackdropColor(unpack(SV.Media.color.default))
 end
 
-function MOD:ApplyButtonStyle(this)
-	if not this then return end 
-    this:SetStyle("Button")
-end
-
 local ArrowButton_OnEnter = function(self)
     self:SetBackdropBorderColor(0.1, 0.8, 0.8)
 end
@@ -139,10 +115,15 @@ local ArrowButton_OnLeave = function(self)
     self:SetBackdropBorderColor(0,0,0,1)
 end
 
+function MOD:ApplyButtonStyle(this)
+	if not this then return end 
+    this:SetStyle("Button")
+end
+
 function MOD:ApplyArrowButtonStyle(this, direction, anchor)
 	if not this then return end
 	this:RemoveTextures()
-	this:SetStyle("Button", nil, 1, -7, -7, nil, "green")
+	this:SetStyle("Button", -7, -7, "green")
 	this:SetFrameLevel(this:GetFrameLevel() + 4)
 	local iconKey = "move_" .. direction:lower()
 	this:SetNormalTexture(SV.Media.icon[iconKey])
@@ -160,7 +141,7 @@ end
 function MOD:ApplyCloseButtonStyle(this, anchor)
 	SV.API:CLOSE_BUTTON(this)
 	if anchor then 
-        this:SetPoint("TOPRIGHT", anchor, "TOPRIGHT", 2, 2) 
+        this:SetPoint("TOPRIGHT", anchor, "TOPRIGHT", 0, 0) 
     end
 end
 
@@ -190,7 +171,7 @@ function MOD:ApplyItemButtonStyle(frame, adjust, shrink, noScript)
 		local countObject = _G[("%sCount"):format(link)]
 
 		if(iconObject and not frame.IconShadow) then 
-			iconObject:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+			iconObject:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 
 			if adjust then 
 				iconObject:InsetPoints(frame, 2, 2)
@@ -388,7 +369,7 @@ function MOD:ApplyTabStyle(this, addBackground, xOffset, yOffset)
 		local nTex = this:GetNormalTexture()
 
 		if(nTex) then
-			nTex:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+			nTex:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 			nTex:InsetPoints()
 		end
 
@@ -460,7 +441,7 @@ function MOD:ApplyPaginationStyle(button, isVertical)
 	button:SetHighlightTexture(0,0,0,0)
 	button:SetDisabledTexture("")
 
-	button:SetStyle("!_Button", nil, 1, -7, -7)
+	button:SetStyle("!_Button", -7, -7)
 
 	if not button.icon then 
 		button.icon = button:CreateTexture(nil,'ARTWORK')

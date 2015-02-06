@@ -72,6 +72,9 @@ _G.SlashCmdList.RELOADUI = ReloadUI
 _G.SLASH_RELOADUI1 = "/rl"
 _G.SLASH_RELOADUI2 = "/reloadui"
 
+_G.SVUI_ICON_COORDS = {0.1, 0.9, 0.1, 0.9};
+--:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
+
 --[[ GET THE REGISTRY LIB ]]--
 
 local SVUILib = Librarian("Registry");

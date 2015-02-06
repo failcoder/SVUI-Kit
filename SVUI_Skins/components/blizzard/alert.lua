@@ -89,7 +89,7 @@ end
 local function StyleAlertIcon(frame, icon)
 	if((not frame) or (not icon)) then return end
 
-	icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+	icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 	icon:SetDrawLayer("BORDER")
 	
 	if(not frame.IconSlot) then 
@@ -472,7 +472,7 @@ local function AlertStyle()
 			StyleItemAlert(frame)
 			frame.Icon:ClearAllPoints()
 			frame.Icon:SetPoint("CENTER", frame.AlertPanel.icon, "CENTER", 0, 0)
-			frame.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+			frame.Icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 			frame.Icon:SetDrawLayer("BORDER")
 			frame.Title:SetTextColor(1, 1, 1)
 

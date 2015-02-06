@@ -121,7 +121,7 @@ local function ChangeTabHelper(this)
 	this:RemoveTextures()
 	local nTex = this:GetNormalTexture()
 	if(nTex) then
-		nTex:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		nTex:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 		nTex:InsetPoints()
 	end
 
@@ -306,7 +306,7 @@ local _hook_BankTabPermissions = function(self)
 		tab = _G[ownedName]
 		
 		if(tab) then
-			if(tab.tabIcon) then tab.tabIcon:SetTexCoord(0.1, 0.9, 0.1, 0.9) end
+			if(tab.tabIcon) then tab.tabIcon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS)) end
 			if(tab.editBox) then tab.editBox:SetStyle("Editbox") end
 
 			if internalTest == false then
@@ -404,7 +404,7 @@ local function GuildBankStyle()
 					local icon = _G[btnName.."IconTexture"]
 					if(icon) then
 						icon:InsetPoints()
-						icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+						icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 					end
 				end
 			end
@@ -424,7 +424,7 @@ local function GuildBankStyle()
 				local texture = _G[btnName.."IconTexture"]
 				if(texture) then
 					texture:InsetPoints()
-					texture:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+					texture:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 				end
 			end
 		end
@@ -466,7 +466,7 @@ local function GuildBankStyle()
 			local icon = _G[btnName.."Icon"]
 			if(icon) then
 				icon:InsetPoints()
-				icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+				icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 			end
 		end
 	end 
@@ -654,7 +654,7 @@ local function GuildFrameStyle()
 			MOD:ApplyItemButtonStyle(button, nil, true)
 			local icon = button.icon or button.Icon
 			if icon then
-				icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+				icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 				icon:ClearAllPoints()
 				icon:ModPoint("TOPLEFT", button, "TOPLEFT", 2, -2)
 				icon:SetParent(button.Panel)

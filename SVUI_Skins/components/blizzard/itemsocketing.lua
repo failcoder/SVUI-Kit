@@ -35,7 +35,7 @@ local function ItemSocketStyle()
 		i:SetStyle("!_Frame", "Button", true)
 		C:Die()
 		D:Die()
-		E:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		E:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 		E:InsetPoints()
 	end 
 	hooksecurefunc("ItemSocketingFrame_Update", function()

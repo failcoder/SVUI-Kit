@@ -234,7 +234,7 @@ local function EncounterJournalStyle()
       item = items[i];
       index = offset + i;
       if index <= numLoot then
-          item.icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+          item.icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
           if(not item.Panel) then
             item:SetStyle("!_Frame", "Icon")
           end

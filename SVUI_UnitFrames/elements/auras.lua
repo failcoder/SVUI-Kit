@@ -171,7 +171,7 @@ local CreateAuraIcon = function(icons, index)
 	local icon = aura:CreateTexture(nil, "BACKGROUND");
 	icon:SetAllPoints(aura);
 	icon:InsetPoints(aura, 1, 1);
-    icon:SetTexCoord(0.1, 0.9, 0.1, 0.9);
+    icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS));
 
 	local overlay = aura:CreateTexture(nil, "OVERLAY");
 	overlay:InsetPoints(aura, 1, 1);

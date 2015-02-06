@@ -107,11 +107,11 @@ local function CalendarStyle()
 	MOD:ApplyDropdownStyle(CalendarCreateEventMinuteDropDown, 68)
 	MOD:ApplyDropdownStyle(CalendarCreateEventAMPMDropDown, 68)
 	MOD:ApplyDropdownStyle(CalendarCreateEventRepeatOptionDropDown, 120)
-	CalendarCreateEventIcon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+	CalendarCreateEventIcon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 	hooksecurefunc(CalendarCreateEventIcon, "SetTexCoord", function(f, v, w, x, y)
 		local z, A, B, C = 0.1, 0.9, 0.1, 0.9 
 		if v ~= z or w ~= A or x ~= B or y ~= C then
-			 f:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+			 f:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 		end 
 	end)
 	CalendarCreateEventInviteListSection:RemoveTextures()

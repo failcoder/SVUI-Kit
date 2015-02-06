@@ -80,7 +80,7 @@ local function TransmogStyle()
 			a9:SetFrameLevel(a9:GetFrameLevel()+2)
 			
 			a9.Panel:SetAllPoints()
-			icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+			icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 			icon:ClearAllPoints()
 			icon:InsetPoints()
 		end 

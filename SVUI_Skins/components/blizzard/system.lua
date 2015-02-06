@@ -489,7 +489,7 @@ local function SystemPanelQue()
 		x:WrapPoints(GhostFrameContentsFrameIcon)
 		local tex = x:CreateTexture(nil, "OVERLAY")
 		tex:SetTexture("Interface\\Icons\\spell_holy_guardianspirit")
-		tex:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		tex:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 		tex:InsetPoints()
 	end
 	for i = 1, #SystemFrameList5 do

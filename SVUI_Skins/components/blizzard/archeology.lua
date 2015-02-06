@@ -49,7 +49,7 @@ local function ArchaeologyStyle()
 		if c then 
 			_G["ArchaeologyFrameCompletedPageArtifact"..b.."Border"]:Die()
 			_G["ArchaeologyFrameCompletedPageArtifact"..b.."Bg"]:Die()
-			_G["ArchaeologyFrameCompletedPageArtifact"..b.."Icon"]:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+			_G["ArchaeologyFrameCompletedPageArtifact"..b.."Icon"]:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 			_G["ArchaeologyFrameCompletedPageArtifact"..b.."Icon"].backdrop = CreateFrame("Frame", nil, c)
 			_G["ArchaeologyFrameCompletedPageArtifact"..b.."Icon"].backdrop:SetStyle("!_Frame", "Default")
 			_G["ArchaeologyFrameCompletedPageArtifact"..b.."Icon"].backdrop:WrapPoints(_G["ArchaeologyFrameCompletedPageArtifact"..b.."Icon"])
@@ -58,7 +58,7 @@ local function ArchaeologyStyle()
 		end 
 	end
 	
-	ArchaeologyFrameArtifactPageIcon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+	ArchaeologyFrameArtifactPageIcon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 	ArchaeologyFrameArtifactPageIcon.backdrop = CreateFrame("Frame", nil, ArchaeologyFrameArtifactPage)
 	ArchaeologyFrameArtifactPageIcon.backdrop:SetStyle("!_Frame", "Default")
 	ArchaeologyFrameArtifactPageIcon.backdrop:WrapPoints(ArchaeologyFrameArtifactPageIcon)

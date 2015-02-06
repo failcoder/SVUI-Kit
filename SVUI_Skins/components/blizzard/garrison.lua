@@ -37,7 +37,7 @@ end
 
 local function StyleTextureIcon(frame)
 	if((not frame) or (not frame.Texture)) then return end
-	frame.Texture:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+	frame.Texture:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 	if(not frame.IconSlot) then 
 		frame.IconSlot = CreateFrame("Frame", nil, frame)
 		frame.IconSlot:WrapPoints(frame.Texture)
@@ -57,7 +57,7 @@ local function StyleListItem(item)
 		item.Icon:ClearAllPoints()
 		item.Icon:SetPoint("TOPLEFT", item, "TOPLEFT", 4, -4)
 		item.Icon:SetSize(size, size)
-		item.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		item.Icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 		item.Icon:SetDesaturated(false)
 		if(not item.IconSlot) then 
 			item.IconSlot = CreateFrame("Frame", nil, item)
@@ -78,7 +78,7 @@ local function StyleAbilityIcon(frame)
 		frame.Icon:ClearAllPoints()
 		frame.Icon:SetPoint("TOPLEFT", frame, "TOPLEFT", 1, -1)
 		frame.Icon:SetSize(size, size)
-		frame.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		frame.Icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 		frame.Icon:SetDesaturated(false)
 		if(not frame.IconSlot) then
 			frame.IconSlot = CreateFrame("Frame", nil, frame)
@@ -101,7 +101,7 @@ local _hook_ReagentUpdate = function(self)
     		reagents[i]:RemoveTextures()
         	reagents[i]:SetStyle("Icon")
         	if(reagents[i].Icon) then
-				reagents[i].Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+				reagents[i].Icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 			end
 		end
     end
@@ -255,7 +255,7 @@ local function StyleListButtons(listButtons)
 		    	frame:SetStyle("!_Frame", 'Blackout', true, 3)
 		    	frame.Icon:SetTexture(texture)
 		    end
-			frame.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+			frame.Icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 			frame.Icon:ClearAllPoints()
 			frame.Icon:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -3, -3)
 			frame.Icon:SetSize(size, size)
@@ -292,7 +292,7 @@ local _hook_GarrisonMissionButton_SetRewards = function(self, rewards, numReward
 			    	frame:SetStyle("!_Frame", 'Blackout', true, 3)
 			    	frame.Icon:SetTexture(texture)
 			    end
-				frame.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+				frame.Icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 				frame.Icon:ClearAllPoints()
 				frame.Icon:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -3, -3)
 				frame.Icon:SetSize(size, size)
@@ -328,15 +328,15 @@ local function LoadGarrisonStyle()
 	--MOD:ApplyTabStyle(GarrisonBuildingFrame.BuildingList.Tab1)
 	GarrisonBuildingFrame.BuildingList.Tab1:GetNormalTexture().SetAtlas = function() return end
 	GarrisonBuildingFrame.BuildingList.Tab1:RemoveTextures(true)
-	GarrisonBuildingFrame.BuildingList.Tab1:SetStyle("Button", false, 1, -4, -10)
+	GarrisonBuildingFrame.BuildingList.Tab1:SetStyle("Button", -4, -10)
 	--MOD:ApplyTabStyle(GarrisonBuildingFrame.BuildingList.Tab2)
 	GarrisonBuildingFrame.BuildingList.Tab2:GetNormalTexture().SetAtlas = function() return end
 	GarrisonBuildingFrame.BuildingList.Tab2:RemoveTextures(true)
-	GarrisonBuildingFrame.BuildingList.Tab2:SetStyle("Button", false, 1, -4, -10)
+	GarrisonBuildingFrame.BuildingList.Tab2:SetStyle("Button", -4, -10)
 	--MOD:ApplyTabStyle(GarrisonBuildingFrame.BuildingList.Tab3)
 	GarrisonBuildingFrame.BuildingList.Tab3:GetNormalTexture().SetAtlas = function() return end
 	GarrisonBuildingFrame.BuildingList.Tab3:RemoveTextures(true)
-	GarrisonBuildingFrame.BuildingList.Tab3:SetStyle("Button", false, 1, -4, -10)
+	GarrisonBuildingFrame.BuildingList.Tab3:SetStyle("Button", -4, -10)
 	GarrisonBuildingFrame.BuildingList.MaterialFrame:RemoveTextures()
 	GarrisonBuildingFrame.BuildingList.MaterialFrame:SetStyle("Frame", "Inset", true, 1, -5, -7)
 	GarrisonBuildingFrameTutorialButton:Die()
@@ -468,7 +468,7 @@ local function LoadGarrisonStyle()
 	display.CapacitiveDisplay:RemoveTextures(true)
 	display.CapacitiveDisplay:SetStyle("Frame", 'Transparent')
 	display.CapacitiveDisplay.ShipmentIconFrame:SetStyle("Icon")
-	display.CapacitiveDisplay.ShipmentIconFrame.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+	display.CapacitiveDisplay.ShipmentIconFrame.Icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 	display:SetStyle("Frame", "WindowAlternate")
 
 	local reagents = display.CapacitiveDisplay.Reagents;
@@ -477,7 +477,7 @@ local function LoadGarrisonStyle()
     		reagents[i]:RemoveTextures()
         	reagents[i]:SetStyle("Icon")
         	if(reagents[i].Icon) then
-				reagents[i].Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+				reagents[i].Icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 			end
 		end
     end

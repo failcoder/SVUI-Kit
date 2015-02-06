@@ -71,7 +71,7 @@ local function InspectStyle()
 		local frame = _G["Inspect"..slot]
 		frame:RemoveTextures()
 		frame:SetStyle("Button")
-		texture:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		texture:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 		texture:InsetPoints()
 		frame:SetFrameLevel(frame:GetFrameLevel() + 1)
 		frame:SetStyle("!_Frame")

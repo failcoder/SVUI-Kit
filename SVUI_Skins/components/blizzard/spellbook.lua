@@ -71,7 +71,7 @@ local function ChangeTabHelper(tab)
 	local nTex = tab:GetNormalTexture()
 	tab:RemoveTextures()
 	if(nTex) then
-		nTex:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		nTex:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 		nTex:InsetPoints()
 	end
 
@@ -130,7 +130,7 @@ local function AbilityButtonHelper(index)
 		button:SetStyle("Frame", "Icon", true, 2, 0, 0)
 
 		if(button.iconTexture) then
-			button.iconTexture:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+			button.iconTexture:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 			button.iconTexture:ClearAllPoints()
 			button.iconTexture:InsetPoints(button, 1, 1) 
 		end
@@ -179,7 +179,7 @@ local ButtonUpdateHelper = function(self)
 	end
 
 	if(icon) then 
-		icon:SetTexCoord(0.1, 0.9, 0.1, 0.9) 
+		icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS)) 
 	end
 
 	if(self.SpellName) then
@@ -269,7 +269,7 @@ local function SpellBookStyle()
 		if(button) then
 			button:RemoveTextures()
 			if(buttonTex) then
-				buttonTex:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+				buttonTex:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 				buttonTex:InsetPoints()
 				button:SetFrameLevel(button:GetFrameLevel() + 2)
 				if not button.Panel then

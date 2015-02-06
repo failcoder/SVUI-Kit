@@ -228,7 +228,7 @@ function MOD:InitializeZoneButton()
     draenor.Artwork = Artwork
 
     local Icon = draenor:CreateTexture('$parentIcon', 'BACKGROUND')
-    Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+    Icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
     Icon:SetAllPoints()
     draenor.Icon = Icon
 

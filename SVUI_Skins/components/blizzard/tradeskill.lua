@@ -71,7 +71,7 @@ local function TradeSkillStyle()
 
 	TradeSkillLinkButton:ModSize(17, 14)
 	TradeSkillLinkButton:ModPoint("LEFT", TradeSkillLinkFrame, "LEFT", 5, -1)
-	TradeSkillLinkButton:SetStyle("Button", nil, nil, nil, nil, true)
+	TradeSkillLinkButton:SetStyle("Button")
 	TradeSkillLinkButton:GetNormalTexture():SetTexCoord(0.25, 0.7, 0.45, 0.8)
 
 	TradeSkillFrameSearchBox:SetStyle("Editbox")
@@ -90,13 +90,13 @@ local function TradeSkillStyle()
 	hooksecurefunc("TradeSkillFrame_SetSelection", function(_)
 		TradeSkillSkillIcon:SetStyle("!_Frame", "Icon") 
 		if TradeSkillSkillIcon:GetNormalTexture() then
-			TradeSkillSkillIcon:GetNormalTexture():SetTexCoord(0.1, 0.9, 0.1, 0.9)
+			TradeSkillSkillIcon:GetNormalTexture():SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 		end 
 		for i=1, MAX_TRADE_SKILL_REAGENTS do 
 			local u = _G["TradeSkillReagent"..i]
 			local icon = _G["TradeSkillReagent"..i.."IconTexture"]
 			local a1 = _G["TradeSkillReagent"..i.."Count"]
-			icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+			icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 			icon:SetDrawLayer("OVERLAY")
 			if not icon.backdrop then 
 				local a2 = CreateFrame("Frame", nil, u)

@@ -241,7 +241,7 @@ do
 				end 
 			end
 
-			btn:SetStyle("Button", 2, -1, -1)
+			btn:SetStyle("Button", -1, -1)
 
 			if(name == "DBMMinimapButton") then 
 				btn:SetNormalTexture("Interface\\Icons\\INV_Helmet_87")

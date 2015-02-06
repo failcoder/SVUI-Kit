@@ -96,7 +96,7 @@ local _hook_AchievementsUpdate = function()
 			if(iconbling) then iconbling:Die() end
 			if(iconover) then iconover:Die() end
 			if(icontex) then 
-				icontex:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+				icontex:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 				icontex:InsetPoints()
 			end
 			if(icon and not icon.Panel) then 
@@ -278,7 +278,7 @@ local function AchievementStyle()
 				if(bling) then bling:Die() end
 				if(over) then over:Die() end
 				if(tex) then 
-					tex:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+					tex:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 					tex:InsetPoints()
 				end
 
@@ -342,7 +342,7 @@ local function AchievementStyle()
 			_G[d.."Icon"]:ModWidth(_G[d.."Icon"]:GetWidth()-14)
 			_G[d.."Icon"]:ClearAllPoints()
 			_G[d.."Icon"]:ModPoint("LEFT", 6, 0)
-			_G[d.."IconTexture"]:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+			_G[d.."IconTexture"]:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 			_G[d.."IconTexture"]:InsetPoints()
 		end 
 	end

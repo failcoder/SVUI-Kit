@@ -38,7 +38,7 @@ end
 
 local function ApplyTextureStyle(self)
 	if not self then return end
-	self:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+	self:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 	local parent = self:GetParent()
 	if(parent) then
 		self:InsetPoints(parent, 1, 1)
@@ -209,7 +209,7 @@ local function StyleAltoholic(event, addon)
 
 		for i = 1, 8 do
 			for j = 1, 10 do
-				MOD:ApplyFixedFrameStyle(_G["AltoholicFrameGridsEntry"..i.."Item"..j], nil, nil, nil, true)
+				MOD:ApplyFixedFrameStyle(_G["AltoholicFrameGridsEntry"..i.."Item"..j], nil, nil, true)
 				_G["AltoholicFrameGridsEntry"..i.."Item"..j]:HookScript('OnShow', ColorAltoBorder)
 			end
 		end

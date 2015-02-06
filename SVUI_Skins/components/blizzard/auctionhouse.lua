@@ -147,7 +147,7 @@ local function AuctionStyle()
 	AuctionsItemButton:SetStyle("Button")
 	AuctionsItemButton:SetScript("OnUpdate", function()
 		if AuctionsItemButton:GetNormalTexture()then 
-			AuctionsItemButton:GetNormalTexture():SetTexCoord(0.1, 0.9, 0.1, 0.9)
+			AuctionsItemButton:GetNormalTexture():SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 			AuctionsItemButton:GetNormalTexture():InsetPoints()
 		end 
 	end)
@@ -209,7 +209,7 @@ local function AuctionStyle()
 
 		if(button and (not button.Panel)) then 
 			button:RemoveTextures()
-			button:SetStyle("Button", false, 1, 1, 1)
+			button:SetStyle("Button")
 			button.Panel:ClearAllPoints()
 			button.Panel:SetPoint("TOPLEFT", button, "TOPLEFT", 0, 0)
 			button.Panel:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", 0, 5)
@@ -220,7 +220,7 @@ local function AuctionStyle()
 				if(buttonTex) then
 					buttonTex:SetParent(buttonItem.Panel)
 					buttonTex:InsetPoints(buttonItem.Panel, 2, 2)
-					buttonTex:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+					buttonTex:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 					buttonTex:SetDesaturated(false)
 				end
 
@@ -241,7 +241,7 @@ local function AuctionStyle()
 
 		if(button) then
 			if(buttonTex) then 
-				buttonTex:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+				buttonTex:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 				buttonTex:InsetPoints()
 				buttonTex:SetDesaturated(false)
 			end 
@@ -273,7 +273,7 @@ local function AuctionStyle()
 
 		if(button) then
 			if(buttonTex) then 
-				buttonTex:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+				buttonTex:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 				buttonTex:InsetPoints()
 				buttonTex:SetDesaturated(false)
 			end 

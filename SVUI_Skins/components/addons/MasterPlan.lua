@@ -33,7 +33,7 @@ local StyleRewardIcon = function(self)
   if(icon) then
     local texture = icon:GetTexture()
     icon:SetTexture(texture)
-    icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+    icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
     icon:ClearAllPoints()
     icon:InsetPoints(self, 1, 1)
     icon:SetDesaturated(false)

@@ -389,7 +389,7 @@ local function MakeSlots(id)
 	slot.iconFrame:SetStyle("Frame", "Transparent")
 
 	slot.icon = slot.iconFrame:CreateTexture(nil, "ARTWORK")
-	slot.icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+	slot.icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 	slot.icon:InsetPoints()
 
 	slot.count = slot.iconFrame:CreateFontString(nil, "OVERLAY")
@@ -415,7 +415,7 @@ local function MakeSlots(id)
 	slot.questTexture = slot.iconFrame:CreateTexture(nil, "OVERLAY")
 	slot.questTexture:InsetPoints()
 	slot.questTexture:SetTexture(TEXTURE_ITEM_QUEST_BANG)
-	slot.questTexture:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+	slot.questTexture:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 
 	SVUI_LootFrame.slots[id] = slot;
 	return slot 

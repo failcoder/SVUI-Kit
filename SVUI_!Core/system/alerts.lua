@@ -968,7 +968,7 @@ local function LoadSystemAlerts()
 		_G["SVUI_SystemAlert"..i.."ItemFrameNameFrame"]:Die()
 		_G["SVUI_SystemAlert"..i.."ItemFrame"]:GetNormalTexture():Die()
 		_G["SVUI_SystemAlert"..i.."ItemFrame"]:SetStyle("Button")
-		_G["SVUI_SystemAlert"..i.."ItemFrameIconTexture"]:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		_G["SVUI_SystemAlert"..i.."ItemFrameIconTexture"]:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 		_G["SVUI_SystemAlert"..i.."ItemFrameIconTexture"]:InsetPoints()
 	end
 

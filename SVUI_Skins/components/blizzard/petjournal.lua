@@ -214,7 +214,7 @@ local function PetJournalStyle()
 	MOD:ApplyItemButtonStyle(PetJournalPetCard, nil, nil, true)
 	PetJournalPetCardInset:RemoveTextures()
 	PetJournalPetCardPetInfo.levelBG:SetAlpha(0)
-	PetJournalPetCardPetInfoIcon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+	PetJournalPetCardPetInfoIcon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 	MOD:ApplyItemButtonStyle(PetJournalPetCardPetInfo, nil, true, true)
 
 	local fg = CreateFrame("Frame", nil, PetJournalPetCardPetInfo)
@@ -249,7 +249,7 @@ local function PetJournalStyle()
 		S:DisableDrawLayer('BACKGROUND')
 		S:SetStyle("Frame", 'Transparent')
 		S.Panel:SetAllPoints()
-		S.icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		S.icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 		S.icon:InsetPoints(S.Panel)
 	end
 
@@ -275,7 +275,7 @@ local function PetJournalStyle()
 	MountJournal.SummonRandomFavoriteButton:RemoveTextures()
 	MountJournal.SummonRandomFavoriteButton:SetStyle("ActionSlot")
 	MountJournal.SummonRandomFavoriteButton.texture:SetTexture([[Interface\ICONS\ACHIEVEMENT_GUILDPERK_MOUNTUP]])
-	MountJournal.SummonRandomFavoriteButton.texture:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+	MountJournal.SummonRandomFavoriteButton.texture:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 
 	for i = 1, 18 do
 		local gName = ("ToySpellButton%d"):format(i)
@@ -417,7 +417,7 @@ local function CollectionsJournalStyle()
 	MOD:ApplyItemButtonStyle(PetJournalPetCard, nil, nil, true)
 	PetJournalPetCardInset:RemoveTextures()
 	PetJournalPetCardPetInfo.levelBG:SetAlpha(0)
-	PetJournalPetCardPetInfoIcon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+	PetJournalPetCardPetInfoIcon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 	MOD:ApplyItemButtonStyle(PetJournalPetCardPetInfo, nil, true, true)
 
 	local fg = CreateFrame("Frame", nil, PetJournalPetCardPetInfo)
@@ -452,7 +452,7 @@ local function CollectionsJournalStyle()
 		S:DisableDrawLayer('BACKGROUND')
 		S:SetStyle("Frame", 'Transparent')
 		S.Panel:SetAllPoints()
-		S.icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		S.icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 		S.icon:InsetPoints(S.Panel)
 	end
 
@@ -478,7 +478,7 @@ local function CollectionsJournalStyle()
 	MountJournal.SummonRandomFavoriteButton:RemoveTextures()
 	MountJournal.SummonRandomFavoriteButton:SetStyle("ActionSlot")
 	MountJournal.SummonRandomFavoriteButton.texture:SetTexture([[Interface\ICONS\ACHIEVEMENT_GUILDPERK_MOUNTUP]])
-	MountJournal.SummonRandomFavoriteButton.texture:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+	MountJournal.SummonRandomFavoriteButton.texture:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 
 	for i = 1, 18 do
 		local gName = ("ToySpellButton%d"):format(i)

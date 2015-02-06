@@ -100,7 +100,7 @@ local function StyleCharacterSlots()
 
 				local iconTex = _G[globalName.."IconTexture"]
 				if(iconTex) then
-					iconTex:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+					iconTex:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 					iconTex:InsetPoints(charSlot)
 					--iconTex:SetParent(charSlot.Panel)
 				end
@@ -162,7 +162,7 @@ local function EquipmentFlyout_OnShow()
 	while button do 
 		local texture = _G["EquipmentFlyoutFrameButton"..counter.."IconTexture"]
 		button:SetStyle("Button")
-		texture:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		texture:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 		button:GetNormalTexture():SetTexture(0,0,0,0)
 		texture:InsetPoints()
 		button:SetFrameLevel(button:GetFrameLevel() + 2)
@@ -213,7 +213,7 @@ local function PaperDollEquipmentManagerPane_OnShow()
 			btn.BgMiddle:SetTexture(0,0,0,0)
 			btn.icon:ModSize(36, 36)
 			btn.Check:SetTexture(0,0,0,0)
-			btn.icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+			btn.icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 			btn.icon:SetPoint("LEFT", btn, "LEFT", 4, 0)
 			if not btn.icon.bordertop then
 				 SetItemFrame(btn, btn.icon)
@@ -237,7 +237,7 @@ local function PaperDollEquipmentManagerPane_OnShow()
 			btn:SetFrameLevel(btn:GetFrameLevel() + 2)
 			btn:SetStyle("Button")
 			if(btn.icon) then
-				btn.icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+				btn.icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 				btn.icon:SetTexture(0,0,0,0)
 				btn.icon:InsetPoints()
 			end 
@@ -363,7 +363,7 @@ local function CharacterFrameStyle()
 				currency.categoryLeft:Die()
 				currency.categoryRight:Die()
 				if currency.icon then
-					 currency.icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+					 currency.icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 				end 
 			end 
 		end 

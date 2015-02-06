@@ -27,7 +27,7 @@ local function MailFrame_OnUpdate()
 		end 
 		local e = d:GetNormalTexture()
 		if e then
-			e:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+			e:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 			e:InsetPoints()
 		end 
 	end 
@@ -52,7 +52,7 @@ local function MailBoxStyle()
 		d:RemoveTextures()
 		d:SetStyle("Button")
 		local e = _G["MailItem"..b.."ButtonIcon"]
-		e:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		e:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 		e:InsetPoints()
 	end 
 	MOD:ApplyCloseButtonStyle(MailFrameCloseButton)
@@ -110,12 +110,12 @@ local function MailBoxStyle()
 	OpenMailLetterButton:RemoveTextures()
 	OpenMailLetterButton:SetStyle("!_Frame", "Default")
 	OpenMailLetterButton:SetStyle("Button")
-	OpenMailLetterButtonIconTexture:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+	OpenMailLetterButtonIconTexture:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 	OpenMailLetterButtonIconTexture:InsetPoints()
 	OpenMailMoneyButton:RemoveTextures()
 	OpenMailMoneyButton:SetStyle("!_Frame", "Default")
 	OpenMailMoneyButton:SetStyle("Button")
-	OpenMailMoneyButtonIconTexture:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+	OpenMailMoneyButtonIconTexture:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 	OpenMailMoneyButtonIconTexture:InsetPoints()
 	for b = 1, ATTACHMENTS_MAX_SEND do 
 		local d = _G["OpenMailAttachmentButton"..b]
@@ -123,7 +123,7 @@ local function MailBoxStyle()
 		d:SetStyle("Button")
 		local e = _G["OpenMailAttachmentButton"..b.."IconTexture"]
 		if e then
-			e:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+			e:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 			e:InsetPoints()
 		end 
 	end 
