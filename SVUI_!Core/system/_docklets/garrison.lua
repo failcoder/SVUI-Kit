@@ -102,7 +102,9 @@ local GarrisonButton_OnEvent = function(self, event, ...)
     		SVUI_Garrison.Parent:SetWidth(SVUI_Garrison.Parent:GetWidth() + SVUI_Garrison:GetWidth())
     		SVUI_Garrison:Show() 
     	end;
-    elseif ( event == "GARRISON_BUILDING_ACTIVATABLE" ) then
+    end
+    if((not SVUI_Garrison.StartAlert) or (not SVUI_Garrison.StopAlert)) then return end
+    if ( event == "GARRISON_BUILDING_ACTIVATABLE" ) then
         SVUI_Garrison:StartAlert();
     elseif ( event == "GARRISON_BUILDING_ACTIVATED" or event == "GARRISON_ARCHITECT_OPENED") then
         SVUI_Garrison:StopAlert();
@@ -238,7 +240,9 @@ local SetGarrisonTooltip = function(self)
 
 	GetActiveMissions()
 	GetBuildingData()
-	SVUI_Garrison:StopAlert();
+	if(SVUI_Garrison.StopAlert) then
+		SVUI_Garrison:StopAlert()
+	end
 end
 
 local function LoadToolBarGarrison()

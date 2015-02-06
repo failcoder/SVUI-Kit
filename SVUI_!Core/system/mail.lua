@@ -68,13 +68,14 @@ LOCAL VARS
 local takingOnlyCash = false;
 local deletedelay = 0.5;
 local mailElapsed = 0;
+local GetAllMail, GetAllMailCash, OpenMailItem, WaitForMail, DeleteAllMail, DeleteMailItem, WaitForDelete, StopOpeningMail;
 local lastopened, lastdeleted, needsToWait, waitToDelete, total_cash, baseInboxFrame_OnClick;
 --[[ 
 ########################################################## 
 LOCAL FUNCTIONS
 ##########################################################
 ]]--
-local function GetAllMail()
+function GetAllMail()
 	if(GetInboxNumItems() == 0) then return end 
 	SVUI_GetMailButton:SetScript("OnClick", nil)
 	SVUI_GetGoldButton:SetScript("OnClick", nil)
@@ -85,12 +86,12 @@ local function GetAllMail()
 	OpenMailItem(GetInboxNumItems())
 end 
 
-local function GetAllMailCash()
+function GetAllMailCash()
 	takingOnlyCash = true;
 	GetAllMail()
 end
 
-local function OpenMailItem(mail)
+function OpenMailItem(mail)
 	if not InboxFrame:IsVisible()then return StopOpeningMail("Mailbox Minion Needs a Mailbox!")end 
 	if mail==0 then 
 		MiniMapMailFrame:Hide()
@@ -117,7 +118,7 @@ local function OpenMailItem(mail)
 	end 
 end
 
-local function WaitForMail(_, elapsed)
+function WaitForMail(_, elapsed)
 	mailElapsed = mailElapsed + elapsed;
 	if not needsToWait or mailElapsed > deletedelay then
 		if not InboxFrame:IsVisible() then return StopOpeningMail("The Mailbox Minion Needs a Mailbox!") end 
@@ -133,7 +134,7 @@ local function WaitForMail(_, elapsed)
 	end 
 end 
 
-local function DeleteAllMail()
+function DeleteAllMail()
 	if(GetInboxNumItems() == 0) then return end 
 	SVUI_GetMailButton:SetScript("OnClick", nil)
 	SVUI_GetGoldButton:SetScript("OnClick", nil)
@@ -143,7 +144,7 @@ local function DeleteAllMail()
 	DeleteMailItem(GetInboxNumItems())
 end 
 
-local function DeleteMailItem(mail)
+function DeleteMailItem(mail)
 	if not InboxFrame:IsVisible()then return StopOpeningMail("Mailbox Minion Needs a Mailbox!")end 
 	if mail==0 then 
 		MiniMapMailFrame:Hide()
@@ -164,7 +165,7 @@ local function DeleteMailItem(mail)
 	end 
 end 
 
-local function WaitForDelete(_, elapsed)
+function WaitForDelete(_, elapsed)
 	mailElapsed = mailElapsed + elapsed;
 	if not waitToDelete or mailElapsed > deletedelay then
 		if not InboxFrame:IsVisible() then return StopOpeningMail("The Mailbox Minion Needs a Mailbox!") end 
@@ -180,7 +181,7 @@ local function WaitForDelete(_, elapsed)
 	end 
 end
 
-local function StopOpeningMail(msg, ...)
+function StopOpeningMail(msg, ...)
 	SVUI_GetMailButton:SetScript("OnUpdate", nil)
 	SVUI_DeleteMailButton:SetScript("OnUpdate", nil)
 	SVUI_GetMailButton:SetScript("OnClick", GetAllMail)
