@@ -420,9 +420,9 @@ local function UpdateWorldMapConfig()
 			SV.Timers:RemoveLoop(MOD.MMCoordTimer)
 			MOD.MMCoordTimer = nil;
 		end
-		MiniMapCoords.X:SetText("")
-		MiniMapCoords.Y:SetText("")
+		MiniMapCoords:FadeOut(0.1, 1, 0, true)
 	else
+		MiniMapCoords:FadeIn()
 		UpdateMiniMapCoords()
 		MOD.MMCoordTimer = SV.Timers:ExecuteLoop(UpdateMiniMapCoords, 0.1)
 	end
@@ -432,11 +432,9 @@ local function UpdateWorldMapConfig()
 			SV.Timers:RemoveLoop(MOD.WMCoordTimer)
 			MOD.WMCoordTimer = nil;
 		end
-		if(WorldMapFrame:IsShown()) then
-			WorldMapCoords.Player:FadeOut(0.2, 1, 0, true)
-			WorldMapCoords.Mouse:FadeOut(0.2, 1, 0, true)
-		end
+		WorldMapCoords:FadeOut(0.1, 1, 0, true)
 	else
+		WorldMapCoords:FadeIn()
 		UpdateWorldMapCoords()
 		MOD.WMCoordTimer = SV.Timers:ExecuteLoop(UpdateWorldMapCoords, 0.1)
 	end
