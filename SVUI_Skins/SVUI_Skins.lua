@@ -477,7 +477,7 @@ function MOD:Load()
 
 	self.Alert = alert;
 
-	self.Docklet = SV.Dock:NewDocklet("BottomRight", "SVUI_SkinsDock", self.TitleID, [[Interface\AddOns\SVUI_Docklets\assets\DOCK-ICON-ADDON]], AddonDockletToggle);
+	self.Docklet = SV.Dock:NewDocklet("BottomRight", "SVUI_SkinsDock", self.TitleID, nil, AddonDockletToggle);
 	SV.Dock.BottomRight.Bar.Button.GetMenuList = GetDockableAddons;
 	self.Docklet.DockButton.GetPreMenuList = GetDockableAddons;
 	self.Docklet.DockButton:SetAttribute("hasDropDown", true);

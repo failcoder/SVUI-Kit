@@ -506,7 +506,10 @@ local function LoadGarrisonStyle()
 	end
 
 	MOD:ApplyScrollFrameStyle(GarrisonLandingPageReportListListScrollFrameScrollBar)
+	MOD:ApplyScrollFrameStyle(GarrisonMissionFrameMissionsListScrollFrameScrollBar)
+	MOD:ApplyScrollFrameStyle(GarrisonMissionFrameFollowersListScrollFrameScrollBar)
 	MOD:ApplyCloseButtonStyle(GarrisonLandingPage.CloseButton)
+	MOD:ApplyCloseButtonStyle(GarrisonMissionFrame.MissionTab.MissionPage.CloseButton)
 	GarrisonLandingPage.CloseButton:SetFrameStrata("HIGH")
 
 	for i = 1, GarrisonLandingPageReportListListScrollFrameScrollChild:GetNumChildren() do

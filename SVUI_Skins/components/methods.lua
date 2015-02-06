@@ -157,27 +157,10 @@ function MOD:ApplyArrowButtonStyle(this, direction, anchor)
 end
 
 --[[ CLOSE BUTTON ]]--
-local CloseButton_OnEnter = function(self)
-    self:SetBackdropBorderColor(0.1, 0.8, 0.8)
-end
-
-local CloseButton_OnLeave = function(self)
-    self:SetBackdropBorderColor(0,0,0,1)
-end
-
 function MOD:ApplyCloseButtonStyle(this, anchor)
-	if not this then return end
-	this:RemoveTextures()
-	this:SetStyle("!_Button", nil, 1, -5, -5, nil, "red")
-	this:SetFrameLevel(this:GetFrameLevel() + 4)
-	this:SetNormalTexture(SV.Media.icon.close)
-    if not this.hookedColors then 
-        this:HookScript("OnEnter", CloseButton_OnEnter)
-        this:HookScript("OnLeave", CloseButton_OnLeave)
-        this.hookedColors = true
-    end 
-    if anchor then 
-    	this:SetPoint("TOPRIGHT", anchor, "TOPRIGHT", 2, 2) 
+	SV.API:CLOSE_BUTTON(this)
+	if anchor then 
+        this:SetPoint("TOPRIGHT", anchor, "TOPRIGHT", 2, 2) 
     end
 end
 

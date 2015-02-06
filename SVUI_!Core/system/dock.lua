@@ -1242,7 +1242,7 @@ function MOD:Load()
 		if(dock.Bar.Button) then
 	    	dock.Bar.Button:SetSize(buttonsize, buttonsize)
 	    	self:SetButtonTheme(dock.Bar.Button, buttonsize)
-	    	dock.Bar.Button.Icon:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\Dock\DOCK-ICON-ADDON]])
+	    	dock.Bar.Button.Icon:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\SVUI-ICON]])
 	    	dock.Bar.ToolBar:SetSize(1, buttonsize)
 	    	dock.Bar.ToolBar:ModPoint(barAnchor, dock.Bar.Button, barReverse, (spacing * mod), 0)
 	    	InitDockButton(dock.Bar.Button, location)

@@ -215,7 +215,7 @@ local Die = function(self)
 end
 
 local RemoveTextures = function(self, option)
-    if(self.Panel) then return end
+    if(self.Panel or (not self.GetNumRegions)) then return end
     local region, layer, texture
     for i = 1, self:GetNumRegions()do 
         region = select(i, self:GetRegions())
@@ -635,6 +635,14 @@ local HideAlertFlash = function(self)
     SV.Animate:StopFlash(self.Panel.Shadow)
     self:ColorBorder(1,0.9,0, nil, true)
 end
+
+local CloseButton_OnEnter = function(self)
+    self:SetBackdropBorderColor(0.1, 0.8, 0.8)
+end
+
+local CloseButton_OnLeave = function(self)
+    self:SetBackdropBorderColor(0,0,0,1)
+end
 --[[ 
 ########################################################## 
 TEMPLATE HELPERS
@@ -796,6 +804,79 @@ function MOD:APPLY(frame, templateName, underlay, padding, xOffset, yOffset, def
     end
 
     frame.Panel = panel;
+end
+
+function MOD:CLOSE_BUTTON(button)
+    if(not button or (button and button.Panel)) then return end
+    
+    RemoveTextures(button)
+    MOD:APPLY(button, "Button", true, 1, -5, -5, "red")
+
+    if(button.Left) then 
+        button.Left:SetAlpha(0)
+    end 
+
+    if(button.Middle) then 
+        button.Middle:SetAlpha(0)
+    end 
+
+    if(button.Right) then 
+        button.Right:SetAlpha(0)
+    end 
+
+    if(button.SetNormalTexture) then 
+        button:SetNormalTexture("")
+    end 
+
+    if(button.SetDisabledTexture) then 
+        button:SetDisabledTexture("")
+    end
+
+    if(button.SetCheckedTexture) then 
+        button:SetCheckedTexture("")
+    end
+
+    if(button.SetHighlightTexture) then
+        if(not button.hover) then
+            local hover = button:CreateTexture(nil, "HIGHLIGHT")
+            hover:InsetPoints(button.Panel)
+            button.hover = hover;
+        end
+        button.hover:SetTexture(0.1, 0.8, 0.8, 0.5)
+        button:SetHighlightTexture(button.hover) 
+    end
+
+    if(button.SetPushedTexture) then
+        if(not button.pushed) then 
+            local pushed = button:CreateTexture(nil, "OVERLAY")
+            pushed:InsetPoints(button.Panel)
+            button.pushed = pushed;
+        end
+        button.pushed:SetTexture(0.1, 0.8, 0.1, 0.3)
+        button:SetPushedTexture(button.pushed)
+    end
+
+    if(button.SetCheckedTexture) then
+        if(not button.checked) then
+            local checked = button:CreateTexture(nil, "OVERLAY")
+            checked:InsetPoints(button.Panel)
+            button.checked = checked
+        end
+        button.checked:SetTexture(SV.BaseTexture)
+        button.checked:SetVertexColor(0, 0.5, 0, 0.2)
+        button:SetCheckedTexture(button.checked)
+    end
+
+    MOD:CD(button)
+
+    button:SetFrameLevel(button:GetFrameLevel() + 4)
+    button:SetNormalTexture(SV.Media.icon.close)
+
+    if not button.hookedColors then 
+        button:HookScript("OnEnter", CloseButton_OnEnter)
+        button:HookScript("OnLeave", CloseButton_OnLeave)
+        button.hookedColors = true
+    end
 end
 --[[ 
 ########################################################## 
@@ -1159,14 +1240,11 @@ local SetStyle = function(self, method, ...)
     end
 end
 
--- hooksecurefunc("CreateFrame", function(arg1, globalName, parent, template)
---     if(template and template == "UIPanelCloseButton") then
---         print("Close Button Found")
---         if(globalName) then
---             print(globalName)
---         end
---     end
--- end)
+hooksecurefunc("CreateFrame", function(this, globalName, parent, template)
+    if(template and template == "UIPanelCloseButton" and globalName) then
+        MOD:CLOSE_BUTTON(_G[globalName])
+    end
+end)
 --[[ 
 ########################################################## 
 HOOKED ATLAS HIJACKER

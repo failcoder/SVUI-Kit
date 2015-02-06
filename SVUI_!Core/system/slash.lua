@@ -39,31 +39,29 @@ local L = SV.L;
 LOCAL SLASH FUNCTIONS
 ##########################################################
 ]]--
-local SVUI_SLASH_COMMANDS = {
-	["install"] = SV.Setup.Install,
-	["move"] = SV.MoveAnchors,
-	["reset"] = SV.ResetAllUI,
-	["help"] = SV.CommandHelp,
-};
+local msgPattern = "|cff00FF00/sv %s|r |cffFFFFFF%s|r";
 local SVUI_SLASH_COMMAND_INFO = {
 	["install"] = "Open the SVUI installer window.",
 	["move"] = "Lock/Unlock frames for moving.",
 	["reset"] = "Reset All SVUI Settings.",
 	["help"] = "I feel like you MIGHT have already discovered this one.",
 };
+local SVUI_SLASH_COMMANDS = {
+	["install"] = SV.Setup.Install,
+	["move"] = SV.MoveAnchors,
+	["reset"] = SV.ResetAllUI,
+	["help"] = function()
+		for cmd,desc in pairs(SVUI_SLASH_COMMAND_INFO) do
+			local outbound = (msgPattern):format(cmd, desc);
+	        print(outbound)
+		end
+	end,
+};
 
 function SV:AddSlashCommand(cmd, desc, fn)
 	if((not cmd) or (not desc) or (not fn or (fn and type(fn) ~= "function"))) then return end
     SVUI_SLASH_COMMANDS[cmd] = fn;
     SVUI_SLASH_COMMAND_INFO[cmd] = desc;
-end
-
-local msgPattern = "|cff00FF00%s|r |cffFFFFFF%s|r";
-function SV:CommandHelp()
-	for cmd,desc in pairs(SVUI_SLASH_COMMAND_INFO) do
-		local outbound = (msgPattern):format(cmd, desc);
-        print(outbound)
-	end
 end
 
 local function SVUIMasterCommand(msg)

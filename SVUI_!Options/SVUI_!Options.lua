@@ -1313,7 +1313,7 @@ SV.Options.args.Dock = {
 					desc = "Select an addon to occupy the primary docklet window",
 					values = function() return GetLiveDockletsA() end,
 					get = function() return SV.private.Docks.Embed1 end,
-					set = function(a,value) SV.private.Docks.Embed1 = value; SV.Dock:RegisterAddonDocklets() end,
+					set = function(a,value) SV.private.Docks.Embed1 = value; if(SV.Skins) then SV.Skins:RegisterAddonDocklets() end end,
 				},
 				DockletSplit = {
 					type = "select",
@@ -1323,7 +1323,7 @@ SV.Options.args.Dock = {
 					disabled = function() return (SV.private.Docks.Embed1 == "None") end, 
 					values = function() return GetLiveDockletsB() end,
 					get = function() return SV.private.Docks.Embed2 end,
-					set = function(a,value) SV.private.Docks.Embed2 = value; SV.Dock:RegisterAddonDocklets() end,
+					set = function(a,value) SV.private.Docks.Embed2 = value; if(SV.Skins) then SV.Skins:RegisterAddonDocklets() end end,
 				}
 			}
 		},

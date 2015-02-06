@@ -688,7 +688,7 @@ function MOD:Load()
 
 	SV.Events:On("DOCKS_UPDATED", MOD.UpdateAllReports, "RefreshReports");
 
-	local slashDesc = L['Battleground statistics will now show again if you are inside a battleground.']
+	local slashDesc = "Toggle PvP stats on docks";
 	SV:AddSlashCommand("bg", slashDesc, SlashPvPStats);
 	SV:AddSlashCommand("pvp", slashDesc, SlashPvPStats);
 end
