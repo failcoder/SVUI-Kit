@@ -519,7 +519,7 @@ local _hook_GameTooltip_OnTooltipSetItem = function(self)
 			self.SuperBorder:SetMaskBorderColor(r, g, b)
 		end
 
-		if(ITEM_COUNTS and SV.Inventory and SV.Inventory.LootCache[key]) then
+		if(ITEM_COUNTS and SV.Inventory and SV.Inventory.LootCache and SV.Inventory.LootCache[key]) then
 			self:AddLine(" ")
 			self:AddDoubleLine("|cFFFFDD3C[Character]|r","|cFFFFDD3C[Count]|r")
 			for alt,amt in pairs(SV.Inventory.LootCache[key]) do

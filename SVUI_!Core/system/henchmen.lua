@@ -467,7 +467,7 @@ end
 
 
 function SV:ToggleHenchman()
-	if(InCombatLockdown() or (not self.HenchmenButton)) then return end 
+	if(InCombatLockdown() or (not SV.HenchmenButton)) then return end 
 	if(not SV.PostLoaded) then
 		CreateHenchmenFrame()
 	end
@@ -495,7 +495,7 @@ function SV:ToggleHenchman()
 			minion:Show()
 			minion.anim:Play()
 		end 
-		self.HenchmenButton.Icon:SetGradient(unpack(SV.Media.gradient.green))
+		SV.HenchmenButton.Icon:SetGradient(unpack(SV.Media.gradient.green))
 	else 
 		UpdateHenchmanModel(true)
 		for _,frame in pairs(SUBOPTIONS)do
@@ -519,7 +519,7 @@ function SV:ToggleHenchman()
 			minion.anim:Finish()
 			minion:Hide()
 		end 
-		self.HenchmenButton.Icon:SetGradient("VERTICAL", 0.5, 0.53, 0.55, 0.8, 0.8, 1)
+		SV.HenchmenButton.Icon:SetGradient("VERTICAL", 0.5, 0.53, 0.55, 0.8, 0.8, 1)
 	end 
 end
 --[[ 
