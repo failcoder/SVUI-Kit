@@ -39,9 +39,9 @@ local function MerchantStyle()
 	MerchantMoneyInset:RemoveTextures()
 	MerchantFrameInset:SetStyle("Frame", "Inset")
 	MerchantFrameInset.Panel:SetFrameLevel(MerchantFrameInset.Panel:GetFrameLevel() + 1)
-	MOD:ApplyDropdownStyle(MerchantFrameLootFilter)
+	SV.API:Set("DropDown", MerchantFrameLootFilter)
 	for b = 1, 2 do
-		MOD:ApplyTabStyle(_G["MerchantFrameTab"..b])
+		SV.API:Set("Tab", _G["MerchantFrameTab"..b])
 	end 
 	for b = 1, 12 do 
 		local d = _G["MerchantItem"..b.."ItemButton"]
@@ -51,14 +51,14 @@ local function MerchantStyle()
 		d:RemoveTextures()
 		d:SetStyle("Button")
 		d:ModPoint("TOPLEFT", o, "TOPLEFT", 4, -4)
-		e:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		e:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 		e:InsetPoints()
 		_G["MerchantItem"..b.."MoneyFrame"]:ClearAllPoints()
 		_G["MerchantItem"..b.."MoneyFrame"]:ModPoint("BOTTOMLEFT", d, "BOTTOMRIGHT", 3, 0)
 	end 
 	MerchantBuyBackItemItemButton:RemoveTextures()
 	MerchantBuyBackItemItemButton:SetStyle("Button")
-	MerchantBuyBackItemItemButtonIconTexture:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+	MerchantBuyBackItemItemButtonIconTexture:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 	MerchantBuyBackItemItemButtonIconTexture:InsetPoints()
 	MerchantRepairItemButton:SetStyle("Button")
 	for b = 1, MerchantRepairItemButton:GetNumRegions()do 
@@ -74,9 +74,9 @@ local function MerchantStyle()
 	MerchantRepairAllIcon:SetTexCoord(0.34, 0.1, 0.34, 0.535, 0.535, 0.1, 0.535, 0.535)
 	MerchantRepairAllIcon:InsetPoints()
 	MerchantFrame:ModWidth(360)
-	MOD:ApplyCloseButtonStyle(MerchantFrameCloseButton, MerchantFrame.Panel)
-	MOD:ApplyPaginationStyle(MerchantNextPageButton)
-	MOD:ApplyPaginationStyle(MerchantPrevPageButton)
+	SV.API:Set("CloseButton", MerchantFrameCloseButton, MerchantFrame.Panel)
+	SV.API:Set("PageButton", MerchantNextPageButton)
+	SV.API:Set("PageButton", MerchantPrevPageButton)
 end 
 --[[ 
 ########################################################## 

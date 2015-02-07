@@ -39,12 +39,12 @@ local function ReforgingStyle()
 	hooksecurefunc("ReforgingFrame_Update", function(k)
 		local w, x, u, y, z, A = GetReforgeItemInfo()
 		if x then
-			 ReforgingFrame.ItemButton.IconTexture:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+			 ReforgingFrame.ItemButton.IconTexture:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 		else
 			 ReforgingFrame.ItemButton.IconTexture:SetTexture(0,0,0,0)
 		end 
 	end)
-	MOD:ApplyCloseButtonStyle(ReforgingFrameCloseButton)
+	SV.API:Set("CloseButton", ReforgingFrameCloseButton)
 end 
 --[[ 
 ########################################################## 

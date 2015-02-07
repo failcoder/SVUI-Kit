@@ -100,7 +100,7 @@ local function StyleCharacterSlots()
 
 				local iconTex = _G[globalName.."IconTexture"]
 				if(iconTex) then
-					iconTex:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+					iconTex:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 					iconTex:InsetPoints(charSlot)
 					--iconTex:SetParent(charSlot.Panel)
 				end
@@ -162,7 +162,7 @@ local function EquipmentFlyout_OnShow()
 	while button do 
 		local texture = _G["EquipmentFlyoutFrameButton"..counter.."IconTexture"]
 		button:SetStyle("Button")
-		texture:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		texture:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 		button:GetNormalTexture():SetTexture(0,0,0,0)
 		texture:InsetPoints()
 		button:SetFrameLevel(button:GetFrameLevel() + 2)
@@ -213,7 +213,7 @@ local function PaperDollEquipmentManagerPane_OnShow()
 			btn.BgMiddle:SetTexture(0,0,0,0)
 			btn.icon:ModSize(36, 36)
 			btn.Check:SetTexture(0,0,0,0)
-			btn.icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+			btn.icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 			btn.icon:SetPoint("LEFT", btn, "LEFT", 4, 0)
 			if not btn.icon.bordertop then
 				 SetItemFrame(btn, btn.icon)
@@ -237,7 +237,7 @@ local function PaperDollEquipmentManagerPane_OnShow()
 			btn:SetFrameLevel(btn:GetFrameLevel() + 2)
 			btn:SetStyle("Button")
 			if(btn.icon) then
-				btn.icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+				btn.icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 				btn.icon:SetTexture(0,0,0,0)
 				btn.icon:InsetPoints()
 			end 
@@ -256,11 +256,11 @@ local function CharacterFrameStyle()
 
 	MOD:ApplyAdjustedWindowStyle(CharacterFrame, true, true, 1, 3, 3)
 
-	MOD:ApplyCloseButtonStyle(CharacterFrameCloseButton)
-	MOD:ApplyScrollFrameStyle(CharacterStatsPaneScrollBar)
-	MOD:ApplyScrollFrameStyle(ReputationListScrollFrameScrollBar)
-	MOD:ApplyScrollFrameStyle(TokenFrameContainerScrollBar)
-	MOD:ApplyScrollFrameStyle(GearManagerDialogPopupScrollFrameScrollBar)
+	SV.API:Set("CloseButton", CharacterFrameCloseButton)
+	SV.API:Set("ScrollFrame", CharacterStatsPaneScrollBar)
+	SV.API:Set("ScrollFrame", ReputationListScrollFrameScrollBar)
+	SV.API:Set("ScrollFrame", TokenFrameContainerScrollBar)
+	SV.API:Set("ScrollFrame", GearManagerDialogPopupScrollFrameScrollBar)
 	
 	StyleCharacterSlots()
 
@@ -268,7 +268,7 @@ local function CharacterFrameStyle()
 	SlotListener:SetScript("OnEvent", StyleCharacterSlots)
 	CharacterFrame:HookScript("OnShow", StyleCharacterSlots)
 
-	MOD:ApplyPaginationStyle(CharacterFrameExpandButton)
+	SV.API:Set("PageButton", CharacterFrameExpandButton)
 
 	hooksecurefunc('CharacterFrame_Collapse', function()
 		CharacterFrameExpandButton:RemoveTextures()
@@ -286,8 +286,8 @@ local function CharacterFrameStyle()
 		 SquareButton_SetIcon(CharacterFrameExpandButton, 'LEFT')
 	end 
 
-	MOD:ApplyCloseButtonStyle(ReputationDetailCloseButton)
-	MOD:ApplyCloseButtonStyle(TokenFramePopupCloseButton)
+	SV.API:Set("CloseButton", ReputationDetailCloseButton)
+	SV.API:Set("CloseButton", TokenFramePopupCloseButton)
 	ReputationDetailAtWarCheckBox:SetStyle("Checkbox")
 	ReputationDetailMainScreenCheckBox:SetStyle("Checkbox")
 	ReputationDetailInactiveCheckBox:SetStyle("Checkbox")
@@ -298,8 +298,8 @@ local function CharacterFrameStyle()
 	EquipmentFlyoutFrame:HookScript("OnShow", EquipmentFlyout_OnShow)
 	hooksecurefunc("EquipmentFlyout_Show", EquipmentFlyout_OnShow)
 	CharacterFramePortrait:Die()
-	MOD:ApplyScrollFrameStyle(_G["PaperDollTitlesPaneScrollBar"], 5)
-	MOD:ApplyScrollFrameStyle(_G["PaperDollEquipmentManagerPaneScrollBar"], 5)
+	SV.API:Set("ScrollFrame", _G["PaperDollTitlesPaneScrollBar"], 5)
+	SV.API:Set("ScrollFrame", _G["PaperDollEquipmentManagerPaneScrollBar"], 5)
 
 	for _,gName in pairs(CharFrameList) do
 		if(_G[gName]) then _G[gName]:RemoveTextures(true) end
@@ -339,7 +339,7 @@ local function CharacterFrameStyle()
 	PaperDollEquipmentManagerPane:HookScript("OnShow", PaperDollEquipmentManagerPane_OnShow)
 
 	for i = 1, 4 do
-		 MOD:ApplyTabStyle(_G["CharacterFrameTab"..i])
+		 SV.API:Set("Tab", _G["CharacterFrameTab"..i])
 	end
 
 
@@ -363,7 +363,7 @@ local function CharacterFrameStyle()
 				currency.categoryLeft:Die()
 				currency.categoryRight:Die()
 				if currency.icon then
-					 currency.icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+					 currency.icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 				end 
 			end 
 		end 

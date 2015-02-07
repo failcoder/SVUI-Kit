@@ -43,7 +43,7 @@ local function StyleMoneyRewards(frameName)
       frame:RemoveTextures()
       frame:SetStyle("!_Frame", "Inset")
       icon:SetTexture(texture)
-      icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+      icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
       icon:ClearAllPoints()
       icon:SetPoint("TOPLEFT", frame, "TOPLEFT", 3, -3)
       icon:SetSize(size, size)
@@ -78,7 +78,7 @@ local LFDQueueRandom_OnUpdate = function()
         local x = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..u.."ShortageBorder"]
         local y = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..u.."Count"]
         local z = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..u.."NameFrame"]
-        icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+        icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
         icon:SetDrawLayer("OVERLAY")
         y:SetDrawLayer("OVERLAY")
         z:SetTexture()
@@ -110,7 +110,7 @@ local ScenarioQueueRandom_OnUpdate = function()
       if not t.restyled then 
         local x = _G["ScenarioQueueFrameRandomScrollFrameChildFrameItem"..u.."ShortageBorder"]
         local y = _G["ScenarioQueueFrameRandomScrollFrameChildFrameItem"..u.."Count"]
-        local z = _G["ScenarioQueueFrameRandomScrollFrameChildFrameItem"..u.."NameFrame"]icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+        local z = _G["ScenarioQueueFrameRandomScrollFrameChildFrameItem"..u.."NameFrame"]icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
         icon:SetDrawLayer("OVERLAY")
         y:SetDrawLayer("OVERLAY")
         z:SetTexture()
@@ -156,7 +156,7 @@ local function LFDFrameStyle()
   LFDQueueFrameRandomScrollFrameChildFrameBonusRepFrame.ChooseButton:SetStyle("Button")
   ScenarioQueueFrameRandomScrollFrameChildFrameBonusRepFrame.ChooseButton:SetStyle("Button")
 
-  MOD:ApplyScrollFrameStyle(ScenarioQueueFrameRandomScrollFrameScrollBar)
+  SV.API:Set("ScrollFrame", ScenarioQueueFrameRandomScrollFrameScrollBar)
 
   GroupFinderFrameGroupButton1.icon:SetTexture("Interface\\Icons\\INV_Helmet_08")
   GroupFinderFrameGroupButton2.icon:SetTexture("Interface\\Icons\\Icon_Scenarios")
@@ -166,7 +166,7 @@ local function LFDFrameStyle()
   LFGDungeonReadyDialogBackground:Die()
   LFGDungeonReadyDialogEnterDungeonButton:SetStyle("Button")
   LFGDungeonReadyDialogLeaveQueueButton:SetStyle("Button")
-  MOD:ApplyCloseButtonStyle(LFGDungeonReadyDialogCloseButton)
+  SV.API:Set("CloseButton", LFGDungeonReadyDialogCloseButton)
 
   LFGDungeonReadyStatus:RemoveTextures()
   LFGDungeonReadyStatus:SetStyle("Frame", "Pattern", true, 2, 4, 4)
@@ -200,7 +200,7 @@ local function LFDFrameStyle()
   LFDQueueFrameRoleButtonHealer.shortageBorder:Die()
   LFGDungeonReadyDialog.filigree:SetAlpha(0)
   LFGDungeonReadyDialog.bottomArt:SetAlpha(0)
-  MOD:ApplyCloseButtonStyle(LFGDungeonReadyStatusCloseButton)
+  SV.API:Set("CloseButton", LFGDungeonReadyStatusCloseButton)
 
   for _,name in pairs(LFDFrameList) do
     local frame = _G[name];
@@ -257,7 +257,7 @@ local function LFDFrameStyle()
       button.bg:SetAllPoints()
       button:SetStyle("Frame", 'Button')
       button:SetStyle("Button")
-      button.icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+      button.icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
       button.icon:SetDrawLayer("OVERLAY")
       button.icon:ModSize(40)
       button.icon:ClearAllPoints()
@@ -270,11 +270,11 @@ local function LFDFrameStyle()
   end
 
   for u = 1, 3 do
-     MOD:ApplyTabStyle(_G['PVEFrameTab'..u])
+     SV.API:Set("Tab", _G['PVEFrameTab'..u])
   end
 
   PVEFrameTab1:SetPoint('BOTTOMLEFT', PVEFrame, 'BOTTOMLEFT', 19, -31)
-  MOD:ApplyCloseButtonStyle(PVEFrameCloseButton)
+  SV.API:Set("CloseButton", PVEFrameCloseButton)
   LFDParentFrame:RemoveTextures()
   LFDQueueFrameFindGroupButton:RemoveTextures()
   LFDParentFrameInset:RemoveTextures()
@@ -282,7 +282,7 @@ local function LFDFrameStyle()
   LFDQueueFrameFindGroupButton:SetStyle("Button")
   hooksecurefunc("LFDQueueFrameRandom_UpdateFrame", LFDQueueRandom_OnUpdate)
   
-  MOD:ApplyDropdownStyle(LFDQueueFrameTypeDropDown)
+  SV.API:Set("DropDown", LFDQueueFrameTypeDropDown)
 
   RaidFinderFrame:RemoveTextures()
   RaidFinderFrameBottomInset:RemoveTextures()
@@ -292,7 +292,7 @@ local function LFDFrameStyle()
   RaidFinderFrameBottomInsetBg:Hide()
   RaidFinderFrameBtnCornerRight:Hide()
   RaidFinderFrameButtonBottomBorder:Hide()
-  MOD:ApplyDropdownStyle(RaidFinderQueueFrameSelectionDropDown)
+  SV.API:Set("DropDown", RaidFinderQueueFrameSelectionDropDown)
   RaidFinderFrameFindRaidButton:RemoveTextures()
   RaidFinderFrameFindRaidButton:SetStyle("Button")
   RaidFinderQueueFrame:RemoveTextures()
@@ -306,7 +306,7 @@ local function LFDFrameStyle()
         local y = _G["RaidFinderQueueFrameScrollFrameChildFrameItem"..u.."Count"]
         local z = _G["RaidFinderQueueFrameScrollFrameChildFrameItem"..u.."NameFrame"]
         t:RemoveTextures()
-        icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+        icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
         icon:SetDrawLayer("OVERLAY")
         y:SetDrawLayer("OVERLAY")
         z:SetTexture()
@@ -336,7 +336,7 @@ local function LFDFrameStyle()
   hooksecurefunc("ScenarioQueueFrameRandom_UpdateFrame", ScenarioQueueRandom_OnUpdate)
   ScenarioQueueFrameFindGroupButton:RemoveTextures()
   ScenarioQueueFrameFindGroupButton:SetStyle("Button")
-  MOD:ApplyDropdownStyle(ScenarioQueueFrameTypeDropDown)
+  SV.API:Set("DropDown", ScenarioQueueFrameTypeDropDown)
   LFRBrowseFrameRoleInset:DisableDrawLayer("BORDER")
   RaidBrowserFrameBg:Hide()
   LFRQueueFrameSpecificListScrollFrameScrollBackgroundTopLeft:Hide()
@@ -350,20 +350,20 @@ local function LFDFrameStyle()
   end
 
   RaidBrowserFrame:SetStyle("Frame", 'Pattern')
-  MOD:ApplyCloseButtonStyle(RaidBrowserFrameCloseButton)
+  SV.API:Set("CloseButton", RaidBrowserFrameCloseButton)
   LFRQueueFrameFindGroupButton:SetStyle("Button")
   LFRQueueFrameAcceptCommentButton:SetStyle("Button")
-  MOD:ApplyScrollFrameStyle(LFRQueueFrameCommentScrollFrameScrollBar)
-  MOD:ApplyScrollFrameStyle(LFDQueueFrameSpecificListScrollFrameScrollBar)
+  SV.API:Set("ScrollFrame", LFRQueueFrameCommentScrollFrameScrollBar)
+  SV.API:Set("ScrollFrame", LFDQueueFrameSpecificListScrollFrameScrollBar)
 
   RaidBrowserFrame:HookScript('OnShow', function()
     if not LFRQueueFrameSpecificListScrollFrameScrollBar.styled then
-      MOD:ApplyScrollFrameStyle(LFRQueueFrameSpecificListScrollFrameScrollBar)
+      SV.API:Set("ScrollFrame", LFRQueueFrameSpecificListScrollFrameScrollBar)
       LFRBrowseFrame:RemoveTextures()
       for u = 1, 2 do 
         local C = _G['LFRParentFrameSideTab'..u]
         C:DisableDrawLayer('BACKGROUND')
-        C:GetNormalTexture():SetTexCoord(0.1, 0.9, 0.1, 0.9)
+        C:GetNormalTexture():SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
         C:GetNormalTexture():InsetPoints()
         C.pushed = true;
         C:SetStyle("Frame", "Default")
@@ -379,7 +379,7 @@ local function LFDFrameStyle()
         local C = _G['LFRBrowseFrameColumnHeader'..u]
         C:DisableDrawLayer('BACKGROUND')
       end 
-      MOD:ApplyDropdownStyle(LFRBrowseFrameRaidDropDown)
+      SV.API:Set("DropDown", LFRBrowseFrameRaidDropDown)
       LFRBrowseFrameRefreshButton:SetStyle("Button")
       LFRBrowseFrameInviteButton:SetStyle("Button")
       LFRBrowseFrameSendMessageButton:SetStyle("Button")
@@ -399,8 +399,8 @@ local function LFDFrameStyle()
   _G[ScenarioQueueFrame.PartyBackfill:GetName().."BackfillButton"]:SetStyle("Button")
   _G[ScenarioQueueFrame.PartyBackfill:GetName().."NoBackfillButton"]:SetStyle("Button")
   
-  MOD:ApplyScrollFrameStyle(LFDQueueFrameRandomScrollFrameScrollBar)
-  MOD:ApplyScrollFrameStyle(ScenarioQueueFrameSpecificScrollFrameScrollBar)
+  SV.API:Set("ScrollFrame", LFDQueueFrameRandomScrollFrameScrollBar)
+  SV.API:Set("ScrollFrame", ScenarioQueueFrameSpecificScrollFrameScrollBar)
   LFDQueueFrameRandomScrollFrame:SetStyle("Frame", 'Transparent')
   ScenarioQueueFrameRandomScrollFrame:SetStyle("Frame", 'Transparent')
   RaidFinderQueueFrameScrollFrame:SetStyle("Frame", 'Transparent')

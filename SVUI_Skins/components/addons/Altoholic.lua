@@ -38,7 +38,7 @@ end
 
 local function ApplyTextureStyle(self)
 	if not self then return end
-	self:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+	self:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 	local parent = self:GetParent()
 	if(parent) then
 		self:InsetPoints(parent, 1, 1)
@@ -55,12 +55,12 @@ local function StyleAltoholic(event, addon)
 
 		MOD:ApplyFrameStyle(AltoholicFrame, "WindowAlternate", false, true)
 		MOD:ApplyFrameStyle(AltoMsgBox)
-		MOD:ApplyButtonStyle(AltoMsgBoxYesButton)
-		MOD:ApplyButtonStyle(AltoMsgBoxNoButton)
-		MOD:ApplyCloseButtonStyle(AltoholicFrameCloseButton)
+		SV.API:Set("Button", AltoMsgBoxYesButton)
+		SV.API:Set("Button", AltoMsgBoxNoButton)
+		SV.API:Set("CloseButton", AltoholicFrameCloseButton)
 		MOD:ApplyEditBoxStyle(AltoholicFrame_SearchEditBox, 175, 15)
-		MOD:ApplyButtonStyle(AltoholicFrame_ResetButton)
-		MOD:ApplyButtonStyle(AltoholicFrame_SearchButton)
+		SV.API:Set("Button", AltoholicFrame_ResetButton)
+		SV.API:Set("Button", AltoholicFrame_SearchButton)
 
 		AltoholicFrameTab1:ModPoint("TOPLEFT", AltoholicFrame, "BOTTOMLEFT", -5, 2)
 		AltoholicFrame_ResetButton:ModPoint("TOPLEFT", AltoholicFrame, "TOPLEFT", 25, -77)
@@ -74,11 +74,11 @@ local function StyleAltoholic(event, addon)
 		MOD:ApplyFrameStyle(AltoholicFrameBagUsage)
 		MOD:ApplyFrameStyle(AltoholicFrameSkills)
 		MOD:ApplyFrameStyle(AltoholicFrameActivity)
-		MOD:ApplyScrollBarStyle(AltoholicFrameSummaryScrollFrameScrollBar)
-		MOD:ApplyScrollBarStyle(AltoholicFrameBagUsageScrollFrameScrollBar)
-		MOD:ApplyScrollBarStyle(AltoholicFrameSkillsScrollFrameScrollBar)
-		MOD:ApplyScrollBarStyle(AltoholicFrameActivityScrollFrameScrollBar)
-		MOD:ApplyDropdownStyle(AltoholicTabSummary_SelectLocation, 200)
+		SV.API:Set("ScrollBar", AltoholicFrameSummaryScrollFrameScrollBar)
+		SV.API:Set("ScrollBar", AltoholicFrameBagUsageScrollFrameScrollBar)
+		SV.API:Set("ScrollBar", AltoholicFrameSkillsScrollFrameScrollBar)
+		SV.API:Set("ScrollBar", AltoholicFrameActivityScrollFrameScrollBar)
+		SV.API:Set("DropDown", AltoholicTabSummary_SelectLocation, 200)
 
 		if(AltoholicFrameSummaryScrollFrame) then		
 			AltoholicFrameSummaryScrollFrame:RemoveTextures(true)
@@ -96,21 +96,21 @@ local function StyleAltoholic(event, addon)
 			AltoholicFrameActivityScrollFrame:RemoveTextures(true)
 		end
 
-		MOD:ApplyButtonStyle(AltoholicTabSummary_RequestSharing)
+		SV.API:Set("Button", AltoholicTabSummary_RequestSharing)
 		ApplyTextureStyle(AltoholicTabSummary_RequestSharingIconTexture)
-		MOD:ApplyButtonStyle(AltoholicTabSummary_Options)
+		SV.API:Set("Button", AltoholicTabSummary_Options)
 		ApplyTextureStyle(AltoholicTabSummary_OptionsIconTexture)
-		MOD:ApplyButtonStyle(AltoholicTabSummary_OptionsDataStore)
+		SV.API:Set("Button", AltoholicTabSummary_OptionsDataStore)
 		ApplyTextureStyle(AltoholicTabSummary_OptionsDataStoreIconTexture)
 
 		for i = 1, 5 do
-			MOD:ApplyButtonStyle(_G["AltoholicTabSummaryMenuItem"..i], true)
+			SV.API:Set("Button", _G["AltoholicTabSummaryMenuItem"..i], true)
 		end
 		for i = 1, 8 do
-			MOD:ApplyButtonStyle(_G["AltoholicTabSummary_Sort"..i], true)
+			SV.API:Set("Button", _G["AltoholicTabSummary_Sort"..i], true)
 		end
 		for i = 1, 7 do
-			MOD:ApplyTabStyle(_G["AltoholicFrameTab"..i], true)
+			SV.API:Set("Tab", _G["AltoholicFrameTab"..i], true)
 		end
 	end
 	
@@ -123,18 +123,18 @@ local function StyleAltoholic(event, addon)
 		MOD:ApplyFrameStyle(AltoholicFrameSpellbook)
 		MOD:ApplyFrameStyle(AltoholicFramePets)
 		MOD:ApplyFrameStyle(AltoholicFrameAuctions)
-		MOD:ApplyScrollBarStyle(AltoholicFrameContainersScrollFrameScrollBar)
-		MOD:ApplyScrollBarStyle(AltoholicFrameQuestsScrollFrameScrollBar)
-		MOD:ApplyScrollBarStyle(AltoholicFrameRecipesScrollFrameScrollBar)
-		MOD:ApplyDropdownStyle(AltoholicFrameTalents_SelectMember)
-		MOD:ApplyDropdownStyle(AltoholicTabCharacters_SelectRealm)
-		MOD:ApplyPaginationStyle(AltoholicFrameSpellbookPrevPage)
-		MOD:ApplyPaginationStyle(AltoholicFrameSpellbookNextPage)
-		MOD:ApplyPaginationStyle(AltoholicFramePetsNormalPrevPage)
-		MOD:ApplyPaginationStyle(AltoholicFramePetsNormalNextPage)
-		MOD:ApplyButtonStyle(AltoholicTabCharacters_Sort1)
-		MOD:ApplyButtonStyle(AltoholicTabCharacters_Sort2)
-		MOD:ApplyButtonStyle(AltoholicTabCharacters_Sort3)
+		SV.API:Set("ScrollBar", AltoholicFrameContainersScrollFrameScrollBar)
+		SV.API:Set("ScrollBar", AltoholicFrameQuestsScrollFrameScrollBar)
+		SV.API:Set("ScrollBar", AltoholicFrameRecipesScrollFrameScrollBar)
+		SV.API:Set("DropDown", AltoholicFrameTalents_SelectMember)
+		SV.API:Set("DropDown", AltoholicTabCharacters_SelectRealm)
+		SV.API:Set("PageButton", AltoholicFrameSpellbookPrevPage)
+		SV.API:Set("PageButton", AltoholicFrameSpellbookNextPage)
+		SV.API:Set("PageButton", AltoholicFramePetsNormalPrevPage)
+		SV.API:Set("PageButton", AltoholicFramePetsNormalNextPage)
+		SV.API:Set("Button", AltoholicTabCharacters_Sort1)
+		SV.API:Set("Button", AltoholicTabCharacters_Sort2)
+		SV.API:Set("Button", AltoholicTabCharacters_Sort3)
 		AltoholicFrameContainersScrollFrame:RemoveTextures(true)
 		AltoholicFrameQuestsScrollFrame:RemoveTextures(true)
 		AltoholicFrameRecipesScrollFrame:RemoveTextures(true)
@@ -158,7 +158,7 @@ local function StyleAltoholic(event, addon)
 
 		for i = 1, 7 do
 			for j = 1, 14 do
-				MOD:ApplyItemButtonStyle(_G["AltoholicFrameContainersEntry"..i.."Item"..j])
+				SV.API:Set("ItemButton", _G["AltoholicFrameContainersEntry"..i.."Item"..j])
 				_G["AltoholicFrameContainersEntry"..i.."Item"..j]:HookScript('OnShow', ColorAltoBorder)
 			end
 		end
@@ -168,13 +168,13 @@ local function StyleAltoholic(event, addon)
 		MOD:ApplyFixedFrameStyle(AltoholicFrameAchievements)
 		AltoholicFrameAchievementsScrollFrame:RemoveTextures(true)
 		AltoholicAchievementsMenuScrollFrame:RemoveTextures(true)
-		MOD:ApplyScrollBarStyle(AltoholicFrameAchievementsScrollFrameScrollBar)
-		MOD:ApplyScrollBarStyle(AltoholicAchievementsMenuScrollFrameScrollBar)
-		MOD:ApplyDropdownStyle(AltoholicTabAchievements_SelectRealm)
+		SV.API:Set("ScrollBar", AltoholicFrameAchievementsScrollFrameScrollBar)
+		SV.API:Set("ScrollBar", AltoholicAchievementsMenuScrollFrameScrollBar)
+		SV.API:Set("DropDown", AltoholicTabAchievements_SelectRealm)
 		AltoholicTabAchievements_SelectRealm:ModPoint("TOPLEFT", AltoholicFrame, "TOPLEFT", 205, -57)
 
 		for i = 1, 15 do
-			MOD:ApplyButtonStyle(_G["AltoholicTabAchievementsMenuItem"..i], true)
+			SV.API:Set("Button", _G["AltoholicTabAchievementsMenuItem"..i], true)
 		end
 
 		for i = 1, 8 do
@@ -190,10 +190,10 @@ local function StyleAltoholic(event, addon)
 	if IsAddOnLoaded("Altoholic_Agenda") or addon == "Altoholic_Agenda" then
 		MOD:ApplyFrameStyle(AltoholicFrameCalendarScrollFrame)
 		MOD:ApplyFrameStyle(AltoholicTabAgendaMenuItem1)
-		MOD:ApplyScrollBarStyle(AltoholicFrameCalendarScrollFrameScrollBar)
-		MOD:ApplyPaginationStyle(AltoholicFrameCalendar_NextMonth)
-		MOD:ApplyPaginationStyle(AltoholicFrameCalendar_PrevMonth)
-		MOD:ApplyButtonStyle(AltoholicTabAgendaMenuItem1, true)
+		SV.API:Set("ScrollBar", AltoholicFrameCalendarScrollFrameScrollBar)
+		SV.API:Set("PageButton", AltoholicFrameCalendar_NextMonth)
+		SV.API:Set("PageButton", AltoholicFrameCalendar_PrevMonth)
+		SV.API:Set("Button", AltoholicTabAgendaMenuItem1, true)
 
 		for i = 1, 14 do
 			MOD:ApplyFrameStyle(_G["AltoholicFrameCalendarEntry"..i])
@@ -203,13 +203,13 @@ local function StyleAltoholic(event, addon)
 	if IsAddOnLoaded("Altoholic_Grids") or addon == "Altoholic_Grids" then
 		AltoholicFrameGridsScrollFrame:RemoveTextures(true)
 		MOD:ApplyFixedFrameStyle(AltoholicFrameGrids)
-		MOD:ApplyScrollBarStyle(AltoholicFrameGridsScrollFrameScrollBar)
-		MOD:ApplyDropdownStyle(AltoholicTabGrids_SelectRealm)
-		MOD:ApplyDropdownStyle(AltoholicTabGrids_SelectView)
+		SV.API:Set("ScrollBar", AltoholicFrameGridsScrollFrameScrollBar)
+		SV.API:Set("DropDown", AltoholicTabGrids_SelectRealm)
+		SV.API:Set("DropDown", AltoholicTabGrids_SelectView)
 
 		for i = 1, 8 do
 			for j = 1, 10 do
-				MOD:ApplyFixedFrameStyle(_G["AltoholicFrameGridsEntry"..i.."Item"..j], nil, nil, nil, true)
+				MOD:ApplyFixedFrameStyle(_G["AltoholicFrameGridsEntry"..i.."Item"..j], nil, nil, true)
 				_G["AltoholicFrameGridsEntry"..i.."Item"..j]:HookScript('OnShow', ColorAltoBorder)
 			end
 		end
@@ -229,25 +229,25 @@ local function StyleAltoholic(event, addon)
 	if IsAddOnLoaded("Altoholic_Guild") or addon == "Altoholic_Guild" then
 		MOD:ApplyFrameStyle(AltoholicFrameGuildMembers)
 		MOD:ApplyFrameStyle(AltoholicFrameGuildBank)
-		MOD:ApplyScrollBarStyle(AltoholicFrameGuildMembersScrollFrameScrollBar)
+		SV.API:Set("ScrollBar", AltoholicFrameGuildMembersScrollFrameScrollBar)
 		AltoholicFrameGuildMembersScrollFrame:RemoveTextures(true)
 
 		for i = 1, 2 do
-			MOD:ApplyButtonStyle(_G["AltoholicTabGuildMenuItem"..i])
+			SV.API:Set("Button", _G["AltoholicTabGuildMenuItem"..i])
 		end
 
 		for i = 1, 7 do
 			for j = 1, 14 do
-				MOD:ApplyItemButtonStyle(_G["AltoholicFrameGuildBankEntry"..i.."Item"..j])
+				SV.API:Set("ItemButton", _G["AltoholicFrameGuildBankEntry"..i.."Item"..j])
 			end
 		end
 
 		for i = 1, 19 do
-			MOD:ApplyItemButtonStyle(_G["AltoholicFrameGuildMembersItem"..i])
+			SV.API:Set("ItemButton", _G["AltoholicFrameGuildMembersItem"..i])
 		end
 
 		for i = 1, 5 do
-			MOD:ApplyButtonStyle(_G["AltoholicTabGuild_Sort"..i])
+			SV.API:Set("Button", _G["AltoholicTabGuild_Sort"..i])
 		end
 	end
 
@@ -255,11 +255,11 @@ local function StyleAltoholic(event, addon)
 		MOD:ApplyFixedFrameStyle(AltoholicFrameSearch, true)
 		AltoholicFrameSearchScrollFrame:RemoveTextures(true)
 		AltoholicSearchMenuScrollFrame:RemoveTextures(true)
-		MOD:ApplyScrollBarStyle(AltoholicFrameSearchScrollFrameScrollBar)
-		MOD:ApplyScrollBarStyle(AltoholicSearchMenuScrollFrameScrollBar)
-		MOD:ApplyDropdownStyle(AltoholicTabSearch_SelectRarity)
-		MOD:ApplyDropdownStyle(AltoholicTabSearch_SelectSlot)
-		MOD:ApplyDropdownStyle(AltoholicTabSearch_SelectLocation)
+		SV.API:Set("ScrollBar", AltoholicFrameSearchScrollFrameScrollBar)
+		SV.API:Set("ScrollBar", AltoholicSearchMenuScrollFrameScrollBar)
+		SV.API:Set("DropDown", AltoholicTabSearch_SelectRarity)
+		SV.API:Set("DropDown", AltoholicTabSearch_SelectSlot)
+		SV.API:Set("DropDown", AltoholicTabSearch_SelectLocation)
 		AltoholicTabSearch_SelectRarity:ModSize(125, 32)
 		AltoholicTabSearch_SelectSlot:ModSize(125, 32)
 		AltoholicTabSearch_SelectLocation:ModSize(175, 32)
@@ -267,11 +267,11 @@ local function StyleAltoholic(event, addon)
 		MOD:ApplyEditBoxStyle(_G["AltoholicTabSearch_MaxLevel"])
 
 		for i = 1, 15 do
-			MOD:ApplyButtonStyle(_G["AltoholicTabSearchMenuItem"..i])
+			SV.API:Set("Button", _G["AltoholicTabSearchMenuItem"..i])
 		end
 
 		for i = 1, 8 do
-			MOD:ApplyButtonStyle(_G["AltoholicTabSearch_Sort"..i])
+			SV.API:Set("Button", _G["AltoholicTabSearch_Sort"..i])
 		end
 	end
 end

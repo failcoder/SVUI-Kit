@@ -243,7 +243,7 @@ do
         itembutton.UpdateCooldown = Button_UpdateCooldown;
 
         local Icon = itembutton:CreateTexture('$parentIcon', 'BACKGROUND')
-        Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+        Icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
         Icon:SetAllPoints()
         itembutton.Icon = Icon
 
@@ -717,7 +717,7 @@ local GetQuestRow = function(self, index)
 
 		row.Badge.Button = CreateFrame("Button", nil, row.Badge)
 		row.Badge.Button:SetAllPoints(row.Badge);
-		row.Badge.Button:SetStyle("Button", true, 1, 1, 1)
+		row.Badge.Button:SetStyle("LiteButton")
 		row.Badge.Button:SetID(0)
 		row.Badge.Button.Icon = row.Badge.Icon;
 		row.Badge.Button:RegisterForClicks("LeftButtonUp", "RightButtonUp")
@@ -754,7 +754,7 @@ local GetQuestRow = function(self, index)
 
 		row.Button = CreateFrame("Button", nil, row.Header)
 		row.Button:SetAllPoints(row.Header);
-		row.Button:SetStyle("Button", "Lite", 1, 1, 1)
+		row.Button:SetStyle("LiteButton")
 		row.Button:SetID(0)
 		row.Button:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 		row.Button:SetScript("OnClick", ViewButton_OnClick);

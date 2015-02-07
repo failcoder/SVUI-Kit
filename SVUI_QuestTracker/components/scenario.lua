@@ -355,7 +355,7 @@ function MOD:InitializeScenarios()
 	block.Icon = block.Badge:CreateTexture(nil,"OVERLAY")
 	block.Icon:InsetPoints(block.Badge);
 	block.Icon:SetTexture(LINE_SCENARIO_ICON)
-	block.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+	block.Icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 
 	block.Header = CreateFrame("Frame", nil, block)
 	block.Header:ModPoint("TOPLEFT", block.Badge, "TOPRIGHT", 4, -1);

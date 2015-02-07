@@ -27,7 +27,7 @@ local function TaxiStyle()
 	--TaxiRouteMap:SetStyle("Frame", "Blackout")
 	--TaxiRouteMap.Panel:WrapPoints(TaxiRouteMap, 4, 4)
 	
-	MOD:ApplyCloseButtonStyle(TaxiFrame.CloseButton)
+	SV.API:Set("CloseButton", TaxiFrame.CloseButton)
 end 
 --[[ 
 ########################################################## 

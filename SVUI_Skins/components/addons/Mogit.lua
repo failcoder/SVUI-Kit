@@ -46,13 +46,13 @@ local function StyleMogItPreview()
 		}
 		for _, object in pairs(MogItGearSlots) do
 			if _G["MogItPreview"..i..object] then
-				MOD:ApplyItemButtonStyle(_G["MogItPreview"..i..object])
+				SV.API:Set("ItemButton", _G["MogItPreview"..i..object])
 				_G["MogItPreview"..i..object]:SetPushedTexture(nil)
 				_G["MogItPreview"..i..object]:SetHighlightTexture(nil)
 			end
 		end
 		if _G["MogItPreview"..i] then MOD:ApplyFrameStyle(_G["MogItPreview"..i]) end
-		if _G["MogItPreview"..i.."CloseButton"] then MOD:ApplyCloseButtonStyle(_G["MogItPreview"..i.."CloseButton"]) end
+		if _G["MogItPreview"..i.."CloseButton"] then SV.API:Set("CloseButton", _G["MogItPreview"..i.."CloseButton"]) end
 		if _G["MogItPreview"..i.."Inset"] then _G["MogItPreview"..i.."Inset"]:RemoveTextures(true) end
 		if _G["MogItPreview"..i.."Activate"] then _G["MogItPreview"..i.."Activate"]:SetStyle("Button") end
 	end
@@ -68,11 +68,11 @@ local function StyleMogIt()
 
 	hooksecurefunc(MogIt, "CreatePreview", StyleMogItPreview)
 	MOD:ApplyTooltipStyle(MogItTooltip)
-	MOD:ApplyCloseButtonStyle(MogItFrameCloseButton)
-	MOD:ApplyCloseButtonStyle(MogItFiltersCloseButton)
+	SV.API:Set("CloseButton", MogItFrameCloseButton)
+	SV.API:Set("CloseButton", MogItFiltersCloseButton)
 	MogItFrameFiltersDefaults:RemoveTextures(true)
 	MogItFrameFiltersDefaults:SetStyle("Button")
-	MOD:ApplyScrollFrameStyle(MogItScroll)
-	MOD:ApplyScrollFrameStyle(MogItFiltersScrollScrollBar)
+	SV.API:Set("ScrollFrame", MogItScroll)
+	SV.API:Set("ScrollFrame", MogItFiltersScrollScrollBar)
 end
 MOD:SaveAddonStyle("MogIt", StyleMogIt)

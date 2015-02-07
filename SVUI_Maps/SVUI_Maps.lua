@@ -241,7 +241,7 @@ do
 				end 
 			end
 
-			btn:SetStyle("Button", 2, -1, -1)
+			btn:SetStyle("Button", -1, -1)
 
 			if(name == "DBMMinimapButton") then 
 				btn:SetNormalTexture("Interface\\Icons\\INV_Helmet_87")
@@ -420,9 +420,9 @@ local function UpdateWorldMapConfig()
 			SV.Timers:RemoveLoop(MOD.MMCoordTimer)
 			MOD.MMCoordTimer = nil;
 		end
-		MiniMapCoords:FadeOut(0.1, 1, 0, true)
+		MiniMapCoords.X:SetText("")
+		MiniMapCoords.Y:SetText("")
 	else
-		MiniMapCoords:FadeIn()
 		UpdateMiniMapCoords()
 		MOD.MMCoordTimer = SV.Timers:ExecuteLoop(UpdateMiniMapCoords, 0.1)
 	end
@@ -432,9 +432,11 @@ local function UpdateWorldMapConfig()
 			SV.Timers:RemoveLoop(MOD.WMCoordTimer)
 			MOD.WMCoordTimer = nil;
 		end
-		WorldMapCoords:FadeOut(0.1, 1, 0, true)
+		if(WorldMapFrame:IsShown()) then
+			WorldMapCoords.Player:FadeOut(0.2, 1, 0, true)
+			WorldMapCoords.Mouse:FadeOut(0.2, 1, 0, true)
+		end
 	else
-		WorldMapCoords:FadeIn()
 		UpdateWorldMapCoords()
 		MOD.WMCoordTimer = SV.Timers:ExecuteLoop(UpdateWorldMapCoords, 0.1)
 	end

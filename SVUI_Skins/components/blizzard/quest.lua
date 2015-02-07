@@ -70,7 +70,7 @@ local function StyleReward(item)
 			if(tex) then
 				local size = item:GetHeight() - 4
 				if(icon) then tex:SetTexture(icon) end
-				tex:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+				tex:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 				tex:ClearAllPoints()
 				tex:SetPoint("TOPLEFT", item, "TOPLEFT", 2, -2)
 				tex:SetSize(size, size)
@@ -90,7 +90,7 @@ local function StyleDisplayReward(item)
 
 		if(oldIcon) then
 			item.Icon:SetTexture(oldIcon)
-			item.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+			item.Icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 		end
 	end
 end
@@ -189,12 +189,12 @@ local function QuestFrameStyle()
 	QuestLogPopupDetailFrameScrollFrame:HookScript('OnShow', _hook_DetailScrollShow)
 	QuestLogPopupDetailFrame:HookScript("OnShow", _hook_QuestLogPopupDetailFrameShow)
 
-	MOD:ApplyCloseButtonStyle(QuestLogPopupDetailFrameCloseButton)
-	MOD:ApplyScrollFrameStyle(QuestLogPopupDetailFrameScrollFrameScrollBar, 5)
-	MOD:ApplyScrollFrameStyle(QuestRewardScrollFrameScrollBar)
+	SV.API:Set("CloseButton", QuestLogPopupDetailFrameCloseButton)
+	SV.API:Set("ScrollFrame", QuestLogPopupDetailFrameScrollFrameScrollBar, 5)
+	SV.API:Set("ScrollFrame", QuestRewardScrollFrameScrollBar)
 
 	QuestGreetingScrollFrame:RemoveTextures()
-	MOD:ApplyScrollFrameStyle(QuestGreetingScrollFrameScrollBar)
+	SV.API:Set("ScrollFrame", QuestGreetingScrollFrameScrollBar)
 
 	for i = 1, 10 do
 		local name = ("QuestInfoRewardsFrameQuestInfoItem%d"):format(i)
@@ -213,7 +213,7 @@ local function QuestFrameStyle()
 	QuestInfoSkillPointFrame:SetFrameLevel(curLvl)
 	QuestInfoSkillPointFrame:SetStyle("!_Frame", "Icon")
 	QuestInfoSkillPointFrame:SetBackdropColor(1, 1, 0, 0.5)
-	QuestInfoSkillPointFrameIconTexture:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+	QuestInfoSkillPointFrameIconTexture:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 	QuestInfoSkillPointFrameIconTexture:SetDrawLayer("OVERLAY")
 	QuestInfoSkillPointFrameIconTexture:SetPoint("TOPLEFT", 2, -2)
 	QuestInfoSkillPointFrameIconTexture:ModSize(QuestInfoSkillPointFrameIconTexture:GetWidth()-2, QuestInfoSkillPointFrameIconTexture:GetHeight()-2)
@@ -249,7 +249,7 @@ local function QuestFrameStyle()
 	QuestFrameGoodbyeButton:SetStyle("Button")
 	QuestFrameCompleteQuestButton:SetStyle("Button")
 
-	MOD:ApplyCloseButtonStyle(QuestFrameCloseButton, QuestFrame.Panel)
+	SV.API:Set("CloseButton", QuestFrameCloseButton, QuestFrame.Panel)
 
 	for j = 1, 6 do 
 		local i = _G["QuestProgressItem"..j]
@@ -257,7 +257,7 @@ local function QuestFrameStyle()
 		i:RemoveTextures()
 		i:SetStyle("!_Frame", "Inset")
 		i:ModWidth(_G["QuestProgressItem"..j]:GetWidth() - 4)
-		texture:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		texture:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 		texture:SetDrawLayer("OVERLAY")
 		texture:SetPoint("TOPLEFT", 2, -2)
 		texture:ModSize(texture:GetWidth() - 2, texture:GetHeight() - 2)
@@ -293,7 +293,7 @@ local function QuestChoiceFrameStyle()
 	bgFrameBottom:SetStyle("Frame", "Paper")
 
 
-	MOD:ApplyCloseButtonStyle(QuestChoiceFrame.CloseButton)
+	SV.API:Set("CloseButton", QuestChoiceFrame.CloseButton)
 	--QuestChoiceFrame.Option1:SetStyle("Frame", "Inset")
 	QuestChoiceFrame.Option1.OptionButton:SetStyle("Button")
 	--QuestChoiceFrame.Option2:SetStyle("Frame", "Inset")

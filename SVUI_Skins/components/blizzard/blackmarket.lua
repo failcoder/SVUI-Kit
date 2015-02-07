@@ -37,7 +37,7 @@ local _hook_ScrollFrameUpdate = function()
 			if(not button.Panel) then 
 				button:RemoveTextures()
 				button:SetStyle("Button")
-				MOD:ApplyItemButtonStyle(button.Item)
+				SV.API:Set("ItemButton", button.Item)
 			end 
 			if indexOffset <= itemCount then 
 				local name, texture = C_BlackMarket.GetItemInfoByIndex(indexOffset)
@@ -59,8 +59,8 @@ local function BlackMarketStyle()
 	BlackMarketFrame.Inset:RemoveTextures()
 	BlackMarketFrame.Inset:SetStyle("!_Frame", "Inset")
 
-	MOD:ApplyCloseButtonStyle(BlackMarketFrame.CloseButton)
-	MOD:ApplyScrollFrameStyle(BlackMarketScrollFrameScrollBar, 4)
+	SV.API:Set("CloseButton", BlackMarketFrame.CloseButton)
+	SV.API:Set("ScrollFrame", BlackMarketScrollFrameScrollBar, 4)
 
 	ChangeTab(BlackMarketFrame.ColumnName)
 	ChangeTab(BlackMarketFrame.ColumnLevel)
@@ -78,7 +78,7 @@ local function BlackMarketStyle()
 	hooksecurefunc("BlackMarketScrollFrame_Update", _hook_ScrollFrameUpdate)
 
 	BlackMarketFrame.HotDeal:RemoveTextures()
-	MOD:ApplyItemButtonStyle(BlackMarketFrame.HotDeal.Item)
+	SV.API:Set("ItemButton", BlackMarketFrame.HotDeal.Item)
 end 
 --[[ 
 ########################################################## 

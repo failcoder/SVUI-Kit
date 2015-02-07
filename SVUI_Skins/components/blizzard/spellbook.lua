@@ -71,7 +71,7 @@ local function ChangeTabHelper(tab)
 	local nTex = tab:GetNormalTexture()
 	tab:RemoveTextures()
 	if(nTex) then
-		nTex:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		nTex:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 		nTex:InsetPoints()
 	end
 
@@ -130,7 +130,7 @@ local function AbilityButtonHelper(index)
 		button:SetStyle("Frame", "Icon", true, 2, 0, 0)
 
 		if(button.iconTexture) then
-			button.iconTexture:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+			button.iconTexture:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 			button.iconTexture:ClearAllPoints()
 			button.iconTexture:InsetPoints(button, 1, 1) 
 		end
@@ -179,7 +179,7 @@ local ButtonUpdateHelper = function(self)
 	end
 
 	if(icon) then 
-		icon:SetTexCoord(0.1, 0.9, 0.1, 0.9) 
+		icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS)) 
 	end
 
 	if(self.SpellName) then
@@ -199,7 +199,7 @@ local function SpellBookStyle()
 	if SV.db.Skins.blizzard.enable ~= true or SV.db.Skins.blizzard.spellbook ~= true then return end
 
 	MOD:ApplyAdjustedWindowStyle(SpellBookFrame, false, false, 1, 3, 3)
-	MOD:ApplyCloseButtonStyle(SpellBookFrameCloseButton)
+	SV.API:Set("CloseButton", SpellBookFrameCloseButton)
 
 	if(SpellBookFrameInset) then 
 		SpellBookFrameInset:RemoveTextures()
@@ -218,8 +218,8 @@ local function SpellBookStyle()
 
 	SpellBookFrameTutorialButton:Die()
 
-	MOD:ApplyPaginationStyle(SpellBookPrevPageButton)
-	MOD:ApplyPaginationStyle(SpellBookNextPageButton)
+	SV.API:Set("PageButton", SpellBookPrevPageButton)
+	SV.API:Set("PageButton", SpellBookNextPageButton)
 
 	hooksecurefunc("SpellButton_UpdateButton", ButtonUpdateHelper)
 	hooksecurefunc("SpellBook_GetCoreAbilityButton", AbilityButtonHelper)
@@ -269,7 +269,7 @@ local function SpellBookStyle()
 		if(button) then
 			button:RemoveTextures()
 			if(buttonTex) then
-				buttonTex:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+				buttonTex:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 				buttonTex:InsetPoints()
 				button:SetFrameLevel(button:GetFrameLevel() + 2)
 				if not button.Panel then
@@ -301,21 +301,21 @@ local function SpellBookStyle()
 	end
 
 	if(SpellBookFrameTabButton1) then 
-		MOD:ApplyTabStyle(SpellBookFrameTabButton1)
+		SV.API:Set("Tab", SpellBookFrameTabButton1)
 		SpellBookFrameTabButton1:ClearAllPoints()
 		SpellBookFrameTabButton1:SetPoint('TOPLEFT', SpellBookFrame, 'BOTTOMLEFT', 0, 2)
 	end
 	if(SpellBookFrameTabButton2) then 
-		MOD:ApplyTabStyle(SpellBookFrameTabButton2) 
+		SV.API:Set("Tab", SpellBookFrameTabButton2) 
 	end
 	if(SpellBookFrameTabButton3) then 
-		MOD:ApplyTabStyle(SpellBookFrameTabButton3) 
+		SV.API:Set("Tab", SpellBookFrameTabButton3) 
 	end
 	if(SpellBookFrameTabButton4) then 
-		MOD:ApplyTabStyle(SpellBookFrameTabButton4) 
+		SV.API:Set("Tab", SpellBookFrameTabButton4) 
 	end
 	if(SpellBookFrameTabButton5) then 
-		MOD:ApplyTabStyle(SpellBookFrameTabButton5) 
+		SV.API:Set("Tab", SpellBookFrameTabButton5) 
 	end
 end 
 --[[ 

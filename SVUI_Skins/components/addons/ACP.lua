@@ -63,7 +63,7 @@ local function StyleACP()
 	local h={"ACP_AddonListSetButton","ACP_AddonListDisableAll","ACP_AddonListEnableAll","ACP_AddonList_ReloadUI","ACP_AddonListBottomClose"}
 	for i,j in pairs(h)do _G[j]:SetStyle("Button")end 
 	for c=1,20 do _G["ACP_AddonListEntry"..c.."LoadNow"]:SetStyle("Button")end 
-	MOD:ApplyCloseButtonStyle(ACP_AddonListCloseButton)
+	SV.API:Set("CloseButton", ACP_AddonListCloseButton)
 	for c=1,20,1 do 
 		local k=_G["ACP_AddonList"]
 		k.timeLapse = 0
@@ -73,8 +73,8 @@ local function StyleACP()
 		_G["ACP_AddonListEntry"..c.."Enabled"]:SetStyle("Checkbox")
 	end 
 	ACP_AddonList_NoRecurse:SetStyle("Checkbox")
-	MOD:ApplyScrollFrameStyle(ACP_AddonList_ScrollFrameScrollBar)
-	MOD:ApplyDropdownStyle(ACP_AddonListSortDropDown)
+	SV.API:Set("ScrollFrame", ACP_AddonList_ScrollFrameScrollBar)
+	SV.API:Set("DropDown", ACP_AddonListSortDropDown)
 	ACP_AddonListSortDropDown:ModWidth(130)
 	ACP_AddonList_ScrollFrame:SetWidth(590)
 	ACP_AddonList_ScrollFrame:SetHeight(412)

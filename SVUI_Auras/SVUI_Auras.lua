@@ -226,7 +226,7 @@ do
 		
 		aura.texture = aura:CreateTexture(nil, "BORDER")
 		aura.texture:InsetPoints(aura, 2, 2)
-		aura.texture:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		aura.texture:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 
 		aura.count = aura:CreateFontString(nil, "ARTWORK")
 		aura.count:SetPoint("BOTTOMRIGHT", (-1 + SV.db.Auras.countOffsetH), (1 + SV.db.Auras.countOffsetV))

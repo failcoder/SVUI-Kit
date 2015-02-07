@@ -635,7 +635,7 @@ SV.Options.args.Core = {
 							name = L["Say Thanks"],
 							desc = L["Thank someone when they cast specific spells on you. Typically resurrections"], 
 							get = function(j)return SV.db["Extras"].woot end,
-							set = function(j,value)SV.db["Extras"].woot = value;MOD:ToggleReactions()end
+							set = function(j,value)SV.db["Extras"].woot = value;SV:ToggleReactions()end
 						},
 						pvpinterrupt = {
 							order = 2,
@@ -643,7 +643,7 @@ SV.Options.args.Core = {
 							name = L["Report PVP Actions"],
 							desc = L["Announce your interrupts, as well as when you have been sapped!"],
 							get = function(j)return SV.db["Extras"].pvpinterrupt end,
-							set = function(j,value)SV.db["Extras"].pvpinterrupt = value;MOD:ToggleReactions()end
+							set = function(j,value)SV.db["Extras"].pvpinterrupt = value;SV:ToggleReactions()end
 						},
 						lookwhaticando = {
 							order = 3,
@@ -651,7 +651,7 @@ SV.Options.args.Core = {
 							name = L["Report Spells"],
 							desc = L["Announce various helpful spells cast by players in your party/raid"],
 							get = function(j)return SV.db["Extras"].lookwhaticando end,
-							set = function(j,value)SV.db["Extras"].lookwhaticando = value;MOD:ToggleReactions()end
+							set = function(j,value)SV.db["Extras"].lookwhaticando = value;SV:ToggleReactions()end
 						},
 						sharingiscaring = {
 							order = 4,
@@ -659,7 +659,7 @@ SV.Options.args.Core = {
 							name = L["Report Shareables"],
 							desc = L["Announce when someone in your party/raid has laid a feast or repair bot"],
 							get = function(j)return SV.db["Extras"].sharingiscaring end,
-							set = function(j,value)SV.db["Extras"].sharingiscaring = value;MOD:ToggleReactions()end
+							set = function(j,value)SV.db["Extras"].sharingiscaring = value;SV:ToggleReactions()end
 						},
 						reactionChat = {
 							order = 5,
@@ -667,7 +667,7 @@ SV.Options.args.Core = {
 							name = L["Report in Chat"],
 							desc = L["Announcements will be sent to group chat channels"],
 							get = function(j)return SV.db["Extras"].reactionChat end,
-							set = function(j,value)SV.db["Extras"].reactionChat = value;MOD:ToggleReactions()end
+							set = function(j,value)SV.db["Extras"].reactionChat = value;SV:ToggleReactions()end
 						},
 						reactionEmote = {
 							order = 6,
@@ -675,22 +675,7 @@ SV.Options.args.Core = {
 							name = L["Auto Emotes"],
 							desc = L["Some announcements are accompanied by player emotes."],
 							get = function(j)return SV.db["Extras"].reactionEmote end,
-							set = function(j,value)SV.db["Extras"].reactionEmote = value;MOD:ToggleReactions()end
-						},
-						threatbar = {
-							order = 7, 
-							type = "toggle", 
-							name = L['Threat Thermometer'], 
-							get = function(j)return SV.db["Extras"].threatbar end, 
-							set = function(j, value)SV.db["Extras"].threatbar = value;SV:StaticPopup_Show("RL_CLIENT")end
-						},
-						bubbles = {
-							order = 13,
-							type = "toggle",
-							name = L['Chat Bubbles Style'],
-							desc = L['Style the blizzard chat bubbles.'],
-							get = function(j)return SV.db["Extras"].bubbles end,
-							set = function(j,value)SV.db["Extras"].bubbles = value;SV:StaticPopup_Show("RL_CLIENT")end
+							set = function(j,value)SV.db["Extras"].reactionEmote = value;SV:ToggleReactions()end
 						},
 					}
 				},	

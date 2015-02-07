@@ -125,7 +125,7 @@ local GetAchievementRow = function(self, index)
 		row.Badge.Icon = row.Badge:CreateTexture(nil,"OVERLAY")
 		row.Badge.Icon:SetAllPoints(row.Badge);
 		row.Badge.Icon:SetTexture(LINE_ACHIEVEMENT_ICON)
-		row.Badge.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		row.Badge.Icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 
 		row.Header = CreateFrame("Frame", nil, row)
 		row.Header:SetPoint("TOPLEFT", row.Badge, "TOPRIGHT", 2, 0);
@@ -141,7 +141,7 @@ local GetAchievementRow = function(self, index)
 
 		row.Button = CreateFrame("Button", nil, row.Header)
 		row.Button:SetAllPoints(row.Header);
-		row.Button:SetStyle("Button", "Lite", 1, 1, 1)
+		row.Button:SetStyle("LiteButton")
 		row.Button:SetID(0)
 		row.Button:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 		row.Button:SetScript("OnClick", ViewButton_OnClick)

@@ -72,6 +72,9 @@ _G.SlashCmdList.RELOADUI = ReloadUI
 _G.SLASH_RELOADUI1 = "/rl"
 _G.SLASH_RELOADUI2 = "/reloadui"
 
+_G.SVUI_ICON_COORDS = {0.1, 0.9, 0.1, 0.9};
+--:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
+
 --[[ GET THE REGISTRY LIB ]]--
 
 local SVUILib = Librarian("Registry");
@@ -532,6 +535,7 @@ local function ShowErrors(msg)
     if(SV.DebugMode) then
         local ERRORSTRING = table.concat(SV.ERRORLOG, "\n\n");
         SV.ScriptError:DebugOutput(ERRORSTRING)
+        wipe(SV.ERRORLOG)
     else
         SV:AddonMessage("Debug Mode Not Enabled! Try using |cff00FF00/showerrors on|r")
     end

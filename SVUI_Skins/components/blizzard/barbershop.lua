@@ -37,8 +37,8 @@ local function BarberShopStyle()
 	for i = 1, 5 do 
 		local selector = _G["BarberShopFrameSelector"..i] 
 		if selector then
-			MOD:ApplyPaginationStyle(_G["BarberShopFrameSelector"..i.."Prev"])
-			MOD:ApplyPaginationStyle(_G["BarberShopFrameSelector"..i.."Next"])
+			SV.API:Set("PageButton", _G["BarberShopFrameSelector"..i.."Prev"])
+			SV.API:Set("PageButton", _G["BarberShopFrameSelector"..i.."Next"])
 			selector:ClearAllPoints()
 
 			if lastframe then 

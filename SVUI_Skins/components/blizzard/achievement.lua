@@ -96,7 +96,7 @@ local _hook_AchievementsUpdate = function()
 			if(iconbling) then iconbling:Die() end
 			if(iconover) then iconover:Die() end
 			if(icontex) then 
-				icontex:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+				icontex:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 				icontex:InsetPoints()
 			end
 			if(icon and not icon.Panel) then 
@@ -175,20 +175,20 @@ local function AchievementStyle()
 	AchievementFrameAchievementsContainer:SetStyle("Frame", "Default")
 	AchievementFrameAchievementsContainer.Panel:ModPoint("TOPLEFT", 0, 2)
 	AchievementFrameAchievementsContainer.Panel:ModPoint("BOTTOMRIGHT", -3, -3)
-	MOD:ApplyCloseButtonStyle(AchievementFrameCloseButton, AchievementFrame.Panel)
-	MOD:ApplyDropdownStyle(AchievementFrameFilterDropDown)
+	SV.API:Set("CloseButton", AchievementFrameCloseButton, AchievementFrame.Panel)
+	SV.API:Set("DropDown", AchievementFrameFilterDropDown)
 	AchievementFrameFilterDropDown:ModPoint("TOPRIGHT", AchievementFrame, "TOPRIGHT", -44, 5)
 
-	MOD:ApplyScrollFrameStyle(AchievementFrameCategoriesContainerScrollBar, 5)
-	MOD:ApplyScrollFrameStyle(AchievementFrameAchievementsContainerScrollBar, 5)
-	MOD:ApplyScrollFrameStyle(AchievementFrameStatsContainerScrollBar, 5)
-	MOD:ApplyScrollFrameStyle(AchievementFrameComparisonContainerScrollBar, 5)
-	MOD:ApplyScrollFrameStyle(AchievementFrameComparisonStatsContainerScrollBar, 5)
+	SV.API:Set("ScrollFrame", AchievementFrameCategoriesContainerScrollBar, 5)
+	SV.API:Set("ScrollFrame", AchievementFrameAchievementsContainerScrollBar, 5)
+	SV.API:Set("ScrollFrame", AchievementFrameStatsContainerScrollBar, 5)
+	SV.API:Set("ScrollFrame", AchievementFrameComparisonContainerScrollBar, 5)
+	SV.API:Set("ScrollFrame", AchievementFrameComparisonStatsContainerScrollBar, 5)
 
 	for i = 1, 3 do
 		local tab = _G["AchievementFrameTab"..i]
 		if(tab) then
-			MOD:ApplyTabStyle(tab)
+			SV.API:Set("Tab", tab)
 			tab:SetFrameLevel(tab:GetFrameLevel() + 2)
 		end
 	end 
@@ -221,7 +221,7 @@ local function AchievementStyle()
 	AchievementFrame:HookScript("OnShow", function(self)
 		if(self.containerStyled) then return end 
 		for i = 1, 20 do
-			MOD:ApplyItemButtonStyle(_G["AchievementFrameCategoriesContainerButton"..i])
+			SV.API:Set("ItemButton", _G["AchievementFrameCategoriesContainerButton"..i])
 		end 
 		self.containerStyled = true 
 	end)
@@ -278,7 +278,7 @@ local function AchievementStyle()
 				if(bling) then bling:Die() end
 				if(over) then over:Die() end
 				if(tex) then 
-					tex:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+					tex:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 					tex:InsetPoints()
 				end
 
@@ -342,7 +342,7 @@ local function AchievementStyle()
 			_G[d.."Icon"]:ModWidth(_G[d.."Icon"]:GetWidth()-14)
 			_G[d.."Icon"]:ClearAllPoints()
 			_G[d.."Icon"]:ModPoint("LEFT", 6, 0)
-			_G[d.."IconTexture"]:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+			_G[d.."IconTexture"]:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 			_G[d.."IconTexture"]:InsetPoints()
 		end 
 	end

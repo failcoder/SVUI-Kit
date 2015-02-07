@@ -489,7 +489,7 @@ local function SystemPanelQue()
 		x:WrapPoints(GhostFrameContentsFrameIcon)
 		local tex = x:CreateTexture(nil, "OVERLAY")
 		tex:SetTexture("Interface\\Icons\\spell_holy_guardianspirit")
-		tex:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		tex:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 		tex:InsetPoints()
 	end
 	for i = 1, #SystemFrameList5 do
@@ -606,7 +606,7 @@ local function SystemPanelQue()
 		local this = _G[SystemFrameList14[i]]
 		if(this) then
 			this:RemoveTextures()
-			MOD:ApplyTabStyle(this)
+			SV.API:Set("Tab", this)
 		end
 	end
 
@@ -627,7 +627,7 @@ local function SystemPanelQue()
 	for i = 1, #SystemFrameList16 do
 		local this = _G["InterfaceOptions"..SystemFrameList16[i]]
 		if(this) then
-			MOD:ApplyDropdownStyle(this)
+			SV.API:Set("DropDown", this)
 		end
 	end
 	InterfaceOptionsHelpPanelResetTutorials:SetStyle("Button")
@@ -640,7 +640,7 @@ local function SystemPanelQue()
 	for i = 1, #SystemFrameList18 do
 		local this = _G[SystemFrameList18[i]]
 		if(this) then
-			MOD:ApplyDropdownStyle(this, 165)
+			SV.API:Set("DropDown", this, 165)
 		end
 	end
 	for i = 1, #SystemFrameList19 do
@@ -665,7 +665,7 @@ local function SystemPanelQue()
 	for i = 1, #SystemFrameList21 do
 		local this = _G[SystemFrameList21[i]]
 		if(this) then
-			MOD:ApplyScrollBarStyle(this)
+			SV.API:Set("ScrollBar", this)
 		end
 	end
 	Graphics_RightQuality:SetBackdrop(nil)
@@ -682,10 +682,10 @@ local function SystemPanelQue()
 		MacOptionsFrameMovieRecording:RemoveTextures()
 		MacOptionsITunesRemote:RemoveTextures()
 		MacOptionsFrameMisc:RemoveTextures()
-		MOD:ApplyDropdownStyle(MacOptionsFrameResolutionDropDown)
-		MOD:ApplyDropdownStyle(MacOptionsFrameFramerateDropDown)
-		MOD:ApplyDropdownStyle(MacOptionsFrameCodecDropDown)
-		MOD:ApplyScrollBarStyle(MacOptionsFrameQualitySlider)
+		SV.API:Set("DropDown", MacOptionsFrameResolutionDropDown)
+		SV.API:Set("DropDown", MacOptionsFrameFramerateDropDown)
+		SV.API:Set("DropDown", MacOptionsFrameCodecDropDown)
+		SV.API:Set("ScrollBar", MacOptionsFrameQualitySlider)
 		for i = 1, 11 do
 			local this = _G["MacOptionsFrameCheckButton"..i]
 			if(this) then
@@ -722,8 +722,8 @@ local function SystemPanelQue()
 	SideDressUpModel:SetStyle("!_Frame", "ModelBorder")
 	SideDressUpModelResetButton:SetStyle("Button")
 	SideDressUpModelResetButton:SetPoint("BOTTOM", SideDressUpModel, "BOTTOM", 0, 20)
-	MOD:ApplyCloseButtonStyle(SideDressUpModelCloseButton)	
-	MOD:ApplyCloseButtonStyle(SideDressUpModelCloseButton)
+	SV.API:Set("CloseButton", SideDressUpModelCloseButton)	
+	SV.API:Set("CloseButton", SideDressUpModelCloseButton)
 end
 --[[ 
 ########################################################## 

@@ -33,10 +33,10 @@ local function MacroUIStyle()
 
 	MOD:ApplyWindowStyle(MacroFrame, true)
 
-	MOD:ApplyCloseButtonStyle(MacroFrameCloseButton)
-	MOD:ApplyScrollFrameStyle(MacroButtonScrollFrameScrollBar)
-	MOD:ApplyScrollFrameStyle(MacroFrameScrollFrameScrollBar)
-	MOD:ApplyScrollFrameStyle(MacroPopupScrollFrameScrollBar)
+	SV.API:Set("CloseButton", MacroFrameCloseButton)
+	SV.API:Set("ScrollFrame", MacroButtonScrollFrameScrollBar)
+	SV.API:Set("ScrollFrame", MacroFrameScrollFrameScrollBar)
+	SV.API:Set("ScrollFrame", MacroPopupScrollFrameScrollBar)
 
 	MacroFrame:ModWidth(360)
 
@@ -49,7 +49,7 @@ local function MacroUIStyle()
 			button:SetFrameStrata(parentStrata)
 			button:SetFrameLevel(parentLevel + 1)
 			button:RemoveTextures()
-			button:SetStyle("Button", false, 1, 1, 1)
+			button:SetStyle("Button")
 		end
 	end 
 
@@ -94,7 +94,7 @@ local function MacroUIStyle()
 	MacroFrameInset:Die()
 
 	MacroButtonContainer:RemoveTextures()
-	MOD:ApplyScrollFrameStyle(MacroButtonScrollFrame)
+	SV.API:Set("ScrollFrame", MacroButtonScrollFrame)
 	MacroButtonScrollFrame:SetStyle("!_Frame", "Inset")
 
 	MacroPopupFrame:HookScript("OnShow", function(c)
@@ -106,7 +106,7 @@ local function MacroUIStyle()
 	MacroFrameSelectedMacroButton:SetFrameLevel(parentLevel + 1)
 	MacroFrameSelectedMacroButton:RemoveTextures()
 	MacroFrameSelectedMacroButton:SetStyle("ActionSlot")
-	MacroFrameSelectedMacroButtonIcon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+	MacroFrameSelectedMacroButtonIcon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 	MacroFrameSelectedMacroButtonIcon:InsetPoints()
 
 	MacroEditButton:ClearAllPoints()
@@ -123,7 +123,7 @@ local function MacroUIStyle()
 
 			local icon = _G["MacroButton"..i.."Icon"]
 			if(icon) then
-				icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+				icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 				icon:InsetPoints()
 				icon:SetDrawLayer("OVERLAY")
 			end
@@ -137,7 +137,7 @@ local function MacroUIStyle()
 				local popupIcon = _G["MacroPopupButton"..i.."Icon"]
 				if(popupIcon) then
 					popupIcon:InsetPoints()
-					popupIcon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+					popupIcon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 				end
 			end 
 		end  

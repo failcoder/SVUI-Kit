@@ -75,6 +75,7 @@ MOD.Templates = {
     ["WindowAlternate"]  = "SVUI_CoreStyle_WindowAlternate",
 };
 MOD.Methods = {};
+MOD.Concepts = {};
 --[[ 
 ########################################################## 
 UI SCALING
@@ -635,14 +636,6 @@ local HideAlertFlash = function(self)
     SV.Animate:StopFlash(self.Panel.Shadow)
     self:ColorBorder(1,0.9,0, nil, true)
 end
-
-local CloseButton_OnEnter = function(self)
-    self:SetBackdropBorderColor(0.1, 0.8, 0.8)
-end
-
-local CloseButton_OnLeave = function(self)
-    self:SetBackdropBorderColor(0,0,0,1)
-end
 --[[ 
 ########################################################## 
 TEMPLATE HELPERS
@@ -805,180 +798,12 @@ function MOD:APPLY(frame, templateName, underlay, padding, xOffset, yOffset, def
 
     frame.Panel = panel;
 end
-
-function MOD:CLOSE_BUTTON(button)
-    if(not button or (button and button.Panel)) then return end
-    
-    RemoveTextures(button)
-    MOD:APPLY(button, "Button", true, 1, -5, -5, "red")
-
-    if(button.Left) then 
-        button.Left:SetAlpha(0)
-    end 
-
-    if(button.Middle) then 
-        button.Middle:SetAlpha(0)
-    end 
-
-    if(button.Right) then 
-        button.Right:SetAlpha(0)
-    end 
-
-    if(button.SetNormalTexture) then 
-        button:SetNormalTexture("")
-    end 
-
-    if(button.SetDisabledTexture) then 
-        button:SetDisabledTexture("")
-    end
-
-    if(button.SetCheckedTexture) then 
-        button:SetCheckedTexture("")
-    end
-
-    if(button.SetHighlightTexture) then
-        if(not button.hover) then
-            local hover = button:CreateTexture(nil, "HIGHLIGHT")
-            hover:InsetPoints(button.Panel)
-            button.hover = hover;
-        end
-        button.hover:SetTexture(0.1, 0.8, 0.8, 0.5)
-        button:SetHighlightTexture(button.hover) 
-    end
-
-    if(button.SetPushedTexture) then
-        if(not button.pushed) then 
-            local pushed = button:CreateTexture(nil, "OVERLAY")
-            pushed:InsetPoints(button.Panel)
-            button.pushed = pushed;
-        end
-        button.pushed:SetTexture(0.1, 0.8, 0.1, 0.3)
-        button:SetPushedTexture(button.pushed)
-    end
-
-    if(button.SetCheckedTexture) then
-        if(not button.checked) then
-            local checked = button:CreateTexture(nil, "OVERLAY")
-            checked:InsetPoints(button.Panel)
-            button.checked = checked
-        end
-        button.checked:SetTexture(SV.BaseTexture)
-        button.checked:SetVertexColor(0, 0.5, 0, 0.2)
-        button:SetCheckedTexture(button.checked)
-    end
-
-    MOD:CD(button)
-
-    button:SetFrameLevel(button:GetFrameLevel() + 4)
-    button:SetNormalTexture(SV.Media.icon.close)
-
-    if not button.hookedColors then 
-        button:HookScript("OnEnter", CloseButton_OnEnter)
-        button:HookScript("OnLeave", CloseButton_OnLeave)
-        button.hookedColors = true
-    end
-end
 --[[ 
 ########################################################## 
 UI ELEMENT METHODS
 ##########################################################
 ]]--
-MOD.Methods["Button"] = function(self, frame, inverse, alteration, overridePadding, xOffset, yOffset, keepNormal, defaultColor)
-    if(not frame or (frame and frame.Panel)) then return end
-
-    local padding = 1
-    if(overridePadding and type(overridePadding) == "number") then
-        padding = overridePadding
-    end
-
-    local x,y = -1,-1
-    if(xOffset or yOffset) then
-        x = xOffset or -1
-        y = yOffset or -1
-        inverse = true
-    end
-
-    if(alteration and (type(alteration) == 'boolean')) then
-        self:APPLY(frame, "Lite", inverse, padding, x, y, defaultColor)
-        frame:SetBackdropColor(0,0,0,0)
-        frame:SetBackdropBorderColor(0,0,0,0)
-        
-        if(frame.Panel.BorderLeft) then 
-            frame.Panel.BorderLeft:SetVertexColor(0,0,0,0)
-            frame.Panel.BorderRight:SetVertexColor(0,0,0,0)
-            frame.Panel.BorderTop:SetVertexColor(0,0,0,0)
-            frame.Panel.BorderBottom:SetVertexColor(0,0,0,0)
-        end
-    elseif(alteration and (type(alteration) == 'string')) then
-        self:APPLY(frame, alteration, inverse, padding, x, y, defaultColor)
-    else
-        self:APPLY(frame, "Button", inverse, padding, x, y, defaultColor)
-    end
-
-    if(frame.Left) then 
-        frame.Left:SetAlpha(0)
-    end 
-
-    if(frame.Middle) then 
-        frame.Middle:SetAlpha(0)
-    end 
-
-    if(frame.Right) then 
-        frame.Right:SetAlpha(0)
-    end 
-
-    if(frame.SetNormalTexture) then 
-        frame:SetNormalTexture("")
-    end 
-
-    if(frame.SetDisabledTexture) then 
-        frame:SetDisabledTexture("")
-    end
-
-    if(frame.SetCheckedTexture) then 
-        frame:SetCheckedTexture("")
-    end
-
-    if(frame.SetHighlightTexture) then
-        if(not frame.hover) then
-            local hover = frame:CreateTexture(nil, "HIGHLIGHT")
-            hover:InsetPoints(frame.Panel)
-            frame.hover = hover;
-        end
-        frame.hover:SetTexture(0.1, 0.8, 0.8, 0.5)
-        frame:SetHighlightTexture(frame.hover) 
-    end
-
-    if(frame.SetPushedTexture) then
-        if(not frame.pushed) then 
-            local pushed = frame:CreateTexture(nil, "OVERLAY")
-            pushed:InsetPoints(frame.Panel)
-            frame.pushed = pushed;
-        end
-        frame.pushed:SetTexture(0.1, 0.8, 0.1, 0.3)
-        frame:SetPushedTexture(frame.pushed)
-    end
-
-    if(frame.SetCheckedTexture) then
-        if(not frame.checked) then
-            local checked = frame:CreateTexture(nil, "OVERLAY")
-            checked:InsetPoints(frame.Panel)
-            frame.checked = checked
-        end
-        frame.checked:SetTexture(SV.BaseTexture)
-        frame.checked:SetVertexColor(0, 0.5, 0, 0.2)
-        frame:SetCheckedTexture(frame.checked)
-    end
-
-    self:CD(frame)
-end;
-
-MOD.Methods["ActionSlot"] = function(self, frame, inverse, addChecked)
-    if(not frame or (frame and frame.Panel)) then return end
-
-    local underlay = (not inverse)
-    self:APPLY(frame, "ActionSlot", underlay)
-
+local function CommonButtonSettings(frame, addChecked, noSwipe)
     if(frame.Left) then 
         frame.Left:SetAlpha(0)
     end 
@@ -1034,7 +859,47 @@ MOD.Methods["ActionSlot"] = function(self, frame, inverse, addChecked)
         frame:SetCheckedTexture(frame.checked)
     end
 
-    self:CD(frame, true)
+    MOD:CD(frame, noSwipe)
+end
+
+MOD.Methods["Button"] = function(self, frame, inverse, xOffset, yOffset, defaultColor)
+    if(not frame or (frame and frame.Panel)) then return end
+
+    local x,y = -1,-1
+    if(xOffset or yOffset) then
+        x = xOffset or -1
+        y = yOffset or -1
+        inverse = true
+    end
+
+    self:APPLY(frame, "Button", inverse, 1, x, y, defaultColor)
+    CommonButtonSettings(frame, true)
+end;
+
+MOD.Methods["LiteButton"] = function(self, frame, inverse, xOffset, yOffset, defaultColor)
+    if(not frame or (frame and frame.Panel)) then return end
+
+    local x,y = 1,1
+    if(xOffset or yOffset) then
+        x = xOffset or 1
+        y = yOffset or 1
+        inverse = true
+    end
+
+    self:APPLY(frame, "Lite", inverse, 1, x, y)
+    frame:SetBackdropColor(0,0,0,0)
+    frame:SetBackdropBorderColor(0,0,0,0)
+    CommonButtonSettings(frame, true)
+end;
+
+MOD.Methods["ActionSlot"] = function(self, frame, inverse, addChecked)
+    if(not frame or (frame and frame.Panel)) then return end
+
+    addChecked = addChecked or false;
+    local underlay = (not inverse)
+    self:APPLY(frame, "ActionSlot", underlay)
+
+    CommonButtonSettings(frame, addChecked, true)
 end;
 
 MOD.Methods["Checkbox"] = function(self, frame, inverse, x, y)
@@ -1239,12 +1104,6 @@ local SetStyle = function(self, method, ...)
         end
     end
 end
-
-hooksecurefunc("CreateFrame", function(this, globalName, parent, template)
-    if(template and template == "UIPanelCloseButton" and globalName) then
-        MOD:CLOSE_BUTTON(_G[globalName])
-    end
-end)
 --[[ 
 ########################################################## 
 HOOKED ATLAS HIJACKER
@@ -1495,6 +1354,434 @@ while CURRENT_OBJECT do
     AppendFrameMethods(CURRENT_OBJECT)
     CURRENT_OBJECT = EnumerateFrames(CURRENT_OBJECT)
 end
+--[[ 
+########################################################## 
+STYLING CONCEPTS
+##########################################################
+]]--
+local Button_OnEnter = function(self)
+    self:SetBackdropColor(0.1, 0.8, 0.8)
+end
+
+local Button_OnLeave = function(self)
+    self:SetBackdropColor(unpack(SV.Media.color.default))
+end
+
+local ConceptButton_OnEnter = function(self)
+    self:SetBackdropBorderColor(0.1, 0.8, 0.8)
+end
+
+local ConceptButton_OnLeave = function(self)
+    self:SetBackdropBorderColor(0,0,0,1)
+end
+
+local Tab_OnEnter = function(self)
+    self.backdrop:SetPanelColor("highlight")
+    self.backdrop:SetBackdropBorderColor(0.1, 0.8, 0.8)
+end
+
+local Tab_OnLeave = function(self)
+    self.backdrop:SetPanelColor("dark")
+    self.backdrop:SetBackdropBorderColor(0,0,0,1)
+end
+
+local _hook_DropDownButton_SetPoint = function(self, _, _, _, _, _, breaker)
+    if not breaker then
+        self:SetPoint("RIGHT", self.AnchorParent, "RIGHT", -10, 3, true)
+    end
+end
+
+MOD.Concepts["Frame"] = function(self, adjustable, frame, template, stripped, padding, xOffset, yOffset)
+    if(not frame or (frame and frame.Panel)) then return end
+    template = template or "Transparent"
+    local baselevel = frame:GetFrameLevel()
+    if(baselevel < 1) then 
+        frame:SetFrameLevel(1)
+    end
+    if(stripped) then
+        RemoveTextures(frame)
+    end
+    self.Methods["Frame"](self, frame, adjustable, template, true, padding, xOffset, yOffset)
+end
+
+MOD.Concepts["Window"] = function(self, adjustable, frame, altStyle, fullStrip, padding, xOffset, yOffset)
+    if(not frame or (frame and frame.Panel)) then return end
+    local template = altStyle and "WindowAlternate" or "Window"
+    local baselevel = frame:GetFrameLevel()
+    if(baselevel < 1) then 
+        frame:SetFrameLevel(1)
+    end
+    RemoveTextures(frame, fullStrip)
+    self.Methods["Frame"](self, frame, adjustable, template, false, padding, xOffset, yOffset)
+end
+
+MOD.Concepts["Button"] = function(self, adjustable, frame)
+    if(not frame or (frame and frame.Panel)) then return end
+    self.Methods["Button"](self, frame, adjustable)
+end
+
+MOD.Concepts["CloseButton"] = function(self, adjustable, frame, targetAnchor)
+    if(not frame or (frame and frame.Panel)) then return end
+    
+    RemoveTextures(frame)
+
+    self.Methods["Button"](self, frame, adjustable, -5, -5, "red")
+    frame:SetFrameLevel(frame:GetFrameLevel() + 4)
+    frame:SetNormalTexture(SV.Media.icon.close)
+    frame:HookScript("OnEnter", ConceptButton_OnEnter)
+    frame:HookScript("OnLeave", ConceptButton_OnLeave)
+
+    if(targetAnchor) then
+        frame:ClearAllPoints()
+        frame:SetPoint("TOPRIGHT", targetAnchor, "TOPRIGHT", 0, 0) 
+    end
+end
+
+MOD.Concepts["ArrowButton"] = function(self, adjustable, frame, direction, targetAnchor)
+    if(not frame or (frame and frame.Panel)) then return end
+    local iconKey = "move_" .. direction:lower()
+
+    RemoveTextures(frame)
+
+    self.Methods["Button"](self, frame, adjustable, -7, -7, "green")
+    frame:SetFrameLevel(frame:GetFrameLevel() + 4)
+    frame:SetNormalTexture(SV.Media.icon[iconKey])
+    frame:HookScript("OnEnter", ConceptButton_OnEnter)
+    frame:HookScript("OnLeave", ConceptButton_OnLeave)
+
+    if(targetAnchor) then
+        frame:ClearAllPoints()
+        frame:SetPoint("TOPRIGHT", targetAnchor, "TOPRIGHT", 0, 0) 
+    end
+end
+
+MOD.Concepts["ItemButton"] = function(self, adjustable, frame, adjustedIcon, noScript)
+    if(not frame) then return end 
+
+    RemoveTextures(frame)
+
+    if(not frame.Panel) then
+        self.Methods["Frame"](self, frame, adjustable, "Button", true, 1, -1, -1)
+        if(not noScript) then
+            frame:HookScript("OnEnter", Button_OnEnter)
+            frame:HookScript("OnLeave", Button_OnLeave)
+        end
+    end
+
+    local link = frame:GetName()
+
+    if(link) then
+        local nameObject = _G[("%sName"):format(link)]
+        local subNameObject = _G[("%sSubName"):format(link)]
+        local arrowObject = _G[("%sFlyoutArrow"):format(link)]
+        local levelObject = _G[("%sLevel"):format(link)]
+        local iconObject = _G[("%sIcon"):format(link)] or _G[("%sIconTexture"):format(link)]
+        local countObject = _G[("%sCount"):format(link)]
+
+        if(iconObject) then 
+            iconObject:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
+
+            if(adjustedIcon) then 
+                iconObject:InsetPoints(frame, 2, 2)
+            end 
+            if(not frame.IconShadow) then
+                frame.IconShadow = CreateFrame("Frame", nil, frame)
+                frame.IconShadow:WrapPoints(iconObject)
+                frame.IconShadow:SetStyle("Icon")
+            end
+        end
+
+        if(not frame.Riser) then
+            local fg = CreateFrame("Frame", nil, frame)
+            fg:SetSize(120, 22)
+            fg:SetPoint("BOTTOMLEFT", frame, "BOTTOMLEFT", 0, -11)
+            fg:SetFrameLevel(frame:GetFrameLevel() + 1)
+            frame.Riser = fg
+        end
+
+        if(countObject) then
+            countObject:SetParent(frame.Riser)
+            countObject:SetAllPoints(frame.Riser)
+            countObject:SetFontObject(SVUI_Font_Number)
+            countObject:SetDrawLayer("ARTWORK", 7)
+        end
+
+        if(nameObject) then nameObject:SetParent(frame.Riser) end
+        if(subNameObject) then subNameObject:SetParent(frame.Riser) end
+        if(arrowObject) then arrowObject:SetParent(frame.Riser) end
+
+        if(levelObject) then 
+            levelObject:SetParent(frame.Riser)
+            levelObject:SetFontObject(SVUI_Font_Number)
+            levelObject:SetDrawLayer("ARTWORK", 7)
+        end
+    end
+end
+
+MOD.Concepts["PageButton"] = function(self, adjustable, frame, isVertical)
+    if(not frame or (frame and not frame:GetName()) or (frame and frame.Panel)) then return end 
+
+    local bName = frame:GetName()
+    local testName = bName:lower()
+    local leftDown = ((bName and testName:find('left')) or testName:find('prev') or testName:find('decrement')) or false
+
+    RemoveTextures(frame)
+
+    frame:SetNormalTexture("")
+    frame:SetPushedTexture("")
+    frame:SetHighlightTexture("")
+    frame:SetDisabledTexture("")
+
+    self.Methods["Button"](self, frame, adjustable, -7, -7)
+
+    if not frame.icon then 
+        frame.icon = frame:CreateTexture(nil,'ARTWORK')
+        frame.icon:ModSize(13)
+        frame.icon:SetPoint('CENTER')
+        frame.icon:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\SQUAREBUTTON-TEXTURES]])
+        frame.icon:SetTexCoord(0.02, 0.2, 0.02, 0.2)
+
+        frame:SetScript('OnMouseDown',function(self)
+            if self:IsEnabled() then 
+                self.icon:SetPoint("CENTER",-1,-1)
+            end 
+        end)
+
+        frame:SetScript('OnMouseUp',function(self)
+            self.icon:SetPoint("CENTER",0,0)
+        end)
+
+        frame:SetScript('OnDisable',function(self)
+            SetDesaturation(self.icon, true)
+            self.icon:SetAlpha(0.5)
+        end)
+
+        frame:SetScript('OnEnable',function(self)
+            SetDesaturation(self.icon, false)
+            self.icon:SetAlpha(1.0)
+        end)
+
+        if not frame:IsEnabled() then 
+            frame:GetScript('OnDisable')(frame)
+        end 
+    end
+
+    if isVertical then 
+        if leftDown then SquareButton_SetIcon(frame,'UP') else SquareButton_SetIcon(frame,'DOWN')end 
+    else 
+        if leftDown then SquareButton_SetIcon(frame,'LEFT') else SquareButton_SetIcon(frame,'RIGHT')end 
+    end
+end
+
+MOD.Concepts["ScrollFrame"] = function(self, adjustable, frame, scale, yOffset)
+    if(not frame or (frame and frame.Panel)) then return end 
+
+    scale = scale or 5
+    local scrollName = frame:GetName()
+    local bg, track, top, bottom, mid, upButton, downButton
+    bg = _G[("%sBG"):format(scrollName)]
+    if(bg) then bg:SetTexture(0,0,0,0) end 
+    track = _G[("%sTrack"):format(scrollName)]
+    if(track) then track:SetTexture(0,0,0,0) end 
+    top = _G[("%sTop"):format(scrollName)]
+    if(top) then top:SetTexture(0,0,0,0) end 
+    bottom = _G[("%sBottom"):format(scrollName)]
+    if(bottom) then bottom:SetTexture(0,0,0,0) end 
+    mid = _G[("%sMiddle"):format(scrollName)]
+    if(mid) then mid:SetTexture(0,0,0,0) end 
+    upButton = _G[("%sScrollUpButton"):format(scrollName)]
+    downButton = _G[("%sScrollDownButton"):format(scrollName)]
+
+    if(upButton and downButton) then 
+        RemoveTextures(upButton)
+        if(not upButton.icon) then
+            local upW, upH = upButton:GetSize()
+            self.Concepts["PageButton"](self, false, upButton)
+            SquareButton_SetIcon(upButton, "UP")
+            upButton:ModSize(upW + scale, upH + scale)
+            if(yOffset) then
+                local anchor, parent, relative, xBase, yBase = upButton:GetPoint()
+                local yAdjust = (yOffset or 0) + yBase
+                upButton:ClearAllPoints()
+                upButton:SetPoint(anchor, parent, relative, xBase, yAdjust)
+            end
+        end 
+        RemoveTextures(downButton)
+        if(not downButton.icon) then
+            local dnW, dnH = downButton:GetSize() 
+            self.Concepts["PageButton"](self, false, downButton)
+            SquareButton_SetIcon(downButton, "DOWN")
+            downButton:ModSize(dnW + scale, dnH + scale)
+            if(yOffset) then
+                local anchor, parent, relative, xBase, yBase = downButton:GetPoint()
+                local yAdjust = ((yOffset or 0) * -1) + yBase
+                downButton:ClearAllPoints()
+                downButton:SetPoint(anchor, parent, relative, xBase, yAdjust)
+            end
+        end 
+        if(not frame.ScrollBG) then 
+            frame.ScrollBG = frame:CreateTexture(nil, "BACKGROUND")
+            frame.ScrollBG:SetPoint("TOPLEFT", upButton, "TOPLEFT", 1, -1)
+            frame.ScrollBG:SetPoint("BOTTOMRIGHT", downButton, "BOTTOMRIGHT", -1, 1)
+            frame.ScrollBG:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\GENERAL-BGTEX]])
+        end 
+        if(frame.SetThumbTexture) then 
+            frame:SetThumbTexture([[Interface\AddOns\SVUI_!Core\assets\textures\SCROLLBAR-KNOB]])
+        end
+    end
+end
+
+MOD.Concepts["ScrollBar"] = function(self, adjustable, frame)
+    if(not frame or (frame and (not frame.GetOrientation or frame.Panel))) then return end
+
+    if(frame:GetOrientation() == "VERTICAL") then 
+        frame:SetWidth(12)
+    else 
+        frame:SetHeight(12)
+        for i=1, frame:GetNumRegions() do 
+            local child = select(i, frame:GetRegions())
+            if(child and child:GetObjectType() == "FontString") then 
+                local anchor, parent, relative, x, y = child:GetPoint()
+                if relative:find("BOTTOM") then 
+                    child:SetPoint(anchor, parent, relative, x, y - 4)
+                end 
+            end 
+        end 
+    end
+
+    RemoveTextures(frame)
+
+    frame:SetBackdrop(nil)
+    self.Methods["Frame"](self, frame, adjustable, "Transparent", true)
+    frame:SetBackdropBorderColor(0.2,0.2,0.2)
+    frame:SetThumbTexture([[Interface\AddOns\SVUI_!Core\assets\textures\SCROLLBAR-KNOB]])
+end
+
+MOD.Concepts["Tab"] = function(self, adjustable, frame, addBackground, xOffset, yOffset)
+    if(not frame or (frame and frame.Panel)) then return end  
+
+    local tab = frame:GetName();
+
+    if _G[tab.."Left"] then _G[tab.."Left"]:SetTexture(0,0,0,0) end
+    if _G[tab.."LeftDisabled"] then _G[tab.."LeftDisabled"]:SetTexture(0,0,0,0) end
+    if _G[tab.."Right"] then _G[tab.."Right"]:SetTexture(0,0,0,0) end
+    if _G[tab.."RightDisabled"] then _G[tab.."RightDisabled"]:SetTexture(0,0,0,0) end
+    if _G[tab.."Middle"] then _G[tab.."Middle"]:SetTexture(0,0,0,0) end
+    if _G[tab.."MiddleDisabled"] then _G[tab.."MiddleDisabled"]:SetTexture(0,0,0,0) end
+
+    if(frame.GetHighlightTexture and frame:GetHighlightTexture()) then 
+        frame:GetHighlightTexture():SetTexture(0,0,0,0)
+    end
+
+    RemoveTextures(frame)
+
+    if(addBackground) then
+        local nTex = frame:GetNormalTexture()
+
+        if(nTex) then
+            nTex:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
+            InsetPoints(nTex, frame)
+        end
+
+        xOffset = xOffset or 1
+        yOffset = yOffset or 1
+
+        frame.pushed = true;
+        frame.backdrop = CreateFrame("Frame", nil, frame)
+        WrapPoints(frame.backdrop, frame, xOffset, yOffset)
+        frame.backdrop:SetFrameLevel(0)
+        frame.backdrop:SetBackdrop({
+            bgFile = [[Interface\BUTTONS\WHITE8X8]], 
+            tile = false, 
+            tileSize = 0,
+            edgeFile = SV.Media.border.shadow,
+            edgeSize = 3,
+            insets = {
+                left = 0,
+                right = 0,
+                top = 0,
+                bottom = 0
+            }
+        });
+        frame.backdrop:SetBackdropColor(0,0,0,1)
+        frame.backdrop:SetBackdropBorderColor(0,0,0,1)
+
+        local initialAnchor, anchorParent, relativeAnchor, xPosition, yPosition = frame:GetPoint()
+        frame:SetPoint(initialAnchor, anchorParent, relativeAnchor, 1, yPosition)
+    else
+        xOffset = xOffset or 10
+        yOffset = yOffset or 3
+        frame.backdrop = CreateFrame("Frame", nil, frame)
+        InsetPoints(frame.backdrop, frame, xOffset, yOffset);
+        if(frame:GetFrameLevel() > 0) then
+            frame.backdrop:SetFrameLevel(frame:GetFrameLevel() - 1)
+        end
+
+        self.Methods["Frame"](self, frame.backdrop, adjustable, "Default", true)
+    end
+
+    frame:HookScript("OnEnter", Tab_OnEnter)
+    frame:HookScript("OnLeave", Tab_OnLeave)
+end
+
+MOD.Concepts["DropDown"] = function(self, adjustable, frame, width)
+    if(not frame or (frame and frame.Panel)) then return end
+
+    local ddName = frame:GetName();
+    local ddText = _G[("%sText"):format(ddName)]
+    local ddButton = _G[("%sButton"):format(ddName)]
+
+    if not width then width = 155 end 
+
+    RemoveTextures(frame)
+    frame:SetWidth(width)
+
+    if(ddButton) then
+        if(ddText) then
+            ddText:SetPoint("RIGHT", ddButton, "LEFT", 2, 0)
+        end
+
+        ddButton:ClearAllPoints()
+        ddButton:SetPoint("RIGHT", frame, "RIGHT", -10, 3)
+        ddButton.AnchorParent = frame
+
+        hooksecurefunc(ddButton, "SetPoint", _hook_DropDownButton_SetPoint)
+
+        self.Concepts["PageButton"](self, false, ddButton, true)
+
+        local currentLevel = frame:GetFrameLevel()
+        if(currentLevel == 0) then
+            currentLevel = 1
+        end
+
+        if(not frame.BG) then 
+            frame.BG = frame:CreateTexture(nil, "BACKGROUND")
+            frame.BG:SetPoint("TOPLEFT", frame, "TOPLEFT", 18, -2)
+            frame.BG:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -10, 6)
+            frame.BG:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\GENERAL-BGTEX]])
+        end 
+    end
+end 
+
+function MOD:Set(concept, ...)
+    if(not concept) then return end
+    local conceptName, flags = concept:gsub("!_", "");
+    local adjustable = (flags and flags > 0);
+    local fn = self.Concepts[conceptName];
+    if(fn) then
+        local pass, catch = pcall(fn, self, adjustable, ...)
+        if(catch) then
+            SV:HandleError("API", "SetStyle", catch);
+            return
+        end
+    end
+end
+
+hooksecurefunc("CreateFrame", function(this, globalName, parent, template)
+    if(template and template == "UIPanelCloseButton" and globalName) then
+        MOD:Set("CloseButton", _G[globalName])
+    end
+end)
 --[[ 
 ########################################################## 
 LOAD

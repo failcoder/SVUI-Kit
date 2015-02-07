@@ -57,9 +57,10 @@ local StaticPopup_Hide      = _G.StaticPopup_Hide;
 local ERR_NOT_IN_COMBAT     = _G.ERR_NOT_IN_COMBAT;
 local InboxFrame_OnClick 	= _G.InboxFrame_OnClick;
 
-local SV = _G['SVUI']
-local L = SV.L
-local MOD = SV.Extras;
+local SV = select(2, ...);
+local L = SV.L;
+
+local MailMinion = _G["SVUI_MailMinion"];
 --[[ 
 ########################################################## 
 LOCAL VARS
@@ -77,12 +78,12 @@ LOCAL FUNCTIONS
 ]]--
 function GetAllMail()
 	if(GetInboxNumItems() == 0) then return end 
-	SVUI_GetMailButton:SetScript("OnClick", nil)
-	SVUI_GetGoldButton:SetScript("OnClick", nil)
-	SVUI_DeleteMailButton:SetScript("OnClick", nil)
+	MailMinion.GetMail:SetScript("OnClick", nil)
+	MailMinion.GetGold:SetScript("OnClick", nil)
+	MailMinion.Delete:SetScript("OnClick", nil)
 	baseInboxFrame_OnClick = InboxFrame_OnClick;
 	InboxFrame_OnClick = SV.fubar
-	SVUI_GetMailButton:RegisterEvent("UI_ERROR_MESSAGE")
+	MailMinion.GetMail:RegisterEvent("UI_ERROR_MESSAGE")
 	OpenMailItem(GetInboxNumItems())
 end 
 
@@ -111,7 +112,7 @@ function OpenMailItem(mail)
 	local numMail = GetInboxNumItems()
 	if itemCount and itemCount > 0 or numMail > 1 and mail <= numMail then 
 		lastopened = mail;
-		SVUI_GetMailButton:SetScript("OnUpdate",WaitForMail)
+		MailMinion.GetMail:SetScript("OnUpdate",WaitForMail)
 	else 
 		MiniMapMailFrame:Hide()
 		StopOpeningMail()
@@ -124,7 +125,7 @@ function WaitForMail(_, elapsed)
 		if not InboxFrame:IsVisible() then return StopOpeningMail("The Mailbox Minion Needs a Mailbox!") end 
 		mailElapsed = 0;
 		needsToWait = false;
-		SVUI_GetMailButton:SetScript("OnUpdate", nil)
+		MailMinion.GetMail:SetScript("OnUpdate", nil)
 		local _, _, _, _, money, CODAmount, _, itemCount = GetInboxHeaderInfo(lastopened)
 		if money > 0 or not takingOnlyCash and CODAmount <= 0 and itemCount and itemCount > 0 then
 			OpenMailItem(lastopened)
@@ -136,9 +137,9 @@ end
 
 function DeleteAllMail()
 	if(GetInboxNumItems() == 0) then return end 
-	SVUI_GetMailButton:SetScript("OnClick", nil)
-	SVUI_GetGoldButton:SetScript("OnClick", nil)
-	SVUI_DeleteMailButton:SetScript("OnClick", nil)
+	MailMinion.GetMail:SetScript("OnClick", nil)
+	MailMinion.GetGold:SetScript("OnClick", nil)
+	MailMinion.Delete:SetScript("OnClick", nil)
 	baseInboxFrame_OnClick = InboxFrame_OnClick;
 	InboxFrame_OnClick = SV.fubar
 	DeleteMailItem(GetInboxNumItems())
@@ -158,7 +159,7 @@ function DeleteMailItem(mail)
 	local numMail = GetInboxNumItems()
 	if(numMail > 1 and waitToDelete) then 
 		lastdeleted = mail;
-		SVUI_DeleteMailButton:SetScript("OnUpdate", WaitForDelete)
+		MailMinion.Delete:SetScript("OnUpdate", WaitForDelete)
 	else 
 		MiniMapMailFrame:Hide()
 		StopOpeningMail()
@@ -171,7 +172,7 @@ function WaitForDelete(_, elapsed)
 		if not InboxFrame:IsVisible() then return StopOpeningMail("The Mailbox Minion Needs a Mailbox!") end 
 		mailElapsed = 0;
 		waitToDelete = false;
-		SVUI_DeleteMailButton:SetScript("OnUpdate", nil)
+		MailMinion.Delete:SetScript("OnUpdate", nil)
 		local _, _, _, _, money, CODAmount, _, itemCount = GetInboxHeaderInfo(lastdeleted)
 		if(((not money) or (money and money == 0)) or ((not itemCount) or (itemCount and itemCount > 0))) then
 			DeleteMailItem(lastdeleted)
@@ -182,15 +183,15 @@ function WaitForDelete(_, elapsed)
 end
 
 function StopOpeningMail(msg, ...)
-	SVUI_GetMailButton:SetScript("OnUpdate", nil)
-	SVUI_DeleteMailButton:SetScript("OnUpdate", nil)
-	SVUI_GetMailButton:SetScript("OnClick", GetAllMail)
-	SVUI_DeleteMailButton:SetScript("OnClick", DeleteAllMail)
-	SVUI_GetGoldButton:SetScript("OnClick", GetAllMailCash)
+	MailMinion.GetMail:SetScript("OnUpdate", nil)
+	MailMinion.Delete:SetScript("OnUpdate", nil)
+	MailMinion.GetMail:SetScript("OnClick", GetAllMail)
+	MailMinion.Delete:SetScript("OnClick", DeleteAllMail)
+	MailMinion.GetGold:SetScript("OnClick", GetAllMailCash)
 	if baseInboxFrame_OnClick then
 		InboxFrame_OnClick = baseInboxFrame_OnClick 
 	end 
-	SVUI_GetMailButton:UnregisterEvent("UI_ERROR_MESSAGE")
+	MailMinion.GetMail:UnregisterEvent("UI_ERROR_MESSAGE")
 	takingOnlyCash = false;
 	total_cash = nil;
 	needsToWait = false;
@@ -209,6 +210,36 @@ local function FancifyMoneys(cash)
 		return("%d|cffeda55fc|r"):format(cash%100)
 	end 
 end
+
+local MailButton_OnEnter = function(self)
+	GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+	GameTooltip:AddLine(("%d messages"):format(GetInboxNumItems()), 1, 1, 1)
+	GameTooltip:Show()
+end
+
+local MailButton_OnLeave = function(self)
+	GameTooltip:Hide()
+end
+
+local MailButton_OnEvent = function(self, event, subEvent)
+	if(event == "UI_ERROR_MESSAGE") then 
+		if((subEvent == ERR_INV_FULL) or (subEvent == ERR_ITEM_MAX_COUNT)) then 
+			StopOpeningMail("Your bags are too full!")
+		end 
+	end 
+end
+
+local GoldButton_OnEnter = function(self)
+	if(not total_cash) then 
+		total_cash = 0;
+		for i = 0, GetInboxNumItems() do 
+			total_cash = total_cash + select(5, GetInboxHeaderInfo(i))
+		end 
+	end 
+	GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+	GameTooltip:AddLine(FancifyMoneys(total_cash), 1, 1, 1)
+	GameTooltip:Show()
+end
 --[[ 
 ########################################################## 
 MAIL HELPER
@@ -216,9 +247,9 @@ MAIL HELPER
 ]]--
 function SV:ToggleMailMinions()
 	if not SV.db.Extras.mailOpener then 
-		SVUI_MailMinion:Hide()
+		MailMinion:Hide()
 	else
-		SVUI_MailMinion:Show()
+		MailMinion:Show()
 	end 
 end 
 --[[ 
@@ -230,65 +261,23 @@ local function LoadMailMinions()
 	if IsAddOnLoaded("Postal") then 
 		SV.db.Extras.mailOpener = false
 	else
-		local SVUI_MailMinion = CreateFrame("Frame","SVUI_MailMinion",InboxFrame);
-		SVUI_MailMinion:SetWidth(150)
-		SVUI_MailMinion:SetHeight(25)
-		SVUI_MailMinion:SetPoint("CENTER",InboxFrame,"TOP",-22,-400)
+		MailMinion:Show()
 
-		local SVUI_GetMailButton=CreateFrame("Button","SVUI_GetMailButton",SVUI_MailMinion,"UIPanelButtonTemplate")
-		SVUI_GetMailButton:SetWidth(70)
-		SVUI_GetMailButton:SetHeight(25)
-		SVUI_GetMailButton:SetStyle("Button")
-		SVUI_GetMailButton:SetPoint("LEFT",SVUI_MailMinion,"LEFT",0,0)
-		SVUI_GetMailButton:SetText("Get All")
-		SVUI_GetMailButton:SetScript("OnClick",GetAllMail)
-		SVUI_GetMailButton:SetScript("OnEnter",function()
-			GameTooltip:SetOwner(SVUI_GetMailButton,"ANCHOR_RIGHT")
-			GameTooltip:AddLine(string.format("%d messages",GetInboxNumItems()),1,1,1)
-			GameTooltip:Show()
-		end)
-		SVUI_GetMailButton:SetScript("OnLeave",function()GameTooltip:Hide()end)
-		SVUI_GetMailButton:SetScript("OnEvent",function(l,m,h,n,o,p)
-			if m=="UI_ERROR_MESSAGE"then 
-				if h==ERR_INV_FULL or h==ERR_ITEM_MAX_COUNT then 
-					StopOpeningMail("Your bags are too full!")
-				end 
-			end 
-		end)
+		MailMinion.GetMail:SetStyle("Button")
+		MailMinion.GetMail:SetScript("OnClick",GetAllMail)
+		MailMinion.GetMail:SetScript("OnEnter", MailButton_OnEnter)
+		MailMinion.GetMail:SetScript("OnLeave", MailButton_OnLeave)
+		MailMinion.GetMail:SetScript("OnEvent", MailButton_OnEvent)
 		
-		local SVUI_GetGoldButton=CreateFrame("Button","SVUI_GetGoldButton",SVUI_MailMinion,"UIPanelButtonTemplate")
-		SVUI_GetGoldButton:SetWidth(70)
-		SVUI_GetGoldButton:SetHeight(25)
-		SVUI_GetGoldButton:SetStyle("Button")
-		SVUI_GetGoldButton:SetPoint("RIGHT",SVUI_MailMinion,"RIGHT",0,0)
-		SVUI_GetGoldButton:SetText("Get Gold")
-		SVUI_GetGoldButton:SetScript("OnClick",GetAllMailCash)
-		SVUI_GetGoldButton:SetScript("OnEnter",function()
-			if not total_cash then 
-				total_cash=0;
-				for a=0,GetInboxNumItems()do 
-					total_cash=total_cash + select(5,GetInboxHeaderInfo(a))
-				end 
-			end 
-			GameTooltip:SetOwner(SVUI_GetGoldButton,"ANCHOR_RIGHT")
-			GameTooltip:AddLine(FancifyMoneys(total_cash),1,1,1)
-			GameTooltip:Show()
-		end)
-		SVUI_GetGoldButton:SetScript("OnLeave",function()GameTooltip:Hide()end)
+		MailMinion.GetGold:SetStyle("Button")
+		MailMinion.GetGold:SetScript("OnClick", GetAllMailCash)
+		MailMinion.GetGold:SetScript("OnEnter", GoldButton_OnEnter)
+		MailMinion.GetGold:SetScript("OnLeave", MailButton_OnLeave)
 
-		local SVUI_DeleteMailButton=CreateFrame("Button","SVUI_DeleteMailButton",SVUI_MailMinion,"UIPanelButtonTemplate")
-		SVUI_DeleteMailButton:SetWidth(70)
-		SVUI_DeleteMailButton:SetHeight(25)
-		SVUI_DeleteMailButton:SetStyle("Button", false, false, false, false, false, "red")
-		SVUI_DeleteMailButton:SetPoint("TOPLEFT", InboxFrame, "TOPLEFT",16,-30)
-		SVUI_DeleteMailButton:SetText("Delete All")
-		SVUI_DeleteMailButton:SetScript("OnClick",DeleteAllMail)
-		SVUI_DeleteMailButton:SetScript("OnEnter",function()
-			GameTooltip:SetOwner(SVUI_DeleteMailButton,"ANCHOR_RIGHT")
-			GameTooltip:AddLine(string.format("%d messages",GetInboxNumItems()),1,1,1)
-			GameTooltip:Show()
-		end)
-		SVUI_DeleteMailButton:SetScript("OnLeave",function()GameTooltip:Hide()end)
+		MailMinion.Delete:SetStyle("Button", 1, 1, "red")
+		MailMinion.Delete:SetScript("OnClick", DeleteAllMail)
+		MailMinion.Delete:SetScript("OnEnter", MailButton_OnEnter)
+		MailMinion.Delete:SetScript("OnLeave", MailButton_OnLeave)
 
 		SV:ToggleMailMinions()
 	end

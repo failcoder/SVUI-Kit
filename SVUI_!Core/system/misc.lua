@@ -583,12 +583,8 @@ local ReactionListener_OnEvent = function(self, event, ...)
 		ChatLogEventHandler(...)
 	end
 end
---[[ 
-########################################################## 
-LOAD BY TRIGGER
-##########################################################
-]]--
-local function InitializeMisc()
+
+function SV:ToggleReactions()
 	local settings = SV.db.Extras
 
 	REACTION_INTERRUPT = settings.pvpinterrupt
@@ -609,9 +605,13 @@ local function InitializeMisc()
 	else
 		ReactionListener:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 	end
-
-	ReactionListener:SetScript("OnEvent", ReactionListener_OnEvent)
-
+end
+--[[ 
+########################################################## 
+LOAD BY TRIGGER
+##########################################################
+]]--
+local function InitializeMisc()
 	hooksecurefunc("MerchantItemButton_OnEnter", MaxStackTooltip);
 	hooksecurefunc("MerchantItemButton_OnModifiedClick", BuyMaxStack);
 
@@ -621,6 +621,9 @@ local function InitializeMisc()
 	if(not IsAddOnLoaded("DressingRoomFunctions")) then
 		CreateCharacterToggles()
 	end
+
+	SV:ToggleReactions()
+	ReactionListener:SetScript("OnEvent", ReactionListener_OnEvent)
 end
 
 SV.Events:On("CORE_INITIALIZED", InitializeMisc);

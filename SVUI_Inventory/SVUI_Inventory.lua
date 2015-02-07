@@ -462,7 +462,7 @@ local ContainerFrame_UpdateLayout = function(self)
 					bagSlot.icon = bagSlot:CreateTexture(nil, "BORDER");
 				end
 				bagSlot.icon:InsetPoints()
-				bagSlot.icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+				bagSlot.icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 
 				if(not bagSlot.tooltipText) then
 					bagSlot.tooltipText = ""
@@ -561,13 +561,13 @@ local ContainerFrame_UpdateLayout = function(self)
 					if(not self.Bags[bagID][slotID].icon) then
 						self.Bags[bagID][slotID].icon = self.Bags[bagID][slotID]:CreateTexture(nil, "BORDER");
 					end
-					self.Bags[bagID][slotID].icon:SetTexCoord(0.1, 0.9, 0.1, 0.9);
+					self.Bags[bagID][slotID].icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS));
 					self.Bags[bagID][slotID].icon:InsetPoints(self.Bags[bagID][slotID]);
 
 					self.Bags[bagID][slotID].questIcon = _G[questIcon] or self.Bags[bagID][slotID]:CreateTexture(nil, "OVERLAY")
 					self.Bags[bagID][slotID].questIcon:SetTexture(TEXTURE_ITEM_QUEST_BANG);
 					self.Bags[bagID][slotID].questIcon:InsetPoints(self.Bags[bagID][slotID]);
-					self.Bags[bagID][slotID].questIcon:SetTexCoord(0.1, 0.9, 0.1, 0.9);
+					self.Bags[bagID][slotID].questIcon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS));
 					
 					hooksecurefunc(self.Bags[bagID][slotID], "SetBackdropColor", function(self, r, g, b, a) if(self.HasQuestItem and (r ~= 1)) then self:SetBackdropColor(1,0.3,0.3,a) end end)
 					hooksecurefunc(self.Bags[bagID][slotID], "SetBackdropBorderColor", function(self, r, g, b, a) if(self.HasQuestItem and (r ~= 1)) then self:SetBackdropBorderColor(1,0.3,0.3,a) end end)
@@ -698,12 +698,12 @@ local ReagentFrame_UpdateLayout = function(self)
 
 			slot.icon = _G[iconName] or slot:CreateTexture(nil, "BORDER");
 			slot.icon:InsetPoints(slot);
-			slot.icon:SetTexCoord(0.1, 0.9, 0.1, 0.9);
+			slot.icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS));
 
 			slot.questIcon = _G[questIcon] or slot:CreateTexture(nil, "OVERLAY")
 			slot.questIcon:SetTexture(TEXTURE_ITEM_QUEST_BANG);
 			slot.questIcon:InsetPoints(slot);
-			slot.questIcon:SetTexCoord(0.1, 0.9, 0.1, 0.9);
+			slot.questIcon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS));
 
 			slot.cooldown = _G[cdName];
 
@@ -1291,7 +1291,7 @@ do
 			frame.currencyButton[h]:SetID(h)
 			frame.currencyButton[h].icon = frame.currencyButton[h]:CreateTexture(nil, "OVERLAY")
 			frame.currencyButton[h].icon:InsetPoints()
-			frame.currencyButton[h].icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+			frame.currencyButton[h].icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 			frame.currencyButton[h].text = frame.currencyButton[h]:CreateFontString(nil, "OVERLAY")
 			frame.currencyButton[h].text:ModPoint("LEFT", frame.currencyButton[h], "RIGHT", 2, 0)
 			frame.currencyButton[h].text:SetFontObject(SVUI_Font_Bag_Number)

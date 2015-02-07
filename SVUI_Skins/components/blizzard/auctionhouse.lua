@@ -86,14 +86,14 @@ local function AuctionStyle()
 	AuctionsScrollFrame:RemoveTextures()
 	BidScrollFrame:RemoveTextures()
 
-	MOD:ApplyCloseButtonStyle(AuctionFrameCloseButton)
-	MOD:ApplyScrollFrameStyle(AuctionsScrollFrameScrollBar)
+	SV.API:Set("CloseButton", AuctionFrameCloseButton)
+	SV.API:Set("ScrollFrame", AuctionsScrollFrameScrollBar)
 
-	MOD:ApplyDropdownStyle(BrowseDropDown)
-	MOD:ApplyDropdownStyle(PriceDropDown)
-	MOD:ApplyDropdownStyle(DurationDropDown)
-	MOD:ApplyScrollFrameStyle(BrowseFilterScrollFrameScrollBar)
-	MOD:ApplyScrollFrameStyle(BrowseScrollFrameScrollBar)
+	SV.API:Set("DropDown", BrowseDropDown)
+	SV.API:Set("DropDown", PriceDropDown)
+	SV.API:Set("DropDown", DurationDropDown)
+	SV.API:Set("ScrollFrame", BrowseFilterScrollFrameScrollBar)
+	SV.API:Set("ScrollFrame", BrowseScrollFrameScrollBar)
 	IsUsableCheckButton:SetStyle("Checkbox")
 	ShowOnPlayerCheckButton:SetStyle("Checkbox")
 	
@@ -124,8 +124,8 @@ local function AuctionStyle()
 	AuctionProgressBar:SetStatusBarTexture(SV.Media.bar.default)
 	AuctionProgressBar:SetStatusBarColor(1, 1, 0)
 
-	MOD:ApplyPaginationStyle(BrowseNextPageButton)
-	MOD:ApplyPaginationStyle(BrowsePrevPageButton)
+	SV.API:Set("PageButton", BrowseNextPageButton)
+	SV.API:Set("PageButton", BrowsePrevPageButton)
 
 	for _,gName in pairs(AuctionBidButtons) do
 		if(_G[gName]) then
@@ -147,7 +147,7 @@ local function AuctionStyle()
 	AuctionsItemButton:SetStyle("Button")
 	AuctionsItemButton:SetScript("OnUpdate", function()
 		if AuctionsItemButton:GetNormalTexture()then 
-			AuctionsItemButton:GetNormalTexture():SetTexCoord(0.1, 0.9, 0.1, 0.9)
+			AuctionsItemButton:GetNormalTexture():SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 			AuctionsItemButton:GetNormalTexture():InsetPoints()
 		end 
 	end)
@@ -158,9 +158,9 @@ local function AuctionStyle()
 		_G[frame.."Right"]:Die()
 	end 
 
-	MOD:ApplyTabStyle(_G["AuctionFrameTab1"])
-	MOD:ApplyTabStyle(_G["AuctionFrameTab2"])
-	MOD:ApplyTabStyle(_G["AuctionFrameTab3"])
+	SV.API:Set("Tab", _G["AuctionFrameTab1"])
+	SV.API:Set("Tab", _G["AuctionFrameTab2"])
+	SV.API:Set("Tab", _G["AuctionFrameTab3"])
 
 	AuctionFrameBrowse.bg1 = CreateFrame("Frame", nil, AuctionFrameBrowse)
 	AuctionFrameBrowse.bg1:ModPoint("TOPLEFT", 20, -103)
@@ -209,7 +209,7 @@ local function AuctionStyle()
 
 		if(button and (not button.Panel)) then 
 			button:RemoveTextures()
-			button:SetStyle("Button", false, 1, 1, 1)
+			button:SetStyle("Button")
 			button.Panel:ClearAllPoints()
 			button.Panel:SetPoint("TOPLEFT", button, "TOPLEFT", 0, 0)
 			button.Panel:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", 0, 5)
@@ -220,7 +220,7 @@ local function AuctionStyle()
 				if(buttonTex) then
 					buttonTex:SetParent(buttonItem.Panel)
 					buttonTex:InsetPoints(buttonItem.Panel, 2, 2)
-					buttonTex:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+					buttonTex:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 					buttonTex:SetDesaturated(false)
 				end
 
@@ -241,7 +241,7 @@ local function AuctionStyle()
 
 		if(button) then
 			if(buttonTex) then 
-				buttonTex:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+				buttonTex:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 				buttonTex:InsetPoints()
 				buttonTex:SetDesaturated(false)
 			end 
@@ -273,7 +273,7 @@ local function AuctionStyle()
 
 		if(button) then
 			if(buttonTex) then 
-				buttonTex:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+				buttonTex:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 				buttonTex:InsetPoints()
 				buttonTex:SetDesaturated(false)
 			end 

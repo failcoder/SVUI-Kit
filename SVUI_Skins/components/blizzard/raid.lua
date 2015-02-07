@@ -84,8 +84,8 @@ local function RaidInfoStyle()
 	RaidInfoFrame.Panel:ModPoint("TOPLEFT", RaidInfoFrame, "TOPLEFT")
 	RaidInfoFrame.Panel:ModPoint("BOTTOMRIGHT", RaidInfoFrame, "BOTTOMRIGHT")
 
-	MOD:ApplyCloseButtonStyle(RaidInfoCloseButton, RaidInfoFrame)
-	MOD:ApplyScrollFrameStyle(RaidInfoScrollFrameScrollBar)
+	SV.API:Set("CloseButton", RaidInfoCloseButton, RaidInfoFrame)
+	SV.API:Set("ScrollFrame", RaidInfoScrollFrameScrollBar)
 	
 	if RaidFrameRaidBrowserButton then RaidFrameRaidBrowserButton:SetStyle("Button") end
 	RaidFrameAllAssistCheckButton:SetStyle("Checkbox")

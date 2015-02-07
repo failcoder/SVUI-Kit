@@ -843,7 +843,7 @@ CONSTRUCTORS["arena"] = function(self, unit)
         icon:SetBackdropColor(0, 0, 0, 0)
         icon:SetBackdropBorderColor(0, 0, 0)
         icon.Icon = icon:CreateTexture(nil, "OVERLAY")
-        icon.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+        icon.Icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
         icon.Icon:InsetPoints(icon, 2, 2)
         prep.SpecIcon = icon
 

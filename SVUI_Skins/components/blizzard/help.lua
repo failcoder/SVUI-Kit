@@ -82,7 +82,7 @@ local function HelpFrameStyle()
 			e:RemoveTextures()
 		end 
 	end 
-	MOD:ApplyScrollFrameStyle(HelpFrameReportBugScrollFrameScrollBar)
+	SV.API:Set("ScrollFrame", HelpFrameReportBugScrollFrameScrollBar)
 	HelpFrameSubmitSuggestionScrollFrame:RemoveTextures()
 	HelpFrameSubmitSuggestionScrollFrame:SetStyle("Frame", "Default")
 	HelpFrameSubmitSuggestionScrollFrame.Panel:ModPoint("TOPLEFT", -4, 4)
@@ -93,7 +93,7 @@ local function HelpFrameStyle()
 			e:RemoveTextures()
 		end 
 	end 
-	MOD:ApplyScrollFrameStyle(HelpFrameSubmitSuggestionScrollFrameScrollBar)
+	SV.API:Set("ScrollFrame", HelpFrameSubmitSuggestionScrollFrameScrollBar)
 	HelpFrameTicketScrollFrame:RemoveTextures()
 	HelpFrameTicketScrollFrame:SetStyle("Frame", "Default")
 	HelpFrameTicketScrollFrame.Panel:ModPoint("TOPLEFT", -4, 4)
@@ -104,7 +104,7 @@ local function HelpFrameStyle()
 			e:RemoveTextures()
 		end 
 	end 
-	MOD:ApplyScrollFrameStyle(HelpFrameKnowledgebaseScrollFrame2ScrollBar)
+	SV.API:Set("ScrollFrame", HelpFrameKnowledgebaseScrollFrame2ScrollBar)
 	for d = 1, #HelpFrameButtonList do
 		_G[HelpFrameButtonList[d]]:RemoveTextures(true)
 		_G[HelpFrameButtonList[d]]:SetStyle("Button")
@@ -133,14 +133,14 @@ local function HelpFrameStyle()
 	HelpFrame:RemoveTextures(true)
 	HelpFrame:SetStyle("Frame", "Window")
 	HelpFrameKnowledgebaseSearchBox:SetStyle("Editbox")
-	MOD:ApplyScrollFrameStyle(HelpFrameKnowledgebaseScrollFrameScrollBar, 5)
-	MOD:ApplyScrollFrameStyle(HelpFrameTicketScrollFrameScrollBar, 4)
-	MOD:ApplyCloseButtonStyle(HelpFrameCloseButton, HelpFrame.Panel)
-	MOD:ApplyCloseButtonStyle(HelpFrameKnowledgebaseErrorFrameCloseButton, HelpFrameKnowledgebaseErrorFrame.Panel)
+	SV.API:Set("ScrollFrame", HelpFrameKnowledgebaseScrollFrameScrollBar, 5)
+	SV.API:Set("ScrollFrame", HelpFrameTicketScrollFrameScrollBar, 4)
+	SV.API:Set("CloseButton", HelpFrameCloseButton, HelpFrame.Panel)
+	SV.API:Set("CloseButton", HelpFrameKnowledgebaseErrorFrameCloseButton, HelpFrameKnowledgebaseErrorFrame.Panel)
 	HelpFrameCharacterStuckHearthstone:SetStyle("Button")
 	HelpFrameCharacterStuckHearthstone:SetStyle("!_Frame", "Default")
 	HelpFrameCharacterStuckHearthstone.IconTexture:InsetPoints()
-	HelpFrameCharacterStuckHearthstone.IconTexture:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+	HelpFrameCharacterStuckHearthstone.IconTexture:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 	hooksecurefunc("NavBar_AddButton", function(h, k)
 		local i = h.navList[#h.navList]
 		if not i.styled then

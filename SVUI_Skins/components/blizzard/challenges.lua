@@ -45,7 +45,7 @@ local function ChallengesFrameStyle()
     for A = 1, 2 do 
       local v = F["Reward"..A]
       v:SetStyle("Frame")
-      v.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+      v.Icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
     end 
   end 
 end 

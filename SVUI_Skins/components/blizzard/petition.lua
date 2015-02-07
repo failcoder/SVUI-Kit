@@ -30,7 +30,7 @@ local function PetitionFrameStyle()
 	PetitionFrameRenameButton:SetStyle("Button")
 	PetitionFrameCancelButton:SetStyle("Button")
 
-	MOD:ApplyCloseButtonStyle(PetitionFrameCloseButton)
+	SV.API:Set("CloseButton", PetitionFrameCloseButton)
 
 	PetitionFrameCharterTitle:SetTextColor(1, 1, 0)
 	PetitionFrameCharterName:SetTextColor(1, 1, 1)

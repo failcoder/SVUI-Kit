@@ -47,7 +47,7 @@ local function ChangeTabHelper(this)
   local nTex = this:GetNormalTexture()
   if(nTex) then
     nTex:SetTexture([[Interface\ICONS\INV_Enchant_VoidSphere]])
-    nTex:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+    nTex:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
     nTex:InsetPoints()
   end
 
@@ -104,7 +104,7 @@ local function VoidSlotStyler(name, index)
     if(bg) then bg:Hide() end
     button:SetStyle("ActionSlot")
     if(icon) then
-      icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+      icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
       icon:InsetPoints(button)
     end
     if(border) then
@@ -145,7 +145,7 @@ local function VoidStorageStyle()
   VoidStorageHelpBoxButton:SetStyle("Button")
   VoidStorageTransferButton:SetStyle("Button")
 
-  MOD:ApplyCloseButtonStyle(VoidStorageBorderFrame.CloseButton)
+  SV.API:Set("CloseButton", VoidStorageBorderFrame.CloseButton)
 
   VoidItemSearchBox:SetStyle("Frame", "Inset")
   VoidItemSearchBox.Panel:ModPoint("TOPLEFT", 10, -1)

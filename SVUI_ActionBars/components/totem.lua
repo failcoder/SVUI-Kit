@@ -163,7 +163,7 @@ function MOD:InitializeTotemBar()
 		
 		totem.Icon = totem:CreateTexture(nil, "ARTWORK")
 		totem.Icon:InsetPoints()
-		totem.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		totem.Icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 		totem.CD = CreateFrame("Cooldown", "SVUI_TotemBarTotem"..id.."Cooldown", totem, "CooldownFrameTemplate")
 		totem.CD:SetReverse(true)
 

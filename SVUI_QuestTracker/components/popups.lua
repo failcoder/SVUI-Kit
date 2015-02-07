@@ -98,7 +98,7 @@ local GetPopUpRow = function(self, index)
 		row.Badge.Icon = row.Badge:CreateTexture(nil,"OVERLAY")
 		row.Badge.Icon:InsetPoints(row.Badge);
 		row.Badge.Icon:SetTexture(MOD.media.incompleteIcon)
-		row.Badge.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		row.Badge.Icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 		row.Header = CreateFrame("Frame", nil, row.Button)
 		row.Header:ModPoint("TOPLEFT", row.Badge, "TOPRIGHT", 4, -1);
 		row.Header:ModPoint("BOTTOMRIGHT", row.Button, "BOTTOMRIGHT", -2, 2);

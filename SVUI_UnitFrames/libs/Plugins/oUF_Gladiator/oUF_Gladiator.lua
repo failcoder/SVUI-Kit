@@ -141,14 +141,12 @@ local Enable = function(self, unit)
 			if not trinket.Icon then
 				trinket.Icon = trinket:CreateTexture(nil, "BORDER")
 				trinket.Icon:SetAllPoints(trinket)
-				trinket.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 				trinket.Icon:SetTexture([[INTERFACE\ICONS\INV_MISC_QUESTIONMARK]])
 			end
 
 			if not trinket.Unavailable then
 				trinket.Unavailable = trinket:CreateTexture(nil, "OVERLAY")
 				trinket.Unavailable:SetAllPoints(trinket)
-				trinket.Unavailable:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 				trinket.Unavailable:SetTexture([[Interface\BUTTONS\UI-GroupLoot-Pass-Up]])
 			end
 			trinket:Show()
@@ -159,7 +157,6 @@ local Enable = function(self, unit)
 			if not badge.Icon then
 				badge.Icon = badge:CreateTexture(nil, "OVERLAY")
 				badge.Icon:SetAllPoints(badge)
-				badge.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
 				badge.Icon:SetTexture([[INTERFACE\ICONS\INV_MISC_QUESTIONMARK]])
 			end
 			badge:Show()

@@ -42,7 +42,7 @@ local function ChangeTabHelper(this)
 	this:RemoveTextures()
 	local nTex = this:GetNormalTexture()
 	if(nTex) then
-		nTex:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		nTex:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 		nTex:InsetPoints()
 	end
 
@@ -117,7 +117,7 @@ local function TalentFrameStyle()
 	PlayerTalentFrameSpecializationTutorialButton:Die()
 	PlayerTalentFrameTalentsTutorialButton:Die()
 	PlayerTalentFramePetSpecializationTutorialButton:Die()
-	MOD:ApplyCloseButtonStyle(PlayerTalentFrameCloseButton)
+	SV.API:Set("CloseButton", PlayerTalentFrameCloseButton)
 	PlayerTalentFrameActivateButton:SetStyle("Button")
 
 	for _,name in pairs(SpecButtonList)do
@@ -131,14 +131,14 @@ local function TalentFrameStyle()
 	end 
 
 	PlayerTalentFrameTalents:SetStyle("!_Frame", "Inset")
-	PlayerTalentFrameTalentsClearInfoFrame.icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+	PlayerTalentFrameTalentsClearInfoFrame.icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 	PlayerTalentFrameTalentsClearInfoFrame:ModWidth(PlayerTalentFrameTalentsClearInfoFrame:GetWidth()-2)
 	PlayerTalentFrameTalentsClearInfoFrame:ModHeight(PlayerTalentFrameTalentsClearInfoFrame:GetHeight()-2)
 	PlayerTalentFrameTalentsClearInfoFrame.icon:ModSize(PlayerTalentFrameTalentsClearInfoFrame:GetSize())
 	PlayerTalentFrameTalentsClearInfoFrame:ModPoint('TOPLEFT', PlayerTalentFrameTalents, 'BOTTOMLEFT', 8, -8)
 
 	for i = 1, 4 do
-		MOD:ApplyTabStyle(_G["PlayerTalentFrameTab"..i])
+		SV.API:Set("Tab", _G["PlayerTalentFrameTab"..i])
 		if i == 1 then 
 			local d, e, k, g = _G["PlayerTalentFrameTab"..i]:GetPoint()
 			_G["PlayerTalentFrameTab"..i]:ModPoint(d, e, k, g, -4)
@@ -183,7 +183,7 @@ local function TalentFrameStyle()
 			for z = 1, NUM_TALENT_COLUMNS do 
 				local talentItem = _G[("%sTalent%d"):format(gName, z)]
 				if(talentItem) then
-					MOD:ApplyItemButtonStyle(talentItem, false, true)
+					SV.API:Set("ItemButton", talentItem)
 				end
 			end
 		end
@@ -217,13 +217,13 @@ local function TalentFrameStyle()
 	C.ring:Hide()
 	C:SetStyle("!_Frame", "Inset")
 	C.Panel:WrapPoints(C.specIcon)
-	C.specIcon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+	C.specIcon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 
 	local D = _G["PlayerTalentFramePetSpecializationSpellScrollFrameScrollChild"]
 	D.ring:Hide()
 	D:SetStyle("!_Frame", "Inset")
 	D.Panel:WrapPoints(D.specIcon)
-	D.specIcon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+	D.specIcon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 
 	hooksecurefunc("PlayerTalentFrame_UpdateSpecFrame", function(self, arg1)
 		local arg2 = GetSpecialization(nil, self.isPet, PlayerSpecTab2:GetChecked() and 2 or 1)
@@ -250,7 +250,7 @@ local function TalentFrameStyle()
 					button:ModSize(30, 30)
 					button.ring:Hide()
 					button:SetStyle("!_Frame", "Inset")
-					button.icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+					button.icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 					button.icon:InsetPoints()
 				end 
 			end
@@ -276,7 +276,7 @@ local function TalentFrameStyle()
 			local _, _, _, icon = GetSpecializationInfo(b, false, nil)
 			button.ring:Hide()
 			button.specIcon:SetTexture(icon)
-			button.specIcon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+			button.specIcon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 			button.specIcon:SetSize(50, 50)
 			button.specIcon:ModPoint("LEFT", button, "LEFT", 15, 0)
 			button.SelectedTexture = button:CreateTexture(nil, 'ARTWORK')
@@ -323,7 +323,7 @@ local function TalentFrameStyle()
 			local p, p, p, icon = GetSpecializationInfo(b, false, true)
 			A.ring:Hide()
 			A.specIcon:SetTexture(icon)
-			A.specIcon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+			A.specIcon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 			A.specIcon:SetSize(50, 50)
 			A.specIcon:ModPoint("LEFT", A, "LEFT", 15, 0)
 			A.SelectedTexture = A:CreateTexture(nil, 'ARTWORK')
@@ -362,15 +362,15 @@ local function GlyphStyle()
 	GlyphFrameClearInfoFrame:ModHeight(GlyphFrameClearInfoFrame:GetHeight()-2)
 	GlyphFrameClearInfoFrame.icon:ModSize(GlyphFrameClearInfoFrame:GetSize())
 	GlyphFrameClearInfoFrame:ModPoint("TOPLEFT", GlyphFrame, "BOTTOMLEFT", 6, -10)
-	MOD:ApplyDropdownStyle(GlyphFrameFilterDropDown, 212)
+	SV.API:Set("DropDown", GlyphFrameFilterDropDown, 212)
 	GlyphFrameSearchBox:SetStyle("Editbox")
-	MOD:ApplyScrollFrameStyle(GlyphFrameScrollFrameScrollBar, 5)
+	SV.API:Set("ScrollFrame", GlyphFrameScrollFrameScrollBar, 5)
 
 	for b = 1, 10 do 
 		local e = _G["GlyphFrameScrollFrameButton"..b]
 		local icon = _G["GlyphFrameScrollFrameButton"..b.."Icon"]
 		e:RemoveTextures()
-		MOD:ApplyItemButtonStyle(e)
+		SV.API:Set("ItemButton", e)
 		icon:SetTexCoord(0.1, 0.9, 0.1, 0.9 )
 	end 
 

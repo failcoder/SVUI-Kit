@@ -51,7 +51,7 @@ local function BindingStyle()
 		end
 	end
 
-	MOD:ApplyScrollFrameStyle(KeyBindingFrameScrollFrameScrollBar)
+	SV.API:Set("ScrollFrame", KeyBindingFrameScrollFrameScrollBar)
 	KeyBindingFrame:RemoveTextures()
 	KeyBindingFrame:SetStyle("Frame", "Window")
 end

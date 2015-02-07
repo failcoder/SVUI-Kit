@@ -33,7 +33,7 @@ local StyleRewardIcon = function(self)
   if(icon) then
     local texture = icon:GetTexture()
     icon:SetTexture(texture)
-    icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+    icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
     icon:ClearAllPoints()
     icon:InsetPoints(self, 1, 1)
     icon:SetDesaturated(false)
@@ -62,7 +62,7 @@ end
 local GarrMission_Buttons = function(self)
   local frame = self:GetParent()
   if(frame) then
-    MOD:ApplyItemButtonStyle(frame)
+    SV.API:Set("ItemButton", frame)
   end
 end
 
@@ -107,8 +107,8 @@ local function StyleMasterPlan()
   SV:SetAtlasFilter("Garr_MissionList-IconBG");
 
 
-	MOD:ApplyTabStyle(GarrisonMissionFrameTab3)
-	MOD:ApplyTabStyle(GarrisonMissionFrameTab4)
+	SV.API:Set("Tab", GarrisonMissionFrameTab3)
+	SV.API:Set("Tab", GarrisonMissionFrameTab4)
 end 
 --[[ 
 ########################################################## 

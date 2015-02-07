@@ -22,12 +22,12 @@ local function WorldStateStyle()
 	WorldStateScoreScrollFrame:RemoveTextures()
 	WorldStateScoreFrame:RemoveTextures()
 	WorldStateScoreFrame:SetStyle("Frame", "Window")
-	MOD:ApplyCloseButtonStyle(WorldStateScoreFrameCloseButton)
-	MOD:ApplyScrollFrameStyle(WorldStateScoreScrollFrameScrollBar)
+	SV.API:Set("CloseButton", WorldStateScoreFrameCloseButton)
+	SV.API:Set("ScrollFrame", WorldStateScoreScrollFrameScrollBar)
 	WorldStateScoreFrameInset:SetAlpha(0)
 	WorldStateScoreFrameLeaveButton:SetStyle("Button")
 	for b = 1, 3 do 
-		MOD:ApplyTabStyle(_G["WorldStateScoreFrameTab"..b])
+		SV.API:Set("Tab", _G["WorldStateScoreFrameTab"..b])
 	end 
 end 
 --[[ 

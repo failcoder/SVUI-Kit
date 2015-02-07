@@ -25,7 +25,7 @@ local MissingLootFrame_OnShow = function(self)
   for i = 1, numMissing do 
     local slot = _G["MissingLootFrameItem"..i]
     local icon = slot.icon;
-    MOD:ApplyItemButtonStyle(slot, true)
+    SV.API:Set("ItemButton", slot, true)
     local texture, name, count, quality = GetMissingLootItemInfo(i);
     local r,g,b,hex = GetItemQualityColor(quality)
     if(not r) then
@@ -46,7 +46,7 @@ local LootHistoryFrame_OnUpdate = function(self)
       local Icon = frame.Icon:GetTexture()
       frame:RemoveTextures()
       frame.Icon:SetTexture(Icon)
-      frame.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+      frame.Icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 
       frame:SetStyle("!_Frame", "Button")
       frame.Panel:WrapPoints(frame.Icon)
@@ -67,7 +67,7 @@ local _hook_MasterLootFrame_OnShow = function()
     local colors = ITEM_QUALITY_COLORS[LootFrame.selectedQuality]
     item:RemoveTextures()
     icon:SetTexture(tex)
-    icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+    icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
     item:SetStyle("Frame", "Pattern")
     item.Panel:WrapPoints(icon)
     item:SetBackdropBorderColor(colors.r, colors.g, colors.b)
@@ -77,7 +77,7 @@ local _hook_MasterLootFrame_OnShow = function()
     if child and not child.isStyled and not child:GetName() then
       if child:GetObjectType() == "Button" then 
         if child:GetPushedTexture() then
-          MOD:ApplyCloseButtonStyle(child)
+          SV.API:Set("CloseButton", child)
         else
           child:SetStyle("!_Frame")
           child:SetStyle("Button")
@@ -106,13 +106,13 @@ local function LootHistoryStyle()
   MissingLootFrame:RemoveTextures()
   MissingLootFrame:SetStyle("Frame", "Pattern")
 
-  MOD:ApplyCloseButtonStyle(MissingLootFramePassButton)
+  SV.API:Set("CloseButton", MissingLootFramePassButton)
   hooksecurefunc("MissingLootFrame_Show", MissingLootFrame_OnShow)
   LootHistoryFrame:RemoveTextures()
-  MOD:ApplyCloseButtonStyle(LootHistoryFrame.CloseButton)
+  SV.API:Set("CloseButton", LootHistoryFrame.CloseButton)
   LootHistoryFrame:RemoveTextures()
   LootHistoryFrame:SetStyle("!_Frame", 'Transparent')
-  MOD:ApplyCloseButtonStyle(LootHistoryFrame.ResizeButton)
+  SV.API:Set("CloseButton", LootHistoryFrame.ResizeButton)
   LootHistoryFrame.ResizeButton:SetStyle("!_Frame")
   LootHistoryFrame.ResizeButton:ModWidth(LootHistoryFrame:GetWidth())
   LootHistoryFrame.ResizeButton:ModHeight(19)
@@ -127,7 +127,7 @@ local function LootHistoryStyle()
   txt:SetText("RESIZE")
 
   LootHistoryFrameScrollFrame:RemoveTextures()
-  MOD:ApplyScrollFrameStyle(LootHistoryFrameScrollFrameScrollBar)
+  SV.API:Set("ScrollFrame", LootHistoryFrameScrollFrameScrollBar)
   hooksecurefunc("LootHistoryFrame_FullUpdate", LootHistoryFrame_OnUpdate)
 
   MasterLooterFrame:RemoveTextures()
@@ -138,7 +138,7 @@ local function LootHistoryStyle()
 
   BonusRollFrame:RemoveTextures()
   MOD:ApplyAlertStyle(BonusRollFrame)
-  BonusRollFrame.PromptFrame.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+  BonusRollFrame.PromptFrame.Icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
   BonusRollFrame.PromptFrame.Timer.Bar:SetTexture(SV.Media.bar.default)
   BonusRollFrame.PromptFrame.Timer.Bar:SetVertexColor(0.1, 1, 0.1)
 end 

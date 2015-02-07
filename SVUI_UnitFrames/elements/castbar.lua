@@ -516,7 +516,7 @@ function MOD:CreateCastbar(frame, reversed, moverName, ryu, useFader, isBoss, ha
 
 	local buttonIcon = iconHolder:CreateTexture(nil, "BORDER")
 	buttonIcon:InsetPoints()
-	buttonIcon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+	buttonIcon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 	castbar.Icon = buttonIcon;
 
 	local shieldIcon = iconHolder:CreateTexture(nil, "ARTWORK")

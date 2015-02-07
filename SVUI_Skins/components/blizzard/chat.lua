@@ -434,7 +434,7 @@ local function ChatStyle()
 	for i = 1, #COMBAT_CONFIG_TABS do
 		local this = _G["CombatConfigTab"..i]
 		if(this) then
-			MOD:ApplyTabStyle(this)
+			SV.API:Set("Tab", this)
 			this:SetHeight(this:GetHeight()-2)
 			this:SetWidth(ceil(this:GetWidth()+1.6))
 			_G["CombatConfigTab"..i.."Text"]:SetPoint("BOTTOM", 0, 10)
@@ -465,12 +465,12 @@ local function ChatStyle()
 		end
 	end
 
-	MOD:ApplyPaginationStyle(ChatConfigMoveFilterUpButton,true)
-	MOD:ApplyPaginationStyle(ChatConfigMoveFilterDownButton,true)
-	MOD:ApplyPaginationStyle(CombatLogQuickButtonFrame_CustomAdditionalFilterButton,true)
+	SV.API:Set("PageButton", ChatConfigMoveFilterUpButton,true)
+	SV.API:Set("PageButton", ChatConfigMoveFilterDownButton,true)
+	SV.API:Set("PageButton", CombatLogQuickButtonFrame_CustomAdditionalFilterButton,true)
 
-	MOD:ApplyScrollBarStyle(SVUI_CopyChatScrollFrameScrollBar)
-	MOD:ApplyCloseButtonStyle(SVUI_CopyChatFrameCloseButton)
+	SV.API:Set("ScrollBar", SVUI_CopyChatScrollFrameScrollBar)
+	SV.API:Set("CloseButton", SVUI_CopyChatFrameCloseButton)
 
 	ChatConfigMoveFilterUpButton:ClearAllPoints()
 	ChatConfigMoveFilterDownButton:ClearAllPoints()

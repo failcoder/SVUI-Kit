@@ -56,18 +56,18 @@ local function StyleLightHeaded()
 	LightHeadedScrollFrame:RemoveTextures()
 			
 	lhframe.close:Hide()
-	MOD:ApplyCloseButtonStyle(lhframe.close)
+	SV.API:Set("CloseButton", lhframe.close)
 	lhframe.handle:Hide()
 	
-	MOD:ApplyPaginationStyle(lhsub.prev)
-	MOD:ApplyPaginationStyle(lhsub.next)
+	SV.API:Set("PageButton", lhsub.prev)
+	SV.API:Set("PageButton", lhsub.next)
 	lhsub.prev:SetWidth(16)
 	lhsub.prev:SetHeight(16)
 	lhsub.next:SetWidth(16)
 	lhsub.next:SetHeight(16)
 	lhsub.prev:SetPoint("RIGHT", lhsub.page, "LEFT", -25, 0)
 	lhsub.next:SetPoint("LEFT", lhsub.page, "RIGHT", 25, 0)
-	MOD:ApplyScrollFrameStyle(LightHeadedScrollFrameScrollBar, 5)
+	SV.API:Set("ScrollFrame", LightHeadedScrollFrameScrollBar, 5)
 	lhsub.title:SetTextColor(23/255, 132/255, 209/255)	
 	
 	lhframe.timeLapse = 0;

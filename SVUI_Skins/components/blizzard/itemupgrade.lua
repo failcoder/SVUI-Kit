@@ -24,7 +24,7 @@ local function ItemUpgradeStyle()
 	
 	MOD:ApplyWindowStyle(ItemUpgradeFrame, true)
 
-	MOD:ApplyCloseButtonStyle(ItemUpgradeFrameCloseButton)
+	SV.API:Set("CloseButton", ItemUpgradeFrameCloseButton)
 	ItemUpgradeFrameUpgradeButton:RemoveTextures()
 	ItemUpgradeFrameUpgradeButton:SetStyle("Button")
 	ItemUpgradeFrame.ItemButton:RemoveTextures()
@@ -33,7 +33,7 @@ local function ItemUpgradeStyle()
 	hooksecurefunc('ItemUpgradeFrame_Update', function()
 		if GetItemUpgradeItemInfo() then
 			ItemUpgradeFrame.ItemButton.IconTexture:SetAlpha(1)
-			ItemUpgradeFrame.ItemButton.IconTexture:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+			ItemUpgradeFrame.ItemButton.IconTexture:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 		else
 			ItemUpgradeFrame.ItemButton.IconTexture:SetAlpha(0)
 		end 

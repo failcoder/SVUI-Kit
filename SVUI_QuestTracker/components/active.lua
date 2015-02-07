@@ -326,7 +326,7 @@ function MOD:InitializeActive()
 
 	block.CloseButton = CreateFrame("Button", nil, block.Button, "UIPanelCloseButton")
 	block.CloseButton:RemoveTextures()
-	block.CloseButton:SetStyle("Button", nil, 1, -7, -7, nil, "red")
+	block.CloseButton:SetStyle("Button", -7, -7, "red")
 	block.CloseButton:SetFrameLevel(block.Button:GetFrameLevel() + 4)
 	block.CloseButton:SetNormalTexture(SV.Media.icon.close)
     block.CloseButton:HookScript("OnEnter", CloseButton_OnEnter)
@@ -344,7 +344,7 @@ function MOD:InitializeActive()
 	block.Badge.Icon = block.Badge:CreateTexture(nil,"OVERLAY")
 	block.Badge.Icon:InsetPoints(block.Badge);
 	block.Badge.Icon:SetTexture(MOD.media.incompleteIcon)
-	block.Badge.Icon:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+	block.Badge.Icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 
 	block.Header = CreateFrame("Frame", nil, block)
 	block.Header:SetPoint("TOPLEFT", block.Badge, "TOPRIGHT", 4, 0);
