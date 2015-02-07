@@ -171,7 +171,7 @@ local function EncounterJournalStyle()
   EncounterJournalInstanceSelectDungeonTab:SetStyle("Button")
   EncounterJournalInstanceSelectRaidTab:SetStyle("Button")
 
-  MOD:ApplyScrollBarStyle(EncounterJournalEncounterFrameInfoLootScrollBar)
+  SV.API:Set("ScrollBar", EncounterJournalEncounterFrameInfoLootScrollBar)
 
   local bgParent = EncounterJournal.encounter.instance
   local loreParent = EncounterJournal.encounter.instance.loreScroll

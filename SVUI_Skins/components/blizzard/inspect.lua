@@ -51,9 +51,9 @@ local function InspectStyle()
 	InspectFrame:RemoveTextures(true)
 	InspectFrameInset:RemoveTextures(true)
 	InspectFrame:SetStyle("Frame", "WindowAlternate")
-	MOD:ApplyCloseButtonStyle(InspectFrameCloseButton)
+	SV.API:Set("CloseButton", InspectFrameCloseButton)
 	for d = 1, 4 do
-		MOD:ApplyTabStyle(_G["InspectFrameTab"..d])
+		SV.API:Set("Tab", _G["InspectFrameTab"..d])
 	end 
 	InspectModelFrameBorderTopLeft:Die()
 	InspectModelFrameBorderTopRight:Die()

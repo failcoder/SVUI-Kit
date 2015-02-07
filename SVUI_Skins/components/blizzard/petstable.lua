@@ -25,16 +25,16 @@ local function PetStableStyle()
 	PetStableBottomInset:RemoveTextures()
 	PetStableFrame:SetStyle("Frame", "Window")
 	PetStableFrameInset:SetStyle("!_Frame", 'Inset')
-	MOD:ApplyCloseButtonStyle(PetStableFrameCloseButton)
+	SV.API:Set("CloseButton", PetStableFrameCloseButton)
 	PetStablePrevPageButton:SetStyle("Button")
 	PetStableNextPageButton:SetStyle("Button")
-	MOD:ApplyPaginationStyle(PetStablePrevPageButton)
-	MOD:ApplyPaginationStyle(PetStableNextPageButton)
+	SV.API:Set("PageButton", PetStablePrevPageButton)
+	SV.API:Set("PageButton", PetStableNextPageButton)
 	for j = 1, NUM_PET_ACTIVE_SLOTS do
-		 MOD:ApplyItemButtonStyle(_G['PetStableActivePet'..j], true)
+		 SV.API:Set("ItemButton", _G['PetStableActivePet'..j], true)
 	end 
 	for j = 1, NUM_PET_STABLE_SLOTS do
-		 MOD:ApplyItemButtonStyle(_G['PetStableStabledPet'..j], true)
+		 SV.API:Set("ItemButton", _G['PetStableStabledPet'..j], true)
 	end 
 	PetStableSelectedPetIcon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 end 

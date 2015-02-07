@@ -145,7 +145,7 @@ local function VoidStorageStyle()
   VoidStorageHelpBoxButton:SetStyle("Button")
   VoidStorageTransferButton:SetStyle("Button")
 
-  MOD:ApplyCloseButtonStyle(VoidStorageBorderFrame.CloseButton)
+  SV.API:Set("CloseButton", VoidStorageBorderFrame.CloseButton)
 
   VoidItemSearchBox:SetStyle("Frame", "Inset")
   VoidItemSearchBox.Panel:ModPoint("TOPLEFT", 10, -1)

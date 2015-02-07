@@ -117,7 +117,7 @@ local function TalentFrameStyle()
 	PlayerTalentFrameSpecializationTutorialButton:Die()
 	PlayerTalentFrameTalentsTutorialButton:Die()
 	PlayerTalentFramePetSpecializationTutorialButton:Die()
-	MOD:ApplyCloseButtonStyle(PlayerTalentFrameCloseButton)
+	SV.API:Set("CloseButton", PlayerTalentFrameCloseButton)
 	PlayerTalentFrameActivateButton:SetStyle("Button")
 
 	for _,name in pairs(SpecButtonList)do
@@ -138,7 +138,7 @@ local function TalentFrameStyle()
 	PlayerTalentFrameTalentsClearInfoFrame:ModPoint('TOPLEFT', PlayerTalentFrameTalents, 'BOTTOMLEFT', 8, -8)
 
 	for i = 1, 4 do
-		MOD:ApplyTabStyle(_G["PlayerTalentFrameTab"..i])
+		SV.API:Set("Tab", _G["PlayerTalentFrameTab"..i])
 		if i == 1 then 
 			local d, e, k, g = _G["PlayerTalentFrameTab"..i]:GetPoint()
 			_G["PlayerTalentFrameTab"..i]:ModPoint(d, e, k, g, -4)
@@ -183,7 +183,7 @@ local function TalentFrameStyle()
 			for z = 1, NUM_TALENT_COLUMNS do 
 				local talentItem = _G[("%sTalent%d"):format(gName, z)]
 				if(talentItem) then
-					MOD:ApplyItemButtonStyle(talentItem, false, true)
+					SV.API:Set("ItemButton", talentItem)
 				end
 			end
 		end
@@ -362,15 +362,15 @@ local function GlyphStyle()
 	GlyphFrameClearInfoFrame:ModHeight(GlyphFrameClearInfoFrame:GetHeight()-2)
 	GlyphFrameClearInfoFrame.icon:ModSize(GlyphFrameClearInfoFrame:GetSize())
 	GlyphFrameClearInfoFrame:ModPoint("TOPLEFT", GlyphFrame, "BOTTOMLEFT", 6, -10)
-	MOD:ApplyDropdownStyle(GlyphFrameFilterDropDown, 212)
+	SV.API:Set("DropDown", GlyphFrameFilterDropDown, 212)
 	GlyphFrameSearchBox:SetStyle("Editbox")
-	MOD:ApplyScrollFrameStyle(GlyphFrameScrollFrameScrollBar, 5)
+	SV.API:Set("ScrollFrame", GlyphFrameScrollFrameScrollBar, 5)
 
 	for b = 1, 10 do 
 		local e = _G["GlyphFrameScrollFrameButton"..b]
 		local icon = _G["GlyphFrameScrollFrameButton"..b.."Icon"]
 		e:RemoveTextures()
-		MOD:ApplyItemButtonStyle(e)
+		SV.API:Set("ItemButton", e)
 		icon:SetTexCoord(0.1, 0.9, 0.1, 0.9 )
 	end 
 

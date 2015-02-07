@@ -24,7 +24,7 @@ local function ItemSocketStyle()
 	ItemSocketingFrameInset:Die()
 	ItemSocketingScrollFrame:RemoveTextures()
 	ItemSocketingScrollFrame:SetStyle("Frame", "Inset", true)
-	MOD:ApplyScrollFrameStyle(ItemSocketingScrollFrameScrollBar, 2)
+	SV.API:Set("ScrollFrame", ItemSocketingScrollFrameScrollBar, 2)
 	for j = 1, MAX_NUM_SOCKETS do 
 		local i = _G[("ItemSocketingSocket%d"):format(j)];
 		local C = _G[("ItemSocketingSocket%dBracketFrame"):format(j)];
@@ -52,7 +52,7 @@ local function ItemSocketStyle()
 	ItemSocketingSocketButton:ClearAllPoints()
 	ItemSocketingSocketButton:ModPoint("BOTTOMRIGHT", ItemSocketingFrame, "BOTTOMRIGHT", -5, 5)
 	ItemSocketingSocketButton:SetStyle("Button")
-	MOD:ApplyCloseButtonStyle(ItemSocketingFrameCloseButton)
+	SV.API:Set("CloseButton", ItemSocketingFrameCloseButton)
 end 
 --[[ 
 ########################################################## 

@@ -68,7 +68,7 @@ local function TransmogStyle()
 	TransmogrifyApplyButton:RemoveTextures()
 	TransmogrifyApplyButton:SetStyle("Button")
 	TransmogrifyApplyButton:ModPoint("BOTTOMRIGHT", TransmogrifyFrame, "BOTTOMRIGHT", -4, 4)
-	MOD:ApplyCloseButtonStyle(TransmogrifyArtFrameCloseButton)
+	SV.API:Set("CloseButton", TransmogrifyArtFrameCloseButton)
 	TransmogrifyArtFrame:RemoveTextures()
 
 	for p, a9 in pairs(TransmogSlotList)do 
@@ -91,8 +91,8 @@ local function TransmogStyle()
 	TransmogrifyConfirmationPopup:SetStyle("Frame", "Pattern")
 	TransmogrifyConfirmationPopup.Button1:SetStyle("Button")
 	TransmogrifyConfirmationPopup.Button2:SetStyle("Button")
-	MOD:ApplyItemButtonStyle(TransmogrifyConfirmationPopupItemFrame1, true)
-	MOD:ApplyItemButtonStyle(TransmogrifyConfirmationPopupItemFrame2, true)
+	SV.API:Set("ItemButton", TransmogrifyConfirmationPopupItemFrame1, true)
+	SV.API:Set("ItemButton", TransmogrifyConfirmationPopupItemFrame2, true)
 end 
 --[[ 
 ########################################################## 

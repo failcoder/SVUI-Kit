@@ -43,7 +43,7 @@ local function Widget_OnLeave(b)
 end
 
 local function Widget_ScrollStyle(frame, arg)
-	return MOD:ApplyScrollFrameStyle(frame) 
+	return SV.API:Set("ScrollFrame", frame) 
 end 
 
 local function Widget_ButtonStyle(frame, strip, bypass)
@@ -61,7 +61,7 @@ local function Widget_ButtonStyle(frame, strip, bypass)
 end 
 
 local function Widget_PaginationStyle(...)
-	MOD:ApplyPaginationStyle(...)
+	SV.API:Set("PageButton", ...)
 end
 
 local NOOP = SV.fubar
@@ -102,7 +102,7 @@ local function StyleAceGUI(event, addon)
 			MOD:ApplyFixedFrameStyle(widgetFrame, "Default", true)
 			MOD:ApplyFrameStyle(widget.scrollBG, "Lite", true) 
 			Widget_ButtonStyle(widget.button)
-			MOD:ApplyScrollFrameStyle(widget.scrollBar) 
+			SV.API:Set("ScrollFrame", widget.scrollBar) 
 			widget.scrollBar:SetPoint("RIGHT", widgetFrame, "RIGHT", -4)
 			widget.scrollBG:SetPoint("TOPRIGHT", widget.scrollBar, "TOPLEFT", -2, 19)
 			widget.scrollBG:SetPoint("BOTTOMLEFT", widget.button, "TOPLEFT")
@@ -201,7 +201,7 @@ local function StyleAceGUI(event, addon)
 		-- print("RegisterAsContainer: " .. widgetType);
 		local widgetParent = widget.content:GetParent()
 		if widgetType == "ScrollFrame" then 
-			MOD:ApplyScrollFrameStyle(widget.scrollBar) 
+			SV.API:Set("ScrollFrame", widget.scrollBar) 
 		elseif widgetType == "Frame" then
 			for i = 1, widgetParent:GetNumChildren()do 
 				local childFrame = select(i, widgetParent:GetChildren())
@@ -244,7 +244,7 @@ local function StyleAceGUI(event, addon)
 			end
 
 			if widget.scrollbar then 
-				MOD:ApplyScrollFrameStyle(widget.scrollBar) 
+				SV.API:Set("ScrollFrame", widget.scrollBar) 
 			end 
 		end
 		return regContainer(self, widget)

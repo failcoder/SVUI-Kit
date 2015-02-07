@@ -201,7 +201,7 @@ local function PetBattleStyle()
 	local ActiveFramesList = { PetBattleFrame.ActiveAlly, PetBattleFrame.ActiveEnemy }
 	local StandardFramesList = { PetBattleFrame.Ally2, PetBattleFrame.Ally3, PetBattleFrame.Enemy2, PetBattleFrame.Enemy3 }
 
-	MOD:ApplyCloseButtonStyle(FloatingBattlePetTooltip.CloseButton)
+	SV.API:Set("CloseButton", FloatingBattlePetTooltip.CloseButton)
 	PetBattleFrame:RemoveTextures()
 	
 	for i, frame in pairs(ActiveFramesList) do 

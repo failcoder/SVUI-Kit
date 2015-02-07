@@ -86,14 +86,14 @@ local function AuctionStyle()
 	AuctionsScrollFrame:RemoveTextures()
 	BidScrollFrame:RemoveTextures()
 
-	MOD:ApplyCloseButtonStyle(AuctionFrameCloseButton)
-	MOD:ApplyScrollFrameStyle(AuctionsScrollFrameScrollBar)
+	SV.API:Set("CloseButton", AuctionFrameCloseButton)
+	SV.API:Set("ScrollFrame", AuctionsScrollFrameScrollBar)
 
-	MOD:ApplyDropdownStyle(BrowseDropDown)
-	MOD:ApplyDropdownStyle(PriceDropDown)
-	MOD:ApplyDropdownStyle(DurationDropDown)
-	MOD:ApplyScrollFrameStyle(BrowseFilterScrollFrameScrollBar)
-	MOD:ApplyScrollFrameStyle(BrowseScrollFrameScrollBar)
+	SV.API:Set("DropDown", BrowseDropDown)
+	SV.API:Set("DropDown", PriceDropDown)
+	SV.API:Set("DropDown", DurationDropDown)
+	SV.API:Set("ScrollFrame", BrowseFilterScrollFrameScrollBar)
+	SV.API:Set("ScrollFrame", BrowseScrollFrameScrollBar)
 	IsUsableCheckButton:SetStyle("Checkbox")
 	ShowOnPlayerCheckButton:SetStyle("Checkbox")
 	
@@ -124,8 +124,8 @@ local function AuctionStyle()
 	AuctionProgressBar:SetStatusBarTexture(SV.Media.bar.default)
 	AuctionProgressBar:SetStatusBarColor(1, 1, 0)
 
-	MOD:ApplyPaginationStyle(BrowseNextPageButton)
-	MOD:ApplyPaginationStyle(BrowsePrevPageButton)
+	SV.API:Set("PageButton", BrowseNextPageButton)
+	SV.API:Set("PageButton", BrowsePrevPageButton)
 
 	for _,gName in pairs(AuctionBidButtons) do
 		if(_G[gName]) then
@@ -158,9 +158,9 @@ local function AuctionStyle()
 		_G[frame.."Right"]:Die()
 	end 
 
-	MOD:ApplyTabStyle(_G["AuctionFrameTab1"])
-	MOD:ApplyTabStyle(_G["AuctionFrameTab2"])
-	MOD:ApplyTabStyle(_G["AuctionFrameTab3"])
+	SV.API:Set("Tab", _G["AuctionFrameTab1"])
+	SV.API:Set("Tab", _G["AuctionFrameTab2"])
+	SV.API:Set("Tab", _G["AuctionFrameTab3"])
 
 	AuctionFrameBrowse.bg1 = CreateFrame("Frame", nil, AuctionFrameBrowse)
 	AuctionFrameBrowse.bg1:ModPoint("TOPLEFT", 20, -103)

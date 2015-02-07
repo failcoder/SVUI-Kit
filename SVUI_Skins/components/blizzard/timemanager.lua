@@ -24,11 +24,11 @@ local function TimeManagerStyle()
 	
 	MOD:ApplyWindowStyle(TimeManagerFrame, true)
 
-	MOD:ApplyCloseButtonStyle(TimeManagerFrameCloseButton)
+	SV.API:Set("CloseButton", TimeManagerFrameCloseButton)
 	TimeManagerFrameInset:Die()
-	MOD:ApplyDropdownStyle(TimeManagerAlarmHourDropDown, 80)
-	MOD:ApplyDropdownStyle(TimeManagerAlarmMinuteDropDown, 80)
-	MOD:ApplyDropdownStyle(TimeManagerAlarmAMPMDropDown, 80)
+	SV.API:Set("DropDown", TimeManagerAlarmHourDropDown, 80)
+	SV.API:Set("DropDown", TimeManagerAlarmMinuteDropDown, 80)
+	SV.API:Set("DropDown", TimeManagerAlarmAMPMDropDown, 80)
 	TimeManagerAlarmMessageEditBox:SetStyle("Editbox")
 	TimeManagerAlarmEnabledButton:SetStyle("Checkbox")
 	TimeManagerMilitaryTimeCheck:SetStyle("Checkbox")
@@ -50,9 +50,9 @@ local function TimeManagerStyle()
 
 	StopwatchTabFrame:RemoveTextures()
 	
-	MOD:ApplyCloseButtonStyle(StopwatchCloseButton)
-	MOD:ApplyPaginationStyle(StopwatchPlayPauseButton)
-	MOD:ApplyPaginationStyle(StopwatchResetButton)
+	SV.API:Set("CloseButton", StopwatchCloseButton)
+	SV.API:Set("PageButton", StopwatchPlayPauseButton)
+	SV.API:Set("PageButton", StopwatchResetButton)
 	StopwatchPlayPauseButton:ModPoint("RIGHT", StopwatchResetButton, "LEFT", -4, 0)
 	StopwatchResetButton:ModPoint("BOTTOMRIGHT", StopwatchFrame, "BOTTOMRIGHT", -4, 6)
 end 

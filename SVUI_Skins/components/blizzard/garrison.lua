@@ -272,7 +272,7 @@ local function StyleUpdateRewards()
 	local self = GarrisonMissionFrame
     local missionButtons = self.MissionTab.MissionList.listScroll.buttons;
     for i = 1, #missionButtons do
-    	MOD:ApplyItemButtonStyle(missionButtons[i])
+    	SV.API:Set("ItemButton", missionButtons[i])
         StyleListButtons(missionButtons[i].Rewards)
     end
     StyleRewardButtons(self.MissionTab.MissionPage.RewardsFrame.Rewards);
@@ -312,8 +312,8 @@ local function LoadGarrisonStyle()
 	MOD:ApplyWindowStyle(GarrisonBuildingFrame, true)
 	MOD:ApplyWindowStyle(GarrisonLandingPage, true)
 
-	MOD:ApplyTabStyle(GarrisonMissionFrameTab1)
-	MOD:ApplyTabStyle(GarrisonMissionFrameTab2)
+	SV.API:Set("Tab", GarrisonMissionFrameTab1)
+	SV.API:Set("Tab", GarrisonMissionFrameTab2)
 
 	GarrisonBuildingFrameFollowers:RemoveTextures()
 	GarrisonBuildingFrameFollowers:SetStyle("Frame", 'Inset', true, 1, -5, -5)
@@ -325,15 +325,15 @@ local function LoadGarrisonStyle()
 	GarrisonBuildingFrame.TownHallBox:SetStyle("!_Frame", 'Inset')
 	GarrisonBuildingFrame.InfoBox:RemoveTextures()
 	GarrisonBuildingFrame.InfoBox:SetStyle("!_Frame", 'Inset')
-	--MOD:ApplyTabStyle(GarrisonBuildingFrame.BuildingList.Tab1)
+	--SV.API:Set("Tab", GarrisonBuildingFrame.BuildingList.Tab1)
 	GarrisonBuildingFrame.BuildingList.Tab1:GetNormalTexture().SetAtlas = function() return end
 	GarrisonBuildingFrame.BuildingList.Tab1:RemoveTextures(true)
 	GarrisonBuildingFrame.BuildingList.Tab1:SetStyle("Button", -4, -10)
-	--MOD:ApplyTabStyle(GarrisonBuildingFrame.BuildingList.Tab2)
+	--SV.API:Set("Tab", GarrisonBuildingFrame.BuildingList.Tab2)
 	GarrisonBuildingFrame.BuildingList.Tab2:GetNormalTexture().SetAtlas = function() return end
 	GarrisonBuildingFrame.BuildingList.Tab2:RemoveTextures(true)
 	GarrisonBuildingFrame.BuildingList.Tab2:SetStyle("Button", -4, -10)
-	--MOD:ApplyTabStyle(GarrisonBuildingFrame.BuildingList.Tab3)
+	--SV.API:Set("Tab", GarrisonBuildingFrame.BuildingList.Tab3)
 	GarrisonBuildingFrame.BuildingList.Tab3:GetNormalTexture().SetAtlas = function() return end
 	GarrisonBuildingFrame.BuildingList.Tab3:RemoveTextures(true)
 	GarrisonBuildingFrame.BuildingList.Tab3:SetStyle("Button", -4, -10)
@@ -360,8 +360,8 @@ local function LoadGarrisonStyle()
 	bgFrameTop:SetStyle("Frame", "Paper")
 	bgFrameTop:SetPanelColor("special")
 
-	MOD:ApplyTabStyle(GarrisonLandingPageTab1, nil, 10, 4)
-	MOD:ApplyTabStyle(GarrisonLandingPageTab2, nil, 10, 4)
+	SV.API:Set("Tab", GarrisonLandingPageTab1, nil, 10, 4)
+	SV.API:Set("Tab", GarrisonLandingPageTab2, nil, 10, 4)
 
 	local a1, p, a2, x, y = GarrisonLandingPageTab1:GetPoint()
 	GarrisonLandingPageTab1:SetPoint(a1, p, a2, x, (y - 15))
@@ -387,10 +387,10 @@ local function LoadGarrisonStyle()
 	GarrisonMissionFrameMissions.CompleteDialog.BorderFrame.ViewButton:SetStyle("Button")
 
 	GarrisonMissionFrameMissionsListScrollFrame:RemoveTextures()
-	MOD:ApplyScrollFrameStyle(GarrisonMissionFrameMissionsListScrollFrame)
+	SV.API:Set("ScrollFrame", GarrisonMissionFrameMissionsListScrollFrame)
 
-	MOD:ApplyTabStyle(GarrisonMissionFrameMissionsTab1, nil, 10, 4)
-	MOD:ApplyTabStyle(GarrisonMissionFrameMissionsTab2, nil, 10, 4)
+	SV.API:Set("Tab", GarrisonMissionFrameMissionsTab1, nil, 10, 4)
+	SV.API:Set("Tab", GarrisonMissionFrameMissionsTab2, nil, 10, 4)
 	local a1, p, a2, x, y = GarrisonMissionFrameMissionsTab1:GetPoint()
 	GarrisonMissionFrameMissionsTab1:SetPoint(a1, p, a2, x, (y + 8))
 
@@ -505,11 +505,11 @@ local function LoadGarrisonStyle()
 		GarrisonCapacitiveDisplayFrame.StartWorkOrderButton:SetStyle("Button")
 	end
 
-	MOD:ApplyScrollFrameStyle(GarrisonLandingPageReportListListScrollFrameScrollBar)
-	MOD:ApplyScrollFrameStyle(GarrisonMissionFrameMissionsListScrollFrameScrollBar)
-	MOD:ApplyScrollFrameStyle(GarrisonMissionFrameFollowersListScrollFrameScrollBar)
-	MOD:ApplyCloseButtonStyle(GarrisonLandingPage.CloseButton)
-	MOD:ApplyCloseButtonStyle(GarrisonMissionFrame.MissionTab.MissionPage.CloseButton)
+	SV.API:Set("ScrollFrame", GarrisonLandingPageReportListListScrollFrameScrollBar)
+	SV.API:Set("ScrollFrame", GarrisonMissionFrameMissionsListScrollFrameScrollBar)
+	SV.API:Set("ScrollFrame", GarrisonMissionFrameFollowersListScrollFrameScrollBar)
+	SV.API:Set("CloseButton", GarrisonLandingPage.CloseButton)
+	SV.API:Set("CloseButton", GarrisonMissionFrame.MissionTab.MissionPage.CloseButton)
 	GarrisonLandingPage.CloseButton:SetFrameStrata("HIGH")
 
 	for i = 1, GarrisonLandingPageReportListListScrollFrameScrollChild:GetNumChildren() do
@@ -521,12 +521,12 @@ local function LoadGarrisonStyle()
 		end
 	end
 
-	MOD:ApplyScrollFrameStyle(GarrisonLandingPageListScrollFrameScrollBar)
+	SV.API:Set("ScrollFrame", GarrisonLandingPageListScrollFrameScrollBar)
 
 	MOD:ApplyWindowStyle(GarrisonRecruiterFrame, true)
 	GarrisonRecruiterFrameInset:RemoveTextures()
 	GarrisonRecruiterFrameInset:SetStyle("!_Frame", "Inset")
-	MOD:ApplyDropdownStyle(GarrisonRecruiterFramePickThreatDropDown)
+	SV.API:Set("DropDown", GarrisonRecruiterFramePickThreatDropDown)
 	GarrisonRecruiterFrame.Pick.Radio1:SetStyle("!_Checkbox", false, -3, -3, true)
 	GarrisonRecruiterFrame.Pick.Radio2:SetStyle("!_Checkbox", false, -3, -3, true)
 

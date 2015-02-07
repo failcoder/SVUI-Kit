@@ -535,6 +535,7 @@ local function ShowErrors(msg)
     if(SV.DebugMode) then
         local ERRORSTRING = table.concat(SV.ERRORLOG, "\n\n");
         SV.ScriptError:DebugOutput(ERRORSTRING)
+        wipe(SV.ERRORLOG)
     else
         SV:AddonMessage("Debug Mode Not Enabled! Try using |cff00FF00/showerrors on|r")
     end

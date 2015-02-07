@@ -135,10 +135,10 @@ local function WorldMapStyle()
   MOD:ApplyWindowStyle(WorldMapFrame, true, true)
   WorldMapFrame.Panel:SetStyle("Frame", "Blackout")
 
-  MOD:ApplyScrollFrameStyle(QuestScrollFrameScrollBar)
-  MOD:ApplyScrollFrameStyle(WorldMapQuestScrollFrameScrollBar)
-  MOD:ApplyScrollFrameStyle(WorldMapQuestDetailScrollFrameScrollBar, 4)
-  MOD:ApplyScrollFrameStyle(WorldMapQuestRewardScrollFrameScrollBar, 4)
+  SV.API:Set("ScrollFrame", QuestScrollFrameScrollBar)
+  SV.API:Set("ScrollFrame", WorldMapQuestScrollFrameScrollBar)
+  SV.API:Set("ScrollFrame", WorldMapQuestDetailScrollFrameScrollBar, 4)
+  SV.API:Set("ScrollFrame", WorldMapQuestRewardScrollFrameScrollBar, 4)
 
   WorldMapDetailFrame:SetStyle("Frame", "Blackout")
   
@@ -146,15 +146,15 @@ local function WorldMapStyle()
   WorldMapFrameSizeUpButton:SetFrameLevel(999)
   WorldMapFrameCloseButton:SetFrameLevel(999)
 
-  MOD:ApplyCloseButtonStyle(WorldMapFrameCloseButton)
-  MOD:ApplyArrowButtonStyle(WorldMapFrameSizeDownButton, "down")
-  MOD:ApplyArrowButtonStyle(WorldMapFrameSizeUpButton, "up")
+  SV.API:Set("CloseButton", WorldMapFrameCloseButton)
+  SV.API:Set("ArrowButton", WorldMapFrameSizeDownButton, "down")
+  SV.API:Set("ArrowButton", WorldMapFrameSizeUpButton, "up")
 
-  MOD:ApplyDropdownStyle(WorldMapLevelDropDown)
-  MOD:ApplyDropdownStyle(WorldMapZoneMinimapDropDown)
-  MOD:ApplyDropdownStyle(WorldMapContinentDropDown)
-  MOD:ApplyDropdownStyle(WorldMapZoneDropDown)
-  MOD:ApplyDropdownStyle(WorldMapShowDropDown)
+  SV.API:Set("DropDown", WorldMapLevelDropDown)
+  SV.API:Set("DropDown", WorldMapZoneMinimapDropDown)
+  SV.API:Set("DropDown", WorldMapContinentDropDown)
+  SV.API:Set("DropDown", WorldMapZoneDropDown)
+  SV.API:Set("DropDown", WorldMapShowDropDown)
 
   StripQuestMapFrame()
 

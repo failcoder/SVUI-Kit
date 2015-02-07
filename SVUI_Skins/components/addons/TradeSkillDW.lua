@@ -40,14 +40,14 @@ local function StyleTradeSkillDW()
 	MOD:ApplyFrameStyle(TradeSkillGuildFrame,"Transparent")
 	MOD:ApplyFrameStyle(TradeSkillGuildFrameContainer,"Transparent")
 	TradeSkillGuildFrame:ModPoint("BOTTOMLEFT", TradeSkillFrame, "BOTTOMRIGHT", 3, 19)
-	MOD:ApplyCloseButtonStyle(TradeSkillGuildFrameCloseButton)
+	SV.API:Set("CloseButton", TradeSkillGuildFrameCloseButton)
 
 	TradeSkillFrame:HookScript("OnShow", function() 
 		MOD:ApplyFrameStyle(TradeSkillFrame) 
 		TradeSkillListScrollFrame:RemoveTextures() 
 		if not TradeSkillDWExpandButton then return end 
 		if not TradeSkillDWExpandButton.styled then 
-			MOD:ApplyPaginationStyle(TradeSkillDWExpandButton) 
+			SV.API:Set("PageButton", TradeSkillDWExpandButton) 
 			TradeSkillDWExpandButton.styled = true 
 		end
 	end)
@@ -69,8 +69,8 @@ local function StyleTradeSkillDW()
 	TradeSkillFrameSearchBox:SetStyle("Editbox")
 	TradeSkillInputBox:SetStyle("Editbox")
 	TradeSkillIncrementButton:ModPoint("RIGHT", TradeSkillCreateButton, "LEFT", -13, 0)
-	MOD:ApplyCloseButtonStyle(TradeSkillFrameCloseButton)
-	MOD:ApplyScrollFrameStyle(TradeSkillDetailScrollFrameScrollBar)
+	SV.API:Set("CloseButton", TradeSkillFrameCloseButton)
+	SV.API:Set("ScrollFrame", TradeSkillDetailScrollFrameScrollBar)
 	local once = false
 	hooksecurefunc("TradeSkillFrame_SetSelection", function(id)
 		TradeSkillSkillIcon:SetStyle("Button")
@@ -110,7 +110,7 @@ local function StyleTradeSkillDW()
 
 	TradeSkillDW_QueueFrame:HookScript("OnShow", function() MOD:ApplyFrameStyle(TradeSkillDW_QueueFrame,"Transparent") end)
 
-	MOD:ApplyCloseButtonStyle(TradeSkillDW_QueueFrameCloseButton)
+	SV.API:Set("CloseButton", TradeSkillDW_QueueFrameCloseButton)
 
 	TradeSkillDW_QueueFrameInset:RemoveTextures()
 	TradeSkillDW_QueueFrameClear:SetStyle("Button")
@@ -127,7 +127,7 @@ local function StyleTradeSkillDW()
 	TradeSkillDW_QueueFrameDetailScrollFrameChildFrameReagent6:RemoveTextures()
 	TradeSkillDW_QueueFrameDetailScrollFrameChildFrameReagent7:RemoveTextures()
 	TradeSkillDW_QueueFrameDetailScrollFrameChildFrameReagent8:RemoveTextures()
-	MOD:ApplyScrollFrameStyle(TradeSkillDW_QueueFrameDetailScrollFrameScrollBar)
+	SV.API:Set("ScrollFrame", TradeSkillDW_QueueFrameDetailScrollFrameScrollBar)
 	TradeSkillListScrollFrame:RemoveTextures()
 end
 MOD:SaveAddonStyle("TradeSkillDW", StyleTradeSkillDW)

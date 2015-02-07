@@ -56,7 +56,7 @@ local function TrainerStyle()
 		_G["ClassTrainerScrollFrameButton"..i].selectedTex:InsetPoints()
 	end
 
-	MOD:ApplyScrollFrameStyle(ClassTrainerScrollFrameScrollBar, 5)
+	SV.API:Set("ScrollFrame", ClassTrainerScrollFrameScrollBar, 5)
 
 	for _,frame in pairs(ClassTrainerFrameList)do
 		_G[frame]:RemoveTextures()
@@ -68,9 +68,9 @@ local function TrainerStyle()
 
 	_G["ClassTrainerTrainButton"]:RemoveTextures()
 	_G["ClassTrainerTrainButton"]:SetStyle("Button")
-	MOD:ApplyDropdownStyle(ClassTrainerFrameFilterDropDown, 155)
+	SV.API:Set("DropDown", ClassTrainerFrameFilterDropDown, 155)
 	ClassTrainerScrollFrame:SetStyle("!_Frame", "Inset")
-	MOD:ApplyCloseButtonStyle(ClassTrainerFrameCloseButton, ClassTrainerFrame)
+	SV.API:Set("CloseButton", ClassTrainerFrameCloseButton, ClassTrainerFrame)
 	ClassTrainerFrameSkillStepButton.icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 	ClassTrainerFrameSkillStepButton:SetStyle("!_Frame", "Button", true)
 	--ClassTrainerFrameSkillStepButton.Panel:WrapPoints(ClassTrainerFrameSkillStepButton.icon)

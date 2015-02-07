@@ -114,7 +114,7 @@ local function StyleClique()
 		end
 	end
 
-	MOD:ApplyCloseButtonStyle(CliqueDialog.CloseButton)
+	SV.API:Set("CloseButton", CliqueDialog.CloseButton)
 
 	CliqueConfigPage1:SetScript("OnShow", CliqueConfigPage1_OnShow)
 

@@ -256,11 +256,11 @@ local function CharacterFrameStyle()
 
 	MOD:ApplyAdjustedWindowStyle(CharacterFrame, true, true, 1, 3, 3)
 
-	MOD:ApplyCloseButtonStyle(CharacterFrameCloseButton)
-	MOD:ApplyScrollFrameStyle(CharacterStatsPaneScrollBar)
-	MOD:ApplyScrollFrameStyle(ReputationListScrollFrameScrollBar)
-	MOD:ApplyScrollFrameStyle(TokenFrameContainerScrollBar)
-	MOD:ApplyScrollFrameStyle(GearManagerDialogPopupScrollFrameScrollBar)
+	SV.API:Set("CloseButton", CharacterFrameCloseButton)
+	SV.API:Set("ScrollFrame", CharacterStatsPaneScrollBar)
+	SV.API:Set("ScrollFrame", ReputationListScrollFrameScrollBar)
+	SV.API:Set("ScrollFrame", TokenFrameContainerScrollBar)
+	SV.API:Set("ScrollFrame", GearManagerDialogPopupScrollFrameScrollBar)
 	
 	StyleCharacterSlots()
 
@@ -268,7 +268,7 @@ local function CharacterFrameStyle()
 	SlotListener:SetScript("OnEvent", StyleCharacterSlots)
 	CharacterFrame:HookScript("OnShow", StyleCharacterSlots)
 
-	MOD:ApplyPaginationStyle(CharacterFrameExpandButton)
+	SV.API:Set("PageButton", CharacterFrameExpandButton)
 
 	hooksecurefunc('CharacterFrame_Collapse', function()
 		CharacterFrameExpandButton:RemoveTextures()
@@ -286,8 +286,8 @@ local function CharacterFrameStyle()
 		 SquareButton_SetIcon(CharacterFrameExpandButton, 'LEFT')
 	end 
 
-	MOD:ApplyCloseButtonStyle(ReputationDetailCloseButton)
-	MOD:ApplyCloseButtonStyle(TokenFramePopupCloseButton)
+	SV.API:Set("CloseButton", ReputationDetailCloseButton)
+	SV.API:Set("CloseButton", TokenFramePopupCloseButton)
 	ReputationDetailAtWarCheckBox:SetStyle("Checkbox")
 	ReputationDetailMainScreenCheckBox:SetStyle("Checkbox")
 	ReputationDetailInactiveCheckBox:SetStyle("Checkbox")
@@ -298,8 +298,8 @@ local function CharacterFrameStyle()
 	EquipmentFlyoutFrame:HookScript("OnShow", EquipmentFlyout_OnShow)
 	hooksecurefunc("EquipmentFlyout_Show", EquipmentFlyout_OnShow)
 	CharacterFramePortrait:Die()
-	MOD:ApplyScrollFrameStyle(_G["PaperDollTitlesPaneScrollBar"], 5)
-	MOD:ApplyScrollFrameStyle(_G["PaperDollEquipmentManagerPaneScrollBar"], 5)
+	SV.API:Set("ScrollFrame", _G["PaperDollTitlesPaneScrollBar"], 5)
+	SV.API:Set("ScrollFrame", _G["PaperDollEquipmentManagerPaneScrollBar"], 5)
 
 	for _,gName in pairs(CharFrameList) do
 		if(_G[gName]) then _G[gName]:RemoveTextures(true) end
@@ -339,7 +339,7 @@ local function CharacterFrameStyle()
 	PaperDollEquipmentManagerPane:HookScript("OnShow", PaperDollEquipmentManagerPane_OnShow)
 
 	for i = 1, 4 do
-		 MOD:ApplyTabStyle(_G["CharacterFrameTab"..i])
+		 SV.API:Set("Tab", _G["CharacterFrameTab"..i])
 	end
 
 

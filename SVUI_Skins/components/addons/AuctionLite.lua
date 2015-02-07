@@ -58,11 +58,11 @@ local function StyleAuctionLite(event, ...)
   BuyScanButton:SetStyle("Button")
   SellCreateAuctionButton:SetStyle("Button")
 
-  MOD:ApplyPaginationStyle(BuyAdvancedButton)
-  MOD:ApplyPaginationStyle(SellRememberButton)
+  SV.API:Set("PageButton", BuyAdvancedButton)
+  SV.API:Set("PageButton", SellRememberButton)
 
-  MOD:ApplyTabStyle(AuctionFrameTab4)
-  MOD:ApplyTabStyle(AuctionFrameTab5)
+  SV.API:Set("Tab", AuctionFrameTab4)
+  SV.API:Set("Tab", AuctionFrameTab5)
 
   if(_G["AuctionFrameBuy"]) then
     BGHelper(_G["AuctionFrameBuy"])

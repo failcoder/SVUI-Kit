@@ -50,7 +50,7 @@ local function TradeSkillStyle()
 	TradeSkillGuildFrame:ModPoint("BOTTOMLEFT", TradeSkillFrame, "BOTTOMRIGHT", 3, 19)
 	TradeSkillGuildFrameContainer:RemoveTextures()
 	TradeSkillGuildFrameContainer:SetStyle("Frame", "Inset")
-	MOD:ApplyCloseButtonStyle(TradeSkillGuildFrameCloseButton)
+	SV.API:Set("CloseButton", TradeSkillGuildFrameCloseButton)
 
 	TradeSkillRankFrame:SetStyle("Frame", "Bar", true)
 	TradeSkillRankFrame:SetStatusBarTexture(SV.Media.bar.default)
@@ -66,8 +66,8 @@ local function TradeSkillStyle()
 	TradeSkillCreateAllButton:SetStyle("Button")
 	TradeSkillViewGuildCraftersButton:SetStyle("Button")
 
-	MOD:ApplyScrollFrameStyle(TradeSkillListScrollFrameScrollBar)
-	MOD:ApplyScrollFrameStyle(TradeSkillDetailScrollFrameScrollBar)
+	SV.API:Set("ScrollFrame", TradeSkillListScrollFrameScrollBar)
+	SV.API:Set("ScrollFrame", TradeSkillDetailScrollFrameScrollBar)
 
 	TradeSkillLinkButton:ModSize(17, 14)
 	TradeSkillLinkButton:ModPoint("LEFT", TradeSkillLinkFrame, "LEFT", 5, -1)
@@ -77,11 +77,11 @@ local function TradeSkillStyle()
 	TradeSkillFrameSearchBox:SetStyle("Editbox")
 	TradeSkillInputBox:SetStyle("Editbox")
 
-	MOD:ApplyPaginationStyle(TradeSkillDecrementButton)
-	MOD:ApplyPaginationStyle(TradeSkillIncrementButton)
+	SV.API:Set("PageButton", TradeSkillDecrementButton)
+	SV.API:Set("PageButton", TradeSkillIncrementButton)
 
 	TradeSkillIncrementButton:ModPoint("RIGHT", TradeSkillCreateButton, "LEFT", -13, 0)
-	MOD:ApplyCloseButtonStyle(TradeSkillFrameCloseButton)
+	SV.API:Set("CloseButton", TradeSkillFrameCloseButton)
 
 	TradeSkillSkillIcon:SetStyle("!_Frame", "Icon") 
 

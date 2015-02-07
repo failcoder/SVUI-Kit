@@ -1539,15 +1539,10 @@ function MOD:CombatToggle(noToggle)
 end
 
 function MOD:ReLoad()
-	if SV.db["NamePlates"].enable ~= true then 
-		self:DisableTracking()
-		return 
-	end
 	self:UpdateAllPlates();
 end 
 
 function MOD:Load()
-	if SV.db.NamePlates.enable ~= true then return end
 	self:UpdateLocals()
 	self:RegisterEvent("PLAYER_ENTERING_WORLD")
 	self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")

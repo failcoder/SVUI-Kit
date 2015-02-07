@@ -175,20 +175,20 @@ local function AchievementStyle()
 	AchievementFrameAchievementsContainer:SetStyle("Frame", "Default")
 	AchievementFrameAchievementsContainer.Panel:ModPoint("TOPLEFT", 0, 2)
 	AchievementFrameAchievementsContainer.Panel:ModPoint("BOTTOMRIGHT", -3, -3)
-	MOD:ApplyCloseButtonStyle(AchievementFrameCloseButton, AchievementFrame.Panel)
-	MOD:ApplyDropdownStyle(AchievementFrameFilterDropDown)
+	SV.API:Set("CloseButton", AchievementFrameCloseButton, AchievementFrame.Panel)
+	SV.API:Set("DropDown", AchievementFrameFilterDropDown)
 	AchievementFrameFilterDropDown:ModPoint("TOPRIGHT", AchievementFrame, "TOPRIGHT", -44, 5)
 
-	MOD:ApplyScrollFrameStyle(AchievementFrameCategoriesContainerScrollBar, 5)
-	MOD:ApplyScrollFrameStyle(AchievementFrameAchievementsContainerScrollBar, 5)
-	MOD:ApplyScrollFrameStyle(AchievementFrameStatsContainerScrollBar, 5)
-	MOD:ApplyScrollFrameStyle(AchievementFrameComparisonContainerScrollBar, 5)
-	MOD:ApplyScrollFrameStyle(AchievementFrameComparisonStatsContainerScrollBar, 5)
+	SV.API:Set("ScrollFrame", AchievementFrameCategoriesContainerScrollBar, 5)
+	SV.API:Set("ScrollFrame", AchievementFrameAchievementsContainerScrollBar, 5)
+	SV.API:Set("ScrollFrame", AchievementFrameStatsContainerScrollBar, 5)
+	SV.API:Set("ScrollFrame", AchievementFrameComparisonContainerScrollBar, 5)
+	SV.API:Set("ScrollFrame", AchievementFrameComparisonStatsContainerScrollBar, 5)
 
 	for i = 1, 3 do
 		local tab = _G["AchievementFrameTab"..i]
 		if(tab) then
-			MOD:ApplyTabStyle(tab)
+			SV.API:Set("Tab", tab)
 			tab:SetFrameLevel(tab:GetFrameLevel() + 2)
 		end
 	end 
@@ -221,7 +221,7 @@ local function AchievementStyle()
 	AchievementFrame:HookScript("OnShow", function(self)
 		if(self.containerStyled) then return end 
 		for i = 1, 20 do
-			MOD:ApplyItemButtonStyle(_G["AchievementFrameCategoriesContainerButton"..i])
+			SV.API:Set("ItemButton", _G["AchievementFrameCategoriesContainerButton"..i])
 		end 
 		self.containerStyled = true 
 	end)

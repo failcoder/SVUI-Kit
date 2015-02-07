@@ -33,10 +33,10 @@ local function MacroUIStyle()
 
 	MOD:ApplyWindowStyle(MacroFrame, true)
 
-	MOD:ApplyCloseButtonStyle(MacroFrameCloseButton)
-	MOD:ApplyScrollFrameStyle(MacroButtonScrollFrameScrollBar)
-	MOD:ApplyScrollFrameStyle(MacroFrameScrollFrameScrollBar)
-	MOD:ApplyScrollFrameStyle(MacroPopupScrollFrameScrollBar)
+	SV.API:Set("CloseButton", MacroFrameCloseButton)
+	SV.API:Set("ScrollFrame", MacroButtonScrollFrameScrollBar)
+	SV.API:Set("ScrollFrame", MacroFrameScrollFrameScrollBar)
+	SV.API:Set("ScrollFrame", MacroPopupScrollFrameScrollBar)
 
 	MacroFrame:ModWidth(360)
 
@@ -94,7 +94,7 @@ local function MacroUIStyle()
 	MacroFrameInset:Die()
 
 	MacroButtonContainer:RemoveTextures()
-	MOD:ApplyScrollFrameStyle(MacroButtonScrollFrame)
+	SV.API:Set("ScrollFrame", MacroButtonScrollFrame)
 	MacroButtonScrollFrame:SetStyle("!_Frame", "Inset")
 
 	MacroPopupFrame:HookScript("OnShow", function(c)

@@ -859,7 +859,7 @@ local function CommonButtonSettings(frame, addChecked, noSwipe)
         frame:SetCheckedTexture(frame.checked)
     end
 
-    self:CD(frame, noSwipe)
+    MOD:CD(frame, noSwipe)
 end
 
 MOD.Methods["Button"] = function(self, frame, inverse, xOffset, yOffset, defaultColor)
@@ -1456,11 +1456,17 @@ MOD.Concepts["ArrowButton"] = function(self, adjustable, frame, direction, targe
 end
 
 MOD.Concepts["ItemButton"] = function(self, adjustable, frame, adjustedIcon, noScript)
-    if(not frame or (frame and frame.Panel)) then return end 
+    if(not frame) then return end 
 
     RemoveTextures(frame)
 
-    self.Methods["Frame"](self, frame, adjustable, "Button", true, 1, -1, -1)
+    if(not frame.Panel) then
+        self.Methods["Frame"](self, frame, adjustable, "Button", true, 1, -1, -1)
+        if(not noScript) then
+            frame:HookScript("OnEnter", Button_OnEnter)
+            frame:HookScript("OnLeave", Button_OnLeave)
+        end
+    end
 
     local link = frame:GetName()
 
@@ -1472,23 +1478,26 @@ MOD.Concepts["ItemButton"] = function(self, adjustable, frame, adjustedIcon, noS
         local iconObject = _G[("%sIcon"):format(link)] or _G[("%sIconTexture"):format(link)]
         local countObject = _G[("%sCount"):format(link)]
 
-        if(iconObject and not frame.IconShadow) then 
+        if(iconObject) then 
             iconObject:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 
             if(adjustedIcon) then 
                 iconObject:InsetPoints(frame, 2, 2)
             end 
-
-            frame.IconShadow = CreateFrame("Frame", nil, frame)
-            frame.IconShadow:WrapPoints(iconObject)
-            frame.IconShadow:SetStyle("Icon")
+            if(not frame.IconShadow) then
+                frame.IconShadow = CreateFrame("Frame", nil, frame)
+                frame.IconShadow:WrapPoints(iconObject)
+                frame.IconShadow:SetStyle("Icon")
+            end
         end
 
-        local fg = CreateFrame("Frame", nil, frame)
-        fg:SetSize(120, 22)
-        fg:SetPoint("BOTTOMLEFT", frame, "BOTTOMLEFT", 0, -11)
-        fg:SetFrameLevel(frame:GetFrameLevel() + 1)
-        frame.Riser = fg
+        if(not frame.Riser) then
+            local fg = CreateFrame("Frame", nil, frame)
+            fg:SetSize(120, 22)
+            fg:SetPoint("BOTTOMLEFT", frame, "BOTTOMLEFT", 0, -11)
+            fg:SetFrameLevel(frame:GetFrameLevel() + 1)
+            frame.Riser = fg
+        end
 
         if(countObject) then
             countObject:SetParent(frame.Riser)
@@ -1506,11 +1515,6 @@ MOD.Concepts["ItemButton"] = function(self, adjustable, frame, adjustedIcon, noS
             levelObject:SetFontObject(SVUI_Font_Number)
             levelObject:SetDrawLayer("ARTWORK", 7)
         end
-    end
-
-    if(not noScript) then
-        frame:HookScript("OnEnter", Button_OnEnter)
-        frame:HookScript("OnLeave", Button_OnLeave)
     end
 end
 
@@ -1617,8 +1621,8 @@ MOD.Concepts["ScrollFrame"] = function(self, adjustable, frame, scale, yOffset)
         end 
         if(not frame.ScrollBG) then 
             frame.ScrollBG = frame:CreateTexture(nil, "BACKGROUND")
-            frame.ScrollBG:SetPoint("TOPLEFT", upButton, "TOPLEFT", -1, 1)
-            frame.ScrollBG:SetPoint("BOTTOMRIGHT", downButton, "BOTTOMRIGHT", 1, -1)
+            frame.ScrollBG:SetPoint("TOPLEFT", upButton, "TOPLEFT", 1, -1)
+            frame.ScrollBG:SetPoint("BOTTOMRIGHT", downButton, "BOTTOMRIGHT", -1, 1)
             frame.ScrollBG:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\GENERAL-BGTEX]])
         end 
         if(frame.SetThumbTexture) then 
@@ -1713,7 +1717,7 @@ MOD.Concepts["Tab"] = function(self, adjustable, frame, addBackground, xOffset, 
             frame.backdrop:SetFrameLevel(frame:GetFrameLevel() - 1)
         end
 
-        self.Methods["Frame"](self, frame.backdrop, adjustable, "DockButton", true)
+        self.Methods["Frame"](self, frame.backdrop, adjustable, "Default", true)
     end
 
     frame:HookScript("OnEnter", Tab_OnEnter)
@@ -1752,17 +1756,17 @@ MOD.Concepts["DropDown"] = function(self, adjustable, frame, width)
 
         if(not frame.BG) then 
             frame.BG = frame:CreateTexture(nil, "BACKGROUND")
-            frame.BG:SetPoint("TOPLEFT", frame, "TOPLEFT", -4, 4)
-            frame.BG:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 4, -4)
+            frame.BG:SetPoint("TOPLEFT", frame, "TOPLEFT", 18, -2)
+            frame.BG:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -10, 6)
             frame.BG:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\GENERAL-BGTEX]])
         end 
     end
 end 
 
-function MOD:STYLE(concept, ...)
-    concept = concept or "Frame";
+function MOD:Set(concept, ...)
+    if(not concept) then return end
     local conceptName, flags = concept:gsub("!_", "");
-    local adjustable = (flags and flags > 0) and false or true;
+    local adjustable = (flags and flags > 0);
     local fn = self.Concepts[conceptName];
     if(fn) then
         local pass, catch = pcall(fn, self, adjustable, ...)
@@ -1775,7 +1779,7 @@ end
 
 hooksecurefunc("CreateFrame", function(this, globalName, parent, template)
     if(template and template == "UIPanelCloseButton" and globalName) then
-        MOD:CloseButton(_G[globalName])
+        MOD:Set("CloseButton", _G[globalName])
     end
 end)
 --[[ 

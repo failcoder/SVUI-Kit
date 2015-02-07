@@ -50,7 +50,7 @@ local function StylePostal()
 		PostalSelectOpenButton:ModPoint("RIGHT", InboxFrame, "TOP", -41, -48)
 	end
 	if Postal_OpenAllMenuButton and not Postal_OpenAllMenuButton.handled then
-		MOD:ApplyPaginationStyle(Postal_OpenAllMenuButton, true)
+		SV.API:Set("PageButton", Postal_OpenAllMenuButton, true)
 		Postal_OpenAllMenuButton:SetPoint('LEFT', PostalOpenAllButton, 'RIGHT', 5, 0)
 		Postal_OpenAllMenuButton.handled = true
 	end
@@ -65,12 +65,12 @@ local function StylePostal()
 		PostalSelectReturnButton:ModPoint("LEFT", InboxFrame, "TOP", -5, -48)
 	end
 	if Postal_PackageMenuButton and not Postal_PackageMenuButton.handled then
-		MOD:ApplyPaginationStyle(Postal_PackageMenuButton, true)
+		SV.API:Set("PageButton", Postal_PackageMenuButton, true)
 		Postal_PackageMenuButton.handled = true
 		Postal_PackageMenuButton:SetPoint('TOPRIGHT', MailFrame, -53, -6)
 	end
 	if Postal_BlackBookButton and not Postal_BlackBookButton.handled then
-		MOD:ApplyPaginationStyle(Postal_BlackBookButton, true)
+		SV.API:Set("PageButton", Postal_BlackBookButton, true)
 		Postal_BlackBookButton.handled = true
 		Postal_BlackBookButton:SetPoint('LEFT', SendMailNameEditBox, 'RIGHT', 5, 2)
 	end

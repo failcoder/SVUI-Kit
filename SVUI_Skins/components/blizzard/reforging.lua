@@ -44,7 +44,7 @@ local function ReforgingStyle()
 			 ReforgingFrame.ItemButton.IconTexture:SetTexture(0,0,0,0)
 		end 
 	end)
-	MOD:ApplyCloseButtonStyle(ReforgingFrameCloseButton)
+	SV.API:Set("CloseButton", ReforgingFrameCloseButton)
 end 
 --[[ 
 ########################################################## 

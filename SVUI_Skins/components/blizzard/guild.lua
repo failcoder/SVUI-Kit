@@ -353,12 +353,12 @@ local function GuildBankStyle()
 
 	GuildBankEmblemFrame:RemoveTextures(true)
 	GuildBankMoneyFrameBackground:Die()
-	MOD:ApplyScrollFrameStyle(GuildBankPopupScrollFrameScrollBar)
+	SV.API:Set("ScrollFrame", GuildBankPopupScrollFrameScrollBar)
 
 	for i = 1, GuildBankFrame:GetNumChildren() do 
 		local child = select(i, GuildBankFrame:GetChildren())
 		if(child and child.GetPushedTexture and child:GetPushedTexture() and not child:GetName()) then
-			MOD:ApplyCloseButtonStyle(child)
+			SV.API:Set("CloseButton", child)
 		end 
 	end
 
@@ -434,7 +434,7 @@ local function GuildBankStyle()
 		local baseName = ("GuildBankFrameTab%d"):format(i)
 		local frame = _G[baseName]
 		if(frame) then
-			MOD:ApplyTabStyle(_G[baseName])
+			SV.API:Set("Tab", _G[baseName])
 		end
 	end 
 
@@ -471,8 +471,8 @@ local function GuildBankStyle()
 		end
 	end 
 
-	MOD:ApplyScrollFrameStyle(GuildBankTransactionsScrollFrameScrollBar)
-	MOD:ApplyScrollFrameStyle(GuildBankInfoScrollFrameScrollBar)
+	SV.API:Set("ScrollFrame", GuildBankTransactionsScrollFrameScrollBar)
+	SV.API:Set("ScrollFrame", GuildBankInfoScrollFrameScrollBar)
 end 
 
 local function GuildFrameStyle()
@@ -482,8 +482,8 @@ local function GuildFrameStyle()
 	
 	MOD:ApplyWindowStyle(GuildFrame)
 
-	MOD:ApplyCloseButtonStyle(GuildMemberDetailCloseButton)
-	MOD:ApplyCloseButtonStyle(GuildFrameCloseButton)
+	SV.API:Set("CloseButton", GuildMemberDetailCloseButton)
+	SV.API:Set("CloseButton", GuildFrameCloseButton)
 	GuildRewardsFrameVisitText:ClearAllPoints()
 	GuildRewardsFrameVisitText:SetPoint("TOP", GuildRewardsFrame, "TOP", 0, 30)
 
@@ -510,7 +510,7 @@ local function GuildFrameStyle()
 	for i = 1, 5 do
 		local tab = _G["GuildFrameTab"..i]
 		if(tab) then
-			MOD:ApplyTabStyle(tab)
+			SV.API:Set("Tab", tab)
 			if i == 1 then
 				tab:ModPoint("TOPLEFT", GuildFrame, "BOTTOMLEFT", -10, 3)
 			end
@@ -533,7 +533,7 @@ local function GuildFrameStyle()
 	GuildFactionBar.Panel:ModPoint("BOTTOMRIGHT", GuildFactionBar, "BOTTOMRIGHT", 1, 1)
 	
 	GuildRosterContainer:SetStyle("Frame", "Inset")
-	MOD:ApplyScrollFrameStyle(GuildRosterContainerScrollBar, 4, -4)
+	SV.API:Set("ScrollFrame", GuildRosterContainerScrollBar, 4, -4)
 	GuildRosterShowOfflineButton:SetStyle("Checkbox")
 
 	for i = 1, 4 do
@@ -543,7 +543,7 @@ local function GuildFrameStyle()
 		end
 	end 
 
-	MOD:ApplyDropdownStyle(GuildRosterViewDropdown, 200)
+	SV.API:Set("DropDown", GuildRosterViewDropdown, 200)
 
 	for i = 1, 14 do
 		local btn = _G["GuildRosterContainerButton"..i.."HeaderButton"]
@@ -557,7 +557,7 @@ local function GuildFrameStyle()
 	GuildMemberNoteBackground:SetStyle("Frame", 'Transparent')
 	GuildMemberOfficerNoteBackground:SetStyle("Frame", 'Transparent')
 
-	MOD:ApplyDropdownStyle(GuildMemberRankDropdown, 182)
+	SV.API:Set("DropDown", GuildMemberRankDropdown, 182)
 	GuildMemberRankDropdown:HookScript("OnShow", function() GuildMemberDetailRankText:Hide() end)
 	GuildMemberRankDropdown:HookScript("OnHide", function() GuildMemberDetailRankText:Show() end)
 	GuildNewsFrame:RemoveTextures()
@@ -574,7 +574,7 @@ local function GuildFrameStyle()
 
 	GuildNewsFiltersFrame:RemoveTextures()
 	GuildNewsFiltersFrame:SetStyle("!_Frame", "Transparent", true)
-	MOD:ApplyCloseButtonStyle(GuildNewsFiltersFrameCloseButton)
+	SV.API:Set("CloseButton", GuildNewsFiltersFrameCloseButton)
 
 	for i = 1, 7 do
 		local btn = _G["GuildNewsFilterButton"..i]
@@ -584,8 +584,8 @@ local function GuildFrameStyle()
 	end 
 
 	GuildNewsFiltersFrame:ModPoint("TOPLEFT", GuildFrame, "TOPRIGHT", 4, -20)
-	MOD:ApplyScrollFrameStyle(GuildNewsContainerScrollBar, 4, 4)
-	MOD:ApplyScrollFrameStyle(GuildInfoDetailsFrameScrollBar, 4, 4)
+	SV.API:Set("ScrollFrame", GuildNewsContainerScrollBar, 4, 4)
+	SV.API:Set("ScrollFrame", GuildInfoDetailsFrameScrollBar, 4, 4)
 
 	for i = 1, 3 do
 		local tab = _G["GuildInfoFrameTab"..i]
@@ -611,7 +611,7 @@ local function GuildFrameStyle()
 
 	GuildRecruitmentCommentInputFrame:SetStyle("!_Frame", "Default")
 	GuildTextEditFrame:SetStyle("!_Frame", "Transparent", true)
-	MOD:ApplyScrollFrameStyle(GuildTextEditScrollFrameScrollBar, 4, 4)
+	SV.API:Set("ScrollFrame", GuildTextEditScrollFrameScrollBar, 4, 4)
 	GuildTextEditContainer:SetStyle("!_Frame", "Default")
 
 	local editChildren = GuildTextEditFrame:GetNumChildren()
@@ -620,14 +620,14 @@ local function GuildFrameStyle()
 		local child = select(i, GuildTextEditFrame:GetChildren())
 		if(child:GetName() == "GuildTextEditFrameCloseButton") then
 			if(child:GetWidth() < 33) then
-				MOD:ApplyCloseButtonStyle(child)
+				SV.API:Set("CloseButton", child)
 			else
 				child:SetStyle("Button")
 			end
 		end 
 	end
 
-	MOD:ApplyScrollFrameStyle(GuildLogScrollFrameScrollBar, 4, 4)
+	SV.API:Set("ScrollFrame", GuildLogScrollFrameScrollBar, 4, 4)
 	GuildLogFrame:SetStyle("Frame", 'Transparent')
 
 	local logChildren = GuildLogFrame:GetNumChildren()
@@ -636,7 +636,7 @@ local function GuildFrameStyle()
 		local child = select(i, GuildLogFrame:GetChildren())
 		if child:GetName() == "GuildLogFrameCloseButton" then 
 			if(child:GetWidth() < 33) then
-				MOD:ApplyCloseButtonStyle(child)
+				SV.API:Set("CloseButton", child)
 			else
 				child:SetStyle("Button")
 			end
@@ -644,14 +644,14 @@ local function GuildFrameStyle()
 	end 
 
 	GuildRewardsFrame:SetStyle("Frame", "Inset")
-	MOD:ApplyScrollFrameStyle(GuildRewardsContainerScrollBar, 4, -4)
-	MOD:ApplyScrollFrameStyle(GuildPerksContainerScrollBar, 4, 2)
+	SV.API:Set("ScrollFrame", GuildRewardsContainerScrollBar, 4, -4)
+	SV.API:Set("ScrollFrame", GuildPerksContainerScrollBar, 4, 2)
 
 	for i = 1, 8 do 
 		local button = _G["GuildPerksContainerButton"..i]
 		if button then
 			button:RemoveTextures()
-			MOD:ApplyItemButtonStyle(button, nil, true)
+			SV.API:Set("ItemButton", button, nil, true)
 			local icon = button.icon or button.Icon
 			if icon then
 				icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
@@ -666,7 +666,7 @@ local function GuildFrameStyle()
 		local button = _G["GuildRewardsContainerButton"..i]
 		if button then
 			button:RemoveTextures()
-			MOD:ApplyItemButtonStyle(button)
+			SV.API:Set("ItemButton", button)
 		end
 	end 
 
@@ -694,13 +694,13 @@ local function GuildControlStyle()
 
 	MOD:ApplyWindowStyle(GuildControlUI)
 
-	MOD:ApplyScrollFrameStyle(GuildControlUIRankBankFrameInsetScrollFrameScrollBar)
+	SV.API:Set("ScrollFrame", GuildControlUIRankBankFrameInsetScrollFrameScrollBar)
 
 	hooksecurefunc("GuildControlUI_RankOrder_Update", _hook_RankOrder_OnUpdate)
 	GuildControlUIRankOrderFrameNewButton:HookScript("OnClick", _hook_UIRankOrder)
 
-	MOD:ApplyDropdownStyle(GuildControlUINavigationDropDown)
-	MOD:ApplyDropdownStyle(GuildControlUIRankSettingsFrameRankDropDown,180)
+	SV.API:Set("DropDown", GuildControlUINavigationDropDown)
+	SV.API:Set("DropDown", GuildControlUIRankSettingsFrameRankDropDown,180)
 	GuildControlUINavigationDropDownButton:ModWidth(20)
 	GuildControlUIRankSettingsFrameRankDropDownButton:ModWidth(20)
 
@@ -718,7 +718,7 @@ local function GuildControlStyle()
 
 	hooksecurefunc("GuildControlUI_BankTabPermissions_Update", _hook_BankTabPermissions)
 
-	MOD:ApplyDropdownStyle(GuildControlUIRankBankFrameRankDropDown, 180)
+	SV.API:Set("DropDown", GuildControlUIRankBankFrameRankDropDown, 180)
 
 	GuildControlUIRankBankFrameRankDropDownButton:ModWidth(20)
 end 
@@ -738,7 +738,7 @@ local function GuildRegistrarStyle()
 	GuildRegistrarFrameGoodbyeButton:SetStyle("Button")
 	GuildRegistrarFrameCancelButton:SetStyle("Button")
 	GuildRegistrarFramePurchaseButton:SetStyle("Button")
-	MOD:ApplyCloseButtonStyle(GuildRegistrarFrameCloseButton)
+	SV.API:Set("CloseButton", GuildRegistrarFrameCloseButton)
 	GuildRegistrarFrameEditBox:SetStyle("Editbox")
 
 	for i = 1, GuildRegistrarFrameEditBox:GetNumRegions() do 
@@ -780,11 +780,11 @@ local function LFGuildFrameStyle()
 	LookingForGuildBrowseButton_LeftSeparator:Die()
 	LookingForGuildRequestButton_RightSeparator:Die()
 
-	MOD:ApplyScrollFrameStyle(LookingForGuildBrowseFrameContainerScrollBar)
+	SV.API:Set("ScrollFrame", LookingForGuildBrowseFrameContainerScrollBar)
 	LookingForGuildBrowseButton:SetStyle("Button")
 	LookingForGuildRequestButton:SetStyle("Button")
 
-	MOD:ApplyCloseButtonStyle(LookingForGuildFrameCloseButton)
+	SV.API:Set("CloseButton", LookingForGuildFrameCloseButton)
 	LookingForGuildCommentInputFrame:SetStyle("Frame", "Default")
 	LookingForGuildCommentInputFrame:RemoveTextures(false)
 
@@ -797,7 +797,7 @@ local function LFGuildFrameStyle()
 
 	for u = 1, 3 do
 		local tab = _G["LookingForGuildFrameTab"..u]
-		MOD:ApplyTabStyle(tab)
+		SV.API:Set("Tab", tab)
 		tab:SetFrameStrata("HIGH")
 		tab:SetFrameLevel(99)
 	end

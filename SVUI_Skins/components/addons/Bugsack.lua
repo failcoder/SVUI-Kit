@@ -33,14 +33,14 @@ local function StyleBugSack(event, addon)
 		if BugSackFrame.Panel then return end
 		BugSackFrame:RemoveTextures()
 		BugSackFrame:SetStyle("Frame", 'Transparent')
-		MOD:ApplyTabStyle(BugSackTabAll)
+		SV.API:Set("Tab", BugSackTabAll)
 		BugSackTabAll:SetPoint("TOPLEFT", BugSackFrame, "BOTTOMLEFT", 0, 1)
-		MOD:ApplyTabStyle(BugSackTabSession)
-		MOD:ApplyTabStyle(BugSackTabLast)
+		SV.API:Set("Tab", BugSackTabSession)
+		SV.API:Set("Tab", BugSackTabLast)
 		BugSackNextButton:SetStyle("Button")
 		BugSackSendButton:SetStyle("Button")
 		BugSackPrevButton:SetStyle("Button")
-		MOD:ApplyScrollBarStyle(BugSackScrollScrollBar)
+		SV.API:Set("ScrollBar", BugSackScrollScrollBar)
 	end)
 end
 

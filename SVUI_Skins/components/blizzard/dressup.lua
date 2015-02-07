@@ -37,7 +37,7 @@ local function DressUpStyle()
 	DressUpFrameResetButton:ModPoint("RIGHT", DressUpFrameCancelButton, "LEFT", -12, 0)
 	DressUpFrameResetButton:SetStyle("Button")
 
-	MOD:ApplyCloseButtonStyle(DressUpFrameCloseButton, DressUpFrame.Panel)
+	SV.API:Set("CloseButton", DressUpFrameCloseButton, DressUpFrame.Panel)
 end 
 --[[ 
 ########################################################## 

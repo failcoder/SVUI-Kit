@@ -43,10 +43,10 @@ local function PVPFrameStyle()
 
 	MOD:ApplyWindowStyle(PVPUIFrame, true)
 	
-	MOD:ApplyCloseButtonStyle(PVPUIFrameCloseButton)
+	SV.API:Set("CloseButton", PVPUIFrameCloseButton)
 
 	for g = 1, 2 do
-		MOD:ApplyTabStyle(_G["PVPUIFrameTab"..g])
+		SV.API:Set("Tab", _G["PVPUIFrameTab"..g])
 	end
 
 	for i = 1, 4 do 
@@ -62,10 +62,10 @@ local function PVPFrameStyle()
 		end
 	end
 
-	MOD:ApplyDropdownStyle(HonorFrameTypeDropDown)
+	SV.API:Set("DropDown", HonorFrameTypeDropDown)
 	HonorFrame.Inset:RemoveTextures()
 	HonorFrame.Inset:SetStyle("!_Frame", "Inset")
-	MOD:ApplyScrollFrameStyle(HonorFrameSpecificFrameScrollBar)
+	SV.API:Set("ScrollFrame", HonorFrameSpecificFrameScrollBar)
 	HonorFrameSoloQueueButton:RemoveTextures()
 	HonorFrameGroupQueueButton:RemoveTextures()
 	HonorFrameSoloQueueButton:SetStyle("Button")
@@ -122,15 +122,15 @@ local function PVPFrameStyle()
 	WarGamesFrameInfoScrollFrameScrollBar:RemoveTextures()
 	WarGameStartButton:RemoveTextures()
 	WarGameStartButton:SetStyle("Button")
-	MOD:ApplyScrollFrameStyle(WarGamesFrameScrollFrameScrollBar)
-	MOD:ApplyScrollFrameStyle(WarGamesFrameInfoScrollFrameScrollBar)
+	SV.API:Set("ScrollFrame", WarGamesFrameScrollFrameScrollBar)
+	SV.API:Set("ScrollFrame", WarGamesFrameInfoScrollFrameScrollBar)
 	WarGamesFrame.HorizontalBar:RemoveTextures()
 	
 	PVPReadyDialog:RemoveTextures()
 	PVPReadyDialog:SetStyle("Frame", "Pattern")
 	PVPReadyDialogEnterBattleButton:SetStyle("Button")
 	PVPReadyDialogLeaveQueueButton:SetStyle("Button")
-	MOD:ApplyCloseButtonStyle(PVPReadyDialogCloseButton)
+	SV.API:Set("CloseButton", PVPReadyDialogCloseButton)
 	PVPReadyDialogRoleIcon.texture:SetTexture("Interface\\LFGFrame\\UI-LFG-ICONS-ROLEBACKGROUNDS")
 	PVPReadyDialogRoleIcon.texture:SetAlpha(0.5)
 	

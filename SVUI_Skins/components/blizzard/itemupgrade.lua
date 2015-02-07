@@ -24,7 +24,7 @@ local function ItemUpgradeStyle()
 	
 	MOD:ApplyWindowStyle(ItemUpgradeFrame, true)
 
-	MOD:ApplyCloseButtonStyle(ItemUpgradeFrameCloseButton)
+	SV.API:Set("CloseButton", ItemUpgradeFrameCloseButton)
 	ItemUpgradeFrameUpgradeButton:RemoveTextures()
 	ItemUpgradeFrameUpgradeButton:SetStyle("Button")
 	ItemUpgradeFrame.ItemButton:RemoveTextures()
