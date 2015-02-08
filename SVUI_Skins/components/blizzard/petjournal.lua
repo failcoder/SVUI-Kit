@@ -261,13 +261,19 @@ local function PetJournalStyle()
 	PetJournalPetCardXPBar:SetStatusBarTexture(SV.BaseTexture)
 
 	SV.API:Set("Tab", PetJournalParentTab3)
+
 	ToyBox:RemoveTextures()
-	ToyBoxProgressBar:SetStyle("Frame", "Bar", true)
 	ToyBoxSearchBox:SetStyle("Editbox")
 	ToyBoxFilterButton:RemoveTextures()
 	ToyBoxFilterButton:SetStyle("Button")
 	ToyBoxIconsFrame:RemoveTextures()
 	ToyBoxIconsFrame:SetStyle("!_Frame", 'Model')
+
+	ToyBoxProgressBar:RemoveTextures()
+	ToyBoxProgressBar:SetStatusBarTexture([[Interface\BUTTONS\WHITE8X8]])
+	ToyBoxProgressBar:SetStyle("Frame", "Bar", true, 2, 2, 2)
+	SV.API:Set("PageButton", ToyBoxNextPageButton)
+	SV.API:Set("PageButton", ToyBoxPrevPageButton)
 
 	MountJournalFilterButton:RemoveTextures()
 	MountJournalFilterButton:SetStyle("Button")
@@ -464,13 +470,19 @@ local function CollectionsJournalStyle()
 	PetJournalPetCardXPBar:SetStatusBarTexture(SV.BaseTexture)
 
 	SV.API:Set("Tab", CollectionsJournalTab3)
+
 	ToyBox:RemoveTextures()
-	ToyBoxProgressBar:SetStyle("Frame", "Bar", true)
 	ToyBoxSearchBox:SetStyle("Editbox")
 	ToyBoxFilterButton:RemoveTextures()
 	ToyBoxFilterButton:SetStyle("Button")
 	ToyBoxIconsFrame:RemoveTextures()
 	ToyBoxIconsFrame:SetStyle("!_Frame", 'Model')
+
+	ToyBoxProgressBar:RemoveTextures()
+	ToyBoxProgressBar:SetStatusBarTexture([[Interface\BUTTONS\WHITE8X8]])
+	ToyBoxProgressBar:SetStyle("Frame", "Bar", true, 2, 2, 2)
+	SV.API:Set("PageButton", ToyBoxNextPageButton)
+	SV.API:Set("PageButton", ToyBoxPrevPageButton)
 
 	MountJournalFilterButton:RemoveTextures()
 	MountJournalFilterButton:SetStyle("Button")

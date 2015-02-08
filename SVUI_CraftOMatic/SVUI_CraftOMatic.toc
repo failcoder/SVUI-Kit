@@ -1,16 +1,17 @@
 ## Interface: 60000
 ## Author: S.Jackson
 ## Version: 1.0.0
-## Title: |cffFF9900SVUI Theme: |r|cff00EFFFSimple|r
-## Notes: Theme for [|cff9911FFSVUI Framework|r].
+## Title: |cffFF9900SVUI |r|cffFFEF00Craft-O-Matic|r
+## Notes: Supervillain UI [|cff9911FFProfession Tools|r].
 ## RequiredDeps: SVUI_!Core
 ## OptionalDeps: LibSharedMedia-3.0
 ## LoadOnDemand: 1
-## X-SVUITheme: Simple
+## X-SVUIName: Craft-O-Matic
+## X-SVUISchema: CraftOMatic
 ## X-Email: munglunch@gmail.com
 ## X-Website: http://www.supervillainui.com
 ## X-Donate: PayPal:munglunch@gmail.com
 ## X-License: All Rights Reserved
 ## X-Category: Interface Enhancements
 
-SVUITheme_Simple.xml
+SVUI_CraftOMatic.xml

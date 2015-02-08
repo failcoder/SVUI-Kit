@@ -117,6 +117,8 @@ function THEME:Load()
 		SV.defaults["font"]["unitsecondary"]   	= {file = "SVUI Caps Font",   size = 14,  outline = "OUTLINE"}
 		SV.defaults["font"]["unitaurabar"]   	= {file = "SVUI Default Font",  size = 14,  outline = "OUTLINE"}
 		SV.defaults["font"]["unitaura"]  		= {file = "SVUI Default Font",  size = 14,  outline = "OUTLINE"}
+		SV.defaults["media"]["textures"]["pattern"]   	= "SVUI Artwork";
+		SV.defaults["media"]["textures"]["premium"]   	= "SVUI Artwork";
 		SV.defaults["media"]["textures"]["unitlarge"]   = "SVUI Artwork";
 		SV.defaults["media"]["textures"]["unitsmall"]   = "SVUI Artwork";
 
@@ -144,16 +146,23 @@ function THEME:Load()
 	end
 
 	SV.API.Themes["Simple"] = {
-		["Default"]     = "SVUITheme_Simple_Default",
-		["DockButton"]  = "SVUITheme_Simple_DockButton",
-		["Window"]  = "SVUITheme_Simple_Window",
-		["WindowAlternate"]  = "SVUITheme_Simple_WindowAlternate",
-		["UnitLarge"]   = "SVUITheme_Simple_UnitLarge",
-		["UnitSmall"]   = "SVUITheme_Simple_UnitSmall",
-		["Minimap"] 	= "SVUITheme_Simple_Minimap",
-		["ActionPanel"] = "SVUITheme_Simple_ActionPanel",
-		["Container"]   = "SVUITheme_Simple_Container",
+		["Default"]     		= "SVUITheme_Simple_Default",
+		["DockButton"]  		= "SVUITheme_Simple_DockButton",
+		["Pattern"] 			= "SVUITheme_Simple_Default",
+		["Premium"] 			= "SVUITheme_Simple_Default",
+		["Window"]  			= "SVUITheme_Simple_Default",
+		["WindowAlternate"]  	= "SVUITheme_Simple_Default",
+		["UnitLarge"]   		= "SVUITheme_Simple_UnitLarge",
+		["UnitSmall"]   		= "SVUITheme_Simple_UnitSmall",
+		["Minimap"] 			= "SVUITheme_Simple_Minimap",
+		["ActionPanel"] 		= "SVUITheme_Simple_ActionPanel",
+		["Container"]   		= "SVUITheme_Simple_Default",
 	};
+
+	SV.Media["texture"]["pattern"] 		= LSM:Fetch("background", "SVUI Artwork")
+	SV.Media["texture"]["premium"] 		= LSM:Fetch("background", "SVUI Artwork")
+	SV.Media["texture"]["unitlarge"]   	= LSM:Fetch("background", "SVUI Artwork")
+	SV.Media["texture"]["unitsmall"]   	= LSM:Fetch("background", "SVUI Artwork")
 
 	SV.Dock.SetThemeDockStyle = _SetDockStyleTheme
 	SV.Dock.SetBorderTheme = _SetBorderTheme

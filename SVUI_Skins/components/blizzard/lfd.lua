@@ -137,7 +137,7 @@ LFD MODR
 local function LFDFrameStyle()
   if SV.db.Skins.blizzard.enable ~= true or SV.db.Skins.blizzard.lfg ~= true then return end
   
-  SV.API:Set("Window", PVEFrame, true)
+  SV.API:Set("Window", PVEFrame)
   SV.API:Set("Window", LFGDungeonReadyDialog, true)
   
   PVEFrameLeftInset:RemoveTextures()

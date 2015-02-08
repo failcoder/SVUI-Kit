@@ -40,7 +40,7 @@ local function PVPFrameStyle()
 	local PVPUIFrame = _G.PVPUIFrame;
 	local WarGamesFrame = _G.WarGamesFrame;
 	local PVPReadyDialog = _G.PVPReadyDialog;
-
+ 	
 	SV.API:Set("Window", PVPUIFrame, true)
 	
 	SV.API:Set("CloseButton", PVPUIFrameCloseButton)

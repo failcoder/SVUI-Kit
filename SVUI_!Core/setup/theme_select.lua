@@ -49,8 +49,7 @@ function SV.Setup:SelectTheme()
 			if(themeName ~= 'NONE') then
 				local yOffset = ((225 * count) - 200) * -1;
 				local icon = SV.Media.setup[themeName] or SV.Media.setup.theme
-				local themeButton = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
-				themeButton:RemoveTextures()
+				local themeButton = CreateFrame("Frame", nil, frame)
 				themeButton:ModSize(200, 200)
 				themeButton:SetPoint("TOP", frame, "TOP", 0, yOffset)
 				themeButton.texture = themeButton:CreateTexture(nil, "BORDER")
@@ -63,7 +62,8 @@ function SV.Setup:SelectTheme()
 				themeButton.text:SetText(themeName .. " Theme")
 				themeButton.text:SetTextColor(0.1, 0.5, 1)
 				themeButton.value = themeName
-				themeButton:SetScript("OnClick", function(self) 
+				themeButton:EnableMouse(true)
+				themeButton:SetScript("OnMouseDown", function(self) 
 					SV.db.THEME.active = self.value; 
 					SV:StaticPopup_Show("RL_CLIENT");
 				end)

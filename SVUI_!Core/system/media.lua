@@ -275,10 +275,24 @@ do
 		["glow"]      = LSM:Fetch("statusbar", "SVUI GlowBar"),
 		["lazer"]     = LSM:Fetch("statusbar", "SVUI LazerBar"),
 	}
---SV.Media.backdrop.default
+--SV.Media.backdrop.textured
 	SV.Media["backdrop"] = {
 		["default"] = {
 			bgFile = [[Interface\AddOns\SVUI_!Core\assets\textures\DEFAULT-BG]], 
+		    tile = false, 
+		    tileSize = 0, 
+		    edgeFile = [[Interface\AddOns\SVUI_!Core\assets\textures\DEFAULT-BORDER]],
+		    edgeSize = 5,
+		    insets = 
+		    {
+		        left = 0, 
+		        right = 0, 
+		        top = 0, 
+		        bottom = 0, 
+		    },
+		},
+		["textured"] = {
+			bgFile = [[Interface\AddOns\SVUI_!Core\assets\textures\Bars\TEXTURED]], 
 		    tile = false, 
 		    tileSize = 0, 
 		    edgeFile = [[Interface\AddOns\SVUI_!Core\assets\textures\DEFAULT-BORDER]],

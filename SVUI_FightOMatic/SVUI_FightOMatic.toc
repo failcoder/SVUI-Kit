@@ -1,0 +1,13 @@
+## Interface: 60000
+## Author: Munglunch
+## Version: 5.4.19
+## Title: |cffFF9900SVUI |r|cffFFEF00Fight-O-Matic|r
+## Notes: Supervillain UI [|cff9911FFPvP Tools|r].
+## SavedVariables: SVUI_Public_FightOMatic
+## RequiredDeps: SVUI
+## LoadOnDemand: 1
+## X-Email: munglunch@gmail.com
+## X-SVUIName: Fight-O-Matic
+## X-SVUISchema: FightOMatic
+
+SVUI_FightOMatic.xml

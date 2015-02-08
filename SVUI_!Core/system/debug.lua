@@ -505,8 +505,8 @@ _G.DebugThisFrame = function(arg)
         if arg.Panel and arg.Panel:GetAttribute("panelOffset") then
             outputString = outputString.."|cff00D1FF".."Offset: |cffFFD100"..arg.Panel:GetAttribute("panelOffset").."\n"
         end
-        if arg.GetID and arg:GetID() then
-            outputString = outputString.."|cff00D1FF".."ID: |cffFFD100"..arg:GetID().."\n"
+        if arg.Panel and arg.Panel:GetAttribute("panelID") then
+            outputString = outputString.."|cff00D1FF".."StyleName: |cffFFD100"..arg.Panel:GetAttribute("panelID").."\n"
         end
         if xOfs then
             outputString = outputString.."|cff00D1FF".."X: |cffFFD100"..format("%.2f",xOfs).."\n"
@@ -520,7 +520,7 @@ _G.DebugThisFrame = function(arg)
         local bg = arg:GetBackdrop()
         if type(bg) == "table" then
             outputString = outputString.."|cffFF9900>> BACKDROP --------------------------|r".."\n"
-            outputString = outputString..tdump(bg).."\n"
+            outputString = outputString..inspect(bg).."\n"
         end
         if arg._template then
             outputString = outputString.."Template Name: |cff00FF55"..arg._template.."\n"
@@ -544,7 +544,7 @@ _G.DebugThisFrame = function(arg)
             bg = arg.Panel:GetBackdrop()
             if type(bg) == "table" then
                 outputString = outputString.."|cffFF9900>> BACKDROP --------------------------|r".."\n"
-                outputString = outputString..tdump(bg).."\n"
+                outputString = outputString..inspect(bg).."\n"
             end
             if arg.Panel.Skin then
                 local cpt, crt, crp, cxo, cyo = arg.Panel.Skin:GetPoint()
@@ -581,6 +581,9 @@ _G.DebugThisFrame = function(arg)
                 outputString = outputString.."|cff00D1FF".."Height: |cffFFD100"..format("%.2f",child:GetHeight()).."\n"
                 outputString = outputString.."|cff00D1FF".."Strata: |cffFFD100"..child:GetFrameStrata().."\n"
                 outputString = outputString.."|cff00D1FF".."Level: |cffFFD100"..child:GetFrameLevel().."\n"
+                if child.Panel and child.Panel:GetAttribute("panelID") then
+                    outputString = outputString.."|cff00D1FF".."StyleName: |cffFFD100"..child.Panel:GetAttribute("panelID").."\n"
+                end
                 if child.Panel and child.Panel:GetAttribute("panelPadding") then
                     outputString = outputString.."|cff00D1FF".."Padding: |cffFFD100"..child.Panel:GetAttribute("panelPadding").."\n"
                 end
@@ -599,7 +602,7 @@ _G.DebugThisFrame = function(arg)
                 bg = child:GetBackdrop()
                 if type(bg) == "table" then
                     outputString = outputString.."|cffFF9900>> BACKDROP --------------------------|r".."\n"
-                    outputString = outputString..tdump(bg).."\n"
+                    outputString = outputString..inspect(bg).."\n"
                 end
                 if child._template then
                     outputString = outputString.."Template Name: |cff00FF55"..child._template.."\n"
@@ -623,7 +626,7 @@ _G.DebugThisFrame = function(arg)
                     bg = child.Panel:GetBackdrop()
                     if type(bg) == "table" then
                         outputString = outputString.."|cffFF9900>> BACKDROP --------------------------|r".."\n"
-                        outputString = outputString..tdump(bg).."\n"
+                        outputString = outputString..inspect(bg).."\n"
                     end
                     if child._skin then
                         local cpt, crt, crp, cxo, cyo = child._skin:GetPoint()

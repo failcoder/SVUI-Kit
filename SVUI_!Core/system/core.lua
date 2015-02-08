@@ -415,38 +415,6 @@ SV.Options = {
             childGroups = "tab", 
             args = {}
         },
-        plugins = {
-            order = 9999,
-            type = "group",
-            name = "Plugins",
-            childGroups = "tab",
-            args = {
-                pluginheader = {
-                    order = 1,
-                    type = "header",
-                    name = "UI Plugins",
-                },
-                pluginOptions = {
-                    order = 2,
-                    type = "group",
-                    name = "",
-                    args = {
-                        pluginlist = {
-                            order = 1,
-                            type = "group",
-                            name = "Summary",
-                            args = {
-                                active = {
-                                    order = 1,
-                                    type = "description",
-                                    name = function() return SVUILib:GetPlugins() end
-                                }
-                            }
-                        },
-                    }
-                }
-            }
-        },
         credits = {
             type = "group", 
             name = SV.L["Credits"], 
@@ -813,8 +781,6 @@ function SV:PreLoad()
 end 
 
 function SV:Initialize()
-    SVUILib:Initialize();
-    
     self:UI_SCALE_CHANGED()
     self.Events:TriggerOnce("LOAD_ALL_ESSENTIALS");
     self.Events:TriggerOnce("LOAD_ALL_WIDGETS");
@@ -825,6 +791,7 @@ function SV:Initialize()
     self:PlayerInfoUpdate();
     self:VersionCheck();
     self:RefreshAllSystemMedia();
+    self:PostUpdateTheme();
 
     SVUILib:LoadScripts();
 

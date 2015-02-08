@@ -91,9 +91,9 @@ local GLOBAL_FILENAME       = CoreGlobalName.."_Global";
 local ERROR_FILENAME        = CoreGlobalName.."_Errors";
 local PRIVATE_FILENAME      = CoreGlobalName.."_Private";
 local FILTERS_FILENAME      = CoreGlobalName.."_Filters";
-local GLOBAL_SV, PRIVATE_SV, FILTER_SV, ERROR_CACHE, MODS, MODULES, THEMES, PACKAGES;
+local GLOBAL_SV, PRIVATE_SV, FILTER_SV, ERROR_CACHE, MODS, MODULES, THEMES, PACKAGES, PLUGINS;
 local PluginString = ""
-local LoadOnDemand, ScriptQueue = {},{};
+local LoadOnDemand, FoundThemes, ScriptQueue = {},{},{};
 local debugHeader = "|cffFF2F00%s|r [|cff992FFF%s|r]|cffFF2F00:|r";
 local debugPattern = '|cffFF2F00%s|r [|cff0affff%s|r]|cffFF2F00:|r @|cffFF0000(|r%s|cffFF0000)|r - %s';
 
@@ -507,6 +507,15 @@ function lib:LoadModuleOptions()
             end
         end
     end
+
+    if PLUGINS then
+        for schema,files in pairs(PLUGINS) do
+            local obj = _G[schema]
+            if(obj and (not obj.optionsLoaded)) then
+                OptionsProxy(schema, obj)
+            end
+        end
+    end
 end
 
 --OBJECT INTERNALS
@@ -680,10 +689,6 @@ function lib:GetModuletable()
     return MODULES
 end
 
-function lib:GetPlugins()
-    return PluginString
-end
-
 function lib:CheckDualProfile()
     return PRIVATE_SV.SAFEDATA.dualSpecEnabled
 end
@@ -702,7 +707,7 @@ end
 
 local function NewLoadOnDemand(addonName, schema, header)
     LoadOnDemand[schema] = addonName;
-    CoreObject.Options.args.plugins.args.pluginOptions.args[schema] = {
+    CoreObject.Options.args[schema] = {
         type = "group", 
         name = header, 
         childGroups = "tree", 
@@ -735,6 +740,105 @@ local function NewLoadOnDemand(addonName, schema, header)
     }
 end
 
+local function CorePreInitialize()
+    local coreSchema = CoreObject.Schema
+
+    --PROFILE SAVED VARIABLES
+    if not _G[PRIVATE_FILENAME] then _G[PRIVATE_FILENAME] = {} end
+    PRIVATE_SV = _G[PRIVATE_FILENAME]
+    if not PRIVATE_SV.SAFEDATA then PRIVATE_SV.SAFEDATA = {dualSpecEnabled = false} end
+    if not PRIVATE_SV.SAFEDATA.NEEDSLIVEUPDATE then PRIVATE_SV.SAFEDATA.NEEDSLIVEUPDATE = false end
+    
+    GetProfileKey()
+    --GLOBAL SAVED VARIABLES
+    if not _G[GLOBAL_FILENAME] then _G[GLOBAL_FILENAME] = {} end
+    GLOBAL_SV = _G[GLOBAL_FILENAME]
+
+    if(GLOBAL_SV.profileKeys) then 
+      twipe(GLOBAL_SV.profileKeys) 
+    else
+      GLOBAL_SV.profileKeys = {}
+    end
+
+    GLOBAL_SV.profiles = GLOBAL_SV.profiles or {}
+
+    GLOBAL_SV.profiles[PROFILE_KEY] = GLOBAL_SV.profiles[PROFILE_KEY] or {}
+
+    for k,v in pairs(GLOBAL_SV.profiles) do
+        GLOBAL_SV.profileKeys[k] = k
+    end
+
+    --SAVED ERRORS
+    if not _G[ERROR_FILENAME] then _G[ERROR_FILENAME] = {} end
+    ERROR_CACHE = _G[ERROR_FILENAME]
+
+    local datestamp = date("%m_%d_%y")
+
+    if(ERROR_CACHE.TODAY and ERROR_CACHE.TODAY ~= datestamp) then 
+        ERROR_CACHE.FOUND = {} 
+    end
+
+    if(not ERROR_CACHE.FOUND) then 
+        ERROR_CACHE.FOUND = {}
+    end
+
+    ERROR_CACHE.TODAY = datestamp
+
+    if(PRIVATE_SV.SAFEDATA and PRIVATE_SV.SAFEDATA.dualSpecEnabled) then 
+        lib.EventManager:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
+    else
+        lib.EventManager:UnregisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
+    end
+
+    local key = PRIVATE_SV.SAFEDATA.CurrentProfile
+    if(key) then
+        if(not GLOBAL_SV.profiles[key]) then GLOBAL_SV.profiles[key] = {} end;
+        GLOBAL_SV.profiles[PROFILE_KEY] = GLOBAL_SV.profiles[key];
+    end
+
+    --FILTER SAVED VARIABLES
+    if not _G[FILTERS_FILENAME] then _G[FILTERS_FILENAME] = {} end
+    FILTER_SV = _G[FILTERS_FILENAME]
+
+    --construct core dataset
+    local db           = setmetatable({}, meta_transdata)
+    db.data            = GLOBAL_SV.profiles[PROFILE_KEY]
+    db.defaults        = CoreObject.defaults
+    CoreObject.db      = db
+
+    local filters      = setmetatable({}, meta_transdata)
+    filters.data       = FILTER_SV
+    filters.defaults   = CoreObject.filterdefaults
+    CoreObject.filters = filters
+
+    local private      = setmetatable({}, meta_database)
+    private.data       = PRIVATE_SV
+    CoreObject.private = private
+
+    CoreObject.ERRORLOG = ERROR_CACHE.FOUND
+
+    --check for LOD plugins
+    local addonCount = GetNumAddOns()
+
+    for i = 1, addonCount do
+        local addonName, _, _, _, _, reason = GetAddOnInfo(i)
+
+        if(IsAddOnLoadOnDemand(i)) then
+            local header = GetAddOnMetadata(i, HeaderFromMeta)
+            local schema = GetAddOnMetadata(i, SchemaFromMeta)
+            local theme  = GetAddOnMetadata(i, ThemeFromMeta)
+
+            if(header and schema) then
+                NewLoadOnDemand(addonName, schema, header)
+            elseif(theme) then
+                FoundThemes[theme] = addonName;
+            end
+        end
+    end
+
+    CoreObject.initialized = true
+end
+
 --LIBRARY EVENT HANDLING
 
 local Library_OnEvent = function(self, event, arg, ...)
@@ -757,6 +861,51 @@ local Library_OnEvent = function(self, event, arg, ...)
                 CoreObject.___loaded = true
                 self:UnregisterEvent("ADDON_LOADED")
             end
+            CorePreInitialize()
+            if FoundThemes then
+                local activeTheme = CoreObject.db.THEME.active;
+                local themeAddon = FoundThemes[activeTheme]
+                if(themeAddon) then
+                    if(not IsAddOnLoaded(themeAddon)) then
+                        local loaded, reason = LoadAddOn(themeAddon)
+                    end
+                    EnableAddOn(themeAddon)
+                end
+                if THEMES then
+                    local globalName = THEMES[activeTheme] 
+                    local themeObj = _G[globalName]
+                    if(themeObj and (not themeObj.initialized) and themeObj.Load and type(themeObj.Load) == "function") then
+                        local _, catch = pcall(themeObj.Load, themeObj)
+                        if(catch) then
+                            CoreObject:HandleError(activeTheme, "Load", catch)
+                        else
+                            if(CoreObject.PostUpdateTheme) then
+                                CoreObject:PostUpdateTheme(activeTheme)
+                            end
+                            themeObj.initialized = true
+                        end
+                    end
+                end
+            end
+            if LoadOnDemand then
+                for schema,name in pairs(LoadOnDemand) do
+
+                    if(not PRIVATE_SV.SAFEDATA[schema]) then
+                        PRIVATE_SV.SAFEDATA[schema] = {["enable"] = true}
+                    end
+
+                    local db = PRIVATE_SV.SAFEDATA[schema]
+
+                    if(db and (db.enable or db.enable ~= false)) then
+                        if(not IsAddOnLoaded(name)) then
+                            local loaded, reason = LoadAddOn(name)
+                        end
+                        EnableAddOn(name)
+                    else
+                        DisableAddOn(name)
+                    end
+                end
+            end
         end
     elseif(event == "PLAYER_LOGIN") then
         if(not CoreObject.___initialized and CoreObject.Initialize and IsLoggedIn()) then
@@ -770,6 +919,54 @@ local Library_OnEvent = function(self, event, arg, ...)
 end
 
 -- CORE OBJECT CONSTRUCT
+
+local Core_NewPlugin = function(self, addonName, addonObject, gfile, pfile)
+    local version   = GetAddOnMetadata(addonName, "Version")
+    local header    = GetAddOnMetadata(addonName, HeaderFromMeta)
+    local schema    = GetAddOnMetadata(addonName, SchemaFromMeta)
+
+    if((not schema) or (schema and _G[schema])) then print(addonName .. ": Failed to load!") return end
+
+    local lod       = IsAddOnLoadOnDemand(addonName)
+    local addonmeta = {}
+    local oldmeta   = getmetatable(addonObject)
+
+    if oldmeta then
+        for k, v in pairs(oldmeta) do addonmeta[k] = v end
+    end
+
+    addonmeta.__tostring = rootstring
+    setmetatable( addonObject, addonmeta )
+
+    local infoString = SetPluginString(addonName)
+
+    addonObject.Version             = version
+    addonObject.NameID              = addonName
+    addonObject.TitleID             = header
+    addonObject.Info                = infoString
+    addonObject.Schema              = schema
+    addonObject.LoD                 = lod
+    addonObject.initialized         = false
+    addonObject.CombatLocked        = false
+    addonObject.ChangeDBVar         = changePluginDBVar
+    addonObject.RegisterEvent       = registerEvent
+    addonObject.UnregisterEvent     = unregisterEvent
+    addonObject.RegisterUpdate      = registerUpdate
+    addonObject.UnregisterUpdate    = unregisterUpdate
+
+    addonObject.public              = addonObject.public or {}
+    addonObject.private             = addonObject.private or {}
+
+    _G[schema] = addonObject
+
+    if(not PLUGINS) then PLUGINS = {} end
+    PLUGINS[schema] = {
+        ["PUBLIC"] = gfile,
+        ["PRIVATE"] = pfile,
+    };
+
+    return addonObject
+end
 
 -- local addNewSubClass = function(self, schema)
 --     if(self[schema]) then return end
@@ -1040,6 +1237,7 @@ function lib:NewCore(gfile, efile, pfile, ffile)
     CoreObject.NewScript            = Core_NewScript
     CoreObject.NewModule            = Core_NewModule
     CoreObject.NewPackage           = Core_NewPackage
+    CoreObject.NewPlugin            = Core_NewPlugin
     CoreObject.ResetData            = Core_ResetData
     CoreObject.ResetFilter          = Core_ResetFilter
     CoreObject.NewTheme             = Core_NewTheme
@@ -1073,108 +1271,12 @@ end
 
 -- INITIALIZE AND LAUNCH
 
-function lib:Initialize()
-    local coreSchema = CoreObject.Schema
-
-    --PROFILE SAVED VARIABLES
-    if not _G[PRIVATE_FILENAME] then _G[PRIVATE_FILENAME] = {} end
-    PRIVATE_SV = _G[PRIVATE_FILENAME]
-    if not PRIVATE_SV.SAFEDATA then PRIVATE_SV.SAFEDATA = {dualSpecEnabled = false} end
-    if not PRIVATE_SV.SAFEDATA.NEEDSLIVEUPDATE then PRIVATE_SV.SAFEDATA.NEEDSLIVEUPDATE = false end
-    
-    GetProfileKey()
-    --GLOBAL SAVED VARIABLES
-    if not _G[GLOBAL_FILENAME] then _G[GLOBAL_FILENAME] = {} end
-    GLOBAL_SV = _G[GLOBAL_FILENAME]
-
-    if(GLOBAL_SV.profileKeys) then 
-      twipe(GLOBAL_SV.profileKeys) 
-    else
-      GLOBAL_SV.profileKeys = {}
-    end
-
-    GLOBAL_SV.profiles = GLOBAL_SV.profiles or {}
-
-    GLOBAL_SV.profiles[PROFILE_KEY] = GLOBAL_SV.profiles[PROFILE_KEY] or {}
-
-    for k,v in pairs(GLOBAL_SV.profiles) do
-        GLOBAL_SV.profileKeys[k] = k
-    end
-
-    --SAVED ERRORS
-    if not _G[ERROR_FILENAME] then _G[ERROR_FILENAME] = {} end
-    ERROR_CACHE = _G[ERROR_FILENAME]
-
-    local datestamp = date("%m_%d_%y")
-
-    if(ERROR_CACHE.TODAY and ERROR_CACHE.TODAY ~= datestamp) then 
-        ERROR_CACHE.FOUND = {} 
-    end
-
-    if(not ERROR_CACHE.FOUND) then 
-        ERROR_CACHE.FOUND = {}
-    end
-
-    ERROR_CACHE.TODAY = datestamp
-
-    if(PRIVATE_SV.SAFEDATA and PRIVATE_SV.SAFEDATA.dualSpecEnabled) then 
-        self.EventManager:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
-    else
-        self.EventManager:UnregisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
-    end
-
-    local key = PRIVATE_SV.SAFEDATA.CurrentProfile
-    if(key) then
-        if(not GLOBAL_SV.profiles[key]) then GLOBAL_SV.profiles[key] = {} end;
-        GLOBAL_SV.profiles[PROFILE_KEY] = GLOBAL_SV.profiles[key];
-    end
-
-    --FILTER SAVED VARIABLES
-    if not _G[FILTERS_FILENAME] then _G[FILTERS_FILENAME] = {} end
-    FILTER_SV = _G[FILTERS_FILENAME]
-
-    --construct core dataset
-    local db           = setmetatable({}, meta_transdata)
-    db.data            = GLOBAL_SV.profiles[PROFILE_KEY]
-    db.defaults        = CoreObject.defaults
-    CoreObject.db      = db
-
-    local filters      = setmetatable({}, meta_transdata)
-    filters.data       = FILTER_SV
-    filters.defaults   = CoreObject.filterdefaults
-    CoreObject.filters = filters
-
-    local private      = setmetatable({}, meta_database)
-    private.data       = PRIVATE_SV
-    CoreObject.private = private
-
-    CoreObject.ERRORLOG = ERROR_CACHE.FOUND
-
-    --check for LOD plugins
-    local addonCount = GetNumAddOns()
-
-    for i = 1, addonCount do
-        local addonName, _, _, _, _, reason = GetAddOnInfo(i)
-
-        if(IsAddOnLoadOnDemand(i)) then
-            local header = GetAddOnMetadata(i, HeaderFromMeta)
-            local schema = GetAddOnMetadata(i, SchemaFromMeta)
-
-            if(header and schema) then
-                NewLoadOnDemand(addonName, schema, header)
-            end
-        end
-    end
-
-    CoreObject.initialized = true
-end
-
 local THEMETABLE = {};
 function lib:ListThemes()
     wipe(THEMETABLE)
     THEMETABLE["NONE"] = "No Theme";
-    if THEMES then
-        for themeName,_ in pairs(THEMES) do
+    if FoundThemes then
+        for themeName,_ in pairs(FoundThemes) do
             THEMETABLE[themeName] = themeName;
         end
     end
@@ -1184,46 +1286,12 @@ end
 function lib:Launch()
     CoreObject.Timers:Initialize()
 
-    if THEMES then
-        local themeName = CoreObject.db.THEME.active;
-        local globalName = THEMES[themeName] 
-        local themeObj = _G[globalName]
-        if(themeObj and (not themeObj.initialized) and themeObj.Load and type(themeObj.Load) == "function") then
-            local _, catch = pcall(themeObj.Load, themeObj)
-            if(catch) then
-                CoreObject:HandleError(themeName, "Load", catch)
-            else
-                themeObj.initialized = true
-            end
-        end
-    end
-
     if PACKAGES then
         for i=1,#PACKAGES do 
             local schema = PACKAGES[i]
             local obj = CoreObject[schema]
             if(obj and (not obj.initialized)) then
                 LoadingProxy(schema, obj)
-            end
-        end
-    end
-
-    if LoadOnDemand then
-        for schema,name in pairs(LoadOnDemand) do
-
-            if(not PRIVATE_SV.SAFEDATA[schema]) then
-                PRIVATE_SV.SAFEDATA[schema] = {["enable"] = false}
-            end
-
-            local db = PRIVATE_SV.SAFEDATA[schema]
-
-            if(db and (db.enable or db.enable ~= false)) then
-                if(not IsAddOnLoaded(name)) then
-                    local loaded, reason = LoadAddOn(name)
-                end
-                EnableAddOn(name)
-            else
-                DisableAddOn(name)
             end
         end
     end
@@ -1244,9 +1312,6 @@ function lib:Launch()
                 if(not halt) then
                     if MODS and MODS[schema] then
                         local files = MODS[schema]
-                        if(not PRIVATE_SV.SAFEDATA[schema]) then
-                            PRIVATE_SV.SAFEDATA[schema] = {["enable"] = true}
-                        end
 
                         if(files.PRIVATE) then
                             if not _G[files.PRIVATE] then _G[files.PRIVATE] = {} end
@@ -1280,6 +1345,44 @@ function lib:Launch()
     end
 
     PRIVATE_SV.SAFEDATA.NEEDSLIVEUPDATE = C_PetBattles.IsInBattle()
+
+    if PLUGINS then
+        for schema,files in pairs(PLUGINS) do
+            if(not PRIVATE_SV.SAFEDATA[schema]) then
+                PRIVATE_SV.SAFEDATA[schema] = {["enable"] = true}
+            end
+
+            local obj = _G[schema]
+            local enabled = PRIVATE_SV.SAFEDATA[schema].enable
+            if(obj and enabled and (not obj.initialized)) then
+                local halt = false
+
+                if(files.PRIVATE) then
+                    if not _G[files.PRIVATE] then _G[files.PRIVATE] = {} end
+                    local private = setmetatable({}, meta_database)
+                    private.data = _G[files.PRIVATE]
+                    obj.private = private
+                end
+
+                if(files.PUBLIC) then
+                    if not _G[files.PUBLIC] then _G[files.PUBLIC] = {} end
+                    local public = setmetatable({}, meta_database)
+                    public.data = _G[files.PUBLIC]
+                    obj.public = public
+                end
+
+                if(obj.db and obj.db.incompatible) then
+                    for addon,_ in pairs(obj.db.incompatible) do
+                        if IsAddOnLoaded(addon) then halt = true end
+                    end
+                end
+
+                if(not halt) then
+                    LoadingProxy(schema, obj)
+                end
+            end 
+        end
+    end
 end
 
 function lib:LoadScripts()

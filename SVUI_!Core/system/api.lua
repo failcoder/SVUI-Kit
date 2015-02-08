@@ -70,7 +70,7 @@ MOD.Templates = {
     ["Pattern"]     = "SVUI_CoreStyle_Pattern",
     ["Premium"]     = "SVUI_CoreStyle_Premium",
     ["Model"]       = "SVUI_CoreStyle_Model",
-    ["Window"]  = "SVUI_CoreStyle_Window",
+    ["Window"]      = "SVUI_CoreStyle_Window",
     ["WindowAlternate"]  = "SVUI_CoreStyle_WindowAlternate",
 };
 MOD.Methods = {};
@@ -1565,7 +1565,7 @@ MOD.Concepts["PageButton"] = function(self, adjustable, frame, isVertical)
     frame:SetHighlightTexture("")
     frame:SetDisabledTexture("")
 
-    self.Methods["Button"](self, frame, adjustable, -7, -7)
+    self.Methods["Button"](self, frame, adjustable, -4, -4)
 
     if not frame.icon then 
         frame.icon = frame:CreateTexture(nil,'ARTWORK')
@@ -1893,17 +1893,16 @@ end
 LOAD
 ##########################################################
 ]]--
-function MOD:Load()
-    local active = SV.db.THEME.active;
+function SV:PostUpdateTheme(active)
+    active = active or self.db.THEME.active;
     local theme;
-
     if(active and active ~= 'NONE') then
-        theme = self.Themes[active]
+        theme = self.API.Themes[active]
         if(theme) then
-            for templateName, templateFile in pairs(self.Templates) do
+            for templateName, templateFile in pairs(self.API.Templates) do
                 local replacement = theme[templateName]
                 if(replacement) then
-                    self.Templates[templateName] = replacement
+                    self.API.Templates[templateName] = replacement
                 end
             end
         end

@@ -5,6 +5,7 @@
 ## Notes: Warcraft Theme for [|cff9911FFSVUI Framework|r].
 ## RequiredDeps: SVUI_!Core
 ## OptionalDeps: LibSharedMedia-3.0
+## LoadOnDemand: 1
 ## X-SVUITheme: Warcraft
 ## X-Email: munglunch@gmail.com
 ## X-Website: http://www.supervillainui.com
