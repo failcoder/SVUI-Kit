@@ -44,8 +44,8 @@ local function TradeSkillStyle()
 	local curWidth,curHeight = TradeSkillFrame:GetSize()
 	local enlargedHeight = curHeight + 170;
 	TradeSkillFrame:ModSize(curWidth + 30, curHeight + 166)
-	MOD:ApplyWindowStyle(TradeSkillFrame, true, true)
-	MOD:ApplyWindowStyle(TradeSkillGuildFrame)
+	SV.API:Set("Window", TradeSkillFrame, true, true)
+	SV.API:Set("Window", TradeSkillGuildFrame)
 
 	TradeSkillGuildFrame:ModPoint("BOTTOMLEFT", TradeSkillFrame, "BOTTOMRIGHT", 3, 19)
 	TradeSkillGuildFrameContainer:RemoveTextures()

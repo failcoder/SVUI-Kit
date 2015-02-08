@@ -308,9 +308,9 @@ local function LoadGarrisonStyle()
 		return 
 	end
 
-	MOD:ApplyWindowStyle(GarrisonMissionFrame, true)
-	MOD:ApplyWindowStyle(GarrisonBuildingFrame, true)
-	MOD:ApplyWindowStyle(GarrisonLandingPage, true)
+	SV.API:Set("Window", GarrisonMissionFrame, true, false, 1, 0, 4)
+	SV.API:Set("Window", GarrisonBuildingFrame, true, false, 1, 0, 4)
+	SV.API:Set("Window", GarrisonLandingPage, true, false, 1, 0, 0)
 
 	SV.API:Set("Tab", GarrisonMissionFrameTab1)
 	SV.API:Set("Tab", GarrisonMissionFrameTab2)
@@ -345,7 +345,7 @@ local function LoadGarrisonStyle()
 
 	GarrisonLandingPage.FollowerTab:RemoveTextures()
 	GarrisonLandingPage.FollowerTab.AbilitiesFrame:RemoveTextures()
-	GarrisonLandingPage.FollowerTab:SetStyle("Frame", "ModelBorder")
+	GarrisonLandingPage.FollowerTab:SetStyle("Frame", "Model")
 
 	GarrisonLandingPage.FollowerTab.Panel:ClearAllPoints()
 	GarrisonLandingPage.FollowerTab.Panel:SetPoint("TOPLEFT", GarrisonLandingPage.FollowerList.SearchBox, "TOPRIGHT", 10, 6)
@@ -398,7 +398,7 @@ local function LoadGarrisonStyle()
 	GarrisonMissionFrameMissions.MaterialFrame:SetStyle("Frame", "Inset", true, 1, -3, -3)
 
 	GarrisonMissionFrame.FollowerTab:RemoveTextures()
-	GarrisonMissionFrame.FollowerTab:SetStyle("!_Frame", "ModelBorder")
+	GarrisonMissionFrame.FollowerTab:SetStyle("!_Frame", "Model")
 
 	GarrisonMissionFrame.FollowerTab.ItemWeapon:RemoveTextures()
 	StyleListItem(GarrisonMissionFrame.FollowerTab.ItemWeapon)
@@ -431,7 +431,7 @@ local function LoadGarrisonStyle()
 	GarrisonMissionFrameFollowers:SetStyle("Frame", 'Inset', false, 4, 0, 0)
 	GarrisonMissionFrameFollowers.MaterialFrame:RemoveTextures()
 	GarrisonMissionFrameFollowers.MaterialFrame:SetStyle("Frame", "Inset", true, 1, -5, -7)
-	MOD:ApplyEditBoxStyle(GarrisonMissionFrameFollowers.SearchBox)
+	SV.API:Set("EditBox", GarrisonMissionFrameFollowers.SearchBox)
 
 	--GarrisonMissionFrameFollowersListScrollFrame
 
@@ -523,14 +523,14 @@ local function LoadGarrisonStyle()
 
 	SV.API:Set("ScrollFrame", GarrisonLandingPageListScrollFrameScrollBar)
 
-	MOD:ApplyWindowStyle(GarrisonRecruiterFrame, true)
+	SV.API:Set("Window", GarrisonRecruiterFrame, true)
 	GarrisonRecruiterFrameInset:RemoveTextures()
 	GarrisonRecruiterFrameInset:SetStyle("!_Frame", "Inset")
 	SV.API:Set("DropDown", GarrisonRecruiterFramePickThreatDropDown)
 	GarrisonRecruiterFrame.Pick.Radio1:SetStyle("!_Checkbox", false, -3, -3, true)
 	GarrisonRecruiterFrame.Pick.Radio2:SetStyle("!_Checkbox", false, -3, -3, true)
 
-	MOD:ApplyWindowStyle(GarrisonRecruitSelectFrame, true)
+	SV.API:Set("Window", GarrisonRecruitSelectFrame, true)
 	GarrisonRecruitSelectFrame.FollowerSelection:RemoveTextures()
 
 	GarrisonRecruitSelectFrame.FollowerList:RemoveTextures()

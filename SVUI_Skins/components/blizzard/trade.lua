@@ -25,7 +25,7 @@ local function TradeFrameStyle()
 		 return 
 	end 
 	
-	MOD:ApplyWindowStyle(TradeFrame, true)
+	SV.API:Set("Window", TradeFrame, true)
 
 	TradeFrameInset:Die()
 	TradeFrameTradeButton:SetStyle("Button")

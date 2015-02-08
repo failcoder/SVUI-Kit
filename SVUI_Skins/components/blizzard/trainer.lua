@@ -43,7 +43,7 @@ local function TrainerStyle()
 	if SV.db.Skins.blizzard.enable ~= true or SV.db.Skins.blizzard.trainer ~= true then return end
 
 	ClassTrainerFrame:SetHeight(ClassTrainerFrame:GetHeight() + 42)
-	MOD:ApplyWindowStyle(ClassTrainerFrame)
+	SV.API:Set("Window", ClassTrainerFrame)
 
 	for i=1, 8 do
 		_G["ClassTrainerScrollFrameButton"..i]:RemoveTextures()

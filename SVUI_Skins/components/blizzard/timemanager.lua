@@ -22,7 +22,7 @@ local function TimeManagerStyle()
 		 return 
 	end 
 	
-	MOD:ApplyWindowStyle(TimeManagerFrame, true)
+	SV.API:Set("Window", TimeManagerFrame, true)
 
 	SV.API:Set("CloseButton", TimeManagerFrameCloseButton)
 	TimeManagerFrameInset:Die()

@@ -208,7 +208,7 @@ local function StyleAtlasLoot(event, addon)
 	--AtlasLootPanel:HookScript("OnUpdate", _hook_OnUpdate)
 
 	if(AtlasLootTooltip:GetName() ~= "GameTooltip") then 
-		MOD:ApplyTooltipStyle(AtlasLootTooltip)
+		SV.API:Set("Tooltip", AtlasLootTooltip)
 	end
 end
 MOD:SaveAddonStyle("AtlasLoot", StyleAtlasLoot, nil, true)

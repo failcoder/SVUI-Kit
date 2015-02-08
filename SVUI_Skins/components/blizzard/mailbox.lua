@@ -40,7 +40,7 @@ MAILBOX MODR
 local function MailBoxStyle()
 	if SV.db.Skins.blizzard.enable ~= true or SV.db.Skins.blizzard.mail ~= true then return end 
 
-	MOD:ApplyWindowStyle(MailFrame)
+	SV.API:Set("Window", MailFrame)
 	
 	for b = 1, INBOXITEMS_TO_DISPLAY do 
 		local i = _G["MailItem"..b]

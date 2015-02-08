@@ -136,7 +136,7 @@ local function StyleAceGUI(event, addon)
 
 		elseif(widgetType == "EditBox") then 
 			local widgetEditbox = widget.editbox;
-			MOD:ApplyEditBoxStyle(widgetEditbox, nil, 15, 2, -2)
+			SV.API:Set("EditBox", widgetEditbox, nil, 15, 2, -2)
 
 		elseif(widgetType == "Button") then 
 			local widgetFrame = widget.frame;
@@ -211,7 +211,7 @@ local function StyleAceGUI(event, addon)
 					childFrame:RemoveTextures()
 				end 
 			end
-			MOD:ApplyWindowStyle(widgetParent)
+			SV.API:Set("Window", widgetParent)
 		elseif(ProxyType[widgetType]) then
 
 			if widget.treeframe then 

@@ -548,7 +548,7 @@ local ContainerFrame_UpdateLayout = function(self)
 						self.Bags[bagID][slotID].NewItemTexture = self.Bags[bagID][slotID]:CreateTexture(nil, "OVERLAY", 1);
 					end
 					self.Bags[bagID][slotID].NewItemTexture:InsetPoints(self.Bags[bagID][slotID]);
-					self.Bags[bagID][slotID].NewItemTexture:SetTexture(0,0,0,0);
+					self.Bags[bagID][slotID].NewItemTexture:SetTexture("");
 					self.Bags[bagID][slotID].NewItemTexture:Hide()
 
 					if(not self.Bags[bagID][slotID].JunkIcon) then 
@@ -688,12 +688,12 @@ local ReagentFrame_UpdateLayout = function(self)
 
 			slot.NewItemTexture = slot:CreateTexture(nil, "OVERLAY", 1);
 			slot.NewItemTexture:InsetPoints(slot);
-			slot.NewItemTexture:SetTexture(0,0,0,0);
+			slot.NewItemTexture:SetTexture("");
 			slot.NewItemTexture:Hide()
 
 			slot.JunkIcon = slot:CreateTexture(nil, "OVERLAY");
 			slot.JunkIcon:ModSize(16,16);
-			slot.JunkIcon:SetTexture(0,0,0,0);
+			slot.JunkIcon:SetTexture("");
 			slot.JunkIcon:ModPoint("TOPLEFT", slot, "TOPLEFT", -4, 4);
 
 			slot.icon = _G[iconName] or slot:CreateTexture(nil, "BORDER");

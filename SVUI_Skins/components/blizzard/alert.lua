@@ -174,7 +174,7 @@ local function AchievementStyle()
 
 			if(_G[frameName .. 'Glow']) then _G[frameName .. 'Glow']:Die() end
 			if(_G[frameName .. 'Shine']) then _G[frameName .. 'Shine']:Die() end
-			if(_G[frameName .. 'Background']) then _G[frameName .. 'Background']:SetTexture(0,0,0,0) end
+			if(_G[frameName .. 'Background']) then _G[frameName .. 'Background']:SetTexture("") end
 			if(_G[frameName .. 'IconOverlay']) then _G[frameName .. 'IconOverlay']:Die() end				
 			if(_G[frameName .. 'GuildBanner']) then _G[frameName .. 'GuildBanner']:Die() end
 			if(_G[frameName .. 'GuildBorder']) then _G[frameName .. 'GuildBorder']:Die() end
@@ -301,7 +301,7 @@ local function CriteriaStyle()
 
 			if(_G[frameName .. 'Glow']) then _G[frameName .. 'Glow']:Die() end
 			if(_G[frameName .. 'Shine']) then _G[frameName .. 'Shine']:Die() end
-			if(_G[frameName .. 'Background']) then _G[frameName .. 'Background']:SetTexture(0,0,0,0) end
+			if(_G[frameName .. 'Background']) then _G[frameName .. 'Background']:SetTexture("") end
 			if(_G[frameName .. 'IconOverlay']) then _G[frameName .. 'IconOverlay']:Die() end				
 			if(_G[frameName .. 'IconBling']) then _G[frameName .. 'IconBling']:Die() end
 		end 

@@ -51,7 +51,7 @@ local function TransmogStyle()
 	if SV.db.Skins.blizzard.enable ~= true or SV.db.Skins.blizzard.transmogrify ~= true then return end
 
 	TransmogrifyFrame:ModSize(500, 600)
-	MOD:ApplyWindowStyle(TransmogrifyFrame, true)
+	SV.API:Set("Window", TransmogrifyFrame, true)
 
 	for p, texture in pairs(TransmogFrameList)do
 		 _G[texture]:Die()

@@ -67,7 +67,7 @@ local function StyleMogIt()
 	MogItFiltersInset:RemoveTextures(true)
 
 	hooksecurefunc(MogIt, "CreatePreview", StyleMogItPreview)
-	MOD:ApplyTooltipStyle(MogItTooltip)
+	SV.API:Set("Tooltip", MogItTooltip)
 	SV.API:Set("CloseButton", MogItFrameCloseButton)
 	SV.API:Set("CloseButton", MogItFiltersCloseButton)
 	MogItFrameFiltersDefaults:RemoveTextures(true)

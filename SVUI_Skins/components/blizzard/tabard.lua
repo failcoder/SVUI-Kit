@@ -29,11 +29,11 @@ local function cleanT(a,b)
 			if b and type(b)=='boolean'then 
 				d:Die()
 			elseif d:GetDrawLayer()==b then 
-				d:SetTexture(0,0,0,0)
+				d:SetTexture("")
 			elseif b and type(b)=='string'and d:GetTexture()~=b then 
-				d:SetTexture(0,0,0,0)
+				d:SetTexture("")
 			else 
-				d:SetTexture(0,0,0,0)
+				d:SetTexture("")
 			end 
 		end 
 	end 

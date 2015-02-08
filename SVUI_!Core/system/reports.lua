@@ -211,7 +211,7 @@ local function GetDataSlot(parent, index)
 		slot.barframe:SetFrameLevel(slot:GetFrameLevel()-1)
 		slot.barframe:SetBackdrop({
 			bgFile = [[Interface\BUTTONS\WHITE8X8]], 
-			edgeFile = [[Interface\AddOns\SVUI_!Core\assets\textures\GLOW]], 
+			edgeFile = SV.Media.border.shadow, 
 			tile = false, 
 			tileSize = 0, 
 			edgeSize = 2, 
@@ -225,7 +225,7 @@ local function GetDataSlot(parent, index)
 		slot.barframe.icon:ModPoint("BOTTOMRIGHT", slot, "BOTTOMLEFT", 26, -6)
 		slot.barframe.icon.texture = slot.barframe.icon:CreateTexture(nil, "OVERLAY")
 		slot.barframe.icon.texture:InsetPoints(slot.barframe.icon, 2, 2)
-		slot.barframe.icon.texture:SetTexture(SV.NoTexture)
+		slot.barframe.icon.texture:SetTexture("")
 
 		slot.barframe.bar = CreateFrame("StatusBar", nil, slot.barframe)
 		slot.barframe.bar:InsetPoints(slot.barframe, 2, 2)

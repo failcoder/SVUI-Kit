@@ -52,7 +52,7 @@ local function StyleLightHeaded()
 	MOD:ApplyFrameStyle(LightHeadedFrame)
 	MOD:ApplyFrameStyle(LightHeadedFrameSub)
 	MOD:ApplyFrameStyle(LightHeadedSearchBox)
-	MOD:ApplyTooltipStyle(LightHeadedTooltip)
+	SV.API:Set("Tooltip", LightHeadedTooltip)
 	LightHeadedScrollFrame:RemoveTextures()
 			
 	lhframe.close:Hide()

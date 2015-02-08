@@ -146,7 +146,7 @@ local UnsetActiveData = function(self, bypass)
 	block:SetHeight(1);
 	block.Header.Text:SetText('');
 	block.Header.Level:SetText('');
-	block.Badge.Icon:SetTexture(0,0,0,0);
+	block.Badge.Icon:SetTexture("");
 	block.Button:SetID(0);
 	self.ActiveQuestID = 0;
 	MOD.ActiveQuestID = self.ActiveQuestID;
@@ -157,7 +157,7 @@ local UnsetActiveData = function(self, bypass)
 	self:SetAlpha(0);
 	-- if(MOD.QuestItem and MOD.QuestItem:IsShown()) then
 	-- 	MOD.QuestItem.CurrentQuest = 0;
-	-- 	MOD.QuestItem.Artwork:SetTexture(SV.NoTexture);
+	-- 	MOD.QuestItem.Artwork:SetTexture("");
 	-- 	MOD.QuestItem:ClearUsage();
 	-- end
 	if(not bypass and MOD.Headers["Quests"]) then

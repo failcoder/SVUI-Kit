@@ -35,7 +35,7 @@ local function CalendarStyle()
 		 return 
 	end
 
-	MOD:ApplyWindowStyle(CalendarFrame)
+	SV.API:Set("Window", CalendarFrame)
 
 	SV.API:Set("CloseButton", CalendarCloseButton)
 	CalendarCloseButton:SetPoint("TOPRIGHT", CalendarFrame, "TOPRIGHT", -4, -4)

@@ -54,24 +54,9 @@ local function ChangeTabHelper(this)
   this.pushed = true;
 
   this.backdrop = CreateFrame("Frame", nil, this)
-  
   this.backdrop:WrapPoints(this,1,1)
   this.backdrop:SetFrameLevel(0)
-
-  this.backdrop:SetBackdrop({
-      bgFile = [[Interface\BUTTONS\WHITE8X8]], 
-      tile = false, 
-      tileSize = 0,
-      edgeFile = [[Interface\AddOns\SVUI_!Core\assets\textures\GLOW]],
-      edgeSize = 3,
-      insets = {
-          left = 0,
-          right = 0,
-          top = 0,
-          bottom = 0
-      }
-  });
-
+  this.backdrop:SetBackdrop(SV.Media.backdrop.glow);
   this.backdrop:SetBackdropColor(0,0,0,1)
   this.backdrop:SetBackdropBorderColor(0,0,0,1)
   this:SetScript("OnEnter", Tab_OnEnter)
@@ -125,7 +110,7 @@ local function VoidStorageStyle()
      return 
   end
 
-  MOD:ApplyWindowStyle(VoidStorageFrame, true)
+  SV.API:Set("Window", VoidStorageFrame, true)
 
   for _,gName in pairs(VoidStorageList) do
     local frame = _G[gName]

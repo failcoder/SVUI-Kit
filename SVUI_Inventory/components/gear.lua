@@ -151,19 +151,7 @@ local function SetDisplayStats(arg)
 				frame.DurabilityInfo:ModPoint("BOTTOMLEFT", frame, "BOTTOMRIGHT", 1, -1)
 			end
 			frame.DurabilityInfo:SetFrameLevel(frame:GetFrameLevel()-1)
-			frame.DurabilityInfo:SetBackdrop({
-				bgFile = [[Interface\BUTTONS\WHITE8X8]], 
-				edgeFile = [[Interface\AddOns\SVUI_!Core\assets\textures\GLOW]], 
-				tile = false, 
-				tileSize = 0, 
-				edgeSize = 2, 
-				insets = {
-					left = 0, 
-					right = 0, 
-					top = 0,
-					bottom = 0
-				}
-			})
+			frame.DurabilityInfo:SetBackdrop(SV.Media.backdrop.glow)
 			frame.DurabilityInfo:SetBackdropColor(0, 0, 0, 0.5)
 			frame.DurabilityInfo:SetBackdropBorderColor(0, 0, 0, 0.8)
 			frame.DurabilityInfo.bar = CreateFrame("StatusBar", nil, frame.DurabilityInfo)

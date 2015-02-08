@@ -57,8 +57,8 @@ local function StripQuestMapFrame()
   local WorldMapFrame = _G.WorldMapFrame;
 
   WorldMapFrame.BorderFrame:RemoveTextures(true)
-  WorldMapFrame.BorderFrame.ButtonFrameEdge:SetTexture(0,0,0,0)
-  WorldMapFrame.BorderFrame.InsetBorderTop:SetTexture(0,0,0,0)
+  WorldMapFrame.BorderFrame.ButtonFrameEdge:SetTexture("")
+  WorldMapFrame.BorderFrame.InsetBorderTop:SetTexture("")
   WorldMapFrame.BorderFrame.Inset:RemoveTextures(true)
   WorldMapTitleButton:RemoveTextures(true)
   WorldMapFrameNavBar:RemoveTextures(true)
@@ -113,7 +113,7 @@ local function WorldMap_OnShow()
   if not SV.db.Maps.tinyWorldMap then
     BlackoutWorld:SetTexture(0,0,0,1)
   else
-    BlackoutWorld:SetTexture(0,0,0,0)
+    BlackoutWorld:SetTexture("")
   end
 
   WorldMapFrameAreaLabel:SetShadowOffset(2, -2)
@@ -132,7 +132,7 @@ WORLDMAP MODR
 local function WorldMapStyle()
   if SV.db.Skins.blizzard.enable ~= true or SV.db.Skins.blizzard.worldmap ~= true then return end
 
-  MOD:ApplyWindowStyle(WorldMapFrame, true, true)
+  SV.API:Set("Window", WorldMapFrame, true, true)
   WorldMapFrame.Panel:SetStyle("Frame", "Blackout")
 
   SV.API:Set("ScrollFrame", QuestScrollFrameScrollBar)

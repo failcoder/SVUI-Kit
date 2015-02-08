@@ -146,7 +146,7 @@ local function CreateThreat(frame, unit)
     threat:SetPoint("TOPLEFT", frame.ActionPanel, "TOPLEFT", -3, 3)
     threat:SetPoint("BOTTOMRIGHT", frame.ActionPanel, "BOTTOMRIGHT", 3, -3)
     threat:SetBackdrop({
-        edgeFile = [[Interface\AddOns\SVUI_!Core\assets\textures\GLOW]],
+        edgeFile = SV.Media.border.shadow,
         edgeSize = 3,
         insets = 
         {

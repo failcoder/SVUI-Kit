@@ -33,7 +33,7 @@ local function NoColor(a)
     if q:GetObjectType()=='Texture'then 
       q:SetDesaturated(true)
       if q:GetTexture()=='Interface\\DialogFrame\\UI-DialogBox-Corner'then 
-        q:SetTexture(0,0,0,0)
+        q:SetTexture("")
         q:Die()
       end 
     end 

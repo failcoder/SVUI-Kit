@@ -312,7 +312,7 @@ function SV.Setup:UserScreen(rez, preserve)
 
 	if(not preserve and not mungs) then
 		BarShuffle()
-    	SV.Layout:SetPositions()
+    	SV:UpdateAnchors()
 		SVUILib:RefreshModule('Dock')
 		SVUILib:RefreshModule('Auras')
 		SVUILib:RefreshModule('ActionBars')
@@ -505,7 +505,7 @@ function SV.Setup:UnitframeLayout(style, preserve)
 			else
 				UFMoveBottomQuadrant()
 			end
-			SV.Layout:SetPositions()
+			SV:UpdateAnchors()
 		end
 		SVUILib:RefreshModule('Dock')
 		SVUILib:RefreshModule('UnitFrames')
@@ -555,7 +555,7 @@ function SV.Setup:BarLayout(style, preserve)
 		end
 		if(not preserve) then
 			BarShuffle()
-			SV.Layout:SetPositions()
+			SV:UpdateAnchors()
 		end
 		SVUILib:RefreshModule('Dock')
 		SVUILib:RefreshModule('ActionBars')

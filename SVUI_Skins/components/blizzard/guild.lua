@@ -130,19 +130,7 @@ local function ChangeTabHelper(this)
 	this.backdrop = CreateFrame("Frame", nil, this)
 	this.backdrop:WrapPoints(this,1,1)
 	this.backdrop:SetFrameLevel(0)
-	this.backdrop:SetBackdrop({
-		bgFile = [[Interface\BUTTONS\WHITE8X8]], 
-        tile = false, 
-        tileSize = 0,
-        edgeFile = [[Interface\AddOns\SVUI_!Core\assets\textures\GLOW]],
-        edgeSize = 3,
-        insets = {
-            left = 0,
-            right = 0,
-            top = 0,
-            bottom = 0
-        }
-    });
+	this.backdrop:SetBackdrop(SV.Media.backdrop.glow);
     this.backdrop:SetBackdropColor(0,0,0,1)
 	this.backdrop:SetBackdropBorderColor(0,0,0,1)
 	this:SetScript("OnEnter", Tab_OnEnter)
@@ -349,7 +337,7 @@ local function GuildBankStyle()
 		return 
 	end
 
-	MOD:ApplyWindowStyle(GuildBankFrame)
+	SV.API:Set("Window", GuildBankFrame)
 
 	GuildBankEmblemFrame:RemoveTextures(true)
 	GuildBankMoneyFrameBackground:Die()
@@ -396,7 +384,7 @@ local function GuildBankStyle()
 				if(button) then
 					local texture = _G[btnName.."NormalTexture"]
 					if texture then
-						texture:SetTexture(0,0,0,0)
+						texture:SetTexture("")
 					end
 					button:RemoveTextures()
 					button:SetStyle("ActionSlot")
@@ -480,7 +468,7 @@ local function GuildFrameStyle()
 		return 
 	end
 	
-	MOD:ApplyWindowStyle(GuildFrame)
+	SV.API:Set("Window", GuildFrame)
 
 	SV.API:Set("CloseButton", GuildMemberDetailCloseButton)
 	SV.API:Set("CloseButton", GuildFrameCloseButton)
@@ -692,7 +680,7 @@ local function GuildControlStyle()
 	GuildControlUIRankBankFrameInset:RemoveTextures()
 	GuildControlUIRankBankFrameInsetScrollFrame:RemoveTextures()
 
-	MOD:ApplyWindowStyle(GuildControlUI)
+	SV.API:Set("Window", GuildControlUI)
 
 	SV.API:Set("ScrollFrame", GuildControlUIRankBankFrameInsetScrollFrameScrollBar)
 
@@ -729,7 +717,7 @@ local function GuildRegistrarStyle()
 		return 
 	end
 
-	MOD:ApplyWindowStyle(GuildRegistrarFrame, true, true)
+	SV.API:Set("Window", GuildRegistrarFrame, true, true)
 
 	GuildRegistrarFrameInset:Die()
 	GuildRegistrarFrameEditBox:RemoveTextures()
@@ -766,7 +754,7 @@ end
 local function LFGuildFrameStyle()
 	if(SV.db.Skins.blizzard.enable ~= true or SV.db.Skins.blizzard.lfguild ~= true) then return end
 
-	MOD:ApplyWindowStyle(LookingForGuildFrame, true)
+	SV.API:Set("Window", LookingForGuildFrame, true)
 
 	for i = 1, #LFGFrameList do
 		local check = _G[LFGFrameList[i]]

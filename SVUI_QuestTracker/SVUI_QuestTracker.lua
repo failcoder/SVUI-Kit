@@ -270,7 +270,7 @@ local OBJECTIVE_HEADER_Reset = function(self, lite)
 				objective:Show()
 			end
 			objective.Text:SetText('');
-			objective.Icon:SetTexture(SV.NoTexture);
+			objective.Icon:SetTexture("");
 			objective:StopTimer();
 			objective:StopProgress();
 			objective:SetHeight(1);

@@ -64,18 +64,6 @@ function MOD:ApplyFixedFrameStyle(this, template, noStripping, fullStripping)
     this:SetStyle("!_Frame", template)
 end
 
-function MOD:ApplyWindowStyle(this, action, fullStrip)
-	if(not this or (this and this.Panel)) then return end
-	local template = action and "WindowAlternate" or "Window"
-	local baselevel = this:GetFrameLevel()
-	if(baselevel < 1) then 
-		this:SetFrameLevel(1)
-	end
-	
-	this:RemoveTextures(fullStrip)
-	this:SetStyle("Frame", template)
-end
-
 function MOD:ApplyAdjustedWindowStyle(this, action, fullStrip, padding, xOffset, yOffset)
 	if(not this or (this and this.Panel)) then return end
 	local template = action and "WindowAlternate" or "Window"
@@ -87,34 +75,6 @@ function MOD:ApplyAdjustedWindowStyle(this, action, fullStrip, padding, xOffset,
 	this:RemoveTextures(fullStrip)
 	this:SetStyle("Frame", template, false, padding, xOffset, yOffset)
 end
---[[
-########################################################## 
- /$$$$$$$$/$$$$$$   /$$$$$$  /$$    /$$$$$$$$/$$$$$$ /$$$$$$$ 
-|__  $$__/$$__  $$ /$$__  $$| $$   |__  $$__/_  $$_/| $$__  $$
-   | $$ | $$  \ $$| $$  \ $$| $$      | $$    | $$  | $$  \ $$
-   | $$ | $$  | $$| $$  | $$| $$      | $$    | $$  | $$$$$$$/
-   | $$ | $$  | $$| $$  | $$| $$      | $$    | $$  | $$____/ 
-   | $$ | $$  | $$| $$  | $$| $$      | $$    | $$  | $$      
-   | $$ |  $$$$$$/|  $$$$$$/| $$$$$$$$| $$   /$$$$$$| $$      
-   |__/  \______/  \______/ |________/|__/  |______/|__/      
-##########################################################
---]]
-local Tooltip_OnShow = function(self)
-	self:SetBackdrop({
-		bgFile = SV.BaseTexture,
-		edgeFile = [[Interface\BUTTONS\WHITE8X8]],
-		tile = false,
-		edgeSize=1
-	})
-	self:SetBackdropColor(0,0,0,0.8)
-	self:SetBackdropBorderColor(0,0,0)
-end
-
-function MOD:ApplyTooltipStyle(frame)
-	if(not frame or (frame and frame.SkinsHooked)) then return end
-	frame:HookScript('OnShow', Tooltip_OnShow)
-	frame.SkinsHooked = true
-end 
 --[[
 ########################################################## 
   /$$$$$$  /$$       /$$$$$$$$ /$$$$$$$  /$$$$$$$$
@@ -228,23 +188,4 @@ function MOD:ApplyItemAlertStyle(frame, noicon)
 	end
 
     frame.AlertPanel = alertpanel
-end
---[[
-########################################################## 
- /$$      /$$ /$$$$$$  /$$$$$$   /$$$$$$ 
-| $$$    /$$$|_  $$_/ /$$__  $$ /$$__  $$
-| $$$$  /$$$$  | $$  | $$  \__/| $$  \__/
-| $$ $$/$$ $$  | $$  |  $$$$$$ | $$      
-| $$  $$$| $$  | $$   \____  $$| $$      
-| $$\  $ | $$  | $$   /$$  \ $$| $$    $$
-| $$ \/  | $$ /$$$$$$|  $$$$$$/|  $$$$$$/
-|__/     |__/|______/ \______/  \______/ 
-##########################################################
---]]
-function MOD:ApplyEditBoxStyle(this, width, height, x, y)
-	if not this then return end
-	this:RemoveTextures(true)
-    this:SetStyle("Editbox", x, y)
-    if width then this:ModWidth(width) end
-	if height then this:ModHeight(height) end
 end

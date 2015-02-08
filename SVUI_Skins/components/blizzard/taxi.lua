@@ -22,7 +22,7 @@ local function TaxiStyle()
 		 return 
 	end
 
-	MOD:ApplyWindowStyle(TaxiFrame)
+	SV.API:Set("Window", TaxiFrame)
 	
 	--TaxiRouteMap:SetStyle("Frame", "Blackout")
 	--TaxiRouteMap.Panel:WrapPoints(TaxiRouteMap, 4, 4)

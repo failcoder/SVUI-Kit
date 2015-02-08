@@ -88,6 +88,10 @@ local _SetDockStyleTheme = function(dock, isBottom)
 end
 
 function THEME:Load()
+	LSM:Register("border", "SVUI Warcraft Basic Border", [[Interface\Glues\COMMON\TextPanel-Border]])
+	LSM:Register("border", "SVUI Warcraft Dialog Border", [[Interface\DialogFrame\UI-DialogBox-Border]])
+	LSM:Register("border", "SVUI Warcraft Fancy Border", [[Interface\AddOns\SVUITheme_Warcraft\assets\artwork\THEMED-BORDER]])
+
 	SV.defaults["font"]["default"]     	= {file = "Arial Narrow",  size = 12,  outline = "OUTLINE"};
 	SV.defaults["font"]["dialog"]      	= {file = "Arial Narrow",  size = 10,  outline = "OUTLINE"};
 	SV.defaults["font"]["title"]       	= {file = "Arial Narrow",  size = 16,  outline = "OUTLINE"}; 
@@ -114,14 +118,14 @@ function THEME:Load()
 	end
 
 	SV.API.Themes["Warcraft"] = {
-		["Default"]     = "SVUITheme_Warcraft_Default",
-		["DockButton"]  = "SVUITheme_Warcraft_DockButton",
-		["Window"]  = "SVUITheme_Warcraft_Window",
-		["WindowAlternate"]  = "SVUITheme_Warcraft_WindowAlternate",
-		["UnitLarge"]   = "SVUITheme_Warcraft_UnitLarge",
-		["UnitSmall"]   = "SVUITheme_Warcraft_UnitSmall",
-		["Minimap"] 	= "SVUITheme_Warcraft_Minimap",
-		["ActionPanel"] = "SVUITheme_Warcraft_ActionPanel",
+		["Default"]     	= "SVUITheme_Warcraft_Default",
+		["DockButton"]  	= "SVUITheme_Warcraft_DockButton",
+		["Window"]  		= "SVUITheme_Warcraft_Window",
+		["WindowAlternate"] = "SVUITheme_Warcraft_WindowAlternate",
+		["UnitLarge"]   	= "SVUITheme_Warcraft_UnitLarge",
+		["UnitSmall"]   	= "SVUITheme_Warcraft_UnitSmall",
+		["Minimap"] 		= "SVUITheme_Warcraft_Minimap",
+		["ActionPanel"] 	= "SVUITheme_Warcraft_ActionPanel",
 	};
 
 	SV.Media["font"]["default"]   = LSM:Fetch("font", "Arial Narrow");

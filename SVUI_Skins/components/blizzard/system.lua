@@ -430,7 +430,7 @@ local function SystemPanelQue()
 	for i = 1, #SystemFrameList1 do
 		local this = _G[SystemFrameList1[i]]
 		if(this) then
-			MOD:ApplyWindowStyle(this)
+			SV.API:Set("Window", this)
 		end
 	end
 	
@@ -482,7 +482,7 @@ local function SystemPanelQue()
 		GhostFrame:ClearAllPoints()
 		GhostFrame:SetPoint("CENTER", SVUI_SpecialAbility, "CENTER", 0, 0)
 		GhostFrameContentsFrame:SetStyle("Button")
-		GhostFrameContentsFrameIcon:SetTexture(0,0,0,0)
+		GhostFrameContentsFrameIcon:SetTexture("")
 		local x = CreateFrame("Frame", nil, GhostFrame)
 		x:SetFrameStrata("MEDIUM")
 		x:SetStyle("!_Frame", "Default")
@@ -495,7 +495,7 @@ local function SystemPanelQue()
 	for i = 1, #SystemFrameList5 do
 		local this = _G[SystemFrameList5[i].."Header"]			
 		if(this) then
-			this:SetTexture(0,0,0,0)
+			this:SetTexture("")
 			this:ClearAllPoints()
 			if this == _G["GameMenuFrameHeader"] then
 				this:SetPoint("TOP", GameMenuFrame, 0, 7)
@@ -544,7 +544,7 @@ local function SystemPanelQue()
 	end)
 	if IsMacClient() then
 		MacOptionsFrame:SetStyle("!_Frame", "Default")
-		MacOptionsFrameHeader:SetTexture(0,0,0,0)
+		MacOptionsFrameHeader:SetTexture("")
 		MacOptionsFrameHeader:ClearAllPoints()
 		MacOptionsFrameHeader:SetPoint("TOP", MacOptionsFrame, 0, 0)
 		MacOptionsFrameMovieRecording:SetStyle("!_Frame", "Default")
@@ -719,7 +719,7 @@ local function SystemPanelQue()
 	SideDressUpFrame:ModSize(300, 400)
 	SideDressUpModel:RemoveTextures(true)
 	SideDressUpModel:SetAllPoints(SideDressUpFrame)
-	SideDressUpModel:SetStyle("!_Frame", "ModelBorder")
+	SideDressUpModel:SetStyle("!_Frame", "Model")
 	SideDressUpModelResetButton:SetStyle("Button")
 	SideDressUpModelResetButton:SetPoint("BOTTOM", SideDressUpModel, "BOTTOM", 0, 20)
 	SV.API:Set("CloseButton", SideDressUpModelCloseButton)	

@@ -75,7 +75,7 @@ local function StyleBars(self)
 				end
 
 				spark:SetAlpha(0)
-				spark:SetTexture(0,0,0,0)
+				spark:SetTexture("")
 
 				icon1:SetTexCoord(0.1,0.9,0.1,0.9)
 				icon1:ClearAllPoints()

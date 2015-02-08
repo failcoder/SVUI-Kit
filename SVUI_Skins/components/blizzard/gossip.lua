@@ -22,7 +22,7 @@ GOSSIP MODR
 local function GossipStyle()
 	if SV.db.Skins.blizzard.enable ~= true or SV.db.Skins.blizzard.gossip ~= true then return end 
 
-	MOD:ApplyWindowStyle(GossipFrame, true, true)
+	SV.API:Set("Window", GossipFrame, true, true)
 
 	ItemTextFrame:RemoveTextures(true)
 	ItemTextScrollFrame:RemoveTextures()

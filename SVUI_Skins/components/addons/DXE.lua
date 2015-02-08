@@ -32,7 +32,7 @@ DXE
 ]]--
 local function StyleDXEBar(bar)
 	bar:SetStyle("!_Frame", "Transparent")
-	bar.bg:SetTexture(0,0,0,0)
+	bar.bg:SetTexture("")
 	bar.border.Show = SV.fubar
 	bar.border:Hide()
 	bar.statusbar:SetStatusBarTexture(SV.BaseTexture)

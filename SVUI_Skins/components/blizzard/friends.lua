@@ -88,9 +88,9 @@ local function TabCustomHelper(this)
 	if not this then return end 
 	for _,prop in pairs(FrameSuffix) do 
 		local frame = _G[this:GetName()..prop]
-		frame:SetTexture(0,0,0,0)
+		frame:SetTexture("")
 	end 
-	this:GetHighlightTexture():SetTexture(0,0,0,0)
+	this:GetHighlightTexture():SetTexture("")
 	this.backdrop = CreateFrame("Frame", nil, this)
 	this.backdrop:SetStyle("!_Frame", "Default")
 	this.backdrop:SetFrameLevel(this:GetFrameLevel()-1)
@@ -118,24 +118,24 @@ local function FriendsFrameStyle()
 		 return 
 	end
 
-	MOD:ApplyWindowStyle(FriendsFrame)
+	SV.API:Set("Window", FriendsFrame)
 
 	FriendsFrameInset:RemoveTextures()
 	WhoFrameListInset:RemoveTextures()
 	WhoFrameEditBoxInset:RemoveTextures()
-	MOD:ApplyEditBoxStyle(WhoFrameEditBoxInset)
+	SV.API:Set("EditBox", WhoFrameEditBoxInset)
 	ChannelFrameRightInset:RemoveTextures()
 	ChannelFrameLeftInset:RemoveTextures()
-	ChannelFrameRightInset:SetStyle("!_Frame", "ModelBorder")
-	ChannelFrameLeftInset:SetStyle("!_Frame", "ModelBorder")
+	ChannelFrameRightInset:SetStyle("!_Frame", "Model")
+	ChannelFrameLeftInset:SetStyle("!_Frame", "Model")
 	LFRQueueFrameListInset:RemoveTextures()
 	LFRQueueFrameRoleInset:RemoveTextures()
 	LFRQueueFrameCommentInset:RemoveTextures()
-	LFRQueueFrameListInset:SetStyle("!_Frame", "ModelBorder")
-	FriendsFrameInset:SetStyle("!_Frame", "ModelBorder")
+	LFRQueueFrameListInset:SetStyle("!_Frame", "Model")
+	FriendsFrameInset:SetStyle("!_Frame", "Model")
 	FriendsFrameFriendsScrollFrame:SetStyle("!_Frame", "Model")
-	WhoFrameListInset:SetStyle("!_Frame", "ModelBorder")
-	RaidFrame:SetStyle("!_Frame", "ModelBorder")
+	WhoFrameListInset:SetStyle("!_Frame", "Model")
+	RaidFrame:SetStyle("!_Frame", "Model")
 
 	for _, frame in pairs(FriendsFrameButtons)do
 		if(_G[frame]) then
@@ -156,7 +156,7 @@ local function FriendsFrameStyle()
 	for i = 1, FriendsFrame:GetNumRegions()do 
 		local a1 = select(i, FriendsFrame:GetRegions())
 		if a1:GetObjectType() == "Texture"then
-			a1:SetTexture(0,0,0,0)
+			a1:SetTexture("")
 			a1:SetAlpha(0)
 		end 
 	end
@@ -262,7 +262,7 @@ local function FriendsFrameStyle()
 	FriendsTabHeaderRecruitAFriendButtonIcon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 	FriendsTabHeaderRecruitAFriendButtonIcon:InsetPoints()
 	
-	FriendsFrameIgnoreScrollFrame:SetStyle("!_Frame", "ModelBorder")
+	FriendsFrameIgnoreScrollFrame:SetStyle("!_Frame", "Model")
 	SV.API:Set("ScrollFrame", FriendsFrameIgnoreScrollFrameScrollBar, 4)
 	FriendsFramePendingScrollFrame:SetStyle("!_Frame", "Inset")
 	SV.API:Set("ScrollFrame", FriendsFramePendingScrollFrameScrollBar, 4)
@@ -271,9 +271,9 @@ local function FriendsFrameStyle()
 	ScrollOfResurrectionFrame:RemoveTextures()
 	ScrollOfResurrectionFrameAcceptButton:SetStyle("Button")
 	ScrollOfResurrectionFrameCancelButton:SetStyle("Button")
-	ScrollOfResurrectionFrameTargetEditBoxLeft:SetTexture(0,0,0,0)
-	ScrollOfResurrectionFrameTargetEditBoxMiddle:SetTexture(0,0,0,0)
-	ScrollOfResurrectionFrameTargetEditBoxRight:SetTexture(0,0,0,0)
+	ScrollOfResurrectionFrameTargetEditBoxLeft:SetTexture("")
+	ScrollOfResurrectionFrameTargetEditBoxMiddle:SetTexture("")
+	ScrollOfResurrectionFrameTargetEditBoxRight:SetTexture("")
 	ScrollOfResurrectionFrameNoteFrame:RemoveTextures()
 	ScrollOfResurrectionFrameNoteFrame:SetStyle("!_Frame")
 	ScrollOfResurrectionFrameTargetEditBox:SetStyle("!_Frame")

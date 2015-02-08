@@ -1078,10 +1078,10 @@ do
 		if not PLATE_ARGS.scaled and not PLATE_ARGS.tiny then
 			SVUI_PLATE.health:SetSize(HBWidth, HBHeight)
 		end
-		SVUI_PLATE.health:SetStatusBarTexture(SV.Media.bar.default)
+		SVUI_PLATE.health:SetStatusBarTexture(MOD.media.healthBar)
 		SVUI_PLATE.health.text:SetFontObject(SVUI_Font_NamePlate_Number)
 		SVUI_PLATE.cast:SetSize(HBWidth, CBHeight)
-		SVUI_PLATE.cast:SetStatusBarTexture(SV.Media.bar.gradient)
+		SVUI_PLATE.cast:SetStatusBarTexture(MOD.media.castBar)
 		SVUI_PLATE.cast.text:SetFont(SV.Media.font.default, 8, "OUTLINE")
 		plate.cast.text:SetFont(SV.Media.font.default, 8, "OUTLINE")
 		plate.cast.icon:ModSize((CBHeight + HBHeight) + 5)
@@ -1123,6 +1123,12 @@ do
 		ref.skullicon,
 		ref.raidicon,
 		ref.eliteicon = barRegions:GetRegions()
+		-- print(ref.raidicon:GetTexture())
+		-- print(ref.eliteicon:GetTexture())
+		-- if(not MOD.DebugPlateCaptured) then
+		-- 	SV.ScriptError:ShowDebug(MOD.Schema, ref)
+		-- 	MOD.DebugPlateCaptured = true
+		-- end
 
 		ref.nametext = "";
 
@@ -1142,22 +1148,24 @@ do
 		health:Hide()
 		fontRegions:Hide()
 
-		ref.threat:SetTexture(0,0,0,0)
+		ref.threat:SetTexture("")
 		ref.border:Hide()
-		ref.highlight:SetTexture(0,0,0,0)
+		ref.highlight:SetTexture("")
 		ref.level:SetWidth( 000.1 )
 		ref.level:Hide()
-		ref.skullicon:SetTexture(0,0,0,0)
+		ref.skullicon:SetTexture("")
 		ref.raidicon:SetAlpha( 0 )
-		ref.eliteicon:SetTexture(0,0,0,0)
+		ref.eliteicon:SetTexture("")
+		ref.eliteicon:SetAlpha( 0 )
+		--ref.eliteicon.SetTexture = SV.fubar
 
 		plate.name:Hide()
 
-		cast.border:SetTexture(0,0,0,0)
-		cast.shield:SetTexture(0,0,0,0)
+		cast.border:SetTexture("")
+		cast.shield:SetTexture("")
 		cast.icon:SetTexCoord( 0, 0, 0, 0 )
 		cast.icon:SetWidth(.001)
-		cast.shadow:SetTexture(0,0,0,0)
+		cast.shadow:SetTexture("")
 		--cast.shadow:Hide()
 		--cast.text:Hide()
 

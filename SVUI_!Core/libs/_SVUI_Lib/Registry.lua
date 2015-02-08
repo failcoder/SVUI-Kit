@@ -119,44 +119,6 @@ local rootstring = function(self) return self.NameID end
 --[[ CUSTOM LUA METHODS ]]--
 
 --LOCAL HELPERS
-local function formatValueString(text)
-    if "string" == type(text) then 
-        text = gsub(text,"\n","\\n")
-        if match(gsub(text,"[^'\"]",""),'^"+$') then 
-            return "'"..text.."'"; 
-        else 
-            return '"'..gsub(text,'"','\\"')..'"';
-        end 
-    else 
-        return tostring(text);
-    end
-end
-
-local function formatKeyString(text)
-    if("string" == type(text) and match(text,"^[_%a][_%a%d]*$")) then 
-        return text;
-    else 
-        return "["..formatValueString(text).."]";
-    end
-end
-
---APPENDED METHODS
-function table.dump(targetTable)
-    local dumpTable = {};
-    local dumpCheck = {};
-    for key,value in ipairs(targetTable) do 
-        tinsert(dumpTable, formatValueString(value));
-        dumpCheck[key] = true; 
-    end 
-    for key,value in pairs(targetTable) do 
-        if not dumpCheck[key] then 
-            tinsert(dumpTable, "\n    "..formatKeyString(key).." = "..formatValueString(value));
-        end 
-    end 
-    local output = tconcat(dumpTable, ", ");
-    return "{ "..output.." }";
-end
-
 function math.parsefloat(value, decimal)
     if(decimal and decimal > 0) then 
         local calc1 = 10 ^ decimal;

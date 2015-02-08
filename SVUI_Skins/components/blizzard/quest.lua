@@ -166,8 +166,8 @@ end
 local function QuestFrameStyle()
 	if SV.db.Skins.blizzard.enable ~= true or SV.db.Skins.blizzard.quest ~= true then return end
 
-	MOD:ApplyWindowStyle(QuestLogPopupDetailFrame, true, true)
-	MOD:ApplyWindowStyle(QuestFrame, true, true)
+	SV.API:Set("Window", QuestLogPopupDetailFrame, true, true)
+	SV.API:Set("Window", QuestFrame, true, true)
 
 	QuestLogPopupDetailFrameScrollFrame:RemoveTextures()
 	QuestProgressScrollFrame:RemoveTextures()
@@ -176,7 +176,7 @@ local function QuestFrameStyle()
 	QuestLogPopupDetailFrame.ShowMapButton:SetWidth(width)
 	QuestLogPopupDetailFrame.ShowMapButton:SetStyle("Button")
 
-	MOD:ApplyWindowStyle(QuestLogPopupDetailFrame)
+	SV.API:Set("Window", QuestLogPopupDetailFrame)
 
 	QuestLogPopupDetailFrameInset:Die()
 
@@ -278,7 +278,7 @@ end
 local function QuestChoiceFrameStyle()
 	if SV.db.Skins.blizzard.enable ~= true or SV.db.Skins.blizzard.quest ~= true then return end
 
-	MOD:ApplyWindowStyle(QuestChoiceFrame, true, true)
+	SV.API:Set("Window", QuestChoiceFrame, true, true)
 
 	local bgFrameTop = CreateFrame("Frame", nil, QuestChoiceFrame)
 	bgFrameTop:SetPoint("TOPLEFT", QuestChoiceFrame, "TOPLEFT", 42, -44)

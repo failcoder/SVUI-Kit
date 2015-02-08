@@ -110,19 +110,18 @@ DEFINE SHARED MEDIA
 ]]--
 local LSM = LibStub("LibSharedMedia-3.0")
 
-LSM:Register("background", "SVUI Backdrop 1", [[Interface\AddOns\SVUI_!Core\assets\textures\Backgrounds\PATTERN1]])
-LSM:Register("background", "SVUI Backdrop 2", [[Interface\AddOns\SVUI_!Core\assets\textures\Backgrounds\PATTERN2]])
-LSM:Register("background", "SVUI Backdrop 3", [[Interface\AddOns\SVUI_!Core\assets\textures\Backgrounds\PATTERN3]])
-LSM:Register("background", "SVUI Backdrop 4", [[Interface\AddOns\SVUI_!Core\assets\textures\Backgrounds\PATTERN4]])
-LSM:Register("background", "SVUI Backdrop 5", [[Interface\AddOns\SVUI_!Core\assets\textures\Backgrounds\PATTERN5]])
-LSM:Register("background", "SVUI Artwork 1", [[Interface\AddOns\SVUI_!Core\assets\textures\Backgrounds\COMIC1]])
-LSM:Register("background", "SVUI Artwork 2", [[Interface\AddOns\SVUI_!Core\assets\textures\Backgrounds\COMIC2]])
-LSM:Register("background", "SVUI Artwork 3", [[Interface\AddOns\SVUI_!Core\assets\textures\Backgrounds\COMIC3]])
-LSM:Register("background", "SVUI Artwork 4", [[Interface\AddOns\SVUI_!Core\assets\textures\Backgrounds\COMIC4]])
-LSM:Register("background", "SVUI Artwork 5", [[Interface\AddOns\SVUI_!Core\assets\textures\Backgrounds\COMIC5]])
-LSM:Register("border", "SVUI BasicBorder", [[Interface\Glues\COMMON\TextPanel-Border]])
-LSM:Register("border", "SVUI FancyBorder", [[Interface\DialogFrame\UI-DialogBox-Border]])
-LSM:Register("border", "SVUI ShadowBorder", [[Interface\AddOns\SVUI_!Core\assets\textures\GLOW]])
+LSM:Register("background", "SVUI Backdrop 1", [[Interface\AddOns\SVUI_!Core\assets\textures\Shared\PATTERN1]])
+LSM:Register("background", "SVUI Backdrop 2", [[Interface\AddOns\SVUI_!Core\assets\textures\Shared\PATTERN2]])
+LSM:Register("background", "SVUI Backdrop 3", [[Interface\AddOns\SVUI_!Core\assets\textures\Shared\PATTERN3]])
+LSM:Register("background", "SVUI Backdrop 4", [[Interface\AddOns\SVUI_!Core\assets\textures\Shared\PATTERN4]])
+LSM:Register("background", "SVUI Backdrop 5", [[Interface\AddOns\SVUI_!Core\assets\textures\Shared\PATTERN5]])
+LSM:Register("background", "SVUI Artwork 1", [[Interface\AddOns\SVUI_!Core\assets\textures\Shared\COMIC1]])
+LSM:Register("background", "SVUI Artwork 2", [[Interface\AddOns\SVUI_!Core\assets\textures\Shared\COMIC2]])
+LSM:Register("background", "SVUI Artwork 3", [[Interface\AddOns\SVUI_!Core\assets\textures\Shared\COMIC3]])
+LSM:Register("background", "SVUI Artwork 4", [[Interface\AddOns\SVUI_!Core\assets\textures\Shared\COMIC4]])
+LSM:Register("background", "SVUI Artwork 5", [[Interface\AddOns\SVUI_!Core\assets\textures\Shared\COMIC5]])
+LSM:Register("border", "SVUI All Purpose Border", [[Interface\BUTTONS\WHITE8X8]])
+-- LSM:Register("border", "SVUI Shadow Border", [[Interface\AddOns\SVUI_!Core\assets\textures\GLOW]])
 LSM:Register("statusbar", "SVUI BasicBar", [[Interface\AddOns\SVUI_!Core\assets\textures\Bars\DEFAULT]])
 LSM:Register("statusbar", "SVUI MultiColorBar", [[Interface\AddOns\SVUI_!Core\assets\textures\Bars\GRADIENT]])
 LSM:Register("statusbar", "SVUI SmoothBar", [[Interface\AddOns\SVUI_!Core\assets\textures\Bars\SMOOTH]])
@@ -180,9 +179,8 @@ SV.defaults["media"] = {
 		["premium"]      = "SVUI Artwork 1"
 	},
 	["borders"] = { 
-		["pattern"]      = "SVUI BasicBorder", 
-		["premium"]      = "SVUI FancyBorder", 
-		["shadow"]       = "SVUI ShadowBorder"
+		["pattern"]      = "SVUI All Purpose Border", 
+		["premium"]      = "SVUI All Purpose Border", 
 	},
 	["colors"] = {
 		["default"]      = {0.2, 0.2, 0.2, 1}, 
@@ -277,14 +275,14 @@ do
 		["glow"]      = LSM:Fetch("statusbar", "SVUI GlowBar"),
 		["lazer"]     = LSM:Fetch("statusbar", "SVUI LazerBar"),
 	}
-
+--SV.Media.backdrop.default
 	SV.Media["backdrop"] = {
-		unit = {
-			bgFile = [[Interface\AddOns\SVUI_!Core\assets\textures\EMPTY]], 
+		["default"] = {
+			bgFile = [[Interface\AddOns\SVUI_!Core\assets\textures\DEFAULT-BG]], 
 		    tile = false, 
 		    tileSize = 0, 
-		    edgeFile = [[Interface\DialogFrame\UI-DialogBox-Border]],
-		    edgeSize = 20,
+		    edgeFile = [[Interface\AddOns\SVUI_!Core\assets\textures\DEFAULT-BORDER]],
+		    edgeSize = 5,
 		    insets = 
 		    {
 		        left = 0, 
@@ -293,19 +291,77 @@ do
 		        bottom = 0, 
 		    },
 		},
-		unitBGColor = {0,0,0,0},
-		unitBorderColor = {1,1,1,1}
+		["aura"] = {
+			bgFile = [[Interface\BUTTONS\WHITE8X8]], 
+		    tile = false, 
+		    tileSize = 0, 
+		    edgeFile = [[Interface\AddOns\SVUI_!Core\assets\textures\GLOW]],
+		    edgeSize = 1,
+		    insets = 
+		    {
+		        left = 1, 
+		        right = 1, 
+		        top = 1, 
+		        bottom = 1, 
+		    },
+		},
+		["glow"] = {
+			bgFile = [[Interface\BUTTONS\WHITE8X8]], 
+		    tile = false, 
+		    tileSize = 0, 
+		    edgeFile = [[Interface\AddOns\SVUI_!Core\assets\textures\GLOW]],
+		    edgeSize = 3,
+		    insets = 
+		    {
+		        left = 0, 
+		        right = 0, 
+		        top = 0, 
+		        bottom = 0, 
+		    },
+		},
+		["tooltip"] = {
+			bgFile = [[Interface\AddOns\SVUI_!Core\assets\textures\DEFAULT-BG]], 
+		    tile = false, 
+		    tileSize = 0, 
+		    edgeFile = [[Interface\AddOns\SVUI_!Core\assets\textures\EMPTY]],
+		    edgeSize = 1,
+		    insets = 
+		    {
+		        left = 0, 
+		        right = 0, 
+		        top = 0, 
+		        bottom = 0, 
+		    },
+		},
+		["onlyborder"] = {
+			bgFile = [[Interface\AddOns\SVUI_!Core\assets\textures\EMPTY]], 
+		    tile = false, 
+		    tileSize = 0, 
+		    edgeFile = [[Interface\AddOns\SVUI_!Core\assets\textures\DEFAULT-BORDER]],
+		    edgeSize = 15,
+		    insets = 
+		    {
+		        left = 0, 
+		        right = 0, 
+		        top = 0, 
+		        bottom = 0, 
+		    },
+		},
 	}
 
-	SV.Media["bg"] = {
+	SV.Media["texture"] = {
+		["default"] 	= [[Interface\AddOns\SVUI_!Core\assets\textures\DEFAULT-BG]],
+		["transparent"] = [[Interface\AddOns\SVUI_!Core\assets\textures\TRANSPARENT-BG]],
+		["button"]      = [[Interface\AddOns\SVUI_!Core\assets\textures\BUTTON]],
 		["pattern"]     = LSM:Fetch("background", "SVUI Backdrop 1"),
 		["premium"]     = LSM:Fetch("background", "SVUI Artwork 1"),
 	}
 
 	SV.Media["border"] = {
-		["pattern"]     = LSM:Fetch("border", "SVUI BasicBorder"),
-		["premium"]     = LSM:Fetch("border", "SVUI FancyBorder"),
-		["shadow"]      = LSM:Fetch("border", "SVUI ShadowBorder"),
+		["default"] 	= [[Interface\AddOns\SVUI_!Core\assets\textures\DEFAULT-BORDER]],
+		["shadow"]      = [[Interface\AddOns\SVUI_!Core\assets\textures\GLOW]],
+		["pattern"]     = LSM:Fetch("border", "SVUI All Purpose Border"),
+		["premium"]     = LSM:Fetch("border", "SVUI All Purpose Border"),
 	}
 
 	SV.Media["misc"] = {
@@ -665,12 +721,16 @@ function SV.Media:Update()
 	self.color.special      = settings.colors.special
 	self.color.specialdark  = settings.colors.specialdark
 
-	for k,v in pairs(self.bg) do
-		self.bg[k] = LSM:Fetch("background", settings.textures[k])
+	for k,v in pairs(self.texture) do
+		if(settings.textures[k]) then
+			self.texture[k] = LSM:Fetch("background", settings.textures[k])
+		end
 	end
 
 	for k,v in pairs(self.border) do
-		self.border[k] = LSM:Fetch("border", settings.textures[k])
+		if(settings.borders[k]) then
+			self.border[k] = LSM:Fetch("border", settings.borders[k])
+		end
 	end
 
 	local cColor1 = self.color.special

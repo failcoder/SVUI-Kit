@@ -251,15 +251,15 @@ local function ModifyActionButton(parent)
 		checked:SetTexture(1,1,1,.2)
 	end 
 	if flash then 
-		flash:SetTexture(0,0,0,0)
+		flash:SetTexture("")
 	end 
 	if normal then 
-		normal:SetTexture(0,0,0,0)
+		normal:SetTexture("")
 		normal:Hide()
 		normal:SetAlpha(0)
 	end 
 	if parentTex then 
-		parentTex:SetTexture(0,0,0,0)
+		parentTex:SetTexture("")
 		parentTex:Hide()
 		parentTex:SetAlpha(0)
 	end 

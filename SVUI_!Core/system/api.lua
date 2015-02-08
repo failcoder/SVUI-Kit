@@ -25,7 +25,7 @@ local parsefloat, ceil = math.parsefloat, math.ceil;
 --[[ STRING METHODS ]]--
 local lower, upper = string.lower, string.upper;
 --[[ TABLE METHODS ]]--
-local tremove, tcopy, twipe, tsort, tconcat, tdump = table.remove, table.copy, table.wipe, table.sort, table.concat, table.dump;
+local tremove, tcopy, twipe, tsort, tconcat = table.remove, table.copy, table.wipe, table.sort, table.concat;
 --[[ 
 ########################################################## 
 GET ADDON DATA
@@ -70,7 +70,6 @@ MOD.Templates = {
     ["Pattern"]     = "SVUI_CoreStyle_Pattern",
     ["Premium"]     = "SVUI_CoreStyle_Premium",
     ["Model"]       = "SVUI_CoreStyle_Model",
-    ["ModelBorder"] = "SVUI_CoreStyle_ModelBorder",
     ["Window"]  = "SVUI_CoreStyle_Window",
     ["WindowAlternate"]  = "SVUI_CoreStyle_WindowAlternate",
 };
@@ -235,10 +234,10 @@ local RemoveTextures = function(self, option)
                     end 
                     region:Hide()
                 elseif(type(option) == "string" and ((layer == option) or (texture ~= option))) then
-                    region:SetTexture(0,0,0,0)
+                    region:SetTexture("")
                 end
             else 
-                region:SetTexture(0,0,0,0)
+                region:SetTexture("")
             end
         end 
     end
@@ -460,24 +459,46 @@ end
 local HookCustomBackdrop = function(self)
     if(self.Panel) then
         local bgid = self.Panel:GetAttribute("panelID")
-        local newBgFile = SV.Media.bg[bgid]
-        local newBorderFile = SV.Media.border[bgid]
-        if(newBgFile and newBorderFile) then
-            local edgeSize = self.Panel:GetAttribute("panelPadding") or 1
-            self:SetBackdrop({
-                bgFile = newBgFile, 
-                edgeFile = newBorderFile, 
-                tile = false, 
-                tileSize = 0, 
-                edgeSize = edgeSize, 
-                insets = 
-                {
-                    left = 0, 
-                    right = 0, 
-                    top = 0, 
-                    bottom = 0, 
-                }, 
-            })
+        local bdSet = SV.Media.backdrop[bgid]
+        if(bdSet) then
+            if(not self.Panel:GetAttribute("panelLocked")) then
+                local edgeSize = bdSet.edgeSize;
+                if(edgeSize and edgeSize > 0) then
+                    --if(bgid == "premium") then print("SetPoint from Backdrop1") end
+                    local offset = ceil(edgeSize * 0.25)
+                    self.Panel:ClearAllPoints()
+                    self.Panel:SetPoint("TOPLEFT", self, "TOPLEFT", offset, -offset)
+                    self.Panel:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -offset, offset)
+                end
+            end
+            self:SetBackdrop(SV.Media.backdrop[bgid])
+        else
+            local newBgFile = SV.Media.texture[bgid]
+            local newBorderFile = SV.Media.border[bgid]
+            if(newBgFile and newBorderFile) then
+                local edgeSize = self.Panel:GetAttribute("panelPadding") or 1
+                self:SetBackdrop({
+                    bgFile = newBgFile, 
+                    edgeFile = newBorderFile, 
+                    tile = false, 
+                    tileSize = 0, 
+                    edgeSize = edgeSize, 
+                    insets = 
+                    {
+                        left = 0, 
+                        right = 0, 
+                        top = 0, 
+                        bottom = 0, 
+                    }, 
+                })
+                if(edgeSize and edgeSize > 0 and (not self.Panel:GetAttribute("panelLocked"))) then
+                    --if(bgid == "premium") then print("SetPoint from Backdrop2") end
+                    local offset = ceil(edgeSize * 0.25)
+                    self.Panel:ClearAllPoints()
+                    self.Panel:SetPoint("TOPLEFT", self, "TOPLEFT", offset, -offset)
+                    self.Panel:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -offset, offset)
+                end
+            end
         end
     end
 end
@@ -700,12 +721,19 @@ function MOD:APPLY(frame, templateName, underlay, padding, xOffset, yOffset, def
     local gradientName  = panel:GetAttribute("panelGradient")
     local forcedOffset  = panel:GetAttribute("panelOffset")
 
+    if(forcedOffset or xOffset or yOffset) then
+        panel:SetAttribute("panelLocked", true)
+    end
+
     if(forcedOffset) then
         xOffset = xOffset or forcedOffset
         yOffset = yOffset or forcedOffset
-    else
+    elseif(underlay) then
         xOffset = xOffset or 0
         yOffset = yOffset or 0
+    else
+        xOffset = xOffset or 1
+        yOffset = yOffset or 1
     end
 
     --panel:WrapPoints(frame, xOffset, yOffset)
@@ -887,8 +915,8 @@ MOD.Methods["LiteButton"] = function(self, frame, inverse, xOffset, yOffset, def
     end
 
     self:APPLY(frame, "Lite", inverse, 1, x, y)
-    frame:SetBackdropColor(0,0,0,0)
-    frame:SetBackdropBorderColor(0,0,0,0)
+    --frame:SetBackdropColor(0,0,0,0)
+    --frame:SetBackdropBorderColor(0,0,0,0)
     CommonButtonSettings(frame, true)
 end;
 
@@ -1117,6 +1145,7 @@ end
 
 local StealAtlas = function(self, atlas)
     if(not self or not atlas) then return end
+    --print(atlas)
     local hack = ATLAS_THIEF[atlas];
     if(hack) then
         local fn = ATLAS_HACKS[hack] or ATLAS_HACKS["default"]
@@ -1154,7 +1183,7 @@ local function FrameTemplateUpdates()
                 end
             end
             if(frame.TextureNeedsUpdate and frame.Panel.Skin) then
-                local tex = SV.Media.bg[panelID]
+                local tex = SV.Media.texture[panelID]
                 if(tex) then
                     frame.Panel.Skin:SetTexture(tex)
                 end 
@@ -1381,7 +1410,7 @@ local Tab_OnEnter = function(self)
 end
 
 local Tab_OnLeave = function(self)
-    self.backdrop:SetPanelColor("dark")
+    self.backdrop:SetPanelColor("default")
     self.backdrop:SetBackdropBorderColor(0,0,0,1)
 end
 
@@ -1389,6 +1418,10 @@ local _hook_DropDownButton_SetPoint = function(self, _, _, _, _, _, breaker)
     if not breaker then
         self:SetPoint("RIGHT", self.AnchorParent, "RIGHT", -10, 3, true)
     end
+end
+
+local _hook_Tooltip_OnShow = function(self)
+    self:SetBackdrop(SV.Media.backdrop.tooltip)
 end
 
 MOD.Concepts["Frame"] = function(self, adjustable, frame, template, stripped, padding, xOffset, yOffset)
@@ -1580,15 +1613,15 @@ MOD.Concepts["ScrollFrame"] = function(self, adjustable, frame, scale, yOffset)
     local scrollName = frame:GetName()
     local bg, track, top, bottom, mid, upButton, downButton
     bg = _G[("%sBG"):format(scrollName)]
-    if(bg) then bg:SetTexture(0,0,0,0) end 
+    if(bg) then bg:SetTexture("") end 
     track = _G[("%sTrack"):format(scrollName)]
-    if(track) then track:SetTexture(0,0,0,0) end 
+    if(track) then track:SetTexture("") end 
     top = _G[("%sTop"):format(scrollName)]
-    if(top) then top:SetTexture(0,0,0,0) end 
+    if(top) then top:SetTexture("") end 
     bottom = _G[("%sBottom"):format(scrollName)]
-    if(bottom) then bottom:SetTexture(0,0,0,0) end 
+    if(bottom) then bottom:SetTexture("") end 
     mid = _G[("%sMiddle"):format(scrollName)]
-    if(mid) then mid:SetTexture(0,0,0,0) end 
+    if(mid) then mid:SetTexture("") end 
     upButton = _G[("%sScrollUpButton"):format(scrollName)]
     downButton = _G[("%sScrollDownButton"):format(scrollName)]
 
@@ -1619,11 +1652,17 @@ MOD.Concepts["ScrollFrame"] = function(self, adjustable, frame, scale, yOffset)
                 downButton:SetPoint(anchor, parent, relative, xBase, yAdjust)
             end
         end 
-        if(not frame.ScrollBG) then 
-            frame.ScrollBG = frame:CreateTexture(nil, "BACKGROUND")
-            frame.ScrollBG:SetPoint("TOPLEFT", upButton, "TOPLEFT", 1, -1)
-            frame.ScrollBG:SetPoint("BOTTOMRIGHT", downButton, "BOTTOMRIGHT", -1, 1)
-            frame.ScrollBG:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\GENERAL-BGTEX]])
+        if(not frame.BG) then 
+            frame.BG = frame:CreateTexture(nil, "BACKGROUND")
+            frame.BG:SetPoint("TOPLEFT", upButton, "TOPLEFT", 1, -1)
+            frame.BG:SetPoint("BOTTOMRIGHT", downButton, "BOTTOMRIGHT", -1, 1)
+            frame.BG:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\TRANSPARENT-BG]])
+
+            local fg = CreateFrame("Frame", nil, frame)
+            fg:SetPoint("TOPLEFT", frame, "TOPLEFT", 18, -2)
+            fg:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -10, 6)
+            fg:SetBackdrop(SV.Media.backdrop.onlyborder)
+            frame.Brdr = fg
         end 
         if(frame.SetThumbTexture) then 
             frame:SetThumbTexture([[Interface\AddOns\SVUI_!Core\assets\textures\SCROLLBAR-KNOB]])
@@ -1662,15 +1701,15 @@ MOD.Concepts["Tab"] = function(self, adjustable, frame, addBackground, xOffset, 
 
     local tab = frame:GetName();
 
-    if _G[tab.."Left"] then _G[tab.."Left"]:SetTexture(0,0,0,0) end
-    if _G[tab.."LeftDisabled"] then _G[tab.."LeftDisabled"]:SetTexture(0,0,0,0) end
-    if _G[tab.."Right"] then _G[tab.."Right"]:SetTexture(0,0,0,0) end
-    if _G[tab.."RightDisabled"] then _G[tab.."RightDisabled"]:SetTexture(0,0,0,0) end
-    if _G[tab.."Middle"] then _G[tab.."Middle"]:SetTexture(0,0,0,0) end
-    if _G[tab.."MiddleDisabled"] then _G[tab.."MiddleDisabled"]:SetTexture(0,0,0,0) end
+    if _G[tab.."Left"] then _G[tab.."Left"]:SetTexture("") end
+    if _G[tab.."LeftDisabled"] then _G[tab.."LeftDisabled"]:SetTexture("") end
+    if _G[tab.."Right"] then _G[tab.."Right"]:SetTexture("") end
+    if _G[tab.."RightDisabled"] then _G[tab.."RightDisabled"]:SetTexture("") end
+    if _G[tab.."Middle"] then _G[tab.."Middle"]:SetTexture("") end
+    if _G[tab.."MiddleDisabled"] then _G[tab.."MiddleDisabled"]:SetTexture("") end
 
     if(frame.GetHighlightTexture and frame:GetHighlightTexture()) then 
-        frame:GetHighlightTexture():SetTexture(0,0,0,0)
+        frame:GetHighlightTexture():SetTexture("")
     end
 
     RemoveTextures(frame)
@@ -1717,7 +1756,7 @@ MOD.Concepts["Tab"] = function(self, adjustable, frame, addBackground, xOffset, 
             frame.backdrop:SetFrameLevel(frame:GetFrameLevel() - 1)
         end
 
-        self.Methods["Frame"](self, frame.backdrop, adjustable, "Default", true)
+        self.Methods["Frame"](self, frame.backdrop, adjustable, "Button", true)
     end
 
     frame:HookScript("OnEnter", Tab_OnEnter)
@@ -1758,10 +1797,77 @@ MOD.Concepts["DropDown"] = function(self, adjustable, frame, width)
             frame.BG = frame:CreateTexture(nil, "BACKGROUND")
             frame.BG:SetPoint("TOPLEFT", frame, "TOPLEFT", 18, -2)
             frame.BG:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -10, 6)
-            frame.BG:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\GENERAL-BGTEX]])
+            frame.BG:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\TRANSPARENT-BG]])
+
+            local fg = CreateFrame("Frame", nil, frame)
+            fg:SetPoint("TOPLEFT", frame, "TOPLEFT", 18, -2)
+            fg:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -10, 6)
+            fg:SetBackdrop(SV.Media.backdrop.onlyborder)
+            frame.Brdr = fg
         end 
     end
 end 
+
+MOD.Concepts["Tooltip"] = function(self, adjustable, frame, useHook)
+    if(not frame or (frame and frame.Panel)) then return end 
+
+    if frame.Background then
+        frame.Background:SetTexture("")
+    end
+
+    if frame.Delimiter1 then 
+        frame.Delimiter1:SetTexture("")
+        frame.Delimiter2:SetTexture("")
+    end
+
+    if frame.BorderTop then
+        frame.BorderTop:SetTexture("")
+    end
+
+    if frame.BorderTopLeft then
+        frame.BorderTopLeft:SetTexture("")
+    end
+
+    if frame.BorderTopRight then
+        frame.BorderTopRight:SetTexture("")
+    end
+
+    if frame.BorderLeft then
+        frame.BorderLeft:SetTexture("")
+    end
+
+    if frame.BorderRight then
+        frame.BorderRight:SetTexture("")
+    end
+
+    if frame.BorderBottom then
+        frame.BorderBottom:SetTexture("")
+    end
+
+    if frame.BorderBottomRight then
+        frame.BorderBottomRight:SetTexture("")
+    end
+
+    if frame.BorderBottomLeft then
+        frame.BorderBottomLeft:SetTexture("")
+    end
+    
+    frame:SetBackdrop(SV.Media.backdrop.tooltip)
+
+    if(useHook) then
+        frame:HookScript('OnShow', _hook_Tooltip_OnShow)
+    end
+end
+
+MOD.Concepts["EditBox"] = function(self, adjustable, frame, width, height, x, y)
+    if(not frame or (frame and frame.Panel)) then return end
+
+    RemoveTextures(frame, true)
+    self.Methods["Editbox"](self, frame, adjustable, x, y)
+
+    if width then frame:SetWidth(width) end
+    if height then frame:SetHeight(height) end
+end
 
 function MOD:Set(concept, ...)
     if(not concept) then return end
@@ -1777,11 +1883,11 @@ function MOD:Set(concept, ...)
     end
 end
 
-hooksecurefunc("CreateFrame", function(this, globalName, parent, template)
-    if(template and template == "UIPanelCloseButton" and globalName) then
-        MOD:Set("CloseButton", _G[globalName])
-    end
-end)
+-- hooksecurefunc("CreateFrame", function(this, globalName, parent, template)
+--     if(template and template == "UIPanelCloseButton" and globalName) then
+--         MOD:Set("CloseButton", _G[globalName])
+--     end
+-- end)
 --[[ 
 ########################################################## 
 LOAD

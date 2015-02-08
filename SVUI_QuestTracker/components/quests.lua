@@ -902,7 +902,7 @@ local SetZoneHeader = function(self, index, zoneName)
 	local row = self:Get(index);
 	row.Header.Level:SetText('');
 	row.Header.Text:SetText('');
-	row.Badge.Icon:SetTexture(SV.NoTexture);
+	row.Badge.Icon:SetTexture("");
 	row.Badge.Button:SetID(0);
 	row.Badge:SetAlpha(0);
 	row.Button:SetID(0);
@@ -986,7 +986,7 @@ local ResetQuestBlock = function(self)
 			row.Button:SetID(0);
 			row.Button:Disable();
 			row.Badge.Button:SetID(0);
-			row.Badge.Icon:SetTexture(SV.NoTexture);
+			row.Badge.Icon:SetTexture("");
 			row.Badge:SetAlpha(0);
 			row.Badge.Button:Disable();
 			row:SetHeight(1);

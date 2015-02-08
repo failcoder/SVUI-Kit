@@ -49,7 +49,7 @@ local function StyleAltoholic(event, addon)
 	assert(AltoholicFrame, "AddOn Not Loaded")
 
 	if event == "PLAYER_ENTERING_WORLD" then
-		MOD:ApplyTooltipStyle(AltoTooltip)
+		SV.API:Set("Tooltip", AltoTooltip)
 
 		AltoholicFramePortrait:Die()
 
@@ -58,7 +58,7 @@ local function StyleAltoholic(event, addon)
 		SV.API:Set("Button", AltoMsgBoxYesButton)
 		SV.API:Set("Button", AltoMsgBoxNoButton)
 		SV.API:Set("CloseButton", AltoholicFrameCloseButton)
-		MOD:ApplyEditBoxStyle(AltoholicFrame_SearchEditBox, 175, 15)
+		SV.API:Set("EditBox", AltoholicFrame_SearchEditBox, 175, 15)
 		SV.API:Set("Button", AltoholicFrame_ResetButton)
 		SV.API:Set("Button", AltoholicFrame_SearchButton)
 
@@ -263,8 +263,8 @@ local function StyleAltoholic(event, addon)
 		AltoholicTabSearch_SelectRarity:ModSize(125, 32)
 		AltoholicTabSearch_SelectSlot:ModSize(125, 32)
 		AltoholicTabSearch_SelectLocation:ModSize(175, 32)
-		MOD:ApplyEditBoxStyle(_G["AltoholicTabSearch_MinLevel"])
-		MOD:ApplyEditBoxStyle(_G["AltoholicTabSearch_MaxLevel"])
+		SV.API:Set("EditBox", _G["AltoholicTabSearch_MinLevel"])
+		SV.API:Set("EditBox", _G["AltoholicTabSearch_MaxLevel"])
 
 		for i = 1, 15 do
 			SV.API:Set("Button", _G["AltoholicTabSearchMenuItem"..i])

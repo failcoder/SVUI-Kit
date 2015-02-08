@@ -143,7 +143,7 @@ function MOD:InitializeMicroBar()
 			if(button) then
 				button:SetParent(SVUI_MicroBar)
 				button:ModSize(buttonSize, buttonSize + 28)
-				button.Flash:SetTexture(0,0,0,0)
+				button.Flash:SetTexture("")
 				if button.SetPushedTexture then 
 					button:SetPushedTexture("")
 				end 

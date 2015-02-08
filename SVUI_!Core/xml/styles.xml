@@ -389,7 +389,7 @@
 
     <Frame name="SVUI_CoreStyle_Lite" virtual="true">
         <Attributes>
-            <Attribute name="panelID" type="string" value="headline" />
+            <Attribute name="panelID" type="string" value="lite" />
             <Attribute name="panelPadding" type="number" value="1" />
             <Attribute name="panelColor" type="string" value="hinted" />
             <Attribute name="panelGradient" type="boolean" value="false" />
@@ -602,67 +602,19 @@
     <Frame name="SVUI_CoreStyle_Pattern" virtual="true">
         <Attributes>
             <Attribute name="panelID" type="string" value="pattern" />
-            <Attribute name="panelPadding" type="number" value="3" />
+            <Attribute name="panelPadding" type="number" value="1" />
             <Attribute name="panelColor" type="string" value="special" />
-            <Attribute name="panelGradient" type="string" value="special" />
-            <Attribute name="panelTexUpdate" type="boolean" value="true" />
+            <Attribute name="panelGradient" type="boolean" value="false" />
+            <Attribute name="panelTexUpdate" type="boolean" value="false" />
             <Attribute name="panelSkipUpdate" type="boolean" value="false" />
         </Attributes>
-        <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\BUTTONS\WHITE8X8" tile="false">
+        <Backdrop bgFile="Interface\AddOns\SVUI_!Core\assets\textures\Shared\PATTERN1" edgeFile="Interface\BUTTONS\WHITE8X8" tile="false">
             <EdgeSize val="1" />
             <TileSize val="0" />
             <BackgroundInsets left="0" right="0" top="0" bottom="0" />
             <Color r="0.37" g="0.32" b="0.29" a="1" />
             <BorderColor r="0" g="0" b="0" a="1" />
         </Backdrop>
-        <Layers>
-            <Layer level="BACKGROUND" textureSubLevel="1">
-                <Texture parentKey="Skin" nonBlocking="true" file="Interface\DialogFrame\UI-DialogBox-Background" setAllPoints="true" />
-                <Color r="0.37" g="0.32" b="0.29" a="1" />
-            </Layer>
-            <Layer level="BORDER">
-                <Texture parentKey="BorderLeft" file="Interface\BUTTONS\WHITE8X8">
-                    <Anchors>
-                        <Anchor point="TOPLEFT" relativePoint="TOPLEFT" />
-                        <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" />
-                    </Anchors>
-                    <Size>
-                        <AbsDimension x="3" />
-                    </Size>
-                    <Color r="0" g="0" b="0" a="1" />
-                </Texture>
-                <Texture parentKey="BorderRight" file="Interface\BUTTONS\WHITE8X8">
-                    <Anchors>
-                        <Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" />
-                        <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" />
-                    </Anchors>
-                    <Size>
-                        <AbsDimension x="3" />
-                    </Size>
-                    <Color r="0" g="0" b="0" a="1" />
-                </Texture>
-                <Texture parentKey="BorderTop" file="Interface\BUTTONS\WHITE8X8">
-                    <Anchors>
-                        <Anchor point="TOPLEFT" relativePoint="TOPLEFT" />
-                        <Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" />
-                    </Anchors>
-                    <Size>
-                        <AbsDimension y="3" />
-                    </Size>
-                    <Color r="0" g="0" b="0" a="1" />
-                </Texture>
-                <Texture parentKey="BorderBottom" file="Interface\BUTTONS\WHITE8X8">
-                    <Anchors>
-                        <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" />
-                        <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" />
-                    </Anchors>
-                    <Size>
-                        <AbsDimension y="3" />
-                    </Size>
-                    <Color r="0" g="0" b="0" a="1" />
-                </Texture>
-            </Layer>
-        </Layers>
         <Frames>
             <Frame parentKey="Shadow" inherits="SVUI_ShadowTemplate" />
         </Frames>
@@ -673,109 +625,40 @@
             <Attribute name="panelID" type="string" value="premium" />
             <Attribute name="panelPadding" type="number" value="1" />
             <Attribute name="panelColor" type="string" value="class" />
-            <Attribute name="panelGradient" type="string" value="class" />
-            <Attribute name="panelTexUpdate" type="boolean" value="true" />
+            <Attribute name="panelGradient" type="boolean" value="false" />
+            <Attribute name="panelTexUpdate" type="boolean" value="false" />
             <Attribute name="panelSkipUpdate" type="boolean" value="false" />
+            <Attribute name="panelOffset" type="number" value="0" />
         </Attributes>
-        <Backdrop bgFile="Interface\FrameGeneral\UI-Background-Rock" tile="false">
+        <Backdrop bgFile="Interface\AddOns\SVUI_!Core\assets\textures\Shared\COMIC1" edgeFile="Interface\BUTTONS\WHITE8X8" tile="false">
+            <EdgeSize val="2" />
             <TileSize val="0" />
             <BackgroundInsets left="0" right="0" top="0" bottom="0" />
-            <Color r="0.2" g="0.2" b="0.2" a="1" />
+            <Color r="0.37" g="0.32" b="0.29" a="1" />
+            <BorderColor r="0" g="0" b="0" a="1" />
         </Backdrop>
-        <Layers>
-            <Layer level="BACKGROUND" textureSubLevel="1">
-                <Texture parentKey="Skin" nonBlocking="true" file="Interface\FrameGeneral\UI-Background-Rock" setAllPoints="true" />
-                <Color r="0.2" g="0.2" b="0.2" a="1" />
-            </Layer>
-        </Layers>
+        <Frames>
+            <Frame parentKey="Shadow" inherits="SVUI_ShadowTemplate" />
+        </Frames>
     </Frame>
 
     <Frame name="SVUI_CoreStyle_Model" virtual="true">
         <Attributes>
             <Attribute name="panelID" type="string" value="model" />
             <Attribute name="panelPadding" type="number" value="1" />
-            <Attribute name="panelColor" type="string" value="special" />
-            <Attribute name="panelGradient" type="string" value="class" />
-            <Attribute name="panelTexUpdate" type="boolean" value="true" />
+            <Attribute name="panelColor" type="string" value="class" />
+            <Attribute name="panelGradient" type="boolean" value="false" />
+            <Attribute name="panelTexUpdate" type="boolean" value="false" />
             <Attribute name="panelSkipUpdate" type="boolean" value="false" />
+            <Attribute name="panelOffset" type="number" value="0" />
         </Attributes>
-        <Backdrop bgFile="Interface\FrameGeneral\UI-Background-Rock" tile="false">
-            <TileSize val="0" />
-            <BackgroundInsets left="0" right="0" top="0" bottom="0" />
-            <Color r="0.37" g="0.32" b="0.29" a="1" />
-        </Backdrop>
-        <Layers>
-            <Layer level="BACKGROUND" textureSubLevel="1">
-                <Texture parentKey="Skin" nonBlocking="true" file="Interface\FrameGeneral\UI-Background-Rock" setAllPoints="true" />
-                <Color r="0.37" g="0.32" b="0.29" a="1" />
-            </Layer>
-        </Layers>
-    </Frame>
-
-    <Frame name="SVUI_CoreStyle_ModelBorder" virtual="true">
-        <Attributes>
-            <Attribute name="panelID" type="string" value="modelborder" />
-            <Attribute name="panelPadding" type="number" value="2" />
-            <Attribute name="panelColor" type="string" value="special" />
-            <Attribute name="panelGradient" type="string" value="class" />
-            <Attribute name="panelTexUpdate" type="boolean" value="true" />
-            <Attribute name="panelSkipUpdate" type="boolean" value="false" />
-        </Attributes>
-        <Backdrop bgFile="Interface\FrameGeneral\UI-Background-Rock" edgeFile="Interface\BUTTONS\WHITE8X8" tile="false">
+        <Backdrop bgFile="Interface\AddOns\SVUI_!Core\assets\textures\Shared\COMIC-MODEL" edgeFile="Interface\BUTTONS\WHITE8X8" tile="false">
             <EdgeSize val="2" />
             <TileSize val="0" />
             <BackgroundInsets left="0" right="0" top="0" bottom="0" />
-            <Color r="0" g="0" b="0" a="0.5" />
+            <Color r="0.37" g="0.32" b="0.29" a="1" />
             <BorderColor r="0" g="0" b="0" a="1" />
         </Backdrop>
-        <Layers>
-            <Layer level="BACKGROUND" textureSubLevel="1">
-                <Texture parentKey="Skin" nonBlocking="true" file="Interface\FrameGeneral\UI-Background-Rock" setAllPoints="true" />
-                <Color r="0.37" g="0.32" b="0.29" a="1" />
-            </Layer>
-            <Layer level="BORDER">
-                <Texture parentKey="BorderLeft" file="Interface\BUTTONS\WHITE8X8">
-                    <Anchors>
-                        <Anchor point="TOPLEFT" relativePoint="TOPLEFT" />
-                        <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" />
-                    </Anchors>
-                    <Size>
-                        <AbsDimension x="2" />
-                    </Size>
-                    <Color r="0" g="0" b="0" a="1" />
-                </Texture>
-                <Texture parentKey="BorderRight" file="Interface\BUTTONS\WHITE8X8">
-                    <Anchors>
-                        <Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" />
-                        <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" />
-                    </Anchors>
-                    <Size>
-                        <AbsDimension x="2" />
-                    </Size>
-                    <Color r="0" g="0" b="0" a="1" />
-                </Texture>
-                <Texture parentKey="BorderTop" file="Interface\BUTTONS\WHITE8X8">
-                    <Anchors>
-                        <Anchor point="TOPLEFT" relativePoint="TOPLEFT" />
-                        <Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" />
-                    </Anchors>
-                    <Size>
-                        <AbsDimension y="2" />
-                    </Size>
-                    <Color r="0" g="0" b="0" a="1" />
-                </Texture>
-                <Texture parentKey="BorderBottom" file="Interface\BUTTONS\WHITE8X8">
-                    <Anchors>
-                        <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" />
-                        <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" />
-                    </Anchors>
-                    <Size>
-                        <AbsDimension y="2" />
-                    </Size>
-                    <Color r="0" g="0" b="0" a="1" />
-                </Texture>
-            </Layer>
-        </Layers>
         <Frames>
             <Frame parentKey="Shadow" inherits="SVUI_ShadowTemplate" />
         </Frames>
@@ -786,8 +669,8 @@
             <Attribute name="panelID" type="string" value="window" />
             <Attribute name="panelPadding" type="number" value="2" />
             <Attribute name="panelColor" type="string" value="default" />
-            <Attribute name="panelGradient" type="string" value="special" />
-            <Attribute name="panelTexUpdate" type="boolean" value="true" />
+            <Attribute name="panelGradient" type="boolean" value="false" />
+            <Attribute name="panelTexUpdate" type="boolean" value="false" />
             <Attribute name="panelSkipUpdate" type="boolean" value="false" />
         </Attributes>
         <Backdrop bgFile="Interface\BUTTONS\WHITE8X8" edgeFile="Interface\BUTTONS\WHITE8X8" tile="false">
@@ -798,10 +681,6 @@
             <BorderColor r="0" g="0" b="0" a="1" />
         </Backdrop>
         <Layers>
-            <Layer level="BACKGROUND" textureSubLevel="1">
-                <Texture parentKey="Skin" nonBlocking="true" file="Interface\AddOns\SVUI_!Core\assets\textures\DEFAULT" setAllPoints="true" />
-                <Color r="0.2" g="0.2" b="0.2" a="1" />
-            </Layer>
             <Layer level="BACKGROUND" textureSubLevel="2">
                 <Texture parentKey="CompositeTopLeft" nonBlocking="true" file="Interface\AddOns\SVUI_!Core\assets\textures\Composite\COMPOSITE1-TOPLEFT">
                     <Anchors>
@@ -836,48 +715,6 @@
                     <Color r="0.1" g="0.1" b="0.1" a="0.5" />
                 </Texture>
             </Layer>
-            <Layer level="BORDER">
-                <Texture parentKey="BorderLeft" file="Interface\BUTTONS\WHITE8X8">
-                    <Anchors>
-                        <Anchor point="TOPLEFT" relativePoint="TOPLEFT" />
-                        <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" />
-                    </Anchors>
-                    <Size>
-                        <AbsDimension x="2" />
-                    </Size>
-                    <Color r="0" g="0" b="0" a="1" />
-                </Texture>
-                <Texture parentKey="BorderRight" file="Interface\BUTTONS\WHITE8X8">
-                    <Anchors>
-                        <Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" />
-                        <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" />
-                    </Anchors>
-                    <Size>
-                        <AbsDimension x="2" />
-                    </Size>
-                    <Color r="0" g="0" b="0" a="1" />
-                </Texture>
-                <Texture parentKey="BorderTop" file="Interface\BUTTONS\WHITE8X8">
-                    <Anchors>
-                        <Anchor point="TOPLEFT" relativePoint="TOPLEFT" />
-                        <Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" />
-                    </Anchors>
-                    <Size>
-                        <AbsDimension y="2" />
-                    </Size>
-                    <Color r="0" g="0" b="0" a="1" />
-                </Texture>
-                <Texture parentKey="BorderBottom" file="Interface\BUTTONS\WHITE8X8">
-                    <Anchors>
-                        <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" />
-                        <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" />
-                    </Anchors>
-                    <Size>
-                        <AbsDimension y="2" />
-                    </Size>
-                    <Color r="0" g="0" b="0" a="1" />
-                </Texture>
-            </Layer>
         </Layers>
         <Frames>
             <Frame parentKey="Shadow" inherits="SVUI_ShadowTemplate" />
@@ -889,8 +726,8 @@
             <Attribute name="panelID" type="string" value="windowalternate" />
             <Attribute name="panelPadding" type="number" value="2" />
             <Attribute name="panelColor" type="string" value="default" />
-            <Attribute name="panelGradient" type="string" value="special" />
-            <Attribute name="panelTexUpdate" type="boolean" value="true" />
+            <Attribute name="panelGradient" type="boolean" value="false" />
+            <Attribute name="panelTexUpdate" type="boolean" value="false" />
             <Attribute name="panelSkipUpdate" type="boolean" value="false" />
         </Attributes>
         <Backdrop bgFile="Interface\BUTTONS\WHITE8X8" edgeFile="Interface\BUTTONS\WHITE8X8" tile="false">
@@ -901,10 +738,6 @@
             <BorderColor r="0" g="0" b="0" a="1" />
         </Backdrop>
         <Layers>
-            <Layer level="BACKGROUND" textureSubLevel="1">
-                <Texture parentKey="Skin" nonBlocking="true" file="Interface\AddOns\SVUI_!Core\assets\textures\DEFAULT" setAllPoints="true" />
-                <Color r="0.2" g="0.2" b="0.2" a="1" />
-            </Layer>
             <Layer level="BACKGROUND" textureSubLevel="2">
                 <Texture parentKey="CompositeTopLeft" nonBlocking="true" file="Interface\AddOns\SVUI_!Core\assets\textures\Composite\COMPOSITE2-TOPLEFT">
                     <Anchors>
@@ -937,48 +770,6 @@
                         <Anchor point="TOPRIGHT" relativePoint="RIGHT" />
                     </Anchors>
                     <Color r="0.1" g="0.1" b="0.1" a="0.5" />
-                </Texture>
-            </Layer>
-            <Layer level="BORDER">
-                <Texture parentKey="BorderLeft" file="Interface\BUTTONS\WHITE8X8">
-                    <Anchors>
-                        <Anchor point="TOPLEFT" relativePoint="TOPLEFT" />
-                        <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" />
-                    </Anchors>
-                    <Size>
-                        <AbsDimension x="2" />
-                    </Size>
-                    <Color r="0" g="0" b="0" a="1" />
-                </Texture>
-                <Texture parentKey="BorderRight" file="Interface\BUTTONS\WHITE8X8">
-                    <Anchors>
-                        <Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" />
-                        <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" />
-                    </Anchors>
-                    <Size>
-                        <AbsDimension x="2" />
-                    </Size>
-                    <Color r="0" g="0" b="0" a="1" />
-                </Texture>
-                <Texture parentKey="BorderTop" file="Interface\BUTTONS\WHITE8X8">
-                    <Anchors>
-                        <Anchor point="TOPLEFT" relativePoint="TOPLEFT" />
-                        <Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" />
-                    </Anchors>
-                    <Size>
-                        <AbsDimension y="2" />
-                    </Size>
-                    <Color r="0" g="0" b="0" a="1" />
-                </Texture>
-                <Texture parentKey="BorderBottom" file="Interface\BUTTONS\WHITE8X8">
-                    <Anchors>
-                        <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" />
-                        <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" />
-                    </Anchors>
-                    <Size>
-                        <AbsDimension y="2" />
-                    </Size>
-                    <Color r="0" g="0" b="0" a="1" />
                 </Texture>
             </Layer>
         </Layers>

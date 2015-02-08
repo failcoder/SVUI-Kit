@@ -112,10 +112,10 @@ SV.defaults["media"]["unitframes"] = {
 	}
 };
 
-SV.Media["bg"]["unitlarge"]   	= LSM:Fetch("background", "SVUI UnitBG 1")
-SV.Media["bg"]["unitsmall"]   	= LSM:Fetch("background", "SVUI SmallUnitBG 1")
-SV.Media["border"]["unitlarge"] = LSM:Fetch("border", "SVUI UnitBorder 1")
-SV.Media["border"]["unitsmall"] = LSM:Fetch("border", "SVUI SmallBorder 1")
+SV.Media["texture"]["unitlarge"]   	= LSM:Fetch("background", "SVUI UnitBG 1")
+SV.Media["texture"]["unitsmall"]   	= LSM:Fetch("background", "SVUI SmallUnitBG 1")
+SV.Media["border"]["unitlarge"] 	= LSM:Fetch("border", "SVUI UnitBorder 1")
+SV.Media["border"]["unitsmall"] 	= LSM:Fetch("border", "SVUI SmallBorder 1")
 
 SV.GlobalFontList["SVUI_Font_Unit"] = "unitprimary";
 SV.GlobalFontList["SVUI_Font_Unit_Small"] = "unitsecondary";
