@@ -77,12 +77,6 @@ SV.defaults[Schema] = {
 		["spacing"] = 4, 
 		["showBackdrop"] = false, 
 		["mouseover"] = false, 
-	},
-	["specialization"] = {
-		["enable"] = false, 
-	}, 
-	["battleground"] = {
-		["enable"] = false, 
 	}, 
 };
 

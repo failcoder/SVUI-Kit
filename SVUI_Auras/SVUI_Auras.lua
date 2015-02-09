@@ -282,31 +282,31 @@ do
 
 	local UpdateConsolidatedReminder = function(self, event, arg)
 		if(event == "UNIT_AURA" and arg ~= "player") then return end
-		local name, _, duration, expiration, spellId, slot, caster;
 		for i = 1, NUM_LE_RAID_BUFF_TYPES do 
-			--name, rank, texture, duration, expiration, spellId, slot
-			name, _, _, _, _, spellId, slot = GetRaidBuffTrayAuraInfo(i)
+			local name, _, duration, expiration, spellId, slot, caster, classFileName, unitName;
+			name, _, _, duration, expiration, spellId, slot = GetRaidBuffTrayAuraInfo(i)
 
 			--[[ EXPERIMENTAL ]]--
 			if(name) then
-				_, _, _, _, _, duration, expiration, caster = UnitBuff('player', name)
+				_, _, _, _, _, _, _, caster = UnitBuff('player', name)
 			elseif(slot) then
-				name, _, _, _, _, duration, expiration, caster = UnitBuff('player', slot)
+				name, _, _, _, _, _, _, caster = UnitBuff('player', slot)
 			end
 			local buff = MOD.HyperBuffFrame[i]
 			--[[ ____________ ]]--
 
 			if name then
-				local _,classFileName = UnitClass(caster)
-				local unitName = UnitName(caster)
-				local timeLeft = expiration - GetTime()
-
-				if(classFileName and RAID_CLASS_COLORS[classFileName]) then
-					local hex = RAID_CLASS_COLORS[classFileName].colorStr
-					buff.casterTip = ("|c%s%s|r"):format(hex, unitName)
-				else
-					buff.casterTip = unitName
+				if(caster) then
+					_,classFileName = UnitClass(caster)
+					unitName = UnitName(caster)
+					if(classFileName and RAID_CLASS_COLORS[classFileName]) then
+						local hex = RAID_CLASS_COLORS[classFileName].colorStr
+						buff.casterTip = ("|c%s%s|r"):format(hex, unitName)
+					else
+						buff.casterTip = unitName
+					end
 				end
+				local timeLeft = expiration - GetTime()
 
 				buff.expiration = timeLeft;
 				buff.duration = duration;

@@ -739,7 +739,7 @@ function MOD:CreatePortrait(frame,smallUnit,isPlayer)
 		portrait3D:SetStyle("Frame", "UnitSmall")
 	else 
 		portrait3D:SetStyle("Frame", "UnitLarge")
-	end 
+	end
 
 	local overlay = CreateFrame("Frame",nil,portrait3D)
 	overlay:SetAllPoints(portrait3D.Panel)
@@ -758,9 +758,9 @@ function MOD:CreatePortrait(frame,smallUnit,isPlayer)
 	portrait2D:SetAllPoints(portrait2Danchor)
 	portrait2D.anchor = portrait2Danchor;
 	if smallUnit then 
-		portrait2Danchor:SetStyle("!_Frame", "UnitSmall")
+		portrait2Danchor:SetStyle("!_Frame")
 	else 
-		portrait2Danchor:SetStyle("!_Frame", "UnitLarge")
+		portrait2Danchor:SetStyle("!_Frame")
 	end 
 	portrait2D.Panel = portrait2Danchor.Panel;
 

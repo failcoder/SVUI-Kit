@@ -1080,7 +1080,7 @@ MOD.Methods["DockButton"] = function(self, frame, inverse)
     end
 
     if(not frame.Panel:GetAttribute("panelSkipUpdate")) then
-        frame.Panel.___Live = true
+        tinsert(LIVE_UPDATE_FRAMES, frame);
     end
 end;
 
@@ -1096,8 +1096,8 @@ MOD.Methods["Frame"] = function(self, frame, inverse, styleName, noupdate, overr
     if(noupdate) then
         frame.Panel:SetAttribute("panelSkipUpdate", true)
     end
-    if((not noupdate) and (not frame.Panel:GetAttribute("panelSkipUpdate"))) then
-        frame.Panel.___Live = true
+    if(not noupdate) then
+        tinsert(LIVE_UPDATE_FRAMES, frame);
     end
 end;
 --[[ 
@@ -1141,9 +1141,6 @@ local SetStyle = function(self, method, ...)
         if(catch) then
             SV:HandleError("API", "SetStyle", catch);
             return
-        elseif(self.Panel and self.Panel.___Live) then
-            LIVE_UPDATE_FRAMES[self] = true;
-            self.Panel.___Live = nil;
         end
     end
 end
@@ -1177,7 +1174,8 @@ UPDATE CALLBACKS
 ##########################################################
 ]]--
 local function FrameTemplateUpdates()
-    for frame in pairs(LIVE_UPDATE_FRAMES) do
+    for i=1, #LIVE_UPDATE_FRAMES do
+        local frame = LIVE_UPDATE_FRAMES[i]
         if(frame) then
             local panelID = frame.Panel:GetAttribute("panelID")
             local colorID = frame.Panel:GetAttribute("panelColor")
@@ -1201,6 +1199,7 @@ local function FrameTemplateUpdates()
                 local tex = SV.Media.texture[panelID]
                 if(tex) then
                     frame.Panel.Skin:SetTexture(tex)
+                    --if(panelID == 'unitlarge') then print(frame.Panel.Skin:GetTexture()) end
                 end 
                 if(not frame.NoColorUpdate) then
                     local gradient = frame.Panel:GetAttribute("panelGradient")
@@ -1212,6 +1211,8 @@ local function FrameTemplateUpdates()
                     end
                 end
             end
+        else
+            print("Missing Frame")
         end
     end
 end

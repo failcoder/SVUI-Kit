@@ -355,7 +355,13 @@ SV.defaults = {
         }, 
         ["misc"] = {
             ["setoverlay"] = true, 
-        }
+        },
+        ["specialization"] = {
+            ["enable"] = false, 
+        }, 
+        ["battleground"] = {
+            ["enable"] = false, 
+        },
     },
     ["FunStuff"] = {
         ["drunk"] = true,
