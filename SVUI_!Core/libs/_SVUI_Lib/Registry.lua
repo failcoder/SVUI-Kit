@@ -91,7 +91,7 @@ local GLOBAL_FILENAME       = CoreGlobalName.."_Global";
 local ERROR_FILENAME        = CoreGlobalName.."_Errors";
 local PRIVATE_FILENAME      = CoreGlobalName.."_Private";
 local FILTERS_FILENAME      = CoreGlobalName.."_Filters";
-local GLOBAL_SV, PRIVATE_SV, FILTER_SV, ERROR_CACHE, MODS, MODULES, THEMES, PACKAGES, PLUGINS;
+local GLOBAL_SV, PRIVATE_SV, FILTER_SV, ERROR_CACHE, MODS, MODULES, THEMES, PACKAGES, PLUGINS, DB_QUEUE;
 local PluginString = ""
 local LoadOnDemand, FoundThemes, ScriptQueue = {},{},{};
 local debugHeader = "|cffFF2F00%s|r [|cff992FFF%s|r]|cffFF2F00:|r";
@@ -308,6 +308,33 @@ local meta_database = {
     end,
 }
 
+local function ScheduledDatabase(obj)
+    local schema  = obj.Schema;
+    if(DB_QUEUE and DB_QUEUE[schema]) then
+        for key, db_keys in pairs(DB_QUEUE[schema]) do
+
+            local db_file  = db_keys[1];
+            local db_dkey = db_keys[2];
+
+            if not _G[db_file] then _G[db_file] = {} end
+
+            if(db_dkey) then
+                if not obj[db_dkey] then obj[db_dkey] = {} end
+                local this    = setmetatable({}, meta_transdata);
+                this.data     = _G[db_file];
+                this.defaults = obj[db_dkey];
+                obj[key] = this;
+            else
+                local this    = setmetatable({}, meta_database);
+                this.data     = _G[db_file];
+                obj[key] = this;
+            end
+        end
+
+        DB_QUEUE[schema] = nil;
+    end
+end
+
 local function GetProfileKey()
     if(PRIVATE_SV.SAFEDATA and PRIVATE_SV.SAFEDATA.dualSpecEnabled) then 
         local id = GetSpecialization();
@@ -465,6 +492,7 @@ end
 local function LoadingProxy(schema, obj)
     if(not obj) then return end
     if(not obj.initialized) then
+        ScheduledDatabase(obj)
         if(obj.Load and type(obj.Load) == "function") then
             local _, catch = pcall(obj.Load, obj)
             if(catch) then
@@ -519,6 +547,19 @@ function lib:LoadModuleOptions()
 end
 
 --OBJECT INTERNALS
+
+local newDatabase = function(self, newKey, fileKey, defaultKey)
+    local schema = self.Schema
+    if not DB_QUEUE then DB_QUEUE = {} end
+    if not DB_QUEUE[schema] then DB_QUEUE[schema] = {} end
+    DB_QUEUE[schema][newKey] = {fileKey, defaultKey}
+    if(defaultKey) then
+        if not self[defaultKey] then self[defaultKey] = {} end
+        return tablesplice(self[defaultKey], {});
+    else
+        return {}
+    end
+end
 
 local changeDBVar = function(self, value, key, sub1, sub2, sub3)
     local db = CoreObject.db[self.Schema]
@@ -843,6 +884,9 @@ local function CorePreInitialize()
     CoreObject.private = private
 
     CoreObject.ERRORLOG = ERROR_CACHE.FOUND
+
+    ScheduledDatabase(obj)
+
     CoreObject.initialized = true
 end
 
@@ -1007,6 +1051,7 @@ local Core_NewPackage = function(self, schema, header)
         Schema              = schema,
         initialized         = false,
         CombatLocked        = false,
+        NewDatabase         = newDatabase,
         ChangeDBVar         = changeDBVar,
         RegisterEvent       = registerEvent,
         UnregisterEvent     = unregisterEvent,
@@ -1042,6 +1087,7 @@ local Core_NewTheme = function(self, themeName, themeObject)
         Schema              = schema,
         initialized         = false,
         CombatLocked        = false,
+        NewDatabase         = newDatabase,
         ChangeDBVar         = changeDBVar,
         RegisterEvent       = registerEvent,
         UnregisterEvent     = unregisterEvent,
@@ -1107,6 +1153,7 @@ local Core_NewModule = function(self, addonName, addonObject, gfile, pfile)
     addonObject.LoD                 = lod
     addonObject.initialized         = false
     addonObject.CombatLocked        = false
+    addonObject.NewDatabase         = newDatabase
     addonObject.ChangeDBVar         = changeDBVar
     addonObject.RegisterEvent       = registerEvent
     addonObject.UnregisterEvent     = unregisterEvent
@@ -1228,6 +1275,8 @@ function lib:NewCore(gfile, efile, pfile, ffile)
     CoreObject.HasErrors            = false;
     CoreObject.Schema               = GetAddOnMetadata(CoreName, SchemaFromMeta);
     CoreObject.TitleID              = GetAddOnMetadata(CoreName, HeaderFromMeta);
+
+    CoreObject.NewDatabase          = newDatabase
 
     CoreObject.RegisterEvent        = registerEvent
     CoreObject.UnregisterEvent      = unregisterEvent

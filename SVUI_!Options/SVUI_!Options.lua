@@ -400,7 +400,7 @@ SV.Options.args.primary = {
 			name = "", 
 			type = "description", 
 			width = "full", 
-			image = function() return SV.Media.misc.splash, 256, 128 end, 
+			image = function() return SV.SplashImage, 256, 128 end, 
 		}, 
 		introGroup2 = {
 			order = 2, 
@@ -503,10 +503,10 @@ SV.Options.args.Core = {
 					name = L["Textures"], 
 					guiInline = true,
 					get = function(key)
-						return SV.db.media.textures[key[#key]]
+						return SV.Media.internal.bg[key[#key]]
 					end,
 					set = function(key, value)
-						SV.db.media.textures[key[#key]] = value
+						SV.Media.internal.bg[key[#key]] = value
 						SV:RefreshEverything(true)
 					end,
 					args = {
@@ -539,12 +539,12 @@ SV.Options.args.Core = {
 							desc = L["Main color used by most UI elements. (ex: Backdrop Color)"],
 							hasAlpha = true,
 							get = function(key)
-								local color = SV.db.media.colors.default
+								local color = SV.Media.internal.color.default
 								return color[1],color[2],color[3],color[4] 
 							end,
 							set = function(key, rValue, gValue, bValue, aValue)
-								SV.db.media.colors.default = {rValue, gValue, bValue, aValue}
-								SV.Media:Update()
+								SV.Media.internal.color.default = {rValue, gValue, bValue, aValue}
+								SV:RefreshCommonMedia()
 							end,
 						},
 						special = {
@@ -554,13 +554,13 @@ SV.Options.args.Core = {
 							desc = L["Color used in various frame accents.  (ex: Dressing Room Backdrop Color)"],
 							hasAlpha = true,
 							get = function(key)
-								local color = SV.db.media.colors.special
+								local color = SV.Media.internal.color.special
 								return color[1],color[2],color[3],color[4] 
 							end,
 							set = function(key, rValue, gValue, bValue, aValue)
-								SV.db.media.colors.special = {rValue, gValue, bValue, aValue}
-								SV.db.media.colors.specialdark = {(rValue * 0.75), (gValue * 0.75), (bValue * 0.75), aValue}
-								SV.Media:Update()
+								SV.Media.internal.color.special = {rValue, gValue, bValue, aValue}
+								SV.Media.internal.color.specialdark = {(rValue * 0.75), (gValue * 0.75), (bValue * 0.75), aValue}
+								SV:RefreshCommonMedia()
 							end,
 						},
 						resetbutton = {
@@ -568,9 +568,9 @@ SV.Options.args.Core = {
 							order = 3,
 							name = L["Restore Defaults"],
 							func = function()
-								SV.db.media.colors.default = {0.15, 0.15, 0.15, 1};
-								SV.db.media.colors.special = {0.4, 0.32, 0.2, 1};
-								SV.Media:Update()
+								SV.Media.internal.color.default = {0.15, 0.15, 0.15, 1};
+								SV.Media.internal.color.special = {0.4, 0.32, 0.2, 1};
+								SV:RefreshCommonMedia()
 							end
 						}
 					}

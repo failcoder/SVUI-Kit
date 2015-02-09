@@ -234,7 +234,7 @@ function MOD:ResetUnitOptions(unit)
 end
 
 function MOD:RefreshUnitColors()
-	local db = SV.db.media.unitframes 
+	local db = SV.Media.internal.unitframes 
 	for i, setting in pairs(db) do
 		if setting and type(setting) == "table" then
 			if(setting[1]) then

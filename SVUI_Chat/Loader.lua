@@ -18,8 +18,8 @@ local name, obj = ...
 local MOD = SV:NewModule(name, obj, nil, "SVUI_Private_ChatCache");
 local Schema = MOD.Schema;
 
-SV.defaults["font"]["chatdialog"]   = {file = "SVUI Default Font", size = 12,  outline = "OUTLINE"}
-SV.defaults["font"]["chattab"]     	= {file = "SVUI Caps Font",    size = 12,  outline = "OUTLINE"}
+SV.mediadefaults.internal.font["chatdialog"]   = {file = "SVUI Default Font", size = 12,  outline = "OUTLINE"}
+SV.mediadefaults.internal.font["chattab"]     	= {file = "SVUI Caps Font",    size = 12,  outline = "OUTLINE"}
 SV.GlobalFontList["SVUI_Font_Chat"]   = "chatdialog";
 SV.GlobalFontList["SVUI_Font_ChatTab"] = "chattab";
 

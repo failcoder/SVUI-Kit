@@ -623,7 +623,7 @@ function SV:VersionCheck()
 end
 
 function SV:RefreshEverything(bypass)
-    self.Media:Update();
+    self:RefreshCommonMedia();
     self:UpdateAnchors();
     SVUILib:RefreshAll();
     if not bypass then
@@ -730,7 +730,7 @@ function SV:PLAYER_ENTERING_WORLD()
         self:PlayerInfoUpdate()
     end
     if(not self.MediaInitialized) then 
-        self:RefreshAllSystemMedia() 
+        self:RefreshAllMedia() 
     end
     local _,instanceType = IsInInstance()
     if(instanceType == "pvp") then 
@@ -800,7 +800,7 @@ end
 --[[ LOAD FUNCTIONS ]]--
 
 function SV:ReLoad()
-    self:RefreshAllSystemMedia();
+    self:RefreshAllMedia();
     self:UpdateAnchors();
     self:AddonMessage("All user settings reloaded");
 end
@@ -830,7 +830,7 @@ function SV:Initialize()
     self:UI_SCALE_CHANGED("PLAYER_LOGIN")
     self:PlayerInfoUpdate();
     self:VersionCheck();
-    self:RefreshAllSystemMedia();
+    self:RefreshAllMedia();
     self:PostUpdateTheme();
 
     SVUILib:LoadScripts();

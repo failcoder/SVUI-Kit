@@ -3,7 +3,7 @@
 ## Version: 1.0.0
 ## Title: |cffFF9900SVUI|r
 ## Notes: SVUI [|cff9911FFCore Framework|r].
-## SavedVariables: SVUI_Global, SVUI_Errors, SVUI_Filters
+## SavedVariables: SVUI_Global, SVUI_Errors, SVUI_Filters, SVUI_Media
 ## SavedVariablesPerCharacter: SVUI_Private
 ## OptionalDeps: Blizzard_DebugTools, LibSharedMedia-3.0
 ## X-SVUIName: SVUI

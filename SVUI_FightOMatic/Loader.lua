@@ -22,8 +22,8 @@ SV.defaults[Schema] = {
     ["annoyingEmotes"] = false, 
 }
 
-SV.defaults["font"]["fightdialog"]   = {file = "SVUI Default Font", size = 12,  outline = "OUTLINE"}
-SV.defaults["font"]["fightnumber"]   = {file = "SVUI Caps Font",    size = 12,  outline = "OUTLINE"}
+SV.mediadefaults.internal.font["fightdialog"]   = {file = "SVUI Default Font", size = 12,  outline = "OUTLINE"}
+SV.mediadefaults.internal.font["fightnumber"]   = {file = "SVUI Caps Font",    size = 12,  outline = "OUTLINE"}
 
 SV.GlobalFontList["SVUI_Font_Fight"]   = "fightdialog";
 SV.GlobalFontList["SVUI_Font_FightNumber"] = "fightnumber";

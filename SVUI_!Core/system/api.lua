@@ -474,7 +474,7 @@ local HookCustomBackdrop = function(self)
             self.Panel:SetBackdrop(SV.Media.backdrop[bgid])
             self.Panel:SetBackdropBorderColor(0,0,0,1)
         else
-            local newBgFile = SV.Media.texture[bgid]
+            local newBgFile = SV.Media.bg[bgid]
             local newBorderFile = SV.Media.border[bgid]
             if(newBgFile and newBorderFile) then
                 local edgeSize = self.Panel:GetAttribute("panelPadding") or 1
@@ -1196,7 +1196,7 @@ local function FrameTemplateUpdates()
                 end
             end
             if(frame.TextureNeedsUpdate and frame.Panel.Skin) then
-                local tex = SV.Media.texture[panelID]
+                local tex = SV.Media.bg[panelID]
                 if(tex) then
                     frame.Panel.Skin:SetTexture(tex)
                     --if(panelID == 'unitlarge') then print(frame.Panel.Skin:GetTexture()) end
@@ -1438,14 +1438,6 @@ end
 
 local _hook_Tooltip_OnShow = function(self)
     self:SetBackdrop(SV.Media.backdrop.tooltip)
-end
-
-local SetAlertColor = function(self, r, g, b)
-    self.AlertPanel:SetBackdropColor(r,g,b)
-    self.AlertPanel.left:SetVertexColor(r,g,b)
-    self.AlertPanel.right:SetVertexColor(r,g,b)
-    self.AlertPanel.top:SetVertexColor(r,g,b)
-    self.AlertPanel.bottom:SetVertexColor(r,g,b)
 end
 
 MOD.Concepts["Frame"] = function(self, adjustable, frame, template, noStripping, padding, xOffset, yOffset)
@@ -1883,61 +1875,123 @@ MOD.Concepts["EditBox"] = function(self, adjustable, frame, width, height, x, y)
     if height then frame:SetHeight(height) end
 end
 
-MOD.Concepts["Alert"] = function(self, adjustable, frame, typeIndex)
+local ALERT_TEMPLATE = {
+    ["typeA"] = {
+        COLOR   = {0.8, 0.2, 0.2},
+        BG      = [[Interface\AddOns\SVUI_!Core\assets\textures\Alert\ALERT-BG]], 
+        LEFT    = [[Interface\AddOns\SVUI_!Core\assets\textures\Alert\ALERT-LEFT]],
+        RIGHT   = [[Interface\AddOns\SVUI_!Core\assets\textures\Alert\ALERT-RIGHT]],
+        TOP     = [[Interface\AddOns\SVUI_!Core\assets\textures\Alert\ALERT-TOP]],
+        BOTTOM  = [[Interface\AddOns\SVUI_!Core\assets\textures\Alert\ALERT-BOTTOM]],
+    },
+    ["typeB"] = {
+        COLOR   = {0.08, 0.4, 0},
+        BG      = [[Interface\AddOns\SVUI_!Core\assets\textures\Alert\ALERT-BG-2]], 
+        LEFT    = [[Interface\AddOns\SVUI_!Core\assets\textures\Alert\ALERT-LEFT-2]],
+        RIGHT   = [[Interface\AddOns\SVUI_!Core\assets\textures\Alert\ALERT-RIGHT-2]],
+        TOP     = [[Interface\AddOns\SVUI_!Core\assets\textures\Alert\ALERT-TOP]],
+        BOTTOM  = [[Interface\AddOns\SVUI_!Core\assets\textures\Alert\ALERT-BOTTOM]],
+    },
+};
+
+local SetIconAlertColor = function(self, r, g, b)
+    self.AlertPanel.icon:SetGradient('VERTICAL', (r*0.5), (g*0.5), (b*0.5), r, g, b)
+end;
+
+local SetAlertColor = function(self, r, g, b)
+    self.AlertPanel:SetBackdropColor(r,g,b)
+    self.AlertPanel.left:SetVertexColor(r,g,b)
+    self.AlertPanel.right:SetVertexColor(r,g,b)
+    self.AlertPanel.top:SetVertexColor(r,g,b)
+    self.AlertPanel.bottom:SetVertexColor(r,g,b)
+end;
+
+MOD.Concepts["Alert"] = function(self, adjustable, frame, arg)
     if(not frame or (frame and frame.AlertPanel)) then return end
 
-    local alertType = (typeIndex and typeIndex == 2) and "typeB" or "typeA";
+    if(not adjustable) then
+        local size = frame:GetWidth() * 0.5;
+        local lvl = frame:GetFrameLevel();
 
-    local TEMPLATE = SV.Media.alert[alertType];
-    local r,g,b = unpack(TEMPLATE.COLOR);
-    local size = frame:GetHeight();
-    local half = size * 0.5;
-    local offset = size * 0.1;
-    local lvl = frame:GetFrameLevel();
+        if lvl < 1 then lvl = 1 end
 
-    if lvl < 1 then lvl = 1 end
+        local alertpanel = CreateFrame("Frame", nil, frame)
+        alertpanel:SetPoint("TOPLEFT", frame, "TOPLEFT", -25, 10)
+        alertpanel:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 10, 10)
+        alertpanel:SetHeight(size)
+        alertpanel:SetFrameLevel(lvl - 1)
 
-    local alertpanel = CreateFrame("Frame", nil, frame)
-    alertpanel:SetPoint("TOPLEFT", frame, "TOPLEFT", offset, 0)
-    alertpanel:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -offset, 0)
-    alertpanel:SetFrameLevel(lvl - 1)
-    alertpanel:SetBackdrop({
-        bgFile = TEMPLATE.BG
-    })
-    alertpanel:SetBackdropColor(r,g,b)
+        --[[ FRAME BG ]]--
+        alertpanel.bg = alertpanel:CreateTexture(nil, "BACKGROUND", nil, -5)
+        alertpanel.bg:SetAllPoints()
+        alertpanel.bg:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\Alert\ALERT-FULL]])
+        alertpanel.bg:SetGradient('VERTICAL', 0, 0, 0, .37, .32, .29)
 
-    --[[ LEFT ]]--
-    alertpanel.left = alertpanel:CreateTexture(nil, "BORDER")
-    alertpanel.left:SetTexture(TEMPLATE.LEFT)
-    alertpanel.left:SetVertexColor(r,g,b)
-    alertpanel.left:SetPoint("TOPRIGHT", alertpanel, "TOPLEFT", 0, 0)
-    alertpanel.left:SetPoint("BOTTOMRIGHT", alertpanel, "BOTTOMLEFT", 0, 0)
-    alertpanel.left:SetWidth(size)
+        if(not arg) then
+            --[[ ICON BG ]]--
+            alertpanel.icon = alertpanel:CreateTexture(nil, "BACKGROUND", nil, -2)
+            alertpanel.icon:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\Alert\ALERT-ICON-BORDER]])
+            alertpanel.icon:SetGradient('VERTICAL', 1, 0.35, 0, 1, 1, 0)
+            alertpanel.icon:SetPoint("LEFT", alertpanel, "LEFT", -45, 20)
+            alertpanel.icon:SetSize(size, size)
+            frame.AlertColor = SetIconAlertColor
+        end
 
-    --[[ RIGHT ]]--
-    alertpanel.right = alertpanel:CreateTexture(nil, "BORDER")
-    alertpanel.right:SetTexture(TEMPLATE.RIGHT)
-    alertpanel.right:SetVertexColor(r,g,b)
-    alertpanel.right:SetPoint("TOPLEFT", alertpanel, "TOPRIGHT", 0, 0)
-    alertpanel.right:SetPoint("BOTTOMLEFT", alertpanel, "BOTTOMRIGHT", 0, 0)
-    alertpanel.right:SetWidth(size * 2)
+        frame.AlertPanel = alertpanel
+    else
+        local alertType = arg and "typeB" or "typeA";
 
-    --[[ TOP ]]--
-    alertpanel.top = alertpanel:CreateTexture(nil, "BORDER")
-    alertpanel.top:SetTexture(TEMPLATE.TOP)
-    alertpanel.top:SetPoint("BOTTOMLEFT", alertpanel, "TOPLEFT", 0, 0)
-    alertpanel.top:SetPoint("BOTTOMRIGHT", alertpanel, "TOPRIGHT", 0, 0)
-    alertpanel.top:SetHeight(half)
+        local TEMPLATE = ALERT_TEMPLATE[alertType];
+        local r,g,b = unpack(TEMPLATE.COLOR);
+        local size = frame:GetHeight();
+        local half = size * 0.5;
+        local offset = size * 0.1;
+        local lvl = frame:GetFrameLevel();
 
-    --[[ BOTTOM ]]--
-    alertpanel.bottom = alertpanel:CreateTexture(nil, "BORDER")
-    alertpanel.bottom:SetTexture(TEMPLATE.BOTTOM)
-    alertpanel.bottom:SetPoint("TOPLEFT", alertpanel, "BOTTOMLEFT", 0, 0)
-    alertpanel.bottom:SetPoint("TOPRIGHT", alertpanel, "BOTTOMRIGHT", 0, 0)
-    alertpanel.bottom:SetWidth(half)
+        if lvl < 1 then lvl = 1 end
 
-    frame.AlertPanel = alertpanel
-    frame.AlertColor = SetAlertColor
+        local alertpanel = CreateFrame("Frame", nil, frame)
+        alertpanel:SetPoint("TOPLEFT", frame, "TOPLEFT", offset, 0)
+        alertpanel:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -offset, 0)
+        alertpanel:SetFrameLevel(lvl - 1)
+        alertpanel:SetBackdrop({
+            bgFile = TEMPLATE.BG
+        })
+        alertpanel:SetBackdropColor(r,g,b)
+
+        --[[ LEFT ]]--
+        alertpanel.left = alertpanel:CreateTexture(nil, "BORDER")
+        alertpanel.left:SetTexture(TEMPLATE.LEFT)
+        alertpanel.left:SetVertexColor(r,g,b)
+        alertpanel.left:SetPoint("TOPRIGHT", alertpanel, "TOPLEFT", 0, 0)
+        alertpanel.left:SetPoint("BOTTOMRIGHT", alertpanel, "BOTTOMLEFT", 0, 0)
+        alertpanel.left:SetWidth(size)
+
+        --[[ RIGHT ]]--
+        alertpanel.right = alertpanel:CreateTexture(nil, "BORDER")
+        alertpanel.right:SetTexture(TEMPLATE.RIGHT)
+        alertpanel.right:SetVertexColor(r,g,b)
+        alertpanel.right:SetPoint("TOPLEFT", alertpanel, "TOPRIGHT", 0, 0)
+        alertpanel.right:SetPoint("BOTTOMLEFT", alertpanel, "BOTTOMRIGHT", 0, 0)
+        alertpanel.right:SetWidth(size * 2)
+
+        --[[ TOP ]]--
+        alertpanel.top = alertpanel:CreateTexture(nil, "BORDER")
+        alertpanel.top:SetTexture(TEMPLATE.TOP)
+        alertpanel.top:SetPoint("BOTTOMLEFT", alertpanel, "TOPLEFT", 0, 0)
+        alertpanel.top:SetPoint("BOTTOMRIGHT", alertpanel, "TOPRIGHT", 0, 0)
+        alertpanel.top:SetHeight(half)
+
+        --[[ BOTTOM ]]--
+        alertpanel.bottom = alertpanel:CreateTexture(nil, "BORDER")
+        alertpanel.bottom:SetTexture(TEMPLATE.BOTTOM)
+        alertpanel.bottom:SetPoint("TOPLEFT", alertpanel, "BOTTOMLEFT", 0, 0)
+        alertpanel.bottom:SetPoint("TOPRIGHT", alertpanel, "BOTTOMRIGHT", 0, 0)
+        alertpanel.bottom:SetWidth(half)
+
+        frame.AlertColor = SetAlertColor
+        frame.AlertPanel = alertpanel
+    end
 end
 
 function MOD:Set(concept, ...)

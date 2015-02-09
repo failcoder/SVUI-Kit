@@ -45,7 +45,7 @@ function SV.Setup:SelectTheme()
 		local THEMES = SVUILib:ListThemes()
 		local count = 1;
 		local yOffset = ((135 * count) - 125) * -1;
-		local icon = SV.Media.setup.theme
+		local icon = SV.Setup.media.theme
 		local themeButton = CreateFrame("Frame", nil, frame)
 		themeButton:ModSize(125, 125)
 		themeButton:SetPoint("TOP", frame, "TOP", 0, yOffset)

@@ -33,62 +33,25 @@ local SVUILib = Librarian("Registry")
 local L = SV.L
 --[[ 
 ########################################################## 
-LOCALIZED GLOBALS
-##########################################################
-]]--
-local NAMEPLATE_FONT      = _G.NAMEPLATE_FONT
-local CHAT_FONT_HEIGHTS   = _G.CHAT_FONT_HEIGHTS
-local STANDARD_TEXT_FONT  = _G.STANDARD_TEXT_FONT
-local UNIT_NAME_FONT      = _G.UNIT_NAME_FONT
-local CUSTOM_CLASS_COLORS = _G.CUSTOM_CLASS_COLORS
-local RAID_CLASS_COLORS   = _G.RAID_CLASS_COLORS
-local UIDROPDOWNMENU_DEFAULT_TEXT_HEIGHT  = _G.UIDROPDOWNMENU_DEFAULT_TEXT_HEIGHT
-
-local DIALOGUE_FONTNAME = "SVUI Dialog Font";
-if(GetLocale() ~= "enUS") then
-	DIALOGUE_FONTNAME = "SVUI Default Font"
-end
-SV.DialogFontDefault = DIALOGUE_FONTNAME;
---[[ 
-########################################################## 
-FORCIBLY CHANGE THE GAME WORLD COMBAT TEXT FONT
-##########################################################
-]]--
-local SVUI_DAMAGE_FONT = "Interface\\AddOns\\SVUI_!Core\\assets\\fonts\\!DAMAGE.ttf";
-local SVUI_DAMAGE_FONTSIZE = 32;
-
-local function ForceDamageFont()
-	_G.DAMAGE_TEXT_FONT = SVUI_DAMAGE_FONT
-	_G.COMBAT_TEXT_CRIT_SCALE_TIME = 0.7;
-	_G.COMBAT_TEXT_SPACING = 15;
-end
-
-ForceDamageFont();
---[[ 
-########################################################## 
 DEFINE SOUND EFFECTS
 ##########################################################
 ]]--
 local SOUND = SV.Sounds;
 
 SOUND:Register("Buttons", [[sound\interface\uchatscrollbutton.ogg]])
-
 SOUND:Register("Levers", [[sound\interface\ui_blizzardstore_buynow.ogg]])
 SOUND:Register("Levers", [[sound\doodad\g_levermetalcustom0.ogg]])
 SOUND:Register("Levers", [[sound\item\weapons\gun\gunload01.ogg]])
 SOUND:Register("Levers", [[sound\item\weapons\gun\gunload02.ogg]])
 SOUND:Register("Levers", [[sound\creature\gyrocopter\gyrocoptergearshift2.ogg]])
-
 SOUND:Register("Gears", [[sound\creature\gyrocopter\gyrocoptergearshift3.ogg]])
 SOUND:Register("Gears", [[sound\doodad\g_buttonbigredcustom0.ogg]])
-
 SOUND:Register("Sparks", [[sound\doodad\fx_electricitysparkmedium_02.ogg]])
 SOUND:Register("Sparks", [[sound\doodad\fx_electrical_zaps01.ogg]])
 SOUND:Register("Sparks", [[sound\doodad\fx_electrical_zaps02.ogg]])
 SOUND:Register("Sparks", [[sound\doodad\fx_electrical_zaps03.ogg]])
 SOUND:Register("Sparks", [[sound\doodad\fx_electrical_zaps04.ogg]])
 SOUND:Register("Sparks", [[sound\doodad\fx_electrical_zaps05.ogg]])
-
 SOUND:Register("Static", [[sound\spells\uni_fx_radiostatic_01.ogg]])
 SOUND:Register("Static", [[sound\spells\uni_fx_radiostatic_02.ogg]])
 SOUND:Register("Static", [[sound\spells\uni_fx_radiostatic_03.ogg]])
@@ -97,11 +60,9 @@ SOUND:Register("Static", [[sound\spells\uni_fx_radiostatic_05.ogg]])
 SOUND:Register("Static", [[sound\spells\uni_fx_radiostatic_06.ogg]])
 SOUND:Register("Static", [[sound\spells\uni_fx_radiostatic_07.ogg]])
 SOUND:Register("Static", [[sound\spells\uni_fx_radiostatic_08.ogg]])
-
 SOUND:Register("Wired", [[sound\doodad\goblin_christmaslight_green_01.ogg]])
 SOUND:Register("Wired", [[sound\doodad\goblin_christmaslight_green_02.ogg]])
 SOUND:Register("Wired", [[sound\doodad\goblin_christmaslight_green_03.ogg]])
-
 SOUND:Register("Phase", [[sound\doodad\be_scryingorb_explode.ogg]])
 --[[ 
 ########################################################## 
@@ -110,6 +71,9 @@ DEFINE SHARED MEDIA
 ]]--
 local LSM = LibStub("LibSharedMedia-3.0")
 
+LSM:Register("background", "SVUI Default BG", [[Interface\AddOns\SVUI_!Core\assets\textures\DEFAULT-BG]])
+LSM:Register("background", "SVUI Transparent BG", [[Interface\AddOns\SVUI_!Core\assets\textures\TRANSPARENT-BG]])
+LSM:Register("background", "SVUI Button BG", [[Interface\AddOns\SVUI_!Core\assets\textures\BUTTON]])
 LSM:Register("background", "SVUI Backdrop 1", [[Interface\AddOns\SVUI_!Core\assets\textures\Shared\PATTERN1]])
 LSM:Register("background", "SVUI Backdrop 2", [[Interface\AddOns\SVUI_!Core\assets\textures\Shared\PATTERN2]])
 LSM:Register("background", "SVUI Backdrop 3", [[Interface\AddOns\SVUI_!Core\assets\textures\Shared\PATTERN3]])
@@ -120,8 +84,9 @@ LSM:Register("background", "SVUI Artwork 2", [[Interface\AddOns\SVUI_!Core\asset
 LSM:Register("background", "SVUI Artwork 3", [[Interface\AddOns\SVUI_!Core\assets\textures\Shared\COMIC3]])
 LSM:Register("background", "SVUI Artwork 4", [[Interface\AddOns\SVUI_!Core\assets\textures\Shared\COMIC4]])
 LSM:Register("background", "SVUI Artwork 5", [[Interface\AddOns\SVUI_!Core\assets\textures\Shared\COMIC5]])
+LSM:Register("border", "SVUI Border", [[Interface\AddOns\SVUI_!Core\assets\textures\DEFAULT-BORDER]])
 LSM:Register("border", "SVUI All Purpose Border", [[Interface\BUTTONS\WHITE8X8]])
--- LSM:Register("border", "SVUI Shadow Border", [[Interface\AddOns\SVUI_!Core\assets\textures\GLOW]])
+LSM:Register("border", "SVUI Shadow Border", [[Interface\AddOns\SVUI_!Core\assets\textures\GLOW]])
 LSM:Register("statusbar", "SVUI BasicBar", [[Interface\AddOns\SVUI_!Core\assets\textures\Bars\DEFAULT]])
 LSM:Register("statusbar", "SVUI MultiColorBar", [[Interface\AddOns\SVUI_!Core\assets\textures\Bars\GRADIENT]])
 LSM:Register("statusbar", "SVUI SmoothBar", [[Interface\AddOns\SVUI_!Core\assets\textures\Bars\SMOOTH]])
@@ -148,49 +113,6 @@ LSM:Register("font", "SVUI Narrator Font", [[Interface\AddOns\SVUI_!Core\assets\
 CREATE AND POPULATE MEDIA DATA
 ##########################################################
 ]]--
-SV.BaseTexture = [[Interface\AddOns\SVUI_!Core\assets\textures\DEFAULT]];
-SV.NoTexture = [[Interface\AddOns\SVUI_!Core\assets\textures\EMPTY]];
-
-SV.defaults["font"] = {};
-SV.defaults["font"]["default"]     	= {file = "SVUI Default Font",  size = 12,  outline = "OUTLINE"};
-SV.defaults["font"]["dialog"]      	= {file = "SVUI Default Font",  size = 12,  outline = "OUTLINE"};
-SV.defaults["font"]["title"]       	= {file = "SVUI Default Font",  size = 16,  outline = "OUTLINE"}; 
-SV.defaults["font"]["number"]      	= {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"};
-SV.defaults["font"]["number_big"]   = {file = "SVUI Number Font",   size = 18,  outline = "OUTLINE"};
-SV.defaults["font"]["header"]      	= {file = "SVUI Number Font",   size = 18,  outline = "OUTLINE"};  
-SV.defaults["font"]["combat"]      	= {file = "SVUI Combat Font",   size = 64,  outline = "OUTLINE"}; 
-SV.defaults["font"]["alert"]       	= {file = "SVUI Alert Font",    size = 20,  outline = "OUTLINE"};
-SV.defaults["font"]["zone"]      	= {file = "SVUI Zone Font",     size = 16,  outline = "OUTLINE"};
-SV.defaults["font"]["caps"]      	= {file = "SVUI Caps Font",     size = 12,  outline = "OUTLINE"};
-SV.defaults["font"]["aura"]      	= {file = "SVUI Number Font",   size = 10,  outline = "OUTLINE"};
-SV.defaults["font"]["data"]      	= {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"};
-SV.defaults["font"]["narrator"]    	= {file = "SVUI Narrator Font", size = 12,  outline = "OUTLINE"};
-SV.defaults["font"]["lootdialog"]   = {file = "SVUI Default Font",  size = 14,  outline = "OUTLINE"};
-SV.defaults["font"]["lootnumber"]   = {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"};
-SV.defaults["font"]["rolldialog"]   = {file = "SVUI Default Font",  size = 14,  outline = "OUTLINE"};
-SV.defaults["font"]["rollnumber"]   = {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"};
-SV.defaults["font"]["tipdialog"]    = {file = "SVUI Default Font",  size = 12,  outline = "NONE"}
-SV.defaults["font"]["tipheader"]    = {file = "SVUI Default Font",  size = 14,  outline = "NONE"}
-SV.defaults["font"]["pixel"]       	= {file = "SVUI Pixel Font",    size = 8,   outline = "MONOCHROMEOUTLINE"};
-	
-SV.defaults["media"] = {
-	["textures"] = { 
-		["pattern"]      = "SVUI Backdrop 1", 
-		["premium"]      = "SVUI Artwork 1"
-	},
-	["borders"] = { 
-		["pattern"]      = "SVUI All Purpose Border", 
-		["premium"]      = "SVUI All Purpose Border", 
-	},
-	["colors"] = {
-		["default"]      = {0.2, 0.2, 0.2, 1}, 
-		["special"]      = {0.37, 0.32, 0.29, 1}, 
-		["specialdark"]  = {0.37, 0.32, 0.29, 1},
-	},
-};
-
-SV.Media = {};
-
 do
 	local myclass = select(2,UnitClass("player"))
 	local cColor1 = CUSTOM_CLASS_COLORS[myclass]
@@ -200,261 +122,297 @@ do
 	local ir1,ig1,ib1 = (1 - r1), (1 - g1), (1 - b1)
 	local ir2,ig2,ib2 = (1 - cColor2.r)*.25, (1 - cColor2.g)*.25, (1 - cColor2.b)*.25
 
-	SV.Media["color"] = {
-		["default"]     = {0.2, 0.2, 0.2, 1}, 
-		["special"]     = {.37, .32, .29, 1},
-		["specialdark"] = {.23, .22, .21, 1},
-		["unique"]      = {0.32, 0.258, 0.21, 1},
-		["container"]   = {.28, .27, .26, 1},  
-		["class"]       = {r1, g1, b1, 1},
-		["bizzaro"]     = {ir1, ig1, ib1, 1},
-		["medium"]      = {0.47, 0.47, 0.47},
-		["dark"]        = {0.1, 0.1, 0.1, 1},
-		["darkest"]     = {0, 0, 0, 1},
-		["light"]       = {0.95, 0.95, 0.95, 1},
-		["light2"]      = {0.65, 0.65, 0.65, 1},
-		["lightgrey"]   = {0.32, 0.35, 0.38, 1},
-		["highlight"]   = {0.28, 0.75, 1, 1},
-		["checked"]     = {0.25, 0.9, 0.08, 1},
-		["green"]       = {0.25, 0.9, 0.08, 1},
-		["blue"]        = {0.08, 0.25, 0.82, 1},
-		["tan"]         = {0.4, 0.32, 0.23, 1},
-		["red"]         = {0.9, 0.08, 0.08, 1},
-		["yellow"]      = {1, 1, 0, 1},
-		["gold"]        = {1, 0.68, 0.1, 1},
-		["transparent"] = {0, 0, 0, 0.5},
-		["hinted"]      = {0, 0, 0, 0.35},
-		["invisible"]   = {0, 0, 0, 0},
-		["white"]       = {1, 1, 1, 1},
-	}
-
-	SV.Media["gradient"]  = {
-		["default"]   = {"VERTICAL", 0.08, 0.08, 0.08, 0.22, 0.22, 0.22}, 
-		["special"]   = {"VERTICAL", 0.33, 0.25, 0.13, 0.47, 0.39, 0.27},
-		["specialdark"] = {"VERTICAL", 0.23, 0.15, 0.03, 0.33, 0.25, 0.13},
-		["container"] = {"VERTICAL", 0.12, 0.11, 0.1, 0.22, 0.21, 0.2},
-		["class"]     = {"VERTICAL", r2, g2, b2, r1, g1, b1}, 
-		["bizzaro"]   = {"VERTICAL", ir2, ig2, ib2, ir1, ig1, ib1},
-		["medium"]    = {"VERTICAL", 0.22, 0.22, 0.22, 0.47, 0.47, 0.47},
-		["dark"]      = {"VERTICAL", 0.02, 0.02, 0.02, 0.22, 0.22, 0.22},
-		["darkest"]   = {"VERTICAL", 0.15, 0.15, 0.15, 0, 0, 0},
-		["darkest2"]  = {"VERTICAL", 0, 0, 0, 0.12, 0.12, 0.12},
-		["light"]     = {"VERTICAL", 0.65, 0.65, 0.65, 0.95, 0.95, 0.95},
-		["light2"]    = {"VERTICAL", 0.95, 0.95, 0.95, 0.65, 0.65, 0.65},
-		["highlight"] = {"VERTICAL", 0.3, 0.8, 1, 0.1, 0.9, 1},
-		["checked"]   = {"VERTICAL", 0.08, 0.9, 0.25, 0.25, 0.9, 0.08},
-		["green"]     = {"VERTICAL", 0.08, 0.9, 0.25, 0.25, 0.9, 0.08}, 
-		["red"]       = {"VERTICAL", 0.5, 0, 0, 0.9, 0.08, 0.08}, 
-		["yellow"]    = {"VERTICAL", 1, 0.3, 0, 1, 1, 0},
-		["tan"]       = {"VERTICAL", 0.15, 0.08, 0, 0.37, 0.22, 0.1},
-		["inverse"]   = {"VERTICAL", 0.25, 0.25, 0.25, 0.12, 0.12, 0.12},
-		["icon"]      = {"VERTICAL", 0.5, 0.53, 0.55, 0.8, 0.8, 1},
-		["white"]     = {"VERTICAL", 0.75, 0.75, 0.75, 1, 1, 1},
-	}
-
-	SV.Media["font"] = {
-		["default"]   = LSM:Fetch("font", "SVUI Default Font"),
-		["combat"]    = LSM:Fetch("font", "SVUI Combat Font"),
-		["narrator"]  = LSM:Fetch("font", "SVUI Narrator Font"),
-		["zones"]     = LSM:Fetch("font", "SVUI Zone Font"),
-		["alert"]     = LSM:Fetch("font", "SVUI Alert Font"),
-		["numbers"]   = LSM:Fetch("font", "SVUI Number Font"),
-		["pixel"]     = LSM:Fetch("font", "SVUI Pixel Font"),
-		["caps"]      = LSM:Fetch("font", "SVUI Caps Font"),
-		["flash"]     = LSM:Fetch("font", "SVUI Flash Font"),
-		["dialog"]    = LSM:Fetch("font", "SVUI Default Font"),
-	}
-
-	SV.Media["bar"] = { 
-		["default"]   = LSM:Fetch("statusbar", "SVUI BasicBar"), 
-		["gradient"]  = LSM:Fetch("statusbar", "SVUI MultiColorBar"), 
-		["smooth"]    = LSM:Fetch("statusbar", "SVUI SmoothBar"), 
-		["flat"]      = LSM:Fetch("statusbar", "SVUI PlainBar"), 
-		["textured"]  = LSM:Fetch("statusbar", "SVUI FancyBar"), 
-		["gloss"]     = LSM:Fetch("statusbar", "SVUI GlossBar"), 
-		["glow"]      = LSM:Fetch("statusbar", "SVUI GlowBar"),
-		["lazer"]     = LSM:Fetch("statusbar", "SVUI LazerBar"),
-	}
---SV.Media.backdrop.textured
-	SV.Media["backdrop"] = {
-		["default"] = {
-			bgFile = [[Interface\AddOns\SVUI_!Core\assets\textures\DEFAULT-BG]], 
-		    tile = false, 
-		    tileSize = 0, 
-		    edgeFile = [[Interface\AddOns\SVUI_!Core\assets\textures\DEFAULT-BORDER]],
-		    edgeSize = 5,
-		    insets = 
-		    {
-		        left = 0, 
-		        right = 0, 
-		        top = 0, 
-		        bottom = 0, 
-		    },
+	SV.mediadefaults = {
+		["internal"] = {
+			["font"] = {
+				["default"]     = {file = "SVUI Default Font",  size = 12,  outline = "OUTLINE"},
+				["dialog"]      = {file = "SVUI Default Font",  size = 12,  outline = "OUTLINE"},
+				["title"]       = {file = "SVUI Default Font",  size = 16,  outline = "OUTLINE"}, 
+				["number"]      = {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"},
+				["number_big"]  = {file = "SVUI Number Font",   size = 18,  outline = "OUTLINE"},
+				["header"]      = {file = "SVUI Number Font",   size = 18,  outline = "OUTLINE"},  
+				["combat"]      = {file = "SVUI Combat Font",   size = 64,  outline = "OUTLINE"}, 
+				["alert"]       = {file = "SVUI Alert Font",    size = 20,  outline = "OUTLINE"},
+				["zone"]      	= {file = "SVUI Zone Font",     size = 16,  outline = "OUTLINE"},
+				["caps"]      	= {file = "SVUI Caps Font",     size = 12,  outline = "OUTLINE"},
+				["aura"]      	= {file = "SVUI Number Font",   size = 10,  outline = "OUTLINE"},
+				["data"]      	= {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"},
+				["narrator"]    = {file = "SVUI Narrator Font", size = 12,  outline = "OUTLINE"},
+				["lootdialog"]  = {file = "SVUI Default Font",  size = 14,  outline = "OUTLINE"},
+				["lootnumber"]  = {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"},
+				["rolldialog"]  = {file = "SVUI Default Font",  size = 14,  outline = "OUTLINE"},
+				["rollnumber"]  = {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"},
+				["tipdialog"]   = {file = "SVUI Default Font",  size = 12,  outline = "NONE"},
+				["tipheader"]   = {file = "SVUI Default Font",  size = 14,  outline = "NONE"},
+				["pixel"]       = {file = "SVUI Pixel Font",    size = 8,   outline = "MONOCHROMEOUTLINE"},
+			},
+			["bg"] = { 
+				["pattern"]      = "SVUI Backdrop 1", 
+				["premium"]      = "SVUI Artwork 1"
+			},
+			["border"] = { 
+				["pattern"]      = "SVUI All Purpose Border", 
+				["premium"]      = "SVUI All Purpose Border", 
+			},
+			["color"] = {
+				["default"]      = {0.2, 0.2, 0.2, 1}, 
+				["special"]      = {0.37, 0.32, 0.29, 1}, 
+				["specialdark"]  = {0.37, 0.32, 0.29, 1},
+			},
 		},
-		["textured"] = {
-			bgFile = [[Interface\AddOns\SVUI_!Core\assets\textures\Bars\TEXTURED]], 
-		    tile = false, 
-		    tileSize = 0, 
-		    edgeFile = [[Interface\AddOns\SVUI_!Core\assets\textures\DEFAULT-BORDER]],
-		    edgeSize = 5,
-		    insets = 
-		    {
-		        left = 0, 
-		        right = 0, 
-		        top = 0, 
-		        bottom = 0, 
-		    },
+		["font"] = {
+			["default"]   = LSM:Fetch("font", "SVUI Default Font"),
+			["combat"]    = LSM:Fetch("font", "SVUI Combat Font"),
+			["narrator"]  = LSM:Fetch("font", "SVUI Narrator Font"),
+			["zones"]     = LSM:Fetch("font", "SVUI Zone Font"),
+			["alert"]     = LSM:Fetch("font", "SVUI Alert Font"),
+			["numbers"]   = LSM:Fetch("font", "SVUI Number Font"),
+			["pixel"]     = LSM:Fetch("font", "SVUI Pixel Font"),
+			["caps"]      = LSM:Fetch("font", "SVUI Caps Font"),
+			["flash"]     = LSM:Fetch("font", "SVUI Flash Font"),
+			["dialog"]    = LSM:Fetch("font", "SVUI Default Font"),
 		},
-		["aura"] = {
-			bgFile = [[Interface\BUTTONS\WHITE8X8]], 
-		    tile = false, 
-		    tileSize = 0, 
-		    edgeFile = [[Interface\AddOns\SVUI_!Core\assets\textures\GLOW]],
-		    edgeSize = 1,
-		    insets = 
-		    {
-		        left = 1, 
-		        right = 1, 
-		        top = 1, 
-		        bottom = 1, 
-		    },
+		["bar"] = { 
+			["default"]   = LSM:Fetch("statusbar", "SVUI BasicBar"), 
+			["gradient"]  = LSM:Fetch("statusbar", "SVUI MultiColorBar"), 
+			["smooth"]    = LSM:Fetch("statusbar", "SVUI SmoothBar"), 
+			["flat"]      = LSM:Fetch("statusbar", "SVUI PlainBar"), 
+			["textured"]  = LSM:Fetch("statusbar", "SVUI FancyBar"), 
+			["gloss"]     = LSM:Fetch("statusbar", "SVUI GlossBar"), 
+			["glow"]      = LSM:Fetch("statusbar", "SVUI GlowBar"),
+			["lazer"]     = LSM:Fetch("statusbar", "SVUI LazerBar"),
 		},
-		["glow"] = {
-			bgFile = [[Interface\BUTTONS\WHITE8X8]], 
-		    tile = false, 
-		    tileSize = 0, 
-		    edgeFile = [[Interface\AddOns\SVUI_!Core\assets\textures\GLOW]],
-		    edgeSize = 3,
-		    insets = 
-		    {
-		        left = 0, 
-		        right = 0, 
-		        top = 0, 
-		        bottom = 0, 
-		    },
+		["bg"] = {
+			["default"] 	= LSM:Fetch("background", "SVUI Default BG"),
+			["transparent"] = LSM:Fetch("background", "SVUI Transparent BG"),
+			["button"]      = LSM:Fetch("background", "SVUI Button BG"),
+			["pattern"]     = LSM:Fetch("background", "SVUI Backdrop 1"),
+			["premium"]     = LSM:Fetch("background", "SVUI Artwork 1"),
 		},
-		["tooltip"] = {
-			bgFile = [[Interface\DialogFrame\UI-DialogBox-Background-Dark]], 
-		    tile = false, 
-		    tileSize = 0, 
-		    edgeFile = [[Interface\AddOns\SVUI_!Core\assets\textures\EMPTY]],
-		    edgeSize = 1,
-		    insets = 
-		    {
-		        left = 0, 
-		        right = 0, 
-		        top = 0, 
-		        bottom = 0, 
-		    },
+		["border"] = {
+			["default"] 	= LSM:Fetch("border", "SVUI Border"),
+			["shadow"]      = LSM:Fetch("border", "SVUI Shadow Border"),
+			["button"]      = LSM:Fetch("border", "SVUI All Purpose Border"),
+			["pattern"]     = LSM:Fetch("border", "SVUI All Purpose Border"),
+			["premium"]     = LSM:Fetch("border", "SVUI All Purpose Border"),
 		},
-		["onlyborder"] = {
-			bgFile = [[Interface\AddOns\SVUI_!Core\assets\textures\EMPTY]], 
-		    tile = false, 
-		    tileSize = 0, 
-		    edgeFile = [[Interface\AddOns\SVUI_!Core\assets\textures\DEFAULT-BORDER]],
-		    edgeSize = 15,
-		    insets = 
-		    {
-		        left = 0, 
-		        right = 0, 
-		        top = 0, 
-		        bottom = 0, 
-		    },
+		["color"] = {
+			["default"]     = {0.2, 0.2, 0.2, 1}, 
+			["special"]     = {.37, .32, .29, 1},
+			["specialdark"] = {.23, .22, .21, 1},
+			["unique"]      = {0.32, 0.258, 0.21, 1},
+			["container"]   = {.28, .27, .26, 1},  
+			["class"]       = {r1, g1, b1, 1},
+			["bizzaro"]     = {ir1, ig1, ib1, 1},
+			["medium"]      = {0.47, 0.47, 0.47},
+			["dark"]        = {0.1, 0.1, 0.1, 1},
+			["darkest"]     = {0, 0, 0, 1},
+			["light"]       = {0.95, 0.95, 0.95, 1},
+			["light2"]      = {0.65, 0.65, 0.65, 1},
+			["lightgrey"]   = {0.32, 0.35, 0.38, 1},
+			["highlight"]   = {0.28, 0.75, 1, 1},
+			["checked"]     = {0.25, 0.9, 0.08, 1},
+			["green"]       = {0.25, 0.9, 0.08, 1},
+			["blue"]        = {0.08, 0.25, 0.82, 1},
+			["tan"]         = {0.4, 0.32, 0.23, 1},
+			["red"]         = {0.9, 0.08, 0.08, 1},
+			["yellow"]      = {1, 1, 0, 1},
+			["gold"]        = {1, 0.68, 0.1, 1},
+			["transparent"] = {0, 0, 0, 0.5},
+			["hinted"]      = {0, 0, 0, 0.35},
+			["invisible"]   = {0, 0, 0, 0},
+			["white"]       = {1, 1, 1, 1},
 		},
-	}
-
-	SV.Media["texture"] = {
-		["default"] 	= [[Interface\AddOns\SVUI_!Core\assets\textures\DEFAULT-BG]],
-		["transparent"] = [[Interface\AddOns\SVUI_!Core\assets\textures\TRANSPARENT-BG]],
-		["button"]      = [[Interface\AddOns\SVUI_!Core\assets\textures\BUTTON]],
-		["pattern"]     = LSM:Fetch("background", "SVUI Backdrop 1"),
-		["premium"]     = LSM:Fetch("background", "SVUI Artwork 1"),
-	}
-
-	SV.Media["border"] = {
-		["default"] 	= [[Interface\AddOns\SVUI_!Core\assets\textures\DEFAULT-BORDER]],
-		["shadow"]      = [[Interface\AddOns\SVUI_!Core\assets\textures\GLOW]],
-		["button"]      = LSM:Fetch("border", "SVUI All Purpose Border"),
-		["pattern"]     = LSM:Fetch("border", "SVUI All Purpose Border"),
-		["premium"]     = LSM:Fetch("border", "SVUI All Purpose Border"),
-	}
-
-	SV.Media["misc"] = {
-		["button"]      = [[Interface\AddOns\SVUI_!Core\assets\textures\BUTTON]],
-		["splash"] 		= [[Interface\AddOns\SVUI_!Core\assets\textures\SPLASH]],
-	}
-
-	SV.Media["setup"] = {
-		["option"] 		= [[Interface\AddOns\SVUI_!Core\assets\textures\SETUP-OPTION]],
-		["arrow"] 		= [[Interface\AddOns\SVUI_!Core\assets\textures\SETUP-ARROW]],
-		["theme"] 		= [[Interface\AddOns\SVUI_!Core\assets\textures\THEME-DEFAULT]]
-	}
-
-	SV.Media["icon"] = {
-		["close"]       = [[Interface\AddOns\SVUI_!Core\assets\textures\CLOSE-BUTTON]],
-		["star"]        = [[Interface\AddOns\SVUI_!Core\assets\textures\FAVORITE-STAR]],
-		["move_up"]     = [[Interface\AddOns\SVUI_!Core\assets\textures\MOVE-UP]],
-		["move_down"]   = [[Interface\AddOns\SVUI_!Core\assets\textures\MOVE-DOWN]],
-		["move_left"]   = [[Interface\AddOns\SVUI_!Core\assets\textures\MOVE-LEFT]], 
-		["move_right"]  = [[Interface\AddOns\SVUI_!Core\assets\textures\MOVE-RIGHT]],
-		["exitIcon"] 	= [[Interface\AddOns\SVUI_!Core\assets\textures\EXIT]]
-	}
-
-	SV.Media["alert"] = {
-		["full"]    = [[Interface\AddOns\SVUI_!Core\assets\textures\Alert\ALERT-FULL]],
-		["icon"]    = [[Interface\AddOns\SVUI_!Core\assets\textures\Alert\ALERT-ICON-BORDER]],
-		["saved"]   = {
-			[[Interface\AddOns\SVUI_!Core\assets\textures\Alert\SAVED-BG]],
-			[[Interface\AddOns\SVUI_!Core\assets\textures\Alert\SAVED-FG]],
+		["gradient"]  = {
+			["default"]   = {"VERTICAL", 0.08, 0.08, 0.08, 0.22, 0.22, 0.22}, 
+			["special"]   = {"VERTICAL", 0.33, 0.25, 0.13, 0.47, 0.39, 0.27},
+			["specialdark"] = {"VERTICAL", 0.23, 0.15, 0.03, 0.33, 0.25, 0.13},
+			["container"] = {"VERTICAL", 0.12, 0.11, 0.1, 0.22, 0.21, 0.2},
+			["class"]     = {"VERTICAL", r2, g2, b2, r1, g1, b1}, 
+			["bizzaro"]   = {"VERTICAL", ir2, ig2, ib2, ir1, ig1, ib1},
+			["medium"]    = {"VERTICAL", 0.22, 0.22, 0.22, 0.47, 0.47, 0.47},
+			["dark"]      = {"VERTICAL", 0.02, 0.02, 0.02, 0.22, 0.22, 0.22},
+			["darkest"]   = {"VERTICAL", 0.15, 0.15, 0.15, 0, 0, 0},
+			["darkest2"]  = {"VERTICAL", 0, 0, 0, 0.12, 0.12, 0.12},
+			["light"]     = {"VERTICAL", 0.65, 0.65, 0.65, 0.95, 0.95, 0.95},
+			["light2"]    = {"VERTICAL", 0.95, 0.95, 0.95, 0.65, 0.65, 0.65},
+			["highlight"] = {"VERTICAL", 0.3, 0.8, 1, 0.1, 0.9, 1},
+			["checked"]   = {"VERTICAL", 0.08, 0.9, 0.25, 0.25, 0.9, 0.08},
+			["green"]     = {"VERTICAL", 0.08, 0.9, 0.25, 0.25, 0.9, 0.08}, 
+			["red"]       = {"VERTICAL", 0.5, 0, 0, 0.9, 0.08, 0.08}, 
+			["yellow"]    = {"VERTICAL", 1, 0.3, 0, 1, 1, 0},
+			["tan"]       = {"VERTICAL", 0.15, 0.08, 0, 0.37, 0.22, 0.1},
+			["inverse"]   = {"VERTICAL", 0.25, 0.25, 0.25, 0.12, 0.12, 0.12},
+			["icon"]      = {"VERTICAL", 0.5, 0.53, 0.55, 0.8, 0.8, 1},
+			["white"]     = {"VERTICAL", 0.75, 0.75, 0.75, 1, 1, 1},
 		},
-		["typeA"] = {
-			COLOR 	= {0.8, 0.2, 0.2},
-			BG 		= [[Interface\AddOns\SVUI_!Core\assets\textures\Alert\ALERT-BG]], 
-			LEFT 	= [[Interface\AddOns\SVUI_!Core\assets\textures\Alert\ALERT-LEFT]],
-			RIGHT 	= [[Interface\AddOns\SVUI_!Core\assets\textures\Alert\ALERT-RIGHT]],
-			TOP 	= [[Interface\AddOns\SVUI_!Core\assets\textures\Alert\ALERT-TOP]],
-			BOTTOM 	= [[Interface\AddOns\SVUI_!Core\assets\textures\Alert\ALERT-BOTTOM]],
+		["icon"] = {
+			["close"]       = [[Interface\AddOns\SVUI_!Core\assets\textures\CLOSE-BUTTON]],
+			["star"]        = [[Interface\AddOns\SVUI_!Core\assets\textures\FAVORITE-STAR]],
+			["move_up"]     = [[Interface\AddOns\SVUI_!Core\assets\textures\MOVE-UP]],
+			["move_down"]   = [[Interface\AddOns\SVUI_!Core\assets\textures\MOVE-DOWN]],
+			["move_left"]   = [[Interface\AddOns\SVUI_!Core\assets\textures\MOVE-LEFT]], 
+			["move_right"]  = [[Interface\AddOns\SVUI_!Core\assets\textures\MOVE-RIGHT]],
+			["exitIcon"] 	= [[Interface\AddOns\SVUI_!Core\assets\textures\EXIT]]
 		},
-		["typeB"] = {
-			COLOR 	= {0.08, 0.4, 0},
-			BG 		= [[Interface\AddOns\SVUI_!Core\assets\textures\Alert\ALERT-BG-2]], 
-			LEFT 	= [[Interface\AddOns\SVUI_!Core\assets\textures\Alert\ALERT-LEFT-2]],
-			RIGHT 	= [[Interface\AddOns\SVUI_!Core\assets\textures\Alert\ALERT-RIGHT-2]],
-			TOP 	= [[Interface\AddOns\SVUI_!Core\assets\textures\Alert\ALERT-TOP]],
-			BOTTOM 	= [[Interface\AddOns\SVUI_!Core\assets\textures\Alert\ALERT-BOTTOM]],
+		["dock"] = {
+			["durabilityLabel"] = [[Interface\AddOns\SVUI_!Core\assets\textures\Dock\LABEL-DUR]],
+			["reputationLabel"] = [[Interface\AddOns\SVUI_!Core\assets\textures\Dock\LABEL-REP]],
+			["experienceLabel"] = [[Interface\AddOns\SVUI_!Core\assets\textures\Dock\LABEL-XP]],
+			["breakStuffIcon"] = [[Interface\AddOns\SVUI_!Core\assets\textures\Dock\DOCK-ICON-BREAKSTUFF]],
+			["hearthIcon"] = [[Interface\AddOns\SVUI_!Core\assets\textures\Dock\DOCK-ICON-HEARTH]],
+			["raidToolIcon"] = [[Interface\AddOns\SVUI_!Core\assets\textures\Dock\DOCK-ICON-RAIDTOOL]],
+			["garrisonToolIcon"] = [[Interface\AddOns\SVUI_!Core\assets\textures\Dock\DOCK-ICON-GARRISON]],
+			["professionIconFile"] = [[Interface\AddOns\SVUI_!Core\assets\textures\Dock\PROFESSIONS]],
+			["professionIconCoords"] = {
+				[171] 	= {0,0.25,0,0.25}, 				-- PRO-ALCHEMY
+			    [794] 	= {0.25,0.5,0,0.25,80451}, 		-- PRO-ARCHAELOGY
+			    [164] 	= {0.5,0.75,0,0.25}, 			-- PRO-BLACKSMITH
+			    [185] 	= {0.75,1,0,0.25,818,67097}, 	-- PRO-COOKING
+			    [333] 	= {0,0.25,0.25,0.5,13262}, 		-- PRO-ENCHANTING
+			    [202] 	= {0.25,0.5,0.25,0.5}, 			-- PRO-ENGINEERING
+			    [129] 	= {0.5,0.75,0.25,0.5}, 			-- PRO-FIRSTAID
+			    [773] 	= {0,0.25,0.5,0.75,51005}, 		-- PRO-INSCRIPTION
+			    [755] 	= {0.25,0.5,0.5,0.75,31252},	-- PRO-JEWELCRAFTING
+			    [165] 	= {0.5,0.75,0.5,0.75}, 			-- PRO-LEATHERWORKING
+			    [186] 	= {0.75,1,0.5,0.75}, 			-- PRO-MINING
+			    [197] 	= {0.25,0.5,0.75,1}, 			-- PRO-TAILORING
+			},
+			["sparks"] = {
+				[[Interface\AddOns\SVUI_!Core\assets\textures\Dock\DOCK-SPARKS-1]],
+				[[Interface\AddOns\SVUI_!Core\assets\textures\Dock\DOCK-SPARKS-2]],
+				[[Interface\AddOns\SVUI_!Core\assets\textures\Dock\DOCK-SPARKS-3]],
+			},
 		},
-	}
-
-	SV.Media["dock"] = {
-		["durabilityLabel"] = [[Interface\AddOns\SVUI_!Core\assets\textures\Dock\LABEL-DUR]],
-		["reputationLabel"] = [[Interface\AddOns\SVUI_!Core\assets\textures\Dock\LABEL-REP]],
-		["experienceLabel"] = [[Interface\AddOns\SVUI_!Core\assets\textures\Dock\LABEL-XP]],
-		["breakStuffIcon"] = [[Interface\AddOns\SVUI_!Core\assets\textures\Dock\DOCK-ICON-BREAKSTUFF]],
-		["hearthIcon"] = [[Interface\AddOns\SVUI_!Core\assets\textures\Dock\DOCK-ICON-HEARTH]],
-		["raidToolIcon"] = [[Interface\AddOns\SVUI_!Core\assets\textures\Dock\DOCK-ICON-RAIDTOOL]],
-		["garrisonToolIcon"] = [[Interface\AddOns\SVUI_!Core\assets\textures\Dock\DOCK-ICON-GARRISON]],
-		["professionIconFile"] = [[Interface\AddOns\SVUI_!Core\assets\textures\Dock\PROFESSIONS]],
-		["professionIconCoords"] = {
-			[171] 	= {0,0.25,0,0.25}, 				-- PRO-ALCHEMY
-		    [794] 	= {0.25,0.5,0,0.25,80451}, 		-- PRO-ARCHAELOGY
-		    [164] 	= {0.5,0.75,0,0.25}, 			-- PRO-BLACKSMITH
-		    [185] 	= {0.75,1,0,0.25,818,67097}, 	-- PRO-COOKING
-		    [333] 	= {0,0.25,0.25,0.5,13262}, 		-- PRO-ENCHANTING
-		    [202] 	= {0.25,0.5,0.25,0.5}, 			-- PRO-ENGINEERING
-		    [129] 	= {0.5,0.75,0.25,0.5}, 			-- PRO-FIRSTAID
-		    [773] 	= {0,0.25,0.5,0.75,51005}, 		-- PRO-INSCRIPTION
-		    [755] 	= {0.25,0.5,0.5,0.75,31252},	-- PRO-JEWELCRAFTING
-		    [165] 	= {0.5,0.75,0.5,0.75}, 			-- PRO-LEATHERWORKING
-		    [186] 	= {0.75,1,0.5,0.75}, 			-- PRO-MINING
-		    [197] 	= {0.25,0.5,0.75,1}, 			-- PRO-TAILORING
+		["backdrop"] = {
+			["default"] = {
+				bgFile = [[Interface\AddOns\SVUI_!Core\assets\textures\DEFAULT-BG]], 
+			    tile = false, 
+			    tileSize = 0, 
+			    edgeFile = [[Interface\AddOns\SVUI_!Core\assets\textures\DEFAULT-BORDER]],
+			    edgeSize = 5,
+			    insets = 
+			    {
+			        left = 0, 
+			        right = 0, 
+			        top = 0, 
+			        bottom = 0, 
+			    },
+			},
+			["textured"] = {
+				bgFile = [[Interface\AddOns\SVUI_!Core\assets\textures\Bars\TEXTURED]], 
+			    tile = false, 
+			    tileSize = 0, 
+			    edgeFile = [[Interface\AddOns\SVUI_!Core\assets\textures\DEFAULT-BORDER]],
+			    edgeSize = 5,
+			    insets = 
+			    {
+			        left = 0, 
+			        right = 0, 
+			        top = 0, 
+			        bottom = 0, 
+			    },
+			},
+			["aura"] = {
+				bgFile = [[Interface\BUTTONS\WHITE8X8]], 
+			    tile = false, 
+			    tileSize = 0, 
+			    edgeFile = [[Interface\AddOns\SVUI_!Core\assets\textures\GLOW]],
+			    edgeSize = 1,
+			    insets = 
+			    {
+			        left = 1, 
+			        right = 1, 
+			        top = 1, 
+			        bottom = 1, 
+			    },
+			},
+			["glow"] = {
+				bgFile = [[Interface\BUTTONS\WHITE8X8]], 
+			    tile = false, 
+			    tileSize = 0, 
+			    edgeFile = [[Interface\AddOns\SVUI_!Core\assets\textures\GLOW]],
+			    edgeSize = 3,
+			    insets = 
+			    {
+			        left = 0, 
+			        right = 0, 
+			        top = 0, 
+			        bottom = 0, 
+			    },
+			},
+			["tooltip"] = {
+				bgFile = [[Interface\DialogFrame\UI-DialogBox-Background-Dark]], 
+			    tile = false, 
+			    tileSize = 0, 
+			    edgeFile = [[Interface\AddOns\SVUI_!Core\assets\textures\EMPTY]],
+			    edgeSize = 1,
+			    insets = 
+			    {
+			        left = 0, 
+			        right = 0, 
+			        top = 0, 
+			        bottom = 0, 
+			    },
+			},
+			["onlyborder"] = {
+				bgFile = [[Interface\AddOns\SVUI_!Core\assets\textures\EMPTY]], 
+			    tile = false, 
+			    tileSize = 0, 
+			    edgeFile = [[Interface\AddOns\SVUI_!Core\assets\textures\DEFAULT-BORDER]],
+			    edgeSize = 15,
+			    insets = 
+			    {
+			        left = 0, 
+			        right = 0, 
+			        top = 0, 
+			        bottom = 0, 
+			    },
+			},
 		},
-		["sparks"] = {
-			[[Interface\AddOns\SVUI_!Core\assets\textures\Dock\DOCK-SPARKS-1]],
-			[[Interface\AddOns\SVUI_!Core\assets\textures\Dock\DOCK-SPARKS-2]],
-			[[Interface\AddOns\SVUI_!Core\assets\textures\Dock\DOCK-SPARKS-3]],
-		},
-	}
+	};
 end
+
+SV.Media = SV:NewDatabase("Media", "SVUI_Media", "mediadefaults");
+--[[ 
+########################################################## 
+LOCALIZED GLOBALS
+##########################################################
+]]--
+local NAMEPLATE_FONT      = _G.NAMEPLATE_FONT
+local CHAT_FONT_HEIGHTS   = _G.CHAT_FONT_HEIGHTS
+local STANDARD_TEXT_FONT  = _G.STANDARD_TEXT_FONT
+local UNIT_NAME_FONT      = _G.UNIT_NAME_FONT
+local CUSTOM_CLASS_COLORS = _G.CUSTOM_CLASS_COLORS
+local RAID_CLASS_COLORS   = _G.RAID_CLASS_COLORS
+local UIDROPDOWNMENU_DEFAULT_TEXT_HEIGHT  = _G.UIDROPDOWNMENU_DEFAULT_TEXT_HEIGHT
+--[[ 
+########################################################## 
+FORCIBLY CHANGE THE GAME WORLD COMBAT TEXT FONT
+##########################################################
+]]--
+local SVUI_DAMAGE_FONT = "Interface\\AddOns\\SVUI_!Core\\assets\\fonts\\!DAMAGE.ttf";
+local SVUI_DAMAGE_FONTSIZE = 32;
+
+local function ForceDamageFont()
+	_G.DAMAGE_TEXT_FONT = SVUI_DAMAGE_FONT
+	_G.COMBAT_TEXT_CRIT_SCALE_TIME = 0.7;
+	_G.COMBAT_TEXT_SPACING = 15;
+end
+
+ForceDamageFont();
+--[[ 
+########################################################## 
+SOME CORE VARS
+##########################################################
+]]--
+SV.DialogFontDefault = "SVUI Dialog Font";
+if(GetLocale() ~= "enUS") then
+	SV.DialogFontDefault = "SVUI Default Font";
+end
+SV.SplashImage 	= [[Interface\AddOns\SVUI_!Core\assets\textures\SPLASH]];
+SV.BaseTexture 	= [[Interface\AddOns\SVUI_!Core\assets\textures\DEFAULT]];
+SV.NoTexture 	= [[Interface\AddOns\SVUI_!Core\assets\textures\EMPTY]];
 --[[ 
 ########################################################## 
 CORE FUNCTIONS
@@ -476,8 +434,8 @@ function SV:HexColor(arg1,arg2,arg3)
 	local r,g,b;
 	if arg1 and type(arg1) == "string" then
 		local t
-		if(self.Media or self.db.media) then
-			t = self.Media.color[arg1] or self.db.media.unitframes[arg1]
+		if(self.Media or self.Media.internal) then
+			t = self.Media.color[arg1] or self.Media.internal.unitframes[arg1]
 		end
 		if t then
 			r,g,b = t[1],t[2],t[3]
@@ -730,36 +688,36 @@ SV.Events:On("FONT_GROUP_UPDATED", UpdateFontGroup, "UpdateFontGroup");
 MEDIA UPDATES
 ##########################################################
 ]]--
-function SV.Media:Update()
-	local settings = SV.db.media
-	self.color.default      = settings.colors.default
-	self.color.special      = settings.colors.special
-	self.color.specialdark  = settings.colors.specialdark
+function SV:RefreshCommonMedia()
+	local settings = SV.Media.internal
+	self.Media.color.default      = settings.colors.default
+	self.Media.color.special      = settings.colors.special
+	self.Media.color.specialdark  = settings.colors.specialdark
 
-	for k,v in pairs(self.texture) do
+	for k,v in pairs(self.Media.bg) do
 		if(settings.textures[k]) then
-			self.texture[k] = LSM:Fetch("background", settings.textures[k])
+			self.Media.bg[k] = LSM:Fetch("background", settings.textures[k])
 		end
 	end
 
-	for k,v in pairs(self.border) do
+	for k,v in pairs(self.Media.border) do
 		if(settings.borders[k]) then
-			self.border[k] = LSM:Fetch("border", settings.borders[k])
+			self.Media.border[k] = LSM:Fetch("border", settings.borders[k])
 		end
 	end
 
-	local cColor1 = self.color.special
-	local cColor2 = self.color.default
+	local cColor1 = self.Media.color.special
+	local cColor2 = self.Media.color.default
 	local r1,g1,b1 = cColor1[1], cColor1[2], cColor1[3]
 	local r2,g2,b2 = cColor2[1], cColor2[2], cColor2[3]
 
-	self.gradient.special = {"VERTICAL",r1,g1,b1,r2,g2,b2}
+	self.Media.gradient.special = {"VERTICAL",r1,g1,b1,r2,g2,b2}
 
-	SV.Events:Trigger("MEDIA_COLORS_UPDATED");
+	self.Events:Trigger("MEDIA_COLORS_UPDATED");
 end
 
-function SV:RefreshAllSystemMedia()
-	self.Media:Update();
+function SV:RefreshAllMedia()
+	self:RefreshCommonMedia();
 	ChangeGlobalFonts();
 	ChangeSystemFonts();
 	self:RegisterFonts();
