@@ -42,7 +42,7 @@ end
 
 local function StyleFrame(frame)
   if(not frame) then return end
-  MOD:ApplyFrameStyle(frame,"Transparent")
+  SV.API:Set("Frame", frame,"Transparent")
   frame.Panel:SetAllPoints()
   frame.Panel:SetPoint('TOPLEFT', frame, 'TOPLEFT', 0, -6)
   frame.CloseButton:SetPoint('TOPRIGHT', frame, 'TOPRIGHT', -1, -9)
@@ -93,7 +93,7 @@ local function StyleRecount()
   SV.API:Set("ScrollFrame", Recount_MainWindow_ScrollBarScrollBar)
 
   Recount.MainWindow:HookScript('OnShow', function(self) if InCombatLockdown() then return end if MOD:ValidateDocklet("Recount") then MOD.Docklet:Show() end end)
-  Recount.MainWindow.FileButton:HookScript('OnClick', function(self) if LibDropdownFrame0 then MOD:ApplyFrameStyle(LibDropdownFrame0) end end)
+  Recount.MainWindow.FileButton:HookScript('OnClick', function(self) if LibDropdownFrame0 then SV.API:Set("Frame", LibDropdownFrame0) end end)
 
   hooksecurefunc(Recount, 'ShowScrollbarElements', function(self, name) Recount_MainWindow_ScrollBarScrollBar:Show() end)
   hooksecurefunc(Recount, 'HideScrollbarElements', function(self, name) Recount_MainWindow_ScrollBarScrollBar:Hide() end)
@@ -102,7 +102,7 @@ local function StyleRecount()
   hooksecurefunc(Recount, 'ShowReport', function(self)
     if Recount_ReportWindow.isStyled then return end
     Recount_ReportWindow.isStyled = true
-    MOD:ApplyFrameStyle(Recount_ReportWindow.Whisper)
+    SV.API:Set("Frame", Recount_ReportWindow.Whisper)
     Recount_ReportWindow.ReportButton:SetStyle("Button")
     SV.API:Set("ScrollBar", Recount_ReportWindow_Slider)
     Recount_ReportWindow_Slider:GetThumbTexture():ModSize(6,6)

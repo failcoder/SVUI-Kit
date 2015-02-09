@@ -144,6 +144,6 @@ end
 MOD LOADING
 ##########################################################
 ]]--
-MOD:SaveBlizzardStyle('Blizzard_PVPUI', PVPFrameStyle, true)
+MOD:SaveBlizzardStyle('Blizzard_PVPUI', PVPFrameStyle)
 
 -- /script StaticPopupSpecial_Show(PVPReadyDialog)

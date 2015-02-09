@@ -37,13 +37,13 @@ local function StyleTradeSkillDW()
 	TradeSkillExpandButtonFrame:RemoveTextures(true)
 	TradeSkillDetailScrollChildFrame:RemoveTextures(true)
 	TradeSkillListScrollFrame:RemoveTextures(true)
-	MOD:ApplyFrameStyle(TradeSkillGuildFrame,"Transparent")
-	MOD:ApplyFrameStyle(TradeSkillGuildFrameContainer,"Transparent")
+	SV.API:Set("Frame", TradeSkillGuildFrame,"Transparent")
+	SV.API:Set("Frame", TradeSkillGuildFrameContainer,"Transparent")
 	TradeSkillGuildFrame:ModPoint("BOTTOMLEFT", TradeSkillFrame, "BOTTOMRIGHT", 3, 19)
 	SV.API:Set("CloseButton", TradeSkillGuildFrameCloseButton)
 
 	TradeSkillFrame:HookScript("OnShow", function() 
-		MOD:ApplyFrameStyle(TradeSkillFrame) 
+		SV.API:Set("Frame", TradeSkillFrame) 
 		TradeSkillListScrollFrame:RemoveTextures() 
 		if not TradeSkillDWExpandButton then return end 
 		if not TradeSkillDWExpandButton.styled then 
@@ -63,7 +63,7 @@ local function StyleTradeSkillDW()
 	TradeSkillLinkButton:GetNormalTexture():SetTexCoord(0.25, 0.7, 0.37, 0.75)
 	TradeSkillLinkButton:GetPushedTexture():SetTexCoord(0.25, 0.7, 0.45, 0.8)
 	TradeSkillLinkButton:GetHighlightTexture():Die()
-	MOD:ApplyFrameStyle(TradeSkillLinkButton,"Transparent")
+	SV.API:Set("Frame", TradeSkillLinkButton,"Transparent")
 	TradeSkillLinkButton:ModSize(17, 14)
 	TradeSkillLinkButton:ModPoint("LEFT", TradeSkillLinkFrame, "LEFT", 5, -1)
 	TradeSkillFrameSearchBox:SetStyle("Editbox")
@@ -91,7 +91,7 @@ local function StyleTradeSkillDW()
 			if not icon.backdrop then
 				icon.backdrop = CreateFrame("Frame", nil, button)
 				icon.backdrop:SetFrameLevel(button:GetFrameLevel() - 1)
-				MOD:ApplyFrameStyle(icon.backdrop,"Transparent")
+				SV.API:Set("Frame", icon.backdrop,"Transparent")
 				icon.backdrop:ModPoint("TOPLEFT", icon, "TOPLEFT", -2, 2)
 				icon.backdrop:ModPoint("BOTTOMRIGHT", icon, "BOTTOMRIGHT", 2, -2)
 			end
@@ -108,7 +108,7 @@ local function StyleTradeSkillDW()
 		end
 	end)
 
-	TradeSkillDW_QueueFrame:HookScript("OnShow", function() MOD:ApplyFrameStyle(TradeSkillDW_QueueFrame,"Transparent") end)
+	TradeSkillDW_QueueFrame:HookScript("OnShow", function() SV.API:Set("Frame", TradeSkillDW_QueueFrame,"Transparent") end)
 
 	SV.API:Set("CloseButton", TradeSkillDW_QueueFrameCloseButton)
 

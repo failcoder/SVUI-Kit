@@ -30,7 +30,7 @@ TINYDPS
 local function StyleTinyDPS()
 	assert(tdpsFrame, "AddOn Not Loaded")
 
-	MOD:ApplyFrameStyle(tdpsFrame)
+	SV.API:Set("Frame", tdpsFrame)
 	
 	tdpsFrame:HookScript("OnShow", function()
 		if InCombatLockdown() then return end 

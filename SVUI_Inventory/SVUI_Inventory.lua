@@ -1166,6 +1166,7 @@ do
 		frame.Bags = {}
 		frame.closeButton = CreateFrame("Button", "SVUI_ContainerFrameCloseButton", frame, "UIPanelCloseButton")
 		frame.closeButton:ModPoint("TOPRIGHT", -4, -4)
+		SV.API:Set("CloseButton", frame.closeButton);
 		frame.closeButton:SetScript("PostClick", function() 
 			if(not InCombatLockdown()) then CloseBag(0) end 
 		end)
@@ -1359,6 +1360,7 @@ do
 
 		frame.closeButton = CreateFrame("Button", bagName.."CloseButton", frame, "UIPanelCloseButton")
 		frame.closeButton:ModPoint("TOPRIGHT", -4, -4)
+		SV.API:Set("CloseButton", frame.closeButton);
 		frame.closeButton:SetScript("PostClick", function() 
 			if(not InCombatLockdown()) then CloseBag(0) end 
 		end)

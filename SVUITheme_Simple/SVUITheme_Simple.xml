@@ -58,44 +58,6 @@
         </Backdrop>
     </Frame>
 
-    <Frame name="SVUITheme_Simple_UnitLarge" virtual="true">
-        <Attributes>
-            <Attribute name="panelID" type="string" value="unitlarge" />
-            <Attribute name="panelPadding" type="number" value="0" />
-            <Attribute name="panelColor" type="string" value="special" />
-            <Attribute name="panelGradient" type="boolean" value="false" />
-            <Attribute name="panelTexUpdate" type="boolean" value="true" />
-            <Attribute name="panelOffset" type="number" value="3" />
-            <Attribute name="panelSkipUpdate" type="boolean" value="false" />
-        </Attributes>
-        <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\BUTTONS\WHITE8X8" tile="false">
-            <EdgeSize val="2" />
-            <TileSize val="0" />
-            <BackgroundInsets left="0" right="0" top="0" bottom="0" />
-            <Color r="0.37" g="0.32" b="0.29" a="1" />
-            <BorderColor r="0" g="0" b="0" a="1" />
-        </Backdrop>
-    </Frame>
-
-    <Frame name="SVUITheme_Simple_UnitSmall" virtual="true">
-        <Attributes>
-            <Attribute name="panelID" type="string" value="unitsmall" />
-            <Attribute name="panelPadding" type="number" value="0" />
-            <Attribute name="panelColor" type="string" value="special" />
-            <Attribute name="panelGradient" type="boolean" value="false" />
-            <Attribute name="panelTexUpdate" type="boolean" value="true" />
-            <Attribute name="panelOffset" type="number" value="3" />
-            <Attribute name="panelSkipUpdate" type="boolean" value="false" />
-        </Attributes>
-        <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\BUTTONS\WHITE8X8" tile="false">
-            <EdgeSize val="2" />
-            <TileSize val="0" />
-            <BackgroundInsets left="0" right="0" top="0" bottom="0" />
-            <Color r="0.37" g="0.32" b="0.29" a="1" />
-            <BorderColor r="0" g="0" b="0" a="1" />
-        </Backdrop>
-    </Frame>
-
     <Frame name="SVUITheme_Simple_Minimap" virtual="true">
         <Attributes>
             <Attribute name="panelID" type="string" value="minimap" />

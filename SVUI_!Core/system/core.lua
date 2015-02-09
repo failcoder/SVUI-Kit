@@ -241,6 +241,7 @@ SV.Hidden:Hide();
 SV.RollFrames         = {};
 SV.SystemAlert        = {};
 SV.filterdefaults     = {};
+
 SV.defaults = {
     ["LAYOUT"] = {},
     ["THEME"] = {
@@ -521,15 +522,15 @@ end
 
 function SV:ResetAllUI(confirmed)
     if InCombatLockdown()then 
-        self:AddonMessage(ERR_NOT_IN_COMBAT)
+        SV:AddonMessage(ERR_NOT_IN_COMBAT)
         return 
     end 
     if(not confirmed) then 
-        self:StaticPopup_Show('RESET_UI_CHECK')
+        SV:StaticPopup_Show('RESET_UI_CHECK')
         return 
     end 
-    self.Setup:Reset()
-    self.Events:Trigger("FULL_UI_RESET");
+    SV.Setup:Reset()
+    SV.Events:Trigger("FULL_UI_RESET");
 end 
 
 function SV:ResetUI(confirmed)

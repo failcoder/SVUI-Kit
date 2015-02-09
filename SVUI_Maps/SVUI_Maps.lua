@@ -581,6 +581,8 @@ function MOD:RefreshZoneText()
 		if(SV.db.Maps.locationText == "SIMPLE") then
 			self.InfoTop:Hide();
 			self.InfoBottom:Show();
+			NARR_TEXT = "";
+			NARR_PREFIX = "";
 			self.InfoTop.Text:SetText(NARR_TEXT)
 		else
 			self.InfoTop:Show();

@@ -90,7 +90,6 @@ end
 function THEME:Load()
 	local LSM = LibStub("LibSharedMedia-3.0");
 	LSM:Register("background", "SVUI Backdrop", [[Interface\DialogFrame\UI-DialogBox-Background]])
-	LSM:Register("background", "SVUI Artwork", [[Interface\FrameGeneral\UI-Background-Rock]])
 
 	SV.DialogFontDefault = "SVUI Default Font";
 
@@ -112,15 +111,16 @@ function THEME:Load()
 	SV.defaults["font"]["lootnumber"]   = {file = "SVUI Caps Font",   size = 14,  outline = "OUTLINE"};
 	SV.defaults["font"]["rollnumber"]   = {file = "SVUI Caps Font",   size = 14,  outline = "OUTLINE"};
 
+	SV.defaults["media"]["textures"]["pattern"]   	= "SVUI Backdrop";
+	SV.defaults["media"]["textures"]["premium"]   	= "SVUI Backdrop";
+	SV.defaults["media"]["textures"]["unitlarge"]   = "SVUI Backdrop";
+	SV.defaults["media"]["textures"]["unitsmall"]   = "SVUI Backdrop";
+
 	if(SV.defaults.UnitFrames) then
 		SV.defaults["font"]["unitprimary"]   	= {file = "SVUI Caps Font",   size = 14,  outline = "OUTLINE"}
 		SV.defaults["font"]["unitsecondary"]   	= {file = "SVUI Caps Font",   size = 14,  outline = "OUTLINE"}
 		SV.defaults["font"]["unitaurabar"]   	= {file = "SVUI Default Font",  size = 14,  outline = "OUTLINE"}
 		SV.defaults["font"]["unitaura"]  		= {file = "SVUI Default Font",  size = 14,  outline = "OUTLINE"}
-		SV.defaults["media"]["textures"]["pattern"]   	= "SVUI Artwork";
-		SV.defaults["media"]["textures"]["premium"]   	= "SVUI Artwork";
-		SV.defaults["media"]["textures"]["unitlarge"]   = "SVUI Artwork";
-		SV.defaults["media"]["textures"]["unitsmall"]   = "SVUI Artwork";
 
 		SV.defaults.UnitFrames.player.name.font = SV.DialogFontDefault;
 		SV.defaults.UnitFrames.target.name.font = SV.DialogFontDefault;
@@ -152,18 +152,20 @@ function THEME:Load()
 		["Premium"] 			= "SVUITheme_Simple_Default",
 		["Window"]  			= "SVUITheme_Simple_Default",
 		["WindowAlternate"]  	= "SVUITheme_Simple_Default",
-		["UnitLarge"]   		= "SVUITheme_Simple_UnitLarge",
-		["UnitSmall"]   		= "SVUITheme_Simple_UnitSmall",
 		["Minimap"] 			= "SVUITheme_Simple_Minimap",
 		["ActionPanel"] 		= "SVUITheme_Simple_ActionPanel",
 		["Container"]   		= "SVUITheme_Simple_Default",
 	};
 
-	SV.Media["texture"]["pattern"] 		= LSM:Fetch("background", "SVUI Artwork")
-	SV.Media["texture"]["premium"] 		= LSM:Fetch("background", "SVUI Artwork")
-	SV.Media["texture"]["unitlarge"]   	= LSM:Fetch("background", "SVUI Artwork")
-	SV.Media["texture"]["unitsmall"]   	= LSM:Fetch("background", "SVUI Artwork")
+	SV.Media["texture"]["pattern"] 		= LSM:Fetch("background", "SVUI Backdrop")
+	SV.Media["texture"]["premium"] 		= LSM:Fetch("background", "SVUI Backdrop")
+	SV.Media["texture"]["unitlarge"]   	= LSM:Fetch("background", "SVUI Backdrop")
+	SV.Media["texture"]["unitsmall"]   	= LSM:Fetch("background", "SVUI Backdrop")
+	SV.Media["texture"]["button"]   	= LSM:Fetch("background", "SVUI Backdrop");
 
 	SV.Dock.SetThemeDockStyle = _SetDockStyleTheme
 	SV.Dock.SetBorderTheme = _SetBorderTheme
+	-- print("Theme")
+	-- print(SV.defaults["media"]["textures"]["unitlarge"])
+	-- print(SV.Media["texture"]["unitlarge"])
 end 

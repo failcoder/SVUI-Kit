@@ -44,7 +44,7 @@ end
 
 local function StyleSexyCooldownBar(bar)
 	SCDStripStyleSettings(bar)
-	MOD:ApplyFrameStyle(bar)
+	SV.API:Set("Frame", bar)
 	SV:ManageVisibility(bar)
 	if MOD:IsAddonReady("DockletSexyCooldown") then
 		bar:ClearAllPoints()
@@ -56,8 +56,8 @@ end
 
 local function StyleSexyCooldownIcon(bar, icon)
 	if not icon.styled then
-		MOD:ApplyFrameStyle(icon, false, true)
-		MOD:ApplyFrameStyle(icon.overlay,"Transparent",true)
+		SV.API:Set("Frame", icon, false, true)
+		SV.API:Set("Frame", icon.overlay,"Transparent",true)
 		icon.styled = true
 	end
 	icon.overlay.tex:SetTexCoord(0.1,0.9,0.1,0.9)

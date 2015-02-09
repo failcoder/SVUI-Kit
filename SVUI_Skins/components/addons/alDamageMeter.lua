@@ -31,7 +31,7 @@ local function StyleALDamageMeter()
   assert(_G['alDamagerMeterFrame'], "AddOn Not Loaded")
   
   alDamageMeterFrame.bg:Die()
-  MOD:ApplyFrameStyle(alDamageMeterFrame)
+  SV.API:Set("Frame", alDamageMeterFrame)
   alDamageMeterFrame:HookScript('OnShow', function()
     if InCombatLockdown() then return end 
     if MOD:ValidateDocklet("alDamageMeter") then

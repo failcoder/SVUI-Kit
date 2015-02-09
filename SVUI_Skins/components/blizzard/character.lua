@@ -254,7 +254,7 @@ local function CharacterFrameStyle()
 		 return 
 	end
 
-	MOD:ApplyAdjustedWindowStyle(CharacterFrame, true, true, 1, 3, 3)
+	SV.API:Set("Window", CharacterFrame, true, true, 1, 3, 3)
 
 	SV.API:Set("CloseButton", CharacterFrameCloseButton)
 	SV.API:Set("ScrollFrame", CharacterStatsPaneScrollBar)

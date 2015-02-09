@@ -471,13 +471,14 @@ local HookCustomBackdrop = function(self)
                     self.Panel:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -offset, offset)
                 end
             end
-            self:SetBackdrop(SV.Media.backdrop[bgid])
+            self.Panel:SetBackdrop(SV.Media.backdrop[bgid])
+            self.Panel:SetBackdropBorderColor(0,0,0,1)
         else
             local newBgFile = SV.Media.texture[bgid]
             local newBorderFile = SV.Media.border[bgid]
             if(newBgFile and newBorderFile) then
                 local edgeSize = self.Panel:GetAttribute("panelPadding") or 1
-                self:SetBackdrop({
+                self.Panel:SetBackdrop({
                     bgFile = newBgFile, 
                     edgeFile = newBorderFile, 
                     tile = false, 
@@ -491,6 +492,7 @@ local HookCustomBackdrop = function(self)
                         bottom = 0, 
                     }, 
                 })
+                self.Panel:SetBackdropBorderColor(0,0,0,1)
                 if(edgeSize and edgeSize > 0 and (not self.Panel:GetAttribute("panelLocked"))) then
                     --if(bgid == "premium") then print("SetPoint from Backdrop2") end
                     local offset = ceil(edgeSize * 0.25)
@@ -499,6 +501,12 @@ local HookCustomBackdrop = function(self)
                     self.Panel:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -offset, offset)
                 end
             end
+        end
+
+        local colorID = self.Panel:GetAttribute("panelColor")
+        local panelColor = SV.Media.color[colorID];
+        if(panelColor) then
+            self.Panel:SetBackdropColor(panelColor[1], panelColor[2], panelColor[3], panelColor[4] or 1)
         end
     end
 end
@@ -902,6 +910,13 @@ MOD.Methods["Button"] = function(self, frame, inverse, xOffset, yOffset, default
 
     self:APPLY(frame, "Button", inverse, 1, x, y, defaultColor)
     CommonButtonSettings(frame, true)
+    if(defaultColor) then
+        frame.Panel:SetAttribute("panelID", "button"..defaultColor)
+    end
+
+    if(frame.UpdateBackdrop) then
+        frame:UpdateBackdrop()
+    end
 end;
 
 MOD.Methods["LiteButton"] = function(self, frame, inverse, xOffset, yOffset, defaultColor)
@@ -1424,14 +1439,22 @@ local _hook_Tooltip_OnShow = function(self)
     self:SetBackdrop(SV.Media.backdrop.tooltip)
 end
 
-MOD.Concepts["Frame"] = function(self, adjustable, frame, template, stripped, padding, xOffset, yOffset)
+local SetAlertColor = function(self, r, g, b)
+    self.AlertPanel:SetBackdropColor(r,g,b)
+    self.AlertPanel.left:SetVertexColor(r,g,b)
+    self.AlertPanel.right:SetVertexColor(r,g,b)
+    self.AlertPanel.top:SetVertexColor(r,g,b)
+    self.AlertPanel.bottom:SetVertexColor(r,g,b)
+end
+
+MOD.Concepts["Frame"] = function(self, adjustable, frame, template, noStripping, padding, xOffset, yOffset)
     if(not frame or (frame and frame.Panel)) then return end
     template = template or "Transparent"
     local baselevel = frame:GetFrameLevel()
     if(baselevel < 1) then 
         frame:SetFrameLevel(1)
     end
-    if(stripped) then
+    if(not noStripping) then
         RemoveTextures(frame)
     end
     self.Methods["Frame"](self, frame, adjustable, template, true, padding, xOffset, yOffset)
@@ -1729,21 +1752,7 @@ MOD.Concepts["Tab"] = function(self, adjustable, frame, addBackground, xOffset, 
         frame.backdrop = CreateFrame("Frame", nil, frame)
         WrapPoints(frame.backdrop, frame, xOffset, yOffset)
         frame.backdrop:SetFrameLevel(0)
-        frame.backdrop:SetBackdrop({
-            bgFile = [[Interface\BUTTONS\WHITE8X8]], 
-            tile = false, 
-            tileSize = 0,
-            edgeFile = SV.Media.border.shadow,
-            edgeSize = 3,
-            insets = {
-                left = 0,
-                right = 0,
-                top = 0,
-                bottom = 0
-            }
-        });
-        frame.backdrop:SetBackdropColor(0,0,0,1)
-        frame.backdrop:SetBackdropBorderColor(0,0,0,1)
+        self.Methods["Frame"](self, frame.backdrop, adjustable, "Button", false)
 
         local initialAnchor, anchorParent, relativeAnchor, xPosition, yPosition = frame:GetPoint()
         frame:SetPoint(initialAnchor, anchorParent, relativeAnchor, 1, yPosition)
@@ -1756,11 +1765,15 @@ MOD.Concepts["Tab"] = function(self, adjustable, frame, addBackground, xOffset, 
             frame.backdrop:SetFrameLevel(frame:GetFrameLevel() - 1)
         end
 
-        self.Methods["Frame"](self, frame.backdrop, adjustable, "Button", true)
+        self.Methods["Frame"](self, frame.backdrop, adjustable, "Button", false)
     end
 
     frame:HookScript("OnEnter", Tab_OnEnter)
     frame:HookScript("OnLeave", Tab_OnLeave)
+    if(frame.backdrop.UpdateBackdrop) then
+        frame.backdrop:UpdateBackdrop()
+    end
+    LIVE_UPDATE_FRAMES[frame] = true;
 end
 
 MOD.Concepts["DropDown"] = function(self, adjustable, frame, width)
@@ -1869,6 +1882,63 @@ MOD.Concepts["EditBox"] = function(self, adjustable, frame, width, height, x, y)
     if height then frame:SetHeight(height) end
 end
 
+MOD.Concepts["Alert"] = function(self, adjustable, frame, typeIndex)
+    if(not frame or (frame and frame.AlertPanel)) then return end
+
+    local alertType = (typeIndex and typeIndex == 2) and "typeB" or "typeA";
+
+    local TEMPLATE = SV.Media.alert[alertType];
+    local r,g,b = unpack(TEMPLATE.COLOR);
+    local size = frame:GetHeight();
+    local half = size * 0.5;
+    local offset = size * 0.1;
+    local lvl = frame:GetFrameLevel();
+
+    if lvl < 1 then lvl = 1 end
+
+    local alertpanel = CreateFrame("Frame", nil, frame)
+    alertpanel:SetPoint("TOPLEFT", frame, "TOPLEFT", offset, 0)
+    alertpanel:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -offset, 0)
+    alertpanel:SetFrameLevel(lvl - 1)
+    alertpanel:SetBackdrop({
+        bgFile = TEMPLATE.BG
+    })
+    alertpanel:SetBackdropColor(r,g,b)
+
+    --[[ LEFT ]]--
+    alertpanel.left = alertpanel:CreateTexture(nil, "BORDER")
+    alertpanel.left:SetTexture(TEMPLATE.LEFT)
+    alertpanel.left:SetVertexColor(r,g,b)
+    alertpanel.left:SetPoint("TOPRIGHT", alertpanel, "TOPLEFT", 0, 0)
+    alertpanel.left:SetPoint("BOTTOMRIGHT", alertpanel, "BOTTOMLEFT", 0, 0)
+    alertpanel.left:SetWidth(size)
+
+    --[[ RIGHT ]]--
+    alertpanel.right = alertpanel:CreateTexture(nil, "BORDER")
+    alertpanel.right:SetTexture(TEMPLATE.RIGHT)
+    alertpanel.right:SetVertexColor(r,g,b)
+    alertpanel.right:SetPoint("TOPLEFT", alertpanel, "TOPRIGHT", 0, 0)
+    alertpanel.right:SetPoint("BOTTOMLEFT", alertpanel, "BOTTOMRIGHT", 0, 0)
+    alertpanel.right:SetWidth(size * 2)
+
+    --[[ TOP ]]--
+    alertpanel.top = alertpanel:CreateTexture(nil, "BORDER")
+    alertpanel.top:SetTexture(TEMPLATE.TOP)
+    alertpanel.top:SetPoint("BOTTOMLEFT", alertpanel, "TOPLEFT", 0, 0)
+    alertpanel.top:SetPoint("BOTTOMRIGHT", alertpanel, "TOPRIGHT", 0, 0)
+    alertpanel.top:SetHeight(half)
+
+    --[[ BOTTOM ]]--
+    alertpanel.bottom = alertpanel:CreateTexture(nil, "BORDER")
+    alertpanel.bottom:SetTexture(TEMPLATE.BOTTOM)
+    alertpanel.bottom:SetPoint("TOPLEFT", alertpanel, "BOTTOMLEFT", 0, 0)
+    alertpanel.bottom:SetPoint("TOPRIGHT", alertpanel, "BOTTOMRIGHT", 0, 0)
+    alertpanel.bottom:SetWidth(half)
+
+    frame.AlertPanel = alertpanel
+    frame.AlertColor = SetAlertColor
+end
+
 function MOD:Set(concept, ...)
     if(not concept) then return end
     local conceptName, flags = concept:gsub("!_", "");
@@ -1883,9 +1953,13 @@ function MOD:Set(concept, ...)
     end
 end
 
+
+
 -- hooksecurefunc("CreateFrame", function(this, globalName, parent, template)
---     if(template and template == "UIPanelCloseButton" and globalName) then
---         MOD:Set("CloseButton", _G[globalName])
+--     if(globalName) then
+--         if(template and (template == "UIPanelButtonTemplate") and globalName) then
+--             print(globalName)
+--         end
 --     end
 -- end)
 --[[ 
@@ -1894,6 +1968,7 @@ LOAD
 ##########################################################
 ]]--
 function SV:PostUpdateTheme(active)
+    if(not active and not self.db) then return end
     active = active or self.db.THEME.active;
     local theme;
     if(active and active ~= 'NONE') then

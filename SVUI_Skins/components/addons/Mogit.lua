@@ -51,7 +51,7 @@ local function StyleMogItPreview()
 				_G["MogItPreview"..i..object]:SetHighlightTexture(nil)
 			end
 		end
-		if _G["MogItPreview"..i] then MOD:ApplyFrameStyle(_G["MogItPreview"..i]) end
+		if _G["MogItPreview"..i] then SV.API:Set("Frame", _G["MogItPreview"..i]) end
 		if _G["MogItPreview"..i.."CloseButton"] then SV.API:Set("CloseButton", _G["MogItPreview"..i.."CloseButton"]) end
 		if _G["MogItPreview"..i.."Inset"] then _G["MogItPreview"..i.."Inset"]:RemoveTextures(true) end
 		if _G["MogItPreview"..i.."Activate"] then _G["MogItPreview"..i.."Activate"]:SetStyle("Button") end
@@ -61,9 +61,9 @@ end
 local function StyleMogIt()
 	assert(MogItFrame, "AddOn Not Loaded")
 	
-	MOD:ApplyFrameStyle(MogItFrame)
+	SV.API:Set("Frame", MogItFrame)
 	MogItFrameInset:RemoveTextures(true)
-	MOD:ApplyFrameStyle(MogItFilters)
+	SV.API:Set("Frame", MogItFilters)
 	MogItFiltersInset:RemoveTextures(true)
 
 	hooksecurefunc(MogIt, "CreatePreview", StyleMogItPreview)

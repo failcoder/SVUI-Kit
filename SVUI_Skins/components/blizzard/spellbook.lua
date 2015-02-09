@@ -186,7 +186,7 @@ SPELLBOOK MODR
 local function SpellBookStyle()
 	if SV.db.Skins.blizzard.enable ~= true or SV.db.Skins.blizzard.spellbook ~= true then return end
 
-	MOD:ApplyAdjustedWindowStyle(SpellBookFrame, false, false, 1, 3, 3)
+	SV.API:Set("Window", SpellBookFrame, false, false, 1, 3, 3)
 	SV.API:Set("CloseButton", SpellBookFrameCloseButton)
 
 	if(SpellBookFrameInset) then 

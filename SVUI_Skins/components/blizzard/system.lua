@@ -416,7 +416,7 @@ local function SystemPanelQue()
 		local this = _G[SystemPopList[i]]
 		if(this) then
 			this:RemoveTextures()
-			MOD:ApplyAlertStyle(this)
+			SV.API:Set("Alert", this)
 			this:SetBackdropColor(0.8, 0.2, 0.2)
 		end
 	end

@@ -51,7 +51,7 @@
             <Attribute name="panelSkipUpdate" type="boolean" value="false" />
         </Attributes>
         <Backdrop bgFile="Interface\AddOns\SVUI_!Core\assets\textures\BUTTON" edgeFile="Interface\BUTTONS\WHITE8X8" tile="false">
-            <EdgeSize val="2" />
+            <EdgeSize val="1" />
             <TileSize val="0" />
             <BackgroundInsets left="0" right="0" top="0" bottom="0" />
             <Color r="0.2" g="0.2" b="0.2" a="1" />

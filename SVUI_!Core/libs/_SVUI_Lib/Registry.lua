@@ -763,9 +763,36 @@ local function CorePreInitialize()
     GLOBAL_SV.profiles = GLOBAL_SV.profiles or {}
 
     GLOBAL_SV.profiles[PROFILE_KEY] = GLOBAL_SV.profiles[PROFILE_KEY] or {}
+    GLOBAL_SV.profiles[PROFILE_KEY].THEME = GLOBAL_SV.profiles[PROFILE_KEY].THEME or { ["active"] = "NONE" }
 
     for k,v in pairs(GLOBAL_SV.profiles) do
         GLOBAL_SV.profileKeys[k] = k
+    end
+
+    if FoundThemes then
+        local activeTheme = GLOBAL_SV.profiles[PROFILE_KEY].THEME.active;
+        local themeAddon = FoundThemes[activeTheme]
+        if(themeAddon) then
+            if(not IsAddOnLoaded(themeAddon)) then
+                local loaded, reason = LoadAddOn(themeAddon)
+            end
+            EnableAddOn(themeAddon)
+        end
+        if THEMES then
+            local globalName = THEMES[activeTheme] 
+            local themeObj = _G[globalName]
+            if(themeObj and (not themeObj.initialized) and themeObj.Load and type(themeObj.Load) == "function") then
+                local _, catch = pcall(themeObj.Load, themeObj)
+                if(catch) then
+                    CoreObject:HandleError(activeTheme, "Load", catch)
+                else
+                    if(CoreObject.PostUpdateTheme) then
+                        CoreObject:PostUpdateTheme(activeTheme)
+                    end
+                    themeObj.initialized = true
+                end
+            end
+        end
     end
 
     --SAVED ERRORS
@@ -816,26 +843,6 @@ local function CorePreInitialize()
     CoreObject.private = private
 
     CoreObject.ERRORLOG = ERROR_CACHE.FOUND
-
-    --check for LOD plugins
-    local addonCount = GetNumAddOns()
-
-    for i = 1, addonCount do
-        local addonName, _, _, _, _, reason = GetAddOnInfo(i)
-
-        if(IsAddOnLoadOnDemand(i)) then
-            local header = GetAddOnMetadata(i, HeaderFromMeta)
-            local schema = GetAddOnMetadata(i, SchemaFromMeta)
-            local theme  = GetAddOnMetadata(i, ThemeFromMeta)
-
-            if(header and schema) then
-                NewLoadOnDemand(addonName, schema, header)
-            elseif(theme) then
-                FoundThemes[theme] = addonName;
-            end
-        end
-    end
-
     CoreObject.initialized = true
 end
 
@@ -855,59 +862,52 @@ local Library_OnEvent = function(self, event, arg, ...)
         CleanupData(CoreObject.filters)
     elseif(event == "ADDON_LOADED") then
         if(arg == CoreName) then
+            --CoreObject.db = tablesplice(CoreObject.defaults, {})
+            --CoreObject.filters = tablesplice(CoreObject.filterdefaults, {})
+            local addonCount = GetNumAddOns()
+            for i = 1, addonCount do
+                local addonName, _, _, _, _, reason = GetAddOnInfo(i)
+
+                if(IsAddOnLoadOnDemand(i)) then
+                    local header = GetAddOnMetadata(i, HeaderFromMeta)
+                    local schema = GetAddOnMetadata(i, SchemaFromMeta)
+                    local theme  = GetAddOnMetadata(i, ThemeFromMeta)
+
+                    if(header and schema) then
+                        NewLoadOnDemand(addonName, schema, header)
+                    elseif(theme) then
+                        FoundThemes[theme] = addonName;
+                    end
+                end
+            end
             if(not CoreObject.___loaded and CoreObject.PreLoad) then
                 CoreObject.Timers:ClearAllTimers()
                 CoreObject:PreLoad()
                 CoreObject.___loaded = true
                 self:UnregisterEvent("ADDON_LOADED")
             end
-            CorePreInitialize()
-            if FoundThemes then
-                local activeTheme = CoreObject.db.THEME.active;
-                local themeAddon = FoundThemes[activeTheme]
-                if(themeAddon) then
-                    if(not IsAddOnLoaded(themeAddon)) then
-                        local loaded, reason = LoadAddOn(themeAddon)
-                    end
-                    EnableAddOn(themeAddon)
+        end
+    elseif(event == "PLAYER_LOGIN") then
+        CorePreInitialize()
+        if LoadOnDemand then
+            for schema,name in pairs(LoadOnDemand) do
+
+                if(not PRIVATE_SV.SAFEDATA[schema]) then
+                    PRIVATE_SV.SAFEDATA[schema] = {["enable"] = true}
                 end
-                if THEMES then
-                    local globalName = THEMES[activeTheme] 
-                    local themeObj = _G[globalName]
-                    if(themeObj and (not themeObj.initialized) and themeObj.Load and type(themeObj.Load) == "function") then
-                        local _, catch = pcall(themeObj.Load, themeObj)
-                        if(catch) then
-                            CoreObject:HandleError(activeTheme, "Load", catch)
-                        else
-                            if(CoreObject.PostUpdateTheme) then
-                                CoreObject:PostUpdateTheme(activeTheme)
-                            end
-                            themeObj.initialized = true
-                        end
-                    end
-                end
-            end
-            if LoadOnDemand then
-                for schema,name in pairs(LoadOnDemand) do
 
-                    if(not PRIVATE_SV.SAFEDATA[schema]) then
-                        PRIVATE_SV.SAFEDATA[schema] = {["enable"] = true}
-                    end
+                local db = PRIVATE_SV.SAFEDATA[schema]
 
-                    local db = PRIVATE_SV.SAFEDATA[schema]
-
-                    if(db and (db.enable or db.enable ~= false)) then
-                        if(not IsAddOnLoaded(name)) then
-                            local loaded, reason = LoadAddOn(name)
-                        end
-                        EnableAddOn(name)
-                    else
-                        DisableAddOn(name)
+                if(db and (db.enable or db.enable ~= false)) then
+                    if(not IsAddOnLoaded(name)) then
+                        local loaded, reason = LoadAddOn(name)
                     end
+                    EnableAddOn(name)
+                else
+                    DisableAddOn(name)
                 end
             end
         end
-    elseif(event == "PLAYER_LOGIN") then
         if(not CoreObject.___initialized and CoreObject.Initialize and IsLoggedIn()) then
             CoreObject:Initialize()
             CoreObject.___initialized = true
@@ -1252,16 +1252,6 @@ function lib:NewCore(gfile, efile, pfile, ffile)
     CoreObject.Timers               = Librarian("Timers")
     CoreObject.Sounds               = Librarian("Sounds")
     CoreObject.SpecialFX            = Librarian("SpecialFX")
-
-    if(not CoreObject.defaults) then 
-        CoreObject.defaults = {} 
-    end
-    CoreObject.db                   = tablesplice(CoreObject.defaults, {})
-
-    if(not CoreObject.filterdefaults) then 
-        CoreObject.filterdefaults = {} 
-    end
-    CoreObject.filters              = tablesplice(CoreObject.filterdefaults, {})
 
     --set global
     _G[CoreGlobalName] = CoreObject;

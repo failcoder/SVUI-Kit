@@ -333,7 +333,7 @@ local function AlertStyle()
 		if(frame) then
 			frame:RemoveTextures()
 
-			MOD:ApplyAlertStyle(frame)
+			SV.API:Set("Alert", frame)
 
 			frame.buttons[1]:SetStyle("Button")
 			frame.buttons[2]:SetStyle("Button")

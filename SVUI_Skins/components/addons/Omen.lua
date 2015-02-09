@@ -59,7 +59,7 @@ local function StyleOmen()
 
   hooksecurefunc(Omen, 'UpdateBackdrop', function(self)
     if(not MOD:ValidateDocklet("Omen")) then
-      MOD:ApplyFrameStyle(self.BarList, 'Transparent')
+      SV.API:Set("Frame", self.BarList, 'Transparent')
       self.Title:RemoveTextures()
       self.Title:SetStyle("Frame", "Default")
       self.Title:SetPanelColor("class")

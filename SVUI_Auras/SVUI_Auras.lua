@@ -281,19 +281,33 @@ do
 	end 
 
 	local UpdateConsolidatedReminder = function(self, event, arg)
-		if(event == "UNIT_AURA" and arg ~= "player") then return end 
+		if(event == "UNIT_AURA" and arg ~= "player") then return end
+		local name, _, duration, expiration, spellId, slot, caster;
 		for i = 1, NUM_LE_RAID_BUFF_TYPES do 
-			local name, _, _, duration, expiration, _, slot = GetRaidBuffTrayAuraInfo(i)
-			local buff = MOD.HyperBuffFrame[i]
+			--name, rank, texture, duration, expiration, spellId, slot
+			name, _, _, _, _, spellId, slot = GetRaidBuffTrayAuraInfo(i)
 
 			--[[ EXPERIMENTAL ]]--
-			if(not name and slot) then
-				name, _, _, _, _, duration, expiration = UnitBuff(slot)
+			if(name) then
+				_, _, _, _, _, duration, expiration, caster = UnitBuff('player', name)
+			elseif(slot) then
+				name, _, _, _, _, duration, expiration, caster = UnitBuff('player', slot)
 			end
+			local buff = MOD.HyperBuffFrame[i]
 			--[[ ____________ ]]--
 
-			if name then 
+			if name then
+				local _,classFileName = UnitClass(caster)
+				local unitName = UnitName(caster)
 				local timeLeft = expiration - GetTime()
+
+				if(classFileName and RAID_CLASS_COLORS[classFileName]) then
+					local hex = RAID_CLASS_COLORS[classFileName].colorStr
+					buff.casterTip = ("|c%s%s|r"):format(hex, unitName)
+				else
+					buff.casterTip = unitName
+				end
+
 				buff.expiration = timeLeft;
 				buff.duration = duration;
 				buff.spellName = name;
@@ -312,6 +326,7 @@ do
 				end 
 			else
 				buff.spellName = nil;
+				buff.casterTip = nil;
 				buff.bar:SetValue(0)
 				buff:SetAlpha(0.1)
 				buff.empty:SetAlpha(0)
@@ -348,15 +363,17 @@ end
 do
 	local AuraButton_OnEnter = function(self)
 		GameTooltip:Hide()
-		GameTooltip:SetOwner(self,"ANCHOR_BOTTOMLEFT",-3,self:GetHeight()+2)
+		GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT", -3, self:GetHeight() + 2)
 		GameTooltip:ClearLines()
 		local parent = self:GetParent()
 		local id = parent:GetID()
 		if parent.spellName then 
-			GameTooltip:SetUnitConsolidatedBuff("player",id)
-			GameTooltip:AddLine("|cff555555________________________|r")
+			GameTooltip:SetUnitConsolidatedBuff("player", id)
+			if parent.casterTip then
+				GameTooltip:AddDoubleLine("|cff00FFFFCast By:|r", parent.casterTip)
+			end
 		end 
-		GameTooltip:AddLine("|cff00FFFFConsolidated Buff:|r  ".._G[("RAID_BUFF_%d"):format(id)])
+		GameTooltip:AddDoubleLine("|cff00FFFFBuff Type:|r", _G[("RAID_BUFF_%d"):format(id)])
 		GameTooltip:Show()
 	end 
 

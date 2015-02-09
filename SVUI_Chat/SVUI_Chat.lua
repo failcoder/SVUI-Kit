@@ -1389,11 +1389,11 @@ function MOD:Load()
 		end
 	end)		
 
-	local close = CreateFrame("Button", "SVUI_CopyChatFrameCloseButton", frame, "UIPanelCloseButton")
-	close:SetPoint("TOPRIGHT")
-	close:SetFrameLevel(close:GetFrameLevel() + 1)
-	close:EnableMouse(true)
-
+	local close = CreateFrame("Button", "SVUI_CopyChatFrameCloseButton", frame, "UIPanelCloseButton");
+	close:SetPoint("TOPRIGHT");
+	close:SetFrameLevel(close:GetFrameLevel() + 1);
+	close:EnableMouse(true);
+	SV.API:Set("CloseButton", close);
 	tinsert(UISpecialFrames, "SVUI_CopyChatFrame")
 
 	if(SV.db.Chat.saveChats) then

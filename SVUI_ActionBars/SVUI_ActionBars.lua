@@ -264,11 +264,11 @@ local function ModifyActionButton(parent)
 		parentTex:SetAlpha(0)
 	end 
 	if border then border:Die()end 
-	if count then 
+	if count then
 		count:ClearAllPoints()
 		count:SetPoint("BOTTOMRIGHT",1,1)
 		count:SetShadowOffset(1,-1)
-		count:SetFontObject(SVUI_Font_Number)
+		SV:FontManager(count, "number")
 	end 
 	if icon then 
 		icon:SetTexCoord(.1,.9,.1,.9)

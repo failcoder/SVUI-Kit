@@ -54,10 +54,10 @@ local function StyleZygor()
 
 	SV.API:Set("Window", ZygorGuidesViewerFrame)
 	ZygorGuidesViewerFrame_Border:RemoveTextures(true)
-	MOD:ApplyFrameStyle(ZygorGuidesViewer_CreatureViewer, 'Model')
+	SV.API:Set("Frame", ZygorGuidesViewer_CreatureViewer, 'Model')
 
 	for i = 1, 6 do
-		MOD:ApplyFrameStyle(_G['ZygorGuidesViewerFrame_Step'..i], 'Default')
+		SV.API:Set("Frame", _G['ZygorGuidesViewerFrame_Step'..i], 'Default')
 	end
 
 	CharacterFrame:HookScript("OnShow", StyleZygorTabs)

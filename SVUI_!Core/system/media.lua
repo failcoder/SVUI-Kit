@@ -334,7 +334,7 @@ do
 		    },
 		},
 		["tooltip"] = {
-			bgFile = [[Interface\AddOns\SVUI_!Core\assets\textures\DEFAULT-BG]], 
+			bgFile = [[Interface\DialogFrame\UI-DialogBox-Background-Dark]], 
 		    tile = false, 
 		    tileSize = 0, 
 		    edgeFile = [[Interface\AddOns\SVUI_!Core\assets\textures\EMPTY]],
@@ -374,6 +374,7 @@ do
 	SV.Media["border"] = {
 		["default"] 	= [[Interface\AddOns\SVUI_!Core\assets\textures\DEFAULT-BORDER]],
 		["shadow"]      = [[Interface\AddOns\SVUI_!Core\assets\textures\GLOW]],
+		["button"]      = LSM:Fetch("border", "SVUI All Purpose Border"),
 		["pattern"]     = LSM:Fetch("border", "SVUI All Purpose Border"),
 		["premium"]     = LSM:Fetch("border", "SVUI All Purpose Border"),
 	}
