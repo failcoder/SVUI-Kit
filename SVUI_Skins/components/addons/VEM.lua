@@ -75,7 +75,7 @@ local function StyleBars(self)
 				end
 
 				spark:SetAlpha(0)
-				spark:SetTexture(0,0,0,0)
+				spark:SetTexture("")
 
 				icon1:SetTexCoord(0.1,0.9,0.1,0.9)
 				icon1:ClearAllPoints()
@@ -223,10 +223,10 @@ local function StyleVEM(event, addon)
 
 	if addon == 'VEM-GUI' then
 		VEM_GUI_OptionsFrame:HookScript('OnShow', function()
-			MOD:ApplyFrameStyle(VEM_GUI_OptionsFrame)
-			MOD:ApplyFrameStyle(VEM_GUI_OptionsFrameBossMods)
-			MOD:ApplyFrameStyle(VEM_GUI_OptionsFrameVEMOptions)
-			MOD:ApplyFrameStyle(VEM_GUI_OptionsFramePanelContainer, 'Transparent', true)
+			SV.API:Set("Frame", VEM_GUI_OptionsFrame)
+			SV.API:Set("Frame", VEM_GUI_OptionsFrameBossMods)
+			SV.API:Set("Frame", VEM_GUI_OptionsFrameVEMOptions)
+			SV.API:Set("Frame", VEM_GUI_OptionsFramePanelContainer, 'Transparent', true)
 		end)
 		SV.API:Set("Tab", VEM_GUI_OptionsFrameTab1)
 		SV.API:Set("Tab", VEM_GUI_OptionsFrameTab2)

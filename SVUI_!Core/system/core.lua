@@ -241,10 +241,26 @@ SV.Hidden:Hide();
 SV.RollFrames         = {};
 SV.SystemAlert        = {};
 SV.filterdefaults     = {};
+
 SV.defaults = {
     ["LAYOUT"] = {},
     ["THEME"] = {
-        ["active"] = "NONE"
+        ["active"] = "NONE",
+        ["Default"] = {
+            ["textures"] = { 
+                ["pattern"]      = "SVUI Backdrop 1", 
+                ["premium"]      = "SVUI Artwork 1"
+            },
+            ["borders"] = { 
+                ["pattern"]      = "SVUI All Purpose Border", 
+                ["premium"]      = "SVUI All Purpose Border", 
+            },
+            ["colors"] = {
+                ["default"]      = {0.2, 0.2, 0.2, 1}, 
+                ["special"]      = {0.37, 0.32, 0.29, 1}, 
+                ["specialdark"]  = {0.37, 0.32, 0.29, 1},
+            },
+        }
     },
     ["screen"] = {
         ["autoScale"] = true,
@@ -341,6 +357,27 @@ SV.defaults = {
         ["arenadrink"] = true, 
         ["stupidhat"] = true,
     },
+    ["Gear"] = {
+        ["primary"] = "none", 
+        ["secondary"] = "none", 
+        ["equipmentset"] = "none", 
+        ["durability"] = {
+            ["enable"] = true, 
+            ["onlydamaged"] = true, 
+        }, 
+        ["itemlevel"] = {
+            ["enable"] = true, 
+        }, 
+        ["misc"] = {
+            ["setoverlay"] = true, 
+        },
+        ["specialization"] = {
+            ["enable"] = false, 
+        }, 
+        ["battleground"] = {
+            ["enable"] = false, 
+        },
+    },
     ["FunStuff"] = {
         ["drunk"] = true,
         ["comix"] = '1',
@@ -414,38 +451,6 @@ SV.Options = {
             name = SV.L["Profiles"], 
             childGroups = "tab", 
             args = {}
-        },
-        plugins = {
-            order = 9999,
-            type = "group",
-            name = "Plugins",
-            childGroups = "tab",
-            args = {
-                pluginheader = {
-                    order = 1,
-                    type = "header",
-                    name = "UI Plugins",
-                },
-                pluginOptions = {
-                    order = 2,
-                    type = "group",
-                    name = "",
-                    args = {
-                        pluginlist = {
-                            order = 1,
-                            type = "group",
-                            name = "Summary",
-                            args = {
-                                active = {
-                                    order = 1,
-                                    type = "description",
-                                    name = function() return SVUILib:GetPlugins() end
-                                }
-                            }
-                        },
-                    }
-                }
-            }
         },
         credits = {
             type = "group", 
@@ -553,15 +558,15 @@ end
 
 function SV:ResetAllUI(confirmed)
     if InCombatLockdown()then 
-        self:AddonMessage(ERR_NOT_IN_COMBAT)
+        SV:AddonMessage(ERR_NOT_IN_COMBAT)
         return 
     end 
     if(not confirmed) then 
-        self:StaticPopup_Show('RESET_UI_CHECK')
+        SV:StaticPopup_Show('RESET_UI_CHECK')
         return 
     end 
-    self.Setup:Reset()
-    self.Events:Trigger("FULL_UI_RESET");
+    SV.Setup:Reset()
+    SV.Events:Trigger("FULL_UI_RESET");
 end 
 
 function SV:ResetUI(confirmed)
@@ -618,7 +623,7 @@ function SV:VersionCheck()
 end
 
 function SV:RefreshEverything(bypass)
-    self.Media:Update();
+    self:RefreshCommonMedia();
     self:UpdateAnchors();
     SVUILib:RefreshAll();
     if not bypass then
@@ -725,7 +730,7 @@ function SV:PLAYER_ENTERING_WORLD()
         self:PlayerInfoUpdate()
     end
     if(not self.MediaInitialized) then 
-        self:RefreshAllSystemMedia() 
+        self:RefreshAllMedia() 
     end
     local _,instanceType = IsInInstance()
     if(instanceType == "pvp") then 
@@ -734,6 +739,9 @@ function SV:PLAYER_ENTERING_WORLD()
         self.Timers:RemoveLoop(self.BGTimer)
         self.BGTimer = nil 
     end
+
+    self:BuildGearInfo()
+
     if(not InCombatLockdown()) then
         collectgarbage("collect") 
     end
@@ -792,7 +800,7 @@ end
 --[[ LOAD FUNCTIONS ]]--
 
 function SV:ReLoad()
-    self:RefreshAllSystemMedia();
+    self:RefreshAllMedia();
     self:UpdateAnchors();
     self:AddonMessage("All user settings reloaded");
 end
@@ -813,8 +821,6 @@ function SV:PreLoad()
 end 
 
 function SV:Initialize()
-    SVUILib:Initialize();
-    
     self:UI_SCALE_CHANGED()
     self.Events:TriggerOnce("LOAD_ALL_ESSENTIALS");
     self.Events:TriggerOnce("LOAD_ALL_WIDGETS");
@@ -824,7 +830,8 @@ function SV:Initialize()
     self:UI_SCALE_CHANGED("PLAYER_LOGIN")
     self:PlayerInfoUpdate();
     self:VersionCheck();
-    self:RefreshAllSystemMedia();
+    self:RefreshAllMedia();
+    self:PostUpdateTheme();
 
     SVUILib:LoadScripts();
 

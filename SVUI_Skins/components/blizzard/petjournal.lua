@@ -86,7 +86,7 @@ FRAME MODR
 local function PetJournalStyle()
 	if SV.db.Skins.blizzard.enable ~= true or SV.db.Skins.blizzard.mounts ~= true then return end 
 
-	MOD:ApplyWindowStyle(PetJournalParent)
+	SV.API:Set("Window", PetJournalParent)
 
 	PetJournalParentPortrait:Hide()
 	SV.API:Set("Tab", PetJournalParentTab1)
@@ -105,7 +105,7 @@ local function PetJournalStyle()
 	MountJournalSearchBox:SetStyle("Editbox")
 
 	SV.API:Set("ScrollFrame", MountJournalListScrollFrameScrollBar)
-	MountJournal.MountDisplay:SetStyle("!_Frame", "ModelBorder")
+	MountJournal.MountDisplay:SetStyle("!_Frame", "Model")
 
 	local buttons = MountJournal.ListScrollFrame.buttons
 	for i = 1, #buttons do
@@ -227,20 +227,20 @@ local function PetJournalStyle()
 	PetJournalPetCardPetInfoIcon:SetParent(PetJournalPetCardPetInfo.Panel)
 	PetJournalPetCardPetInfo.level:SetParent(PetJournalPetCardPetInfo.Panel)
 
-	local R = PetJournalPrimaryAbilityTooltip;R.Background:SetTexture(0,0,0,0)
+	local R = PetJournalPrimaryAbilityTooltip;R.Background:SetTexture("")
 	if R.Delimiter1 then
-		R.Delimiter1:SetTexture(0,0,0,0)
-		R.Delimiter2:SetTexture(0,0,0,0)
+		R.Delimiter1:SetTexture("")
+		R.Delimiter2:SetTexture("")
 	end
 
-	R.BorderTop:SetTexture(0,0,0,0)
-	R.BorderTopLeft:SetTexture(0,0,0,0)
-	R.BorderTopRight:SetTexture(0,0,0,0)
-	R.BorderLeft:SetTexture(0,0,0,0)
-	R.BorderRight:SetTexture(0,0,0,0)
-	R.BorderBottom:SetTexture(0,0,0,0)
-	R.BorderBottomRight:SetTexture(0,0,0,0)
-	R.BorderBottomLeft:SetTexture(0,0,0,0)
+	R.BorderTop:SetTexture("")
+	R.BorderTopLeft:SetTexture("")
+	R.BorderTopRight:SetTexture("")
+	R.BorderLeft:SetTexture("")
+	R.BorderRight:SetTexture("")
+	R.BorderBottom:SetTexture("")
+	R.BorderBottomRight:SetTexture("")
+	R.BorderBottomLeft:SetTexture("")
 	R:SetStyle("!_Frame", "Transparent", true)
 
 	for b = 1, 6 do 
@@ -261,13 +261,19 @@ local function PetJournalStyle()
 	PetJournalPetCardXPBar:SetStatusBarTexture(SV.BaseTexture)
 
 	SV.API:Set("Tab", PetJournalParentTab3)
+
 	ToyBox:RemoveTextures()
-	ToyBoxProgressBar:SetStyle("Frame", "Bar", true)
 	ToyBoxSearchBox:SetStyle("Editbox")
 	ToyBoxFilterButton:RemoveTextures()
 	ToyBoxFilterButton:SetStyle("Button")
 	ToyBoxIconsFrame:RemoveTextures()
-	ToyBoxIconsFrame:SetStyle("!_Frame", 'ModelBorder')
+	ToyBoxIconsFrame:SetStyle("!_Frame", 'Model')
+
+	ToyBoxProgressBar:RemoveTextures()
+	ToyBoxProgressBar:SetStatusBarTexture([[Interface\BUTTONS\WHITE8X8]])
+	ToyBoxProgressBar:SetStyle("Frame", "Bar", true, 2, 2, 2)
+	SV.API:Set("PageButton", ToyBoxNextPageButton)
+	SV.API:Set("PageButton", ToyBoxPrevPageButton)
 
 	MountJournalFilterButton:RemoveTextures()
 	MountJournalFilterButton:SetStyle("Button")
@@ -289,7 +295,7 @@ end
 local function CollectionsJournalStyle()
 	if SV.db.Skins.blizzard.enable ~= true or SV.db.Skins.blizzard.mounts ~= true then return end 
 
-	MOD:ApplyWindowStyle(CollectionsJournal)
+	SV.API:Set("Window", CollectionsJournal)
 
 	CollectionsJournalPortrait:Hide()
 	SV.API:Set("Tab", CollectionsJournalTab1)
@@ -430,20 +436,20 @@ local function CollectionsJournalStyle()
 	PetJournalPetCardPetInfoIcon:SetParent(PetJournalPetCardPetInfo.Panel)
 	PetJournalPetCardPetInfo.level:SetParent(PetJournalPetCardPetInfo.Panel)
 
-	local R = PetJournalPrimaryAbilityTooltip;R.Background:SetTexture(0,0,0,0)
+	local R = PetJournalPrimaryAbilityTooltip;R.Background:SetTexture("")
 	if R.Delimiter1 then
-		R.Delimiter1:SetTexture(0,0,0,0)
-		R.Delimiter2:SetTexture(0,0,0,0)
+		R.Delimiter1:SetTexture("")
+		R.Delimiter2:SetTexture("")
 	end
 
-	R.BorderTop:SetTexture(0,0,0,0)
-	R.BorderTopLeft:SetTexture(0,0,0,0)
-	R.BorderTopRight:SetTexture(0,0,0,0)
-	R.BorderLeft:SetTexture(0,0,0,0)
-	R.BorderRight:SetTexture(0,0,0,0)
-	R.BorderBottom:SetTexture(0,0,0,0)
-	R.BorderBottomRight:SetTexture(0,0,0,0)
-	R.BorderBottomLeft:SetTexture(0,0,0,0)
+	R.BorderTop:SetTexture("")
+	R.BorderTopLeft:SetTexture("")
+	R.BorderTopRight:SetTexture("")
+	R.BorderLeft:SetTexture("")
+	R.BorderRight:SetTexture("")
+	R.BorderBottom:SetTexture("")
+	R.BorderBottomRight:SetTexture("")
+	R.BorderBottomLeft:SetTexture("")
 	R:SetStyle("!_Frame", "Transparent", true)
 
 	for b = 1, 6 do 
@@ -464,13 +470,19 @@ local function CollectionsJournalStyle()
 	PetJournalPetCardXPBar:SetStatusBarTexture(SV.BaseTexture)
 
 	SV.API:Set("Tab", CollectionsJournalTab3)
+
 	ToyBox:RemoveTextures()
-	ToyBoxProgressBar:SetStyle("Frame", "Bar", true)
 	ToyBoxSearchBox:SetStyle("Editbox")
 	ToyBoxFilterButton:RemoveTextures()
 	ToyBoxFilterButton:SetStyle("Button")
 	ToyBoxIconsFrame:RemoveTextures()
 	ToyBoxIconsFrame:SetStyle("!_Frame", 'Model')
+
+	ToyBoxProgressBar:RemoveTextures()
+	ToyBoxProgressBar:SetStatusBarTexture([[Interface\BUTTONS\WHITE8X8]])
+	ToyBoxProgressBar:SetStyle("Frame", "Bar", true, 2, 2, 2)
+	SV.API:Set("PageButton", ToyBoxNextPageButton)
+	SV.API:Set("PageButton", ToyBoxPrevPageButton)
 
 	MountJournalFilterButton:RemoveTextures()
 	MountJournalFilterButton:SetStyle("Button")

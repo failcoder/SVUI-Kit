@@ -58,8 +58,8 @@ end
 local function StyleACP()
 	assert(ACP_AddonList, "AddOn Not Loaded")
 
-	MOD:ApplyFrameStyle(ACP_AddonList)
-	MOD:ApplyFrameStyle(ACP_AddonList_ScrollFrame)
+	SV.API:Set("Frame", ACP_AddonList)
+	SV.API:Set("Frame", ACP_AddonList_ScrollFrame)
 	local h={"ACP_AddonListSetButton","ACP_AddonListDisableAll","ACP_AddonListEnableAll","ACP_AddonList_ReloadUI","ACP_AddonListBottomClose"}
 	for i,j in pairs(h)do _G[j]:SetStyle("Button")end 
 	for c=1,20 do _G["ACP_AddonListEntry"..c.."LoadNow"]:SetStyle("Button")end 

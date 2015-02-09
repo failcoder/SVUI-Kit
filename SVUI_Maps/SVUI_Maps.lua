@@ -227,7 +227,7 @@ do
 				if frame:GetObjectType() == "Texture" then 
 					local iconFile = frame:GetTexture()
 					if(iconFile ~= nil and (iconFile:find("Border") or iconFile:find("Background") or iconFile:find("AlphaMask"))) then 
-						frame:SetTexture(0,0,0,0)
+						frame:SetTexture("")
 					else 
 						frame:ClearAllPoints()
 						frame:ModPoint("TOPLEFT", btn, "TOPLEFT", 2, -2)
@@ -408,7 +408,7 @@ local function AdjustMapSize()
 	end
 	
 	if SV.db.Maps.tinyWorldMap == true then
-		BlackoutWorld:SetTexture(0,0,0,0)
+		BlackoutWorld:SetTexture("")
 	else
 		BlackoutWorld:SetTexture(0, 0, 0, 1)
 	end
@@ -581,6 +581,8 @@ function MOD:RefreshZoneText()
 		if(SV.db.Maps.locationText == "SIMPLE") then
 			self.InfoTop:Hide();
 			self.InfoBottom:Show();
+			NARR_TEXT = "";
+			NARR_PREFIX = "";
 			self.InfoTop.Text:SetText(NARR_TEXT)
 		else
 			self.InfoTop:Show();

@@ -124,7 +124,7 @@ local function SetTimerStyle(bar)
 	for i=1, bar:GetNumRegions()do 
 		local child = select(i, bar:GetRegions())
 		if child:GetObjectType() == "Texture"then
-			child:SetTexture(0,0,0,0)
+			child:SetTexture("")
 		elseif child:GetObjectType() == "FontString" then 
 			child:SetFontObject(SVUI_Font_Default)
 		end 
@@ -824,22 +824,22 @@ local function AlterBlizzMainBar()
 		MainMenuBar:ClearAllPoints()
 		MainMenuBar:SetPoint("BOTTOM", self.BottomCenter, "TOP", 0, 4)
 		if(MainMenuBarTexture0) then
-			MainMenuBarTexture0:SetTexture(SV.NoTexture)
+			MainMenuBarTexture0:SetTexture("")
 		end
 		if(MainMenuBarTexture1) then
-			MainMenuBarTexture1:SetTexture(SV.NoTexture)
+			MainMenuBarTexture1:SetTexture("")
 		end
 		if(MainMenuBarTexture2) then
-			MainMenuBarTexture2:SetTexture(SV.NoTexture)
+			MainMenuBarTexture2:SetTexture("")
 		end
 		if(MainMenuBarTexture3) then
-			MainMenuBarTexture3:SetTexture(SV.NoTexture)
+			MainMenuBarTexture3:SetTexture("")
 		end
 		if(MainMenuBarLeftEndCap) then
-			MainMenuBarLeftEndCap:SetTexture(SV.NoTexture)
+			MainMenuBarLeftEndCap:SetTexture("")
 		end
 		if(MainMenuBarRightEndCap) then
-			MainMenuBarRightEndCap:SetTexture(SV.NoTexture)
+			MainMenuBarRightEndCap:SetTexture("")
 		end
 		if(MainMenuXPBar) then
 			MainMenuXPBar:Die()
@@ -848,37 +848,37 @@ local function AlterBlizzMainBar()
 			ReputationWatchBar:Die()
 		end
 		-- if(MainMenuXPBarTextureLeftCap) then
-		-- 	MainMenuXPBarTextureLeftCap:SetTexture(SV.NoTexture)
+		-- 	MainMenuXPBarTextureLeftCap:SetTexture("")
 		-- end
 		-- if(MainMenuXPBarTextureRightCap) then
-		-- 	MainMenuXPBarTextureRightCap:SetTexture(SV.NoTexture)
+		-- 	MainMenuXPBarTextureRightCap:SetTexture("")
 		-- end
 		-- if(MainMenuXPBarTextureMid) then
-		-- 	MainMenuXPBarTextureMid:SetTexture(SV.NoTexture)
+		-- 	MainMenuXPBarTextureMid:SetTexture("")
 		-- end
 		-- if(ReputationWatchBarTexture0) then
-		-- 	ReputationWatchBarTexture0:SetTexture(SV.NoTexture)
+		-- 	ReputationWatchBarTexture0:SetTexture("")
 		-- end
 		-- if(ReputationWatchBarTexture1) then
-		-- 	ReputationWatchBarTexture1:SetTexture(SV.NoTexture)
+		-- 	ReputationWatchBarTexture1:SetTexture("")
 		-- end
 		-- if(ReputationWatchBarTexture2) then
-		-- 	ReputationWatchBarTexture2:SetTexture(SV.NoTexture)
+		-- 	ReputationWatchBarTexture2:SetTexture("")
 		-- end
 		-- if(ReputationWatchBarTexture3) then
-		-- 	ReputationWatchBarTexture3:SetTexture(SV.NoTexture)
+		-- 	ReputationWatchBarTexture3:SetTexture("")
 		-- end
 		-- if(ReputationXPBarTexture0) then
-		-- 	ReputationXPBarTexture0:SetTexture(SV.NoTexture)
+		-- 	ReputationXPBarTexture0:SetTexture("")
 		-- end
 		-- if(ReputationXPBarTexture1) then
-		-- 	ReputationXPBarTexture1:SetTexture(SV.NoTexture)
+		-- 	ReputationXPBarTexture1:SetTexture("")
 		-- end
 		-- if(ReputationXPBarTexture2) then
-		-- 	ReputationXPBarTexture2:SetTexture(SV.NoTexture)
+		-- 	ReputationXPBarTexture2:SetTexture("")
 		-- end
 		-- if(ReputationXPBarTexture3) then
-		-- 	ReputationXPBarTexture3:SetTexture(SV.NoTexture)
+		-- 	ReputationXPBarTexture3:SetTexture("")
 		-- end
 	end
 end

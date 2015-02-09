@@ -64,12 +64,20 @@ local function Widget_PaginationStyle(...)
 	SV.API:Set("PageButton", ...)
 end
 
+local function SetAdjustedStyle(this, template, xTopleft, yTopleft, xBottomright, yBottomright)
+	if(not this or (this and this.Panel)) then return end
+	template = template or "Transparent"
+	this:SetStyle("Frame", template)
+	this.Panel:SetPoint("TOPLEFT", this, "TOPLEFT", xTopleft, yTopleft)
+	this.Panel:SetPoint("BOTTOMRIGHT", this, "BOTTOMRIGHT", xBottomright, yBottomright)
+end
+
 local NOOP = SV.fubar
 
 local WidgetButton_OnClick = function(self)
 	local obj = self.obj;
 	if(obj and obj.pullout and obj.pullout.frame) then
-		MOD:ApplyFrameStyle(obj.pullout.frame, "Default", true)
+		SV.API:Set("Frame", obj.pullout.frame, "Default", true)
 	end
 end
 
@@ -77,7 +85,7 @@ local WidgetDropButton_OnClick = function(self)
 	local obj = self.obj;
 	local widgetFrame = obj.dropdown
 	if(widgetFrame) then
-		MOD:ApplyAdjustedFrameStyle(widgetFrame, "Transparent", 20, -2, -20, 2)
+		SetAdjustedStyle(widgetFrame, "Transparent", 20, -2, -20, 2)
 	end
 end
 --[[ 
@@ -99,8 +107,8 @@ local function StyleAceGUI(event, addon)
 		-- print("RegisterAsWidget: " .. widgetType);
 		if(widgetType == "MultiLineEditBox") then 
 			local widgetFrame = widget.frame;
-			MOD:ApplyFixedFrameStyle(widgetFrame, "Default", true)
-			MOD:ApplyFrameStyle(widget.scrollBG, "Lite", true) 
+			SV.API:Set("!_Frame", widgetFrame, "Default", true)
+			SV.API:Set("Frame", widget.scrollBG, "Lite", true) 
 			Widget_ButtonStyle(widget.button)
 			SV.API:Set("ScrollFrame", widget.scrollBar) 
 			widget.scrollBar:SetPoint("RIGHT", widgetFrame, "RIGHT", -4)
@@ -114,7 +122,7 @@ local function StyleAceGUI(event, addon)
 			if not widget.styledCheckBG then 
 				widget.styledCheckBG = CreateFrame("Frame", nil, widget.frame)
 				widget.styledCheckBG:InsetPoints(widget.check)
-				MOD:ApplyFixedFrameStyle(widget.styledCheckBG, "Checkbox")
+				SV.API:Set("!_Frame", widget.styledCheckBG, "Checkbox")
 			end 
 			widget.check:SetParent(widget.styledCheckBG)
 
@@ -128,7 +136,7 @@ local function StyleAceGUI(event, addon)
 			widgetButton:SetFrameLevel(widgetButton:GetFrameLevel() + 1)
 			Widget_PaginationStyle(widgetButton, true)
 
-			MOD:ApplyAdjustedFrameStyle(widgetDropdown, "Transparent", 20, -2, -20, 2)
+			SetAdjustedStyle(widgetDropdown, "Transparent", 20, -2, -20, 2)
 
 			widgetButton:SetParent(widgetDropdown.Panel)
 			widget.text:SetParent(widgetDropdown.Panel)
@@ -136,7 +144,7 @@ local function StyleAceGUI(event, addon)
 
 		elseif(widgetType == "EditBox") then 
 			local widgetEditbox = widget.editbox;
-			MOD:ApplyEditBoxStyle(widgetEditbox, nil, 15, 2, -2)
+			SV.API:Set("EditBox", widgetEditbox, nil, 15, 2, -2)
 
 		elseif(widgetType == "Button") then 
 			local widgetFrame = widget.frame;
@@ -147,7 +155,7 @@ local function StyleAceGUI(event, addon)
 			local widgetSlider = widget.slider;
 			local widgetEditbox = widget.editbox;
 
-			MOD:ApplyFixedFrameStyle(widgetSlider, "Bar")
+			SV.API:Set("!_Frame", widgetSlider, "Bar")
 
 			widgetSlider:ModHeight(20)
 			widgetSlider:SetThumbTexture("Interface\\Buttons\\UI-ScrollBar-Knob")
@@ -171,21 +179,21 @@ local function StyleAceGUI(event, addon)
 			dropButton:ModPoint("RIGHT", widgetFrame, "RIGHT", -10, -6)
 			if(not widgetFrame.Panel) then 
 				if(widgetType == "LSM30_Font") then 
-					MOD:ApplyAdjustedFrameStyle(widgetFrame, "Transparent", 20, -17, 2, -2)
+					SetAdjustedStyle(widgetFrame, "Transparent", 20, -17, 2, -2)
 				elseif(widgetType == "LSM30_Sound") then 
-					MOD:ApplyAdjustedFrameStyle(widgetFrame, "Transparent", 20, -17, 2, -2)
+					SetAdjustedStyle(widgetFrame, "Transparent", 20, -17, 2, -2)
 					widget.soundbutton:SetParent(widgetFrame.Panel)
 					widget.soundbutton:ClearAllPoints()
 					widget.soundbutton:ModPoint("LEFT", widgetFrame.Panel, "LEFT", 2, 0)
 				elseif(widgetType == "LSM30_Statusbar") then 
-					MOD:ApplyAdjustedFrameStyle(widgetFrame, "Transparent", 20, -17, 2, -2)
+					SetAdjustedStyle(widgetFrame, "Transparent", 20, -17, 2, -2)
 					widget.bar:SetParent(widgetFrame.Panel)
 					widget.bar:InsetPoints()
 				elseif(widgetType == "LSM30_Border" or widgetType == "LSM30_Background") then 
-					MOD:ApplyAdjustedFrameStyle(widgetFrame, "Transparent", 42, -16, 2, -2)
+					SetAdjustedStyle(widgetFrame, "Transparent", 42, -16, 2, -2)
 				end 
 				widgetFrame.Panel:ModPoint("BOTTOMRIGHT", dropButton, "BOTTOMRIGHT", 2, -2)
-				MOD:ApplyAdjustedFrameStyle(widgetFrame, "Transparent", 20, -2, 2, -2)
+				SetAdjustedStyle(widgetFrame, "Transparent", 20, -2, 2, -2)
 			end 
 			dropButton:SetParent(widgetFrame.Panel)
 			widgetFrame.text:SetParent(widgetFrame.Panel)
@@ -211,11 +219,11 @@ local function StyleAceGUI(event, addon)
 					childFrame:RemoveTextures()
 				end 
 			end
-			MOD:ApplyWindowStyle(widgetParent)
+			SV.API:Set("Window", widgetParent)
 		elseif(ProxyType[widgetType]) then
 
 			if widget.treeframe then 
-				MOD:ApplyFrameStyle(widget.treeframe, "Transparent", false, true)
+				SV.API:Set("Frame", widget.treeframe, "Transparent")
 				widgetParent:SetPoint("TOPLEFT", widget.treeframe, "TOPRIGHT", 1, 0)
 				local oldFunc = widget.CreateButton;
 				widget.CreateButton = function(self)
@@ -231,7 +239,7 @@ local function StyleAceGUI(event, addon)
 					return newButton 
 				end
 			elseif(not widgetParent.Panel) then
-				MOD:ApplyFrameStyle(widgetParent, "Lite", false, true)
+				SV.API:Set("Frame", widgetParent, "Lite")
 			end
 
 			if(widgetType == "TabGroup") then

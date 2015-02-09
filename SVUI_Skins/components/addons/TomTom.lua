@@ -29,6 +29,6 @@ TOMTOM
 ]]--
 local function StyleTomTom()
   assert(TomTomBlock, "AddOn Not Loaded")
-  MOD:ApplyFrameStyle(TomTomBlock)
+  SV.API:Set("Frame", TomTomBlock)
 end
 MOD:SaveAddonStyle("TomTom", StyleTomTom)

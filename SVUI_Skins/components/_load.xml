@@ -1,5 +1,4 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
-	<Script file="methods.lua"/>
 	<Include file='atlas\_load.xml'/>
 	<Include file='blizzard\_load.xml'/>
 	<Include file='addons\_load.xml'/>

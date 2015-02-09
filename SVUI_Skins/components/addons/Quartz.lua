@@ -39,10 +39,10 @@ local function StyleQuartz()
 	local function StyleQuartzBar(self)
 		if not self.isStyled then
 			self.IconBorder = CreateFrame("Frame", nil, self)
-			MOD:ApplyFrameStyle(self.IconBorder,"Transparent")
+			SV.API:Set("Frame", self.IconBorder,"Transparent")
 			self.IconBorder:SetFrameLevel(0)
 			self.IconBorder:WrapPoints(self.Icon)
-			MOD:ApplyFrameStyle(self.Bar,"Transparent",true)
+			SV.API:Set("Frame", self.Bar,"Transparent",true)
 			self.isStyled = true
 		end
  		if self.config.hideicon then
@@ -59,7 +59,7 @@ local function StyleQuartz()
 	if GCD then
 		hooksecurefunc(GCD, 'CheckGCD', function()
 			if not Quartz3GCDBar.backdrop then
-				MOD:ApplyFrameStyle(Quartz3GCDBar,"Transparent",true)
+				SV.API:Set("Frame", Quartz3GCDBar,"Transparent",true)
 			end
 		end)
 	end

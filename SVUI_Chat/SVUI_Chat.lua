@@ -683,15 +683,15 @@ do
 			chat:SetBackdropColor(0,0,0,0)
 			_G[chatName.."ButtonFrame"]:Die()
 			-------------------------------------------
-			_G[tabName .."Left"]:SetTexture(0,0,0,0)
-			_G[tabName .."Middle"]:SetTexture(0,0,0,0)
-			_G[tabName .."Right"]:SetTexture(0,0,0,0)
-			_G[tabName .."SelectedLeft"]:SetTexture(0,0,0,0)
-			_G[tabName .."SelectedMiddle"]:SetTexture(0,0,0,0)
-			_G[tabName .."SelectedRight"]:SetTexture(0,0,0,0)
-			_G[tabName .."HighlightLeft"]:SetTexture(0,0,0,0)
-			_G[tabName .."HighlightMiddle"]:SetTexture(0,0,0,0)
-			_G[tabName .."HighlightRight"]:SetTexture(0,0,0,0)
+			_G[tabName .."Left"]:SetTexture("")
+			_G[tabName .."Middle"]:SetTexture("")
+			_G[tabName .."Right"]:SetTexture("")
+			_G[tabName .."SelectedLeft"]:SetTexture("")
+			_G[tabName .."SelectedMiddle"]:SetTexture("")
+			_G[tabName .."SelectedRight"]:SetTexture("")
+			_G[tabName .."HighlightLeft"]:SetTexture("")
+			_G[tabName .."HighlightMiddle"]:SetTexture("")
+			_G[tabName .."HighlightRight"]:SetTexture("")
 
 			tab.text = _G[chatName.."TabText"]
 			tab.text:SetShadowColor(0, 0, 0)
@@ -1389,11 +1389,11 @@ function MOD:Load()
 		end
 	end)		
 
-	local close = CreateFrame("Button", "SVUI_CopyChatFrameCloseButton", frame, "UIPanelCloseButton")
-	close:SetPoint("TOPRIGHT")
-	close:SetFrameLevel(close:GetFrameLevel() + 1)
-	close:EnableMouse(true)
-
+	local close = CreateFrame("Button", "SVUI_CopyChatFrameCloseButton", frame, "UIPanelCloseButton");
+	close:SetPoint("TOPRIGHT");
+	close:SetFrameLevel(close:GetFrameLevel() + 1);
+	close:EnableMouse(true);
+	SV.API:Set("CloseButton", close);
 	tinsert(UISpecialFrames, "SVUI_CopyChatFrame")
 
 	if(SV.db.Chat.saveChats) then

@@ -173,7 +173,7 @@ local ResetPopupBlock = function(self)
 			row.Button:SetID(0);
 			row.Button:Disable();
 			row.Badge:SetAlpha(0);
-			row.Badge.Icon:SetTexture(SV.NoTexture);
+			row.Badge.Icon:SetTexture("");
 			row:SetHeight(1);
 			row:SetAlpha(0);
 		end

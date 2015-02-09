@@ -33,7 +33,7 @@ local function StyleCoolLine()
 	CoolLineDB.bgcolor = { r = 0, g = 0, b = 0, a = 0, }
 	CoolLineDB.border = "None"
 	CoolLine.updatelook()
-	MOD:ApplyFrameStyle(CoolLine,"Transparent")
+	SV.API:Set("Frame", CoolLine,"Transparent")
 	CoolLine.Panel:SetAllPoints(CoolLine)
 	SV:ManageVisibility(CoolLine)
 

@@ -22,8 +22,8 @@ local function StoreStyle()
 	-- 	 return 
 	-- end
 
-	--MOD:ApplyWindowStyle(StoreFrame)
-	MOD:ApplyTooltipStyle(_G.StoreTooltip)
+	--SV.API:Set("Window", StoreFrame)
+	SV.API:Set("Tooltip", _G.StoreTooltip)
 end 
 --[[ 
 ########################################################## 

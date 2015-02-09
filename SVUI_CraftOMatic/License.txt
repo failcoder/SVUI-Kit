@@ -1,0 +1,34 @@
+###############################################################################
+#_____/\\\\\\\\\\\____/\\\________/\\\__/\\\________/\\\__/\\\\\\\\\\\_       #
+# ___/\\\/////////\\\_\/\\\_______\/\\\_\/\\\_______\/\\\_\/////\\\///__      #
+#  __\//\\\______\///__\//\\\______/\\\__\/\\\_______\/\\\_____\/\\\_____     #
+#   ___\////\\\__________\//\\\____/\\\___\/\\\_______\/\\\_____\/\\\_____    #
+#    ______\////\\\________\//\\\__/\\\____\/\\\_______\/\\\_____\/\\\_____   #
+#     _________\////\\\______\//\\\/\\\_____\/\\\_______\/\\\_____\/\\\_____  #
+#      __/\\\______\//\\\______\//\\\\\______\//\\\______/\\\______\/\\\_____ #
+#       _\///\\\\\\\\\\\/________\//\\\________\///\\\\\\\\\/____/\\\\\\\\\\\_#
+#        ___\///////////___________\///___________\/////////_____\///////////_#
+###############################################################################
+# S U P E R - V I L L A I N - U I   By: Munglunch                             #
+###############################################################################
+
+SVUI_CraftOMatic License Copyright 2014 http://wowinterface.com
+
+The contents of this addon, excluding third-party resources, are
+copyrighted to their authors with all rights reserved.
+
+Authors of this addon hereby grant you the following rights:
+
+1. 	You may NOT make any modification inside this addon. If you want
+	to create your own edited version, please create it from outside.
+
+2. 	Do not modify the name of this addon, including the addon folders.
+
+3. 	This copyright notice shall be included in all copies or substantial
+	portions of the Software.
+
+All rights not explicitly addressed in this license are reserved by
+the copyright holders.
+
+You can write Munglunch at Wowinterface.com for reporting abuse / bugs,
+or regarding grants allowed for this license.

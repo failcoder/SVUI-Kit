@@ -79,7 +79,7 @@ local function AuctionStyle()
 	--MOD.Debugging = true
 	if(SV.db.Skins.blizzard.enable ~= true or SV.db.Skins.blizzard.auctionhouse ~= true) then return end 
 
-	MOD:ApplyAdjustedWindowStyle(AuctionFrame, false, true, 1, 2, -8)
+	SV.API:Set("Window", AuctionFrame, false, true, 1, 2, -8)
 	
 	BrowseFilterScrollFrame:RemoveTextures()
 	BrowseScrollFrame:RemoveTextures()

@@ -40,8 +40,8 @@ local function PVPFrameStyle()
 	local PVPUIFrame = _G.PVPUIFrame;
 	local WarGamesFrame = _G.WarGamesFrame;
 	local PVPReadyDialog = _G.PVPReadyDialog;
-
-	MOD:ApplyWindowStyle(PVPUIFrame, true)
+ 	
+	SV.API:Set("Window", PVPUIFrame, true)
 	
 	SV.API:Set("CloseButton", PVPUIFrameCloseButton)
 
@@ -144,6 +144,6 @@ end
 MOD LOADING
 ##########################################################
 ]]--
-MOD:SaveBlizzardStyle('Blizzard_PVPUI', PVPFrameStyle, true)
+MOD:SaveBlizzardStyle('Blizzard_PVPUI', PVPFrameStyle)
 
 -- /script StaticPopupSpecial_Show(PVPReadyDialog)

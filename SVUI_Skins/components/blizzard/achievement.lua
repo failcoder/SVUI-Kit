@@ -163,7 +163,7 @@ local function AchievementStyle()
 		end
 	end 
 
-	MOD:ApplyWindowStyle(AchievementFrame)
+	SV.API:Set("Window", AchievementFrame)
 
 	AchievementFrameSummaryAchievements:RemoveTextures(true)
 	AchievementFrameSummaryAchievements:SetStyle("Frame", 'Inset')

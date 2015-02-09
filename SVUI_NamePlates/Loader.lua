@@ -35,6 +35,8 @@ local positionTable = {
 local activeFilter,filters;
 
 MOD.media = {}
+MOD.media.healthBar = [[Interface\BUTTONS\WHITE8X8]];
+MOD.media.castBar = [[Interface\AddOns\SVUI_!Core\assets\textures\Bars\GRADIENT]];
 MOD.media.comboIcon = [[Interface\AddOns\SVUI_NamePlates\assets\COMBO-POINT]];
 MOD.media.topArt = [[Interface\AddOns\SVUI_NamePlates\assets\PLATE-TOP]];
 MOD.media.bottomArt = [[Interface\AddOns\SVUI_NamePlates\assets\PLATE-BOTTOM]];
@@ -42,9 +44,9 @@ MOD.media.rightArt = [[Interface\AddOns\SVUI_NamePlates\assets\PLATE-RIGHT]];
 MOD.media.leftArt = [[Interface\AddOns\SVUI_NamePlates\assets\PLATE-LEFT]];
 MOD.media.roles = [[Interface\AddOns\SVUI_NamePlates\assets\PLATE-ROLES]];
 
-SV.defaults["font"]["platename"]     	= {file = "SVUI Caps Font",   	size = 9,   outline = "OUTLINE"}
-SV.defaults["font"]["platenumber"]   	= {file = "SVUI Caps Font",   	size = 9,   outline = "OUTLINE"}
-SV.defaults["font"]["plateaura"]     	= {file = "SVUI Caps Font",   	size = 9,   outline = "OUTLINE"}
+SV.mediadefaults.internal.font["platename"]     	= {file = "SVUI Caps Font",   	size = 9,   outline = "OUTLINE"}
+SV.mediadefaults.internal.font["platenumber"]   	= {file = "SVUI Caps Font",   	size = 9,   outline = "OUTLINE"}
+SV.mediadefaults.internal.font["plateaura"]     	= {file = "SVUI Caps Font",   	size = 9,   outline = "OUTLINE"}
 
 SV.GlobalFontList["SVUI_Font_NamePlate"] = "platename";
 SV.GlobalFontList["SVUI_Font_NamePlate_Aura"] = "plateaura";

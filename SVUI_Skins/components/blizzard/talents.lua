@@ -51,19 +51,7 @@ local function ChangeTabHelper(this)
 	this.backdrop = CreateFrame("Frame", nil, this)
 	this.backdrop:WrapPoints(this,1,1)
 	this.backdrop:SetFrameLevel(0)
-	this.backdrop:SetBackdrop({
-		bgFile = [[Interface\BUTTONS\WHITE8X8]], 
-        tile = false, 
-        tileSize = 0,
-        edgeFile = [[Interface\AddOns\SVUI_!Core\assets\textures\GLOW]],
-        edgeSize = 3,
-        insets = {
-            left = 0,
-            right = 0,
-            top = 0,
-            bottom = 0
-        }
-    });
+	this.backdrop:SetBackdrop(SV.Media.backdrop.glow);
     this.backdrop:SetBackdropColor(0,0,0,1)
 	this.backdrop:SetBackdropBorderColor(0,0,0,1)
 	this:SetScript("OnEnter", Tab_OnEnter)
@@ -107,7 +95,7 @@ TALENTFRAME MODR
 local function TalentFrameStyle()
 	if SV.db.Skins.blizzard.enable ~= true or SV.db.Skins.blizzard.talent ~= true then return end
 
-	MOD:ApplyWindowStyle(PlayerTalentFrame)
+	SV.API:Set("Window", PlayerTalentFrame)
 
 	PlayerTalentFrameInset:RemoveTextures()
 	PlayerTalentFrameTalents:RemoveTextures()
@@ -354,7 +342,7 @@ local function GlyphStyle()
 	GlyphFrame:RemoveTextures()
 	--GlyphFrame.background:ClearAllPoints()
 	--GlyphFrame.background:SetAllPoints(PlayerTalentFrameInset)
-	GlyphFrame:SetStyle("!_Frame", "Premium", false, 0, 3, 3)
+	GlyphFrame:SetStyle("!_Frame", "Premium")
 	GlyphFrameSideInset:RemoveTextures()
 	GlyphFrameClearInfoFrame:RemoveTextures()
 	GlyphFrameClearInfoFrame.icon:SetTexCoord(0.1, 0.9, 0.1, 0.9 )

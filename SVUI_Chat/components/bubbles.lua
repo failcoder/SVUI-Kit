@@ -45,7 +45,7 @@ function MOD:LoadChatBubbles()
 						region:SetTexture([[Interface\AddOns\SVUI_Chat\assets\CHATBUBBLE-TAIL]])
 						needsUpdate = false 
 					else 
-						region:SetTexture(0,0,0,0)
+						region:SetTexture("")
 					end
 				elseif(region:GetObjectType() == "FontString" and not frame.text) then
 					frame.text = region 

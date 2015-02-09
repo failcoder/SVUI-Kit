@@ -1,0 +1,4 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">	
+	<Script file="triangulate.lua"/>
+	<Script file="unitframe_gps.lua"/>
+</Ui>

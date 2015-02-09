@@ -123,19 +123,7 @@ local CreateAuraIcon = function(icons, index)
     bg:SetFrameStrata("BACKGROUND")
     bg:SetFrameLevel(0)
     bg:WrapPoints(aura, 2, 2)
-    bg:SetBackdrop({
-    	bgFile = [[Interface\BUTTONS\WHITE8X8]], 
-		tile = false, 
-		tileSize = 0, 
-		edgeFile = [[Interface\AddOns\SVUI_!Core\assets\textures\GLOW]], 
-        edgeSize = 1, 
-        insets = {
-            left = 1, 
-            right = 1, 
-            top = 1, 
-            bottom = 1
-        }
-    })
+    bg:SetBackdrop(SV.Media.backdrop.aura)
     bg:SetBackdropColor(0, 0, 0, 0)
     bg:SetBackdropBorderColor(0, 0, 0, 0)
     aura.bg = bg;
@@ -180,7 +168,7 @@ local CreateAuraIcon = function(icons, index)
 	overlay:Hide();
 
 	-- local stealable = aura:CreateTexture(nil, 'OVERLAY')
-	-- stealable:SetTexture(0,0,0,0)
+	-- stealable:SetTexture("")
 	-- stealable:SetPoint('TOPLEFT', -3, 3)
 	-- stealable:SetPoint('BOTTOMRIGHT', 3, -3)
 	-- aura.stealable = stealable

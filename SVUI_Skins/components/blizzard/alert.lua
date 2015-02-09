@@ -44,48 +44,11 @@ local _hook_BackdropColor = function(self,...)
         self.AlertPanel:AlertColor(...)
     end
 end
-
-local SetIconAlertColor = function(self, r, g, b)
-	self.AlertPanel.icon:SetGradient('VERTICAL', (r*0.5), (g*0.5), (b*0.5), r, g, b)
-end
 --[[ 
 ########################################################## 
 HELPERS
 ##########################################################
 ]]--
-local function StyleItemAlert(frame, noicon)
-	if(not frame or (frame and frame.AlertPanel)) then return end
-
-	local size = frame:GetWidth() * 0.5;
-	local lvl = frame:GetFrameLevel();
-
-	if lvl < 1 then lvl = 1 end
-
-    local alertpanel = CreateFrame("Frame", nil, frame)
-    alertpanel:SetPoint("TOPLEFT", frame, "TOPLEFT", -25, 10)
-    alertpanel:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 10, 10)
-    alertpanel:SetHeight(size)
-    alertpanel:SetFrameLevel(lvl - 1)
-
-    --[[ FRAME BG ]]--
-    alertpanel.bg = alertpanel:CreateTexture(nil, "BACKGROUND", nil, -5)
-    alertpanel.bg:SetAllPoints()
-    alertpanel.bg:SetTexture(SV.Media.alert.full)
-    alertpanel.bg:SetGradient('VERTICAL', 0, 0, 0, .37, .32, .29)
-
-    if(not noicon) then
-	    --[[ ICON BG ]]--
-	    alertpanel.icon = alertpanel:CreateTexture(nil, "BACKGROUND", nil, -2)
-	    alertpanel.icon:SetTexture(SV.Media.alert.icon)
-	    alertpanel.icon:SetGradient('VERTICAL', 1, 0.35, 0, 1, 1, 0)
-	    alertpanel.icon:SetPoint("LEFT", alertpanel, "LEFT", -45, 20)
-	    alertpanel.icon:SetSize(size, size)
-	    frame.AlertColor = SetIconAlertColor
-	end
-
-    frame.AlertPanel = alertpanel
-end
-
 local function StyleAlertIcon(frame, icon)
 	if((not frame) or (not icon)) then return end
 
@@ -104,7 +67,7 @@ local function StyleLootFrame(frame)
 	if(not frame) then return end
 
 	if(not frame.Panel) then
-		StyleItemAlert(frame)
+		SV.API:Set("!_Alert", frame)
 
 		if(frame.Background) then frame.Background:Die() end
 		if(frame.BGAtlas) then frame.BGAtlas:Die() end
@@ -137,7 +100,7 @@ local function StyleUpgradeFrame(frame)
 	if(not frame) then return end
 
 	if(not frame.Panel) then
-		StyleItemAlert(frame)
+		SV.API:Set("!_Alert", frame)
 
 		frame.Background:Die()
 		frame.BorderGlow:Die()
@@ -161,7 +124,7 @@ local function AchievementStyle()
 		local frame = _G[frameName]
 		if(frame and (not frame.Panel)) then
 			
-			StyleItemAlert(frame)
+			SV.API:Set("!_Alert", frame)
 
 			local icon = _G[frameName.."IconTexture"];
 			icon:ClearAllPoints()
@@ -174,7 +137,7 @@ local function AchievementStyle()
 
 			if(_G[frameName .. 'Glow']) then _G[frameName .. 'Glow']:Die() end
 			if(_G[frameName .. 'Shine']) then _G[frameName .. 'Shine']:Die() end
-			if(_G[frameName .. 'Background']) then _G[frameName .. 'Background']:SetTexture(0,0,0,0) end
+			if(_G[frameName .. 'Background']) then _G[frameName .. 'Background']:SetTexture("") end
 			if(_G[frameName .. 'IconOverlay']) then _G[frameName .. 'IconOverlay']:Die() end				
 			if(_G[frameName .. 'GuildBanner']) then _G[frameName .. 'GuildBanner']:Die() end
 			if(_G[frameName .. 'GuildBorder']) then _G[frameName .. 'GuildBorder']:Die() end
@@ -188,7 +151,7 @@ local function DungeonCompletionStyle()
 	local frame = _G[frameName]
 	if(frame and (not frame.Panel)) then 
 
-		StyleItemAlert(frame)
+		SV.API:Set("!_Alert", frame)
 
 		local icon = frame.dungeonTexture;
 		if(icon) then
@@ -214,7 +177,7 @@ local function GuildChallengeStyle()
 	local frame = _G[frameName];
 	if(frame and (not frame.Panel)) then 
 		
-		StyleItemAlert(frame)
+		SV.API:Set("!_Alert", frame)
 
 		local icon = _G[frameName .. 'EmblemIcon'];
 		if(icon) then
@@ -238,7 +201,7 @@ local function ChallengeModeStyle()
 	local frame = _G[frameName];
 	if(frame and (not frame.Panel)) then 
 		
-		StyleItemAlert(frame)
+		SV.API:Set("!_Alert", frame)
 
 		local icon = _G[frameName .. 'DungeonTexture'];
 		if(icon) then
@@ -264,7 +227,7 @@ local function ScenarioStyle()
 	local frame = _G[frameName];
 	if(frame and (not frame.Panel)) then 
 		
-		StyleItemAlert(frame)
+		SV.API:Set("!_Alert", frame)
 
 		local icon = _G[frameName .. 'DungeonTexture'];
 		if(icon) then
@@ -290,7 +253,7 @@ local function CriteriaStyle()
 		local frame = _G[frameName]
 		if(frame and (not frame.Panel)) then
 			
-			StyleItemAlert(frame)
+			SV.API:Set("!_Alert", frame)
 
 			local icon = _G[frameName .. 'IconTexture'];
 			if(icon) then
@@ -301,7 +264,7 @@ local function CriteriaStyle()
 
 			if(_G[frameName .. 'Glow']) then _G[frameName .. 'Glow']:Die() end
 			if(_G[frameName .. 'Shine']) then _G[frameName .. 'Shine']:Die() end
-			if(_G[frameName .. 'Background']) then _G[frameName .. 'Background']:SetTexture(0,0,0,0) end
+			if(_G[frameName .. 'Background']) then _G[frameName .. 'Background']:SetTexture("") end
 			if(_G[frameName .. 'IconOverlay']) then _G[frameName .. 'IconOverlay']:Die() end				
 			if(_G[frameName .. 'IconBling']) then _G[frameName .. 'IconBling']:Die() end
 		end 
@@ -333,7 +296,7 @@ local function AlertStyle()
 		if(frame) then
 			frame:RemoveTextures()
 
-			MOD:ApplyAlertStyle(frame)
+			SV.API:Set("Alert", frame)
 
 			frame.buttons[1]:SetStyle("Button")
 			frame.buttons[2]:SetStyle("Button")
@@ -448,7 +411,7 @@ local function AlertStyle()
 	    if(frame and (not frame.Panel)) then 
 			frame:DisableDrawLayer("BACKGROUND")
 
-			StyleItemAlert(frame)
+			SV.API:Set("!_Alert", frame)
 			frame.IconBG:ClearAllPoints()
 			frame.IconBG:SetPoint("CENTER", frame.AlertPanel.icon, "CENTER", 0, 0)
 			frame.IconBG:SetTexture('')
@@ -469,7 +432,7 @@ local function AlertStyle()
 	    if(frame and (not frame.Panel)) then 
 			frame:DisableDrawLayer("BACKGROUND")
 
-			StyleItemAlert(frame)
+			SV.API:Set("!_Alert", frame)
 			frame.Icon:ClearAllPoints()
 			frame.Icon:SetPoint("CENTER", frame.AlertPanel.icon, "CENTER", 0, 0)
 			frame.Icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
@@ -489,7 +452,7 @@ local function AlertStyle()
 	    	if(not frame.Panel) then 
 				frame:DisableDrawLayer("BACKGROUND")
 
-				StyleItemAlert(frame)
+				SV.API:Set("!_Alert", frame)
 				frame.Title:SetTextColor(1, 1, 1)
 
 				if(_G[frameName .. 'Glow']) then _G[frameName .. 'Glow']:Die() end

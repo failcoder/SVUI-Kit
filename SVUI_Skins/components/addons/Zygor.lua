@@ -52,12 +52,12 @@ local function StyleZygor()
 	local ZygorGuidesViewer = LibStub('AceAddon-3.0'):GetAddon('ZygorGuidesViewer')
 	assert(ZygorGuidesViewer, "AddOn Not Loaded")
 
-	MOD:ApplyWindowStyle(ZygorGuidesViewerFrame)
+	SV.API:Set("Window", ZygorGuidesViewerFrame)
 	ZygorGuidesViewerFrame_Border:RemoveTextures(true)
-	MOD:ApplyFrameStyle(ZygorGuidesViewer_CreatureViewer, 'ModelBorder')
+	SV.API:Set("Frame", ZygorGuidesViewer_CreatureViewer, 'Model')
 
 	for i = 1, 6 do
-		MOD:ApplyFrameStyle(_G['ZygorGuidesViewerFrame_Step'..i], 'Default')
+		SV.API:Set("Frame", _G['ZygorGuidesViewerFrame_Step'..i], 'Default')
 	end
 
 	CharacterFrame:HookScript("OnShow", StyleZygorTabs)

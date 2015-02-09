@@ -80,19 +80,7 @@ local function ChangeTabHelper(tab)
 	tab.backdrop = CreateFrame("Frame", nil, tab)
 	tab.backdrop:WrapPoints(tab,1,1)
 	tab.backdrop:SetFrameLevel(0)
-	tab.backdrop:SetBackdrop({
-		bgFile = [[Interface\BUTTONS\WHITE8X8]], 
-        tile = false, 
-        tileSize = 0,
-        edgeFile = [[Interface\AddOns\SVUI_!Core\assets\textures\GLOW]],
-        edgeSize = 3,
-        insets = {
-            left = 0,
-            right = 0,
-            top = 0,
-            bottom = 0
-        }
-    });
+	tab.backdrop:SetBackdrop(SV.Media.backdrop.glow);
     tab.backdrop:SetBackdropColor(0,0,0,1)
 	tab.backdrop:SetBackdropBorderColor(0,0,0,1)
 	tab:SetScript("OnEnter", Tab_OnEnter)
@@ -198,7 +186,7 @@ SPELLBOOK MODR
 local function SpellBookStyle()
 	if SV.db.Skins.blizzard.enable ~= true or SV.db.Skins.blizzard.spellbook ~= true then return end
 
-	MOD:ApplyAdjustedWindowStyle(SpellBookFrame, false, false, 1, 3, 3)
+	SV.API:Set("Window", SpellBookFrame, false, false, 1, 3, 3)
 	SV.API:Set("CloseButton", SpellBookFrameCloseButton)
 
 	if(SpellBookFrameInset) then 

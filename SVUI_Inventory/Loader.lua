@@ -39,8 +39,8 @@ MOD.media.vendorIcon = [[Interface\AddOns\SVUI_Inventory\assets\BAGS-VENDOR]];
 MOD.media.buttonBg = [[Interface\AddOns\SVUI_Inventory\assets\BUTTON-BG]];
 MOD.media.buttonFg = [[Interface\AddOns\SVUI_Inventory\assets\BUTTON-FG]];
 
-SV.defaults["font"]["bagdialog"]     		= {file = "SVUI Default Font",  size = 11,  outline = "OUTLINE"}
-SV.defaults["font"]["bagnumber"]     		= {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"}
+SV.mediadefaults.internal.font["bagdialog"]     		= {file = "SVUI Default Font",  size = 11,  outline = "OUTLINE"}
+SV.mediadefaults.internal.font["bagnumber"]     		= {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"}
 SV.GlobalFontList["SVUI_Font_Bag"] 			= "bagdialog";
 SV.GlobalFontList["SVUI_Font_Bag_Number"] 	= "bagnumber";
 
@@ -77,26 +77,7 @@ SV.defaults[Schema] = {
 		["spacing"] = 4, 
 		["showBackdrop"] = false, 
 		["mouseover"] = false, 
-	},
-	["specialization"] = {
-		["enable"] = false, 
 	}, 
-	["battleground"] = {
-		["enable"] = false, 
-	}, 
-	["primary"] = "none", 
-	["secondary"] = "none", 
-	["equipmentset"] = "none", 
-	["durability"] = {
-		["enable"] = true, 
-		["onlydamaged"] = true, 
-	}, 
-	["itemlevel"] = {
-		["enable"] = true, 
-	}, 
-	["misc"] = {
-		setoverlay = true, 
-	}
 };
 
 local bagFonts = {
@@ -367,185 +348,6 @@ function MOD:LoadOptions()
 								values = {
 									["VERTICAL"] = L["Vertical"], 
 									["HORIZONTAL"] = L["Horizontal"]
-								}
-							}
-						}
-					},
-					gear = {
-						order = 4,
-						type = 'group',
-						name = MOD.TitleID,
-						get = function(key) return SV.db[Schema][key[#key]]end,
-						set = function(key, value) SV.db[Schema][key[#key]] = value; MOD:ReLoad()end,
-						args={
-							intro={
-								order = 1,
-								type = 'description',
-								name = function() 
-									if(GetNumEquipmentSets()==0) then 
-										return ("%s\n|cffFF0000Must create an equipment set to use some of these features|r"):format(L["EQUIPMENT_DESC"])
-									else 
-										return L["EQUIPMENT_DESC"] 
-									end 
-								end
-							},
-							specialization = {
-								order = 2,
-								type = "group",
-								name = L["Specialization"],
-								guiInline = true,
-								disabled = function() return GetNumEquipmentSets() == 0 end,
-								args = {
-									enable = {
-										type = "toggle",
-										order = 1,
-										name = L["Enable"],
-										desc = L["Enable/Disable the specialization switch."],
-										get = function(key)
-											return SV.db[Schema].specialization.enable 
-										end,
-										set = function(key, value) 
-											SV.db[Schema].specialization.enable = value 
-										end
-									},
-									primary = {
-										type = "select",
-										order = 2,
-										name = L["Primary Talent"],
-										desc = L["Choose the equipment set to use for your primary specialization."],
-										disabled = function()
-											return not SV.db[Schema].specialization.enable 
-										end,
-										values = function()
-											local h = {["none"] = L["No Change"]}
-											for i = 1, GetNumEquipmentSets()do 	
-												local name = GetEquipmentSetInfo(i)
-												if name then
-													h[name] = name 
-												end 
-											end 
-											tsort(h, sortingFunction)
-											return h 
-										end
-									},
-									secondary = {
-										type = "select",
-										order = 3,
-										name = L["Secondary Talent"],
-										desc = L["Choose the equipment set to use for your secondary specialization."],
-										disabled = function() return not SV.db[Schema].specialization.enable end,
-										values = function()	
-											local h = {["none"] = L["No Change"]}
-											for i = 1, GetNumEquipmentSets()do 
-												local name = GetEquipmentSetInfo(i)
-												if name then h[name] = name end 
-											end 
-											tsort(h, sortingFunction)
-											return h 
-										end
-									}
-								}
-							},
-							battleground = {
-								order = 3,
-								type = "group",
-								name = L["Battleground"],
-								guiInline = true,
-								disabled = function()return GetNumEquipmentSets() == 0 end,
-								args = {
-									enable = {
-										type = "toggle",
-										order = 1,
-										name = L["Enable"],
-										desc = L["Enable/Disable the battleground switch."],
-										get = function(e)return SV.db[Schema].battleground.enable end,
-										set = function(e,value)SV.db[Schema].battleground.enable = value end
-									},
-									equipmentset = {
-										type = "select",
-										order = 2,
-										name = L["Equipment Set"],
-										desc = L["Choose the equipment set to use when you enter a battleground or arena."],
-										disabled = function()return not SV.db[Schema].battleground.enable end,
-										values = function()
-											local h = {["none"] = L["No Change"]}
-											for i = 1,GetNumEquipmentSets()do 
-												local name = GetEquipmentSetInfo(i)
-												if name then h[name] = name end 
-											end 
-											tsort(h, sortingFunction)
-											return h 
-										end
-									}
-								}
-							},
-							intro2 = {
-								type = "description",
-								name = L["DURABILITY_DESC"],
-								order = 4
-							},
-							durability = {
-								type = "group",
-								name = DURABILITY,
-								guiInline = true,
-								order = 5,
-								get = function(e)return SV.db[Schema].durability[e[#e]]end,
-								set = function(e,value)SV.db[Schema].durability[e[#e]] = value; MOD:ReLoad()end,
-								args = {
-									enable = {
-										type = "toggle",
-										order = 1,
-										name = L["Enable"],
-										desc = L["Enable/Disable the display of durability information on the character screen."]
-									},
-									onlydamaged = {
-										type = "toggle",
-										order = 2,
-										name = L["Damaged Only"],
-										desc = L["Only show durability information for items that are damaged."],
-										disabled = function()return not SV.db[Schema].durability.enable end
-									}
-								}
-							},
-							intro3 = {
-								type = "description",
-								name = L["ITEMLEVEL_DESC"],
-								order = 6
-							},
-							itemlevel = {
-								type = "group",
-								name = STAT_AVERAGE_ITEM_LEVEL,
-								guiInline = true,
-								order = 7,
-								get = function(e)return SV.db[Schema].itemlevel[e[#e]]end,
-								set = function(e,value)SV.db[Schema].itemlevel[e[#e]] = value; MOD:ReLoad()end,
-								args = {
-									enable = {
-										type = "toggle",
-										order = 1,
-										name = L["Enable"],
-										desc = L["Enable/Disable the display of item levels on the character screen."]
-									}
-								}
-							},
-							misc = {
-								type = "group",
-								name = L["Miscellaneous"],
-								guiInline = true,
-								order = 8,
-								get = function(e) return SV.db[Schema].misc[e[#e]] end,
-								set = function(e,value) SV.db[Schema].misc[e[#e]] = value end,
-								args = {
-									setoverlay = {
-										type = "toggle",
-										order = 1,
-										name = L["Equipment Set Overlay"],
-										desc = L["Show the associated equipment sets for the items in your bags (or bank)."],
-										set = function(e,value)
-											SV.db[Schema].misc[e[#e]] = value;
-											SV:StaticPopup_Show("RL_CLIENT");
-										end
-									}
 								}
 							}
 						}

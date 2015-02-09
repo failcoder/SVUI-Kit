@@ -163,7 +163,7 @@ local function EquipmentFlyout_OnShow()
 		local texture = _G["EquipmentFlyoutFrameButton"..counter.."IconTexture"]
 		button:SetStyle("Button")
 		texture:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
-		button:GetNormalTexture():SetTexture(0,0,0,0)
+		button:GetNormalTexture():SetTexture("")
 		texture:InsetPoints()
 		button:SetFrameLevel(button:GetFrameLevel() + 2)
 		if not button.Panel then
@@ -183,13 +183,13 @@ local function Reputation_OnShow()
 			if not bar.Panel then
 				 bar:SetStyle("Frame", "Inset")
 			end 
-			_G["ReputationBar"..i.."Background"]:SetTexture(0,0,0,0)
-			_G["ReputationBar"..i.."ReputationBarHighlight1"]:SetTexture(0,0,0,0)
-			_G["ReputationBar"..i.."ReputationBarHighlight2"]:SetTexture(0,0,0,0)
-			_G["ReputationBar"..i.."ReputationBarAtWarHighlight1"]:SetTexture(0,0,0,0)
-			_G["ReputationBar"..i.."ReputationBarAtWarHighlight2"]:SetTexture(0,0,0,0)
-			_G["ReputationBar"..i.."ReputationBarLeftTexture"]:SetTexture(0,0,0,0)
-			_G["ReputationBar"..i.."ReputationBarRightTexture"]:SetTexture(0,0,0,0)
+			_G["ReputationBar"..i.."Background"]:SetTexture("")
+			_G["ReputationBar"..i.."ReputationBarHighlight1"]:SetTexture("")
+			_G["ReputationBar"..i.."ReputationBarHighlight2"]:SetTexture("")
+			_G["ReputationBar"..i.."ReputationBarAtWarHighlight1"]:SetTexture("")
+			_G["ReputationBar"..i.."ReputationBarAtWarHighlight2"]:SetTexture("")
+			_G["ReputationBar"..i.."ReputationBarLeftTexture"]:SetTexture("")
+			_G["ReputationBar"..i.."ReputationBarRightTexture"]:SetTexture("")
 		end 
 	end 
 end
@@ -197,9 +197,9 @@ end
 local function PaperDollTitlesPane_OnShow()
 	for i,btn in pairs(PaperDollTitlesPane.buttons) do
 		if(btn) then
-			btn.BgTop:SetTexture(0,0,0,0)
-			btn.BgBottom:SetTexture(0,0,0,0)
-			btn.BgMiddle:SetTexture(0,0,0,0)
+			btn.BgTop:SetTexture("")
+			btn.BgBottom:SetTexture("")
+			btn.BgMiddle:SetTexture("")
 		end
 	end
 	PaperDollTitlesPane_Update()
@@ -208,11 +208,11 @@ end
 local function PaperDollEquipmentManagerPane_OnShow()
 	for i,btn in pairs(PaperDollEquipmentManagerPane.buttons) do
 		if(btn) then
-			btn.BgTop:SetTexture(0,0,0,0)
-			btn.BgBottom:SetTexture(0,0,0,0)
-			btn.BgMiddle:SetTexture(0,0,0,0)
+			btn.BgTop:SetTexture("")
+			btn.BgBottom:SetTexture("")
+			btn.BgMiddle:SetTexture("")
 			btn.icon:ModSize(36, 36)
-			btn.Check:SetTexture(0,0,0,0)
+			btn.Check:SetTexture("")
 			btn.icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 			btn.icon:SetPoint("LEFT", btn, "LEFT", 4, 0)
 			if not btn.icon.bordertop then
@@ -238,7 +238,7 @@ local function PaperDollEquipmentManagerPane_OnShow()
 			btn:SetStyle("Button")
 			if(btn.icon) then
 				btn.icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
-				btn.icon:SetTexture(0,0,0,0)
+				btn.icon:SetTexture("")
 				btn.icon:InsetPoints()
 			end 
 		end 
@@ -254,7 +254,7 @@ local function CharacterFrameStyle()
 		 return 
 	end
 
-	MOD:ApplyAdjustedWindowStyle(CharacterFrame, true, true, 1, 3, 3)
+	SV.API:Set("Window", CharacterFrame, true, true, 1, 3, 3)
 
 	SV.API:Set("CloseButton", CharacterFrameCloseButton)
 	SV.API:Set("ScrollFrame", CharacterStatsPaneScrollBar)
@@ -314,10 +314,10 @@ local function CharacterFrameStyle()
 		end
 	end
 
-	CharacterModelFrameBackgroundTopLeft:SetTexture(0,0,0,0)
-	CharacterModelFrameBackgroundTopRight:SetTexture(0,0,0,0)
-	CharacterModelFrameBackgroundBotLeft:SetTexture(0,0,0,0)
-	CharacterModelFrameBackgroundBotRight:SetTexture(0,0,0,0)
+	CharacterModelFrameBackgroundTopLeft:SetTexture("")
+	CharacterModelFrameBackgroundTopRight:SetTexture("")
+	CharacterModelFrameBackgroundBotLeft:SetTexture("")
+	CharacterModelFrameBackgroundBotRight:SetTexture("")
 
 	CharacterModelFrame:SetStyle("!_Frame", "Model")
 	CharacterFrameExpandButton:SetFrameLevel(CharacterModelFrame:GetFrameLevel() + 5)
@@ -334,7 +334,7 @@ local function CharacterFrameStyle()
 	PaperDollEquipmentManagerPaneSaveSet:ModWidth(PaperDollEquipmentManagerPaneSaveSet:GetWidth()-8)
 	PaperDollEquipmentManagerPaneEquipSet:ModPoint("TOPLEFT", PaperDollEquipmentManagerPane, "TOPLEFT", 8, 0)
 	PaperDollEquipmentManagerPaneSaveSet:ModPoint("LEFT", PaperDollEquipmentManagerPaneEquipSet, "RIGHT", 4, 0)
-	PaperDollEquipmentManagerPaneEquipSet.ButtonBackground:SetTexture(0,0,0,0)
+	PaperDollEquipmentManagerPaneEquipSet.ButtonBackground:SetTexture("")
 
 	PaperDollEquipmentManagerPane:HookScript("OnShow", PaperDollEquipmentManagerPane_OnShow)
 

@@ -31,7 +31,7 @@ MACRO UI MODR
 local function MacroUIStyle()
 	if SV.db.Skins.blizzard.enable ~= true or SV.db.Skins.blizzard.macro ~= true then return end
 
-	MOD:ApplyWindowStyle(MacroFrame, true)
+	SV.API:Set("Window", MacroFrame, true)
 
 	SV.API:Set("CloseButton", MacroFrameCloseButton)
 	SV.API:Set("ScrollFrame", MacroButtonScrollFrameScrollBar)
@@ -87,9 +87,9 @@ local function MacroUIStyle()
 	MacroPopupScrollFrame.Panel:ModPoint("TOPLEFT", 51, 2)
 	MacroPopupScrollFrame.Panel:ModPoint("BOTTOMRIGHT", -4, 4)
 	MacroPopupEditBox:SetStyle("Editbox")
-	MacroPopupNameLeft:SetTexture(0,0,0,0)
-	MacroPopupNameMiddle:SetTexture(0,0,0,0)
-	MacroPopupNameRight:SetTexture(0,0,0,0)
+	MacroPopupNameLeft:SetTexture("")
+	MacroPopupNameMiddle:SetTexture("")
+	MacroPopupNameRight:SetTexture("")
 
 	MacroFrameInset:Die()
 

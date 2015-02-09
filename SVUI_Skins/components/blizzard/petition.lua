@@ -22,7 +22,7 @@ local function PetitionFrameStyle()
 		return 
 	end
 
-	MOD:ApplyWindowStyle(PetitionFrame, nil, true)
+	SV.API:Set("Window", PetitionFrame, nil, true)
 	PetitionFrameInset:Die()
 
 	PetitionFrameSignButton:SetStyle("Button")

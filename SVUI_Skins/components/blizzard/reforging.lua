@@ -20,7 +20,7 @@ REFORGING MODR
 local function ReforgingStyle()
 	if SV.db.Skins.blizzard.enable ~= true or SV.db.Skins.blizzard.reforge ~= true then return end 
 	
-	MOD:ApplyWindowStyle(ReforgingFrame, true)
+	SV.API:Set("Window", ReforgingFrame, true)
 
 	ReforgingFrame.ButtonFrame:RemoveTextures()
 	ReforgingFrameReforgeButton:ClearAllPoints()
@@ -41,7 +41,7 @@ local function ReforgingStyle()
 		if x then
 			 ReforgingFrame.ItemButton.IconTexture:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 		else
-			 ReforgingFrame.ItemButton.IconTexture:SetTexture(0,0,0,0)
+			 ReforgingFrame.ItemButton.IconTexture:SetTexture("")
 		end 
 	end)
 	SV.API:Set("CloseButton", ReforgingFrameCloseButton)

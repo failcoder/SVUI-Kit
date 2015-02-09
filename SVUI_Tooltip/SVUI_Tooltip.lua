@@ -194,7 +194,7 @@ local SetMaskBorderColor = function(self, r, g, b, hasStatusBar)
 	if(self:GetAlpha() == 0) then
 		self:FadeIn()
 	end
-	self:SetBackdropColor(0, 0, 0, 0.8)
+	--self:SetBackdropColor(0, 0, 0, 0.8)
 	if(COMIC_TIPS) then
 		local a = self.ToggleAlpha
 		if(hasStatusBar) then
@@ -228,9 +228,9 @@ local ClearMaskColors = function(self, hide)
 	self[7]:SetTexture(0, 0, 0, 0)
 	self[8]:SetTexture(0, 0, 0, 0)
 	
-	if(hide) then
-		self:SetBackdropColor(0, 0, 0, 0)
-	end
+	-- if(hide) then
+	-- 	self:SetBackdropColor(0, 0, 0, 0)
+	-- end
 end
 
 function MOD:INSPECT_READY(event, GUID)
@@ -301,7 +301,7 @@ local function tipbackground(this)
 	this:SetBackdropColor(0, 0, 0, 0.8)
 	--this:SetBackdropBorderColor(0, 0, 0, 1)
 	if(this.SuperBorder) then
-		this.SuperBorder:SetBackdropColor(0, 0, 0, 0.8)
+		--this.SuperBorder:SetBackdropColor(0, 0, 0, 0.8)
 		if(not GameTooltipStatusBar:IsShown()) then
 			this.SuperBorder:ClearAllPoints()
 			this.SuperBorder:SetPoint("TOPLEFT", this, "TOPLEFT", -1, 1)
@@ -697,7 +697,7 @@ end
 local Override_BGColor = function(self, r, g, b, a) 
 	if((r ~= 0) and (g ~= 0) and (b ~= 0)) then
 		self:SetBackdropColor(0, 0, 0, 0.8)
-		self.SuperBorder:SetBackdropColor(r, g, b, 0.8) 
+		--self.SuperBorder:SetBackdropColor(r, g, b, 0.8) 
 	end
 end
 
@@ -746,145 +746,92 @@ local function ApplyTooltipSkins()
 		end
 		if(not tooltip.SuperBorder) then 
 			local barOffset = 0
-			local alpha = 0.2
-			if(tooltip == GameTooltip) then
-				barOffset = (barHeight + 6) * -1
-				alpha = 0.5
-			end
+		    local alpha = 0.2
+		    if(tooltip == GameTooltip) then
+		        barOffset = (barHeight + 6) * -1
+		        alpha = 0.5
+		    end
 
-			local mask = CreateFrame("Frame", nil, tooltip)
-			mask:SetPoint("TOPLEFT", tooltip, "TOPLEFT", -1, 1)
-			mask:SetPoint("BOTTOMRIGHT", tooltip, "BOTTOMRIGHT", 1, barOffset)
-			mask:SetFrameLevel(0)
-			mask.ToggleHeight = barOffset
-			mask.ToggleAlpha = alpha
+		    local mask = CreateFrame("Frame", nil, tooltip)
+		    mask:SetPoint("TOPLEFT", tooltip, "TOPLEFT", -1, 1)
+		    mask:SetPoint("BOTTOMRIGHT", tooltip, "BOTTOMRIGHT", 1, barOffset)
+		    mask:SetFrameLevel(0)
+		    mask.ToggleHeight = barOffset
+		    mask.ToggleAlpha = alpha
 
-			--[[ STARBURST TOP ]]
-			mask[1] = mask:CreateTexture(nil, "BACKGROUND")
-			mask[1]:SetPoint("BOTTOMLEFT", mask, "TOPLEFT", 0, 0)
-			mask[1]:SetHeight(mask:GetWidth() * 0.25)
-			mask[1]:SetWidth(mask:GetWidth() * 0.25)
-			mask[1]:SetTexture(MOD.media.topArt)
-			mask[1]:SetVertexColor(0,0,0)
-			mask[1]:SetBlendMode("BLEND")
-			mask[1]:SetAlpha(alpha)
-			--[[ STARBURST BOTTOM ]]
-			mask[2] = mask:CreateTexture(nil, "BACKGROUND")
-			mask[2]:SetPoint("TOPRIGHT", mask, "BOTTOMRIGHT", 0, 0)
-			mask[2]:SetHeight(mask:GetWidth() * 0.25)
-			mask[2]:SetWidth(mask:GetWidth() * 0.25)
-			--mask[2]:SetTexture(MOD.media.bottomArt)
-			--mask[2]:SetVertexColor(0,0,0)
-			--mask[2]:SetBlendMode("BLEND")
-			--mask[2]:SetAlpha(alpha)
-			--[[ HALFTONE RIGHT ]]
-			mask[3] = mask:CreateTexture(nil, "BACKGROUND")
-			mask[3]:SetPoint("LEFT", mask, "RIGHT", 0, 0)
-			mask[3]:SetSize(64,64)
-			mask[3]:SetTexture(MOD.media.rightArt)
-			mask[3]:SetVertexColor(0,0,0)
-			mask[3]:SetBlendMode("BLEND")
-			mask[3]:SetAlpha(alpha)
-			--[[ HALFTONE LEFT ]]
-			mask[4] = mask:CreateTexture(nil, "BACKGROUND")
-			mask[4]:SetPoint("RIGHT", mask, "LEFT", 0, 0)
-			mask[4]:SetSize(64,64)
-			mask[4]:SetTexture(MOD.media.leftArt)
-			mask[4]:SetVertexColor(0,0,0)
-			mask[4]:SetBlendMode("BLEND")
-			mask[4]:SetAlpha(alpha)
+		    --[[ STARBURST TOP ]]
+		    mask[1] = mask:CreateTexture(nil, "BACKGROUND")
+		    mask[1]:SetPoint("BOTTOMLEFT", mask, "TOPLEFT", 0, 0)
+		    mask[1]:SetHeight(mask:GetWidth() * 0.25)
+		    mask[1]:SetWidth(mask:GetWidth() * 0.25)
+		    mask[1]:SetTexture(MOD.media.topArt)
+		    mask[1]:SetVertexColor(0,0,0)
+		    mask[1]:SetBlendMode("BLEND")
+		    mask[1]:SetAlpha(alpha)
+		    --[[ STARBURST BOTTOM ]]
+		    mask[2] = mask:CreateTexture(nil, "BACKGROUND")
+		    mask[2]:SetPoint("TOPRIGHT", mask, "BOTTOMRIGHT", 0, 0)
+		    mask[2]:SetHeight(mask:GetWidth() * 0.25)
+		    mask[2]:SetWidth(mask:GetWidth() * 0.25)
+		    --mask[2]:SetTexture(MOD.media.bottomArt)
+		    --mask[2]:SetVertexColor(0,0,0)
+		    --mask[2]:SetBlendMode("BLEND")
+		    --mask[2]:SetAlpha(alpha)
+		    --[[ HALFTONE RIGHT ]]
+		    mask[3] = mask:CreateTexture(nil, "BACKGROUND")
+		    mask[3]:SetPoint("LEFT", mask, "RIGHT", 0, 0)
+		    mask[3]:SetSize(64,64)
+		    mask[3]:SetTexture(MOD.media.rightArt)
+		    mask[3]:SetVertexColor(0,0,0)
+		    mask[3]:SetBlendMode("BLEND")
+		    mask[3]:SetAlpha(alpha)
+		    --[[ HALFTONE LEFT ]]
+		    mask[4] = mask:CreateTexture(nil, "BACKGROUND")
+		    mask[4]:SetPoint("RIGHT", mask, "LEFT", 0, 0)
+		    mask[4]:SetSize(64,64)
+		    mask[4]:SetTexture(MOD.media.leftArt)
+		    mask[4]:SetVertexColor(0,0,0)
+		    mask[4]:SetBlendMode("BLEND")
+		    mask[4]:SetAlpha(alpha)
 
-			--[[ BORDER TOP ]]
-			mask[5] = mask:CreateTexture(nil, "OVERLAY")
-			mask[5]:SetPoint("TOPLEFT", mask, "TOPLEFT", 0, 0)
-			mask[5]:SetPoint("TOPRIGHT", mask, "TOPRIGHT", 0, 0)
-			mask[5]:SetHeight(1)
-			mask[5]:SetTexture(0,0,0)
-			--[[ BORDER BOTTOM ]]
-			mask[6] = mask:CreateTexture(nil, "OVERLAY")
-			mask[6]:SetPoint("BOTTOMLEFT", mask, "BOTTOMLEFT", 0, 0)
-			mask[6]:SetPoint("BOTTOMRIGHT", mask, "BOTTOMRIGHT", 0, 0)
-			mask[6]:SetHeight(1)
-			mask[6]:SetTexture(0,0,0)
-			--[[ BORDER RIGHT ]]
-			mask[7] = mask:CreateTexture(nil, "OVERLAY")
-			mask[7]:SetPoint("TOPRIGHT", mask, "TOPRIGHT", 0, 0)
-			mask[7]:SetPoint("BOTTOMRIGHT", mask, "BOTTOMRIGHT", 0, 0)
-			mask[7]:SetWidth(1)
-			mask[7]:SetTexture(0,0,0)
-			--[[ BORDER LEFT ]]
-			mask[8] = mask:CreateTexture(nil, "OVERLAY")
-			mask[8]:SetPoint("TOPLEFT", mask, "TOPLEFT", 0, 0)
-			mask[8]:SetPoint("BOTTOMLEFT", mask, "BOTTOMLEFT", 0, 0)
-			mask[8]:SetWidth(1)
-			mask[8]:SetTexture(0,0,0)
+		    --[[ BORDER TOP ]]
+		    mask[5] = mask:CreateTexture(nil, "OVERLAY")
+		    mask[5]:SetPoint("TOPLEFT", mask, "TOPLEFT", 0, 0)
+		    mask[5]:SetPoint("TOPRIGHT", mask, "TOPRIGHT", 0, 0)
+		    mask[5]:SetHeight(1)
+		    mask[5]:SetTexture(0,0,0)
+		    --[[ BORDER BOTTOM ]]
+		    mask[6] = mask:CreateTexture(nil, "OVERLAY")
+		    mask[6]:SetPoint("BOTTOMLEFT", mask, "BOTTOMLEFT", 0, 0)
+		    mask[6]:SetPoint("BOTTOMRIGHT", mask, "BOTTOMRIGHT", 0, 0)
+		    mask[6]:SetHeight(1)
+		    mask[6]:SetTexture(0,0,0)
+		    --[[ BORDER RIGHT ]]
+		    mask[7] = mask:CreateTexture(nil, "OVERLAY")
+		    mask[7]:SetPoint("TOPRIGHT", mask, "TOPRIGHT", 0, 0)
+		    mask[7]:SetPoint("BOTTOMRIGHT", mask, "BOTTOMRIGHT", 0, 0)
+		    mask[7]:SetWidth(1)
+		    mask[7]:SetTexture(0,0,0)
+		    --[[ BORDER LEFT ]]
+		    mask[8] = mask:CreateTexture(nil, "OVERLAY")
+		    mask[8]:SetPoint("TOPLEFT", mask, "TOPLEFT", 0, 0)
+		    mask[8]:SetPoint("BOTTOMLEFT", mask, "BOTTOMLEFT", 0, 0)
+		    mask[8]:SetWidth(1)
+		    mask[8]:SetTexture(0,0,0)
 
-			mask:SetBackdrop({
-				bgFile = MOD.media.bgArt, 
-				tile = true,
-				tileSize = 128,
-			})
-			mask:SetBackdropColor(0, 0, 0, 0.8)
-			mask:SetBackdropBorderColor(0, 0, 0)
+		    --mask:SetBackdrop(SV.Media.backdrop.tooltip)
+		    --mask:SetBackdropBorderColor(0, 0, 0)
 
-			mask.SetMaskBorderColor = SetMaskBorderColor
+		    mask.SetMaskBorderColor = SetMaskBorderColor
 			mask.SetMaskBurstColor = SetMaskBurstColor
 			mask.ClearMaskColors = ClearMaskColors
 
-			tooltip.SuperBorder = mask
+			tooltip.SuperBorder = mask;
 
-			if tooltip.Background then
-				tooltip.Background:SetTexture(0,0,0,0)
-			end
-
-			if tooltip.Delimiter1 then 
-				tooltip.Delimiter1:SetTexture(0,0,0,0)
-				tooltip.Delimiter2:SetTexture(0,0,0,0)
-			end
-
-			if tooltip.BorderTop then
-				tooltip.BorderTop:SetTexture(0,0,0,0)
-			end
-
-			if tooltip.BorderTopLeft then
-				tooltip.BorderTopLeft:SetTexture(0,0,0,0)
-			end
-
-			if tooltip.BorderTopRight then
-				tooltip.BorderTopRight:SetTexture(0,0,0,0)
-			end
-
-			if tooltip.BorderLeft then
-				tooltip.BorderLeft:SetTexture(0,0,0,0)
-			end
-
-			if tooltip.BorderRight then
-				tooltip.BorderRight:SetTexture(0,0,0,0)
-			end
-
-			if tooltip.BorderBottom then
-				tooltip.BorderBottom:SetTexture(0,0,0,0)
-			end
-
-			if tooltip.BorderBottomRight then
-				tooltip.BorderBottomRight:SetTexture(0,0,0,0)
-			end
-
-			if tooltip.BorderBottomLeft then
-				tooltip.BorderBottomLeft:SetTexture(0,0,0,0)
-			end
-			
-			tooltip:SetBackdrop({
-				bgFile = MOD.media.bgArt, 
-				tile = true,
-				tileSize = 128,
-			})
-			tooltip:SetBackdropColor(0, 0, 0, 0.8)
-			--tooltip:SetBackdropBorderColor(0, 0, 0, 1)
+		    SV.API:Set("Tooltip", tooltip)
 
 			NewHook(tooltip, "SetBackdropColor", Override_BGColor)
 			--NewHook(tooltip, "SetBackdropBorderColor", Override_BorderColor)
-			--NewHook(tooltip, "Show", _hook_OnTipShow)
 			tooltip:HookScript("OnShow", _hook_OnTipShow)
 			tooltip:HookScript("OnHide", _hook_OnTipHide)
 			tooltip:HookScript("OnSizeChanged", _hook_OnSizeChanged)
@@ -957,7 +904,6 @@ function MOD:Load()
 
 	--NewHook("GameTooltip_ShowCompareItem", _hook_GameTooltip_ShowCompareItem) -- BROKEN IN WOD, REMOVING NOW
 
-	--NewHook(GameTooltip, "AddLine", _hook_OnTipShow)
 	NewHook(GameTooltip, "SetUnitAura", _hook_OnSetUnitAura)
 	NewHook(GameTooltip, "SetUnitBuff", _hook_OnSetUnitAura)
 	NewHook(GameTooltip, "SetUnitDebuff", _hook_OnSetUnitAura)

@@ -49,16 +49,16 @@ local function StyleAltoholic(event, addon)
 	assert(AltoholicFrame, "AddOn Not Loaded")
 
 	if event == "PLAYER_ENTERING_WORLD" then
-		MOD:ApplyTooltipStyle(AltoTooltip)
+		SV.API:Set("Tooltip", AltoTooltip)
 
 		AltoholicFramePortrait:Die()
 
-		MOD:ApplyFrameStyle(AltoholicFrame, "WindowAlternate", false, true)
-		MOD:ApplyFrameStyle(AltoMsgBox)
+		SV.API:Set("Frame", AltoholicFrame, "WindowAlternate")
+		SV.API:Set("Frame", AltoMsgBox)
 		SV.API:Set("Button", AltoMsgBoxYesButton)
 		SV.API:Set("Button", AltoMsgBoxNoButton)
 		SV.API:Set("CloseButton", AltoholicFrameCloseButton)
-		MOD:ApplyEditBoxStyle(AltoholicFrame_SearchEditBox, 175, 15)
+		SV.API:Set("EditBox", AltoholicFrame_SearchEditBox, 175, 15)
 		SV.API:Set("Button", AltoholicFrame_ResetButton)
 		SV.API:Set("Button", AltoholicFrame_SearchButton)
 
@@ -70,10 +70,10 @@ local function StyleAltoholic(event, addon)
 	end
 
 	if addon == "Altoholic_Summary" then
-		MOD:ApplyFrameStyle(AltoholicFrameSummary)
-		MOD:ApplyFrameStyle(AltoholicFrameBagUsage)
-		MOD:ApplyFrameStyle(AltoholicFrameSkills)
-		MOD:ApplyFrameStyle(AltoholicFrameActivity)
+		SV.API:Set("Frame", AltoholicFrameSummary)
+		SV.API:Set("Frame", AltoholicFrameBagUsage)
+		SV.API:Set("Frame", AltoholicFrameSkills)
+		SV.API:Set("Frame", AltoholicFrameActivity)
 		SV.API:Set("ScrollBar", AltoholicFrameSummaryScrollFrameScrollBar)
 		SV.API:Set("ScrollBar", AltoholicFrameBagUsageScrollFrameScrollBar)
 		SV.API:Set("ScrollBar", AltoholicFrameSkillsScrollFrameScrollBar)
@@ -115,14 +115,14 @@ local function StyleAltoholic(event, addon)
 	end
 	
 	if IsAddOnLoaded("Altoholic_Characters") or addon == "Altoholic_Characters" then
-		MOD:ApplyFrameStyle(AltoholicFrameContainers)
-		MOD:ApplyFrameStyle(AltoholicFrameRecipes)
-		MOD:ApplyFrameStyle(AltoholicFrameQuests)
-		MOD:ApplyFrameStyle(AltoholicFrameGlyphs)
-		MOD:ApplyFrameStyle(AltoholicFrameMail)
-		MOD:ApplyFrameStyle(AltoholicFrameSpellbook)
-		MOD:ApplyFrameStyle(AltoholicFramePets)
-		MOD:ApplyFrameStyle(AltoholicFrameAuctions)
+		SV.API:Set("Frame", AltoholicFrameContainers)
+		SV.API:Set("Frame", AltoholicFrameRecipes)
+		SV.API:Set("Frame", AltoholicFrameQuests)
+		SV.API:Set("Frame", AltoholicFrameGlyphs)
+		SV.API:Set("Frame", AltoholicFrameMail)
+		SV.API:Set("Frame", AltoholicFrameSpellbook)
+		SV.API:Set("Frame", AltoholicFramePets)
+		SV.API:Set("Frame", AltoholicFrameAuctions)
 		SV.API:Set("ScrollBar", AltoholicFrameContainersScrollFrameScrollBar)
 		SV.API:Set("ScrollBar", AltoholicFrameQuestsScrollFrameScrollBar)
 		SV.API:Set("ScrollBar", AltoholicFrameRecipesScrollFrameScrollBar)
@@ -165,7 +165,7 @@ local function StyleAltoholic(event, addon)
 	end
 
 	if IsAddOnLoaded("Altoholic_Achievements") or addon == "Altoholic_Achievements" then
-		MOD:ApplyFixedFrameStyle(AltoholicFrameAchievements)
+		SV.API:Set("!_Frame", AltoholicFrameAchievements)
 		AltoholicFrameAchievementsScrollFrame:RemoveTextures(true)
 		AltoholicAchievementsMenuScrollFrame:RemoveTextures(true)
 		SV.API:Set("ScrollBar", AltoholicFrameAchievementsScrollFrameScrollBar)
@@ -179,7 +179,7 @@ local function StyleAltoholic(event, addon)
 
 		for i = 1, 8 do
 			for j = 1, 10 do
-				MOD:ApplyFixedFrameStyle(_G["AltoholicFrameAchievementsEntry"..i.."Item"..j])
+				SV.API:Set("!_Frame", _G["AltoholicFrameAchievementsEntry"..i.."Item"..j])
 				local Backdrop = _G["AltoholicFrameAchievementsEntry"..i.."Item"..j].backdrop or _G["AltoholicFrameAchievementsEntry"..i.."Item"..j].Backdrop
 				ApplyTextureStyle(_G["AltoholicFrameAchievementsEntry"..i.."Item"..j..'_Background'])
 				_G["AltoholicFrameAchievementsEntry"..i.."Item"..j..'_Background']:SetInside(Backdrop)
@@ -188,28 +188,28 @@ local function StyleAltoholic(event, addon)
 	end
 
 	if IsAddOnLoaded("Altoholic_Agenda") or addon == "Altoholic_Agenda" then
-		MOD:ApplyFrameStyle(AltoholicFrameCalendarScrollFrame)
-		MOD:ApplyFrameStyle(AltoholicTabAgendaMenuItem1)
+		SV.API:Set("Frame", AltoholicFrameCalendarScrollFrame)
+		SV.API:Set("Frame", AltoholicTabAgendaMenuItem1)
 		SV.API:Set("ScrollBar", AltoholicFrameCalendarScrollFrameScrollBar)
 		SV.API:Set("PageButton", AltoholicFrameCalendar_NextMonth)
 		SV.API:Set("PageButton", AltoholicFrameCalendar_PrevMonth)
 		SV.API:Set("Button", AltoholicTabAgendaMenuItem1, true)
 
 		for i = 1, 14 do
-			MOD:ApplyFrameStyle(_G["AltoholicFrameCalendarEntry"..i])
+			SV.API:Set("Frame", _G["AltoholicFrameCalendarEntry"..i])
 		end
 	end
 
 	if IsAddOnLoaded("Altoholic_Grids") or addon == "Altoholic_Grids" then
 		AltoholicFrameGridsScrollFrame:RemoveTextures(true)
-		MOD:ApplyFixedFrameStyle(AltoholicFrameGrids)
+		SV.API:Set("!_Frame", AltoholicFrameGrids)
 		SV.API:Set("ScrollBar", AltoholicFrameGridsScrollFrameScrollBar)
 		SV.API:Set("DropDown", AltoholicTabGrids_SelectRealm)
 		SV.API:Set("DropDown", AltoholicTabGrids_SelectView)
 
 		for i = 1, 8 do
 			for j = 1, 10 do
-				MOD:ApplyFixedFrameStyle(_G["AltoholicFrameGridsEntry"..i.."Item"..j], nil, nil, true)
+				SV.API:Set("!_Frame", _G["AltoholicFrameGridsEntry"..i.."Item"..j])
 				_G["AltoholicFrameGridsEntry"..i.."Item"..j]:HookScript('OnShow', ColorAltoBorder)
 			end
 		end
@@ -227,8 +227,8 @@ local function StyleAltoholic(event, addon)
 	end
 
 	if IsAddOnLoaded("Altoholic_Guild") or addon == "Altoholic_Guild" then
-		MOD:ApplyFrameStyle(AltoholicFrameGuildMembers)
-		MOD:ApplyFrameStyle(AltoholicFrameGuildBank)
+		SV.API:Set("Frame", AltoholicFrameGuildMembers)
+		SV.API:Set("Frame", AltoholicFrameGuildBank)
 		SV.API:Set("ScrollBar", AltoholicFrameGuildMembersScrollFrameScrollBar)
 		AltoholicFrameGuildMembersScrollFrame:RemoveTextures(true)
 
@@ -252,7 +252,7 @@ local function StyleAltoholic(event, addon)
 	end
 
 	if IsAddOnLoaded("Altoholic_Search") or addon == "Altoholic_Search" then
-		MOD:ApplyFixedFrameStyle(AltoholicFrameSearch, true)
+		SV.API:Set("!_Frame", AltoholicFrameSearch)
 		AltoholicFrameSearchScrollFrame:RemoveTextures(true)
 		AltoholicSearchMenuScrollFrame:RemoveTextures(true)
 		SV.API:Set("ScrollBar", AltoholicFrameSearchScrollFrameScrollBar)
@@ -263,8 +263,8 @@ local function StyleAltoholic(event, addon)
 		AltoholicTabSearch_SelectRarity:ModSize(125, 32)
 		AltoholicTabSearch_SelectSlot:ModSize(125, 32)
 		AltoholicTabSearch_SelectLocation:ModSize(175, 32)
-		MOD:ApplyEditBoxStyle(_G["AltoholicTabSearch_MinLevel"])
-		MOD:ApplyEditBoxStyle(_G["AltoholicTabSearch_MaxLevel"])
+		SV.API:Set("EditBox", _G["AltoholicTabSearch_MinLevel"])
+		SV.API:Set("EditBox", _G["AltoholicTabSearch_MaxLevel"])
 
 		for i = 1, 15 do
 			SV.API:Set("Button", _G["AltoholicTabSearchMenuItem"..i])

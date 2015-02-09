@@ -54,7 +54,7 @@ local function BlackMarketStyle()
 		return 
 	end 
 
-	MOD:ApplyWindowStyle(BlackMarketFrame)
+	SV.API:Set("Window", BlackMarketFrame)
 
 	BlackMarketFrame.Inset:RemoveTextures()
 	BlackMarketFrame.Inset:SetStyle("!_Frame", "Inset")

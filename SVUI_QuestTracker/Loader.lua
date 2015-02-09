@@ -27,9 +27,9 @@ SV.defaults[Schema] = {
 	["itemBarDirection"] = 'VERTICAL', 
 };
 
-SV.defaults["font"]["questdialog"]   	= {file = "SVUI Default Font", size = 12,  outline = "OUTLINE"}
-SV.defaults["font"]["questheader"]   	= {file = "SVUI Caps Font",    size = 16,  outline = "OUTLINE"}
-SV.defaults["font"]["questnumber"]   	= {file = "SVUI Number Font",  size = 11,  outline = "OUTLINE"}
+SV.mediadefaults.internal.font["questdialog"]   	= {file = "SVUI Default Font", size = 12,  outline = "OUTLINE"}
+SV.mediadefaults.internal.font["questheader"]   	= {file = "SVUI Caps Font",    size = 16,  outline = "OUTLINE"}
+SV.mediadefaults.internal.font["questnumber"]   	= {file = "SVUI Number Font",  size = 11,  outline = "OUTLINE"}
 
 SV.GlobalFontList["SVUI_Font_Quest"] = "questdialog";
 SV.GlobalFontList["SVUI_Font_Quest_Header"] = "questheader";

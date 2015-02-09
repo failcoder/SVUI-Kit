@@ -49,10 +49,10 @@ local function StyleLightHeaded()
 	local lhsub 	= _G["LightHeadedFrameSub"]
 	local lhopts 	= _G["LightHeaded_Panel"]
 
-	MOD:ApplyFrameStyle(LightHeadedFrame)
-	MOD:ApplyFrameStyle(LightHeadedFrameSub)
-	MOD:ApplyFrameStyle(LightHeadedSearchBox)
-	MOD:ApplyTooltipStyle(LightHeadedTooltip)
+	SV.API:Set("Frame", LightHeadedFrame)
+	SV.API:Set("Frame", LightHeadedFrameSub)
+	SV.API:Set("Frame", LightHeadedSearchBox)
+	SV.API:Set("Tooltip", LightHeadedTooltip)
 	LightHeadedScrollFrame:RemoveTextures()
 			
 	lhframe.close:Hide()

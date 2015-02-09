@@ -400,7 +400,7 @@ SV.Options.args.primary = {
 			name = "", 
 			type = "description", 
 			width = "full", 
-			image = function() return SV.Media.misc.splash, 256, 128 end, 
+			image = function() return SV.SplashImage, 256, 128 end, 
 		}, 
 		introGroup2 = {
 			order = 2, 
@@ -503,10 +503,10 @@ SV.Options.args.Core = {
 					name = L["Textures"], 
 					guiInline = true,
 					get = function(key)
-						return SV.db.media.textures[key[#key]]
+						return SV.Media.internal.bg[key[#key]]
 					end,
 					set = function(key, value)
-						SV.db.media.textures[key[#key]] = value
+						SV.Media.internal.bg[key[#key]] = value
 						SV:RefreshEverything(true)
 					end,
 					args = {
@@ -539,12 +539,12 @@ SV.Options.args.Core = {
 							desc = L["Main color used by most UI elements. (ex: Backdrop Color)"],
 							hasAlpha = true,
 							get = function(key)
-								local color = SV.db.media.colors.default
+								local color = SV.Media.internal.color.default
 								return color[1],color[2],color[3],color[4] 
 							end,
 							set = function(key, rValue, gValue, bValue, aValue)
-								SV.db.media.colors.default = {rValue, gValue, bValue, aValue}
-								SV.Media:Update()
+								SV.Media.internal.color.default = {rValue, gValue, bValue, aValue}
+								SV:RefreshCommonMedia()
 							end,
 						},
 						special = {
@@ -554,13 +554,13 @@ SV.Options.args.Core = {
 							desc = L["Color used in various frame accents.  (ex: Dressing Room Backdrop Color)"],
 							hasAlpha = true,
 							get = function(key)
-								local color = SV.db.media.colors.special
+								local color = SV.Media.internal.color.special
 								return color[1],color[2],color[3],color[4] 
 							end,
 							set = function(key, rValue, gValue, bValue, aValue)
-								SV.db.media.colors.special = {rValue, gValue, bValue, aValue}
-								SV.db.media.colors.specialdark = {(rValue * 0.75), (gValue * 0.75), (bValue * 0.75), aValue}
-								SV.Media:Update()
+								SV.Media.internal.color.special = {rValue, gValue, bValue, aValue}
+								SV.Media.internal.color.specialdark = {(rValue * 0.75), (gValue * 0.75), (bValue * 0.75), aValue}
+								SV:RefreshCommonMedia()
 							end,
 						},
 						resetbutton = {
@@ -568,9 +568,9 @@ SV.Options.args.Core = {
 							order = 3,
 							name = L["Restore Defaults"],
 							func = function()
-								SV.db.media.colors.default = {0.15, 0.15, 0.15, 1};
-								SV.db.media.colors.special = {0.4, 0.32, 0.2, 1};
-								SV.Media:Update()
+								SV.Media.internal.color.default = {0.15, 0.15, 0.15, 1};
+								SV.Media.internal.color.special = {0.4, 0.32, 0.2, 1};
+								SV:RefreshCommonMedia()
 							end
 						}
 					}
@@ -621,7 +621,7 @@ SV.Options.args.Core = {
 			name = "Extras",
 			guiInline = true,
 			get = function(a)return SV.db["Extras"][a[#a]]end, 
-			set = function(a,b)MOD:ChangeDBVar(b,a[#a]); end, 
+			set = function(a,b)SV:ChangeDBVar(b,a[#a]); end, 
 			args = {
 				common = {
 					order = 1, 
@@ -864,8 +864,188 @@ SV.Options.args.Core = {
 				},
 			}
 		},
+		Gear = {
+			order = 3,
+			type = 'group',
+			name = "Gear",
+			guiInline = true,
+			get = function(key) return SV.db.Gear[key[#key]]end,
+			set = function(key, value) SV.db.Gear[key[#key]] = value; SV:UpdateGearInfo() end,
+			args={
+				intro={
+					order = 1,
+					type = 'description',
+					name = function() 
+						if(GetNumEquipmentSets()==0) then 
+							return ("%s\n|cffFF0000Must create an equipment set to use some of these features|r"):format(L["EQUIPMENT_DESC"])
+						else 
+							return L["EQUIPMENT_DESC"] 
+						end 
+					end
+				},
+				specialization = {
+					order = 2,
+					type = "group",
+					name = L["Specialization"],
+					guiInline = true,
+					disabled = function() return GetNumEquipmentSets() == 0 end,
+					args = {
+						enable = {
+							type = "toggle",
+							order = 1,
+							name = L["Enable"],
+							desc = L["Enable/Disable the specialization switch."],
+							get = function(key)
+								return SV.db.Gear.specialization.enable 
+							end,
+							set = function(key, value) 
+								SV.db.Gear.specialization.enable = value 
+							end
+						},
+						primary = {
+							type = "select",
+							order = 2,
+							name = L["Primary Talent"],
+							desc = L["Choose the equipment set to use for your primary specialization."],
+							disabled = function()
+								return not SV.db.Gear.specialization.enable 
+							end,
+							values = function()
+								local h = {["none"] = L["No Change"]}
+								for i = 1, GetNumEquipmentSets()do 	
+									local name = GetEquipmentSetInfo(i)
+									if name then
+										h[name] = name 
+									end 
+								end 
+								tsort(h, sortingFunction)
+								return h 
+							end
+						},
+						secondary = {
+							type = "select",
+							order = 3,
+							name = L["Secondary Talent"],
+							desc = L["Choose the equipment set to use for your secondary specialization."],
+							disabled = function() return not SV.db.Gear.specialization.enable end,
+							values = function()	
+								local h = {["none"] = L["No Change"]}
+								for i = 1, GetNumEquipmentSets()do 
+									local name = GetEquipmentSetInfo(i)
+									if name then h[name] = name end 
+								end 
+								tsort(h, sortingFunction)
+								return h 
+							end
+						}
+					}
+				},
+				battleground = {
+					order = 3,
+					type = "group",
+					name = L["Battleground"],
+					guiInline = true,
+					disabled = function()return GetNumEquipmentSets() == 0 end,
+					args = {
+						enable = {
+							type = "toggle",
+							order = 1,
+							name = L["Enable"],
+							desc = L["Enable/Disable the battleground switch."],
+							get = function(e)return SV.db.Gear.battleground.enable end,
+							set = function(e,value)SV.db.Gear.battleground.enable = value end
+						},
+						equipmentset = {
+							type = "select",
+							order = 2,
+							name = L["Equipment Set"],
+							desc = L["Choose the equipment set to use when you enter a battleground or arena."],
+							disabled = function()return not SV.db.Gear.battleground.enable end,
+							values = function()
+								local h = {["none"] = L["No Change"]}
+								for i = 1,GetNumEquipmentSets()do 
+									local name = GetEquipmentSetInfo(i)
+									if name then h[name] = name end 
+								end 
+								tsort(h, sortingFunction)
+								return h 
+							end
+						}
+					}
+				},
+				intro2 = {
+					type = "description",
+					name = L["DURABILITY_DESC"],
+					order = 4
+				},
+				durability = {
+					type = "group",
+					name = DURABILITY,
+					guiInline = true,
+					order = 5,
+					get = function(e)return SV.db.Gear.durability[e[#e]]end,
+					set = function(e,value)SV.db.Gear.durability[e[#e]] = value; SV:UpdateGearInfo() end,
+					args = {
+						enable = {
+							type = "toggle",
+							order = 1,
+							name = L["Enable"],
+							desc = L["Enable/Disable the display of durability information on the character screen."]
+						},
+						onlydamaged = {
+							type = "toggle",
+							order = 2,
+							name = L["Damaged Only"],
+							desc = L["Only show durability information for items that are damaged."],
+							disabled = function()return not SV.db.Gear.durability.enable end
+						}
+					}
+				},
+				intro3 = {
+					type = "description",
+					name = L["ITEMLEVEL_DESC"],
+					order = 6
+				},
+				itemlevel = {
+					type = "group",
+					name = STAT_AVERAGE_ITEM_LEVEL,
+					guiInline = true,
+					order = 7,
+					get = function(e)return SV.db.Gear.itemlevel[e[#e]]end,
+					set = function(e,value)SV.db.Gear.itemlevel[e[#e]] = value; SV:UpdateGearInfo() end,
+					args = {
+						enable = {
+							type = "toggle",
+							order = 1,
+							name = L["Enable"],
+							desc = L["Enable/Disable the display of item levels on the character screen."]
+						}
+					}
+				},
+				misc = {
+					type = "group",
+					name = L["Miscellaneous"],
+					guiInline = true,
+					order = 8,
+					get = function(e) return SV.db.Gear.misc[e[#e]] end,
+					set = function(e,value) SV.db.Gear.misc[e[#e]] = value end,
+					args = {
+						setoverlay = {
+							type = "toggle",
+							order = 1,
+							name = L["Equipment Set Overlay"],
+							desc = L["Show the associated equipment sets for the items in your bags (or bank)."],
+							set = function(e,value)
+								SV.db.Gear.misc[e[#e]] = value;
+								SV:StaticPopup_Show("RL_CLIENT");
+							end
+						}
+					}
+				}
+			}
+		},
 		errors = {
-			order = 3, 
+			order = 4, 
 			type = "group", 
 			name = L["Error Handling"],
 			guiInline = true,

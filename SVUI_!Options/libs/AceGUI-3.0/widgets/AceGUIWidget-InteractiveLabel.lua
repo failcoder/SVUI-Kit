@@ -83,7 +83,7 @@ local function Constructor()
 	frame:SetScript("OnMouseDown", Label_OnClick)
 
 	local highlight = frame:CreateTexture(nil, "HIGHLIGHT")
-	highlight:SetTexture(0,0,0,0)
+	highlight:SetTexture("")
 	highlight:SetAllPoints()
 	highlight:SetBlendMode("ADD")
 

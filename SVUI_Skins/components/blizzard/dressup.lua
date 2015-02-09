@@ -23,7 +23,7 @@ local function DressUpStyle()
 	end
 
 	DressUpFrame:ModSize(500, 600)
-	MOD:ApplyWindowStyle(DressUpFrame, true, true)
+	SV.API:Set("Window", DressUpFrame, true, true)
 
 	DressUpModel:ClearAllPoints()
 	DressUpModel:ModPoint("TOPLEFT", DressUpFrame, "TOPLEFT", 12, -76)

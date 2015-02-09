@@ -22,7 +22,7 @@ local function ItemUpgradeStyle()
 		 return 
 	end 
 	
-	MOD:ApplyWindowStyle(ItemUpgradeFrame, true)
+	SV.API:Set("Window", ItemUpgradeFrame, true)
 
 	SV.API:Set("CloseButton", ItemUpgradeFrameCloseButton)
 	ItemUpgradeFrameUpgradeButton:RemoveTextures()

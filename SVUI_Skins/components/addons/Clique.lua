@@ -86,7 +86,7 @@ local function StyleClique()
 	for _, gName in pairs(CliqueFrames) do
 		local frame = _G[gName]
 		if(frame) then
-			MOD:ApplyFrameStyle(frame, "Transparent")
+			SV.API:Set("Frame", frame, "Transparent")
 			if(gName == "CliqueConfig") then
 				frame.Panel:SetPoint("TOPLEFT",0,0)
 				frame.Panel:SetPoint("BOTTOMRIGHT",0,-5)

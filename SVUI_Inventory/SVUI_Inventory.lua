@@ -548,7 +548,7 @@ local ContainerFrame_UpdateLayout = function(self)
 						self.Bags[bagID][slotID].NewItemTexture = self.Bags[bagID][slotID]:CreateTexture(nil, "OVERLAY", 1);
 					end
 					self.Bags[bagID][slotID].NewItemTexture:InsetPoints(self.Bags[bagID][slotID]);
-					self.Bags[bagID][slotID].NewItemTexture:SetTexture(0,0,0,0);
+					self.Bags[bagID][slotID].NewItemTexture:SetTexture("");
 					self.Bags[bagID][slotID].NewItemTexture:Hide()
 
 					if(not self.Bags[bagID][slotID].JunkIcon) then 
@@ -575,7 +575,7 @@ local ContainerFrame_UpdateLayout = function(self)
 					self.Bags[bagID][slotID].cooldown = _G[cdName];
 				end
 
-				if(SV.db.Inventory.misc.setoverlay and (not self.Bags[bagID][slotID].GearInfo)) then 
+				if(not self.Bags[bagID][slotID].GearInfo) then 
 					self.Bags[bagID][slotID].GearInfo = self.Bags[bagID][slotID]:CreateFontString(nil,"OVERLAY")
 					self.Bags[bagID][slotID].GearInfo:SetFontObject(SVUI_Font_Default)
 					self.Bags[bagID][slotID].GearInfo:SetAllPoints(self.Bags[bagID][slotID])
@@ -688,12 +688,12 @@ local ReagentFrame_UpdateLayout = function(self)
 
 			slot.NewItemTexture = slot:CreateTexture(nil, "OVERLAY", 1);
 			slot.NewItemTexture:InsetPoints(slot);
-			slot.NewItemTexture:SetTexture(0,0,0,0);
+			slot.NewItemTexture:SetTexture("");
 			slot.NewItemTexture:Hide()
 
 			slot.JunkIcon = slot:CreateTexture(nil, "OVERLAY");
 			slot.JunkIcon:ModSize(16,16);
-			slot.JunkIcon:SetTexture(0,0,0,0);
+			slot.JunkIcon:SetTexture("");
 			slot.JunkIcon:ModPoint("TOPLEFT", slot, "TOPLEFT", -4, 4);
 
 			slot.icon = _G[iconName] or slot:CreateTexture(nil, "BORDER");
@@ -1060,10 +1060,10 @@ do
 
 	local Vendor_OnClick = function(self)
 		if IsShiftKeyDown()then 
-			SV.SystemAlert["DELETE_GRAYS"].Money = MOD:VendorGrays(false,true,true)
+			SV.SystemAlert["DELETE_GRAYS"].Money = SV:VendorGrays(false,true,true)
 			SV:StaticPopup_Show('DELETE_GRAYS')
 		else 
-			MOD:VendorGrays()
+			SV:VendorGrays()
 		end 
 	end 
 
@@ -1166,6 +1166,7 @@ do
 		frame.Bags = {}
 		frame.closeButton = CreateFrame("Button", "SVUI_ContainerFrameCloseButton", frame, "UIPanelCloseButton")
 		frame.closeButton:ModPoint("TOPRIGHT", -4, -4)
+		SV.API:Set("CloseButton", frame.closeButton);
 		frame.closeButton:SetScript("PostClick", function() 
 			if(not InCombatLockdown()) then CloseBag(0) end 
 		end)
@@ -1359,6 +1360,7 @@ do
 
 		frame.closeButton = CreateFrame("Button", bagName.."CloseButton", frame, "UIPanelCloseButton")
 		frame.closeButton:ModPoint("TOPRIGHT", -4, -4)
+		SV.API:Set("CloseButton", frame.closeButton);
 		frame.closeButton:SetScript("PostClick", function() 
 			if(not InCombatLockdown()) then CloseBag(0) end 
 		end)
@@ -1667,7 +1669,6 @@ end
 function MOD:PLAYER_ENTERING_WORLD()
 	self:UpdateGoldText()
 	self.BagFrame:RefreshBags()
-	self:BuildGearInfo()
 end 
 --[[ 
 ########################################################## 
@@ -1678,7 +1679,6 @@ function MOD:ReLoad()
 	self:RefreshBagFrames()
 	self:ModifyBags();
 	self:ModifyBagBar();
-	self:UpdateGearInfo()
 end 
 
 function MOD:Load()
@@ -1715,21 +1715,8 @@ function MOD:Load()
 	self:RegisterEvent("TRADE_MONEY_CHANGED", "UpdateGoldText")
 	self:RegisterEvent("PLAYERBANKBAGSLOTS_CHANGED")
 
-	self:InitializeGearInfo()
-
 	StackSplitFrame:SetFrameStrata("DIALOG")
 
-	SV.SystemAlert["DELETE_GRAYS"] = {
-		text = L["Are you sure you want to delete all your gray items?"], 
-		button1 = YES, 
-		button2 = NO, 
-		OnAccept = function() MOD:VendorGrays(true) end, 
-		OnShow = function(self) MoneyFrame_Update(self.moneyFrame, SV.SystemAlert["DELETE_GRAYS"].Money) end, 
-		timeout = 0, 
-		whileDead = 1, 
-		hideOnEscape = false, 
-		hasMoneyFrame = 1
-	};
 	SV.SystemAlert["BUY_BANK_SLOT"] = {
 		text = CONFIRM_BUY_BANK_SLOT, 
 		button1 = YES, 

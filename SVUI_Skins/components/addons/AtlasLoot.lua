@@ -89,7 +89,7 @@ local function Nine_IsThere(self, elapsed)
 		self.timeLapse = 0
 	end
 	for i = 1, 9 do local f = _G["AtlasLootCompareFrameSortButton_"..i]f:SetWidth(44.44)end 
-	for _, object in pairs(nineisthere) do MOD:ApplyFrameStyle(_G[object]) end 
+	for _, object in pairs(nineisthere) do SV.API:Set("Frame", _G[object]) end 
 	AtlasLootCompareFrameSortButton_7:ModPoint("LEFT", AtlasLootCompareFrameSortButton_6, "RIGHT", 1, 0)
 	AtlasLootCompareFrameSortButton_8:ModPoint("LEFT", AtlasLootCompareFrameSortButton_7, "RIGHT", 1, 0)
 	AtlasLootCompareFrameSortButton_9:ModPoint("LEFT", AtlasLootCompareFrameSortButton_8, "RIGHT", 1, 0)
@@ -126,18 +126,18 @@ local function StyleAtlasLoot(event, addon)
 	assert(AtlasLootPanel, "AddOn Not Loaded")
 
 	for _, object in pairs(StripAllTextures) do _G[object]:RemoveTextures()end 
-	for _, object in pairs(SetTemplateDefault) do MOD:ApplyFrameStyle(_G[object], "Default")end 
+	for _, object in pairs(SetTemplateDefault) do SV.API:Set("Frame", _G[object], "Default")end 
 	for _, button in pairs(buttons) do _G[button]:SetStyle("Button")end 
 
 	-- Manipulate the main frames
-	MOD:ApplyFrameStyle(_G["AtlasLootDefaultFrame"], "WindowAlternate");
-	MOD:ApplyFixedFrameStyle(_G["AtlasLootItemsFrame"], "Inset");
-	MOD:ApplyFrameStyle(_G["AtlasLootPanel"], "Default");
+	SV.API:Set("Frame", _G["AtlasLootDefaultFrame"], "WindowAlternate");
+	SV.API:Set("!_Frame", _G["AtlasLootItemsFrame"], "Inset");
+	SV.API:Set("Frame", _G["AtlasLootPanel"], "Default");
 	hooksecurefunc(_G["AtlasLootPanel"], "SetPoint", _hook_ALPanel);
 
 	_G["AtlasLootPanel"]:SetPoint("TOP",_G["AtlasLootDefaultFrame"],"BOTTOM",0,-1);
 	-- Back to the rest
-	MOD:ApplyFrameStyle(_G["AtlasLootCompareFrame"], "Transparent");
+	SV.API:Set("Frame", _G["AtlasLootCompareFrame"], "Transparent");
 	if AtlasLoot_PanelButton_1 then AtlasLoot_PanelButton_1:SetStyle("Button") end
 	if AtlasLoot_PanelButton_2 then AtlasLoot_PanelButton_2:SetStyle("Button") end
 	if AtlasLoot_PanelButton_3 then AtlasLoot_PanelButton_3:SetStyle("Button") end
@@ -208,7 +208,7 @@ local function StyleAtlasLoot(event, addon)
 	--AtlasLootPanel:HookScript("OnUpdate", _hook_OnUpdate)
 
 	if(AtlasLootTooltip:GetName() ~= "GameTooltip") then 
-		MOD:ApplyTooltipStyle(AtlasLootTooltip)
+		SV.API:Set("Tooltip", AtlasLootTooltip)
 	end
 end
 MOD:SaveAddonStyle("AtlasLoot", StyleAtlasLoot, nil, true)

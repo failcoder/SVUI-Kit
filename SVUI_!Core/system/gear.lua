@@ -21,9 +21,8 @@ local ceil, floor, round = math.ceil, math.floor, math.round;
 GET ADDON DATA
 ##########################################################
 ]]--
-local SV = _G['SVUI']
+local SV = select(2, ...)
 local L = SV.L
-local MOD = SV.Inventory;
 --[[ 
 ########################################################## 
 LOCAL VARS
@@ -111,10 +110,10 @@ local function GetActiveGear()
 	local count = GetNumEquipmentSets()
 	local resultSpec = GetActiveSpecGroup()
 	local resultSet
-	EQUIP_SET = SV.db.Inventory.equipmentset
+	EQUIP_SET = SV.db.Gear.equipmentset
 	SPEC_SET = nil
 	if(resultSpec and GetSpecializationInfo(resultSpec)) then
-		SPEC_SET = resultSpec == 1 and SV.db.Inventory.primary or SV.db.Inventory.secondary
+		SPEC_SET = resultSpec == 1 and SV.db.Gear.primary or SV.db.Gear.secondary
 	end
 	if(count == 0) then 
 		return resultSpec,false
@@ -151,19 +150,7 @@ local function SetDisplayStats(arg)
 				frame.DurabilityInfo:ModPoint("BOTTOMLEFT", frame, "BOTTOMRIGHT", 1, -1)
 			end
 			frame.DurabilityInfo:SetFrameLevel(frame:GetFrameLevel()-1)
-			frame.DurabilityInfo:SetBackdrop({
-				bgFile = [[Interface\BUTTONS\WHITE8X8]], 
-				edgeFile = [[Interface\AddOns\SVUI_!Core\assets\textures\GLOW]], 
-				tile = false, 
-				tileSize = 0, 
-				edgeSize = 2, 
-				insets = {
-					left = 0, 
-					right = 0, 
-					top = 0,
-					bottom = 0
-				}
-			})
+			frame.DurabilityInfo:SetBackdrop(SV.Media.backdrop.glow)
 			frame.DurabilityInfo:SetBackdropColor(0, 0, 0, 0.5)
 			frame.DurabilityInfo:SetBackdropBorderColor(0, 0, 0, 0.8)
 			frame.DurabilityInfo.bar = CreateFrame("StatusBar", nil, frame.DurabilityInfo)
@@ -183,12 +170,12 @@ CORE FUNCTIONS
 ##########################################################
 ]]--
 local function RefreshInspectedGear()
-	if(not MOD.PreBuildComplete) then return end 
+	if(not SV.GearBuildComplete) then return end 
 	if(InCombatLockdown()) then 
-		MOD:RegisterEvent("PLAYER_REGEN_ENABLED", RefreshInspectedGear)
+		SV:RegisterEvent("PLAYER_REGEN_ENABLED", RefreshInspectedGear)
 		return 
 	else 
-		MOD:UnregisterEvent("PLAYER_REGEN_ENABLED")
+		SV:UnregisterEvent("PLAYER_REGEN_ENABLED")
 	end 
 
 	local unit = InspectFrame and InspectFrame.unit or "player";
@@ -201,15 +188,15 @@ local function RefreshInspectedGear()
 	end
 end
 
-function MOD:UpdateGearInfo()
-	if(not MOD.PreBuildComplete) then return end 
+function SV:UpdateGearInfo()
+	if(not SV.GearBuildComplete) then return end 
 	if(InCombatLockdown()) then 
-		MOD:RegisterEvent("PLAYER_REGEN_ENABLED", RefreshGear)
+		SV:RegisterEvent("PLAYER_REGEN_ENABLED", RefreshGear)
 		return 
 	else 
-		MOD:UnregisterEvent("PLAYER_REGEN_ENABLED")
+		SV:UnregisterEvent("PLAYER_REGEN_ENABLED")
 	end 
-	MOD:UpdateLocals()
+	SV:UpdateLocals()
 	if(SHOW_LEVEL) then 
 		SV:ParseGearSlots("player", false, SetItemLevelDisplay, SetItemDurabilityDisplay)
 	else
@@ -221,11 +208,11 @@ local Gear_UpdateTabs = function()
 	SV.Timers:ExecuteTimer(RefreshInspectedGear, 0.2)
 end
 
-local function GearSwap()
+function SV:GearSwap()
 	if(InCombatLockdown()) then return; end
 	local gearSpec, gearSet = GetActiveGear()
 	if(not gearSet) then return; end
-	if SV.db.Inventory.battleground.enable then 
+	if SV.db.Gear.battleground.enable then 
 		local inDungeon,dungeonType = IsInInstance()
 		if(inDungeon and dungeonType == "pvp" or dungeonType == "arena") then 
 			if EQUIP_SET ~= "none" and EQUIP_SET ~= gearSet then 
@@ -241,19 +228,19 @@ local function GearSwap()
 	end
 end
 
-function MOD:BuildGearInfo()
-	if(not self.PreBuildComplete) then
-		SHOW_LEVEL = SV.db.Inventory.itemlevel.enable
-		SHOW_DURABILITY = SV.db.Inventory.durability.enable
-		ONLY_DAMAGED = SV.db.Inventory.durability.onlydamaged
+function SV:BuildGearInfo()
+	if(not self.GearBuildComplete) then
+		SHOW_LEVEL = SV.db.Gear.itemlevel.enable
+		SHOW_DURABILITY = SV.db.Gear.durability.enable
+		ONLY_DAMAGED = SV.db.Gear.durability.onlydamaged
 		MAX_LEVEL, AVG_LEVEL = GetAverageItemLevel()
 		LoadAddOn("Blizzard_InspectUI")
 		SetDisplayStats("Character")
 		SetDisplayStats("Inspect")
 		NewHook('InspectFrame_UpdateTabs', Gear_UpdateTabs)
-		SV.Timers:ExecuteTimer(MOD.UpdateGearInfo, 10)
-		GearSwap()
-		self.PreBuildComplete = true
+		SV.Timers:ExecuteTimer(SV.UpdateGearInfo, 10)
+		SV:GearSwap()
+		self.GearBuildComplete = true
 	end
 end
 
@@ -266,21 +253,22 @@ local GearSwapComplete = function()
 	end 
 end
 
-function MOD:UpdateLocals()
-	SHOW_LEVEL = SV.db.Inventory.itemlevel.enable
-	SHOW_DURABILITY = SV.db.Inventory.durability.enable
-	ONLY_DAMAGED = SV.db.Inventory.durability.onlydamaged
+function SV:UpdateLocals()
+	SHOW_LEVEL = SV.db.Gear.itemlevel.enable
+	SHOW_DURABILITY = SV.db.Gear.durability.enable
+	ONLY_DAMAGED = SV.db.Gear.durability.onlydamaged
 	MAX_LEVEL, AVG_LEVEL = GetAverageItemLevel()
 end
 
-function MOD:InitializeGearInfo()
+local function InitializeGearInfo()
 	MSG_PREFIX = L["You have equipped equipment set: "]
-	self.PreBuildComplete = false
-	self:RegisterEvent("UPDATE_INVENTORY_DURABILITY", "UpdateGearInfo")
-	self:RegisterEvent("PLAYER_EQUIPMENT_CHANGED", "UpdateGearInfo")
-	self:RegisterEvent("SOCKET_INFO_UPDATE", "UpdateGearInfo")
-	self:RegisterEvent("COMBAT_RATING_UPDATE", "UpdateGearInfo")
-	self:RegisterEvent("MASTERY_UPDATE", "UpdateGearInfo")
-	self:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED", GearSwap)
-	self:RegisterEvent("EQUIPMENT_SWAP_FINISHED", GearSwapComplete)
+	SV.GearBuildComplete = false
+	SV:RegisterEvent("UPDATE_INVENTORY_DURABILITY", "UpdateGearInfo")
+	SV:RegisterEvent("PLAYER_EQUIPMENT_CHANGED", "UpdateGearInfo")
+	SV:RegisterEvent("SOCKET_INFO_UPDATE", "UpdateGearInfo")
+	SV:RegisterEvent("COMBAT_RATING_UPDATE", "UpdateGearInfo")
+	SV:RegisterEvent("MASTERY_UPDATE", "UpdateGearInfo")
+	SV:RegisterEvent("EQUIPMENT_SWAP_FINISHED", GearSwapComplete)
 end
+
+SV:NewScript(InitializeGearInfo)

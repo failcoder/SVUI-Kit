@@ -251,24 +251,24 @@ local function ModifyActionButton(parent)
 		checked:SetTexture(1,1,1,.2)
 	end 
 	if flash then 
-		flash:SetTexture(0,0,0,0)
+		flash:SetTexture("")
 	end 
 	if normal then 
-		normal:SetTexture(0,0,0,0)
+		normal:SetTexture("")
 		normal:Hide()
 		normal:SetAlpha(0)
 	end 
 	if parentTex then 
-		parentTex:SetTexture(0,0,0,0)
+		parentTex:SetTexture("")
 		parentTex:Hide()
 		parentTex:SetAlpha(0)
 	end 
 	if border then border:Die()end 
-	if count then 
+	if count then
 		count:ClearAllPoints()
 		count:SetPoint("BOTTOMRIGHT",1,1)
 		count:SetShadowOffset(1,-1)
-		count:SetFontObject(SVUI_Font_Number)
+		SV:FontManager(count, "number")
 	end 
 	if icon then 
 		icon:SetTexCoord(.1,.9,.1,.9)

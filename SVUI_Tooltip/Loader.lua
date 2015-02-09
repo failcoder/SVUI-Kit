@@ -47,8 +47,8 @@ SV.defaults[Schema] = {
 	}, 
 };
 
-SV.defaults["font"]["tipdialog"]     	= {file = "SVUI Default Font",  size = 12,  outline = "NONE"}
-SV.defaults["font"]["tipheader"]     	= {file = "SVUI Default Font",  size = 14,  outline = "NONE"}
+SV.mediadefaults.internal.font["tipdialog"]     	= {file = "SVUI Default Font",  size = 12,  outline = "NONE"}
+SV.mediadefaults.internal.font["tipheader"]     	= {file = "SVUI Default Font",  size = 14,  outline = "NONE"}
 
 local tipFonts = {
 	["tipdialog"] = {

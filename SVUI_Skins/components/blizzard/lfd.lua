@@ -137,8 +137,8 @@ LFD MODR
 local function LFDFrameStyle()
   if SV.db.Skins.blizzard.enable ~= true or SV.db.Skins.blizzard.lfg ~= true then return end
   
-  MOD:ApplyWindowStyle(PVEFrame, true)
-  MOD:ApplyWindowStyle(LFGDungeonReadyDialog, true)
+  SV.API:Set("Window", PVEFrame)
+  SV.API:Set("Window", LFGDungeonReadyDialog, true)
   
   PVEFrameLeftInset:RemoveTextures()
   RaidFinderQueueFrame:RemoveTextures(true)
@@ -253,7 +253,7 @@ local function LFDFrameStyle()
     local button = GroupFinderFrame["groupButton"..i]
     if(button) then
       button.ring:Hide()
-      button.bg:SetTexture(0,0,0,0)
+      button.bg:SetTexture("")
       button.bg:SetAllPoints()
       button:SetStyle("Frame", 'Button')
       button:SetStyle("Button")
@@ -371,7 +371,7 @@ local function LFDFrameStyle()
         C:SetStyle("Frame")
         hooksecurefunc(C:GetHighlightTexture(), "SetTexture", function(o, D)
           if D ~= nil then
-             o:SetTexture(0,0,0,0)
+             o:SetTexture("")
           end 
         end)
       end 
