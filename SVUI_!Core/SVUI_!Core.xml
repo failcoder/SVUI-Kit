@@ -48,6 +48,7 @@
     <Script file="system\henchmen.lua"/>
     <Script file="system\letsride.lua"/>
     <Script file="system\automations.lua"/>
+    <Script file="system\gear.lua"/>
 
     <Script file="system\credits.lua"/>
     <Include file="filtering\_load.xml"/>

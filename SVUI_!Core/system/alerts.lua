@@ -150,6 +150,17 @@ SV.SystemAlert["COPY_PROFILE_PROMPT"] = {
 	hideOnEscape = 1, 
 	OnAccept = SV.fubar
 };
+SV.SystemAlert["DELETE_GRAYS"] = {
+	text = L["Are you sure you want to delete all your gray items?"], 
+	button1 = YES, 
+	button2 = NO, 
+	OnAccept = function() SV:VendorGrays(true) end, 
+	OnShow = function(self) MoneyFrame_Update(self.moneyFrame, SV.SystemAlert["DELETE_GRAYS"].Money) end, 
+	timeout = 0, 
+	whileDead = 1, 
+	hideOnEscape = false, 
+	hasMoneyFrame = 1
+};
 --[[ 
 ########################################################## 
 CORE FUNCTIONS

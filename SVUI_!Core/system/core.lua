@@ -342,6 +342,21 @@ SV.defaults = {
         ["arenadrink"] = true, 
         ["stupidhat"] = true,
     },
+    ["Gear"] = {
+        ["primary"] = "none", 
+        ["secondary"] = "none", 
+        ["equipmentset"] = "none", 
+        ["durability"] = {
+            ["enable"] = true, 
+            ["onlydamaged"] = true, 
+        }, 
+        ["itemlevel"] = {
+            ["enable"] = true, 
+        }, 
+        ["misc"] = {
+            ["setoverlay"] = true, 
+        }
+    },
     ["FunStuff"] = {
         ["drunk"] = true,
         ["comix"] = '1',
@@ -703,6 +718,9 @@ function SV:PLAYER_ENTERING_WORLD()
         self.Timers:RemoveLoop(self.BGTimer)
         self.BGTimer = nil 
     end
+
+    self:BuildGearInfo()
+
     if(not InCombatLockdown()) then
         collectgarbage("collect") 
     end

@@ -170,6 +170,8 @@ function SV:PlayerInfoUpdate()
             self.RoleChangedCallback()
         end
     end
+
+    self:GearSwap()
 end  
 --[[ 
 ########################################################## 

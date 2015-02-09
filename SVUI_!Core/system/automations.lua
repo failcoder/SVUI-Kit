@@ -78,6 +78,89 @@ local AutomatedEvents = {
 	"QUEST_ACCEPT_CONFIRM",
 	"QUEST_PROGRESS"
 }
+
+function SV:VendorGrays(destroy, silent, request)
+	if((not MerchantFrame or not MerchantFrame:IsShown()) and (not destroy) and (not request)) then 
+		SV:AddonMessage(L["You must be at a vendor."])
+		return 
+	end
+
+	local totalValue = 0;
+	local canDelete = 0;
+
+	for bagID = 0, 4 do 
+		for slot = 1, GetContainerNumSlots(bagID) do 
+			local itemLink = GetContainerItemLink(bagID, slot)
+			if(itemLink) then
+				local name, link, quality, iLevel, reqLevel, class, subclass, maxStack, equipSlot, texture, vendorPrice = GetItemInfo(itemLink)
+				if(vendorPrice) then
+					local itemCount = select(2, GetContainerItemInfo(bagID, slot))
+					local sellPrice = vendorPrice * itemCount
+					local itemID = GetContainerItemID(bagID, slot);
+					if(destroy) then 
+						if(find(itemLink, "ff9d9d9d")) then 
+							if(not request) then 
+								PickupContainerItem(bagID, slot)
+								DeleteCursorItem()
+							end 
+							totalValue = totalValue + sellPrice;
+							canDelete = canDelete + 1 
+						elseif(itemID and SV.Inventory and SV.Inventory.private and SV.Inventory.private.junk[itemID]) then
+							if(not request) then
+								PickupContainerItem(bagID, slot)
+								DeleteCursorItem()
+							end 
+							totalValue = totalValue + sellPrice;
+							canDelete = canDelete + 1 
+						end 
+					elseif(sellPrice > 0) then
+						if(quality == 0) then 
+							if(not request) then 
+								UseContainerItem(bagID, slot)
+								PickupMerchantItem()
+							end 
+							totalValue = totalValue + sellPrice
+						elseif(itemID and SV.Inventory and SV.Inventory.private and SV.Inventory.private.junk[itemID]) then
+							if(not request) then
+								UseContainerItem(bagID, slot)
+								PickupMerchantItem()
+							end 
+							totalValue = totalValue + sellPrice
+						end
+					end
+				end
+			end 
+		end 
+	end
+
+	if request then return totalValue end
+
+	if(not silent) then
+		if(totalValue > 0) then
+			local prefix, strMsg
+			local gold, silver, copper = floor(totalValue / 10000) or 0, floor(totalValue%10000 / 100) or 0, totalValue%100;
+
+			if(not destroy) then
+				strMsg = ("%s |cffffffff%s%s%s%s%s%s|r"):format(L["Vendored gray items for:"], gold, L["goldabbrev"], silver, L["silverabbrev"], copper, L["copperabbrev"])
+				SV:AddonMessage(strMsg)
+			else
+				if(canDelete > 0) then
+					prefix = ("|cffffffff%s%s%s%s%s%s|r"):format(gold, L["goldabbrev"], silver, L["silverabbrev"], copper, L["copperabbrev"])
+					strMsg = (L["Deleted %d gray items. Total Worth: %s"]):format(canDelete, prefix)
+					SV:AddonMessage(strMsg)
+				else
+					SV:AddonMessage(L["No gray items to delete."])
+				end
+			end
+		else
+			if(not destroy) then
+				SV:AddonMessage(L["No gray items to sell."])
+			else
+				SV:AddonMessage(L["No gray items to delete."])
+			end
+		end
+	end
+end 
 --[[ 
 ########################################################## 
 INVITE AUTOMATONS
@@ -152,8 +235,8 @@ REPAIR AUTOMATONS
 ##########################################################
 ]]--
 function SV:MERCHANT_SHOW()
-	if(self.Inventory and self.db.Extras.vendorGrays) then 
-		self.Inventory:VendorGrays(nil, true) 
+	if(self.db.Extras.vendorGrays) then 
+		self:VendorGrays(nil, true) 
 	end
 	local autoRepair = self.db.Extras.autoRepair;
 	local guildRepair = (autoRepair == "GUILD");
