@@ -868,6 +868,7 @@ SV.Options.args.Core = {
 			order = 3,
 			type = 'group',
 			name = "Gear",
+			guiInline = true,
 			get = function(key) return SV.db.Gear[key[#key]]end,
 			set = function(key, value) SV.db.Gear[key[#key]] = value; SV:UpdateGearInfo() end,
 			args={

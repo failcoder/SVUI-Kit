@@ -245,7 +245,22 @@ SV.filterdefaults     = {};
 SV.defaults = {
     ["LAYOUT"] = {},
     ["THEME"] = {
-        ["active"] = "NONE"
+        ["active"] = "NONE",
+        ["Default"] = {
+            ["textures"] = { 
+                ["pattern"]      = "SVUI Backdrop 1", 
+                ["premium"]      = "SVUI Artwork 1"
+            },
+            ["borders"] = { 
+                ["pattern"]      = "SVUI All Purpose Border", 
+                ["premium"]      = "SVUI All Purpose Border", 
+            },
+            ["colors"] = {
+                ["default"]      = {0.2, 0.2, 0.2, 1}, 
+                ["special"]      = {0.37, 0.32, 0.29, 1}, 
+                ["specialdark"]  = {0.37, 0.32, 0.29, 1},
+            },
+        }
     },
     ["screen"] = {
         ["autoScale"] = true,
