@@ -43,7 +43,7 @@ end
 
 local ToolButton_OnEnter = function(self, ...)
 	SVUI_RaidToolDockButton:SetPanelColor("highlight")
-	SVUI_RaidToolDockButton.Icon:SetGradient(unpack(SV.media.gradient.bizzaro))
+	SVUI_RaidToolDockButton.Icon:SetGradient(unpack(SV.media.gradient.highlight))
 
 	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT", 0, 4)
 	GameTooltip:ClearLines()

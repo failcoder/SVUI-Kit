@@ -664,7 +664,7 @@ do
 			chat:SetStyle("Frame", "Transparent", true, 1, 3, 6)
 			chat.Panel:Hide()
 		end
-		if(SV.media.internal.font.chatdialog.outline ~= 'NONE' )then
+		if(SV.media.shared.font.chatdialog.outline ~= 'NONE' )then
 			chat:SetShadowColor(0, 0, 0, 0)
 			chat:SetShadowOffset(0, 0)
 		else
@@ -1295,7 +1295,7 @@ function MOD:Load()
 	insertHL:SetSize(hlSize, hlSize)
 	local insTex = insertHL:CreateTexture(nil, "OVERLAY")
 	insTex:SetAllPoints()
-	insTex:SetTexture(SV.media.bar.default);
+	insTex:SetTexture(SV.media.statusbar.default);
 	insTex:SetGradientAlpha("HORIZONTAL",0,1,1,0.8,0,0.3,0.3,0)
 	insertHL.texture = insTex
 	insertHL:Hide()

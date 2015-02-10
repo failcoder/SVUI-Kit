@@ -474,7 +474,7 @@ function SV.Setup:ColorTheme(style, preserve)
 	end 
 	
 	if(not mungs) then
-		SV:RefreshCommonMedia()
+		SV:UpdateSharedMedia()
 		SVUILib:RefreshModule('Dock')
 		SVUILib:RefreshModule('UnitFrames')
 		if(not preserve) then
@@ -906,7 +906,7 @@ function SV.Setup:Install(autoLoaded)
 	if not SVUI_InstallerFrame then 
 		local frame = CreateFrame("Button", "SVUI_InstallerFrame", UIParent)
 		frame:ModSize(550, 400)
-		frame:SetStyle("Frame", "WindowAlternate")
+		frame:SetStyle("Frame", "Window2")
 		frame:SetPoint("TOP", SV.Screen, "TOP", 0, -150)
 		frame:SetFrameStrata("TOOLTIP")
 
@@ -1205,7 +1205,7 @@ function SV.Setup:Install(autoLoaded)
 		statusHolder:ModPoint("BOTTOM", frame, "TOP", 0, 2)
 
 		frame.Status = statusHolder:CreateFontString(nil, "OVERLAY")
-		frame.Status:SetFont(SV.media.font.numbers, 22, "OUTLINE")
+		frame.Status:SetFont(SV.media.font.number, 22, "OUTLINE")
 		frame.Status:SetPoint("CENTER")
 		frame.Status:SetText(CURRENT_PAGE.."  /  "..MAX_PAGE)
 

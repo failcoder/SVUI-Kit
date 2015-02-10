@@ -769,7 +769,7 @@ local GetQuestRow = function(self, index)
 		row.Timer.Bar = CreateFrame("StatusBar", nil, row.Timer);
 		row.Timer.Bar:ModPoint("TOPLEFT", row.Timer, "TOPLEFT", 4, -2);
 		row.Timer.Bar:ModPoint("BOTTOMRIGHT", row.Timer, "BOTTOMRIGHT", -4, 2);
-		row.Timer.Bar:SetStatusBarTexture(SV.media.bar.default)
+		row.Timer.Bar:SetStatusBarTexture(SV.media.statusbar.default)
 		row.Timer.Bar:SetStatusBarColor(0.5,0,1) --1,0.15,0.08
 		row.Timer.Bar:SetMinMaxValues(0, 1)
 		row.Timer.Bar:SetValue(0)
@@ -780,7 +780,7 @@ local GetQuestRow = function(self, index)
 		
 		bgFrame.bg = bgFrame:CreateTexture(nil, "BACKGROUND")
 		bgFrame.bg:SetAllPoints(bgFrame)
-		bgFrame.bg:SetTexture(SV.media.bar.default)
+		bgFrame.bg:SetTexture(SV.media.statusbar.default)
 	  	bgFrame.bg:SetVertexColor(0,0,0,0.5)
 
 		local borderB = bgFrame:CreateTexture(nil,"OVERLAY")

@@ -130,7 +130,7 @@ local function StyleAtlasLoot(event, addon)
 	for _, button in pairs(buttons) do _G[button]:SetStyle("Button")end 
 
 	-- Manipulate the main frames
-	SV.API:Set("Frame", _G["AtlasLootDefaultFrame"], "WindowAlternate");
+	SV.API:Set("Frame", _G["AtlasLootDefaultFrame"], "Window2");
 	SV.API:Set("!_Frame", _G["AtlasLootItemsFrame"], "Inset");
 	SV.API:Set("Frame", _G["AtlasLootPanel"], "Default");
 	hooksecurefunc(_G["AtlasLootPanel"], "SetPoint", _hook_ALPanel);

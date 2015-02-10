@@ -3,7 +3,7 @@
         <Attributes>
             <Attribute name="shadowAlpha" type="number" value="0.5" />
         </Attributes>
-        <Backdrop edgeFile="Interface\AddOns\SVUI_!Core\assets\textures\GLOW">
+        <Backdrop edgeFile="Interface\AddOns\SVUI_!Core\assets\borders\SHADOW">
             <EdgeSize val="3" />
             <BackgroundInsets left="0" right="0" top="0" bottom="0" />
             <Color r="0" g="0" b="0" a="0" />
@@ -21,7 +21,7 @@
         </Attributes>
         <Layers>
             <Layer level="OVERLAY">
-                <Texture parentKey="Icon" file="Interface\AddOns\SVUI_!Core\assets\textures\DEFAULT">
+                <Texture parentKey="Icon" file="Interface\AddOns\SVUI_!Core\backgrounds\DEFAULT">
                     <Anchors>
                         <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="2" y="-2" />
                         <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="-2" y="2" />

@@ -65,7 +65,7 @@ local function BarberShopStyle()
 	BarberShopAltFormFrameBorder:RemoveTextures()
 	BarberShopAltFormFrame:ModPoint("BOTTOM", BarberShopFrame, "TOP", 0, 5)
 	BarberShopAltFormFrame:RemoveTextures()
-	BarberShopAltFormFrame:SetStyle("Frame", "WindowAlternate")
+	BarberShopAltFormFrame:SetStyle("Frame", "Window2")
 
 	BarberShopFrameResetButton:ClearAllPoints()
 	BarberShopFrameResetButton:ModPoint("BOTTOM", BarberShopFrame.Panel, "BOTTOM", 0, 4)

@@ -6,7 +6,6 @@
 ## SavedVariables: SVUI_Public_FightOMatic
 ## RequiredDeps: SVUI_!Core
 ## OptionalDeps: LibSharedMedia-3.0
-## LoadOnDemand: 1
 ## X-SVUIName: Fight-O-Matic
 ## X-SVUISchema: FightOMatic
 ## X-Email: munglunch@gmail.com

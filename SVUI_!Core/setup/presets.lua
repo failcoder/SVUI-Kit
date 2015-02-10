@@ -69,83 +69,127 @@ end
 
 local PRESET_DATA, CLICK_DIALOG, PAGE_DIALOG;
 
-local function LoadPresetData()
-	PRESET_DATA = {
-		["media"] = {
-			["link"] = "media",
-			["default"] = {
-				["colors"] = {
-					["special"] = {.37, .32, .29, 1},
-					["specialdark"] = {.23, .22, .21, 1},
-				},
-				["textures"] = {
-					["pattern"] = "SVUI Backdrop 1",
-					["premium"] = "SVUI Artwork 1",
-					["unitlarge"] = "SVUI UnitBG 1",
-					["unitsmall"] = "SVUI SmallUnitBG 1",
-				},
-				["unitframes"] = {
-					["buff_bars"] = {.91, .91, .31, 1},
-					["health"] = {.1, .6, .02, 1},
-					["casting"] = {0, 0.92, 1, 1},
-					["spark"] = {0, 0.42, 1, 1},
-				},
+SV.Setup.ColorThemes = {
+	["data"] = {
+		["link"] = "media",
+		["default"] = {
+			["color"] = {
+				["special"] = {.37, .32, .29, 1},
+				["specialdark"] = {.23, .22, .21, 1},
 			},
-			["kaboom"] = {
-				["colors"] = {
-					["special"] = {.28, .31, .32, 1},
-					["specialdark"] = {.21, .22, .23, 1},
-				},
-				["textures"] = {
-					["pattern"] = "SVUI Backdrop 2",
-					["premium"] = "SVUI Artwork 2",
-					["unitlarge"] = "SVUI UnitBG 2",
-					["unitsmall"] = "SVUI SmallUnitBG 2",
-				},
-				["unitframes"] = {
-					["buff_bars"] = {.51, .79, 0, 1},
-					["health"] = {.16, .86, .22, 1},
-					["casting"] = {0, 0.92, 1, 1},
-					["spark"] = {0, 0.42, 1, 1},
-				},
+			["shared"] = {
+				["background"] = {
+					["pattern"] 	= {file = "SVUI Backdrop 1", 	size = 0, tiled = false},
+					["premium"] 	= {file = "SVUI Artwork 1", 	size = 0, tiled = false},
+					["unitlarge"] 	= {file = "SVUI UnitBG 1", 		size = 0, tiled = false},
+					["unitsmall"] 	= {file = "SVUI SmallUnitBG 1", size = 0, tiled = false},
+				}
 			},
-			["classy"] = {
-				["colors"] = {
-					["special"] = {r2, g2, b2, 1},
-					["specialdark"] = {(r2 * 0.75), (g2 * 0.75), (b2 * 0.75), 1},
-				},
-				["textures"] = {
-					["pattern"] = "SVUI Backdrop 3",
-					["premium"] = "SVUI Artwork 3",
-					["unitlarge"] = "SVUI UnitBG 3",
-					["unitsmall"] = "SVUI SmallUnitBG 3",
-				},
-				["unitframes"] = {
-					["buff_bars"] = {scc.r, scc.g, scc.b, 1},
-					["health"] = {.16, .86, .22, 1},
-					["casting"] = {0, 0.92, 1, 1},
-					["spark"] = {0, 0.42, 1, 1},
-				},
-			},
-			["dark"] = {
-				["colors"] = {
-					["special"] = {.25, .26, .27, 1},
-					["specialdark"] = {.17, .18, .19, 1},
-				},
-				["textures"] = {
-					["pattern"] = "SVUI Backdrop 4",
-					["premium"] = "SVUI Artwork 4",
-					["unitlarge"] = "SVUI UnitBG 4",
-					["unitsmall"] = "SVUI SmallUnitBG 4",
-				},
-				["unitframes"] = {
-					["buff_bars"] = {.45, .55, .15, 1},
-					["health"] = {.06, .06, .06, 1},
-					["casting"] = {0, 0.92, 1, 1},
-					["spark"] = {0, 0.42, 1, 1},
-				},
+			["unitframes"] = {
+				["buff_bars"] = {.91, .91, .31, 1},
+				["health"] = {.1, .6, .02, 1},
+				["casting"] = {0, 0.92, 1, 1},
+				["spark"] = {0, 0.42, 1, 1},
 			},
 		},
+		["kaboom"] = {
+			["color"] = {
+				["special"] = {.28, .31, .32, 1},
+				["specialdark"] = {.21, .22, .23, 1},
+			},
+			["shared"] = {
+				["background"] = {
+					["pattern"] 	= {file = "SVUI Backdrop 2", 	size = 0, tiled = false},
+					["premium"] 	= {file = "SVUI Artwork 2", 	size = 0, tiled = false},
+					["unitlarge"] 	= {file = "SVUI UnitBG 2", 		size = 0, tiled = false},
+					["unitsmall"] 	= {file = "SVUI SmallUnitBG 2", size = 0, tiled = false},
+				}
+			},
+			["unitframes"] = {
+				["buff_bars"] = {.51, .79, 0, 1},
+				["health"] = {.16, .86, .22, 1},
+				["casting"] = {0, 0.92, 1, 1},
+				["spark"] = {0, 0.42, 1, 1},
+			},
+		},
+		["classy"] = {
+			["color"] = {
+				["special"] = {r2, g2, b2, 1},
+				["specialdark"] = {(r2 * 0.75), (g2 * 0.75), (b2 * 0.75), 1},
+			},
+			["shared"] = {
+				["background"] = {
+					["pattern"] 	= {file = "SVUI Backdrop 3", 	size = 0, tiled = false},
+					["premium"] 	= {file = "SVUI Artwork 3", 	size = 0, tiled = false},
+					["unitlarge"] 	= {file = "SVUI UnitBG 3", 		size = 0, tiled = false},
+					["unitsmall"] 	= {file = "SVUI SmallUnitBG 3", size = 0, tiled = false},
+				}
+			},
+			["unitframes"] = {
+				["buff_bars"] = {scc.r, scc.g, scc.b, 1},
+				["health"] = {.16, .86, .22, 1},
+				["casting"] = {0, 0.92, 1, 1},
+				["spark"] = {0, 0.42, 1, 1},
+			},
+		},
+		["dark"] = {
+			["color"] = {
+				["special"] = {.25, .26, .27, 1},
+				["specialdark"] = {.17, .18, .19, 1},
+			},
+			["shared"] = {
+				["background"] = {
+					["pattern"] 	= {file = "SVUI Backdrop 4", 	size = 0, tiled = false},
+					["premium"] 	= {file = "SVUI Artwork 4", 	size = 0, tiled = false},
+					["unitlarge"] 	= {file = "SVUI UnitBG 4", 		size = 0, tiled = false},
+					["unitsmall"] 	= {file = "SVUI SmallUnitBG 4", size = 0, tiled = false},
+				}
+			},
+			["unitframes"] = {
+				["buff_bars"] = {.45, .55, .15, 1},
+				["health"] = {.06, .06, .06, 1},
+				["casting"] = {0, 0.92, 1, 1},
+				["spark"] = {0, 0.42, 1, 1},
+			},
+		},
+	},
+	["dialog"] = {
+		["SubTitle"] = COLOR.." "..SETTINGS,
+		["Desc1"] = L["Choose a theme layout you wish to use for your initial setup."],
+		["Desc2"] = L["You can always change fonts and colors of any element of SVUI from the in-game configuration."],
+		["Desc3"] = L["CHOOSE_OR_DIE"],
+		["Option1"] = {L["Kaboom!"], "ColorTheme", "kaboom"},
+		["Option2"] = {L["Darkness"], "ColorTheme", "dark"},
+		["Option3"] = {L["Class" .. "\n" .. "Colors"], "ColorTheme", "classy"},
+		["Option4"] = {L["Vintage"], "ColorTheme"},
+	},
+	["clicktext"] = {
+		["Option1"] = {
+			["Desc1"] = L["|cffFF9F00KABOOOOM!|r"],
+			["Desc2"] = L["This theme tells the world that you are a villain who can put on a show"]..CONTINUED,
+			["Desc3"] = CONTINUED..L["or better yet, you ARE the show!"],
+		},
+		["Option2"] = {
+			["Desc1"] = L["|cffAF30FFThe Darkest Night|r"],
+			["Desc2"] = L["This theme indicates that you have no interest in wasting time"]..CONTINUED,
+			["Desc3"] = CONTINUED..L[" the dying begins NOW!"],
+		},
+		["Option3"] = {
+			["Desc1"] = L["|cffFFFF00"..CLASS_COLORS.."|r"],
+			["Desc2"] = L["This theme is for villains who take pride in their class"]..CONTINUED,
+			["Desc3"] = CONTINUED..L[" villains know how to reprezent!"],
+		},
+		["Option4"] = {
+			["Desc1"] = L["|cff00FFFFPlain and Simple|r"],
+			["Desc2"] = L["This theme is for any villain who sticks to their traditions"]..CONTINUED,
+			["Desc3"] = CONTINUED..L["you don't need fancyness to kick some ass!"],
+		},
+	}
+}
+
+local function LoadPresetData()
+	PRESET_DATA = {
+		["media"] = SV.Setup.ColorThemes.data,
 		["auras"] = {
 			["link"] = "UnitFrames",
 			["default"] = {
@@ -924,16 +968,7 @@ local function LoadPageData()
 		},
 		--PAGE 4
 		{
-			["SubTitle"] = COLOR.." "..SETTINGS,
-
-			["Desc1"] = L["Choose a theme layout you wish to use for your initial setup."],
-			["Desc2"] = L["You can always change fonts and colors of any element of SVUI from the in-game configuration."],
-			["Desc3"] = L["CHOOSE_OR_DIE"],
-
-			["Option1"] = {L["Kaboom!"], "ColorTheme", "kaboom"},
-			["Option2"] = {L["Darkness"], "ColorTheme", "dark"},
-			["Option3"] = {L["Class" .. "\n" .. "Colors"], "ColorTheme", "classy"},
-			["Option4"] = {L["Vintage"], "ColorTheme"},
+			
 		},
 		--PAGE 5
 		{
@@ -995,6 +1030,8 @@ local function LoadPageData()
 			["Option1"] = {L["THE_BUTTON_BELOW"], "Complete"},
 		},
 	};
+
+	PAGE_DIALOG[4] = SV.Setup.ColorThemes.dialog;
 end
 
 local function LoadOnClickData()
@@ -1008,26 +1045,6 @@ local function LoadOnClickData()
 			["Desc1"] = L["|cffFF9F00"..LOW.." "..RESOLUTION.."|r"],
 			["Desc2"] = L["Why are you playing this on what I would assume is a calculator display?"],
 			["Desc3"] = L["Enjoy the ONE incredible pixel that fits on this screen."],
-		},
-		["Page4_Option1"] = {
-			["Desc1"] = L["|cffFF9F00KABOOOOM!|r"],
-			["Desc2"] = L["This theme tells the world that you are a villain who can put on a show"]..CONTINUED,
-			["Desc3"] = CONTINUED..L["or better yet, you ARE the show!"],
-		},
-		["Page4_Option2"] = {
-			["Desc1"] = L["|cffAF30FFThe Darkest Night|r"],
-			["Desc2"] = L["This theme indicates that you have no interest in wasting time"]..CONTINUED,
-			["Desc3"] = CONTINUED..L[" the dying begins NOW!"],
-		},
-		["Page4_Option3"] = {
-			["Desc1"] = L["|cffFFFF00"..CLASS_COLORS.."|r"],
-			["Desc2"] = L["This theme is for villains who take pride in their class"]..CONTINUED,
-			["Desc3"] = CONTINUED..L[" villains know how to reprezent!"],
-		},
-		["Page4_Option4"] = {
-			["Desc1"] = L["|cff00FFFFPlain and Simple|r"],
-			["Desc2"] = L["This theme is for any villain who sticks to their traditions"]..CONTINUED,
-			["Desc3"] = CONTINUED..L["you don't need fancyness to kick some ass!"],
 		},
 		["Page5_Option1"] = {
 			["Desc1"] = L["|cff00FFFFLets Do This|r"],
@@ -1085,6 +1102,11 @@ local function LoadOnClickData()
 			["Desc3"] = L["Double your bars then double their size for maximum button goodness!"],
 		},
 	};
+
+	for key, data in pairs(SV.Setup.ColorThemes.clicktext) do
+		local optionKey = "Page4_" .. key;
+		CLICK_DIALOG[optionKey] = data;
+	end
 end
 --[[ 
 ########################################################## 
@@ -1137,18 +1159,4 @@ function SV.Setup:CopyOnClick(index)
 	if(CLICK_DIALOG and CLICK_DIALOG[index]) then
 		return CLICK_DIALOG[index]
 	end
-end
-
-function SV.Setup:CopyCustom(name)
-	if(name and SV.CustomLayouts) then
-		local layout = SVUILib:GetLayoutData(name)
-		for schema, presets in pairs(layout) do
-			local data = SV.db[schema]
-			if(data) then
-		    	_copyPresets(data, presets)
-		    end
-		end
-		return true
-	end
-	return false
 end

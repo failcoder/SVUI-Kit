@@ -192,14 +192,14 @@ function MOD:CreateClassBar(playerFrame)
 	local lunar = CreateFrame('StatusBar', nil, chicken)
 	lunar:SetPoint("LEFT", moon, "RIGHT", -10, 0)
 	lunar:ModSize(100,40)
-	lunar:SetStatusBarTexture(SV.media.bar.lazer)
+	lunar:SetStatusBarTexture(SV.media.statusbar.lazer)
 	lunar.noupdate = true;
 	chicken.LunarBar = lunar;
 
 	local solar = CreateFrame('StatusBar', nil, chicken)
 	solar:SetPoint('LEFT', lunar:GetStatusBarTexture(), 'RIGHT')
 	solar:ModSize(100,40)
-	solar:SetStatusBarTexture(SV.media.bar.lazer)
+	solar:SetStatusBarTexture(SV.media.statusbar.lazer)
 	solar.noupdate = true;
 	chicken.SolarBar = solar;
 
@@ -285,7 +285,7 @@ function MOD:CreateClassBar(playerFrame)
 	mana.PostUpdatePower = UpdateAltPower;
 	mana.ManaBar = CreateFrame("StatusBar", nil, mana)
 	mana.ManaBar.noupdate = true;
-	mana.ManaBar:SetStatusBarTexture(SV.media.bar.glow)
+	mana.ManaBar:SetStatusBarTexture(SV.media.statusbar.glow)
 	mana.ManaBar:InsetPoints(mana)
 	mana.bg = mana:CreateTexture(nil, "BORDER")
 	mana.bg:SetAllPoints(mana.ManaBar)

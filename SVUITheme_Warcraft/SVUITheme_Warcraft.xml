@@ -55,7 +55,7 @@
         </Backdrop>
         <Layers>
             <Layer level="BACKGROUND" textureSubLevel="1">
-                <Texture parentKey="Skin" nonBlocking="true" file="Interface\AddOns\SVUI_!Core\assets\textures\HEAVY" setAllPoints="true" />
+                <Texture parentKey="Skin" nonBlocking="true" file="Interface\AddOns\SVUITheme_Warcraft\assets\artwork\HEAVY" setAllPoints="true" />
                 <Color r="0.2" g="0.2" b="0.2" a="1" />
             </Layer>
             <Layer level="BORDER">
@@ -125,7 +125,7 @@
         </Backdrop>
         <Layers>
             <Layer level="BACKGROUND" textureSubLevel="2">
-                <Texture parentKey="CompositeTopLeft" nonBlocking="true" file="Interface\AddOns\SVUI_!Core\assets\textures\EMPTY">
+                <Texture parentKey="TopLeft" nonBlocking="true" file="Interface\AddOns\SVUI_!Core\assets\textures\EMPTY">
                     <Anchors>
                         <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="5" y="-5" />
                         <Anchor point="TOPRIGHT" relativePoint="TOP" x="0" y="-5" />
@@ -133,7 +133,7 @@
                     </Anchors>
                     <Color r="0.05" g="0.05" b="0.05" a="0.5" />
                 </Texture>
-                <Texture parentKey="CompositeTopRight" nonBlocking="true" file="Interface\AddOns\SVUI_!Core\assets\textures\EMPTY">
+                <Texture parentKey="TopRight" nonBlocking="true" file="Interface\AddOns\SVUI_!Core\assets\textures\EMPTY">
                     <Anchors>
                         <Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" x="-5" y="-5" />
                         <Anchor point="TOPLEFT" relativePoint="TOP" x="0" y="-5" />
@@ -141,7 +141,7 @@
                     </Anchors>
                     <Color r="0.05" g="0.05" b="0.05" a="0.5" />
                 </Texture>
-                <Texture parentKey="CompositeBottomLeft" nonBlocking="true" file="Interface\AddOns\SVUI_!Core\assets\textures\EMPTY">
+                <Texture parentKey="BottomLeft" nonBlocking="true" file="Interface\AddOns\SVUI_!Core\assets\textures\EMPTY">
                     <Anchors>
                         <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" x="5" y="5" />
                         <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOM" x="0" y="5" />
@@ -149,7 +149,7 @@
                     </Anchors>
                     <Color r="0.1" g="0.1" b="0.1" a="0.5" />
                 </Texture>
-                <Texture parentKey="CompositeBottomRight" nonBlocking="true" file="Interface\AddOns\SVUI_!Core\assets\textures\EMPTY">
+                <Texture parentKey="BottomRight" nonBlocking="true" file="Interface\AddOns\SVUI_!Core\assets\textures\EMPTY">
                     <Anchors>
                         <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="-5" y="5" />
                         <Anchor point="BOTTOMLEFT" relativePoint="BOTTOM" x="0" y="5" />
@@ -160,9 +160,9 @@
             </Layer>
         </Layers>
     </Frame>
-    <Frame name="SVUITheme_Warcraft_WindowAlternate" virtual="true">
+    <Frame name="SVUITheme_Warcraft_Window2" virtual="true">
         <Attributes>
-            <Attribute name="panelID" type="string" value="windowalternate" />
+            <Attribute name="panelID" type="string" value="window2" />
             <Attribute name="panelPadding" type="number" value="2" />
             <Attribute name="panelColor" type="string" value="light" />
             <Attribute name="panelGradient" type="string" value="light" />
@@ -180,7 +180,7 @@
         </Backdrop>
         <Layers>
             <Layer level="BACKGROUND" textureSubLevel="2">
-                <Texture parentKey="CompositeTopLeft" nonBlocking="true" file="Interface\AddOns\SVUI_!Core\assets\textures\EMPTY">
+                <Texture parentKey="TopLeft" nonBlocking="true" file="Interface\AddOns\SVUI_!Core\assets\textures\EMPTY">
                     <Anchors>
                         <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="5" y="-5" />
                         <Anchor point="TOPRIGHT" relativePoint="TOP" x="0" y="-5" />
@@ -188,7 +188,7 @@
                     </Anchors>
                     <Color r="0.05" g="0.05" b="0.05" a="0.5" />
                 </Texture>
-                <Texture parentKey="CompositeTopRight" nonBlocking="true" file="Interface\AddOns\SVUI_!Core\assets\textures\EMPTY">
+                <Texture parentKey="TopRight" nonBlocking="true" file="Interface\AddOns\SVUI_!Core\assets\textures\EMPTY">
                     <Anchors>
                         <Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" x="-5" y="-5" />
                         <Anchor point="TOPLEFT" relativePoint="TOP" x="0" y="-5" />
@@ -196,7 +196,7 @@
                     </Anchors>
                     <Color r="0.05" g="0.05" b="0.05" a="0.5" />
                 </Texture>
-                <Texture parentKey="CompositeBottomLeft" nonBlocking="true" file="Interface\AddOns\SVUI_!Core\assets\textures\EMPTY">
+                <Texture parentKey="BottomLeft" nonBlocking="true" file="Interface\AddOns\SVUI_!Core\assets\textures\EMPTY">
                     <Anchors>
                         <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" x="5" y="5" />
                         <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOM" x="0" y="5" />
@@ -204,7 +204,7 @@
                     </Anchors>
                     <Color r="0.1" g="0.1" b="0.1" a="0.5" />
                 </Texture>
-                <Texture parentKey="CompositeBottomRight" nonBlocking="true" file="Interface\AddOns\SVUI_!Core\assets\textures\EMPTY">
+                <Texture parentKey="BottomRight" nonBlocking="true" file="Interface\AddOns\SVUI_!Core\assets\textures\EMPTY">
                     <Anchors>
                         <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="-5" y="5" />
                         <Anchor point="BOTTOMLEFT" relativePoint="BOTTOM" x="0" y="5" />

@@ -16,7 +16,6 @@ local SV = _G["SVUI"];
 local L = SV.L
 local MOD = SV:NewModule(...);
 local Schema = MOD.Schema;
-local LSM = LibStub("LibSharedMedia-3.0");
 
 MOD.media = {}
 MOD.media.groupNumbers = {
@@ -36,32 +35,19 @@ MOD.media.playerstate = [[Interface\AddOns\SVUI_UnitFrames\assets\UNIT-PLAYER-ST
 MOD.media.afflicted = [[Interface\AddOns\SVUI_UnitFrames\assets\UNIT-AFFLICTED]];
 
 SV.API.Templates["ActionPanel"] = "SVUI_StyleTemplate_ActionPanel";
-SV.API.Templates["UnitLarge"] 	= "SVUI_StyleTemplate_UnitLarge";
-SV.API.Templates["UnitSmall"] 	= "SVUI_StyleTemplate_UnitSmall";
+SV.GlobalFontList["SVUI_Font_Unit"] = "unitprimary";
+SV.GlobalFontList["SVUI_Font_Unit_Small"] = "unitsecondary";
+SV.GlobalFontList["SVUI_Font_UnitAura"] = "unitaura";
+SV.GlobalFontList["SVUI_Font_UnitAura_Bar"] = "unitaurabar";
+SV.GlobalFontList["SVUI_Font_UnitAura_Small"] = "unitaurasmall";
 
-LSM:Register("background", "SVUI UnitBG 1", [[Interface\AddOns\SVUI_UnitFrames\assets\Background\UNIT-BG1]])
-LSM:Register("background", "SVUI UnitBG 2", [[Interface\AddOns\SVUI_UnitFrames\assets\Background\UNIT-BG2]])
-LSM:Register("background", "SVUI UnitBG 3", [[Interface\AddOns\SVUI_UnitFrames\assets\Background\UNIT-BG3]])
-LSM:Register("background", "SVUI UnitBG 4", [[Interface\AddOns\SVUI_UnitFrames\assets\Background\UNIT-BG4]])
-LSM:Register("background", "SVUI SmallUnitBG 1", [[Interface\AddOns\SVUI_UnitFrames\assets\Background\UNIT-SMALL-BG1]])
-LSM:Register("background", "SVUI SmallUnitBG 2", [[Interface\AddOns\SVUI_UnitFrames\assets\Background\UNIT-SMALL-BG2]])
-LSM:Register("background", "SVUI SmallUnitBG 3", [[Interface\AddOns\SVUI_UnitFrames\assets\Background\UNIT-SMALL-BG3]])
-LSM:Register("background", "SVUI SmallUnitBG 4", [[Interface\AddOns\SVUI_UnitFrames\assets\Background\UNIT-SMALL-BG4]])
-LSM:Register("border", "SVUI UnitBorder 1", [[Interface\BUTTONS\WHITE8X8]])
-LSM:Register("border", "SVUI SmallBorder 1", [[Interface\BUTTONS\WHITE8X8]])
+SV.mediadefaults.shared.font["unitprimary"]   	= {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"}
+SV.mediadefaults.shared.font["unitsecondary"]   = {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"}
+SV.mediadefaults.shared.font["unitaurabar"]   	= {file = "SVUI Alert Font",  	size = 10,  outline = "OUTLINE"}
+SV.mediadefaults.shared.font["unitaura"]  		= {file = "SVUI Caps Font",  	size = 18,  outline = "OUTLINE"}
+SV.mediadefaults.shared.font["unitaurasmall"]   = {file = "SVUI Pixel Font",  	size = 8,   outline = "MONOCHROMEOUTLINE"}
 
-SV.mediadefaults.internal.font["unitprimary"]   	= {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"}
-SV.mediadefaults.internal.font["unitsecondary"]   	= {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"}
-SV.mediadefaults.internal.font["unitaurabar"]   	= {file = "SVUI Alert Font",  	size = 10,  outline = "OUTLINE"}
-SV.mediadefaults.internal.font["unitaura"]  	= {file = "SVUI Caps Font",  	size = 18,  outline = "OUTLINE"}
-SV.mediadefaults.internal.font["unitaurasmall"]   	= {file = "SVUI Pixel Font",  	size = 8,   outline = "MONOCHROMEOUTLINE"}
-
-SV.mediadefaults.internal.bg["unitlarge"]   = "SVUI UnitBG 1";
-SV.mediadefaults.internal.bg["unitsmall"]   = "SVUI SmallUnitBG 1";
-SV.mediadefaults.internal.border["unitlarge"]    = "SVUI UnitBorder 1";
-SV.mediadefaults.internal.border["unitsmall"]    = "SVUI SmallBorder 1";
-
-SV.mediadefaults.internal["unitframes"] = {
+SV.mediadefaults["unitframes"] = {
 	["health"]       = {0.3, 0.5, 0.3}, 
 	["power"]        = {
 		["MANA"]         = {0.41, 0.85, 1}, 
@@ -96,20 +82,6 @@ SV.mediadefaults.internal["unitframes"] = {
 		["absorbs"]          = {1, 1, 0, 0.25}
 	}
 };
-
-SV.media["bg"]["unitlarge"]   	= LSM:Fetch("background", "SVUI UnitBG 1")
-SV.media["bg"]["unitsmall"]   	= LSM:Fetch("background", "SVUI SmallUnitBG 1")
-SV.media["border"]["unitlarge"] 	= LSM:Fetch("border", "SVUI UnitBorder 1")
-SV.media["border"]["unitsmall"] 	= LSM:Fetch("border", "SVUI SmallBorder 1")
--- print("Unitframe")
--- print(SV.mediadefaults.internal.bg["unitlarge"])
--- print(SV.media["bg"]["unitlarge"])
-
-SV.GlobalFontList["SVUI_Font_Unit"] = "unitprimary";
-SV.GlobalFontList["SVUI_Font_Unit_Small"] = "unitsecondary";
-SV.GlobalFontList["SVUI_Font_UnitAura"] = "unitaura";
-SV.GlobalFontList["SVUI_Font_UnitAura_Bar"] = "unitaurabar";
-SV.GlobalFontList["SVUI_Font_UnitAura_Small"] = "unitaurasmall";
 
 SV.defaults[Schema] = {
 	["themed"] = true,

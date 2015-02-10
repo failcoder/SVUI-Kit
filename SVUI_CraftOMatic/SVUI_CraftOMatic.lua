@@ -583,7 +583,7 @@ function PLUGIN:Load()
 
 	local ModeAlert = CreateFrame("Frame", nil, self.Docklet)
 	ModeAlert:SetAllPoints(self.Docklet.Parent.Alert)
-	ModeAlert:SetBackdrop(SV.media.backdrop.textured)
+	ModeAlert:SetBackdrop(SV.media.backdrop.button)
 
 	ModeAlert:SetBackdropBorderColor(0,0,0,1)
 	ModeAlert:SetBackdropColor(0.25, 0.52, 0.1)

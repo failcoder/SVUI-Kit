@@ -57,7 +57,7 @@ assert(oUF_SVUI, "SVUI UnitFrames: unable to locate oUF.")
 local AURA_FONT = [[Interface\AddOns\SVUI_!Core\assets\fonts\Numbers.ttf]];
 local AURA_FONTSIZE = 11;
 local AURA_OUTLINE = "OUTLINE";
-local BASIC_TEXTURE = SV.media.bar.default;
+local BASIC_TEXTURE = SV.media.statusbar.default;
 local CanSteal = (SV.class == "MAGE");
 --[[ 
 ########################################################## 

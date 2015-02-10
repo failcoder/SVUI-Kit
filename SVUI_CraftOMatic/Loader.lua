@@ -34,8 +34,8 @@ SV.defaults[Schema] = {
 	},
 }
 
-SV.mediadefaults.internal.font["craftdialog"]   = {file = "SVUI Default Font", size = 12,  outline = "OUTLINE"}
-SV.mediadefaults.internal.font["craftnumber"]   = {file = "SVUI Caps Font",    size = 12,  outline = "OUTLINE"}
+SV.mediadefaults.shared.font["craftdialog"]   = {file = "SVUI Default Font", size = 12,  outline = "OUTLINE"}
+SV.mediadefaults.shared.font["craftnumber"]   = {file = "SVUI Caps Font",    size = 12,  outline = "OUTLINE"}
 
 SV.GlobalFontList["SVUI_Font_Craft"]   = "craftdialog";
 SV.GlobalFontList["SVUI_Font_CraftNumber"] = "craftnumber";

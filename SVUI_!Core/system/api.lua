@@ -43,15 +43,12 @@ LOCALS
 local MAC_DISPLAY;
 local BASE_MOD = 0.64;
 local SCREEN_MOD = 1;
-local DEFAULT_BG_COLOR = {0.18,0.18,0.18,1};
-local DEFAULT_BORDER_COLOR = {0,0,0,1};
 local LIVE_UPDATE_FRAMES = {};
 --[[ 
 ########################################################## 
 LOOKUP TABLE
 ##########################################################
 ]]--
-MOD.Themes = {};
 MOD.Templates = {
     ["Default"]     = "SVUI_CoreStyle_Default",
     ["Transparent"] = "SVUI_CoreStyle_Transparent",
@@ -70,8 +67,10 @@ MOD.Templates = {
     ["Pattern"]     = "SVUI_CoreStyle_Pattern",
     ["Premium"]     = "SVUI_CoreStyle_Premium",
     ["Model"]       = "SVUI_CoreStyle_Model",
+    ["UnitLarge"]   = "SVUI_CoreStyle_UnitLarge",
+    ["UnitSmall"]   = "SVUI_CoreStyle_UnitSmall",
     ["Window"]      = "SVUI_CoreStyle_Window",
-    ["WindowAlternate"]  = "SVUI_CoreStyle_WindowAlternate",
+    ["Window2"]  = "SVUI_CoreStyle_Window2",
 };
 MOD.Methods = {};
 MOD.Concepts = {};
@@ -474,7 +473,7 @@ local HookCustomBackdrop = function(self)
             self.Panel:SetBackdrop(SV.media.backdrop[bgid])
             self.Panel:SetBackdropBorderColor(0,0,0,1)
         else
-            local newBgFile = SV.media.bg[bgid]
+            local newBgFile = SV.media.background[bgid]
             local newBorderFile = SV.media.border[bgid]
             if(newBgFile and newBorderFile) then
                 local edgeSize = self.Panel:GetAttribute("panelPadding") or 1
@@ -593,7 +592,7 @@ local Cooldown_OnSizeChanged = function(self, width, height)
         frame:Hide()
     else 
         frame:Show()
-        frame.text:SetFont(SV.media.font.numbers, newSize * 15, 'OUTLINE')
+        frame.text:SetFont(SV.media.font.number, newSize * 15, 'OUTLINE')
         if frame.enable then
             Cooldown_ForceUpdate(frame)
         end 
@@ -725,6 +724,7 @@ function MOD:APPLY(frame, templateName, underlay, padding, xOffset, yOffset, def
         panel:SetAttribute("panelColor", defaultColor)
     end
 
+    local panelID       = panel:GetAttribute("panelID")
     local colorName     = panel:GetAttribute("panelColor")
     local gradientName  = panel:GetAttribute("panelGradient")
     local forcedOffset  = panel:GetAttribute("panelOffset")
@@ -772,12 +772,8 @@ function MOD:APPLY(frame, templateName, underlay, padding, xOffset, yOffset, def
         end
     end
 
-    local bgColor = SV.media.color[colorName] or DEFAULT_BG_COLOR
-    local borderColor = DEFAULT_BORDER_COLOR
-    if(panel:GetAttribute("panelBorderColor")) then
-        local bdrColor = panel:GetAttribute("panelBorderColor")
-        borderColor = SV.media.color[bdrColor] or DEFAULT_BORDER_COLOR
-    end
+    local bgColor = SV.media.color[colorName] or SV.media.color.default;
+    local borderColor = SV.media.bordercolor[panelID] or SV.media.bordercolor.default;
 
     if(panel:GetBackdrop()) then
         if(underlay) then
@@ -976,13 +972,13 @@ MOD.Methods["Checkbox"] = function(self, frame, inverse, x, y)
     end
 
     if(frame.SetCheckedTexture) then
-        frame:SetCheckedTexture([[Interface\AddOns\SVUI_!Core\assets\textures\CHECK]])
+        frame:SetCheckedTexture(SV.media.button.check)
         local ct = frame:GetCheckedTexture()
         ct:SetTexCoord(0, 1, 0, 1)
     end
 
     if(frame.SetDisabledCheckedTexture) then
-        frame:SetDisabledCheckedTexture([[Interface\AddOns\SVUI_!Core\assets\textures\CHECK-DISABLED]])
+        frame:SetDisabledCheckedTexture(SV.media.button.uncheck)
         local ct = frame:GetDisabledCheckedTexture()
         ct:SetTexCoord(0, 1, 0, 1)
     end
@@ -1130,10 +1126,13 @@ local SetStyle = function(self, method, ...)
     if(not self or (self and self.Panel)) then return end
     method = method or "Frame";
     local methodName, flags = method:gsub("!_", "");
-    local inverse = (flags and flags > 0) and true or false;
+    local param = false;
+    if(flags and (flags > 0)) then
+        param = true;
+    end
     local fn = MOD.Methods[methodName];
     if(fn) then
-        local pass, catch = pcall(fn, MOD, self, inverse, ...)
+        local pass, catch = pcall(fn, MOD, self, param, ...)
         if(catch) then
             SV:HandleError("API", "SetStyle", catch);
             return
@@ -1183,16 +1182,15 @@ local function FrameTemplateUpdates()
                 if(panelColor) then
                     frame:SetBackdropColor(panelColor[1], panelColor[2], panelColor[3], panelColor[4] or 1)
                 end
-                if(frame.Panel:GetAttribute("panelBorderColor")) then
-                    local bdrColor = frame.Panel:GetAttribute("panelBorderColor")
-                    local borderColor = SV.media.color[bdrColor] or DEFAULT_BORDER_COLOR
+                if(SV.media.bordercolor[panelID]) then
+                    local borderColor = SV.media.bordercolor[panelID]
                     frame:SetBackdropBorderColor(borderColor[1], borderColor[2], borderColor[3], borderColor[4] or 1)
                 else
                     frame:SetBackdropBorderColor(0,0,0,1)
                 end
             end
             if(frame.TextureNeedsUpdate and frame.Panel.Skin) then
-                local tex = SV.media.bg[panelID]
+                local tex = SV.media.background[panelID]
                 if(tex) then
                     frame.Panel.Skin:SetTexture(tex)
                     --if(panelID == 'unitlarge') then print(frame.Panel.Skin:GetTexture()) end
@@ -1213,7 +1211,7 @@ local function FrameTemplateUpdates()
     end
 end
 
-SV.Events:On("MEDIA_COLORS_UPDATED", FrameTemplateUpdates, "FrameTemplateUpdates");
+SV.Events:On("SHARED_MEDIA_UPDATED", FrameTemplateUpdates, "FrameTemplateUpdates");
 --[[ 
 ########################################################## 
 CORE FUNCTIONS
@@ -1451,7 +1449,7 @@ end
 
 MOD.Concepts["Window"] = function(self, adjustable, frame, altStyle, fullStrip, padding, xOffset, yOffset)
     if(not frame or (frame and frame.Panel)) then return end
-    local template = altStyle and "WindowAlternate" or "Window"
+    local template = altStyle and "Window2" or "Window"
     local baselevel = frame:GetFrameLevel()
     if(baselevel < 1) then 
         frame:SetFrameLevel(1)
@@ -1585,7 +1583,7 @@ MOD.Concepts["PageButton"] = function(self, adjustable, frame, isVertical)
         frame.icon = frame:CreateTexture(nil,'ARTWORK')
         frame.icon:ModSize(13)
         frame.icon:SetPoint('CENTER')
-        frame.icon:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\SQUAREBUTTON-TEXTURES]])
+        frame.icon:SetTexture(SV.media.button.radio)
         frame.icon:SetTexCoord(0.02, 0.2, 0.02, 0.2)
 
         frame:SetScript('OnMouseDown',function(self)
@@ -1670,16 +1668,16 @@ MOD.Concepts["ScrollFrame"] = function(self, adjustable, frame, scale, yOffset)
             frame.BG = frame:CreateTexture(nil, "BACKGROUND")
             frame.BG:SetPoint("TOPLEFT", upButton, "TOPLEFT", 1, -1)
             frame.BG:SetPoint("BOTTOMRIGHT", downButton, "BOTTOMRIGHT", -1, 1)
-            frame.BG:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\TRANSPARENT-BG]])
+            frame.BG:SetTexture(SV.media.background.transparent)
 
             local fg = CreateFrame("Frame", nil, frame)
             fg:SetPoint("TOPLEFT", frame, "TOPLEFT", 18, -2)
             fg:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -10, 6)
-            fg:SetBackdrop(SV.media.backdrop.onlyborder)
+            fg:SetBackdrop(SV.media.backdrop.outline)
             frame.Brdr = fg
         end 
         if(frame.SetThumbTexture) then 
-            frame:SetThumbTexture([[Interface\AddOns\SVUI_!Core\assets\textures\SCROLLBAR-KNOB]])
+            frame:SetThumbTexture(SV.media.button.knob)
         end
     end
 end
@@ -1707,7 +1705,7 @@ MOD.Concepts["ScrollBar"] = function(self, adjustable, frame)
     frame:SetBackdrop(nil)
     self.Methods["Frame"](self, frame, (not adjustable), "Transparent", true)
     frame:SetBackdropBorderColor(0.2,0.2,0.2)
-    frame:SetThumbTexture([[Interface\AddOns\SVUI_!Core\assets\textures\SCROLLBAR-KNOB]])
+    frame:SetThumbTexture(SV.media.button.knob)
 end
 
 MOD.Concepts["Tab"] = function(self, adjustable, frame, addBackground, xOffset, yOffset)
@@ -1800,12 +1798,12 @@ MOD.Concepts["DropDown"] = function(self, adjustable, frame, width)
             frame.BG = frame:CreateTexture(nil, "BACKGROUND")
             frame.BG:SetPoint("TOPLEFT", frame, "TOPLEFT", 18, -2)
             frame.BG:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -10, 6)
-            frame.BG:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\TRANSPARENT-BG]])
+            frame.BG:SetTexture(SV.media.background.transparent)
 
             local fg = CreateFrame("Frame", nil, frame)
             fg:SetPoint("TOPLEFT", frame, "TOPLEFT", 18, -2)
             fg:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -10, 6)
-            fg:SetBackdrop(SV.media.backdrop.onlyborder)
+            fg:SetBackdrop(SV.media.backdrop.outline)
             frame.Brdr = fg
         end 
     end
@@ -1903,10 +1901,10 @@ local SetAlertColor = function(self, r, g, b)
     self.AlertPanel.bottom:SetVertexColor(r,g,b)
 end;
 
-MOD.Concepts["Alert"] = function(self, adjustable, frame, arg)
+MOD.Concepts["Alert"] = function(self, defaultStyle, frame, arg)
     if(not frame or (frame and frame.AlertPanel)) then return end
 
-    if(not adjustable) then
+    if(not defaultStyle) then
         local size = frame:GetWidth() * 0.5;
         local lvl = frame:GetFrameLevel();
 
@@ -1924,17 +1922,15 @@ MOD.Concepts["Alert"] = function(self, adjustable, frame, arg)
         alertpanel.bg:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\Alert\ALERT-FULL]])
         alertpanel.bg:SetGradient('VERTICAL', 0, 0, 0, .37, .32, .29)
 
-        if(not arg) then
-            --[[ ICON BG ]]--
-            alertpanel.icon = alertpanel:CreateTexture(nil, "BACKGROUND", nil, -2)
-            alertpanel.icon:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\Alert\ALERT-ICON-BORDER]])
-            alertpanel.icon:SetGradient('VERTICAL', 1, 0.35, 0, 1, 1, 0)
-            alertpanel.icon:SetPoint("LEFT", alertpanel, "LEFT", -45, 20)
-            alertpanel.icon:SetSize(size, size)
-            frame.AlertColor = SetIconAlertColor
-        end
+        --[[ ICON BG ]]--
+        alertpanel.icon = alertpanel:CreateTexture(nil, "BACKGROUND", nil, -2)
+        alertpanel.icon:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\Alert\ALERT-ICON-BORDER]])
+        alertpanel.icon:SetGradient('VERTICAL', 1, 0.35, 0, 1, 1, 0)
+        alertpanel.icon:SetPoint("LEFT", alertpanel, "LEFT", -45, 20)
+        alertpanel.icon:SetSize(size, size)
 
         frame.AlertPanel = alertpanel
+        frame.AlertColor = SetIconAlertColor
     else
         local alertType = arg and "typeB" or "typeA";
 
@@ -1986,27 +1982,27 @@ MOD.Concepts["Alert"] = function(self, adjustable, frame, arg)
         alertpanel.bottom:SetPoint("TOPRIGHT", alertpanel, "BOTTOMRIGHT", 0, 0)
         alertpanel.bottom:SetWidth(half)
 
-        frame.AlertColor = SetAlertColor
         frame.AlertPanel = alertpanel
+        frame.AlertColor = SetAlertColor
     end
 end
 
 function MOD:Set(concept, ...)
     if(not concept) then return end
     local conceptName, flags = concept:gsub("!_", "");
-    local adjustable = (flags and flags > 0) and false or true;
+    local param = true;
+    if(flags and (flags > 0)) then
+        param = false;
+    end
     local fn = self.Concepts[conceptName];
     if(fn) then
-        local pass, catch = pcall(fn, self, adjustable, ...)
+        local pass, catch = pcall(fn, self, param, ...)
         if(catch) then
             SV:HandleError("API", "SetStyle", catch);
             return
         end
     end
 end
-
-
-
 -- hooksecurefunc("CreateFrame", function(this, globalName, parent, template)
 --     if(globalName) then
 --         if(template and (template == "UIPanelButtonTemplate") and globalName) then
@@ -2014,24 +2010,3 @@ end
 --         end
 --     end
 -- end)
---[[ 
-########################################################## 
-LOAD
-##########################################################
-]]--
-function SV:PostUpdateTheme(active)
-    if(not active and not self.db) then return end
-    active = active or self.db.THEME.active;
-    local theme;
-    if(active and active ~= 'NONE') then
-        theme = self.API.Themes[active]
-        if(theme) then
-            for templateName, templateFile in pairs(self.API.Templates) do
-                local replacement = theme[templateName]
-                if(replacement) then
-                    self.API.Templates[templateName] = replacement
-                end
-            end
-        end
-    end
-end

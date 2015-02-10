@@ -126,7 +126,7 @@ local function SetCastTicks(bar,count,mod)
 	for i=1,count do 
 		if not ticks[i] then 
 			ticks[i] = bar:CreateTexture(nil,'OVERLAY')
-			ticks[i]:SetTexture(SV.media.bar.lazer)
+			ticks[i]:SetTexture(SV.media.statusbar.lazer)
 			ticks[i]:SetVertexColor(0,0,0,0.8)
 			ticks[i]:ModWidth(1)
 			ticks[i]:SetHeight(bar:GetHeight())
@@ -542,12 +542,12 @@ function MOD:CreateCastbar(frame, reversed, moverName, ryu, useFader, isBoss, ha
 		castbar.Text:SetFontObject(SVUI_Font_Caps)
 		castbar.Text:SetTextColor(1, 1, 1, 0.75)
 
-		castbar:SetStatusBarTexture(SV.media.bar.lazer)
+		castbar:SetStatusBarTexture(SV.media.statusbar.lazer)
 
 		bgFrame:InsetPoints(castbar, -2, 10)
 		bgFrame:SetFrameLevel(bgFrame:GetFrameLevel() - 1)
 
-	  	castbar.LatencyTexture:SetTexture(SV.media.bar.lazer)
+	  	castbar.LatencyTexture:SetTexture(SV.media.statusbar.lazer)
 		castbar.noupdate = true;
 		castbar.pewpew = true
 		hadouken.iscustom = true;
@@ -645,7 +645,7 @@ function MOD:CreateCastbar(frame, reversed, moverName, ryu, useFader, isBoss, ha
 
 		castbar.pewpew = false
 
-		castbar:SetStatusBarTexture(SV.media.bar.glow)
+		castbar:SetStatusBarTexture(SV.media.statusbar.glow)
 		castbarHolder:ModPoint("TOP", frame, "BOTTOM", 0, -4)
 		castbar:InsetPoints(castbarHolder, 2, 2)
 
@@ -653,7 +653,7 @@ function MOD:CreateCastbar(frame, reversed, moverName, ryu, useFader, isBoss, ha
 		bgFrame:SetFrameLevel(bgFrame:GetFrameLevel() - 1)
 
 
-		castbar.LatencyTexture:SetTexture(SV.media.bar.default)
+		castbar.LatencyTexture:SetTexture(SV.media.statusbar.default)
 
 		if reversed then 
 			castbar:SetReverseFill(true)
@@ -671,7 +671,7 @@ function MOD:CreateCastbar(frame, reversed, moverName, ryu, useFader, isBoss, ha
 
 	castbar.bg = bgFrame:CreateTexture(nil, "BACKGROUND", nil, -2)
 	castbar.bg:SetAllPoints(bgFrame)
-	castbar.bg:SetTexture(SV.media.bar.default)
+	castbar.bg:SetTexture(SV.media.statusbar.default)
   	castbar.bg:SetVertexColor(0,0,0,0.5)
 	
 	local borderB = bgFrame:CreateTexture(nil,"OVERLAY")
@@ -712,7 +712,7 @@ function MOD:CreateCastbar(frame, reversed, moverName, ryu, useFader, isBoss, ha
 	end 
 	
 	if useFader then
-		SetCastbarFading(castbar, SV.media.bar.lazer)
+		SetCastbarFading(castbar, SV.media.statusbar.lazer)
 	end 
 
 	castbar.TimeFormat = "REMAINING"

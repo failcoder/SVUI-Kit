@@ -20,8 +20,6 @@ local Schema = MOD.Schema;
 HELPERS
 ##########################################################
 ]]--
-local borderTex = [[Interface\Addons\SVUI_!Core\assets\textures\ROUND]]
-
 local SpecButtonList = {
 	"PlayerTalentFrameSpecializationLearnButton",
 	"PlayerTalentFrameTalentsLearnButton",
@@ -63,19 +61,19 @@ local function StyleGlyphHolder(holder, offset)
 
     local outer = holder:CreateTexture(nil, "OVERLAY")
     outer:WrapPoints(holder, offset, offset)
-    outer:SetTexture(borderTex)
+    outer:SetTexture(SV.media.button.round)
     outer:SetGradient(unpack(SV.media.gradient.class))
 
     local hover = holder:CreateTexture(nil, "HIGHLIGHT")
     hover:WrapPoints(holder, offset, offset)
-    hover:SetTexture(borderTex)
+    hover:SetTexture(SV.media.button.round)
     hover:SetGradient(unpack(SV.media.gradient.yellow))
     holder.hover = hover
 
     if holder.SetDisabledTexture then 
         local disabled = holder:CreateTexture(nil, "BORDER")
         disabled:WrapPoints(holder, offset, offset)
-        disabled:SetTexture(borderTex)
+        disabled:SetTexture(SV.media.button.round)
         disabled:SetGradient(unpack(SV.media.gradient.default))
         holder:SetDisabledTexture(disabled)
     end 

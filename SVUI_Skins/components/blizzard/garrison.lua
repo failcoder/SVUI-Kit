@@ -137,7 +137,7 @@ local _hook_GarrisonFollowerListUpdate = function(self)
 	            button:RemoveTextures()
 	            button:SetStyle("Frame", 'Blackout', true, 1, 0, 0)
 				if(button.XPBar) then
-					button.XPBar:SetTexture(SV.media.bar.default)
+					button.XPBar:SetTexture(SV.media.statusbar.default)
 					button.XPBar:SetGradient('HORIZONTAL', 0.5, 0, 1, 1, 0, 1)
 				end
 	        end
@@ -201,7 +201,7 @@ local _hook_GarrisonFollowerPage_ShowFollower = function(self, followerID)
 	local followerInfo = C_Garrison.GetFollowerInfo(followerID);
     if(not self.XPBar.Panel) then
 	    self.XPBar:RemoveTextures()
-		self.XPBar:SetStatusBarTexture(SV.media.bar.default)
+		self.XPBar:SetStatusBarTexture(SV.media.statusbar.default)
 		self.XPBar:SetStyle("!_Frame", "Bar")
 	end
  
@@ -469,7 +469,7 @@ local function LoadGarrisonStyle()
 	display.CapacitiveDisplay:SetStyle("Frame", 'Transparent')
 	display.CapacitiveDisplay.ShipmentIconFrame:SetStyle("Icon")
 	display.CapacitiveDisplay.ShipmentIconFrame.Icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
-	display:SetStyle("Frame", "WindowAlternate")
+	display:SetStyle("Frame", "Window2")
 
 	local reagents = display.CapacitiveDisplay.Reagents;
     for i = 1, #reagents do

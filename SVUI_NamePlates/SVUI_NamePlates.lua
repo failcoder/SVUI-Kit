@@ -218,7 +218,7 @@ local function SetPlateBorder(plate, point)
 	point.backdrop = plate:CreateTexture(nil, "BORDER")
 	point.backdrop:SetDrawLayer("BORDER", -4)
 	point.backdrop:SetAllPoints(point)
-	point.backdrop:SetTexture(SV.media.bar.default)
+	point.backdrop:SetTexture(SV.media.statusbar.default)
 	point.backdrop:SetVertexColor(0.1,0.1,0.1)
 
 	point.bordertop = plate:CreateTexture(nil, "BORDER")

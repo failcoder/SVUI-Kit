@@ -53,7 +53,7 @@ local function StyleAltoholic(event, addon)
 
 		AltoholicFramePortrait:Die()
 
-		SV.API:Set("Frame", AltoholicFrame, "WindowAlternate")
+		SV.API:Set("Frame", AltoholicFrame, "Window2")
 		SV.API:Set("Frame", AltoMsgBox)
 		SV.API:Set("Button", AltoMsgBoxYesButton)
 		SV.API:Set("Button", AltoMsgBoxNoButton)

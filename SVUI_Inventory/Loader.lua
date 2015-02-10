@@ -39,8 +39,8 @@ MOD.media.vendorIcon = [[Interface\AddOns\SVUI_Inventory\assets\BAGS-VENDOR]];
 MOD.media.buttonBg = [[Interface\AddOns\SVUI_Inventory\assets\BUTTON-BG]];
 MOD.media.buttonFg = [[Interface\AddOns\SVUI_Inventory\assets\BUTTON-FG]];
 
-SV.mediadefaults.internal.font["bagdialog"]     		= {file = "SVUI Default Font",  size = 11,  outline = "OUTLINE"}
-SV.mediadefaults.internal.font["bagnumber"]     		= {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"}
+SV.mediadefaults.shared.font["bagdialog"]     		= {file = "SVUI Default Font",  size = 11,  outline = "OUTLINE"}
+SV.mediadefaults.shared.font["bagnumber"]     		= {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"}
 SV.GlobalFontList["SVUI_Font_Bag"] 			= "bagdialog";
 SV.GlobalFontList["SVUI_Font_Bag_Number"] 	= "bagnumber";
 

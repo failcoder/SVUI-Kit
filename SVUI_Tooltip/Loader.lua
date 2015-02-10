@@ -19,7 +19,7 @@ local Schema = MOD.Schema;
 local LSM = LibStub("LibSharedMedia-3.0");
 
 MOD.media = {}
-MOD.media.bgArt = [[Interface\DialogFrame\UI-DialogBox-Background-Dark]];
+MOD.media.backgroundArt = [[Interface\DialogFrame\UI-DialogBox-Background-Dark]];
 MOD.media.topArt = [[Interface\AddOns\SVUI_Tooltip\assets\TT-TOP]];
 MOD.media.bottomArt = [[Interface\AddOns\SVUI_Tooltip\assets\TT-BOTTOM]];
 MOD.media.rightArt = [[Interface\AddOns\SVUI_Tooltip\assets\TT-RIGHT]];
@@ -47,8 +47,8 @@ SV.defaults[Schema] = {
 	}, 
 };
 
-SV.mediadefaults.internal.font["tipdialog"]     	= {file = "SVUI Default Font",  size = 12,  outline = "NONE"}
-SV.mediadefaults.internal.font["tipheader"]     	= {file = "SVUI Default Font",  size = 14,  outline = "NONE"}
+SV.mediadefaults.shared.font["tipdialog"]     	= {file = "SVUI Default Font",  size = 12,  outline = "NONE"}
+SV.mediadefaults.shared.font["tipheader"]     	= {file = "SVUI Default Font",  size = 14,  outline = "NONE"}
 
 local tipFonts = {
 	["tipdialog"] = {

@@ -46,7 +46,7 @@
             <OnLoad>
             	self:SetParent(_G['WorldFrame'])
             	self:SetBackdrop({
-            		edgeFile = [[Interface\AddOns\SVUI_!Core\assets\textures\GLOW]],
+            		edgeFile = [[Interface\AddOns\SVUI_!Core\assets\borders\SHADOW]],
             		edgeSize = 2
             	})		
 				self:SetBackdropColor(0, 0, 0, 0)

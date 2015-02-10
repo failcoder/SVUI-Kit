@@ -118,7 +118,7 @@ end
 
 local function BarStyleHelper(bar)
 	bar:RemoveTextures()
-	bar:SetStatusBarTexture(SV.media.bar.default)
+	bar:SetStatusBarTexture(SV.media.statusbar.default)
 	bar:SetStatusBarColor(4/255, 179/255, 30/255)
 	bar:SetStyle("Frame", "Default")
 	if _G[bar:GetName().."Title"]then 

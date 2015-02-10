@@ -417,7 +417,6 @@ local function SystemPanelQue()
 		if(this) then
 			this:RemoveTextures()
 			SV.API:Set("Alert", this)
-			this:SetBackdropColor(0.8, 0.2, 0.2)
 		end
 	end
 	for i = 1, #SystemDropDownList do

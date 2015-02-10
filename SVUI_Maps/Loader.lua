@@ -43,8 +43,8 @@ MOD.media.trackingIcon = [[Interface\AddOns\SVUI_Maps\assets\MINIMAP-TRACKING]];
 
 SV.API.Templates["Minimap"] = "SVUI_StyleTemplate_Minimap";
 
-SV.mediadefaults.internal.font["mapinfo"]     		     = {file = "SVUI Narrator Font",  size = 13,  outline = "OUTLINE"}
-SV.mediadefaults.internal.font["mapcoords"]     	     = {file = "SVUI Number Font", size = 12,  outline = "OUTLINE"}
+SV.mediadefaults.shared.font["mapinfo"]     		     = {file = "SVUI Narrator Font",  size = 13,  outline = "OUTLINE"}
+SV.mediadefaults.shared.font["mapcoords"]     	     = {file = "SVUI Number Font", size = 12,  outline = "OUTLINE"}
 SV.GlobalFontList["SVUI_Font_MinimapInfo"]   = "mapinfo";
 SV.GlobalFontList["SVUI_Font_MinimapCoords"] = "mapcoords";
 

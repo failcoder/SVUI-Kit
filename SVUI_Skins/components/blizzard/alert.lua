@@ -77,9 +77,9 @@ local function StyleLootFrame(frame)
 	end
 
 	if(frame.Icon and (not frame.IconSlot)) then
+		StyleAlertIcon(frame, frame.Icon)
 		frame.Icon:ClearAllPoints()
 		frame.Icon:SetPoint("CENTER", frame.AlertPanel.icon, "CENTER", 0, 0)
-		StyleAlertIcon(frame, frame.Icon)
 	end
 
 	if(frame.Label) then

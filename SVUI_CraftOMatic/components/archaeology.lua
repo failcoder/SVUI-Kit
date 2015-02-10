@@ -208,7 +208,7 @@ EVENT HANDLER
 ##########################################################
 ]]--
 do
-	local SURVEYCDFONT = SV.media.font.numbers
+	local SURVEYCDFONT = SV.media.font.number
 	local SURVEYCOLOR = {
 		{0.1, 1, 0.1, 1},
 		{1, 0.5, 0.1, 1},
@@ -467,7 +467,7 @@ function PLUGIN:LoadArchaeologyMode()
 
 		solve.bg = solve:CreateTexture(nil,"BORDER")
 		solve.bg:SetAllPoints(solve)
-		solve.bg:SetTexture(SV.media.bar.default)
+		solve.bg:SetTexture(SV.media.statusbar.default)
 		solve.bg:SetVertexColor(0.1,0.5,0)
 
 		solve.text = solve:CreateFontString(nil,"OVERLAY")
