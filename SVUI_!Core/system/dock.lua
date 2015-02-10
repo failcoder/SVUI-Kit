@@ -151,7 +151,7 @@ function MOD:SetBorderTheme()
 	self.Border.Top:ModPoint("TOPRIGHT", SV.Screen, "TOPRIGHT", 1, 1)
 	self.Border.Top:ModHeight(10)
 	self.Border.Top:SetBackdrop({
-		bgFile = SV.media.bg.button, 
+		bgFile = SV.media.background.button, 
 		edgeFile = [[Interface\BUTTONS\WHITE8X8]], 
 		tile = false, 
 		tileSize = 0, 
@@ -171,7 +171,7 @@ function MOD:SetBorderTheme()
 	self.Border.Bottom:ModPoint("BOTTOMRIGHT", SV.Screen, "BOTTOMRIGHT", 1, -1)
 	self.Border.Bottom:ModHeight(10)
 	self.Border.Bottom:SetBackdrop({
-		bgFile = SV.media.bg.button, 
+		bgFile = SV.media.background.button, 
 		edgeFile = [[Interface\BUTTONS\WHITE8X8]], 
 		tile = false, 
 		tileSize = 0, 
@@ -946,7 +946,7 @@ local function BorderColorUpdates()
 	SVUIDock_BottomBorder:SetBackdropBorderColor(0,0,0,0.8)
 end
 
---SV.Events:On("MEDIA_COLORS_UPDATED", BorderColorUpdates, "BorderColorUpdates")
+--SV.Events:On("SHARED_MEDIA_UPDATED", BorderColorUpdates, "BorderColorUpdates")
 --[[ 
 ########################################################## 
 EXTERNALLY ACCESSIBLE METHODS
@@ -1205,7 +1205,6 @@ function MOD:Load()
 
 	local buttonsize = SV.db.Dock.buttonSize;
 	local spacing = SV.db.Dock.buttonSpacing;
-	local texture = [[Interface\AddOns\SVUI_!Core\assets\textures\BUTTON]];
 
 	-- [[ TOP AND BOTTOM BORDERS ]] --
 
@@ -1242,7 +1241,7 @@ function MOD:Load()
 		if(dock.Bar.Button) then
 	    	dock.Bar.Button:SetSize(buttonsize, buttonsize)
 	    	self:SetButtonTheme(dock.Bar.Button, buttonsize)
-	    	dock.Bar.Button.Icon:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\SVUI-ICON]])
+	    	dock.Bar.Button.Icon:SetTexture(SV.media.icon.default)
 	    	dock.Bar.ToolBar:SetSize(1, buttonsize)
 	    	dock.Bar.ToolBar:ModPoint(barAnchor, dock.Bar.Button, barReverse, (spacing * mod), 0)
 	    	InitDockButton(dock.Bar.Button, location)

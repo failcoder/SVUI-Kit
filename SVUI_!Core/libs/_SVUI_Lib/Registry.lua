@@ -54,7 +54,7 @@ local tsort         = table.sort;
 local tconcat       = table.concat;
 local tinsert       = _G.tinsert;
 local tremove       = _G.tremove;
-local twipe         = _G.wipe;
+local wipe         = _G.wipe;
 --BLIZZARD API
 local ReloadUI              = _G.ReloadUI;
 local GetLocale             = _G.GetLocale;
@@ -91,16 +91,18 @@ local GLOBAL_FILENAME       = CoreGlobalName.."_Global";
 local ERROR_FILENAME        = CoreGlobalName.."_Errors";
 local PRIVATE_FILENAME      = CoreGlobalName.."_Private";
 local MEDIA_FILENAME        = CoreGlobalName.."_Media";
+local FILTERS_FILENAME      = CoreGlobalName.."_Filters";
 local PRIVATE_FILENAME      = CoreGlobalName.."_Private";
 local GLOBAL_SV, PRIVATE_SV, FILTER_SV, MEDIA_SV, ERROR_CACHE, MODS, MODULES, THEMES, PACKAGES, PLUGINS, DB_QUEUE;
 local PluginString = ""
-local LoadOnDemand, FoundThemes, ScriptQueue = {},{},{};
+local LoadOnDemand, ScriptQueue = {},{};
 local debugHeader = "|cffFF2F00%s|r [|cff992FFF%s|r]|cffFF2F00:|r";
 local debugPattern = '|cffFF2F00%s|r [|cff0affff%s|r]|cffFF2F00:|r @|cffFF0000(|r%s|cffFF0000)|r - %s';
 
 local playerClass           = select(2,UnitClass("player"));
 local playerName            = UnitName("player");
 local SOURCE_KEY            = "Default";
+local PROFILE_THEME         = "Default";
 local PROFILE_KEY           = ("%s - %s"):format(playerName, SOURCE_KEY)
 
 local INFO_FORMAT = "|cffFFFF00%s|r\n        |cff33FF00Version: %s|r |cff0099FFby %s|r";
@@ -129,7 +131,7 @@ function math.parsefloat(value, decimal)
     return floor(value + 0.5)
 end
 
-function table.copy(targetTable,deepCopy,mergeTable)
+function table.copy(targetTable, deepCopy, mergeTable)
     mergeTable = mergeTable or {};
     if(targetTable == nil) then return nil end 
     if(mergeTable[targetTable]) then return mergeTable[targetTable] end 
@@ -181,21 +183,6 @@ local function tablecopy(d, s, debug)
     end
 end
 
-local function tablesplice(mergeTable, targetTable)
-    if type(targetTable) ~= "table" then targetTable = {} end
-
-    if type(mergeTable) == 'table' then 
-        for key,val in pairs(mergeTable) do 
-            if type(val) == "table" then 
-                targetTable[key] = tablesplice(val, targetTable[key])
-            else
-                targetTable[key] = val
-            end  
-        end 
-    end 
-    return targetTable 
-end
-
 local function importdata(s, d)
     if type(d) ~= "table" then d = {} end
     if type(s) == "table" then
@@ -235,7 +222,7 @@ local function sanitizeType1(db, src, output)
     if((type(src) == "table")) then
         if(type(db) == "table") then
             for k,v in pairs(db) do
-                if(not src[k]) then
+                if(not src[k] and (not PRIVATE_SV.SAFEDATA.SAVED[k])) then
                     db[k] = nil
                 else
                     if(src[k] ~= nil) then 
@@ -255,7 +242,7 @@ end
 local function sanitizeType2(db, src)
     if((type(db) ~= "table") or (type(src) ~= "table")) then return end
     for k,v in pairs(db) do
-        if(not src[k]) then
+        if(not src[k] and (not PRIVATE_SV.SAFEDATA.SAVED[k])) then
             db[k] = nil
         else
             if(src[k] ~= nil) then 
@@ -309,53 +296,38 @@ local meta_database = {
     end,
 }
 
-local function ScheduledDatabase(obj)
-    local schema  = obj.Schema;
-    if(DB_QUEUE and DB_QUEUE[schema]) then
-        for key, db_keys in pairs(DB_QUEUE[schema]) do
-
-            local db_file  = db_keys[1];
-            local db_dkey = db_keys[2];
-
-            if not _G[db_file] then _G[db_file] = {} end
-
-            if(db_dkey) then
-                if not obj[db_dkey] then obj[db_dkey] = {} end
-                local this    = setmetatable({}, meta_transdata);
-                this.data     = _G[db_file];
-                this.defaults = obj[db_dkey];
-                obj[key] = this;
-            else
-                local this    = setmetatable({}, meta_database);
-                this.data     = _G[db_file];
-                obj[key] = this;
+local function GetProfileKeys()
+    if(PRIVATE_SV.SAFEDATA) then 
+        if(PRIVATE_SV.SAFEDATA.DUALSPEC) then 
+            local id = GetSpecialization();
+            if(id) then
+                local _, specName, _, _, _, _ = GetSpecializationInfo(id);
+                SOURCE_KEY = specName;
             end
+        else
+            SOURCE_KEY = "Default";
         end
-
-        DB_QUEUE[schema] = nil;
-    end
-end
-
-local function GetProfileKey()
-    if(PRIVATE_SV.SAFEDATA and PRIVATE_SV.SAFEDATA.dualSpecEnabled) then 
-        local id = GetSpecialization();
-        if(id) then
-            local _, specName, _, _, _, _ = GetSpecializationInfo(id);
-            SOURCE_KEY = specName;
+        if(PRIVATE_SV.SAFEDATA.THEME) then 
+            PROFILE_THEME = PRIVATE_SV.SAFEDATA.THEME;
+        else
+            PROFILE_THEME = "Default";
         end
     else
         SOURCE_KEY = "Default";
+        PROFILE_THEME = "Default";
     end
-    if(not SOURCE_KEY) then
-        SOURCE_KEY = "Default";
+
+    if(PRIVATE_SV.SAFEDATA.CurrentProfile) then
+        PROFILE_KEY = PRIVATE_SV.SAFEDATA.CurrentProfile
+    else
+        PROFILE_KEY = ("%s - %s"):format(playerName, SOURCE_KEY)
     end
-    PROFILE_KEY = ("%s - %s"):format(playerName, SOURCE_KEY)
 end
 
 local function LiveProfileChange()
     local LastKey = SOURCE_KEY
-    GetProfileKey()
-    if(PRIVATE_SV.SAFEDATA and PRIVATE_SV.SAFEDATA.dualSpecEnabled) then 
+    GetProfileKeys()
+    if(PRIVATE_SV.SAFEDATA and PRIVATE_SV.SAFEDATA.DUALSPEC) then 
         lib.EventManager:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
         if(not GLOBAL_SV.profiles[PROFILE_KEY]) then
             GLOBAL_SV.profiles[PROFILE_KEY] = {}
@@ -383,7 +355,7 @@ end
 --DATABASE PUBLIC METHODS
 function lib:Remove(key)
     if(GLOBAL_SV.profiles[key]) then GLOBAL_SV.profiles[key] = nil end
-    twipe(GLOBAL_SV.profileKeys)
+    wipe(GLOBAL_SV.profileKeys)
     for k,v in pairs(GLOBAL_SV.profiles) do
         GLOBAL_SV.profileKeys[k] = k
     end
@@ -431,7 +403,7 @@ function lib:ExportDatabase(key)
     export = rawget(CoreObject.db, "data");
     saved = GLOBAL_SV.profiles[key];
     tablecopy(saved, export);
-    twipe(GLOBAL_SV.profileKeys)
+    wipe(GLOBAL_SV.profileKeys)
     for k,v in pairs(GLOBAL_SV.profiles) do
         GLOBAL_SV.profileKeys[k] = k
     end
@@ -493,7 +465,6 @@ end
 local function LoadingProxy(schema, obj)
     if(not obj) then return end
     if(not obj.initialized) then
-        ScheduledDatabase(obj)
         if(obj.Load and type(obj.Load) == "function") then
             local _, catch = pcall(obj.Load, obj)
             if(catch) then
@@ -548,19 +519,6 @@ function lib:LoadModuleOptions()
 end
 
 --OBJECT INTERNALS
-
-local newDatabase = function(self, newKey, fileKey, defaultKey)
-    local schema = self.Schema
-    if not DB_QUEUE then DB_QUEUE = {} end
-    if not DB_QUEUE[schema] then DB_QUEUE[schema] = {} end
-    DB_QUEUE[schema][newKey] = {fileKey, defaultKey}
-    if(defaultKey) then
-        if not self[defaultKey] then self[defaultKey] = {} end
-        return tablesplice(self[defaultKey], {});
-    else
-        return {}
-    end
-end
 
 local changeDBVar = function(self, value, key, sub1, sub2, sub3)
     local db = CoreObject.db[self.Schema]
@@ -732,11 +690,11 @@ function lib:GetModuletable()
 end
 
 function lib:CheckDualProfile()
-    return PRIVATE_SV.SAFEDATA.dualSpecEnabled
+    return PRIVATE_SV.SAFEDATA.DUALSPEC
 end
 
 function lib:ToggleDualProfile(enabled)
-    PRIVATE_SV.SAFEDATA.dualSpecEnabled = enabled
+    PRIVATE_SV.SAFEDATA.DUALSPEC = enabled
     if(enabled) then
         self.EventManager:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
         LiveProfileChange()
@@ -747,39 +705,77 @@ end
 
 --[[ CONSTRUCTORS ]]--
 
-local function NewLoadOnDemand(addonName, schema, header)
-    LoadOnDemand[schema] = addonName;
-    CoreObject.Options.args[schema] = {
-        type = "group", 
-        name = header, 
-        childGroups = "tree", 
-        args = {
-            enable = {
-                order = 1,
-                type = "execute",
-                width = "full",
-                name = function() 
-                    local nameString = "Disable"
-                    if(not IsAddOnLoaded(addonName)) then 
-                        nameString = "Enable" 
-                    end
-                    return nameString
-                end,
-                func = function()
-                    if(not IsAddOnLoaded(addonName)) then 
+local function ProcessLoadOnDemand()
+    local addonCount = GetNumAddOns();
+
+    for i = 1, addonCount do
+        local addonName, _, _, _, _, reason = GetAddOnInfo(i)
+
+        if(IsAddOnLoadOnDemand(i)) then
+            local header = GetAddOnMetadata(i, HeaderFromMeta)
+            local schema = GetAddOnMetadata(i, SchemaFromMeta)
+            local theme  = GetAddOnMetadata(i, ThemeFromMeta)
+
+            if(header and schema) then
+                LoadOnDemand[schema] = addonName;
+                if(not PRIVATE_SV.SAFEDATA.SAVED[schema]) then
+                    PRIVATE_SV.SAFEDATA.SAVED[schema] = true
+                end
+                CoreObject.Options.args[schema] = {
+                    type = "group", 
+                    name = header, 
+                    childGroups = "tree", 
+                    args = {
+                        enable = {
+                            order = 1,
+                            type = "execute",
+                            width = "full",
+                            name = function() 
+                                local nameString = "Disable"
+                                if(not IsAddOnLoaded(addonName)) then 
+                                    nameString = "Enable" 
+                                end
+                                return nameString
+                            end,
+                            func = function()
+                                if(not IsAddOnLoaded(addonName)) then 
+                                    local loaded, reason = LoadAddOn(addonName)
+                                    PRIVATE_SV.SAFEDATA.SAVED[schema] = true
+                                    EnableAddOn(addonName)
+                                    CoreObject:StaticPopup_Show("RL_CLIENT")
+                                else
+                                    PRIVATE_SV.SAFEDATA.SAVED[schema] = false
+                                    DisableAddOn(addonName)
+                                    CoreObject:StaticPopup_Show("RL_CLIENT")
+                                end
+                            end,
+                        }
+                    }
+                }
+
+                local enabled = PRIVATE_SV.SAFEDATA.SAVED[schema]
+
+                if(enabled) then
+                    if(not IsAddOnLoaded(addonName)) then
                         local loaded, reason = LoadAddOn(addonName)
-                        PRIVATE_SV.SAFEDATA[schema].enable = true
-                        EnableAddOn(addonName)
-                        CoreObject:StaticPopup_Show("RL_CLIENT")
-                    else
-                        PRIVATE_SV.SAFEDATA[schema].enable = false
-                        DisableAddOn(addonName)
-                        CoreObject:StaticPopup_Show("RL_CLIENT")
                     end
-                end,
-            }
-        }
-    }
+                    EnableAddOn(addonName)
+                else
+                    DisableAddOn(addonName)
+                end
+            elseif(theme) then
+                CoreObject.AvailableThemes[theme] = theme;
+                if(theme == PROFILE_THEME) then
+                    if(not IsAddOnLoaded(addonName)) then
+                        local loaded, reason = LoadAddOn(addonName)
+                    end
+                    EnableAddOn(addonName)
+                else
+                    DisableAddOn(addonName)
+                end
+            end
+        end
+    end
 end
 
 local function CorePreInitialize()
@@ -788,24 +784,25 @@ local function CorePreInitialize()
     --PROFILE SAVED VARIABLES
     if not _G[PRIVATE_FILENAME] then _G[PRIVATE_FILENAME] = {} end
     PRIVATE_SV = _G[PRIVATE_FILENAME]
-    if not PRIVATE_SV.SAFEDATA then PRIVATE_SV.SAFEDATA = {dualSpecEnabled = false} end
+    if not PRIVATE_SV.SAFEDATA then PRIVATE_SV.SAFEDATA = {} end
+    if not PRIVATE_SV.SAFEDATA.SAVED then PRIVATE_SV.SAFEDATA.SAVED = {} end
+    if not PRIVATE_SV.SAFEDATA.THEME then PRIVATE_SV.SAFEDATA.THEME = "Default" end
+    if not PRIVATE_SV.SAFEDATA.DUALSPEC then PRIVATE_SV.SAFEDATA.DUALSPEC = false end
     if not PRIVATE_SV.SAFEDATA.NEEDSLIVEUPDATE then PRIVATE_SV.SAFEDATA.NEEDSLIVEUPDATE = false end
     
-    GetProfileKey()
+    GetProfileKeys()
+
     --GLOBAL SAVED VARIABLES
     if not _G[GLOBAL_FILENAME] then _G[GLOBAL_FILENAME] = {} end
     GLOBAL_SV = _G[GLOBAL_FILENAME]
 
     if(GLOBAL_SV.profileKeys) then 
-      twipe(GLOBAL_SV.profileKeys) 
+      wipe(GLOBAL_SV.profileKeys) 
     else
       GLOBAL_SV.profileKeys = {}
     end
 
     GLOBAL_SV.profiles = GLOBAL_SV.profiles or {}
-
-    GLOBAL_SV.profiles[PROFILE_KEY] = GLOBAL_SV.profiles[PROFILE_KEY] or {}
-    GLOBAL_SV.profiles[PROFILE_KEY].THEME = GLOBAL_SV.profiles[PROFILE_KEY].THEME or { ["active"] = "NONE" }
 
     for k,v in pairs(GLOBAL_SV.profiles) do
         GLOBAL_SV.profileKeys[k] = k
@@ -831,80 +828,25 @@ local function CorePreInitialize()
     if not _G[MEDIA_FILENAME] then _G[MEDIA_FILENAME] = {} end
     MEDIA_SV = _G[MEDIA_FILENAME]
     if not MEDIA_SV.profiles then MEDIA_SV.profiles = {} end
-    if not MEDIA_SV.profiles[PROFILE_KEY] then MEDIA_SV.profiles[PROFILE_KEY] = {} end
-    if not MEDIA_SV.profiles[PROFILE_KEY].Theme then MEDIA_SV.profiles[PROFILE_KEY].Theme = {} end
-
-    local activeTheme = "Default";
-    if FoundThemes then
-        local setTheme = GLOBAL_SV.profiles[PROFILE_KEY].THEME.active;
-
-        local themeAddon = FoundThemes[setTheme]
-        if(themeAddon) then
-            activeTheme = setTheme
-            if(not IsAddOnLoaded(themeAddon)) then
-                local loaded, reason = LoadAddOn(themeAddon)
-            end
-            EnableAddOn(themeAddon)
-
-            if THEMES then
-                local globalName = THEMES[setTheme] 
-                local themeObj = _G[globalName]
-                if(themeObj and (not themeObj.initialized) and themeObj.Load and type(themeObj.Load) == "function") then
-                    local _, catch = pcall(themeObj.Load, themeObj)
-                    if(catch) then
-                        print(catch)
-                        CoreObject:HandleError(setTheme, "Load", catch)
-                    else
-                        if(CoreObject.PostUpdateTheme) then
-                            CoreObject:PostUpdateTheme(setTheme)
-                        end
-                        themeObj.initialized = true
-                    end
-                end
-            end
-        end
-
-        --if(not CoreObject.mediadefaults[activeTheme]) then CoreObject.mediadefaults[activeTheme] = {} end
-        --CoreObject.mediadefaults.internal = tablesplice(CoreObject.mediadefaults[activeTheme], CoreObject.mediadefaults.internal);
-    end
-
-    if not MEDIA_SV.profiles[PROFILE_KEY].Theme[activeTheme] then MEDIA_SV.profiles[PROFILE_KEY].Theme[activeTheme] = {} end
-
-    if(PRIVATE_SV.SAFEDATA and PRIVATE_SV.SAFEDATA.dualSpecEnabled) then 
-        lib.EventManager:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
-    else
-        lib.EventManager:UnregisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
-    end
-
-    local key = PRIVATE_SV.SAFEDATA.CurrentProfile
-    if(key) then
-        if(not GLOBAL_SV.profiles[key]) then GLOBAL_SV.profiles[key] = {} end;
-        GLOBAL_SV.profiles[PROFILE_KEY] = GLOBAL_SV.profiles[key];
-    end
 
     --FILTER SAVED VARIABLES
     if not _G[FILTERS_FILENAME] then _G[FILTERS_FILENAME] = {} end
     FILTER_SV = _G[FILTERS_FILENAME]
 
-    if LoadOnDemand then
-        for schema,name in pairs(LoadOnDemand) do
 
-            if(not PRIVATE_SV.SAFEDATA[schema]) then
-                PRIVATE_SV.SAFEDATA[schema] = {["enable"] = true}
-            end
-
-            local db = PRIVATE_SV.SAFEDATA[schema]
-
-            if(db and (db.enable or db.enable ~= false)) then
-                if(not IsAddOnLoaded(name)) then
-                    local loaded, reason = LoadAddOn(name)
-                end
-                EnableAddOn(name)
-            else
-                DisableAddOn(name)
-            end
-        end
+    --KEY AND SPEC BASED VARIABLES
+    if(PRIVATE_SV.SAFEDATA.DUALSPEC) then 
+        lib.EventManager:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
+    else
+        lib.EventManager:UnregisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
     end
+
+    if not GLOBAL_SV.profiles[PROFILE_KEY] then GLOBAL_SV.profiles[PROFILE_KEY] = {} end
+    if not MEDIA_SV.profiles[PROFILE_KEY] then MEDIA_SV.profiles[PROFILE_KEY] = {} end
+    if not MEDIA_SV.profiles[PROFILE_KEY].Theme then MEDIA_SV.profiles[PROFILE_KEY].Theme = {} end
+    if not MEDIA_SV.profiles[PROFILE_KEY].Theme[PROFILE_THEME] then MEDIA_SV.profiles[PROFILE_KEY].Theme[PROFILE_THEME] = {} end
+
+    ProcessLoadOnDemand()
 
     --construct core dataset
     local db           = setmetatable({}, meta_transdata)
@@ -922,14 +864,11 @@ local function CorePreInitialize()
     CoreObject.private = private
 
     local media        = setmetatable({}, meta_transdata)
-    media.data         = MEDIA_SV.profiles[PROFILE_KEY].Theme[activeTheme]
+    media.data         = MEDIA_SV.profiles[PROFILE_KEY].Theme[PROFILE_THEME]
     media.defaults     = CoreObject.mediadefaults
     CoreObject.media   = media
 
     CoreObject.ERRORLOG = ERROR_CACHE.FOUND
-
-    ScheduledDatabase(CoreObject)
-
     CoreObject.initialized = true
 end
 
@@ -950,9 +889,7 @@ local Library_OnEvent = function(self, event, arg, ...)
         CleanupData(CoreObject.media)
     elseif(event == "ADDON_LOADED") then
         if(arg == CoreName) then
-            --CoreObject.db = tablesplice(CoreObject.defaults, {})
-            --CoreObject.filters = tablesplice(CoreObject.filterdefaults, {})
-            
+            CorePreInitialize()
             if(not CoreObject.___loaded and CoreObject.PreLoad) then
                 CoreObject.Timers:ClearAllTimers()
                 CoreObject:PreLoad()
@@ -961,23 +898,6 @@ local Library_OnEvent = function(self, event, arg, ...)
             end
         end
     elseif(event == "PLAYER_LOGIN") then
-        local addonCount = GetNumAddOns()
-        for i = 1, addonCount do
-            local addonName, _, _, _, _, reason = GetAddOnInfo(i)
-
-            if(IsAddOnLoadOnDemand(i)) then
-                local header = GetAddOnMetadata(i, HeaderFromMeta)
-                local schema = GetAddOnMetadata(i, SchemaFromMeta)
-                local theme  = GetAddOnMetadata(i, ThemeFromMeta)
-
-                if(header and schema) then
-                    NewLoadOnDemand(addonName, schema, header)
-                elseif(theme) then
-                    FoundThemes[theme] = addonName;
-                end
-            end
-        end
-        CorePreInitialize()
         if(not CoreObject.___initialized and CoreObject.Initialize and IsLoggedIn()) then
             CoreObject:Initialize()
             CoreObject.___initialized = true
@@ -1038,31 +958,6 @@ local Core_NewPlugin = function(self, addonName, addonObject, gfile, pfile)
     return addonObject
 end
 
--- local addNewSubClass = function(self, schema)
---     if(self[schema]) then return end
-
---     local obj = {
---         parent              = self,
---         Schema              = schema,
---         RegisterEvent       = registerEvent,
---         UnregisterEvent     = unregisterEvent,
---         RegisterUpdate      = registerUpdate,
---         UnregisterUpdate    = unregisterUpdate
---     }
-
---     local addonmeta = {}
---     local oldmeta = getmetatable(obj)
---     if oldmeta then
---         for k, v in pairs(oldmeta) do addonmeta[k] = v end
---     end
---     addonmeta.__tostring = rootstring
---     setmetatable( obj, addonmeta )
-
---     self[schema] = obj
-    
---     return self[schema]
--- end
-
 local Core_NewPackage = function(self, schema, header)
     if(self[schema]) then return end
 
@@ -1077,13 +972,11 @@ local Core_NewPackage = function(self, schema, header)
         Schema              = schema,
         initialized         = false,
         CombatLocked        = false,
-        NewDatabase         = newDatabase,
         ChangeDBVar         = changeDBVar,
         RegisterEvent       = registerEvent,
         UnregisterEvent     = unregisterEvent,
         RegisterUpdate      = registerUpdate,
-        UnregisterUpdate    = unregisterUpdate,
-        --NewSubClass         = addNewSubClass
+        UnregisterUpdate    = unregisterUpdate
     }
 
     local addonmeta = {}
@@ -1113,7 +1006,6 @@ local Core_NewTheme = function(self, themeName, themeObject)
         Schema              = schema,
         initialized         = false,
         CombatLocked        = false,
-        NewDatabase         = newDatabase,
         ChangeDBVar         = changeDBVar,
         RegisterEvent       = registerEvent,
         UnregisterEvent     = unregisterEvent,
@@ -1179,7 +1071,6 @@ local Core_NewModule = function(self, addonName, addonObject, gfile, pfile)
     addonObject.LoD                 = lod
     addonObject.initialized         = false
     addonObject.CombatLocked        = false
-    addonObject.NewDatabase         = newDatabase
     addonObject.ChangeDBVar         = changeDBVar
     addonObject.RegisterEvent       = registerEvent
     addonObject.UnregisterEvent     = unregisterEvent
@@ -1308,6 +1199,8 @@ function lib:NewCore(gfile, efile, pfile, mfile, ffile)
     CoreObject.RegisterUpdate       = registerUpdate
     CoreObject.UnregisterUpdate     = unregisterUpdate
 
+    CoreObject.AvailableThemes      = {["Default"] = "Default"};
+
     CoreObject.NewScript            = Core_NewScript
     CoreObject.NewModule            = Core_NewModule
     CoreObject.NewPackage           = Core_NewPackage
@@ -1335,18 +1228,6 @@ end
 
 -- INITIALIZE AND LAUNCH
 
-local THEMETABLE = {};
-function lib:ListThemes()
-    wipe(THEMETABLE)
-    THEMETABLE["NONE"] = "No Theme";
-    if FoundThemes then
-        for themeName,_ in pairs(FoundThemes) do
-            THEMETABLE[themeName] = themeName;
-        end
-    end
-    return THEMETABLE
-end
-
 function lib:Launch()
     CoreObject.Timers:Initialize()
 
@@ -1365,6 +1246,9 @@ function lib:Launch()
             local schema = MODULES[i]
             local obj = CoreObject[schema]
             local data = CoreObject.db[schema]
+            if(not PRIVATE_SV.SAFEDATA.SAVED[schema]) then
+                PRIVATE_SV.SAFEDATA.SAVED[schema] = true
+            end
             if(obj and (not obj.initialized)) then
                 local halt = false
                 if(data and data.incompatible) then
@@ -1413,11 +1297,11 @@ function lib:Launch()
     if PLUGINS then
         for schema,files in pairs(PLUGINS) do
             if(not PRIVATE_SV.SAFEDATA[schema]) then
-                PRIVATE_SV.SAFEDATA[schema] = {["enable"] = true}
+                PRIVATE_SV.SAFEDATA.SAVED[schema] = true
             end
 
             local obj = _G[schema]
-            local enabled = PRIVATE_SV.SAFEDATA[schema].enable
+            local enabled = PRIVATE_SV.SAFEDATA.SAVED[schema]
             if(obj and enabled and (not obj.initialized)) then
                 local halt = false
 
@@ -1461,3 +1345,86 @@ function lib:LoadScripts()
         ScriptQueue = nil
     end
 end
+
+--[[ UNUSED
+
+local addNewSubClass = function(self, schema)
+    if(self[schema]) then return end
+
+    local obj = {
+        parent              = self,
+        Schema              = schema,
+        RegisterEvent       = registerEvent,
+        UnregisterEvent     = unregisterEvent,
+        RegisterUpdate      = registerUpdate,
+        UnregisterUpdate    = unregisterUpdate
+    }
+
+    local addonmeta = {}
+    local oldmeta = getmetatable(obj)
+    if oldmeta then
+        for k, v in pairs(oldmeta) do addonmeta[k] = v end
+    end
+    addonmeta.__tostring = rootstring
+    setmetatable( obj, addonmeta )
+
+    self[schema] = obj
+    
+    return self[schema]
+end
+
+local function tablesplice(mergeTable, targetTable)
+    if type(targetTable) ~= "table" then targetTable = {} end
+
+    if type(mergeTable) == 'table' then 
+        for key,val in pairs(mergeTable) do 
+            if type(val) == "table" then 
+                targetTable[key] = tablesplice(val, targetTable[key])
+            else
+                targetTable[key] = val
+            end  
+        end 
+    end 
+    return targetTable 
+end
+
+local function ScheduledDatabase(obj)
+    local schema  = obj.Schema;
+    if(DB_QUEUE and DB_QUEUE[schema]) then
+        for key, db_keys in pairs(DB_QUEUE[schema]) do
+
+            local db_file  = db_keys[1];
+            local db_dkey = db_keys[2];
+
+            if not _G[db_file] then _G[db_file] = {} end
+
+            if(db_dkey) then
+                if not obj[db_dkey] then obj[db_dkey] = {} end
+                local this    = setmetatable({}, meta_transdata);
+                this.data     = _G[db_file];
+                this.defaults = obj[db_dkey];
+                obj[key] = this;
+            else
+                local this    = setmetatable({}, meta_database);
+                this.data     = _G[db_file];
+                obj[key] = this;
+            end
+        end
+
+        DB_QUEUE[schema] = nil;
+    end
+end
+
+local function NewDatabase(obj, newKey, fileKey, defaultKey)
+    local schema = obj.Schema
+    if not DB_QUEUE then DB_QUEUE = {} end
+    if not DB_QUEUE[schema] then DB_QUEUE[schema] = {} end
+    DB_QUEUE[schema][newKey] = {fileKey, defaultKey}
+    if(defaultKey) then
+        if not obj[defaultKey] then obj[defaultKey] = {} end
+        return tablesplice(obj[defaultKey], {});
+    else
+        return {}
+    end
+end
+]]--

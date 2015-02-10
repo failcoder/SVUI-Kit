@@ -23,7 +23,7 @@ SV.defaults[Schema] = {
     ["proximity"] = false, 
 }
 
-SV.mediadefaults.internal.font["tracking"]   = {file = "SVUI Number Font", size = 12,  outline = "OUTLINE"}
+SV.mediadefaults.shared.font["tracking"]   = {file = "SVUI Number Font", size = 12,  outline = "OUTLINE"}
 
 SV.GlobalFontList["SVUI_Font_Tracking"]   = "tracking";
 

@@ -145,28 +145,28 @@ local function StyleSortingButton(button)
 
 	local outer = button:CreateTexture(nil, "OVERLAY")
 	outer:WrapPoints(button, 6, 6)
-	outer:SetTexture([[Interface\Addons\SVUI_!Core\assets\textures\ROUND]])
-	outer:SetGradient("VERTICAL", 0.4, 0.47, 0.5, 0.3, 0.33, 0.35)
-
-	if button.SetNormalTexture then 
-		iconTex = button:GetNormalTexture()
-		iconTex:SetGradient("VERTICAL", 0.5, 0.53, 0.55, 0.8, 0.8, 1)
-	end 
+	outer:SetTexture(SV.media.button.round)
+	outer:SetGradient("VERTICAL", 0.4, 0.47, 0.5, 0.3, 0.33, 0.35) 
 	
 	local icon = button:CreateTexture(nil, "OVERLAY")
 	icon:WrapPoints(button, 6, 6)
-	SetPortraitToTexture(icon, iconTex)
-	hooksecurefunc(icon, "SetTexture", SetPortraitToTexture)
+
+	if button.SetNormalTexture then 
+		local iconTex = button:GetNormalTexture()
+		iconTex:SetGradient("VERTICAL", 0.5, 0.53, 0.55, 0.8, 0.8, 1)
+		SetPortraitToTexture(icon, iconTex)
+		hooksecurefunc(icon, "SetTexture", SetPortraitToTexture)
+	end
 
 	local hover = button:CreateTexture(nil, "HIGHLIGHT")
 	hover:WrapPoints(button, 6, 6)
-	hover:SetTexture([[Interface\Addons\SVUI_!Core\assets\textures\ROUND]])
+	hover:SetTexture(SV.media.button.round)
 	hover:SetGradient(unpack(SV.media.gradient.yellow))
 
 	if button.SetPushedTexture then 
 		local pushed = button:CreateTexture(nil, "BORDER")
 		pushed:WrapPoints(button, 6, 6)
-		pushed:SetTexture([[Interface\Addons\SVUI_!Core\assets\textures\ROUND]])
+		pushed:SetTexture(SV.media.button.round)
 		pushed:SetGradient(unpack(SV.media.gradient.highlight))
 		button:SetPushedTexture(pushed)
 	end 
@@ -174,7 +174,7 @@ local function StyleSortingButton(button)
 	if button.SetCheckedTexture then 
 		local checked = button:CreateTexture(nil, "BORDER")
 		checked:WrapPoints(button, 6, 6)
-		checked:SetTexture([[Interface\Addons\SVUI_!Core\assets\textures\ROUND]])
+		checked:SetTexture(SV.media.button.round)
 		checked:SetGradient(unpack(SV.media.gradient.green))
 		button:SetCheckedTexture(checked)
 	end 
@@ -182,7 +182,7 @@ local function StyleSortingButton(button)
 	if button.SetDisabledTexture then 
 		local disabled = button:CreateTexture(nil, "BORDER")
 		disabled:WrapPoints(button, 6, 6)
-		disabled:SetTexture([[Interface\Addons\SVUI_!Core\assets\textures\ROUND]])
+		disabled:SetTexture(SV.media.button.round)
 		disabled:SetGradient(unpack(SV.media.gradient.default))
 		button:SetDisabledTexture(disabled)
 	end 
@@ -211,7 +211,7 @@ local _hook_RankOrder_OnUpdate = function()
 	end 
 end 
 
-function GuildInfoEvents_SetButton(button, eventIndex)
+local function GuildInfoEvents_SetButton(button, eventIndex)
 	local dateData = date("*t")
 	local month, day, weekday, hour, minute, eventType, title, calendarType, textureName = CalendarGetGuildEventInfo(eventIndex)
 	local formattedTime = GameTime_GetFormattedTime(hour, minute, true)

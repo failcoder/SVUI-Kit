@@ -141,7 +141,7 @@ function MOD:CreateClassBar(playerFrame)
 		rune.bar.noupdate = true;
 		rune.bar:InsetPoints(bgFrame,4,4)
 		rune.bar:SetOrientation("HORIZONTAL")
-		rune.bar:SetStatusBarTexture(SV.media.bar.default)
+		rune.bar:SetStatusBarTexture(SV.media.statusbar.default)
 
 		local fgFrame = CreateFrame("Frame", nil, rune.bar)
 		fgFrame:SetAllPoints(bgFrame)

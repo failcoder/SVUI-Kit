@@ -873,7 +873,7 @@ function MOD:Load()
 	SV:NewAnchor(self.Holder, L["Tooltip"])
 
 	GameTooltipStatusBar:SetHeight(BAR_HEIGHT)
-	GameTooltipStatusBar:SetStatusBarTexture(SV.media.bar.default)
+	GameTooltipStatusBar:SetStatusBarTexture(SV.media.statusbar.default)
 
 	BNToastFrame:ClearAllPoints()
 	BNToastFrame:ModPoint("BOTTOMRIGHT", SV.Dock.BottomLeft, "TOPRIGHT", 0, 20)

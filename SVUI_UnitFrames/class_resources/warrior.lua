@@ -108,7 +108,7 @@ function MOD:CreateClassBar(playerFrame)
 	enrage.noupdate = true;
 	enrage:InsetPoints(bgFrame)
 	enrage:SetOrientation("HORIZONTAL")
-	enrage:SetStatusBarTexture(SV.media.bar.glow)
+	enrage:SetStatusBarTexture(SV.media.statusbar.glow)
   enrage:SetStatusBarColor(1, 0, 0, 0.75)
 
   bgFrame.bar = enrage;

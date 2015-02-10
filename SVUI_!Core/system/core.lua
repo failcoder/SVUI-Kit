@@ -244,9 +244,6 @@ SV.filterdefaults     = {};
 SV.mediadefaults      = {};
 SV.defaults           = {
     ["LAYOUT"] = {},
-    ["THEME"] = {
-        ["active"] = "NONE",
-    },
     ["screen"] = {
         ["autoScale"] = true,
         ["multiMonitor"] = false,
@@ -608,7 +605,7 @@ function SV:VersionCheck()
 end
 
 function SV:RefreshEverything(bypass)
-    self:RefreshCommonMedia();
+    self:UpdateSharedMedia();
     self:UpdateAnchors();
     SVUILib:RefreshAll();
     if not bypass then
@@ -816,7 +813,6 @@ function SV:Initialize()
     self:PlayerInfoUpdate();
     self:VersionCheck();
     self:RefreshAllMedia();
-    self:PostUpdateTheme();
 
     SVUILib:LoadScripts();
 

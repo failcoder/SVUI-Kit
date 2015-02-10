@@ -229,11 +229,11 @@ local function GetDataSlot(parent, index)
 
 		slot.barframe.bar = CreateFrame("StatusBar", nil, slot.barframe)
 		slot.barframe.bar:InsetPoints(slot.barframe, 2, 2)
-		slot.barframe.bar:SetStatusBarTexture(SV.media.bar.default)
+		slot.barframe.bar:SetStatusBarTexture(SV.media.statusbar.default)
 			
 		slot.barframe.bar.extra = CreateFrame("StatusBar", nil, slot.barframe.bar)
 		slot.barframe.bar.extra:SetAllPoints()
-		slot.barframe.bar.extra:SetStatusBarTexture(SV.media.bar.default)
+		slot.barframe.bar.extra:SetStatusBarTexture(SV.media.statusbar.default)
 		slot.barframe.bar.extra:Hide()
 
 		slot.barframe:Hide()

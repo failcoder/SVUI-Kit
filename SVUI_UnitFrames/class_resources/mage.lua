@@ -176,7 +176,7 @@ function MOD:CreateClassBar(playerFrame)
 	ignite.noupdate = true;
 	ignite:InsetPoints(bgFrame)
 	ignite:SetOrientation("HORIZONTAL")
-	ignite:SetStatusBarTexture(SV.media.bar.glow)
+	ignite:SetStatusBarTexture(SV.media.statusbar.glow)
 	ignite:SetStatusBarColor(1, 0.2, 0, 0.75)
 	ignite.text = ignite:CreateFontString(nil, "OVERLAY")
 	ignite.text:SetPoint("LEFT")

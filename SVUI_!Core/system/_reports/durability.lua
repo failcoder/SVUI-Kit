@@ -132,7 +132,7 @@ local DurColorUpdate = function()
 		Durability_OnEvent(currentObject)
 	end 
 end 
-SV.Events:On("MEDIA_COLORS_UPDATED", DurColorUpdate, "DurColorUpdates")
+SV.Events:On("SHARED_MEDIA_UPDATED", DurColorUpdate, "DurColorUpdates")
 
 Reports:NewReportType("Durability", StatEvents, Durability_OnEvent, nil, Durability_OnClick, Durability_OnEnter)
 Reports:NewReportType("Durability Bar", StatEvents, DurabilityBar_OnEvent, nil, Durability_OnClick, Durability_OnEnter)

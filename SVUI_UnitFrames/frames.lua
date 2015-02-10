@@ -821,7 +821,7 @@ CONSTRUCTORS["arena"] = function(self, unit)
 
         local health = CreateFrame("StatusBar", nil, prep)
         health:SetAllPoints(prep)
-        health:SetStatusBarTexture(SV.media.bar.default)
+        health:SetStatusBarTexture(SV.media.statusbar.default)
         prep.Health = health
 
         local icon = CreateFrame("Frame", nil, prep)

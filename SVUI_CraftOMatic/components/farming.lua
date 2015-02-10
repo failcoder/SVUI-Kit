@@ -525,7 +525,7 @@ function PLUGIN:PrepareFarmingTools()
 
 	if not CONFIGS.farming.undocked then
 		local bgTex = [[Interface\BUTTONS\WHITE8X8]]
-		local bdTex = SV.media.bar.glow
+		local bdTex = SV.media.statusbar.glow
 		local farmingDocklet = CreateFrame("ScrollFrame", "FarmModeFrame", ModeLogsFrame);
 		farmingDocklet:SetPoint("TOPLEFT", ModeLogsFrame, 31, -3);
 		farmingDocklet:SetPoint("BOTTOMRIGHT", ModeLogsFrame, -3, 3);

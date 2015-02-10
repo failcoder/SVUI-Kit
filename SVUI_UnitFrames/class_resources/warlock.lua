@@ -249,7 +249,7 @@ function MOD:CreateClassBar(playerFrame)
 	demonBar.noupdate = true;
 	demonBar:InsetPoints(bgFrame,2,2)
 	demonBar:SetOrientation("HORIZONTAL")
-	demonBar:SetStatusBarTexture(SV.media.bar.default)
+	demonBar:SetStatusBarTexture(SV.media.statusbar.default)
 
 	demonicFury.text = demonicFury:CreateFontString(nil, "OVERLAY")
 	demonicFury.text:SetPoint("LEFT", demonicFury, "RIGHT", 0, 0)

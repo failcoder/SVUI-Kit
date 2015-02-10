@@ -237,7 +237,7 @@ do
 		aura.time:SetFontObject(SVUI_Font_Aura)
 
 		aura.highlight = aura:CreateTexture(nil, "HIGHLIGHT")
-		aura.highlight:SetTexture(SV.media.bar.default)
+		aura.highlight:SetTexture(SV.media.statusbar.default)
 		aura.highlight:SetVertexColor(1, 1, 1, 0.45)
 		aura.highlight:InsetPoints(aura, 2, 2)
 

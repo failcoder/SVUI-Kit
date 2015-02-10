@@ -114,5 +114,5 @@ local DPSColorUpdate = function()
 	end
 end
 
-SV.Events:On("MEDIA_COLORS_UPDATED", DPSColorUpdate, "DPSColorUpdates")
+SV.Events:On("SHARED_MEDIA_UPDATED", DPSColorUpdate, "DPSColorUpdates")
 Reports:NewReportType('DPS', StatEvents, DPS_OnEvent, nil, DPS_OnClick, DPS_OnEnter)

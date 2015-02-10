@@ -38,74 +38,45 @@ function SV.Setup:SelectTheme()
 	if not SVUI_ThemeSelectFrame then 
 		local frame = CreateFrame("Button", "SVUI_ThemeSelectFrame", UIParent)
 		frame:ModSize(350, 145)
-		frame:SetStyle("Frame", "WindowAlternate")
+		frame:SetStyle("Frame", "Window2")
 		frame:SetPoint("CENTER", SV.Screen, "CENTER", 0, 0)
 		frame:SetFrameStrata("TOOLTIP");
 
-		local THEMES = SVUILib:ListThemes()
 		local count = 1;
 		local yOffset = ((135 * count) - 125) * -1;
 		local icon = SV.Setup.media.theme
-		local firstButton = CreateFrame("Frame", nil, frame)
-		firstButton:ModSize(125, 125)
-		firstButton:SetPoint("TOP", frame, "TOP", 0, yOffset)
-		firstButton.texture = firstButton:CreateTexture(nil, "BORDER")
-		firstButton.texture:SetAllPoints()
-		firstButton.texture:SetTexture(icon)
-		firstButton.texture:SetVertexColor(1, 1, 1)
-		firstButton.text = firstButton:CreateFontString(nil, "OVERLAY")
-		firstButton.text:SetFont(SV.media.font.zones, 18, "OUTLINE")
-		firstButton.text:SetPoint("BOTTOM")
-		firstButton.text:SetText("Default Theme")
-		firstButton.text:SetTextColor(0.1, 0.5, 1)
-		firstButton:EnableMouse(true)
-		firstButton:SetScript("OnMouseDown", function(self) 
-			SV.db.THEME.active = "NONE";
-			SV:StaticPopup_Show("RL_CLIENT");
-		end)
-		firstButton:SetScript("OnEnter", function(this)
-			this.texture:SetVertexColor(0, 1, 1)
-			this.text:SetTextColor(1, 1, 0)
-		end)
-		firstButton:SetScript("OnLeave", function(this)
-			this.texture:SetVertexColor(1, 1, 1)
-			this.text:SetTextColor(0.1, 0.5, 1)
-		end)
 
-		count = count + 1
 		--[[ NEXT PAGE BUTTON ]]--
-		for themeName, _ in pairs(THEMES) do
-			if(themeName ~= 'NONE') then
-				local yOffset = ((135 * count) - 125) * -1;
-				local icon = SV.Setup.media[themeName] or SV.Setup.media.theme
-				local themeButton = CreateFrame("Frame", nil, frame)
-				themeButton:ModSize(125, 125)
-				themeButton:SetPoint("TOP", frame, "TOP", 0, yOffset)
-				themeButton.texture = themeButton:CreateTexture(nil, "BORDER")
-				themeButton.texture:SetAllPoints()
-				themeButton.texture:SetTexture(icon)
-				themeButton.texture:SetVertexColor(1, 1, 1)
-				themeButton.text = themeButton:CreateFontString(nil, "OVERLAY")
-				themeButton.text:SetFont(SV.media.font.zones, 18, "OUTLINE")
-				themeButton.text:SetPoint("BOTTOM")
-				themeButton.text:SetText(themeName .. " Theme")
-				themeButton.text:SetTextColor(0.1, 0.5, 1)
-				themeButton:EnableMouse(true)
-				themeButton:SetScript("OnMouseDown", function(self) 
-					SV.db.THEME.active = themeName; 
-					SV:StaticPopup_Show("RL_CLIENT");
-				end)
-				themeButton:SetScript("OnEnter", function(this)
-					this.texture:SetVertexColor(0, 1, 1)
-					this.text:SetTextColor(1, 1, 0)
-				end)
-				themeButton:SetScript("OnLeave", function(this)
-					this.texture:SetVertexColor(1, 1, 1)
-					this.text:SetTextColor(0.1, 0.5, 1)
-				end)
+		for themeName, _ in pairs(SV.AvailableThemes) do
+			local yOffset = ((135 * count) - 125) * -1;
+			local icon = SV.Setup.media[themeName] or SV.Setup.media.theme
+			local themeButton = CreateFrame("Frame", nil, frame)
+			themeButton:ModSize(125, 125)
+			themeButton:SetPoint("TOP", frame, "TOP", 0, yOffset)
+			themeButton.texture = themeButton:CreateTexture(nil, "BORDER")
+			themeButton.texture:SetAllPoints()
+			themeButton.texture:SetTexture(icon)
+			themeButton.texture:SetVertexColor(1, 1, 1)
+			themeButton.text = themeButton:CreateFontString(nil, "OVERLAY")
+			themeButton.text:SetFont(SV.media.font.zone, 18, "OUTLINE")
+			themeButton.text:SetPoint("BOTTOM")
+			themeButton.text:SetText(themeName .. " Theme")
+			themeButton.text:SetTextColor(0.1, 0.5, 1)
+			themeButton:EnableMouse(true)
+			themeButton:SetScript("OnMouseDown", function(self) 
+				SVUILib:SaveSafeData("THEME", themeName) 
+				SV:StaticPopup_Show("RL_CLIENT");
+			end)
+			themeButton:SetScript("OnEnter", function(this)
+				this.texture:SetVertexColor(0, 1, 1)
+				this.text:SetTextColor(1, 1, 0)
+			end)
+			themeButton:SetScript("OnLeave", function(this)
+				this.texture:SetVertexColor(1, 1, 1)
+				this.text:SetTextColor(0.1, 0.5, 1)
+			end)
 
-				count = count + 1
-			end
+			count = count + 1
 		end
 
 		local closeButton = CreateFrame("Button", nil, frame, "UIPanelCloseButton")

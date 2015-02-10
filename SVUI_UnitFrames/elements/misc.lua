@@ -168,7 +168,7 @@ end
 function MOD:CreateFriendshipBar(frame)
 	local buddy = CreateFrame("StatusBar", nil, frame.Power)
     buddy:SetAllPoints(frame.Power)
-    buddy:SetStatusBarTexture(SV.media.bar.default)
+    buddy:SetStatusBarTexture(SV.media.statusbar.default)
     buddy:SetStatusBarColor(1,0,0)
     local bg = buddy:CreateTexture(nil, "BACKGROUND")
 	bg:SetAllPoints(buddy)
@@ -496,7 +496,7 @@ function MOD:CreateHealPrediction(frame, fullSet)
 	local absorbBar = CreateFrame('StatusBar', nil, health)
 	absorbBar:SetFrameStrata("LOW")
 	absorbBar:SetFrameLevel(7)
-	absorbBar:SetStatusBarTexture(SV.media.bar.gradient)
+	absorbBar:SetStatusBarTexture(SV.media.statusbar.gradient)
 	absorbBar:SetStatusBarColor(1, 1, 0, 0.5)
 
 	local healPrediction = {
@@ -511,7 +511,7 @@ function MOD:CreateHealPrediction(frame, fullSet)
 		local healAbsorbBar = CreateFrame('StatusBar', nil, health)
 		healAbsorbBar:SetFrameStrata("LOW")
 		healAbsorbBar:SetFrameLevel(9)
-		healAbsorbBar:SetStatusBarTexture(SV.media.bar.gradient)
+		healAbsorbBar:SetStatusBarTexture(SV.media.statusbar.gradient)
 		healAbsorbBar:SetStatusBarColor(0.5, 0.2, 1, 0.9)
 		healPrediction["healAbsorbBar"] = healAbsorbBar;
 	end

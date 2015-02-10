@@ -280,7 +280,7 @@ local function SpellBookStyle()
 		if(bar) then
 			bar:RemoveTextures()
 			bar:SetHeight(12)
-			bar:SetStatusBarTexture(SV.media.bar.default)
+			bar:SetStatusBarTexture(SV.media.statusbar.default)
 			bar:SetStatusBarColor(0, 220/255, 0)
 			bar:SetStyle("Frame", "Default")
 			bar.rankText:ClearAllPoints()

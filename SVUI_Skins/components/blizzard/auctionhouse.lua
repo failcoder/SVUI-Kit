@@ -121,7 +121,7 @@ local function AuctionStyle()
 	AuctionProgressBarText:SetPoint("CENTER")
 	AuctionProgressBar:RemoveTextures()
 	AuctionProgressBar:SetStyle("Frame", "Default")
-	AuctionProgressBar:SetStatusBarTexture(SV.media.bar.default)
+	AuctionProgressBar:SetStatusBarTexture(SV.media.statusbar.default)
 	AuctionProgressBar:SetStatusBarColor(1, 1, 0)
 
 	SV.API:Set("PageButton", BrowseNextPageButton)

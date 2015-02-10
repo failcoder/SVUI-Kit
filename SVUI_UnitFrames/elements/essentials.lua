@@ -215,7 +215,7 @@ function MOD:SetActionPanel(frame, unit, noHealthText, noPowerText, noMiscText)
 	if(frame.ActionPanel) then return; end
 	frame:SetStyle("Frame", "ActionPanel")
 	if(unit and (unit == "target" or unit == "player")) then
-		local baseSize = SV.media.internal.font.unitprimary.size / 0.55;
+		local baseSize = SV.media.shared.font.unitprimary.size / 0.55;
 		local info = CreateFrame("Frame", nil, frame)
 		info:SetFrameStrata("BACKGROUND")
 		info:SetFrameLevel(0)
@@ -595,12 +595,12 @@ function MOD:CreateHealthBar(frame, hasbg)
 	local healthBar = CreateFrame("StatusBar", nil, frame)
 	healthBar:SetFrameStrata("LOW")
 	healthBar:SetFrameLevel(4)
-	healthBar:SetStatusBarTexture(SV.media.bar.default);
+	healthBar:SetStatusBarTexture(SV.media.statusbar.default);
 	
 	if hasbg then 
 		healthBar.bg = healthBar:CreateTexture(nil, "BORDER")
 		healthBar.bg:SetAllPoints()
-		healthBar.bg:SetTexture(SV.media.bar.gradient)
+		healthBar.bg:SetTexture(SV.media.statusbar.gradient)
 		healthBar.bg:SetVertexColor(0.4, 0.1, 0.1)
 		healthBar.bg.multiplier = 0.25
 	end 
@@ -670,7 +670,7 @@ end
 
 function MOD:CreatePowerBar(frame, bg)
 	local power = CreateFrame("StatusBar", nil, frame)
-	power:SetStatusBarTexture(SV.media.bar.default)
+	power:SetStatusBarTexture(SV.media.statusbar.default)
 	power:SetStyle("Frame", "Bar")
 	power:SetFrameStrata("LOW")
 	power:SetFrameLevel(6)
@@ -688,7 +688,7 @@ end
 
 function MOD:CreateAltPowerBar(frame)
 	local altPower = CreateFrame("StatusBar", nil, frame)
-	altPower:SetStatusBarTexture(SV.media.bar.default)
+	altPower:SetStatusBarTexture(SV.media.statusbar.default)
 	altPower:SetStyle("Frame", "Bar")
 	altPower:GetStatusBarTexture():SetHorizTile(false)
 	altPower:SetFrameStrata("LOW")

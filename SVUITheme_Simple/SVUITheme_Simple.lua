@@ -19,7 +19,7 @@ GET ADDON DATA
 ##########################################################
 ]]--
 local SV = _G["SVUI"];
-local THEME = SV:NewTheme(...);
+local LSM = LibStub("LibSharedMedia-3.0");
 
 local _SetDockStyleTheme = function(dock, isBottom)
 	if dock.backdrop then return end
@@ -87,88 +87,75 @@ local _SetBorderTheme = function(self)
 	end)
 end
 
-function THEME:Load()
-	local LSM = LibStub("LibSharedMedia-3.0");
-	LSM:Register("background", "SVUI Backdrop", [[Interface\DialogFrame\UI-DialogBox-Background]])
+LSM:Register("background", "SVUI Backdrop", [[Interface\DialogFrame\UI-DialogBox-Background]])
 
-	SV.DialogFontDefault = "SVUI Default Font";
+SV.DialogFontDefault = "SVUI Default Font";
 
-	if(GetLocale() == "enUS") then
-		SV.mediadefaults.internal.font["dialog"] = {file = "SVUI Dialog Font",  size = 10,  outline = "OUTLINE"};
-		SV.mediadefaults.internal.font["title"] = {file = "SVUI Dialog Font",  size = 16,  outline = "OUTLINE"};
-		SV.media["font"]["dialog"] = LSM:Fetch("font", "SVUI Dialog Font")
-	end
+if(GetLocale() == "enUS") then
+	SV.mediadefaults.shared.font["dialog"] = {file = "SVUI Dialog Font",  size = 10,  outline = "OUTLINE"};
+	SV.mediadefaults.shared.font["title"] = {file = "SVUI Dialog Font",  size = 16,  outline = "OUTLINE"};
+end
 
-	SV.mediadefaults.internal.font["number"]      	= {file = "SVUI Caps Font",   size = 14,  outline = "OUTLINE"};
-	SV.mediadefaults.internal.font["number_big"]   = {file = "SVUI Caps Font",   size = 18,  outline = "OUTLINE"};
-	SV.mediadefaults.internal.font["header"]      	= {file = "SVUI Caps Font",   size = 18,  outline = "OUTLINE"};  
-	SV.mediadefaults.internal.font["combat"]      	= {file = "SVUI Combat Font",   size = 64,  outline = "OUTLINE"}; 
-	SV.mediadefaults.internal.font["alert"]       	= {file = "SVUI Default Font",    size = 20,  outline = "OUTLINE"};
-	SV.mediadefaults.internal.font["zone"]      	= {file = "SVUI Default Font",     size = 16,  outline = "OUTLINE"};
-	SV.mediadefaults.internal.font["aura"]      	= {file = "SVUI Caps Font",   size = 14,  outline = "OUTLINE"};
-	SV.mediadefaults.internal.font["data"]      	= {file = "SVUI Caps Font",   size = 14,  outline = "OUTLINE"};
-	SV.mediadefaults.internal.font["narrator"]    	= {file = "SVUI Default Font", size = 14,  outline = "OUTLINE"};
-	SV.mediadefaults.internal.font["lootnumber"]   = {file = "SVUI Caps Font",   size = 14,  outline = "OUTLINE"};
-	SV.mediadefaults.internal.font["rollnumber"]   = {file = "SVUI Caps Font",   size = 14,  outline = "OUTLINE"};
+SV.mediadefaults.shared.font["number"]      	= {file = "SVUI Caps Font",   size = 14,  outline = "OUTLINE"};
+SV.mediadefaults.shared.font["number_big"]   = {file = "SVUI Caps Font",   size = 18,  outline = "OUTLINE"};
+SV.mediadefaults.shared.font["header"]      	= {file = "SVUI Caps Font",   size = 18,  outline = "OUTLINE"};  
+SV.mediadefaults.shared.font["combat"]      	= {file = "SVUI Combat Font",   size = 64,  outline = "OUTLINE"}; 
+SV.mediadefaults.shared.font["alert"]       	= {file = "SVUI Default Font",    size = 20,  outline = "OUTLINE"};
+SV.mediadefaults.shared.font["zone"]      	= {file = "SVUI Default Font",     size = 16,  outline = "OUTLINE"};
+SV.mediadefaults.shared.font["aura"]      	= {file = "SVUI Caps Font",   size = 14,  outline = "OUTLINE"};
+SV.mediadefaults.shared.font["data"]      	= {file = "SVUI Caps Font",   size = 14,  outline = "OUTLINE"};
+SV.mediadefaults.shared.font["narrator"]    	= {file = "SVUI Default Font", size = 14,  outline = "OUTLINE"};
+SV.mediadefaults.shared.font["lootnumber"]   = {file = "SVUI Caps Font",   size = 14,  outline = "OUTLINE"};
+SV.mediadefaults.shared.font["rollnumber"]   = {file = "SVUI Caps Font",   size = 14,  outline = "OUTLINE"};
 
-	SV.mediadefaults.internal.bg["pattern"]   	= "SVUI Backdrop";
-	SV.mediadefaults.internal.bg["premium"]   	= "SVUI Backdrop";
-	SV.mediadefaults.internal.bg["button"]   	= "SVUI Backdrop";
-	SV.mediadefaults.internal.bg["unitlarge"]   = "SVUI Backdrop";
-	SV.mediadefaults.internal.bg["unitsmall"]   = "SVUI Backdrop";
+SV.mediadefaults.shared.background["pattern"]   	= {file = "SVUI Backdrop", size = 0, tiled = false};
+SV.mediadefaults.shared.background["premium"]   	= {file = "SVUI Backdrop", size = 0, tiled = false};
+SV.mediadefaults.shared.background["button"]   	= {file = "SVUI Backdrop", size = 0, tiled = false};
+SV.mediadefaults.shared.background["unitlarge"]   = {file = "SVUI Backdrop", size = 0, tiled = false};
+SV.mediadefaults.shared.background["unitsmall"]   = {file = "SVUI Backdrop", size = 0, tiled = false};
 
-	if(SV.defaults.UnitFrames) then
-		SV.mediadefaults.internal.font["unitprimary"]   	= {file = "SVUI Caps Font",   size = 14,  outline = "OUTLINE"}
-		SV.mediadefaults.internal.font["unitsecondary"]   	= {file = "SVUI Caps Font",   size = 14,  outline = "OUTLINE"}
-		SV.mediadefaults.internal.font["unitaurabar"]   	= {file = "SVUI Default Font",  size = 14,  outline = "OUTLINE"}
-		SV.mediadefaults.internal.font["unitaura"]  		= {file = "SVUI Default Font",  size = 14,  outline = "OUTLINE"}
+if(SV.defaults.UnitFrames) then
+	SV.mediadefaults.shared.font["unitprimary"]   	= {file = "SVUI Caps Font",   size = 14,  outline = "OUTLINE"}
+	SV.mediadefaults.shared.font["unitsecondary"]   	= {file = "SVUI Caps Font",   size = 14,  outline = "OUTLINE"}
+	SV.mediadefaults.shared.font["unitaurabar"]   	= {file = "SVUI Default Font",  size = 14,  outline = "OUTLINE"}
+	SV.mediadefaults.shared.font["unitaura"]  		= {file = "SVUI Default Font",  size = 14,  outline = "OUTLINE"}
 
-		SV.defaults.UnitFrames.player.name.font = SV.DialogFontDefault;
-		SV.defaults.UnitFrames.target.name.font = SV.DialogFontDefault;
-		SV.defaults.UnitFrames.pet.name.font = SV.DialogFontDefault;
-		SV.defaults.UnitFrames.targettarget.name.font = SV.DialogFontDefault;
-		SV.defaults.UnitFrames.focus.name.font = SV.DialogFontDefault;
-		SV.defaults.UnitFrames.focustarget.name.font = SV.DialogFontDefault;
-		SV.defaults.UnitFrames.raid.name.font = SV.DialogFontDefault;
-		SV.defaults.UnitFrames.party.name.font = SV.DialogFontDefault;
-		SV.defaults.UnitFrames.boss.name.font = SV.DialogFontDefault;
-		SV.defaults.UnitFrames.arena.name.font = SV.DialogFontDefault;
-		SV.defaults.UnitFrames.tank.name.font = SV.DialogFontDefault;
-		SV.defaults.UnitFrames.assist.name.font = SV.DialogFontDefault;
-		SV.defaults.UnitFrames.raidpet.name.font = SV.DialogFontDefault;
-	end
+	SV.defaults.UnitFrames.player.name.font = SV.DialogFontDefault;
+	SV.defaults.UnitFrames.target.name.font = SV.DialogFontDefault;
+	SV.defaults.UnitFrames.pet.name.font = SV.DialogFontDefault;
+	SV.defaults.UnitFrames.targettarget.name.font = SV.DialogFontDefault;
+	SV.defaults.UnitFrames.focus.name.font = SV.DialogFontDefault;
+	SV.defaults.UnitFrames.focustarget.name.font = SV.DialogFontDefault;
+	SV.defaults.UnitFrames.raid.name.font = SV.DialogFontDefault;
+	SV.defaults.UnitFrames.party.name.font = SV.DialogFontDefault;
+	SV.defaults.UnitFrames.boss.name.font = SV.DialogFontDefault;
+	SV.defaults.UnitFrames.arena.name.font = SV.DialogFontDefault;
+	SV.defaults.UnitFrames.tank.name.font = SV.DialogFontDefault;
+	SV.defaults.UnitFrames.assist.name.font = SV.DialogFontDefault;
+	SV.defaults.UnitFrames.raidpet.name.font = SV.DialogFontDefault;
+end
 
-	if(SV.defaults.Maps) then
-		SV.mediadefaults.internal.font["mapinfo"]  	= {file = "SVUI Default Font", size = 14,  outline = "OUTLINE"}
-		SV.mediadefaults.internal.font["mapcoords"]   	= {file = "SVUI Caps Font",   size = 14,  outline = "OUTLINE"}
-		SV.defaults.Maps.locationText = "SIMPLE";
-		SV.defaults.Maps.bordersize = 1;
-		SV.defaults.Maps.bordercolor = "dark";
-	end
+if(SV.defaults.Maps) then
+	SV.mediadefaults.shared.font["mapinfo"]  	= {file = "SVUI Default Font", size = 14,  outline = "OUTLINE"}
+	SV.mediadefaults.shared.font["mapcoords"]   	= {file = "SVUI Caps Font",   size = 14,  outline = "OUTLINE"}
+	SV.defaults.Maps.locationText = "SIMPLE";
+	SV.defaults.Maps.bordersize = 1;
+	SV.defaults.Maps.bordercolor = "dark";
+end
 
-	SV.API.Themes["Simple"] = {
-		["Default"]     		= "SVUITheme_Simple_Default",
-		["Button"]  			= "SVUITheme_Simple_DockButton",
-		["DockButton"]  		= "SVUITheme_Simple_DockButton",
-		["Pattern"] 			= "SVUITheme_Simple_Default",
-		["Premium"] 			= "SVUITheme_Simple_Default",
-		["Window"]  			= "SVUITheme_Simple_Default",
-		["WindowAlternate"]  	= "SVUITheme_Simple_Default",
-		["Minimap"] 			= "SVUITheme_Simple_Minimap",
-		["ActionPanel"] 		= "SVUITheme_Simple_ActionPanel",
-		["Container"]   		= "SVUITheme_Simple_Default",
-	};
+SV.API.Templates["Default"]     	= "SVUITheme_Simple_Default";
+SV.API.Templates["Button"]  		= "SVUITheme_Simple_DockButton";
+SV.API.Templates["DockButton"]  	= "SVUITheme_Simple_DockButton";
+SV.API.Templates["Pattern"]   		= "SVUITheme_Simple_Default";
+SV.API.Templates["Premium"]   		= "SVUITheme_Simple_Default";
+SV.API.Templates["Window"]  		= "SVUITheme_Simple_Default";
+SV.API.Templates["Window2"] = "SVUITheme_Simple_Default";
+SV.API.Templates["Minimap"] 		= "SVUITheme_Simple_Minimap";
+SV.API.Templates["ActionPanel"] 	= "SVUITheme_Simple_ActionPanel";
+SV.API.Templates["Container"]  		= "SVUITheme_Simple_Default";
 
-	SV.media["bg"]["pattern"] 	= LSM:Fetch("background", "SVUI Backdrop")
-	SV.media["bg"]["premium"] 	= LSM:Fetch("background", "SVUI Backdrop")
-	SV.media["bg"]["button"] 	= LSM:Fetch("background", "SVUI Backdrop")
-	SV.media["bg"]["unitlarge"] = LSM:Fetch("background", "SVUI Backdrop")
-	SV.media["bg"]["unitsmall"] = LSM:Fetch("background", "SVUI Backdrop")
-	SV.media["bg"]["button"]   	= LSM:Fetch("background", "SVUI Backdrop");
-
-	SV.Dock.SetThemeDockStyle = _SetDockStyleTheme
-	SV.Dock.SetBorderTheme = _SetBorderTheme
-	-- print("Theme")
-	-- print(SV.mediadefaults.internal.bg["unitlarge"])
-	-- print(SV.media["bg"]["unitlarge"])
-end 
+SV.Dock.SetThemeDockStyle = _SetDockStyleTheme
+SV.Dock.SetBorderTheme = _SetBorderTheme
+-- print("Theme")
+-- print(SV.mediadefaults.shared.background["unitlarge"])
+-- print(SV.media["background"]["unitlarge"])

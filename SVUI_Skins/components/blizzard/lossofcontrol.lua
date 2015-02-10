@@ -27,7 +27,7 @@ local _hook_LossOfControl = function(self, ...)
   self.TimeLeft.NumberText:ClearAllPoints()
   self.TimeLeft.NumberText:SetPoint("BOTTOM", self, 4, -58)
   self.TimeLeft.NumberText.scrollTime = nil;
-  self.TimeLeft.NumberText:SetFont(SV.media.font.numbers, 20, 'OUTLINE')
+  self.TimeLeft.NumberText:SetFont(SV.media.font.number, 20, 'OUTLINE')
   self.TimeLeft.SecondsText:ClearAllPoints()
   self.TimeLeft.SecondsText:SetPoint("BOTTOM", self, 0, -80)
   self.TimeLeft.SecondsText.scrollTime = nil;

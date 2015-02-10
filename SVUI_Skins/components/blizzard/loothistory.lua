@@ -139,7 +139,7 @@ local function LootHistoryStyle()
   BonusRollFrame:RemoveTextures()
   SV.API:Set("Alert", BonusRollFrame)
   BonusRollFrame.PromptFrame.Icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
-  BonusRollFrame.PromptFrame.Timer.Bar:SetTexture(SV.media.bar.default)
+  BonusRollFrame.PromptFrame.Timer.Bar:SetTexture(SV.media.statusbar.default)
   BonusRollFrame.PromptFrame.Timer.Bar:SetVertexColor(0.1, 1, 0.1)
 end 
 --[[ 
