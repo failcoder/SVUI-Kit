@@ -77,16 +77,16 @@ local function StyleBagToolButton(button, iconTex)
 	local bg = button:CreateTexture(nil, "BACKGROUND")
 	bg:WrapPoints(button, 4, 4)
 	bg:SetTexture(MOD.media.buttonBg)
-	bg:SetVertexColor(unpack(SV.Media.color.default))
+	bg:SetVertexColor(unpack(SV.media.color.default))
 
 	local outer = button:CreateTexture(nil, "OVERLAY")
 	outer:WrapPoints(button, 5, 5)
 	outer:SetTexture(MOD.media.buttonFg)
-	outer:SetGradient(unpack(SV.Media.gradient.container))
+	outer:SetGradient(unpack(SV.media.gradient.container))
 
 	button:SetNormalTexture(iconTex)
 	iconTex = button:GetNormalTexture()
-	iconTex:SetGradient(unpack(SV.Media.gradient.medium))
+	iconTex:SetGradient(unpack(SV.media.gradient.medium))
 	
 	local icon = button:CreateTexture(nil, "OVERLAY")
 	icon:WrapPoints(button, 5, 5)
@@ -96,13 +96,13 @@ local function StyleBagToolButton(button, iconTex)
 	local hover = button:CreateTexture(nil, "HIGHLIGHT")
 	hover:WrapPoints(button, 5, 5)
 	hover:SetTexture(MOD.media.buttonFg)
-	hover:SetGradient(unpack(SV.Media.gradient.yellow))
+	hover:SetGradient(unpack(SV.media.gradient.yellow))
 
 	if button.SetPushedTexture then 
 		local pushed = button:CreateTexture(nil, "BORDER")
 		pushed:WrapPoints(button, 5, 5)
 		pushed:SetTexture(MOD.media.buttonFg)
-		pushed:SetGradient(unpack(SV.Media.gradient.highlight))
+		pushed:SetGradient(unpack(SV.media.gradient.highlight))
 		button:SetPushedTexture(pushed)
 	end 
 
@@ -110,7 +110,7 @@ local function StyleBagToolButton(button, iconTex)
 		local checked = button:CreateTexture(nil, "BORDER")
 		checked:WrapPoints(button, 5, 5)
 		checked:SetTexture(MOD.media.buttonFg)
-		checked:SetGradient(unpack(SV.Media.gradient.green))
+		checked:SetGradient(unpack(SV.media.gradient.green))
 		button:SetCheckedTexture(checked)
 	end 
 
@@ -118,7 +118,7 @@ local function StyleBagToolButton(button, iconTex)
 		local disabled = button:CreateTexture(nil, "BORDER")
 		disabled:WrapPoints(button, 5, 5)
 		disabled:SetTexture(MOD.media.buttonFg)
-		disabled:SetGradient(unpack(SV.Media.gradient.default))
+		disabled:SetGradient(unpack(SV.media.gradient.default))
 		button:SetDisabledTexture(disabled)
 	end 
 
@@ -1097,12 +1097,12 @@ do
 			GameTooltip:AddDoubleLine(self.ttText2,self.ttText2desc,1,1,1)
 		end
 
-		self:GetNormalTexture():SetGradient(unpack(SV.Media.gradient.highlight))
+		self:GetNormalTexture():SetGradient(unpack(SV.media.gradient.highlight))
 		GameTooltip:Show()
 	end 
 
 	local Tooltip_Hide = function(self)
-		self:GetNormalTexture():SetGradient(unpack(SV.Media.gradient.medium))
+		self:GetNormalTexture():SetGradient(unpack(SV.media.gradient.medium))
 		GameTooltip:Hide()
 	end 
 
@@ -1469,7 +1469,7 @@ do
 				else
 					GameTooltip:AddLine(self.ttText)
 				end
-				self:GetNormalTexture():SetGradient(unpack(SV.Media.gradient.highlight))
+				self:GetNormalTexture():SetGradient(unpack(SV.media.gradient.highlight))
 				GameTooltip:Show()
 			end)
 			frame.swapButton:SetScript("OnLeave", Tooltip_Hide)

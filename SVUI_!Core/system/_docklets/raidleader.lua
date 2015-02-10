@@ -43,7 +43,7 @@ end
 
 local ToolButton_OnEnter = function(self, ...)
 	SVUI_RaidToolDockButton:SetPanelColor("highlight")
-	SVUI_RaidToolDockButton.Icon:SetGradient(unpack(SV.Media.gradient.bizzaro))
+	SVUI_RaidToolDockButton.Icon:SetGradient(unpack(SV.media.gradient.bizzaro))
 
 	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT", 0, 4)
 	GameTooltip:ClearLines()
@@ -53,7 +53,7 @@ end
 
 local ToolButton_OnLeave = function(self, ...)
 	SVUI_RaidToolDockButton:SetPanelColor("default")
-	SVUI_RaidToolDockButton.Icon:SetGradient(unpack(SV.Media.gradient.icon))
+	SVUI_RaidToolDockButton.Icon:SetGradient(unpack(SV.media.gradient.icon))
 
 	GameTooltip:Hide()
 end
@@ -68,7 +68,7 @@ local function NewToolButton(name, parent, template, width, height, point, relat
 
 	if(textDisplay) then
 		local text = button:CreateFontString(nil,"OVERLAY")
-		text:SetFont(SV.Media.font.default, 14, "NONE")
+		text:SetFont(SV.media.font.default, 14, "NONE")
 		text:SetAllPoints(button)
 		text:SetJustifyH("CENTER")
 		text:SetText(textDisplay)
@@ -105,7 +105,7 @@ function MOD:LoadRaidLeaderTools()
 	if(not SV.db.Dock.raidTool) then return end
 	local dock = SV.Dock.TopLeft.Bar
 	
-	self.RaidTool = SV.Dock:SetDockButton("TopLeft", RAID_CONTROL, SV.Media.dock.raidToolIcon, nil, "SVUI_RaidToolDockButton");
+	self.RaidTool = SV.Dock:SetDockButton("TopLeft", RAID_CONTROL, SV.media.dock.raidToolIcon, nil, "SVUI_RaidToolDockButton");
 	self.RaidTool:SetAttribute("hasDropDown", false);
 
 	self.RaidTool.Menu = CreateFrame("Frame", "SVUI_RaidToolMenu", self.RaidTool, "SecureHandlerClickTemplate");
@@ -194,7 +194,7 @@ function MOD:LoadRaidLeaderTools()
 		markerButton:SetStyle("DockButton") 
 
 		local markersText = markerButton:CreateFontString(nil,"OVERLAY")
-		markersText:SetFont(SV.Media.font.default, 14, "NONE")
+		markersText:SetFont(SV.media.font.default, 14, "NONE")
 		markersText:SetAllPoints(markerButton)
 		markersText:SetJustifyH("CENTER")
 		markersText:SetText("World Markers")

@@ -205,13 +205,13 @@ local function GetDataSlot(parent, index)
 			slot.barframe.bg = slot.barframe:CreateTexture(nil, "BORDER")
 			slot.barframe.bg:InsetPoints(slot.barframe, 2, 2)
 			slot.barframe.bg:SetTexture([[Interface\BUTTONS\WHITE8X8]])
-			slot.barframe.bg:SetGradient(unpack(SV.Media.gradient.dark))
+			slot.barframe.bg:SetGradient(unpack(SV.media.gradient.dark))
 		end
 
 		slot.barframe:SetFrameLevel(slot:GetFrameLevel()-1)
 		slot.barframe:SetBackdrop({
 			bgFile = [[Interface\BUTTONS\WHITE8X8]], 
-			edgeFile = SV.Media.border.shadow, 
+			edgeFile = SV.media.border.shadow, 
 			tile = false, 
 			tileSize = 0, 
 			edgeSize = 2, 
@@ -229,11 +229,11 @@ local function GetDataSlot(parent, index)
 
 		slot.barframe.bar = CreateFrame("StatusBar", nil, slot.barframe)
 		slot.barframe.bar:InsetPoints(slot.barframe, 2, 2)
-		slot.barframe.bar:SetStatusBarTexture(SV.Media.bar.default)
+		slot.barframe.bar:SetStatusBarTexture(SV.media.bar.default)
 			
 		slot.barframe.bar.extra = CreateFrame("StatusBar", nil, slot.barframe.bar)
 		slot.barframe.bar.extra:SetAllPoints()
-		slot.barframe.bar.extra:SetStatusBarTexture(SV.Media.bar.default)
+		slot.barframe.bar.extra:SetStatusBarTexture(SV.media.bar.default)
 		slot.barframe.bar.extra:Hide()
 
 		slot.barframe:Hide()

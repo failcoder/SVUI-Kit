@@ -150,7 +150,7 @@ local function EncounterJournalStyle()
   EncounterJournalInstanceSelectScrollFrameScrollChild:SetStyle("!_Frame", "Default")
   EncounterJournalInstanceSelectScrollFrameScrollChild:SetPanelColor("dark")
   EncounterJournalInstanceSelectScrollDownButton:SetStyle("Button")
-  EncounterJournalInstanceSelectScrollDownButton:SetNormalTexture(SV.Media.icon.move_down)
+  EncounterJournalInstanceSelectScrollDownButton:SetNormalTexture(SV.media.icon.move_down)
 
   EncounterJournalEncounterFrameInstanceFrame:SetStyle("!_Frame", "Inset")
 

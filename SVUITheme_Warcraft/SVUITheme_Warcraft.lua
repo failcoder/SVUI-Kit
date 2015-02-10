@@ -128,6 +128,7 @@ function THEME:Load()
 		["ActionPanel"] 	= "SVUITheme_Warcraft_ActionPanel",
 	};
 
+<<<<<<< HEAD
 	SV.Media["font"]["default"]   = LSM:Fetch("font", "Arial Narrow");
 	SV.Media["font"]["combat"]    = LSM:Fetch("font", "Morpheus");
 	SV.Media["font"]["narrator"]  = LSM:Fetch("font", "Arial Narrow");
@@ -146,6 +147,26 @@ function THEME:Load()
 	SV.Media.dock.garrisonToolIcon = [[Interface\AddOns\SVUITheme_Warcraft\assets\artwork\Dock\DOCK-ICON-GARRISON]];
 	SV.Media.dock.professionIconFile = [[Interface\AddOns\SVUITheme_Warcraft\assets\artwork\Dock\PROFESSIONS]];
 	SV.Media.dock.professionIconCoords = {
+=======
+	SV.media["font"]["default"]   = LSM:Fetch("font", "Arial Narrow");
+	SV.media["font"]["combat"]    = LSM:Fetch("font", "Morpheus");
+	SV.media["font"]["narrator"]  = LSM:Fetch("font", "Arial Narrow");
+	SV.media["font"]["zones"]     = LSM:Fetch("font", "Morpheus");
+	SV.media["font"]["alert"]     = LSM:Fetch("font", "Skurri");
+	SV.media["font"]["numbers"]   = LSM:Fetch("font", "Friz Quadrata TT");
+	SV.media["font"]["caps"]      = LSM:Fetch("font", "Friz Quadrata TT");
+	SV.media["font"]["flash"]     = LSM:Fetch("font", "Skurri");
+	SV.media["font"]["dialog"]    = LSM:Fetch("font", "Arial Narrow");
+
+	SV.media.dock.durabilityLabel = [[Interface\AddOns\SVUITheme_Warcraft\assets\artwork\Dock\LABEL-DUR]];
+	SV.media.dock.reputationLabel = [[Interface\AddOns\SVUITheme_Warcraft\assets\artwork\Dock\LABEL-REP]];
+	SV.media.dock.experienceLabel = [[Interface\AddOns\SVUITheme_Warcraft\assets\artwork\Dock\LABEL-XP]];
+	SV.media.dock.hearthIcon = [[Interface\AddOns\SVUITheme_Warcraft\assets\artwork\Dock\DOCK-ICON-HEARTH]];
+	SV.media.dock.raidToolIcon = [[Interface\AddOns\SVUITheme_Warcraft\assets\artwork\Dock\DOCK-ICON-RAIDTOOL]];
+	SV.media.dock.garrisonToolIcon = [[Interface\AddOns\SVUITheme_Warcraft\assets\artwork\Dock\DOCK-ICON-GARRISON]];
+	SV.media.dock.professionIconFile = [[Interface\AddOns\SVUITheme_Warcraft\assets\artwork\Dock\PROFESSIONS]];
+	SV.media.dock.professionIconCoords = {
+>>>>>>> origin/master
 		[171] 	= {0,0.25,0,0.25}, 				-- PRO-ALCHEMY
 	    [794] 	= {0.25,0.5,0,0.25,80451}, 		-- PRO-ARCHAELOGY
 	    [164] 	= {0.5,0.75,0,0.25}, 			-- PRO-BLACKSMITH

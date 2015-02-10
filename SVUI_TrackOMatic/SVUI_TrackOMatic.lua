@@ -269,7 +269,7 @@ function PLUGIN:Load()
     local TRACKER_TARGET = SVUI_Target
 
     if(UNIT_TRACKER) then
-        UNIT_TRACKER.Border:SetGradient(unpack(SV.Media.gradient.special))
+        UNIT_TRACKER.Border:SetGradient(unpack(SV.media.gradient.special))
         UNIT_TRACKER.Arrow:SetVertexColor(0.1, 0.8, 0.8)
         UNIT_TRACKER.Range:SetTextColor(1, 1, 1, 0.75)
         UNIT_TRACKER.Spin = Rotate_Arrow

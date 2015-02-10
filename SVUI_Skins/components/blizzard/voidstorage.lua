@@ -56,7 +56,7 @@ local function ChangeTabHelper(this)
   this.backdrop = CreateFrame("Frame", nil, this)
   this.backdrop:WrapPoints(this,1,1)
   this.backdrop:SetFrameLevel(0)
-  this.backdrop:SetBackdrop(SV.Media.backdrop.glow);
+  this.backdrop:SetBackdrop(SV.media.backdrop.glow);
   this.backdrop:SetBackdropColor(0,0,0,1)
   this.backdrop:SetBackdropBorderColor(0,0,0,1)
   this:SetScript("OnEnter", Tab_OnEnter)

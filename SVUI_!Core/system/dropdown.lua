@@ -134,7 +134,7 @@ function SV.Dropdown:Open(target, list)
 
 			self.option[i].header = self.option[i]:CreateFontString(nil, 'OVERLAY');
 			self.option[i].header:SetAllPoints();
-			self.option[i].header:SetFont(SV.Media.font.default, 10, "OUTLINE");
+			self.option[i].header:SetFont(SV.media.font.default, 10, "OUTLINE");
 			self.option[i].header:SetTextColor(1, 0.8, 0)
 			self.option[i].header:SetJustifyH("CENTER");
 			self.option[i].header:SetJustifyV("MIDDLE");
@@ -151,7 +151,7 @@ function SV.Dropdown:Open(target, list)
 
 			self.option[i].button.text = self.option[i].button:CreateFontString(nil, 'BORDER');
 			self.option[i].button.text:SetAllPoints();
-			self.option[i].button.text:SetFont(SV.Media.font.default, 12, "OUTLINE");
+			self.option[i].button.text:SetFont(SV.media.font.default, 12, "OUTLINE");
 			self.option[i].button.text:SetJustifyH("LEFT");
 
 			self.option[i].button:SetScript("OnEnter", DropdownButton_OnEnter);

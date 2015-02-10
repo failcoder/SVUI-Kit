@@ -234,7 +234,11 @@ function MOD:ResetUnitOptions(unit)
 end
 
 function MOD:RefreshUnitColors()
+<<<<<<< HEAD
 	local db = SV.Media.internal.unitframes 
+=======
+	local db = SV.media.internal.unitframes 
+>>>>>>> origin/master
 	for i, setting in pairs(db) do
 		if setting and type(setting) == "table" then
 			if(setting[1]) then
@@ -324,7 +328,7 @@ function MOD:RefreshUnitMedia(unitName)
         if(panel) then
             if(panel.Name and unitDB.name) then
             	if(unitDB.grid and unitDB.grid.enable) then
-            		panel.Name:SetFont(SV.Media.font.pixel, 8, "MONOCHROMEOUTLINE")
+            		panel.Name:SetFont(SV.media.font.pixel, 8, "MONOCHROMEOUTLINE")
             		panel.Name:SetShadowOffset(1, -1)
 					panel.Name:SetShadowColor(0, 0, 0, 0.75)
             	else

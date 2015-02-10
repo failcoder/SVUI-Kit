@@ -122,6 +122,7 @@ do
 	local ir1,ig1,ib1 = (1 - r1), (1 - g1), (1 - b1)
 	local ir2,ig2,ib2 = (1 - cColor2.r)*.25, (1 - cColor2.g)*.25, (1 - cColor2.b)*.25
 
+<<<<<<< HEAD
 	SV.mediadefaults = {
 		["internal"] = {
 			["font"] = {
@@ -159,6 +160,197 @@ do
 				["special"]      = {0.37, 0.32, 0.29, 1}, 
 				["specialdark"]  = {0.37, 0.32, 0.29, 1},
 			},
+=======
+	SV.mediadefaults["internal"] = {
+		["font"] = {
+			["default"]     = {file = "SVUI Default Font",  size = 12,  outline = "OUTLINE"},
+			["dialog"]      = {file = "SVUI Default Font",  size = 12,  outline = "OUTLINE"},
+			["title"]       = {file = "SVUI Default Font",  size = 16,  outline = "OUTLINE"}, 
+			["number"]      = {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"},
+			["number_big"]  = {file = "SVUI Number Font",   size = 18,  outline = "OUTLINE"},
+			["header"]      = {file = "SVUI Number Font",   size = 18,  outline = "OUTLINE"},  
+			["combat"]      = {file = "SVUI Combat Font",   size = 64,  outline = "OUTLINE"}, 
+			["alert"]       = {file = "SVUI Alert Font",    size = 20,  outline = "OUTLINE"},
+			["zone"]      	= {file = "SVUI Zone Font",     size = 16,  outline = "OUTLINE"},
+			["caps"]      	= {file = "SVUI Caps Font",     size = 12,  outline = "OUTLINE"},
+			["aura"]      	= {file = "SVUI Number Font",   size = 10,  outline = "OUTLINE"},
+			["data"]      	= {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"},
+			["narrator"]    = {file = "SVUI Narrator Font", size = 12,  outline = "OUTLINE"},
+			["lootdialog"]  = {file = "SVUI Default Font",  size = 14,  outline = "OUTLINE"},
+			["lootnumber"]  = {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"},
+			["rolldialog"]  = {file = "SVUI Default Font",  size = 14,  outline = "OUTLINE"},
+			["rollnumber"]  = {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"},
+			["tipdialog"]   = {file = "SVUI Default Font",  size = 12,  outline = "NONE"},
+			["tipheader"]   = {file = "SVUI Default Font",  size = 14,  outline = "NONE"},
+			["pixel"]       = {file = "SVUI Pixel Font",    size = 8,   outline = "MONOCHROMEOUTLINE"},
+		},
+		["bg"] = { 
+			["pattern"]      = "SVUI Backdrop 1", 
+			["premium"]      = "SVUI Artwork 1"
+		},
+		["border"] = { 
+			["pattern"]      = "SVUI All Purpose Border", 
+			["premium"]      = "SVUI All Purpose Border", 
+		},
+		["color"] = {
+			["default"]      = {0.2, 0.2, 0.2, 1}, 
+			["special"]      = {0.37, 0.32, 0.29, 1}, 
+			["specialdark"]  = {0.37, 0.32, 0.29, 1},
+		},
+	}
+	SV.mediadefaults["font"] = {
+		["default"]   = LSM:Fetch("font", "SVUI Default Font"),
+		["combat"]    = LSM:Fetch("font", "SVUI Combat Font"),
+		["narrator"]  = LSM:Fetch("font", "SVUI Narrator Font"),
+		["zones"]     = LSM:Fetch("font", "SVUI Zone Font"),
+		["alert"]     = LSM:Fetch("font", "SVUI Alert Font"),
+		["numbers"]   = LSM:Fetch("font", "SVUI Number Font"),
+		["pixel"]     = LSM:Fetch("font", "SVUI Pixel Font"),
+		["caps"]      = LSM:Fetch("font", "SVUI Caps Font"),
+		["flash"]     = LSM:Fetch("font", "SVUI Flash Font"),
+		["dialog"]    = LSM:Fetch("font", "SVUI Default Font"),
+	}
+	SV.mediadefaults["bar"] = { 
+		["default"]   = LSM:Fetch("statusbar", "SVUI BasicBar"), 
+		["gradient"]  = LSM:Fetch("statusbar", "SVUI MultiColorBar"), 
+		["smooth"]    = LSM:Fetch("statusbar", "SVUI SmoothBar"), 
+		["flat"]      = LSM:Fetch("statusbar", "SVUI PlainBar"), 
+		["textured"]  = LSM:Fetch("statusbar", "SVUI FancyBar"), 
+		["gloss"]     = LSM:Fetch("statusbar", "SVUI GlossBar"), 
+		["glow"]      = LSM:Fetch("statusbar", "SVUI GlowBar"),
+		["lazer"]     = LSM:Fetch("statusbar", "SVUI LazerBar"),
+	}
+	SV.mediadefaults["bg"] = {
+		["default"] 	= LSM:Fetch("background", "SVUI Default BG"),
+		["transparent"] = LSM:Fetch("background", "SVUI Transparent BG"),
+		["button"]      = LSM:Fetch("background", "SVUI Button BG"),
+		["pattern"]     = LSM:Fetch("background", "SVUI Backdrop 1"),
+		["premium"]     = LSM:Fetch("background", "SVUI Artwork 1"),
+	}
+	SV.mediadefaults["border"] = {
+		["default"] 	= LSM:Fetch("border", "SVUI Border"),
+		["shadow"]      = LSM:Fetch("border", "SVUI Shadow Border"),
+		["button"]      = LSM:Fetch("border", "SVUI All Purpose Border"),
+		["pattern"]     = LSM:Fetch("border", "SVUI All Purpose Border"),
+		["premium"]     = LSM:Fetch("border", "SVUI All Purpose Border"),
+	}
+	SV.mediadefaults["color"] = {
+		["default"]     = {0.2, 0.2, 0.2, 1}, 
+		["special"]     = {.37, .32, .29, 1},
+		["specialdark"] = {.23, .22, .21, 1},
+		["unique"]      = {0.32, 0.258, 0.21, 1},
+		["container"]   = {.28, .27, .26, 1},  
+		["class"]       = {r1, g1, b1, 1},
+		["bizzaro"]     = {ir1, ig1, ib1, 1},
+		["medium"]      = {0.47, 0.47, 0.47},
+		["dark"]        = {0.1, 0.1, 0.1, 1},
+		["darkest"]     = {0, 0, 0, 1},
+		["light"]       = {0.95, 0.95, 0.95, 1},
+		["light2"]      = {0.65, 0.65, 0.65, 1},
+		["lightgrey"]   = {0.32, 0.35, 0.38, 1},
+		["highlight"]   = {0.28, 0.75, 1, 1},
+		["checked"]     = {0.25, 0.9, 0.08, 1},
+		["green"]       = {0.25, 0.9, 0.08, 1},
+		["blue"]        = {0.08, 0.25, 0.82, 1},
+		["tan"]         = {0.4, 0.32, 0.23, 1},
+		["red"]         = {0.9, 0.08, 0.08, 1},
+		["yellow"]      = {1, 1, 0, 1},
+		["gold"]        = {1, 0.68, 0.1, 1},
+		["transparent"] = {0, 0, 0, 0.5},
+		["hinted"]      = {0, 0, 0, 0.35},
+		["invisible"]   = {0, 0, 0, 0},
+		["white"]       = {1, 1, 1, 1},
+	}
+	SV.mediadefaults["gradient"]  = {
+		["default"]   = {"VERTICAL", 0.08, 0.08, 0.08, 0.22, 0.22, 0.22}, 
+		["special"]   = {"VERTICAL", 0.33, 0.25, 0.13, 0.47, 0.39, 0.27},
+		["specialdark"] = {"VERTICAL", 0.23, 0.15, 0.03, 0.33, 0.25, 0.13},
+		["container"] = {"VERTICAL", 0.12, 0.11, 0.1, 0.22, 0.21, 0.2},
+		["class"]     = {"VERTICAL", r2, g2, b2, r1, g1, b1}, 
+		["bizzaro"]   = {"VERTICAL", ir2, ig2, ib2, ir1, ig1, ib1},
+		["medium"]    = {"VERTICAL", 0.22, 0.22, 0.22, 0.47, 0.47, 0.47},
+		["dark"]      = {"VERTICAL", 0.02, 0.02, 0.02, 0.22, 0.22, 0.22},
+		["darkest"]   = {"VERTICAL", 0.15, 0.15, 0.15, 0, 0, 0},
+		["darkest2"]  = {"VERTICAL", 0, 0, 0, 0.12, 0.12, 0.12},
+		["light"]     = {"VERTICAL", 0.65, 0.65, 0.65, 0.95, 0.95, 0.95},
+		["light2"]    = {"VERTICAL", 0.95, 0.95, 0.95, 0.65, 0.65, 0.65},
+		["highlight"] = {"VERTICAL", 0.3, 0.8, 1, 0.1, 0.9, 1},
+		["checked"]   = {"VERTICAL", 0.08, 0.9, 0.25, 0.25, 0.9, 0.08},
+		["green"]     = {"VERTICAL", 0.08, 0.9, 0.25, 0.25, 0.9, 0.08}, 
+		["red"]       = {"VERTICAL", 0.5, 0, 0, 0.9, 0.08, 0.08}, 
+		["yellow"]    = {"VERTICAL", 1, 0.3, 0, 1, 1, 0},
+		["tan"]       = {"VERTICAL", 0.15, 0.08, 0, 0.37, 0.22, 0.1},
+		["inverse"]   = {"VERTICAL", 0.25, 0.25, 0.25, 0.12, 0.12, 0.12},
+		["icon"]      = {"VERTICAL", 0.5, 0.53, 0.55, 0.8, 0.8, 1},
+		["white"]     = {"VERTICAL", 0.75, 0.75, 0.75, 1, 1, 1},
+	}
+	SV.mediadefaults["icon"] = {
+		["close"]       = [[Interface\AddOns\SVUI_!Core\assets\textures\CLOSE-BUTTON]],
+		["star"]        = [[Interface\AddOns\SVUI_!Core\assets\textures\FAVORITE-STAR]],
+		["move_up"]     = [[Interface\AddOns\SVUI_!Core\assets\textures\MOVE-UP]],
+		["move_down"]   = [[Interface\AddOns\SVUI_!Core\assets\textures\MOVE-DOWN]],
+		["move_left"]   = [[Interface\AddOns\SVUI_!Core\assets\textures\MOVE-LEFT]], 
+		["move_right"]  = [[Interface\AddOns\SVUI_!Core\assets\textures\MOVE-RIGHT]],
+		["exitIcon"] 	= [[Interface\AddOns\SVUI_!Core\assets\textures\EXIT]]
+	}
+	SV.mediadefaults["dock"] = {
+		["durabilityLabel"] = [[Interface\AddOns\SVUI_!Core\assets\textures\Dock\LABEL-DUR]],
+		["reputationLabel"] = [[Interface\AddOns\SVUI_!Core\assets\textures\Dock\LABEL-REP]],
+		["experienceLabel"] = [[Interface\AddOns\SVUI_!Core\assets\textures\Dock\LABEL-XP]],
+		["breakStuffIcon"] = [[Interface\AddOns\SVUI_!Core\assets\textures\Dock\DOCK-ICON-BREAKSTUFF]],
+		["hearthIcon"] = [[Interface\AddOns\SVUI_!Core\assets\textures\Dock\DOCK-ICON-HEARTH]],
+		["raidToolIcon"] = [[Interface\AddOns\SVUI_!Core\assets\textures\Dock\DOCK-ICON-RAIDTOOL]],
+		["garrisonToolIcon"] = [[Interface\AddOns\SVUI_!Core\assets\textures\Dock\DOCK-ICON-GARRISON]],
+		["professionIconFile"] = [[Interface\AddOns\SVUI_!Core\assets\textures\Dock\PROFESSIONS]],
+		["professionIconCoords"] = {
+			[171] 	= {0,0.25,0,0.25}, 				-- PRO-ALCHEMY
+		    [794] 	= {0.25,0.5,0,0.25,80451}, 		-- PRO-ARCHAELOGY
+		    [164] 	= {0.5,0.75,0,0.25}, 			-- PRO-BLACKSMITH
+		    [185] 	= {0.75,1,0,0.25,818,67097}, 	-- PRO-COOKING
+		    [333] 	= {0,0.25,0.25,0.5,13262}, 		-- PRO-ENCHANTING
+		    [202] 	= {0.25,0.5,0.25,0.5}, 			-- PRO-ENGINEERING
+		    [129] 	= {0.5,0.75,0.25,0.5}, 			-- PRO-FIRSTAID
+		    [773] 	= {0,0.25,0.5,0.75,51005}, 		-- PRO-INSCRIPTION
+		    [755] 	= {0.25,0.5,0.5,0.75,31252},	-- PRO-JEWELCRAFTING
+		    [165] 	= {0.5,0.75,0.5,0.75}, 			-- PRO-LEATHERWORKING
+		    [186] 	= {0.75,1,0.5,0.75}, 			-- PRO-MINING
+		    [197] 	= {0.25,0.5,0.75,1}, 			-- PRO-TAILORING
+		},
+		["sparks"] = {
+			[[Interface\AddOns\SVUI_!Core\assets\textures\Dock\DOCK-SPARKS-1]],
+			[[Interface\AddOns\SVUI_!Core\assets\textures\Dock\DOCK-SPARKS-2]],
+			[[Interface\AddOns\SVUI_!Core\assets\textures\Dock\DOCK-SPARKS-3]],
+		},
+	}
+	SV.mediadefaults["backdrop"] = {
+		["default"] = {
+			bgFile = [[Interface\AddOns\SVUI_!Core\assets\textures\DEFAULT-BG]], 
+		    tile = false, 
+		    tileSize = 0, 
+		    edgeFile = [[Interface\AddOns\SVUI_!Core\assets\textures\DEFAULT-BORDER]],
+		    edgeSize = 5,
+		    insets = 
+		    {
+		        left = 0, 
+		        right = 0, 
+		        top = 0, 
+		        bottom = 0, 
+		    },
+		},
+		["textured"] = {
+			bgFile = [[Interface\AddOns\SVUI_!Core\assets\textures\Bars\TEXTURED]], 
+		    tile = false, 
+		    tileSize = 0, 
+		    edgeFile = [[Interface\AddOns\SVUI_!Core\assets\textures\DEFAULT-BORDER]],
+		    edgeSize = 5,
+		    insets = 
+		    {
+		        left = 0, 
+		        right = 0, 
+		        top = 0, 
+		        bottom = 0, 
+		    },
+>>>>>>> origin/master
 		},
 		["font"] = {
 			["default"]   = LSM:Fetch("font", "SVUI Default Font"),
@@ -196,6 +388,7 @@ do
 			["pattern"]     = LSM:Fetch("border", "SVUI All Purpose Border"),
 			["premium"]     = LSM:Fetch("border", "SVUI All Purpose Border"),
 		},
+<<<<<<< HEAD
 		["color"] = {
 			["default"]     = {0.2, 0.2, 0.2, 1}, 
 			["special"]     = {.37, .32, .29, 1},
@@ -374,6 +567,25 @@ do
 end
 
 SV.Media = SV:NewDatabase("Media", "SVUI_Media", "mediadefaults");
+=======
+	}
+end
+local function tablesplice(mergeTable, targetTable)
+    if type(targetTable) ~= "table" then targetTable = {} end
+
+    if type(mergeTable) == 'table' then 
+        for key,val in pairs(mergeTable) do 
+            if type(val) == "table" then 
+                targetTable[key] = tablesplice(val, targetTable[key])
+            else
+                targetTable[key] = val
+            end  
+        end 
+    end 
+    return targetTable 
+end
+SV.media = tablesplice(SV.mediadefaults, {});
+>>>>>>> origin/master
 --[[ 
 ########################################################## 
 LOCALIZED GLOBALS
@@ -434,8 +646,13 @@ function SV:HexColor(arg1,arg2,arg3)
 	local r,g,b;
 	if arg1 and type(arg1) == "string" then
 		local t
+<<<<<<< HEAD
 		if(self.Media or self.Media.internal) then
 			t = self.Media.color[arg1] or self.Media.internal.unitframes[arg1]
+=======
+		if(self.media and self.media.internal) then
+			t = self.media.color[arg1] or self.media.internal.unitframes[arg1]
+>>>>>>> origin/master
 		end
 		if t then
 			r,g,b = t[1],t[2],t[3]
@@ -477,9 +694,9 @@ end
 hooksecurefunc("FCF_ResetChatWindows", UpdateChatFontSizes)
 
 local function ChangeGlobalFonts()
-	local fontsize = SV.db.font.default.size;
-	STANDARD_TEXT_FONT = LSM:Fetch("font", SV.db.font.default.file);
-	UNIT_NAME_FONT = LSM:Fetch("font", SV.db.font.caps.file);
+	local fontsize = SV.media.font.default.size;
+	STANDARD_TEXT_FONT = LSM:Fetch("font", SV.media.font.default.file);
+	UNIT_NAME_FONT = LSM:Fetch("font", SV.media.font.caps.file);
 	NAMEPLATE_FONT = STANDARD_TEXT_FONT
 	UpdateChatFontSizes()
 	UIDROPDOWNMENU_DEFAULT_TEXT_HEIGHT = fontsize
@@ -509,7 +726,7 @@ SV.GlobalFontList = {
 function SV:FontManager(obj, template, arg, sizeMod, styleOverride, colorR, colorG, colorB)
 	if not obj then return end
 	template = template or "default";
-	local info = self.db.font[template];
+	local info = self.media.internal.font[template];
 	if(not info) then return end
 
 	local isSystemFont = false;
@@ -647,7 +864,7 @@ end
 
 local function UpdateFontTemplate(template)
 	template = template or "default";
-	local info = SV.db.font[template];
+	local info = SV.media.internal.font[template];
 	local file = LSM:Fetch("font", info.file);
 	local size = info.size;
 	local line = info.outline;
@@ -689,6 +906,7 @@ MEDIA UPDATES
 ##########################################################
 ]]--
 function SV:RefreshCommonMedia()
+<<<<<<< HEAD
 	local settings = SV.Media.internal
 	self.Media.color.default      = settings.colors.default
 	self.Media.color.special      = settings.colors.special
@@ -712,6 +930,31 @@ function SV:RefreshCommonMedia()
 	local r2,g2,b2 = cColor2[1], cColor2[2], cColor2[3]
 
 	self.Media.gradient.special = {"VERTICAL",r1,g1,b1,r2,g2,b2}
+=======
+	local settings = SV.media.internal
+	self.media.color.default      = settings.color.default
+	self.media.color.special      = settings.color.special
+	self.media.color.specialdark  = settings.color.specialdark
+
+	for k,v in pairs(self.media.bg) do
+		if(settings.bg[k]) then
+			self.media.bg[k] = LSM:Fetch("background", settings.bg[k])
+		end
+	end
+
+	for k,v in pairs(self.media.border) do
+		if(settings.border[k]) then
+			self.media.border[k] = LSM:Fetch("border", settings.border[k])
+		end
+	end
+
+	local cColor1 = self.media.color.special
+	local cColor2 = self.media.color.default
+	local r1,g1,b1 = cColor1[1], cColor1[2], cColor1[3]
+	local r2,g2,b2 = cColor2[1], cColor2[2], cColor2[3]
+
+	self.media.gradient.special = {"VERTICAL",r1,g1,b1,r2,g2,b2}
+>>>>>>> origin/master
 
 	self.Events:Trigger("MEDIA_COLORS_UPDATED");
 end

@@ -6,6 +6,8 @@
 ## RequiredDeps: SVUI_!Core
 ## OptionalDeps: LibSharedMedia-3.0
 ## LoadOnDemand: 1
+## X-SVUIName: Track-O-Matic
+## X-SVUISchema: TrackOMatic
 ## X-Email: munglunch@gmail.com
 ## X-Website: http://www.supervillainui.com
 ## X-Donate: PayPal:munglunch@gmail.com

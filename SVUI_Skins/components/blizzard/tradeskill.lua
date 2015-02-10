@@ -53,7 +53,7 @@ local function TradeSkillStyle()
 	SV.API:Set("CloseButton", TradeSkillGuildFrameCloseButton)
 
 	TradeSkillRankFrame:SetStyle("Frame", "Bar", true)
-	TradeSkillRankFrame:SetStatusBarTexture(SV.Media.bar.default)
+	TradeSkillRankFrame:SetStatusBarTexture(SV.media.bar.default)
 
 	TradeSkillListScrollFrame:ModSize(327, 290)
 	TradeSkillListScrollFrame:SetStyle("Frame", "Inset")

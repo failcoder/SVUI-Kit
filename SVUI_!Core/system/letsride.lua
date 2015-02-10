@@ -256,7 +256,7 @@ local function CreateMountCheckBox(name, parent)
 	local frame = CreateFrame("CheckButton", name, parent, "UICheckButtonTemplate")
     frame:RemoveTextures()
 	frame:SetBackdrop({
-        bgFile = SV.Media.bar.gloss, 
+        bgFile = SV.media.bar.gloss, 
         edgeFile = [[Interface\BUTTONS\WHITE8X8]], 
         tile = false, 
         tileSize = 0, 
@@ -301,7 +301,7 @@ local function CreateMountCheckBox(name, parent)
             frame.checked = checked
         end
 
-        frame.checked:SetTexture(SV.Media.bar.gloss)
+        frame.checked:SetTexture(SV.media.bar.gloss)
         frame.checked:SetVertexColor(0, 1, 0, 1)
         
         frame:SetCheckedTexture(frame.checked)

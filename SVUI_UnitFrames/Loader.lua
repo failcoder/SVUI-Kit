@@ -61,7 +61,7 @@ SV.mediadefaults.internal.bg["unitsmall"]   = "SVUI SmallUnitBG 1";
 SV.mediadefaults.internal.border["unitlarge"]    = "SVUI UnitBorder 1";
 SV.mediadefaults.internal.border["unitsmall"]    = "SVUI SmallBorder 1";
 
-SV.defaults["media"]["unitframes"] = {
+SV.mediadefaults.internal["unitframes"] = {
 	["health"]       = {0.3, 0.5, 0.3}, 
 	["power"]        = {
 		["MANA"]         = {0.41, 0.85, 1}, 
@@ -97,13 +97,17 @@ SV.defaults["media"]["unitframes"] = {
 	}
 };
 
-SV.Media["texture"]["unitlarge"]   	= LSM:Fetch("background", "SVUI UnitBG 1")
-SV.Media["texture"]["unitsmall"]   	= LSM:Fetch("background", "SVUI SmallUnitBG 1")
-SV.Media["border"]["unitlarge"] 	= LSM:Fetch("border", "SVUI UnitBorder 1")
-SV.Media["border"]["unitsmall"] 	= LSM:Fetch("border", "SVUI SmallBorder 1")
+SV.media["bg"]["unitlarge"]   	= LSM:Fetch("background", "SVUI UnitBG 1")
+SV.media["bg"]["unitsmall"]   	= LSM:Fetch("background", "SVUI SmallUnitBG 1")
+SV.media["border"]["unitlarge"] 	= LSM:Fetch("border", "SVUI UnitBorder 1")
+SV.media["border"]["unitsmall"] 	= LSM:Fetch("border", "SVUI SmallBorder 1")
 -- print("Unitframe")
 -- print(SV.mediadefaults.internal.bg["unitlarge"])
+<<<<<<< HEAD
 -- print(SV.Media["texture"]["unitlarge"])
+=======
+-- print(SV.media["bg"]["unitlarge"])
+>>>>>>> origin/master
 
 SV.GlobalFontList["SVUI_Font_Unit"] = "unitprimary";
 SV.GlobalFontList["SVUI_Font_Unit_Small"] = "unitsecondary";

@@ -94,7 +94,7 @@ local function DurabilityBar_OnEvent(self, ...)
 	overall = 100;
 	if not self.barframe:IsShown() then 
 		self.barframe:Show()
-		self.barframe.icon.texture:SetTexture(SV.Media.dock.durabilityLabel)
+		self.barframe.icon.texture:SetTexture(SV.media.dock.durabilityLabel)
 	end 
 	for slot,name in pairs(inventoryMap)do 
 		local slotID = GetInventorySlotInfo(slot)

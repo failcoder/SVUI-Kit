@@ -476,7 +476,7 @@ end
 local ModeButton_OnEnter = function(self)
 	if InCombatLockdown() then return; end
 	local name = self.modeName
-	self.icon:SetGradient(unpack(SV.Media.gradient.yellow))
+	self.icon:SetGradient(unpack(SV.media.gradient.yellow))
 	GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 4)
 	GameTooltip:ClearLines()
 	GameTooltip:AddLine(L[name .. " Mode"], 1, 1, 1)
@@ -583,7 +583,7 @@ function PLUGIN:Load()
 
 	local ModeAlert = CreateFrame("Frame", nil, self.Docklet)
 	ModeAlert:SetAllPoints(self.Docklet.Parent.Alert)
-	ModeAlert:SetBackdrop(SV.Media.backdrop.textured)
+	ModeAlert:SetBackdrop(SV.media.backdrop.textured)
 
 	ModeAlert:SetBackdropBorderColor(0,0,0,1)
 	ModeAlert:SetBackdropColor(0.25, 0.52, 0.1)

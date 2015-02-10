@@ -108,7 +108,7 @@ end
 local function ReputationBar_OnEvent(self, ...)
 	if not self.barframe:IsShown()then 
 		self.barframe:Show()
-		self.barframe.icon.texture:SetTexture(SV.Media.dock.reputationLabel)
+		self.barframe.icon.texture:SetTexture(SV.media.dock.reputationLabel)
 		self.text:SetAlpha(1)
 		self.text:SetShadowOffset(1, -2)
 	end 

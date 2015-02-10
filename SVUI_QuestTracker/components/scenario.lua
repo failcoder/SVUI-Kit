@@ -400,7 +400,7 @@ function MOD:InitializeScenarios()
 
 	timer.Bar = CreateFrame("StatusBar", nil, timer);
 	timer.Bar:SetAllPoints(timer);
-	timer.Bar:SetStatusBarTexture(SV.Media.bar.default)
+	timer.Bar:SetStatusBarTexture(SV.media.bar.default)
 	timer.Bar:SetStatusBarColor(0.5,0,1) --1,0.15,0.08
 	timer.Bar:SetMinMaxValues(0, 1)
 	timer.Bar:SetValue(0)

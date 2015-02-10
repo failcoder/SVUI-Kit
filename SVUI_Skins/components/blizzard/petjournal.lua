@@ -17,7 +17,7 @@ local Schema = MOD.Schema;
 HELPERS
 ##########################################################
 ]]--
-local FAV_ICON = SV.Media.icon.star
+local FAV_ICON = SV.media.icon.star
 local NORMAL_COLOR = {r = 1, g = 1, b = 1}
 local SELECTED_COLOR = {r = 1, g = 1, b = 0}
 
@@ -119,7 +119,7 @@ local function PetJournalStyle()
 				fg:SetAllPoints(favorite)
 				fg:SetFrameLevel(button:GetFrameLevel() + 30)
 				button.favorite:SetParent(fg)
-				button.favorite:SetTexture(SV.Media.icon.star)
+				button.favorite:SetTexture(SV.media.icon.star)
 			end
 		end
 	end
@@ -157,7 +157,7 @@ local function PetJournalStyle()
 			fg:SetFrameLevel(button:GetFrameLevel() + 30)
 			favorite:SetParent(fg)
 			button.dragButton.favorite:SetParent(fg)
-			favorite:SetTexture(SV.Media.icon.star)
+			favorite:SetTexture(SV.media.icon.star)
 			favorite:SetTexCoord(0,1,0,1)
 		end
 		
@@ -186,7 +186,7 @@ local function PetJournalStyle()
 		pjPet.setButton:RemoveTextures()
 		_G['PetJournalLoadoutPet'..b..'HealthFrame'].healthBar:RemoveTextures()
 		_G['PetJournalLoadoutPet'..b..'HealthFrame'].healthBar:SetStyle("Frame", 'Default')
-		_G['PetJournalLoadoutPet'..b..'HealthFrame'].healthBar:SetStatusBarTexture(SV.Media.bar.default)
+		_G['PetJournalLoadoutPet'..b..'HealthFrame'].healthBar:SetStatusBarTexture(SV.media.bar.default)
 		_G['PetJournalLoadoutPet'..b..'XPBar']:RemoveTextures()
 		_G['PetJournalLoadoutPet'..b..'XPBar']:SetStyle("Frame", 'Default')
 		_G['PetJournalLoadoutPet'..b..'XPBar']:SetStatusBarTexture(SV.BaseTexture)
@@ -328,7 +328,7 @@ local function CollectionsJournalStyle()
 				fg:SetAllPoints(favorite)
 				fg:SetFrameLevel(button:GetFrameLevel() + 30)
 				button.favorite:SetParent(fg)
-				button.favorite:SetTexture(SV.Media.icon.star)
+				button.favorite:SetTexture(SV.media.icon.star)
 			end
 		end
 	end
@@ -366,7 +366,7 @@ local function CollectionsJournalStyle()
 			fg:SetFrameLevel(button:GetFrameLevel() + 30)
 			favorite:SetParent(fg)
 			button.dragButton.favorite:SetParent(fg)
-			favorite:SetTexture(SV.Media.icon.star)
+			favorite:SetTexture(SV.media.icon.star)
 			favorite:SetTexCoord(0,1,0,1)
 		end
 		
@@ -395,7 +395,7 @@ local function CollectionsJournalStyle()
 		pjPet.setButton:RemoveTextures()
 		_G['PetJournalLoadoutPet'..b..'HealthFrame'].healthBar:RemoveTextures()
 		_G['PetJournalLoadoutPet'..b..'HealthFrame'].healthBar:SetStyle("Frame", 'Default')
-		_G['PetJournalLoadoutPet'..b..'HealthFrame'].healthBar:SetStatusBarTexture(SV.Media.bar.default)
+		_G['PetJournalLoadoutPet'..b..'HealthFrame'].healthBar:SetStatusBarTexture(SV.media.bar.default)
 		_G['PetJournalLoadoutPet'..b..'XPBar']:RemoveTextures()
 		_G['PetJournalLoadoutPet'..b..'XPBar']:SetStyle("Frame", 'Default')
 		_G['PetJournalLoadoutPet'..b..'XPBar']:SetStatusBarTexture(SV.BaseTexture)

@@ -46,6 +46,7 @@ function SV.Setup:SelectTheme()
 		local count = 1;
 		local yOffset = ((135 * count) - 125) * -1;
 		local icon = SV.Setup.media.theme
+<<<<<<< HEAD
 		local themeButton = CreateFrame("Frame", nil, frame)
 		themeButton:ModSize(125, 125)
 		themeButton:SetPoint("TOP", frame, "TOP", 0, yOffset)
@@ -61,13 +62,30 @@ function SV.Setup:SelectTheme()
 		themeButton:EnableMouse(true)
 		themeButton:SetScript("OnMouseDown", function(self) 
 			SV.db.THEME.active = "NONE"; 
+=======
+		local firstButton = CreateFrame("Frame", nil, frame)
+		firstButton:ModSize(125, 125)
+		firstButton:SetPoint("TOP", frame, "TOP", 0, yOffset)
+		firstButton.texture = firstButton:CreateTexture(nil, "BORDER")
+		firstButton.texture:SetAllPoints()
+		firstButton.texture:SetTexture(icon)
+		firstButton.texture:SetVertexColor(1, 1, 1)
+		firstButton.text = firstButton:CreateFontString(nil, "OVERLAY")
+		firstButton.text:SetFont(SV.media.font.zones, 18, "OUTLINE")
+		firstButton.text:SetPoint("BOTTOM")
+		firstButton.text:SetText("Default Theme")
+		firstButton.text:SetTextColor(0.1, 0.5, 1)
+		firstButton:EnableMouse(true)
+		firstButton:SetScript("OnMouseDown", function(self) 
+			SV.db.THEME.active = "NONE";
+>>>>>>> origin/master
 			SV:StaticPopup_Show("RL_CLIENT");
 		end)
-		themeButton:SetScript("OnEnter", function(this)
+		firstButton:SetScript("OnEnter", function(this)
 			this.texture:SetVertexColor(0, 1, 1)
 			this.text:SetTextColor(1, 1, 0)
 		end)
-		themeButton:SetScript("OnLeave", function(this)
+		firstButton:SetScript("OnLeave", function(this)
 			this.texture:SetVertexColor(1, 1, 1)
 			this.text:SetTextColor(0.1, 0.5, 1)
 		end)
@@ -77,7 +95,7 @@ function SV.Setup:SelectTheme()
 		for themeName, _ in pairs(THEMES) do
 			if(themeName ~= 'NONE') then
 				local yOffset = ((135 * count) - 125) * -1;
-				local icon = SV.Media.setup[themeName] or SV.Media.setup.theme
+				local icon = SV.Setup.media[themeName] or SV.Setup.media.theme
 				local themeButton = CreateFrame("Frame", nil, frame)
 				themeButton:ModSize(125, 125)
 				themeButton:SetPoint("TOP", frame, "TOP", 0, yOffset)
@@ -86,14 +104,13 @@ function SV.Setup:SelectTheme()
 				themeButton.texture:SetTexture(icon)
 				themeButton.texture:SetVertexColor(1, 1, 1)
 				themeButton.text = themeButton:CreateFontString(nil, "OVERLAY")
-				themeButton.text:SetFont(SV.Media.font.zones, 18, "OUTLINE")
+				themeButton.text:SetFont(SV.media.font.zones, 18, "OUTLINE")
 				themeButton.text:SetPoint("BOTTOM")
 				themeButton.text:SetText(themeName .. " Theme")
 				themeButton.text:SetTextColor(0.1, 0.5, 1)
-				themeButton.value = themeName
 				themeButton:EnableMouse(true)
 				themeButton:SetScript("OnMouseDown", function(self) 
-					SV.db.THEME.active = self.value; 
+					SV.db.THEME.active = themeName; 
 					SV:StaticPopup_Show("RL_CLIENT");
 				end)
 				themeButton:SetScript("OnEnter", function(this)

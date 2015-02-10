@@ -348,7 +348,7 @@ BuildTemplates["party"] = function(self, unit)
         shadow:SetFrameStrata(self:GetFrameStrata())
         shadow:WrapPoints(self, 3, 3)
         shadow:SetBackdrop({
-            edgeFile = SV.Media.border.shadow, 
+            edgeFile = SV.media.border.shadow, 
             edgeSize = 3, 
             insets = {
                 left = 5, 
@@ -485,7 +485,7 @@ BuildTemplates["raid"] = function(self, unit)
     shadow:SetFrameStrata(self:GetFrameStrata())
     shadow:WrapPoints(self, 3, 3)
     shadow:SetBackdrop({
-        edgeFile = SV.Media.border.shadow, 
+        edgeFile = SV.media.border.shadow, 
         edgeSize = 3, 
         insets = {
             left = 5, 
@@ -575,7 +575,7 @@ BuildTemplates["raidpet"] = function(self, unit)
     shadow:SetFrameStrata(self:GetFrameStrata())
     shadow:WrapPoints(self, 3, 3)
     shadow:SetBackdrop({
-        edgeFile = SV.Media.border.shadow, 
+        edgeFile = SV.media.border.shadow, 
         edgeSize = 3, 
         insets = {
             left = 5, 
