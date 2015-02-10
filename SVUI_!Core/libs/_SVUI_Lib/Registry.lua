@@ -90,14 +90,9 @@ local InterfaceVersion      = select(4, GetBuildInfo());
 local GLOBAL_FILENAME       = CoreGlobalName.."_Global";
 local ERROR_FILENAME        = CoreGlobalName.."_Errors";
 local PRIVATE_FILENAME      = CoreGlobalName.."_Private";
-<<<<<<< HEAD
-local FILTERS_FILENAME      = CoreGlobalName.."_Filters";
-local GLOBAL_SV, PRIVATE_SV, FILTER_SV, ERROR_CACHE, MODS, MODULES, THEMES, PACKAGES, PLUGINS, DB_QUEUE;
-=======
 local MEDIA_FILENAME        = CoreGlobalName.."_Media";
 local PRIVATE_FILENAME      = CoreGlobalName.."_Private";
 local GLOBAL_SV, PRIVATE_SV, FILTER_SV, MEDIA_SV, ERROR_CACHE, MODS, MODULES, THEMES, PACKAGES, PLUGINS, DB_QUEUE;
->>>>>>> origin/master
 local PluginString = ""
 local LoadOnDemand, FoundThemes, ScriptQueue = {},{},{};
 local debugHeader = "|cffFF2F00%s|r [|cff992FFF%s|r]|cffFF2F00:|r";
@@ -933,11 +928,7 @@ local function CorePreInitialize()
 
     CoreObject.ERRORLOG = ERROR_CACHE.FOUND
 
-<<<<<<< HEAD
-    ScheduledDatabase(obj)
-=======
     ScheduledDatabase(CoreObject)
->>>>>>> origin/master
 
     CoreObject.initialized = true
 end
@@ -1311,8 +1302,6 @@ function lib:NewCore(gfile, efile, pfile, mfile, ffile)
     CoreObject.HasErrors            = false;
     CoreObject.Schema               = GetAddOnMetadata(CoreName, SchemaFromMeta);
     CoreObject.TitleID              = GetAddOnMetadata(CoreName, HeaderFromMeta);
-
-    CoreObject.NewDatabase          = newDatabase
 
     CoreObject.RegisterEvent        = registerEvent
     CoreObject.UnregisterEvent      = unregisterEvent

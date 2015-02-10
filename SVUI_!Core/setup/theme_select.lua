@@ -46,23 +46,6 @@ function SV.Setup:SelectTheme()
 		local count = 1;
 		local yOffset = ((135 * count) - 125) * -1;
 		local icon = SV.Setup.media.theme
-<<<<<<< HEAD
-		local themeButton = CreateFrame("Frame", nil, frame)
-		themeButton:ModSize(125, 125)
-		themeButton:SetPoint("TOP", frame, "TOP", 0, yOffset)
-		themeButton.texture = themeButton:CreateTexture(nil, "BORDER")
-		themeButton.texture:SetAllPoints()
-		themeButton.texture:SetTexture(icon)
-		themeButton.texture:SetVertexColor(1, 1, 1)
-		themeButton.text = themeButton:CreateFontString(nil, "OVERLAY")
-		themeButton.text:SetFont(SV.Media.font.zones, 18, "OUTLINE")
-		themeButton.text:SetPoint("BOTTOM")
-		themeButton.text:SetText("Default Theme")
-		themeButton.text:SetTextColor(0.1, 0.5, 1)
-		themeButton:EnableMouse(true)
-		themeButton:SetScript("OnMouseDown", function(self) 
-			SV.db.THEME.active = "NONE"; 
-=======
 		local firstButton = CreateFrame("Frame", nil, frame)
 		firstButton:ModSize(125, 125)
 		firstButton:SetPoint("TOP", frame, "TOP", 0, yOffset)
@@ -78,7 +61,6 @@ function SV.Setup:SelectTheme()
 		firstButton:EnableMouse(true)
 		firstButton:SetScript("OnMouseDown", function(self) 
 			SV.db.THEME.active = "NONE";
->>>>>>> origin/master
 			SV:StaticPopup_Show("RL_CLIENT");
 		end)
 		firstButton:SetScript("OnEnter", function(this)

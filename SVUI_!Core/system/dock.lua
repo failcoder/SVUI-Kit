@@ -151,11 +151,7 @@ function MOD:SetBorderTheme()
 	self.Border.Top:ModPoint("TOPRIGHT", SV.Screen, "TOPRIGHT", 1, 1)
 	self.Border.Top:ModHeight(10)
 	self.Border.Top:SetBackdrop({
-<<<<<<< HEAD
-		bgFile = SV.Media.bg.button, 
-=======
 		bgFile = SV.media.bg.button, 
->>>>>>> origin/master
 		edgeFile = [[Interface\BUTTONS\WHITE8X8]], 
 		tile = false, 
 		tileSize = 0, 
@@ -175,11 +171,7 @@ function MOD:SetBorderTheme()
 	self.Border.Bottom:ModPoint("BOTTOMRIGHT", SV.Screen, "BOTTOMRIGHT", 1, -1)
 	self.Border.Bottom:ModHeight(10)
 	self.Border.Bottom:SetBackdrop({
-<<<<<<< HEAD
-		bgFile = SV.Media.bg.button, 
-=======
 		bgFile = SV.media.bg.button, 
->>>>>>> origin/master
 		edgeFile = [[Interface\BUTTONS\WHITE8X8]], 
 		tile = false, 
 		tileSize = 0, 

@@ -103,11 +103,7 @@ SV.media["border"]["unitlarge"] 	= LSM:Fetch("border", "SVUI UnitBorder 1")
 SV.media["border"]["unitsmall"] 	= LSM:Fetch("border", "SVUI SmallBorder 1")
 -- print("Unitframe")
 -- print(SV.mediadefaults.internal.bg["unitlarge"])
-<<<<<<< HEAD
--- print(SV.Media["texture"]["unitlarge"])
-=======
 -- print(SV.media["bg"]["unitlarge"])
->>>>>>> origin/master
 
 SV.GlobalFontList["SVUI_Font_Unit"] = "unitprimary";
 SV.GlobalFontList["SVUI_Font_Unit_Small"] = "unitsecondary";

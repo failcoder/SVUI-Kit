@@ -474,13 +474,8 @@ local HookCustomBackdrop = function(self)
             self.Panel:SetBackdrop(SV.media.backdrop[bgid])
             self.Panel:SetBackdropBorderColor(0,0,0,1)
         else
-<<<<<<< HEAD
-            local newBgFile = SV.Media.bg[bgid]
-            local newBorderFile = SV.Media.border[bgid]
-=======
             local newBgFile = SV.media.bg[bgid]
             local newBorderFile = SV.media.border[bgid]
->>>>>>> origin/master
             if(newBgFile and newBorderFile) then
                 local edgeSize = self.Panel:GetAttribute("panelPadding") or 1
                 self.Panel:SetBackdrop({
@@ -1197,11 +1192,7 @@ local function FrameTemplateUpdates()
                 end
             end
             if(frame.TextureNeedsUpdate and frame.Panel.Skin) then
-<<<<<<< HEAD
-                local tex = SV.Media.bg[panelID]
-=======
                 local tex = SV.media.bg[panelID]
->>>>>>> origin/master
                 if(tex) then
                     frame.Panel.Skin:SetTexture(tex)
                     --if(panelID == 'unitlarge') then print(frame.Panel.Skin:GetTexture()) end
@@ -1442,11 +1433,7 @@ local _hook_DropDownButton_SetPoint = function(self, _, _, _, _, _, breaker)
 end
 
 local _hook_Tooltip_OnShow = function(self)
-<<<<<<< HEAD
-    self:SetBackdrop(SV.Media.backdrop.tooltip)
-=======
     self:SetBackdrop(SV.media.backdrop.tooltip)
->>>>>>> origin/master
 end
 
 MOD.Concepts["Frame"] = function(self, adjustable, frame, template, noStripping, padding, xOffset, yOffset)

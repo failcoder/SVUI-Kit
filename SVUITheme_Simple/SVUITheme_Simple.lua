@@ -96,11 +96,7 @@ function THEME:Load()
 	if(GetLocale() == "enUS") then
 		SV.mediadefaults.internal.font["dialog"] = {file = "SVUI Dialog Font",  size = 10,  outline = "OUTLINE"};
 		SV.mediadefaults.internal.font["title"] = {file = "SVUI Dialog Font",  size = 16,  outline = "OUTLINE"};
-<<<<<<< HEAD
-		SV.Media["font"]["dialog"] = LSM:Fetch("font", "SVUI Dialog Font")
-=======
 		SV.media["font"]["dialog"] = LSM:Fetch("font", "SVUI Dialog Font")
->>>>>>> origin/master
 	end
 
 	SV.mediadefaults.internal.font["number"]      	= {file = "SVUI Caps Font",   size = 14,  outline = "OUTLINE"};
@@ -117,10 +113,7 @@ function THEME:Load()
 
 	SV.mediadefaults.internal.bg["pattern"]   	= "SVUI Backdrop";
 	SV.mediadefaults.internal.bg["premium"]   	= "SVUI Backdrop";
-<<<<<<< HEAD
-=======
 	SV.mediadefaults.internal.bg["button"]   	= "SVUI Backdrop";
->>>>>>> origin/master
 	SV.mediadefaults.internal.bg["unitlarge"]   = "SVUI Backdrop";
 	SV.mediadefaults.internal.bg["unitsmall"]   = "SVUI Backdrop";
 
@@ -177,9 +170,5 @@ function THEME:Load()
 	SV.Dock.SetBorderTheme = _SetBorderTheme
 	-- print("Theme")
 	-- print(SV.mediadefaults.internal.bg["unitlarge"])
-<<<<<<< HEAD
-	-- print(SV.Media["texture"]["unitlarge"])
-=======
 	-- print(SV.media["bg"]["unitlarge"])
->>>>>>> origin/master
 end 
