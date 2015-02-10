@@ -197,7 +197,7 @@ local BreakStuff_OnEnter = function(self)
 	end 
 	if BreakStuffHandler.ReadyToSmash ~= true then
 		self:SetPanelColor("class")
-		self.icon:SetGradient(unpack(SV.Media.gradient.highlight))
+		self.icon:SetGradient(unpack(SV.media.gradient.highlight))
 	end
 	GameTooltip:Show()
 end
@@ -222,7 +222,7 @@ local BreakStuff_OnClick = function(self)
 		BreakStuffHandler.ReadyToSmash = true
 		self.ttText = "BreakStuff : ON";
 		self:SetPanelColor("green")
-		self.icon:SetGradient(unpack(SV.Media.gradient.green))
+		self.icon:SetGradient(unpack(SV.media.gradient.green))
 		if(SV.Inventory and SV.Inventory.BagFrame) then
 			if(not SV.Inventory.BagFrame:IsShown()) then
 				GameTooltip:Hide()
@@ -311,7 +311,7 @@ local function LoadToolBreakStuff()
 	local size = MOD.BottomRight.Bar.ToolBar:GetHeight()
 	BreakStuffButton:ModSize(size, size)
 	BreakStuffButton:ModPoint("RIGHT", MOD.BottomRight.Bar.ToolBar, "LEFT", -6, 0)
-	BreakStuffButton.icon:SetTexture(SV.Media.dock.breakStuffIcon)
+	BreakStuffButton.icon:SetTexture(SV.media.dock.breakStuffIcon)
 	BreakStuffButton:Show();
 	BreakStuffButton:SetStyle("DockButton") 
 	

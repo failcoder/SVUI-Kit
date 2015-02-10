@@ -875,11 +875,6 @@ function SV:StaticPopup_Hide(which, data)
 	end
 end
 
-local function rng()
-	local x,y = random(10,70), random(10,70)
-	return x,y
-end
-
 local function SetConfigAlertAnim(f)
 	local x = 50;
 	local y = 150;
@@ -905,7 +900,8 @@ end
 function SV:SavedPopup()
 	if not _G["SVUI_ConfigAlert"] then return end 
 	local alert = _G["SVUI_ConfigAlert"]
-	local x,y = rng()
+	local x = random(10,70)
+	local y = random(10,70)
 	if(alert:IsShown()) then
 		alert:Hide()
 	end
@@ -941,7 +937,7 @@ local function LoadSystemAlerts()
 		configAlert.bg:SetFrameLevel(979)
 		local bgtex = configAlert.bg:CreateTexture(nil, "BACKGROUND")
 		bgtex:SetAllPoints()
-		bgtex:SetTexture(SV.Media.alert.saved[1])
+		bgtex:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\Alert\SAVED-BG]])
 		SetConfigAlertAnim(configAlert.bg)
 
 		configAlert.fg = CreateFrame("Frame", nil, configAlert)
@@ -951,7 +947,7 @@ local function LoadSystemAlerts()
 		configAlert.fg:SetFrameLevel(999)
 		local fgtex = configAlert.fg:CreateTexture(nil, "ARTWORK")
 		fgtex:SetAllPoints()
-		fgtex:SetTexture(SV.Media.alert.saved[2])
+		fgtex:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\Alert\SAVED-FG]])
 		SetConfigAlertAnim(configAlert.fg)
 
 		SV.Animate:Orbit(configAlert.bg, 10, false, true)

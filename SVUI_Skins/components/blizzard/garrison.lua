@@ -137,7 +137,7 @@ local _hook_GarrisonFollowerListUpdate = function(self)
 	            button:RemoveTextures()
 	            button:SetStyle("Frame", 'Blackout', true, 1, 0, 0)
 				if(button.XPBar) then
-					button.XPBar:SetTexture(SV.Media.bar.default)
+					button.XPBar:SetTexture(SV.media.bar.default)
 					button.XPBar:SetGradient('HORIZONTAL', 0.5, 0, 1, 1, 0, 1)
 				end
 	        end
@@ -201,7 +201,7 @@ local _hook_GarrisonFollowerPage_ShowFollower = function(self, followerID)
 	local followerInfo = C_Garrison.GetFollowerInfo(followerID);
     if(not self.XPBar.Panel) then
 	    self.XPBar:RemoveTextures()
-		self.XPBar:SetStatusBarTexture(SV.Media.bar.default)
+		self.XPBar:SetStatusBarTexture(SV.media.bar.default)
 		self.XPBar:SetStyle("!_Frame", "Bar")
 	end
  

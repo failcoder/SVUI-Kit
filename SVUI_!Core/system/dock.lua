@@ -151,14 +151,14 @@ function MOD:SetBorderTheme()
 	self.Border.Top:ModPoint("TOPRIGHT", SV.Screen, "TOPRIGHT", 1, 1)
 	self.Border.Top:ModHeight(10)
 	self.Border.Top:SetBackdrop({
-		bgFile = SV.Media.misc.button, 
+		bgFile = SV.media.bg.button, 
 		edgeFile = [[Interface\BUTTONS\WHITE8X8]], 
 		tile = false, 
 		tileSize = 0, 
 		edgeSize = 1, 
 		insets = {left = 0, right = 0, top = 0, bottom = 0}
 	})
-	self.Border.Top:SetBackdropColor(unpack(SV.Media.color.dark))
+	self.Border.Top:SetBackdropColor(unpack(SV.media.color.dark))
 	self.Border.Top:SetBackdropBorderColor(0,0,0,1)
 	self.Border.Top:SetFrameLevel(0)
 	self.Border.Top:SetFrameStrata('BACKGROUND')
@@ -171,14 +171,14 @@ function MOD:SetBorderTheme()
 	self.Border.Bottom:ModPoint("BOTTOMRIGHT", SV.Screen, "BOTTOMRIGHT", 1, -1)
 	self.Border.Bottom:ModHeight(10)
 	self.Border.Bottom:SetBackdrop({
-		bgFile = SV.Media.misc.button, 
+		bgFile = SV.media.bg.button, 
 		edgeFile = [[Interface\BUTTONS\WHITE8X8]], 
 		tile = false, 
 		tileSize = 0, 
 		edgeSize = 1, 
 		insets = {left = 0, right = 0, top = 0, bottom = 0}
 	})
-	self.Border.Bottom:SetBackdropColor(unpack(SV.Media.color.dark))
+	self.Border.Bottom:SetBackdropColor(unpack(SV.media.color.dark))
 	self.Border.Bottom:SetBackdropBorderColor(0,0,0,1)
 	self.Border.Bottom:SetFrameLevel(0)
 	self.Border.Bottom:SetFrameStrata('BACKGROUND')
@@ -197,7 +197,7 @@ function MOD:SetButtonTheme(button, size)
 	local sparks = button:CreateTexture(nil, "OVERLAY", nil, 2)
 	sparks:ModSize(sparkSize, sparkSize)
 	sparks:SetPoint("CENTER", button, "BOTTOMRIGHT", -sparkOffset, 4)
-	sparks:SetTexture(SV.Media.dock.sparks[1])
+	sparks:SetTexture(SV.media.dock.sparks[1])
 	sparks:SetVertexColor(0.7, 0.6, 0.5)
 	sparks:SetBlendMode("ADD")
 	sparks:SetAlpha(0)
@@ -207,7 +207,7 @@ function MOD:SetButtonTheme(button, size)
 	button.Sparks = sparks;
 
 	button.ClickTheme = function(self)
-		self.Sparks:SetTexture(SV.Media.dock.sparks[random(1,3)])
+		self.Sparks:SetTexture(SV.media.dock.sparks[random(1,3)])
 		self.Sparks.anim:Play()
 	end
 end
@@ -473,7 +473,7 @@ local DockButtonActivate = function(self)
 	--print('DockButtonActivate')
 	self:SetAttribute("isActive", true)
 	self:SetPanelColor("default")
-	self.Icon:SetGradient(unpack(SV.Media.gradient.checked))
+	self.Icon:SetGradient(unpack(SV.media.gradient.checked))
 	if(self.FrameLink) then
 		if(not InCombatLockdown()) then
 			self.FrameLink:SetFrameLevel(10)
@@ -494,14 +494,14 @@ local DockButtonDeactivate = function(self)
 	end
 	self:SetAttribute("isActive", false)
 	self:SetPanelColor("default")
-	self.Icon:SetGradient(unpack(SV.Media.gradient.icon))
+	self.Icon:SetGradient(unpack(SV.media.gradient.icon))
 end
 
 local DockButton_OnEnter = function(self, ...)
 	MOD:EnterFade()
 
 	self:SetPanelColor("highlight")
-	self.Icon:SetGradient(unpack(SV.Media.gradient.highlight))
+	self.Icon:SetGradient(unpack(SV.media.gradient.highlight))
 
 	GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 4)
 	GameTooltip:ClearLines()
@@ -518,7 +518,7 @@ local DockletButton_OnEnter = function(self, ...)
 	MOD:EnterFade()
 
 	self:SetPanelColor("highlight")
-	self.Icon:SetGradient(unpack(SV.Media.gradient.highlight))
+	self.Icon:SetGradient(unpack(SV.media.gradient.highlight))
 
 	local tipAnchor = self:GetAttribute("tipAnchor")
 	GameTooltip:SetOwner(self, tipAnchor, 0, 4)
@@ -542,10 +542,10 @@ local DockletButton_OnLeave = function(self, ...)
 	self:SetPanelColor("default")
 	if(self:GetAttribute("isActive")) then
 		-- self:SetPanelColor("checked")
-		self.Icon:SetGradient(unpack(SV.Media.gradient.checked))
+		self.Icon:SetGradient(unpack(SV.media.gradient.checked))
 	else
 		-- self:SetPanelColor("default")
-		self.Icon:SetGradient(unpack(SV.Media.gradient.icon))
+		self.Icon:SetGradient(unpack(SV.media.gradient.icon))
 	end
 
 	GameTooltip:Hide()
@@ -838,7 +838,7 @@ local ActivateDockletButton = function(self, button, clickFunction, tipFunction,
 
 	button.Parent = self
 	button:SetPanelColor("default")
-	button.Icon:SetGradient(unpack(SV.Media.gradient.icon))
+	button.Icon:SetGradient(unpack(SV.media.gradient.icon))
 	button:SetScript("OnEnter", DockletButton_OnEnter)
 	button:SetScript("OnLeave", DockletButton_OnLeave)
 	if(not isAction) then
@@ -929,7 +929,7 @@ MOD.BottomCenter = _G["SVUI_DockBottomCenter"];
 
 local function InitDockButton(button, location)
 	button:SetPanelColor("default")
-	button.Icon:SetGradient(unpack(SV.Media.gradient.icon))
+	button.Icon:SetGradient(unpack(SV.media.gradient.icon))
 	button:SetScript("OnEnter", DockButton_OnEnter)
 	button:SetScript("OnLeave", DockletButton_OnLeave)
 	if(location == "BottomLeft") then

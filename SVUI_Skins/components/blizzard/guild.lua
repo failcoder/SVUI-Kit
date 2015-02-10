@@ -99,7 +99,7 @@ local function GCTabHelper(tab)
 	tab.bg1 = tab:CreateTexture(nil,"BACKGROUND")
 	tab.bg1:SetDrawLayer("BACKGROUND",4)
 	tab.bg1:SetTexture(SV.BaseTexture)
-	tab.bg1:SetVertexColor(unpack(SV.Media.color.default))
+	tab.bg1:SetVertexColor(unpack(SV.media.color.default))
 	tab.bg1:InsetPoints(tab.Panel,1)
 	tab.bg3 = tab:CreateTexture(nil,"BACKGROUND")
 	tab.bg3:SetDrawLayer("BACKGROUND",2)
@@ -130,7 +130,7 @@ local function ChangeTabHelper(this)
 	this.backdrop = CreateFrame("Frame", nil, this)
 	this.backdrop:WrapPoints(this,1,1)
 	this.backdrop:SetFrameLevel(0)
-	this.backdrop:SetBackdrop(SV.Media.backdrop.glow);
+	this.backdrop:SetBackdrop(SV.media.backdrop.glow);
     this.backdrop:SetBackdropColor(0,0,0,1)
 	this.backdrop:SetBackdropBorderColor(0,0,0,1)
 	this:SetScript("OnEnter", Tab_OnEnter)
@@ -161,13 +161,13 @@ local function StyleSortingButton(button)
 	local hover = button:CreateTexture(nil, "HIGHLIGHT")
 	hover:WrapPoints(button, 6, 6)
 	hover:SetTexture([[Interface\Addons\SVUI_!Core\assets\textures\ROUND]])
-	hover:SetGradient(unpack(SV.Media.gradient.yellow))
+	hover:SetGradient(unpack(SV.media.gradient.yellow))
 
 	if button.SetPushedTexture then 
 		local pushed = button:CreateTexture(nil, "BORDER")
 		pushed:WrapPoints(button, 6, 6)
 		pushed:SetTexture([[Interface\Addons\SVUI_!Core\assets\textures\ROUND]])
-		pushed:SetGradient(unpack(SV.Media.gradient.highlight))
+		pushed:SetGradient(unpack(SV.media.gradient.highlight))
 		button:SetPushedTexture(pushed)
 	end 
 
@@ -175,7 +175,7 @@ local function StyleSortingButton(button)
 		local checked = button:CreateTexture(nil, "BORDER")
 		checked:WrapPoints(button, 6, 6)
 		checked:SetTexture([[Interface\Addons\SVUI_!Core\assets\textures\ROUND]])
-		checked:SetGradient(unpack(SV.Media.gradient.green))
+		checked:SetGradient(unpack(SV.media.gradient.green))
 		button:SetCheckedTexture(checked)
 	end 
 
@@ -183,7 +183,7 @@ local function StyleSortingButton(button)
 		local disabled = button:CreateTexture(nil, "BORDER")
 		disabled:WrapPoints(button, 6, 6)
 		disabled:SetTexture([[Interface\Addons\SVUI_!Core\assets\textures\ROUND]])
-		disabled:SetGradient(unpack(SV.Media.gradient.default))
+		disabled:SetGradient(unpack(SV.media.gradient.default))
 		button:SetDisabledTexture(disabled)
 	end 
 

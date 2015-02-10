@@ -23,15 +23,15 @@ local _hook_LossOfControl = function(self, ...)
   self.AbilityName:ClearAllPoints()
   self.AbilityName:SetPoint("BOTTOM", self, 0, -28)
   self.AbilityName.scrollTime = nil;
-  self.AbilityName:SetFont(SV.Media.font.dialog, 20, 'OUTLINE')
+  self.AbilityName:SetFont(SV.media.font.dialog, 20, 'OUTLINE')
   self.TimeLeft.NumberText:ClearAllPoints()
   self.TimeLeft.NumberText:SetPoint("BOTTOM", self, 4, -58)
   self.TimeLeft.NumberText.scrollTime = nil;
-  self.TimeLeft.NumberText:SetFont(SV.Media.font.numbers, 20, 'OUTLINE')
+  self.TimeLeft.NumberText:SetFont(SV.media.font.numbers, 20, 'OUTLINE')
   self.TimeLeft.SecondsText:ClearAllPoints()
   self.TimeLeft.SecondsText:SetPoint("BOTTOM", self, 0, -80)
   self.TimeLeft.SecondsText.scrollTime = nil;
-  self.TimeLeft.SecondsText:SetFont(SV.Media.font.default, 20, 'OUTLINE')
+  self.TimeLeft.SecondsText:SetFont(SV.media.font.default, 20, 'OUTLINE')
   if self.Anim:IsPlaying() then
      self.Anim:Stop()
   end 

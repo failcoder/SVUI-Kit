@@ -80,7 +80,7 @@ local function ChangeTabHelper(tab)
 	tab.backdrop = CreateFrame("Frame", nil, tab)
 	tab.backdrop:WrapPoints(tab,1,1)
 	tab.backdrop:SetFrameLevel(0)
-	tab.backdrop:SetBackdrop(SV.Media.backdrop.glow);
+	tab.backdrop:SetBackdrop(SV.media.backdrop.glow);
     tab.backdrop:SetBackdropColor(0,0,0,1)
 	tab.backdrop:SetBackdropBorderColor(0,0,0,1)
 	tab:SetScript("OnEnter", Tab_OnEnter)
@@ -280,7 +280,7 @@ local function SpellBookStyle()
 		if(bar) then
 			bar:RemoveTextures()
 			bar:SetHeight(12)
-			bar:SetStatusBarTexture(SV.Media.bar.default)
+			bar:SetStatusBarTexture(SV.media.bar.default)
 			bar:SetStatusBarColor(0, 220/255, 0)
 			bar:SetStyle("Frame", "Default")
 			bar.rankText:ClearAllPoints()

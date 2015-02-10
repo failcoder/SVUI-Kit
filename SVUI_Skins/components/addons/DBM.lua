@@ -97,14 +97,14 @@ local function StyleBars(self)
 				name:SetJustifyH('LEFT')
 				name:SetShadowColor(0, 0, 0, 0)
 				name:ModPoint('TOPLEFT', frame, 'TOPLEFT', 0, 0)
-				name:SetFont(SV.Media.font.default, 12, 'OUTLINE')
+				name:SetFont(SV.media.font.default, 12, 'OUTLINE')
 				name:SetTextColor(bar.owner.options.TextColorR, bar.owner.options.TextColorG, bar.owner.options.TextColorB)
 
 				timer:ClearAllPoints()
 				timer:SetJustifyH('RIGHT')
 				timer:SetShadowColor(0, 0, 0, 0)
 				timer:ModPoint('TOPRIGHT', frame, 'TOPRIGHT', 0, 0)
-				timer:SetFont(SV.Media.font.default, 12, 'OUTLINE')
+				timer:SetFont(SV.media.font.default, 12, 'OUTLINE')
 				timer:SetTextColor(bar.owner.options.TextColorR, bar.owner.options.TextColorG, bar.owner.options.TextColorB)
 
 				if bar.owner.options.IconLeft then icon1:Show() icon1.overlay:Show() else icon1:Hide() icon1.overlay:Hide() end

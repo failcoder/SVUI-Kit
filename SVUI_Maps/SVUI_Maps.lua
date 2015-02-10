@@ -822,7 +822,7 @@ function MOD:Load()
 		FeedbackUIButton:Die()
 	end
 
-	local mwfont = SV.Media.font.narrator
+	local mwfont = SV.media.font.narrator
 
 	self.InfoTop:ModPoint("TOPLEFT", self.Holder, "TOPLEFT", 2, -2)
 	self.InfoTop:SetSize(100, 22)

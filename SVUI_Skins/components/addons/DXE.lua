@@ -118,7 +118,7 @@ local function StyleDXE()
 	DXEDB["profiles"][playerKey]["Globals"]["BackgroundTexture"] = [[Interface\BUTTONS\WHITE8X8]]
 	DXEDB["profiles"][playerKey]["Globals"]["BarTexture"] = SV.BaseTexture
 	DXEDB["profiles"][playerKey]["Globals"]["Border"] = "None"
-	DXEDB["profiles"][playerKey]["Globals"]["Font"] = SV.Media.font.dialog
-	DXEDB["profiles"][playerKey]["Globals"]["TimerFont"] = SV.Media.font.dialog
+	DXEDB["profiles"][playerKey]["Globals"]["Font"] = SV.media.font.dialog
+	DXEDB["profiles"][playerKey]["Globals"]["TimerFont"] = SV.media.font.dialog
 end
 MOD:SaveAddonStyle("DXE", StyleDXE)

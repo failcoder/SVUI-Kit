@@ -51,7 +51,7 @@ local function ChangeTabHelper(this)
 	this.backdrop = CreateFrame("Frame", nil, this)
 	this.backdrop:WrapPoints(this,1,1)
 	this.backdrop:SetFrameLevel(0)
-	this.backdrop:SetBackdrop(SV.Media.backdrop.glow);
+	this.backdrop:SetBackdrop(SV.media.backdrop.glow);
     this.backdrop:SetBackdropColor(0,0,0,1)
 	this.backdrop:SetBackdropBorderColor(0,0,0,1)
 	this:SetScript("OnEnter", Tab_OnEnter)
@@ -64,19 +64,19 @@ local function StyleGlyphHolder(holder, offset)
     local outer = holder:CreateTexture(nil, "OVERLAY")
     outer:WrapPoints(holder, offset, offset)
     outer:SetTexture(borderTex)
-    outer:SetGradient(unpack(SV.Media.gradient.class))
+    outer:SetGradient(unpack(SV.media.gradient.class))
 
     local hover = holder:CreateTexture(nil, "HIGHLIGHT")
     hover:WrapPoints(holder, offset, offset)
     hover:SetTexture(borderTex)
-    hover:SetGradient(unpack(SV.Media.gradient.yellow))
+    hover:SetGradient(unpack(SV.media.gradient.yellow))
     holder.hover = hover
 
     if holder.SetDisabledTexture then 
         local disabled = holder:CreateTexture(nil, "BORDER")
         disabled:WrapPoints(holder, offset, offset)
         disabled:SetTexture(borderTex)
-        disabled:SetGradient(unpack(SV.Media.gradient.default))
+        disabled:SetGradient(unpack(SV.media.gradient.default))
         holder:SetDisabledTexture(disabled)
     end 
 
@@ -171,7 +171,7 @@ local function TalentFrameStyle()
 			for z = 1, NUM_TALENT_COLUMNS do 
 				local talentItem = _G[("%sTalent%d"):format(gName, z)]
 				if(talentItem) then
-					SV.API:Set("ItemButton", talentItem)
+					SV.API:Set("!_ItemButton", talentItem)
 				end
 			end
 		end

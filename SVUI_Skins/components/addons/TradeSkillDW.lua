@@ -54,7 +54,7 @@ local function StyleTradeSkillDW()
 	
 	TradeSkillFrame:ModHeight(TradeSkillFrame:GetHeight() + 12)
 	TradeSkillRankFrame:SetStyle("Frame", 'Transparent')
-	TradeSkillRankFrame:SetStatusBarTexture(SV.Media.bar.default)
+	TradeSkillRankFrame:SetStatusBarTexture(SV.media.bar.default)
 	TradeSkillCreateButton:SetStyle("Button")
 	TradeSkillCancelButton:SetStyle("Button")
 	TradeSkillFilterButton:SetStyle("Button")

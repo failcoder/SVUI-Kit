@@ -328,7 +328,7 @@ function MOD:InitializeActive()
 	block.CloseButton:RemoveTextures()
 	block.CloseButton:SetStyle("Button", -7, -7, "red")
 	block.CloseButton:SetFrameLevel(block.Button:GetFrameLevel() + 4)
-	block.CloseButton:SetNormalTexture(SV.Media.icon.close)
+	block.CloseButton:SetNormalTexture(SV.media.icon.close)
     block.CloseButton:HookScript("OnEnter", CloseButton_OnEnter)
     block.CloseButton:HookScript("OnLeave", CloseButton_OnLeave)
 	block.CloseButton:ModPoint("TOPRIGHT", block.Button, "TOPRIGHT", 4, 4);

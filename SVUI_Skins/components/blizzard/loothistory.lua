@@ -121,7 +121,7 @@ local function LootHistoryStyle()
   LootHistoryFrame.ResizeButton:SetNormalTexture("")
 
   local txt = LootHistoryFrame.ResizeButton:CreateFontString(nil,"OVERLAY")
-  txt:SetFont(SV.Media.font.default, 14, "NONE")
+  txt:SetFont(SV.media.font.default, 14, "NONE")
   txt:SetAllPoints(LootHistoryFrame.ResizeButton)
   txt:SetJustifyH("CENTER")
   txt:SetText("RESIZE")
@@ -139,7 +139,7 @@ local function LootHistoryStyle()
   BonusRollFrame:RemoveTextures()
   SV.API:Set("Alert", BonusRollFrame)
   BonusRollFrame.PromptFrame.Icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
-  BonusRollFrame.PromptFrame.Timer.Bar:SetTexture(SV.Media.bar.default)
+  BonusRollFrame.PromptFrame.Timer.Bar:SetTexture(SV.media.bar.default)
   BonusRollFrame.PromptFrame.Timer.Bar:SetVertexColor(0.1, 1, 0.1)
 end 
 --[[ 

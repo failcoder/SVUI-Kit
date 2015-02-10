@@ -221,7 +221,7 @@ end
 
 -- We have to send the names of our three SavedVariables files since the WoW API
 -- has no method for parsing them in LUA.
-local SV = SVUILib:NewCore("SVUI_Global", "SVUI_Errors", "SVUI_Private", "SVUI_Filters")
+local SV = SVUILib:NewCore("SVUI_Global", "SVUI_Errors", "SVUI_Private", "SVUI_Media", "SVUI_Filters")
 
 SV.ConfigID           = "SVUI_!Options";
 SV.class              = playerClass;
@@ -241,26 +241,11 @@ SV.Hidden:Hide();
 SV.RollFrames         = {};
 SV.SystemAlert        = {};
 SV.filterdefaults     = {};
-
-SV.defaults = {
+SV.mediadefaults      = {};
+SV.defaults           = {
     ["LAYOUT"] = {},
     ["THEME"] = {
         ["active"] = "NONE",
-        ["Default"] = {
-            ["textures"] = { 
-                ["pattern"]      = "SVUI Backdrop 1", 
-                ["premium"]      = "SVUI Artwork 1"
-            },
-            ["borders"] = { 
-                ["pattern"]      = "SVUI All Purpose Border", 
-                ["premium"]      = "SVUI All Purpose Border", 
-            },
-            ["colors"] = {
-                ["default"]      = {0.2, 0.2, 0.2, 1}, 
-                ["special"]      = {0.37, 0.32, 0.29, 1}, 
-                ["specialdark"]  = {0.37, 0.32, 0.29, 1},
-            },
-        }
     },
     ["screen"] = {
         ["autoScale"] = true,
@@ -623,7 +608,7 @@ function SV:VersionCheck()
 end
 
 function SV:RefreshEverything(bypass)
-    self.Media:Update();
+    self:RefreshCommonMedia();
     self:UpdateAnchors();
     SVUILib:RefreshAll();
     if not bypass then
@@ -660,10 +645,10 @@ function SV:GenerateFontOptionGroup(groupName, groupCount, groupOverview, groupL
             guiInline = true,
             name = info.name,
             get = function(key)
-                return self.db.font[template][key[#key]]
+                return self.media.font[template][key[#key]]
             end,
             set = function(key,value)
-                self.db.font[template][key[#key]] = value;
+                self.media.font[template][key[#key]] = value;
                 if(groupCount == 1) then
                     self:StaticPopup_Show("RL_CLIENT")
                 else
@@ -730,7 +715,7 @@ function SV:PLAYER_ENTERING_WORLD()
         self:PlayerInfoUpdate()
     end
     if(not self.MediaInitialized) then 
-        self:RefreshAllSystemMedia() 
+        self:RefreshAllMedia() 
     end
     local _,instanceType = IsInInstance()
     if(instanceType == "pvp") then 
@@ -800,7 +785,7 @@ end
 --[[ LOAD FUNCTIONS ]]--
 
 function SV:ReLoad()
-    self:RefreshAllSystemMedia();
+    self:RefreshAllMedia();
     self:UpdateAnchors();
     self:AddonMessage("All user settings reloaded");
 end
@@ -830,7 +815,7 @@ function SV:Initialize()
     self:UI_SCALE_CHANGED("PLAYER_LOGIN")
     self:PlayerInfoUpdate();
     self:VersionCheck();
-    self:RefreshAllSystemMedia();
+    self:RefreshAllMedia();
     self:PostUpdateTheme();
 
     SVUILib:LoadScripts();
