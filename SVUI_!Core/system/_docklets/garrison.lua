@@ -254,7 +254,7 @@ local function LoadToolBarGarrison()
 		return 
 	end
 
-	local garrison = SV.Dock:SetDockButton("BottomLeft", L["Garrison Landing Page"], SV.Media.dock.garrisonToolIcon, nil, "SVUI_Garrison", SetGarrisonTooltip, "SecureActionButtonTemplate")
+	local garrison = SV.Dock:SetDockButton("BottomLeft", L["Garrison Landing Page"], SV.media.dock.garrisonToolIcon, nil, "SVUI_Garrison", SetGarrisonTooltip, "SecureActionButtonTemplate")
 	garrison:SetAttribute("type1", "click")
 	garrison:SetAttribute("clickbutton", GarrisonLandingPageMinimapButton)
 

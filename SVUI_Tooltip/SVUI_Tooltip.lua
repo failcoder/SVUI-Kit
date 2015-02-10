@@ -819,7 +819,7 @@ local function ApplyTooltipSkins()
 		    mask[8]:SetWidth(1)
 		    mask[8]:SetTexture(0,0,0)
 
-		    --mask:SetBackdrop(SV.Media.backdrop.tooltip)
+		    --mask:SetBackdrop(SV.media.backdrop.tooltip)
 		    --mask:SetBackdropBorderColor(0, 0, 0)
 
 		    mask.SetMaskBorderColor = SetMaskBorderColor
@@ -873,7 +873,7 @@ function MOD:Load()
 	SV:NewAnchor(self.Holder, L["Tooltip"])
 
 	GameTooltipStatusBar:SetHeight(BAR_HEIGHT)
-	GameTooltipStatusBar:SetStatusBarTexture(SV.Media.bar.default)
+	GameTooltipStatusBar:SetStatusBarTexture(SV.media.bar.default)
 
 	BNToastFrame:ClearAllPoints()
 	BNToastFrame:ModPoint("BOTTOMRIGHT", SV.Dock.BottomLeft, "TOPRIGHT", 0, 20)

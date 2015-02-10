@@ -164,7 +164,7 @@ local OBJECTIVE_GetStatus = function(self)
 		status.Bar = CreateFrame("StatusBar", nil, status);
 		status.Bar:ModPoint("TOPLEFT", status, "TOPLEFT", 4, -2);
 		status.Bar:ModPoint("BOTTOMRIGHT", status, "BOTTOMRIGHT", -4, 2);
-		status.Bar:SetStatusBarTexture(SV.Media.bar.default)
+		status.Bar:SetStatusBarTexture(SV.media.bar.default)
 		status.Bar:SetStatusBarColor(0.15,0.5,1) --1,0.15,0.08
 		status.Bar:SetMinMaxValues(0, 1)
 		status.Bar:SetValue(0)
@@ -175,7 +175,7 @@ local OBJECTIVE_GetStatus = function(self)
 		
 		bgFrame.bg = bgFrame:CreateTexture(nil, "BACKGROUND")
 		bgFrame.bg:SetAllPoints(bgFrame)
-		bgFrame.bg:SetTexture(SV.Media.bar.default)
+		bgFrame.bg:SetTexture(SV.media.bar.default)
 	  	bgFrame.bg:SetVertexColor(0,0,0,0.5)
 
 		local borderB = bgFrame:CreateTexture(nil,"OVERLAY")
@@ -400,7 +400,7 @@ end
 
 function MOD:UpdateLocals()
 	ROW_WIDTH = self.Docklet.ScrollFrame:GetWidth();
-	ROW_HEIGHT = SV.db.font.questdialog.size / 0.55;
+	ROW_HEIGHT = SV.media.internal.font.questdialog.size / 0.55;
 	INNER_HEIGHT = ROW_HEIGHT - 4;
 	LARGE_ROW_HEIGHT = ROW_HEIGHT * 2;
 	LARGE_INNER_HEIGHT = LARGE_ROW_HEIGHT - 4;

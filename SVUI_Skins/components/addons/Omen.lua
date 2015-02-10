@@ -115,7 +115,7 @@ function MOD:Docklet_Omen(parent)
   OmenTitle.Panel = nil
   OmenTitle:SetStyle("Frame", "Transparent")
   --OmenTitle:SetPanelColor("class")
-  --OmenTitle:GetFontString():SetFont(SV.Media.font.default, 12, "OUTLINE")
+  --OmenTitle:GetFontString():SetFont(SV.media.font.default, 12, "OUTLINE")
   OmenBarList:RemoveTextures()
   OmenAnchor:SetStyle("!_Frame", 'Transparent')
   OmenAnchor:ClearAllPoints()

@@ -503,10 +503,10 @@ SV.Options.args.Core = {
 					name = L["Textures"], 
 					guiInline = true,
 					get = function(key)
-						return SV.Media.internal.bg[key[#key]]
+						return SV.media.internal.bg[key[#key]]
 					end,
 					set = function(key, value)
-						SV.Media.internal.bg[key[#key]] = value
+						SV.media.internal.bg[key[#key]] = value
 						SV:RefreshEverything(true)
 					end,
 					args = {
@@ -539,11 +539,11 @@ SV.Options.args.Core = {
 							desc = L["Main color used by most UI elements. (ex: Backdrop Color)"],
 							hasAlpha = true,
 							get = function(key)
-								local color = SV.Media.internal.color.default
+								local color = SV.media.internal.color.default
 								return color[1],color[2],color[3],color[4] 
 							end,
 							set = function(key, rValue, gValue, bValue, aValue)
-								SV.Media.internal.color.default = {rValue, gValue, bValue, aValue}
+								SV.media.internal.color.default = {rValue, gValue, bValue, aValue}
 								SV:RefreshCommonMedia()
 							end,
 						},
@@ -554,12 +554,12 @@ SV.Options.args.Core = {
 							desc = L["Color used in various frame accents.  (ex: Dressing Room Backdrop Color)"],
 							hasAlpha = true,
 							get = function(key)
-								local color = SV.Media.internal.color.special
+								local color = SV.media.internal.color.special
 								return color[1],color[2],color[3],color[4] 
 							end,
 							set = function(key, rValue, gValue, bValue, aValue)
-								SV.Media.internal.color.special = {rValue, gValue, bValue, aValue}
-								SV.Media.internal.color.specialdark = {(rValue * 0.75), (gValue * 0.75), (bValue * 0.75), aValue}
+								SV.media.internal.color.special = {rValue, gValue, bValue, aValue}
+								SV.media.internal.color.specialdark = {(rValue * 0.75), (gValue * 0.75), (bValue * 0.75), aValue}
 								SV:RefreshCommonMedia()
 							end,
 						},
@@ -568,8 +568,8 @@ SV.Options.args.Core = {
 							order = 3,
 							name = L["Restore Defaults"],
 							func = function()
-								SV.Media.internal.color.default = {0.15, 0.15, 0.15, 1};
-								SV.Media.internal.color.special = {0.4, 0.32, 0.2, 1};
+								SV.media.internal.color.default = {0.15, 0.15, 0.15, 1};
+								SV.media.internal.color.special = {0.4, 0.32, 0.2, 1};
 								SV:RefreshCommonMedia()
 							end
 						}
@@ -1524,8 +1524,8 @@ end
 
 for panelIndex, panelPositions in pairs(configTable) do
 	local panelName = 'reportGroup' .. panelIndex;
-	local optionTable = SV.Options.args.Dock.args; 
-	if(type(panelPositions) == "table") then 
+	local optionTable = SV.Options.args.Dock.args;
+	if(optionTable[panelName] and type(panelPositions) == "table") then 
 		for i = 1, #panelPositions do 
 			local slotName = 'Slot' .. i;
 			optionTable[panelName].args[slotName] = {

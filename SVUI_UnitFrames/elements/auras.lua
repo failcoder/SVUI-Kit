@@ -57,7 +57,7 @@ assert(oUF_SVUI, "SVUI UnitFrames: unable to locate oUF.")
 local AURA_FONT = [[Interface\AddOns\SVUI_!Core\assets\fonts\Numbers.ttf]];
 local AURA_FONTSIZE = 11;
 local AURA_OUTLINE = "OUTLINE";
-local BASIC_TEXTURE = SV.Media.bar.default;
+local BASIC_TEXTURE = SV.media.bar.default;
 local CanSteal = (SV.class == "MAGE");
 --[[ 
 ########################################################## 
@@ -123,7 +123,7 @@ local CreateAuraIcon = function(icons, index)
     bg:SetFrameStrata("BACKGROUND")
     bg:SetFrameLevel(0)
     bg:WrapPoints(aura, 2, 2)
-    bg:SetBackdrop(SV.Media.backdrop.aura)
+    bg:SetBackdrop(SV.media.backdrop.aura)
     bg:SetBackdropColor(0, 0, 0, 0)
     bg:SetBackdropBorderColor(0, 0, 0, 0)
     aura.bg = bg;

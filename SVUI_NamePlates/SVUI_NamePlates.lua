@@ -218,7 +218,7 @@ local function SetPlateBorder(plate, point)
 	point.backdrop = plate:CreateTexture(nil, "BORDER")
 	point.backdrop:SetDrawLayer("BORDER", -4)
 	point.backdrop:SetAllPoints(point)
-	point.backdrop:SetTexture(SV.Media.bar.default)
+	point.backdrop:SetTexture(SV.media.bar.default)
 	point.backdrop:SetVertexColor(0.1,0.1,0.1)
 
 	point.bordertop = plate:CreateTexture(nil, "BORDER")
@@ -1082,8 +1082,8 @@ do
 		SVUI_PLATE.health.text:SetFontObject(SVUI_Font_NamePlate_Number)
 		SVUI_PLATE.cast:SetSize(HBWidth, CBHeight)
 		SVUI_PLATE.cast:SetStatusBarTexture(MOD.media.castBar)
-		SVUI_PLATE.cast.text:SetFont(SV.Media.font.default, 8, "OUTLINE")
-		plate.cast.text:SetFont(SV.Media.font.default, 8, "OUTLINE")
+		SVUI_PLATE.cast.text:SetFont(SV.media.font.default, 8, "OUTLINE")
+		plate.cast.text:SetFont(SV.media.font.default, 8, "OUTLINE")
 		plate.cast.icon:ModSize((CBHeight + HBHeight) + 5)
 		PLATE_REF.raidicon:ClearAllPoints()
 		SV:SetReversePoint(PLATE_REF.raidicon, RIAnchor, SVUI_PLATE.health, RIXoffset, RIYoffset)	
@@ -1220,7 +1220,7 @@ do
 		alert:SetFrameLevel(0)
 		alert:WrapPoints(frame.health,2,2)
 		alert:SetBackdrop({
-			edgeFile = SV.Media.border.shadow,
+			edgeFile = SV.media.border.shadow,
 			edgeSize = 2
 		});		
 		alert:SetBackdropColor(0, 0, 0, 0)

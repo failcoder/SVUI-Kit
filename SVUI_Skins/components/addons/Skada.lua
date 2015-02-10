@@ -107,7 +107,7 @@ local function StyleSkada()
       skada.button:SetStyle("Frame", "Transparent")
       --skada.button:SetPanelColor("class")
       local titleFont = skada.button:GetFontString()
-      titleFont:SetFont(SV.Media.font.dialog, 13, "NONE")
+      titleFont:SetFont(SV.media.font.dialog, 13, "NONE")
       titleFont:SetShadowColor(0, 0, 0, 1)
       titleFont:SetShadowOffset(1, -1)
     end

@@ -821,7 +821,7 @@ CONSTRUCTORS["arena"] = function(self, unit)
 
         local health = CreateFrame("StatusBar", nil, prep)
         health:SetAllPoints(prep)
-        health:SetStatusBarTexture(SV.Media.bar.default)
+        health:SetStatusBarTexture(SV.media.bar.default)
         prep.Health = health
 
         local icon = CreateFrame("Frame", nil, prep)
@@ -848,7 +848,7 @@ CONSTRUCTORS["arena"] = function(self, unit)
         prep.SpecIcon = icon
 
         local text = prep.Health:CreateFontString(nil, "OVERLAY")
-        text:SetFont(SV.Media.font.dialog, 16, "OUTLINE")
+        text:SetFont(SV.media.font.dialog, 16, "OUTLINE")
         text:SetTextColor(1, 1, 1)
         text:SetPoint("CENTER")
         prep.SpecClass = text

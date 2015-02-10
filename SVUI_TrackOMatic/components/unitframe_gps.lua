@@ -318,5 +318,5 @@ function PLUGIN:EnableGPS()
 
     oUF:AddElement('GPS', nil, Enable, Disable)
     
-    NewHook(SV.SVUnit, "RefreshUnitLayout", RefreshGPS)
+    NewHook(SV.UnitFrames, "RefreshUnitLayout", RefreshGPS)
 end

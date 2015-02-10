@@ -103,8 +103,8 @@ local function StyleBars(self)
 				name:ModPoint('LEFT', frame, 'LEFT', 4, 0)
 				timer:ModPoint('RIGHT', frame, 'RIGHT', -4, 0)
 
-				name:SetFont(SV.Media.font.dialog, 12, 'OUTLINE')
-				timer:SetFont(SV.Media.font.dialog, 12, 'OUTLINE')
+				name:SetFont(SV.media.font.dialog, 12, 'OUTLINE')
+				timer:SetFont(SV.media.font.dialog, 12, 'OUTLINE')
 
 				name:SetTextColor(bar.owner.options.TextColorR, bar.owner.options.TextColorG, bar.owner.options.TextColorB)
 				timer:SetTextColor(bar.owner.options.TextColorR, bar.owner.options.TextColorG, bar.owner.options.TextColorB)
@@ -129,7 +129,7 @@ local StyleBossTitle = function()
 	if not anchor.styled then
 		local header = {anchor:GetRegions()}
 		if header[1]:IsObjectType('FontString') then
-			header[1]:SetFont(SV.Media.font.dialog, 12, 'OUTLINE')
+			header[1]:SetFont(SV.media.font.dialog, 12, 'OUTLINE')
 			header[1]:SetTextColor(1, 1, 1)
 			header[1]:SetShadowColor(0, 0, 0, 0)
 			anchor.styled = true	
@@ -179,8 +179,8 @@ local StyleBoss = function()
 		name:ModPoint('LEFT', bar, 'LEFT', 4, 0)
 		timer:ModPoint('RIGHT', bar, 'RIGHT', -4, 0)
 
-		name:SetFont(SV.Media.font.dialog, 12, 'OUTLINE')
-		timer:SetFont(SV.Media.font.dialog, 12, 'OUTLINE')
+		name:SetFont(SV.media.font.dialog, 12, 'OUTLINE')
+		timer:SetFont(SV.media.font.dialog, 12, 'OUTLINE')
 		count = count + 1
 	end
 end

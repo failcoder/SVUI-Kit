@@ -448,11 +448,11 @@ do
 		for chatID,frame in pairs(TabsList) do
 			frame.link.IsOpen = false
 			frame.link:SetPanelColor("default")
-			frame.link.icon:SetGradient(unpack(SV.Media.gradient.icon))
+			frame.link.icon:SetGradient(unpack(SV.media.gradient.icon))
 		end
 		if(chatFrame.isDocked) then
 	        self.IsOpen = true
-	        self.icon:SetGradient(unpack(SV.Media.gradient.green))
+	        self.icon:SetGradient(unpack(SV.media.gradient.green))
 	    end
 	end
 
@@ -625,11 +625,11 @@ do
 			tab.icon:SetGradient("VERTICAL", 0.1, 0.53, 0.65, 0.3, 0.7, 1)
 		else
 			tab:SetPanelColor("default")
-			tab.icon:SetGradient(unpack(SV.Media.gradient.icon))
+			tab.icon:SetGradient(unpack(SV.media.gradient.icon))
 		end
 		if(chatID == 1) then
 			tab.IsOpen = true
-	        tab.icon:SetGradient(unpack(SV.Media.gradient.green))
+	        tab.icon:SetGradient(unpack(SV.media.gradient.green))
 		end
 		tab.icon:SetAlpha(0.5)
 		tab:SetAlpha(1);
@@ -664,7 +664,7 @@ do
 			chat:SetStyle("Frame", "Transparent", true, 1, 3, 6)
 			chat.Panel:Hide()
 		end
-		if(SV.db.font.chatdialog.outline ~= 'NONE' )then
+		if(SV.media.internal.font.chatdialog.outline ~= 'NONE' )then
 			chat:SetShadowColor(0, 0, 0, 0)
 			chat:SetShadowOffset(0, 0)
 		else
@@ -1056,11 +1056,11 @@ do
 			chat = FCF_GetCurrentChatFrame();
 		end
 		if ( not size ) then
-			size = self.value or SV.db.font.chatdialog.size;
+			size = self.value or SV.media.font.chatdialog.size;
 		end
-		SV.db.font.chatdialog.size = size;
+		SV.media.font.chatdialog.size = size;
 		SV.Events:Trigger("FONT_GROUP_UPDATED", "chatdialog");
-		if(SV.db.font.chatdialog.outline ~= 'NONE' )then
+		if(SV.media.font.chatdialog.outline ~= 'NONE' )then
 			chat:SetShadowColor(0, 0, 0, 0)
 			chat:SetShadowOffset(0, 0)
 		else
@@ -1295,7 +1295,7 @@ function MOD:Load()
 	insertHL:SetSize(hlSize, hlSize)
 	local insTex = insertHL:CreateTexture(nil, "OVERLAY")
 	insTex:SetAllPoints()
-	insTex:SetTexture(SV.Media.bar.default);
+	insTex:SetTexture(SV.media.bar.default);
 	insTex:SetGradientAlpha("HORIZONTAL",0,1,1,0.8,0,0.3,0.3,0)
 	insertHL.texture = insTex
 	insertHL:Hide()

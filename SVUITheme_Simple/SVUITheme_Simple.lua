@@ -96,7 +96,7 @@ function THEME:Load()
 	if(GetLocale() == "enUS") then
 		SV.mediadefaults.internal.font["dialog"] = {file = "SVUI Dialog Font",  size = 10,  outline = "OUTLINE"};
 		SV.mediadefaults.internal.font["title"] = {file = "SVUI Dialog Font",  size = 16,  outline = "OUTLINE"};
-		SV.Media["font"]["dialog"] = LSM:Fetch("font", "SVUI Dialog Font")
+		SV.media["font"]["dialog"] = LSM:Fetch("font", "SVUI Dialog Font")
 	end
 
 	SV.mediadefaults.internal.font["number"]      	= {file = "SVUI Caps Font",   size = 14,  outline = "OUTLINE"};
@@ -113,6 +113,7 @@ function THEME:Load()
 
 	SV.mediadefaults.internal.bg["pattern"]   	= "SVUI Backdrop";
 	SV.mediadefaults.internal.bg["premium"]   	= "SVUI Backdrop";
+	SV.mediadefaults.internal.bg["button"]   	= "SVUI Backdrop";
 	SV.mediadefaults.internal.bg["unitlarge"]   = "SVUI Backdrop";
 	SV.mediadefaults.internal.bg["unitsmall"]   = "SVUI Backdrop";
 
@@ -147,6 +148,7 @@ function THEME:Load()
 
 	SV.API.Themes["Simple"] = {
 		["Default"]     		= "SVUITheme_Simple_Default",
+		["Button"]  			= "SVUITheme_Simple_DockButton",
 		["DockButton"]  		= "SVUITheme_Simple_DockButton",
 		["Pattern"] 			= "SVUITheme_Simple_Default",
 		["Premium"] 			= "SVUITheme_Simple_Default",
@@ -157,15 +159,16 @@ function THEME:Load()
 		["Container"]   		= "SVUITheme_Simple_Default",
 	};
 
-	SV.Media["texture"]["pattern"] 		= LSM:Fetch("background", "SVUI Backdrop")
-	SV.Media["texture"]["premium"] 		= LSM:Fetch("background", "SVUI Backdrop")
-	SV.Media["texture"]["unitlarge"]   	= LSM:Fetch("background", "SVUI Backdrop")
-	SV.Media["texture"]["unitsmall"]   	= LSM:Fetch("background", "SVUI Backdrop")
-	SV.Media["texture"]["button"]   	= LSM:Fetch("background", "SVUI Backdrop");
+	SV.media["bg"]["pattern"] 	= LSM:Fetch("background", "SVUI Backdrop")
+	SV.media["bg"]["premium"] 	= LSM:Fetch("background", "SVUI Backdrop")
+	SV.media["bg"]["button"] 	= LSM:Fetch("background", "SVUI Backdrop")
+	SV.media["bg"]["unitlarge"] = LSM:Fetch("background", "SVUI Backdrop")
+	SV.media["bg"]["unitsmall"] = LSM:Fetch("background", "SVUI Backdrop")
+	SV.media["bg"]["button"]   	= LSM:Fetch("background", "SVUI Backdrop");
 
 	SV.Dock.SetThemeDockStyle = _SetDockStyleTheme
 	SV.Dock.SetBorderTheme = _SetBorderTheme
 	-- print("Theme")
 	-- print(SV.mediadefaults.internal.bg["unitlarge"])
-	-- print(SV.Media["texture"]["unitlarge"])
+	-- print(SV.media["bg"]["unitlarge"])
 end 

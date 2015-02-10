@@ -76,7 +76,7 @@ end
 local function ExperienceBar_OnEvent(self, ...)
 	if (not self.barframe:IsShown())then
 		self.barframe:Show()
-		self.barframe.icon.texture:SetTexture(SV.Media.dock.experienceLabel)
+		self.barframe.icon.texture:SetTexture(SV.media.dock.experienceLabel)
 	end
 	if not self.barframe.bar.extra:IsShown() then
 		self.barframe.bar.extra:Show()

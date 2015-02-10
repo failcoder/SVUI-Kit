@@ -459,7 +459,7 @@ end
 local HookCustomBackdrop = function(self)
     if(self.Panel) then
         local bgid = self.Panel:GetAttribute("panelID")
-        local bdSet = SV.Media.backdrop[bgid]
+        local bdSet = SV.media.backdrop[bgid]
         if(bdSet) then
             if(not self.Panel:GetAttribute("panelLocked")) then
                 local edgeSize = bdSet.edgeSize;
@@ -471,11 +471,11 @@ local HookCustomBackdrop = function(self)
                     self.Panel:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -offset, offset)
                 end
             end
-            self.Panel:SetBackdrop(SV.Media.backdrop[bgid])
+            self.Panel:SetBackdrop(SV.media.backdrop[bgid])
             self.Panel:SetBackdropBorderColor(0,0,0,1)
         else
-            local newBgFile = SV.Media.bg[bgid]
-            local newBorderFile = SV.Media.border[bgid]
+            local newBgFile = SV.media.bg[bgid]
+            local newBorderFile = SV.media.border[bgid]
             if(newBgFile and newBorderFile) then
                 local edgeSize = self.Panel:GetAttribute("panelPadding") or 1
                 self.Panel:SetBackdrop({
@@ -504,7 +504,7 @@ local HookCustomBackdrop = function(self)
         end
 
         local colorID = self.Panel:GetAttribute("panelColor")
-        local panelColor = SV.Media.color[colorID];
+        local panelColor = SV.media.color[colorID];
         if(panelColor) then
             self.Panel:SetBackdropColor(panelColor[1], panelColor[2], panelColor[3], panelColor[4] or 1)
         end
@@ -593,7 +593,7 @@ local Cooldown_OnSizeChanged = function(self, width, height)
         frame:Hide()
     else 
         frame:Show()
-        frame.text:SetFont(SV.Media.font.numbers, newSize * 15, 'OUTLINE')
+        frame.text:SetFont(SV.media.font.numbers, newSize * 15, 'OUTLINE')
         if frame.enable then
             Cooldown_ForceUpdate(frame)
         end 
@@ -651,7 +651,7 @@ local SetFrameBorderColor = function(self, r, g, b, setPrevious, reset)
     if(setPrevious) then
         self.Panel.__previous = setPrevious
     elseif(reset) then
-        r,g,b = unpack(SV.Media.color[self.Panel.__previous])
+        r,g,b = unpack(SV.media.color[self.Panel.__previous])
     end
     self.Panel.Shadow:SetBackdropBorderColor(r, g, b)
 end
@@ -772,11 +772,11 @@ function MOD:APPLY(frame, templateName, underlay, padding, xOffset, yOffset, def
         end
     end
 
-    local bgColor = SV.Media.color[colorName] or DEFAULT_BG_COLOR
+    local bgColor = SV.media.color[colorName] or DEFAULT_BG_COLOR
     local borderColor = DEFAULT_BORDER_COLOR
     if(panel:GetAttribute("panelBorderColor")) then
         local bdrColor = panel:GetAttribute("panelBorderColor")
-        borderColor = SV.Media.color[bdrColor] or DEFAULT_BORDER_COLOR
+        borderColor = SV.media.color[bdrColor] or DEFAULT_BORDER_COLOR
     end
 
     if(panel:GetBackdrop()) then
@@ -812,8 +812,8 @@ function MOD:APPLY(frame, templateName, underlay, padding, xOffset, yOffset, def
         if(not underlay) then
             panel.Skin:SetParent(frame)
         end
-        if(gradientName and SV.Media.gradient[gradientName]) then
-            panel.Skin:SetGradient(unpack(SV.Media.gradient[gradientName]))
+        if(gradientName and SV.media.gradient[gradientName]) then
+            panel.Skin:SetGradient(unpack(SV.media.gradient[gradientName]))
         else 
             panel.Skin:SetVertexColor(bgColor[1], bgColor[2], bgColor[3], bgColor[4] or 1)
         end
@@ -913,10 +913,6 @@ MOD.Methods["Button"] = function(self, frame, inverse, xOffset, yOffset, default
     if(defaultColor) then
         frame.Panel:SetAttribute("panelID", "button"..defaultColor)
     end
-
-    if(frame.UpdateBackdrop) then
-        frame:UpdateBackdrop()
-    end
 end;
 
 MOD.Methods["LiteButton"] = function(self, frame, inverse, xOffset, yOffset, defaultColor)
@@ -974,7 +970,7 @@ MOD.Methods["Checkbox"] = function(self, frame, inverse, x, y)
             hover:InsetPoints(frame.Panel)
             frame.hover = hover;
         end
-        local color = SV.Media.color.highlight
+        local color = SV.media.color.highlight
         frame.hover:SetTexture(color[1], color[2], color[3], 0.5)
         frame:SetHighlightTexture(frame.hover)  
     end
@@ -1112,17 +1108,17 @@ local SetPanelColor = function(self, ...)
         if(type(arg1) == "string") then
             if(arg1 == "VERTICAL" or arg1 == "HORIZONTAL") then
                 self.Panel.Skin:SetGradient(...)
-            elseif(SV.Media.gradient[arg1]) then
-                self.Panel.Skin:SetGradient(unpack(SV.Media.gradient[arg1]))
-                if(SV.Media.color[arg1]) then
-                    local t = SV.Media.color[arg1]
+            elseif(SV.media.gradient[arg1]) then
+                self.Panel.Skin:SetGradient(unpack(SV.media.gradient[arg1]))
+                if(SV.media.color[arg1]) then
+                    local t = SV.media.color[arg1]
                     local r,g,b,a = t[1], t[2], t[3], t[4] or 1;
                     self:SetBackdropColor(r,g,b,a)
                 end
             end 
         end 
-    elseif(type(arg1) == "string" and SV.Media.color[arg1]) then
-        local t = SV.Media.color[arg1]
+    elseif(type(arg1) == "string" and SV.media.color[arg1]) then
+        local t = SV.media.color[arg1]
         local r,g,b,a = t[1], t[2], t[3], t[4] or 1;
         self:SetBackdropColor(r,g,b)
     elseif(arg1 and type(arg1) == "number") then
@@ -1179,7 +1175,7 @@ local function FrameTemplateUpdates()
         if(frame) then
             local panelID = frame.Panel:GetAttribute("panelID")
             local colorID = frame.Panel:GetAttribute("panelColor")
-            local panelColor = SV.Media.color[colorID];
+            local panelColor = SV.media.color[colorID];
             if(frame.BackdropNeedsUpdate) then
                 if(frame.UpdateBackdrop) then
                     frame:UpdateBackdrop()
@@ -1189,22 +1185,22 @@ local function FrameTemplateUpdates()
                 end
                 if(frame.Panel:GetAttribute("panelBorderColor")) then
                     local bdrColor = frame.Panel:GetAttribute("panelBorderColor")
-                    local borderColor = SV.Media.color[bdrColor] or DEFAULT_BORDER_COLOR
+                    local borderColor = SV.media.color[bdrColor] or DEFAULT_BORDER_COLOR
                     frame:SetBackdropBorderColor(borderColor[1], borderColor[2], borderColor[3], borderColor[4] or 1)
                 else
                     frame:SetBackdropBorderColor(0,0,0,1)
                 end
             end
             if(frame.TextureNeedsUpdate and frame.Panel.Skin) then
-                local tex = SV.Media.bg[panelID]
+                local tex = SV.media.bg[panelID]
                 if(tex) then
                     frame.Panel.Skin:SetTexture(tex)
                     --if(panelID == 'unitlarge') then print(frame.Panel.Skin:GetTexture()) end
                 end 
                 if(not frame.NoColorUpdate) then
                     local gradient = frame.Panel:GetAttribute("panelGradient")
-                    if(gradient and SV.Media.gradient[gradient]) then
-                        local g = SV.Media.gradient[gradient]
+                    if(gradient and SV.media.gradient[gradient]) then
+                        local g = SV.media.gradient[gradient]
                         frame.Panel.Skin:SetGradient(g[1], g[2], g[3], g[4], g[5], g[6], g[7])
                     elseif(panelColor) then
                         frame.Panel.Skin:SetVertexColor(panelColor[1], panelColor[2], panelColor[3], panelColor[4] or 1)
@@ -1409,7 +1405,7 @@ local Button_OnEnter = function(self)
 end
 
 local Button_OnLeave = function(self)
-    self:SetBackdropColor(unpack(SV.Media.color.default))
+    self:SetBackdropColor(unpack(SV.media.color.default))
 end
 
 local ConceptButton_OnEnter = function(self)
@@ -1437,7 +1433,7 @@ local _hook_DropDownButton_SetPoint = function(self, _, _, _, _, _, breaker)
 end
 
 local _hook_Tooltip_OnShow = function(self)
-    self:SetBackdrop(SV.Media.backdrop.tooltip)
+    self:SetBackdrop(SV.media.backdrop.tooltip)
 end
 
 MOD.Concepts["Frame"] = function(self, adjustable, frame, template, noStripping, padding, xOffset, yOffset)
@@ -1450,7 +1446,7 @@ MOD.Concepts["Frame"] = function(self, adjustable, frame, template, noStripping,
     if(not noStripping) then
         RemoveTextures(frame)
     end
-    self.Methods["Frame"](self, frame, adjustable, template, true, padding, xOffset, yOffset)
+    self.Methods["Frame"](self, frame, (not adjustable), template, true, padding, xOffset, yOffset)
 end
 
 MOD.Concepts["Window"] = function(self, adjustable, frame, altStyle, fullStrip, padding, xOffset, yOffset)
@@ -1461,7 +1457,7 @@ MOD.Concepts["Window"] = function(self, adjustable, frame, altStyle, fullStrip, 
         frame:SetFrameLevel(1)
     end
     RemoveTextures(frame, fullStrip)
-    self.Methods["Frame"](self, frame, adjustable, template, false, padding, xOffset, yOffset)
+    self.Methods["Frame"](self, frame, (not adjustable), template, false, padding, xOffset, yOffset)
 end
 
 MOD.Concepts["Button"] = function(self, adjustable, frame)
@@ -1476,7 +1472,7 @@ MOD.Concepts["CloseButton"] = function(self, adjustable, frame, targetAnchor)
 
     self.Methods["Button"](self, frame, adjustable, -5, -5, "red")
     frame:SetFrameLevel(frame:GetFrameLevel() + 4)
-    frame:SetNormalTexture(SV.Media.icon.close)
+    frame:SetNormalTexture(SV.media.icon.close)
     frame:HookScript("OnEnter", ConceptButton_OnEnter)
     frame:HookScript("OnLeave", ConceptButton_OnLeave)
 
@@ -1494,7 +1490,7 @@ MOD.Concepts["ArrowButton"] = function(self, adjustable, frame, direction, targe
 
     self.Methods["Button"](self, frame, adjustable, -7, -7, "green")
     frame:SetFrameLevel(frame:GetFrameLevel() + 4)
-    frame:SetNormalTexture(SV.Media.icon[iconKey])
+    frame:SetNormalTexture(SV.media.icon[iconKey])
     frame:HookScript("OnEnter", ConceptButton_OnEnter)
     frame:HookScript("OnLeave", ConceptButton_OnLeave)
 
@@ -1510,7 +1506,7 @@ MOD.Concepts["ItemButton"] = function(self, adjustable, frame, adjustedIcon, noS
     RemoveTextures(frame)
 
     if(not frame.Panel) then
-        self.Methods["Frame"](self, frame, adjustable, "Button", true, 1, -1, -1)
+        self.Methods["Frame"](self, frame, (not adjustable), "Button", true, 1, -1, -1)
         if(not noScript) then
             frame:HookScript("OnEnter", Button_OnEnter)
             frame:HookScript("OnLeave", Button_OnLeave)
@@ -1527,6 +1523,14 @@ MOD.Concepts["ItemButton"] = function(self, adjustable, frame, adjustedIcon, noS
         local iconObject = _G[("%sIcon"):format(link)] or _G[("%sIconTexture"):format(link)]
         local countObject = _G[("%sCount"):format(link)]
 
+        if(not frame.Riser) then
+            local fg = CreateFrame("Frame", nil, frame)
+            fg:SetSize(120, 22)
+            fg:SetPoint("BOTTOMLEFT", frame, "BOTTOMLEFT", 0, -11)
+            fg:SetFrameLevel(frame:GetFrameLevel() + 1)
+            frame.Riser = fg
+        end
+
         if(iconObject) then 
             iconObject:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 
@@ -1538,14 +1542,8 @@ MOD.Concepts["ItemButton"] = function(self, adjustable, frame, adjustedIcon, noS
                 frame.IconShadow:WrapPoints(iconObject)
                 frame.IconShadow:SetStyle("Icon")
             end
-        end
 
-        if(not frame.Riser) then
-            local fg = CreateFrame("Frame", nil, frame)
-            fg:SetSize(120, 22)
-            fg:SetPoint("BOTTOMLEFT", frame, "BOTTOMLEFT", 0, -11)
-            fg:SetFrameLevel(frame:GetFrameLevel() + 1)
-            frame.Riser = fg
+            iconObject:SetParent(frame.Riser)
         end
 
         if(countObject) then
@@ -1677,7 +1675,7 @@ MOD.Concepts["ScrollFrame"] = function(self, adjustable, frame, scale, yOffset)
             local fg = CreateFrame("Frame", nil, frame)
             fg:SetPoint("TOPLEFT", frame, "TOPLEFT", 18, -2)
             fg:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -10, 6)
-            fg:SetBackdrop(SV.Media.backdrop.onlyborder)
+            fg:SetBackdrop(SV.media.backdrop.onlyborder)
             frame.Brdr = fg
         end 
         if(frame.SetThumbTexture) then 
@@ -1707,7 +1705,7 @@ MOD.Concepts["ScrollBar"] = function(self, adjustable, frame)
     RemoveTextures(frame)
 
     frame:SetBackdrop(nil)
-    self.Methods["Frame"](self, frame, adjustable, "Transparent", true)
+    self.Methods["Frame"](self, frame, (not adjustable), "Transparent", true)
     frame:SetBackdropBorderColor(0.2,0.2,0.2)
     frame:SetThumbTexture([[Interface\AddOns\SVUI_!Core\assets\textures\SCROLLBAR-KNOB]])
 end
@@ -1745,7 +1743,7 @@ MOD.Concepts["Tab"] = function(self, adjustable, frame, addBackground, xOffset, 
         frame.backdrop = CreateFrame("Frame", nil, frame)
         WrapPoints(frame.backdrop, frame, xOffset, yOffset)
         frame.backdrop:SetFrameLevel(0)
-        self.Methods["Frame"](self, frame.backdrop, adjustable, "Button", false)
+        self.Methods["Frame"](self, frame.backdrop, (not adjustable), "Button", false)
 
         local initialAnchor, anchorParent, relativeAnchor, xPosition, yPosition = frame:GetPoint()
         frame:SetPoint(initialAnchor, anchorParent, relativeAnchor, 1, yPosition)
@@ -1758,15 +1756,14 @@ MOD.Concepts["Tab"] = function(self, adjustable, frame, addBackground, xOffset, 
             frame.backdrop:SetFrameLevel(frame:GetFrameLevel() - 1)
         end
 
-        self.Methods["Frame"](self, frame.backdrop, adjustable, "Button", false)
+        self.Methods["Frame"](self, frame.backdrop, (not adjustable), "Button", false)
     end
 
     frame:HookScript("OnEnter", Tab_OnEnter)
     frame:HookScript("OnLeave", Tab_OnLeave)
-    if(frame.backdrop.UpdateBackdrop) then
-        frame.backdrop:UpdateBackdrop()
-    end
-    LIVE_UPDATE_FRAMES[frame] = true;
+    -- if(frame.backdrop.UpdateBackdrop) then
+    --     frame.backdrop:UpdateBackdrop()
+    -- end
 end
 
 MOD.Concepts["DropDown"] = function(self, adjustable, frame, width)
@@ -1808,7 +1805,7 @@ MOD.Concepts["DropDown"] = function(self, adjustable, frame, width)
             local fg = CreateFrame("Frame", nil, frame)
             fg:SetPoint("TOPLEFT", frame, "TOPLEFT", 18, -2)
             fg:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -10, 6)
-            fg:SetBackdrop(SV.Media.backdrop.onlyborder)
+            fg:SetBackdrop(SV.media.backdrop.onlyborder)
             frame.Brdr = fg
         end 
     end
@@ -1858,7 +1855,7 @@ MOD.Concepts["Tooltip"] = function(self, adjustable, frame, useHook)
         frame.BorderBottomLeft:SetTexture("")
     end
     
-    frame:SetBackdrop(SV.Media.backdrop.tooltip)
+    frame:SetBackdrop(SV.media.backdrop.tooltip)
 
     if(useHook) then
         frame:HookScript('OnShow', _hook_Tooltip_OnShow)
@@ -1997,7 +1994,7 @@ end
 function MOD:Set(concept, ...)
     if(not concept) then return end
     local conceptName, flags = concept:gsub("!_", "");
-    local adjustable = (flags and flags > 0);
+    local adjustable = (flags and flags > 0) and false or true;
     local fn = self.Concepts[conceptName];
     if(fn) then
         local pass, catch = pcall(fn, self, adjustable, ...)

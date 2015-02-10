@@ -696,7 +696,7 @@ local function MakeLogWindow()
 	output:SetClampedToScreen(false)
 	output:SetFrameStrata("MEDIUM")
 	output:SetAllPoints(frame)
-	output:SetFont(SV.Media.font.dialog, 11, "OUTLINE")
+	output:SetFont(SV.media.font.dialog, 11, "OUTLINE")
 	output:SetJustifyH("CENTER")
 	output:SetJustifyV("MIDDLE")
 	output:SetShadowColor(0, 0, 0, 0)
@@ -735,7 +735,7 @@ local function MakeCommWindow()
 
 	local fbText = fallback:CreateFontString(nil, "OVERLAY")
 	fbText:SetAllPoints(fallback)
-	fbText:SetFont(SV.Media.font.default, 12, "NONE")
+	fbText:SetFont(SV.media.font.default, 12, "NONE")
 	fbText:SetText("Nothing To Broadcast Right Now")
 
 	frame.Unavailable = fallback
@@ -789,7 +789,7 @@ local function MakeCommWindow()
 		poi.Help = help
 
 		poi.Text = poi:CreateFontString(nil,"OVERLAY")
-		poi.Text:SetFont(SV.Media.font.default, 12, "NONE")
+		poi.Text:SetFont(SV.media.font.default, 12, "NONE")
 		poi.Text:SetPoint("TOPLEFT", poi, "TOPLEFT", 2, 0)
 		poi.Text:SetPoint("BOTTOMRIGHT", help, "BOTTOMLEFT", -2, 0)
 		poi.Text:SetJustifyH("CENTER")
@@ -814,7 +814,7 @@ local function MakeUtilityWindow()
 
 	local fbText = frame:CreateFontString(nil, "OVERLAY")
 	fbText:SetAllPoints(frame)
-	fbText:SetFont(SV.Media.font.default, 12, "NONE")
+	fbText:SetFont(SV.media.font.default, 12, "NONE")
 	fbText:SetText("Utilities Coming Soon....")
 
 	PLUGIN.TOOL = frame
@@ -839,21 +839,21 @@ local function MakeInfoWindow()
 	leftColumn:ModSize(DATA_WIDTH, DATA_HEIGHT)
 	leftColumn:ModPoint("LEFT", frame, "LEFT", 0, 0)
 	leftColumn.lockedOpen = true
-	SV.Dock:NewDataHolder(leftColumn, 3, "ANCHOR_CURSOR", 1, "Transparent", true)
+	SV.Reports:NewHolder(leftColumn, 3, "ANCHOR_CURSOR", 1, "Transparent", true)
 	leftColumn:SetFrameLevel(0)
 
 	local rightColumn = CreateFrame("Frame", "SVUI_FightOMaticInfoRight", frame)
 	rightColumn:ModSize(DATA_WIDTH, DATA_HEIGHT)
 	rightColumn:ModPoint("LEFT", leftColumn, "RIGHT", 2, 0)
 	rightColumn.lockedOpen = true
-	SV.Dock:NewDataHolder(rightColumn, 3, "ANCHOR_CURSOR", 2, "Transparent", true)
+	SV.Reports:NewHolder(rightColumn, 3, "ANCHOR_CURSOR", 2, "Transparent", true)
 	rightColumn:SetFrameLevel(0)
 
 	PLUGIN.INFO = frame
 
 	_G["SVUI_FightOMaticTool4"].Window = PLUGIN.INFO
 
-	SV.Dock:UpdateDataSlots()
+	SV.Reports:UpdateAllReports()
 
 	PLUGIN.INFO:Hide()
 end
@@ -902,7 +902,7 @@ end
 
 local FightOMaticTool_OnEnter = function(self)
 	if InCombatLockdown() then return; end
-	self.icon:SetGradient(unpack(SV.Media.gradient.yellow))
+	self.icon:SetGradient(unpack(SV.media.gradient.yellow))
 	GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 4)
 	GameTooltip:ClearLines()
 	GameTooltip:AddLine(self.TText, 1, 1, 1)
@@ -1077,7 +1077,7 @@ function PLUGIN:Load()
     local listbutton = CreateFrame("Button", nil, self.Docklet)
     listbutton:SetPoint("TOPLEFT", title, "BOTTOMLEFT",0,0)
 	listbutton:SetPoint("BOTTOMRIGHT", title, "BOTTOMRIGHT",0,-14)
-	listbutton:SetStyle("Button", true, 1, 1, 1)
+	listbutton:SetStyle("Button", 1, 1)
 	listbutton.ShowingKOS = false
 	listbutton:SetScript("OnEnter", Switch_OnEnter)
 	listbutton:SetScript("OnLeave", Switch_OnLeave)

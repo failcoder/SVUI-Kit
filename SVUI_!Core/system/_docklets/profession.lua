@@ -125,11 +125,11 @@ local SetHearthTooltip = function(self)
 end
 
 local function CreateMacroToolButton(proName, proID, itemID) 
-	local data = SV.Media.dock.professionIconCoords[proID]
+	local data = SV.media.dock.professionIconCoords[proID]
 	if(not data) then return end
 
 	local globalName = ("SVUI_%s"):format(proName)
-	local button = SV.Dock:SetDockButton("BottomRight", proName, SV.Media.dock.professionIconFile, nil, globalName, SetMacroTooltip, "SecureActionButtonTemplate")
+	local button = SV.Dock:SetDockButton("BottomRight", proName, SV.media.dock.professionIconFile, nil, globalName, SetMacroTooltip, "SecureActionButtonTemplate")
 
 	button.Icon:SetTexCoord(data[1], data[2], data[3], data[4])
 
@@ -164,7 +164,7 @@ local function LoadToolBarProfessions()
 	-- HEARTH BUTTON
 	local hearthStone = GetItemInfo(6948);
 	if(hearthStone and type(hearthStone) == "string") then
-		local hearth = SV.Dock:SetDockButton("BottomLeft", L["Hearthstone"], SV.Media.dock.hearthIcon, nil, "SVUI_Hearth", SetHearthTooltip, "SecureActionButtonTemplate")
+		local hearth = SV.Dock:SetDockButton("BottomLeft", L["Hearthstone"], SV.media.dock.hearthIcon, nil, "SVUI_Hearth", SetHearthTooltip, "SecureActionButtonTemplate")
 		hearth.Icon:SetTexCoord(0,0.5,0,1)
 		hearth:SetAttribute("type1", "macro")
 		hearth:SetAttribute("macrotext1", "/use [nomod]" .. hearthStone)

@@ -75,7 +75,7 @@ local function MacroUIStyle()
 		end
 	end 
 
-	MacroFrameText:SetFont(SV.Media.font.default, 10, "OUTLINE")
+	MacroFrameText:SetFont(SV.media.font.default, 10, "OUTLINE")
 	MacroFrameTextBackground:RemoveTextures()
 	MacroFrameTextBackground:SetStyle("Frame", 'Transparent')
 
