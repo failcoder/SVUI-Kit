@@ -21,6 +21,19 @@ GET ADDON DATA
 local SV = _G["SVUI"];
 local LSM = LibStub("LibSharedMedia-3.0");
 
+local _RefreshZoneText = function(self)
+	if(self.InfoTop:IsShown()) then
+		self.InfoTop:Hide();
+	end
+	if(not SV.db.Maps.locationText or SV.db.Maps.locationText == "HIDE") then
+		self.InfoBottom:Hide();
+	else
+		self.InfoBottom:Show();
+		local zone = GetRealZoneText() or UNKNOWN
+		self.InfoBottom.Text:SetText(zone)
+	end
+end
+
 local _SetDockStyleTheme = function(dock, isBottom)
 	if dock.backdrop then return end
 	local backdrop = CreateFrame("Frame", nil, dock)
@@ -114,48 +127,34 @@ SV.mediadefaults.shared.background["button"]   	= {file = "SVUI Backdrop", size 
 SV.mediadefaults.shared.background["unitlarge"]   = {file = "SVUI Backdrop", size = 0, tiled = false};
 SV.mediadefaults.shared.background["unitsmall"]   = {file = "SVUI Backdrop", size = 0, tiled = false};
 
-if(SV.defaults.UnitFrames) then
-	SV.mediadefaults.shared.font["unitprimary"]   	= {file = "SVUI Caps Font",   size = 14,  outline = "OUTLINE"}
-	SV.mediadefaults.shared.font["unitsecondary"]   	= {file = "SVUI Caps Font",   size = 14,  outline = "OUTLINE"}
-	SV.mediadefaults.shared.font["unitaurabar"]   	= {file = "SVUI Default Font",  size = 14,  outline = "OUTLINE"}
-	SV.mediadefaults.shared.font["unitaura"]  		= {file = "SVUI Default Font",  size = 14,  outline = "OUTLINE"}
-
-	SV.defaults.UnitFrames.player.name.font = SV.DialogFontDefault;
-	SV.defaults.UnitFrames.target.name.font = SV.DialogFontDefault;
-	SV.defaults.UnitFrames.pet.name.font = SV.DialogFontDefault;
-	SV.defaults.UnitFrames.targettarget.name.font = SV.DialogFontDefault;
-	SV.defaults.UnitFrames.focus.name.font = SV.DialogFontDefault;
-	SV.defaults.UnitFrames.focustarget.name.font = SV.DialogFontDefault;
-	SV.defaults.UnitFrames.raid.name.font = SV.DialogFontDefault;
-	SV.defaults.UnitFrames.party.name.font = SV.DialogFontDefault;
-	SV.defaults.UnitFrames.boss.name.font = SV.DialogFontDefault;
-	SV.defaults.UnitFrames.arena.name.font = SV.DialogFontDefault;
-	SV.defaults.UnitFrames.tank.name.font = SV.DialogFontDefault;
-	SV.defaults.UnitFrames.assist.name.font = SV.DialogFontDefault;
-	SV.defaults.UnitFrames.raidpet.name.font = SV.DialogFontDefault;
-end
-
-if(SV.defaults.Maps) then
-	SV.mediadefaults.shared.font["mapinfo"]  	= {file = "SVUI Default Font", size = 14,  outline = "OUTLINE"}
-	SV.mediadefaults.shared.font["mapcoords"]   	= {file = "SVUI Caps Font",   size = 14,  outline = "OUTLINE"}
-	SV.defaults.Maps.locationText = "SIMPLE";
-	SV.defaults.Maps.bordersize = 1;
-	SV.defaults.Maps.bordercolor = "dark";
-end
-
 SV.API.Templates["Default"]     	= "SVUITheme_Simple_Default";
-SV.API.Templates["Button"]  		= "SVUITheme_Simple_DockButton";
+--SV.API.Templates["Button"]  		= "SVUITheme_Simple_DockButton";
 SV.API.Templates["DockButton"]  	= "SVUITheme_Simple_DockButton";
 SV.API.Templates["Pattern"]   		= "SVUITheme_Simple_Default";
 SV.API.Templates["Premium"]   		= "SVUITheme_Simple_Default";
 SV.API.Templates["Window"]  		= "SVUITheme_Simple_Default";
-SV.API.Templates["Window2"] = "SVUITheme_Simple_Default";
+SV.API.Templates["Window2"] 		= "SVUITheme_Simple_Default";
 SV.API.Templates["Minimap"] 		= "SVUITheme_Simple_Minimap";
 SV.API.Templates["ActionPanel"] 	= "SVUITheme_Simple_ActionPanel";
 SV.API.Templates["Container"]  		= "SVUITheme_Simple_Default";
 
-SV.Dock.SetThemeDockStyle = _SetDockStyleTheme
-SV.Dock.SetBorderTheme = _SetBorderTheme
--- print("Theme")
--- print(SV.mediadefaults.shared.background["unitlarge"])
--- print(SV.media["background"]["unitlarge"])
+function SV:LoadTheme()
+	if(SV.defaults.UnitFrames) then
+		SV.mediadefaults.shared.font["unitprimary"]   	= {file = "SVUI Caps Font",   size = 14,  outline = "OUTLINE"}
+		SV.mediadefaults.shared.font["unitsecondary"]   = {file = "SVUI Caps Font",   size = 14,  outline = "OUTLINE"}
+		SV.mediadefaults.shared.font["unitaurabar"]   	= {file = "SVUI Default Font",  size = 14,  outline = "OUTLINE"}
+		SV.mediadefaults.shared.font["unitaura"]  		= {file = "SVUI Default Font",  size = 14,  outline = "OUTLINE"}
+	end
+	if(SV.defaults.Maps) then
+		SV.mediadefaults.shared.font["mapinfo"]  	= {file = "SVUI Default Font", size = 14,  outline = "OUTLINE"}
+		SV.mediadefaults.shared.font["mapcoords"]   = {file = "SVUI Caps Font",   size = 14,  outline = "OUTLINE"}
+		SV.defaults.Maps.locationText = "SIMPLE";
+		SV.defaults.Maps.bordersize = 1;
+		SV.defaults.Maps.bordercolor = "dark";
+	end
+	if(SV.Maps) then
+		SV.Maps.RefreshZoneText = _RefreshZoneText
+	end
+	SV.Dock.SetThemeDockStyle = _SetDockStyleTheme
+	SV.Dock.SetBorderTheme = _SetBorderTheme
+end

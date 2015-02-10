@@ -6,6 +6,7 @@
 ## RequiredDeps: SVUI_!Core
 ## OptionalDeps: LibSharedMedia-3.0
 ## LoadOnDemand: 1
+## DefaultState: disabled
 ## X-SVUITheme: Simple
 ## X-Email: munglunch@gmail.com
 ## X-Website: http://www.supervillainui.com

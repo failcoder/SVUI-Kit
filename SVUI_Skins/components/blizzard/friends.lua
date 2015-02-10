@@ -118,7 +118,7 @@ local function FriendsFrameStyle()
 		 return 
 	end
 
-	SV.API:Set("!_Window", FriendsFrame)
+	SV.API:Set("Window", FriendsFrame)
 
 	FriendsFrameInset:RemoveTextures()
 	WhoFrameListInset:RemoveTextures()
@@ -133,9 +133,9 @@ local function FriendsFrameStyle()
 	LFRQueueFrameCommentInset:RemoveTextures()
 	LFRQueueFrameListInset:SetStyle("!_Frame", "Model")
 	FriendsFrameInset:SetStyle("!_Frame", "Model")
-	FriendsFrameFriendsScrollFrame:SetStyle("!_Frame", "Model")
+	--FriendsFrameFriendsScrollFrame:SetStyle("!_Frame", "Model")
 	WhoFrameListInset:SetStyle("!_Frame", "Model")
-	RaidFrame:SetStyle("!_Frame", "Model")
+	--RaidFrame:SetStyle("!_Frame", "Model")
 
 	for _, frame in pairs(FriendsFrameButtons)do
 		if(_G[frame]) then

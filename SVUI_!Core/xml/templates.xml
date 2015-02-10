@@ -21,7 +21,7 @@
         </Attributes>
         <Layers>
             <Layer level="OVERLAY">
-                <Texture parentKey="Icon" file="Interface\AddOns\SVUI_!Core\backgrounds\DEFAULT">
+                <Texture parentKey="Icon" file="Interface\AddOns\SVUI_!Core\assets\backgrounds\DEFAULT">
                     <Anchors>
                         <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="2" y="-2" />
                         <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="-2" y="2" />

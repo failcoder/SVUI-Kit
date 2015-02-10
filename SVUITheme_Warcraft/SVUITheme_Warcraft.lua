@@ -28,6 +28,19 @@ local LSM = LibStub("LibSharedMedia-3.0");
 MISC
 ##########################################################
 ]]--
+local _RefreshZoneText = function(self)
+	if(self.InfoTop:IsShown()) then
+		self.InfoTop:Hide();
+	end
+	if(not SV.db.Maps.locationText or SV.db.Maps.locationText == "HIDE") then
+		self.InfoBottom:Hide();
+	else
+		self.InfoBottom:Show();
+		local zone = GetRealZoneText() or UNKNOWN
+		self.InfoBottom.Text:SetText(zone)
+	end
+end
+
 local docksparks = {
 	[[Interface\AddOns\SVUITheme_Warcraft\assets\artwork\Dock\DOCK-SPARKS-1]],
 	[[Interface\AddOns\SVUITheme_Warcraft\assets\artwork\Dock\DOCK-SPARKS-2]],
@@ -106,13 +119,6 @@ SV.mediadefaults.shared.font["lootnumber"]    = {file = "Friz Quadrata TT",   si
 SV.mediadefaults.shared.font["rolldialog"]    = {file = "Arial Narrow",  size = 14,  outline = "OUTLINE"};
 SV.mediadefaults.shared.font["rollnumber"]    = {file = "Friz Quadrata TT",   size = 11,  outline = "OUTLINE"};
 
-if(SV.defaults.UnitFrames) then
-	SV.mediadefaults.shared.font["unitprimary"]   	= {file = "Friz Quadrata TT",   size = 11,  outline = "OUTLINE"}
-	SV.mediadefaults.shared.font["unitsecondary"]   	= {file = "Friz Quadrata TT",   size = 11,  outline = "OUTLINE"}
-	SV.mediadefaults.shared.font["unitaurabar"]   	= {file = "Skurri",  	size = 10,  outline = "OUTLINE"}
-	SV.mediadefaults.shared.font["unitaura"]  		= {file = "Arial Narrow",  size = 10,  outline = "OUTLINE"}
-end
-
 SV.mediadefaults.dock.durabilityLabel = [[Interface\AddOns\SVUITheme_Warcraft\assets\artwork\Dock\LABEL-DUR]];
 SV.mediadefaults.dock.reputationLabel = [[Interface\AddOns\SVUITheme_Warcraft\assets\artwork\Dock\LABEL-REP]];
 SV.mediadefaults.dock.experienceLabel = [[Interface\AddOns\SVUITheme_Warcraft\assets\artwork\Dock\LABEL-XP]];
@@ -144,5 +150,23 @@ SV.API.Templates["UnitSmall"]   	= "SVUITheme_Warcraft_UnitSmall";
 SV.API.Templates["Minimap"] 		= "SVUITheme_Warcraft_Minimap";
 SV.API.Templates["ActionPanel"] 	= "SVUITheme_Warcraft_ActionPanel";
 
-SV.Dock.SetButtonTheme = _SetDockButtonTheme
-SV.Dock.SetThemeDockStyle = _SetDockStyleTheme
+function SV:LoadTheme()
+	if(SV.defaults.UnitFrames) then
+		SV.mediadefaults.shared.font["unitprimary"]   	= {file = "Friz Quadrata TT",   size = 14,  outline = "OUTLINE"}
+		SV.mediadefaults.shared.font["unitsecondary"]   = {file = "Friz Quadrata TT",   size = 14,  outline = "OUTLINE"}
+		SV.mediadefaults.shared.font["unitaurabar"]   	= {file = "Skurri",  			size = 12,  outline = "OUTLINE"}
+		SV.mediadefaults.shared.font["unitaura"]  		= {file = "Arial Narrow",  		size = 12,  outline = "OUTLINE"}
+	end
+	if(SV.defaults.Maps) then
+		SV.mediadefaults.shared.font["mapinfo"]  	= {file = "Friz Quadrata TT", 	size = 14,  outline = "OUTLINE"}
+		SV.mediadefaults.shared.font["mapcoords"]   = {file = "Friz Quadrata TT",   size = 14,  outline = "OUTLINE"}
+		SV.defaults.Maps.locationText = "SIMPLE";
+		SV.defaults.Maps.bordersize = 1;
+		SV.defaults.Maps.bordercolor = "dark";
+	end
+	if(SV.Maps) then
+		SV.Maps.RefreshZoneText = _RefreshZoneText
+	end
+	SV.Dock.SetButtonTheme = _SetDockButtonTheme
+	SV.Dock.SetThemeDockStyle = _SetDockStyleTheme
+end

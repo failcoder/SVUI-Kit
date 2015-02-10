@@ -941,8 +941,8 @@ MOD.Methods["Checkbox"] = function(self, frame, inverse, x, y)
     if(not frame or (frame and frame.Panel)) then return end
 
     local width, height = frame:GetSize()
-    x = x or -2
-    y = y or -2
+    x = x or -3
+    y = y or -3
 
     width = width + (x or 0)
     height = height + (y or 0)
@@ -950,7 +950,7 @@ MOD.Methods["Checkbox"] = function(self, frame, inverse, x, y)
     frame:SetSize(width, height)
 
     local underlay = (not inverse)
-    self:APPLY(frame, "Checkbox", underlay, 1, x, y)
+    self:APPLY(frame, "Checkbox", inverse, 1, x, y)
 
     if(frame.SetNormalTexture) then 
         frame:SetNormalTexture("")
@@ -1468,7 +1468,7 @@ MOD.Concepts["CloseButton"] = function(self, adjustable, frame, targetAnchor)
     
     RemoveTextures(frame)
 
-    self.Methods["Button"](self, frame, adjustable, -5, -5, "red")
+    self.Methods["Button"](self, frame, adjustable, -6, -6, "red")
     frame:SetFrameLevel(frame:GetFrameLevel() + 4)
     frame:SetNormalTexture(SV.media.icon.close)
     frame:HookScript("OnEnter", ConceptButton_OnEnter)
@@ -1476,7 +1476,7 @@ MOD.Concepts["CloseButton"] = function(self, adjustable, frame, targetAnchor)
 
     if(targetAnchor) then
         frame:ClearAllPoints()
-        frame:SetPoint("TOPRIGHT", targetAnchor, "TOPRIGHT", 0, 0) 
+        frame:SetPoint("TOPRIGHT", targetAnchor, "TOPRIGHT", 3, 3) 
     end
 end
 

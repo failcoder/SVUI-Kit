@@ -222,6 +222,7 @@ do
 		["premium"]     = [[Interface\AddOns\SVUI_!Core\assets\backgrounds\art\ART1]],
 		["unitlarge"] 	= [[Interface\AddOns\SVUI_!Core\assets\backgrounds\unit\UNIT-BG1]],
 		["unitsmall"] 	= [[Interface\AddOns\SVUI_!Core\assets\backgrounds\unit\UNIT-SMALL-BG1]],
+		["checkbox"]    = [[Interface\AddOns\SVUI_!Core\assets\buttons\CHECK-BG]],
 	}
 	SV.mediadefaults["border"] = {
 		["default"] 	= [[Interface\AddOns\SVUI_!Core\assets\borders\DEFAULT]],
@@ -232,6 +233,7 @@ do
 		["inset"]       = [[Interface\AddOns\SVUI_!Core\assets\borders\INSET]],
 		["unitlarge"] 	= [[Interface\BUTTONS\WHITE8X8]],
 		["unitsmall"] 	= [[Interface\BUTTONS\WHITE8X8]],
+		["checkbox"] 	= [[Interface\AddOns\SVUI_!Core\assets\borders\DEFAULT]],
 	}
 	SV.mediadefaults["color"] = {
 		["default"]     = {0.2, 0.2, 0.2, 1}, 
@@ -292,7 +294,7 @@ do
 		["check"]     	= [[Interface\AddOns\SVUI_!Core\assets\buttons\CHECK]],
 		["checkbg"]     = [[Interface\AddOns\SVUI_!Core\assets\buttons\CHECK-BG]],
 		["uncheck"]     = [[Interface\AddOns\SVUI_!Core\assets\buttons\CHECK-DISABLED]],
-		["round"]     	= [[Interface\AddOns\SVUI_!Core\assets\buttons\ ROUND-BORDER]],
+		["round"]     	= [[Interface\AddOns\SVUI_!Core\assets\buttons\ROUND-BORDER]],
 		["scrollup"]    = [[Interface\AddOns\SVUI_!Core\assets\buttons\SCROLLBAR-UP]],
 		["scrolldown"]  = [[Interface\AddOns\SVUI_!Core\assets\buttons\SCROLLBAR-DOWN]],
 		["knob"]     	= [[Interface\AddOns\SVUI_!Core\assets\buttons\SCROLLBAR-KNOB]],
@@ -510,7 +512,7 @@ if(GetLocale() ~= "enUS") then
 	SV.DialogFontDefault = "SVUI Default Font";
 end
 SV.SplashImage 	= [[Interface\AddOns\SVUI_!Core\assets\textures\SPLASH]];
-SV.BaseTexture 	= [[Interface\AddOns\SVUI_!Core\backgrounds\DEFAULT]];
+SV.BaseTexture 	= [[Interface\AddOns\SVUI_!Core\assets\backgrounds\DEFAULT]];
 SV.NoTexture 	= [[Interface\AddOns\SVUI_!Core\assets\textures\EMPTY]];
 --[[ 
 ########################################################## 
@@ -608,7 +610,7 @@ SV.GlobalFontList = {
 function SV:FontManager(obj, template, arg, sizeMod, styleOverride, colorR, colorG, colorB)
 	if not obj then return end
 	template = template or "default";
-	local info = SV.media.shared.font[template];
+	local info = SV.media.shared.font[template] or SV.media.shared.font.default;
 	if(not info) then return end
 
 	local isSystemFont = false;
@@ -616,7 +618,7 @@ function SV:FontManager(obj, template, arg, sizeMod, styleOverride, colorR, colo
 		isSystemFont = true;
 	end
 
-	local file = SV.media.font[template];
+	local file = SV.media.font[template] or SV.media.font.default;
 	local size = info.size;
 	local outline = info.outline;
 

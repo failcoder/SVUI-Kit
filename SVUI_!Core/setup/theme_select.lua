@@ -43,13 +43,11 @@ function SV.Setup:SelectTheme()
 		frame:SetFrameStrata("TOOLTIP");
 
 		local count = 1;
-		local yOffset = ((135 * count) - 125) * -1;
-		local icon = SV.Setup.media.theme
 
 		--[[ NEXT PAGE BUTTON ]]--
 		for themeName, _ in pairs(SV.AvailableThemes) do
 			local yOffset = ((135 * count) - 125) * -1;
-			local icon = SV.Setup.media[themeName] or SV.Setup.media.theme
+			local icon = SV.media.icon[themeName] or SV.media.icon.theme
 			local themeButton = CreateFrame("Frame", nil, frame)
 			themeButton:ModSize(125, 125)
 			themeButton:SetPoint("TOP", frame, "TOP", 0, yOffset)

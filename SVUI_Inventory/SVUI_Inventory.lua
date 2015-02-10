@@ -1129,7 +1129,7 @@ do
 		local bagsCount = #self.BagFrames + 1;
 		local frame = CreateFrame("Button", "SVUI_ContainerFrame", UIParent)
 
-		frame:SetStyle("Frame", "Container")
+		frame:SetStyle("Frame", "Container", true)
 		frame:SetFrameStrata("HIGH")
 		frame.UpdateLayout = ContainerFrame_UpdateLayout;
 		frame.RefreshBags = ContainerFrame_UpdateBags;

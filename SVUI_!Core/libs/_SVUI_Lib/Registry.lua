@@ -707,7 +707,6 @@ end
 
 local function ProcessLoadOnDemand()
     local addonCount = GetNumAddOns();
-
     for i = 1, addonCount do
         local addonName, _, _, _, _, reason = GetAddOnInfo(i)
 
@@ -776,6 +775,30 @@ local function ProcessLoadOnDemand()
             end
         end
     end
+end
+
+local function UpdateCoreDatabases()
+     --construct core dataset
+    local db           = setmetatable({}, meta_transdata)
+    db.data            = GLOBAL_SV.profiles[PROFILE_KEY]
+    db.defaults        = CoreObject.defaults
+    CoreObject.db      = db
+
+    local media        = setmetatable({}, meta_transdata)
+    media.data         = MEDIA_SV.profiles[PROFILE_KEY].Theme[PROFILE_THEME]
+    media.defaults     = CoreObject.mediadefaults
+    CoreObject.media   = media
+
+    local filters      = setmetatable({}, meta_transdata)
+    filters.data       = FILTER_SV
+    filters.defaults   = CoreObject.filterdefaults
+    CoreObject.filters = filters
+
+    local private      = setmetatable({}, meta_database)
+    private.data       = PRIVATE_SV
+    CoreObject.private = private
+
+    CoreObject.ERRORLOG = ERROR_CACHE.FOUND
 end
 
 local function CorePreInitialize()
@@ -847,28 +870,7 @@ local function CorePreInitialize()
     if not MEDIA_SV.profiles[PROFILE_KEY].Theme[PROFILE_THEME] then MEDIA_SV.profiles[PROFILE_KEY].Theme[PROFILE_THEME] = {} end
 
     ProcessLoadOnDemand()
-
-    --construct core dataset
-    local db           = setmetatable({}, meta_transdata)
-    db.data            = GLOBAL_SV.profiles[PROFILE_KEY]
-    db.defaults        = CoreObject.defaults
-    CoreObject.db      = db
-
-    local filters      = setmetatable({}, meta_transdata)
-    filters.data       = FILTER_SV
-    filters.defaults   = CoreObject.filterdefaults
-    CoreObject.filters = filters
-
-    local private      = setmetatable({}, meta_database)
-    private.data       = PRIVATE_SV
-    CoreObject.private = private
-
-    local media        = setmetatable({}, meta_transdata)
-    media.data         = MEDIA_SV.profiles[PROFILE_KEY].Theme[PROFILE_THEME]
-    media.defaults     = CoreObject.mediadefaults
-    CoreObject.media   = media
-
-    CoreObject.ERRORLOG = ERROR_CACHE.FOUND
+    UpdateCoreDatabases()
     CoreObject.initialized = true
 end
 
@@ -898,7 +900,11 @@ local Library_OnEvent = function(self, event, arg, ...)
             end
         end
     elseif(event == "PLAYER_LOGIN") then
+        UpdateCoreDatabases()
         if(not CoreObject.___initialized and CoreObject.Initialize and IsLoggedIn()) then
+            if(CoreObject.LoadTheme) then
+                CoreObject:LoadTheme()
+            end
             CoreObject:Initialize()
             CoreObject.___initialized = true
             self:UnregisterEvent("PLAYER_LOGIN")
@@ -1301,8 +1307,7 @@ function lib:Launch()
             end
 
             local obj = _G[schema]
-            local enabled = PRIVATE_SV.SAFEDATA.SAVED[schema]
-            if(obj and enabled and (not obj.initialized)) then
+            if(obj and (not obj.initialized)) then
                 local halt = false
 
                 if(files.PRIVATE) then
