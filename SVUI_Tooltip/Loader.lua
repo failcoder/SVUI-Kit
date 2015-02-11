@@ -16,7 +16,7 @@ local SV = _G["SVUI"];
 local L = SV.L
 local MOD = SV:NewModule(...);
 local Schema = MOD.Schema;
-local LSM = LibStub("LibSharedMedia-3.0");
+local LSM = _G.LibStub("LibSharedMedia-3.0");
 
 MOD.media = {}
 MOD.media.backgroundArt = [[Interface\DialogFrame\UI-DialogBox-Background-Dark]];

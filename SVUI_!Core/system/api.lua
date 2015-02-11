@@ -129,6 +129,7 @@ local function ScreenUpdate()
     end
 
     SCREEN_MOD = (gxMod / gxScale);
+    SV.Scale = SCREEN_MOD;
 
     return gxWidth, gxHeight, gxScale, customScale
 end

@@ -22,7 +22,7 @@ GET ADDON DATA
 ##########################################################
 ]]--
 local SV = _G["SVUI"];
-local LSM = LibStub("LibSharedMedia-3.0");
+local LSM = _G.LibStub("LibSharedMedia-3.0");
 --[[ 
 ########################################################## 
 MISC

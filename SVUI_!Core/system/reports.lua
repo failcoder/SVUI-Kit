@@ -42,7 +42,7 @@ GET ADDON DATA
 ]]--
 local SV = select(2, ...)
 local L = SV.L
-local LSM = LibStub("LibSharedMedia-3.0")
+local LSM = _G.LibStub("LibSharedMedia-3.0")
 local LDB = LibStub("LibDataBroker-1.1", true)
 local MOD = SV:NewPackage("Reports", L["Informative Panels"]);
 

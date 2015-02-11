@@ -19,7 +19,7 @@ GET ADDON DATA
 ##########################################################
 ]]--
 local SV = _G["SVUI"];
-local LSM = LibStub("LibSharedMedia-3.0");
+local LSM = _G.LibStub("LibSharedMedia-3.0");
 
 local _RefreshZoneText = function(self)
 	if(self.InfoTop:IsShown()) then

@@ -40,7 +40,7 @@ GET ADDON DATA
 ]]--
 local SV = _G['SVUI']
 local L = SV.L
-local LSM = LibStub("LibSharedMedia-3.0")
+local LSM = _G.LibStub("LibSharedMedia-3.0")
 local MOD = SV.QuestTracker;
 --[[ 
 ########################################################## 

@@ -69,7 +69,7 @@ SOUND:Register("Phase", [[sound\doodad\be_scryingorb_explode.ogg]])
 DEFINE SHARED MEDIA
 ##########################################################
 ]]--
-local LSM = LibStub("LibSharedMedia-3.0")
+local LSM = _G.LibStub("LibSharedMedia-3.0")
 
 LSM:Register("background", "SVUI Default BG", [[Interface\AddOns\SVUI_!Core\assets\backgrounds\DEFAULT]])
 LSM:Register("background", "SVUI Transparent BG", [[Interface\AddOns\SVUI_!Core\assets\backgrounds\TRANSPARENT]])
