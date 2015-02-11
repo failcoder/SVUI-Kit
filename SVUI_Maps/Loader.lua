@@ -41,11 +41,25 @@ MOD.media.mailIcon = [[Interface\AddOns\SVUI_Maps\assets\MINIMAP-MAIL]];
 MOD.media.calendarIcon = [[Interface\AddOns\SVUI_Maps\assets\MINIMAP-CALENDAR]];
 MOD.media.trackingIcon = [[Interface\AddOns\SVUI_Maps\assets\MINIMAP-TRACKING]];
 
-SV:AssignMedia("template", "Minimap", "SVUI_StyleTemplate_Minimap");
-SV:AssignMedia("font", "mapinfo", "SVUI Narrator Font", 13, "OUTLINE");
-SV:AssignMedia("font", "mapcoords", "SVUI Number Font", 12, "OUTLINE");
-SV:AssignMedia("globalfont", "mapinfo", "SVUI_Font_MinimapInfo");
-SV:AssignMedia("globalfont", "mapcoords", "SVUI_Font_MinimapCoords");
+SV.API.Templates["Minimap"] = "SVUI_StyleTemplate_Minimap";
+
+SV.mediadefaults.shared.font["mapinfo"]     		     = {file = "SVUI Narrator Font",  size = 13,  outline = "OUTLINE"}
+SV.mediadefaults.shared.font["mapcoords"]     	     = {file = "SVUI Number Font", size = 12,  outline = "OUTLINE"}
+SV.GlobalFontList["SVUI_Font_MinimapInfo"]   = "mapinfo";
+SV.GlobalFontList["SVUI_Font_MinimapCoords"] = "mapcoords";
+
+local mapFonts = {
+	["mapinfo"] = {
+		order = 1,
+		name = "Map Labels",
+		desc = "Font used for info labels."
+	},
+	["mapcoords"] = {
+		order = 2,
+		name = "Map Coords",
+		desc = "Font used for coordinates."
+	},
+};
 
 SV.defaults[Schema] = {
 	["incompatible"] = {
@@ -74,19 +88,6 @@ SV.defaults[Schema] = {
 };
 
 function MOD:LoadOptions()
-	local mapFonts = {
-		["mapinfo"] = {
-			order = 1,
-			name = "Map Labels",
-			desc = "Font used for info labels."
-		},
-		["mapcoords"] = {
-			order = 2,
-			name = "Map Coords",
-			desc = "Font used for coordinates."
-		},
-	};
-	
 	SV:GenerateFontOptionGroup("Maps", 10, "Fonts used for the minimap.", mapFonts)
 
 	SV.Options.args[Schema] = { 

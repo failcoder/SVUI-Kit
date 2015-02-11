@@ -23,18 +23,19 @@ SV.defaults[Schema] = {
     ["proximity"] = false, 
 }
 
-SV:AssignMedia("font", "tracking", "SVUI Number Font", 12, "OUTLINE");
-SV:AssignMedia("globalfont", "tracking", "SVUI_Font_Tracking");
+SV.mediadefaults.shared.font["tracking"]   = {file = "SVUI Number Font", size = 12,  outline = "OUTLINE"}
+
+SV.GlobalFontList["SVUI_Font_Tracking"]   = "tracking";
+
+local trackFonts = {
+    ["tracking"] = {
+        order = 1,
+        name = "Track-O-Matic Text",
+        desc = "Font used for all tracking text."
+    },
+};
 
 function PLUGIN:LoadOptions()
-    local trackFonts = {
-        ["tracking"] = {
-            order = 1,
-            name = "Track-O-Matic Text",
-            desc = "Font used for all tracking text."
-        },
-    };
-    
     SV:GenerateFontOptionGroup("Track-O-Matic", 12, "Font used for tracking devices.", trackFonts)
 
     SV.Options.args[Schema] = {

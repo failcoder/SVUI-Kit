@@ -49,38 +49,6 @@ local oUF_SVUI = MOD.oUF
 assert(oUF_SVUI, "SVUI UnitFrames: unable to locate oUF.")
 --[[ 
 ########################################################## 
-LOCALIZED GLOBALS
-##########################################################
-]]--
-local UIParent              = _G.UIParent;
-local GameTooltip           = _G.GameTooltip;
-local CreateFrame           = _G.CreateFrame;
-local InCombatLockdown      = _G.InCombatLockdown;
-local IsAddOnLoaded         = _G.IsAddOnLoaded;
-local IsInInstance          = _G.IsInInstance;
-
-local UnitIsUnit            = _G.UnitIsUnit;
-local UnitReaction          = _G.UnitReaction;
-local UnitIsPlayer          = _G.UnitIsPlayer;
-local UnitClass             = _G.UnitClass;
-local UnitFrame_OnEnter     = _G.UnitFrame_OnEnter;
-local UnitFrame_OnLeave     = _G.UnitFrame_OnLeave;
-
-local RegisterStateDriver       = _G.RegisterStateDriver;
-local UnregisterStateDriver     = _G.UnregisterStateDriver;
-local RegisterAttributeDriver   = _G.RegisterAttributeDriver;
-local UnregisterAttributeDriver = _G.UnregisterAttributeDriver;
-
-local RegisterUnitWatch          = _G.RegisterUnitWatch;
-local UnregisterUnitWatch        = _G.UnregisterUnitWatch;
-local FOCUSTARGET                = _G.FOCUSTARGET;
-local CLEAR_FOCUS                = _G.CLEAR_FOCUS;
-local FACTION_BAR_COLORS         = _G.FACTION_BAR_COLORS;
-local RAID_CLASS_COLORS          = _G.RAID_CLASS_COLORS;
-local CUSTOM_CLASS_COLORS        = _G.CUSTOM_CLASS_COLORS
-local LOCALIZED_CLASS_NAMES_MALE = _G.LOCALIZED_CLASS_NAMES_MALE;
---[[ 
-########################################################## 
 LOCAL DATA
 ##########################################################
 ]]--
@@ -273,7 +241,7 @@ CONSTRUCTORS["player"] = function(self, unit)
     MOD:SetActionPanel(self, key)
     self.Health = MOD:CreateHealthBar(self, true)
     self.Health.frequentUpdates = true
-    self.Power = MOD:CreatePowerBar(self)
+    self.Power = MOD:CreatePowerBar(self, true)
     self.Power.frequentUpdates = true
     MOD:CreatePortrait(self, false, true)
     self.Buffs = MOD:CreateBuffs(self, key)
@@ -350,7 +318,7 @@ CONSTRUCTORS["target"] = function(self, unit)
     self.Health.frequentUpdates = true
     self.HealPrediction = MOD:CreateHealPrediction(self, true)
 
-    self.Power = MOD:CreatePowerBar(self)
+    self.Power = MOD:CreatePowerBar(self, true, true)
     self.Power.frequentUpdates = true
 
     MOD:CreatePortrait(self)
@@ -425,7 +393,7 @@ CONSTRUCTORS["targettarget"] = function(self, unit)
 
     MOD:SetActionPanel(self, key)
     self.Health = MOD:CreateHealthBar(self, true)
-    self.Power = MOD:CreatePowerBar(self)
+    self.Power = MOD:CreatePowerBar(self, true)
     MOD:CreatePortrait(self, true)
     self.Buffs = MOD:CreateBuffs(self, key)
     self.Debuffs = MOD:CreateDebuffs(self, key)
@@ -472,7 +440,7 @@ CONSTRUCTORS["pet"] = function(self, unit)
     self.Health = MOD:CreateHealthBar(self, true)
     self.Health.frequentUpdates = true;
     self.HealPrediction = MOD:CreateHealPrediction(self)
-    self.Power = MOD:CreatePowerBar(self)
+    self.Power = MOD:CreatePowerBar(self, true)
     self.Power.frequentUpdates = false;
     MOD:CreatePortrait(self, true)
     self.Castbar = MOD:CreateCastbar(self, false, nil, false)
@@ -521,7 +489,7 @@ CONSTRUCTORS["pettarget"] = function(self, unit)
     
     MOD:SetActionPanel(self, key)
     self.Health = MOD:CreateHealthBar(self, true)
-    self.Power = MOD:CreatePowerBar(self)
+    self.Power = MOD:CreatePowerBar(self, true)
     self.Buffs = MOD:CreateBuffs(self, key)
     self.Debuffs = MOD:CreateDebuffs(self, key)
     self.Range = { insideAlpha = 1, outsideAlpha = 1 }
@@ -566,7 +534,7 @@ CONSTRUCTORS["focus"] = function(self, unit)
     self.Health.frequentUpdates = true
 
     self.HealPrediction = MOD:CreateHealPrediction(self, true)
-    self.Power = MOD:CreatePowerBar(self)
+    self.Power = MOD:CreatePowerBar(self, true)
 
     self.Castbar = MOD:CreateCastbar(self, false, L["Focus Castbar"])
     self.Castbar.SafeZone = nil
@@ -639,7 +607,7 @@ CONSTRUCTORS["focustarget"] = function(self, unit)
     
     MOD:SetActionPanel(self, key)
     self.Health = MOD:CreateHealthBar(self, true)
-    self.Power = MOD:CreatePowerBar(self)
+    self.Power = MOD:CreatePowerBar(self, true)
     self.Buffs = MOD:CreateBuffs(self, key)
     self.Debuffs = MOD:CreateDebuffs(self, key)
     self.RaidIcon = MOD:CreateRaidIcon(self)
@@ -705,7 +673,7 @@ CONSTRUCTORS["boss"] = function(self, unit)
     MOD:SetActionPanel(self, key)
     self.Health = MOD:CreateHealthBar(self, true)
     self.Health.frequentUpdates = true
-    self.Power = MOD:CreatePowerBar(self)
+    self.Power = MOD:CreatePowerBar(self, true, true)
     MOD:CreatePortrait(self)
     self.Buffs = MOD:CreateBuffs(self, key)
     self.Debuffs = MOD:CreateDebuffs(self, key)
@@ -832,7 +800,7 @@ CONSTRUCTORS["arena"] = function(self, unit)
 
     MOD:SetActionPanel(self, key)
     self.Health = MOD:CreateHealthBar(self, true)
-    self.Power = MOD:CreatePowerBar(self)
+    self.Power = MOD:CreatePowerBar(self, true)
     MOD:CreatePortrait(self)
     self.Buffs = MOD:CreateBuffs(self, key)
     self.Debuffs = MOD:CreateDebuffs(self, key)

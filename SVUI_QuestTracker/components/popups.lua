@@ -246,5 +246,5 @@ function MOD:InitializePopups()
 	hooksecurefunc("AutoQuestPopupTracker_AddPopUp", _hook_AddAutoPopUpQuests);
 	hooksecurefunc("AutoQuestPopupTracker_RemovePopUp", _hook_RemoveAutoPopUpQuests);
 
-	SV.Events:On("QUEST_UPVALUES_UPDATED", UpdatePopupLocals, true);
+	SV.Events:On("QUEST_UPVALUES_UPDATED", UpdatePopupLocals, "UpdatePopupLocals");
 end

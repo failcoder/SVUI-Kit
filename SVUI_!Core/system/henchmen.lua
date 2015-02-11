@@ -536,7 +536,7 @@ end
 
 local function InitializeHenchmen()
 	SV.HenchmenButton = SV.Dock:SetDockButton("BottomRight", "Call Henchman!", [[Interface\AddOns\SVUI_!Core\assets\textures\Dock\DOCK-ICON-HENCHMAN]], SV.ToggleHenchman, "SVUI_Henchmen")
-	SV.Events:OnLock(LockdownCallback);
+	SV.Events:OnLock("HenchmenFrameLock", LockdownCallback);
 end
 
 SV:NewScript(InitializeHenchmen)

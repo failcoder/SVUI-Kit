@@ -325,5 +325,5 @@ function MOD:InitializeAchievements()
 
 	self.Headers["Achievements"]:Refresh()
 
-	SV.Events:On("QUEST_UPVALUES_UPDATED", UpdateAchievementLocals, true);
+	SV.Events:On("QUEST_UPVALUES_UPDATED", UpdateAchievementLocals, "UpdateAchievementLocals");
 end

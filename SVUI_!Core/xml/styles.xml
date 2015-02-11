@@ -325,17 +325,55 @@
             <Attribute name="panelTexUpdate" type="boolean" value="false" />
             <Attribute name="panelSkipUpdate" type="boolean" value="true" />
         </Attributes>
-        <Backdrop bgFile="Interface\AddOns\SVUI_!Core\assets\textures\EMPTY" edgeFile="Interface\AddOns\SVUI_!Core\assets\borders\DEFAULT" tile="false">
-            <EdgeSize val="1" />
+        <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\AddOns\SVUI_!Core\assets\borders\INSET" tile="false">
+            <EdgeSize val="6" />
             <TileSize val="0" />
             <BackgroundInsets left="0" right="0" top="0" bottom="0" />
-            <Color r="0" g="0" b="0" a="0" />
-            <BorderColor r="0" g="0" b="0" a="1" />
+            <Color r="0" g="0" b="0" a="0.5" />
+            <BorderColor r="0" g="0" b="0" a="0.5" />
         </Backdrop>
         <Layers>
-            <Layer level="BACKGROUND" textureSubLevel="1">
-                <Texture parentKey="Skin" nonBlocking="true" file="Interface\AddOns\SVUI_!Core\assets\backgrounds\DEFAULT" setAllPoints="true" />
-                <Color r="0" g="0" b="0" a="0.5" />
+            <Layer level="BORDER">
+                <Texture parentKey="BorderLeft" file="Interface\BUTTONS\WHITE8X8">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativePoint="TOPLEFT" />
+                        <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" />
+                    </Anchors>
+                    <Size>
+                        <AbsDimension x="1" />
+                    </Size>
+                    <Color r="0" g="0" b="0" a="1" />
+                </Texture>
+                <Texture parentKey="BorderRight" file="Interface\BUTTONS\WHITE8X8">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" />
+                        <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" />
+                    </Anchors>
+                    <Size>
+                        <AbsDimension x="1" />
+                    </Size>
+                    <Color r="0" g="0" b="0" a="1" />
+                </Texture>
+                <Texture parentKey="BorderTop" file="Interface\BUTTONS\WHITE8X8">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativePoint="TOPLEFT" />
+                        <Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" />
+                    </Anchors>
+                    <Size>
+                        <AbsDimension y="1" />
+                    </Size>
+                    <Color r="0" g="0" b="0" a="1" />
+                </Texture>
+                <Texture parentKey="BorderBottom" file="Interface\BUTTONS\WHITE8X8">
+                    <Anchors>
+                        <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" />
+                        <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" />
+                    </Anchors>
+                    <Size>
+                        <AbsDimension y="1" />
+                    </Size>
+                    <Color r="0" g="0" b="0" a="1" />
+                </Texture>
             </Layer>
         </Layers>
     </Frame>

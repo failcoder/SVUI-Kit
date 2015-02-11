@@ -234,7 +234,7 @@ function MOD:ResetUnitOptions(unit)
 end
 
 function MOD:RefreshUnitColors()
-	local db = SV.media.extended.unitframes 
+	local db = SV.media.unitframes 
 	for i, setting in pairs(db) do
 		if setting and type(setting) == "table" then
 			if(setting[1]) then
@@ -1332,7 +1332,7 @@ function MOD:Load()
 		CompactUnitFrameProfiles:RegisterEvent("VARIABLES_LOADED")
 	end
 
-	SV.Events:On("AURA_FILTER_OPTIONS_CHANGED", UpdateUnitFrames, true);
+	SV.Events:On("AURA_FILTER_OPTIONS_CHANGED", UpdateUnitFrames, "UpdateUnitFrames");
 	
 	local rDebuffs = SV.oUF_RaidDebuffs or oUF_RaidDebuffs;
 	if not rDebuffs then return end

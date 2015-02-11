@@ -946,7 +946,7 @@ local function BorderColorUpdates()
 	SVUIDock_BottomBorder:SetBackdropBorderColor(0,0,0,0.8)
 end
 
---SV.Events:On("SHARED_MEDIA_UPDATED", BorderColorUpdates, true)
+--SV.Events:On("SHARED_MEDIA_UPDATED", BorderColorUpdates, "BorderColorUpdates")
 --[[ 
 ########################################################## 
 EXTERNALLY ACCESSIBLE METHODS
