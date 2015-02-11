@@ -2584,11 +2584,11 @@ SV.Options.args[Schema] = {
 											type = "color", 
 											name = L["Health"],
 											get = function(key)
-												local color = SV.media.unitframes.health
+												local color = SV.media.extended.unitframes.health
 												return color[1],color[2],color[3] 
 											end,
 											set = function(key, rValue, gValue, bValue)
-												SV.media.unitframes.health = {rValue, gValue, bValue}
+												SV.media.extended.unitframes.health = {rValue, gValue, bValue}
 												MOD:RefreshAllUnitMedia()
 											end, 
 										}, 
@@ -2597,11 +2597,11 @@ SV.Options.args[Schema] = {
 											type = "color", 
 											name = L["Tapped"],
 											get = function(key)
-												local color = SV.media.unitframes.tapped
+												local color = SV.media.extended.unitframes.tapped
 												return color[1],color[2],color[3] 
 											end,
 											set = function(key, rValue, gValue, bValue)
-												SV.media.unitframes.tapped = {rValue, gValue, bValue}
+												SV.media.extended.unitframes.tapped = {rValue, gValue, bValue}
 												MOD:RefreshAllUnitMedia()
 											end,
 										}, 
@@ -2610,11 +2610,11 @@ SV.Options.args[Schema] = {
 											type = "color", 
 											name = L["Disconnected"],
 											get = function(key)
-												local color = SV.media.unitframes.disconnected
+												local color = SV.media.extended.unitframes.disconnected
 												return color[1],color[2],color[3] 
 											end,
 											set = function(key, rValue, gValue, bValue)
-												SV.media.unitframes.disconnected = {rValue, gValue, bValue}
+												SV.media.extended.unitframes.disconnected = {rValue, gValue, bValue}
 												MOD:RefreshAllUnitMedia()
 											end,
 										}
@@ -2631,11 +2631,11 @@ SV.Options.args[Schema] = {
 											name = MANA, 
 											type = "color",
 											get = function(key)
-												local color = SV.media.unitframes.power["MANA"]
+												local color = SV.media.extended.unitframes.power["MANA"]
 												return color[1],color[2],color[3] 
 											end,
 											set = function(key, rValue, gValue, bValue)
-												SV.media.unitframes.power["MANA"] = {rValue, gValue, bValue}
+												SV.media.extended.unitframes.power["MANA"] = {rValue, gValue, bValue}
 												MOD:RefreshAllUnitMedia()
 											end, 
 										}, 
@@ -2644,11 +2644,11 @@ SV.Options.args[Schema] = {
 											name = RAGE, 
 											type = "color",
 											get = function(key)
-												local color = SV.media.unitframes.power["RAGE"]
+												local color = SV.media.extended.unitframes.power["RAGE"]
 												return color[1],color[2],color[3] 
 											end,
 											set = function(key, rValue, gValue, bValue)
-												SV.media.unitframes.power["RAGE"] = {rValue, gValue, bValue}
+												SV.media.extended.unitframes.power["RAGE"] = {rValue, gValue, bValue}
 												MOD:RefreshAllUnitMedia()
 											end,
 										}, 
@@ -2657,11 +2657,11 @@ SV.Options.args[Schema] = {
 											name = FOCUS, 
 											type = "color",
 											get = function(key)
-												local color = SV.media.unitframes.power["FOCUS"]
+												local color = SV.media.extended.unitframes.power["FOCUS"]
 												return color[1],color[2],color[3] 
 											end,
 											set = function(key, rValue, gValue, bValue)
-												SV.media.unitframes.power["FOCUS"] = {rValue, gValue, bValue}
+												SV.media.extended.unitframes.power["FOCUS"] = {rValue, gValue, bValue}
 												MOD:RefreshAllUnitMedia()
 											end,
 										}, 
@@ -2670,11 +2670,11 @@ SV.Options.args[Schema] = {
 											name = ENERGY, 
 											type = "color",
 											get = function(key)
-												local color = SV.media.unitframes.power["ENERGY"]
+												local color = SV.media.extended.unitframes.power["ENERGY"]
 												return color[1],color[2],color[3] 
 											end,
 											set = function(key, rValue, gValue, bValue)
-												SV.media.unitframes.power["ENERGY"] = {rValue, gValue, bValue}
+												SV.media.extended.unitframes.power["ENERGY"] = {rValue, gValue, bValue}
 												MOD:RefreshAllUnitMedia()
 											end,
 										}, 
@@ -2683,11 +2683,11 @@ SV.Options.args[Schema] = {
 											name = RUNIC_POWER, 
 											type = "color",
 											get = function(key)
-												local color = SV.media.unitframes.power["RUNIC_POWER"]
+												local color = SV.media.extended.unitframes.power["RUNIC_POWER"]
 												return color[1],color[2],color[3] 
 											end,
 											set = function(key, rValue, gValue, bValue)
-												SV.media.unitframes.power["RUNIC_POWER"] = {rValue, gValue, bValue}
+												SV.media.extended.unitframes.power["RUNIC_POWER"] = {rValue, gValue, bValue}
 												MOD:RefreshAllUnitMedia()
 											end,
 										}
@@ -2717,11 +2717,11 @@ SV.Options.args[Schema] = {
 											name = L["Interruptable"], 
 											type = "color",
 											get = function(key)
-												local color = SV.media.unitframes.casting
+												local color = SV.media.extended.unitframes.casting
 												return color[1],color[2],color[3] 
 											end,
 											set = function(key, rValue, gValue, bValue)
-												SV.media.unitframes.casting = {rValue, gValue, bValue}
+												SV.media.extended.unitframes.casting = {rValue, gValue, bValue}
 												MOD:RefreshAllUnitMedia()
 											end,
 										}, 
@@ -2730,11 +2730,11 @@ SV.Options.args[Schema] = {
 											name = "Spark Color", 
 											type = "color",
 											get = function(key)
-												local color = SV.media.unitframes.spark
+												local color = SV.media.extended.unitframes.spark
 												return color[1],color[2],color[3] 
 											end,
 											set = function(key, rValue, gValue, bValue)
-												SV.media.unitframes.spark = {rValue, gValue, bValue}
+												SV.media.extended.unitframes.spark = {rValue, gValue, bValue}
 												MOD:RefreshAllUnitMedia()
 											end,
 										}, 
@@ -2743,11 +2743,11 @@ SV.Options.args[Schema] = {
 											name = L["Non-Interruptable"], 
 											type = "color",
 											get = function(key)
-												local color = SV.media.unitframes.interrupt
+												local color = SV.media.extended.unitframes.interrupt
 												return color[1],color[2],color[3] 
 											end,
 											set = function(key, rValue, gValue, bValue)
-												SV.media.unitframes.interrupt = {rValue, gValue, bValue}
+												SV.media.extended.unitframes.interrupt = {rValue, gValue, bValue}
 												MOD:RefreshAllUnitMedia()
 											end,
 										}
@@ -2790,11 +2790,11 @@ SV.Options.args[Schema] = {
 											name = L["Buffs"], 
 											type = "color",
 											get = function(key)
-												local color = SV.media.unitframes.buff_bars
+												local color = SV.media.extended.unitframes.buff_bars
 												return color[1],color[2],color[3] 
 											end,
 											set = function(key, rValue, gValue, bValue)
-												SV.media.unitframes.buff_bars = {rValue, gValue, bValue}
+												SV.media.extended.unitframes.buff_bars = {rValue, gValue, bValue}
 												MOD:RefreshAllUnitMedia()
 											end,
 										}, 
@@ -2803,11 +2803,11 @@ SV.Options.args[Schema] = {
 											name = L["Debuffs"], 
 											type = "color",
 											get = function(key)
-												local color = SV.media.unitframes.debuff_bars
+												local color = SV.media.extended.unitframes.debuff_bars
 												return color[1],color[2],color[3] 
 											end,
 											set = function(key, rValue, gValue, bValue)
-												SV.media.unitframes.debuff_bars = {rValue, gValue, bValue}
+												SV.media.extended.unitframes.debuff_bars = {rValue, gValue, bValue}
 												MOD:RefreshAllUnitMedia()
 											end,
 										}, 
@@ -2816,11 +2816,11 @@ SV.Options.args[Schema] = {
 											name = L["Shield Buffs Color"], 
 											type = "color",
 											get = function(key)
-												local color = SV.media.unitframes.shield_bars
+												local color = SV.media.extended.unitframes.shield_bars
 												return color[1],color[2],color[3] 
 											end,
 											set = function(key, rValue, gValue, bValue)
-												SV.media.unitframes.shield_bars = {rValue, gValue, bValue}
+												SV.media.extended.unitframes.shield_bars = {rValue, gValue, bValue}
 												MOD:RefreshAllUnitMedia()
 											end,
 										}
@@ -2837,11 +2837,11 @@ SV.Options.args[Schema] = {
 											type = "color", 
 											hasAlpha = true,
 											get = function(key)
-												local color = SV.media.unitframes.predict["personal"]
+												local color = SV.media.extended.unitframes.predict["personal"]
 												return color[1],color[2],color[3] 
 											end,
 											set = function(key, rValue, gValue, bValue)
-												SV.media.unitframes.predict["personal"] = {rValue, gValue, bValue}
+												SV.media.extended.unitframes.predict["personal"] = {rValue, gValue, bValue}
 												MOD:RefreshUnitFrames()
 											end,
 										}, 
@@ -2851,11 +2851,11 @@ SV.Options.args[Schema] = {
 											type = "color", 
 											hasAlpha = true,
 											get = function(key)
-												local color = SV.media.unitframes.predict["others"]
+												local color = SV.media.extended.unitframes.predict["others"]
 												return color[1],color[2],color[3] 
 											end,
 											set = function(key, rValue, gValue, bValue)
-												SV.media.unitframes.predict["others"] = {rValue, gValue, bValue}
+												SV.media.extended.unitframes.predict["others"] = {rValue, gValue, bValue}
 												MOD:RefreshUnitFrames()
 											end,
 										}, 
@@ -2865,11 +2865,11 @@ SV.Options.args[Schema] = {
 											type = "color", 
 											hasAlpha = true,
 											get = function(key)
-												local color = SV.media.unitframes.predict["absorbs"]
+												local color = SV.media.extended.unitframes.predict["absorbs"]
 												return color[1],color[2],color[3] 
 											end,
 											set = function(key, rValue, gValue, bValue)
-												SV.media.unitframes.predict["absorbs"] = {rValue, gValue, bValue}
+												SV.media.extended.unitframes.predict["absorbs"] = {rValue, gValue, bValue}
 												MOD:RefreshUnitFrames()
 											end,
 										}

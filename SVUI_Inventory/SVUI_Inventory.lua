@@ -76,12 +76,12 @@ local function StyleBagToolButton(button, iconTex)
 
 	local bg = button:CreateTexture(nil, "BACKGROUND")
 	bg:WrapPoints(button, 4, 4)
-	bg:SetTexture(MOD.media.buttonBg)
+	bg:SetTexture(SV.media.button.roundbg)
 	bg:SetVertexColor(unpack(SV.media.color.default))
 
 	local outer = button:CreateTexture(nil, "OVERLAY")
 	outer:WrapPoints(button, 5, 5)
-	outer:SetTexture(MOD.media.buttonFg)
+	outer:SetTexture(SV.media.button.round)
 	outer:SetGradient(unpack(SV.media.gradient.container))
 
 	button:SetNormalTexture(iconTex)
@@ -95,13 +95,13 @@ local function StyleBagToolButton(button, iconTex)
 
 	local hover = button:CreateTexture(nil, "HIGHLIGHT")
 	hover:WrapPoints(button, 5, 5)
-	hover:SetTexture(MOD.media.buttonFg)
+	hover:SetTexture(SV.media.button.round)
 	hover:SetGradient(unpack(SV.media.gradient.yellow))
 
 	if button.SetPushedTexture then 
 		local pushed = button:CreateTexture(nil, "BORDER")
 		pushed:WrapPoints(button, 5, 5)
-		pushed:SetTexture(MOD.media.buttonFg)
+		pushed:SetTexture(SV.media.button.round)
 		pushed:SetGradient(unpack(SV.media.gradient.highlight))
 		button:SetPushedTexture(pushed)
 	end 
@@ -109,7 +109,7 @@ local function StyleBagToolButton(button, iconTex)
 	if button.SetCheckedTexture then 
 		local checked = button:CreateTexture(nil, "BORDER")
 		checked:WrapPoints(button, 5, 5)
-		checked:SetTexture(MOD.media.buttonFg)
+		checked:SetTexture(SV.media.button.round)
 		checked:SetGradient(unpack(SV.media.gradient.green))
 		button:SetCheckedTexture(checked)
 	end 
@@ -117,7 +117,7 @@ local function StyleBagToolButton(button, iconTex)
 	if button.SetDisabledTexture then 
 		local disabled = button:CreateTexture(nil, "BORDER")
 		disabled:WrapPoints(button, 5, 5)
-		disabled:SetTexture(MOD.media.buttonFg)
+		disabled:SetTexture(SV.media.button.round)
 		disabled:SetGradient(unpack(SV.media.gradient.default))
 		button:SetDisabledTexture(disabled)
 	end 

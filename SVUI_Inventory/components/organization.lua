@@ -244,7 +244,7 @@ function MOD:InitializeJournal()
 		end
 	end
 
-	SV.Events:On("FULL_UI_RESET", ResetInventoryLogs, "ResetInventoryLogs");
+	SV.Events:On("FULL_UI_RESET", ResetInventoryLogs, true);
 end
 --[[ 
 ########################################################## 

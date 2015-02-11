@@ -121,5 +121,5 @@ local HPSColorUpdate = function()
 	end
 end
 
-SV.Events:On("SHARED_MEDIA_UPDATED", HPSColorUpdate, "HPSColorUpdates")
+SV.Events:On("SHARED_MEDIA_UPDATED", HPSColorUpdate, true)
 Reports:NewReportType('HPS', StatEvents, HPS_OnEvent, nil, HPS_OnClick, HPS_OnEnter)

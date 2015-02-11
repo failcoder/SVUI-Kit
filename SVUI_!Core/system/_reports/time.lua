@@ -223,6 +223,6 @@ local TimeColorUpdate = function()
 	end 
 end 
 
-SV.Events:On("SHARED_MEDIA_UPDATED", TimeColorUpdate, "TimeColorUpdates")
+SV.Events:On("SHARED_MEDIA_UPDATED", TimeColorUpdate, true)
 
 Reports:NewReportType('Time', {"UPDATE_INSTANCE_INFO"}, OnEvent, Update, Click, OnEnter, OnLeave)

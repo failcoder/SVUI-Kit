@@ -452,5 +452,5 @@ function MOD:InitializeBonuses()
 	self.Headers["Bonus"] = bonus
 
 	self:RegisterEvent("CRITERIA_COMPLETE", self.UpdateBonusObjective);
-	SV.Events:On("QUEST_UPVALUES_UPDATED", UpdateBonusLocals, "UpdateBonusLocals");
+	SV.Events:On("QUEST_UPVALUES_UPDATED", UpdateBonusLocals, true);
 end

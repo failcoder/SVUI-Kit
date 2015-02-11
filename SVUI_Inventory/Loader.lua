@@ -36,13 +36,11 @@ MOD.media.sortIcon = [[Interface\AddOns\SVUI_Inventory\assets\BAGS-SORT]];
 MOD.media.stackIcon = [[Interface\AddOns\SVUI_Inventory\assets\BAGS-STACK]];
 MOD.media.transferIcon = [[Interface\AddOns\SVUI_Inventory\assets\BAGS-TRANSFER]];
 MOD.media.vendorIcon = [[Interface\AddOns\SVUI_Inventory\assets\BAGS-VENDOR]];
-MOD.media.buttonBg = [[Interface\AddOns\SVUI_Inventory\assets\BUTTON-BG]];
-MOD.media.buttonFg = [[Interface\AddOns\SVUI_Inventory\assets\BUTTON-FG]];
 
-SV.mediadefaults.shared.font["bagdialog"]     		= {file = "SVUI Default Font",  size = 11,  outline = "OUTLINE"}
-SV.mediadefaults.shared.font["bagnumber"]     		= {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"}
-SV.GlobalFontList["SVUI_Font_Bag"] 			= "bagdialog";
-SV.GlobalFontList["SVUI_Font_Bag_Number"] 	= "bagnumber";
+SV:AssignMedia("font", "bagdialog", "SVUI Default Font", 11, "OUTLINE");
+SV:AssignMedia("font", "bagnumber", "SVUI Number Font", 11, "OUTLINE");
+SV:AssignMedia("globalfont", "bagdialog", "SVUI_Font_Bag");
+SV:AssignMedia("globalfont", "bagnumber", "SVUI_Font_Bag_Number");
 
 SV.defaults[Schema] = {
 	["incompatible"] = {
@@ -80,20 +78,20 @@ SV.defaults[Schema] = {
 	}, 
 };
 
-local bagFonts = {
-	["bagdialog"] = {
-		order = 1,
-		name = "Bag Slot Dialog",
-		desc = "Default font used in bag and bank slots"
-	},
-    ["bagnumber"] = {
-		order = 2,
-		name = "Bag Slot Numbers",
-		desc = "Font used in bag and bank slots to display numeric values."
-	},
-};
-
 function MOD:LoadOptions()
+	local bagFonts = {
+		["bagdialog"] = {
+			order = 1,
+			name = "Bag Slot Dialog",
+			desc = "Default font used in bag and bank slots"
+		},
+	    ["bagnumber"] = {
+			order = 2,
+			name = "Bag Slot Numbers",
+			desc = "Font used in bag and bank slots to display numeric values."
+		},
+	};
+
 	SV:GenerateFontOptionGroup("Bags", 7, "Fonts used in bag slots.", bagFonts)
 	
 	SV.Options.args[Schema] = {

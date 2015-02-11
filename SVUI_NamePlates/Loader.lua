@@ -45,13 +45,13 @@ MOD.media.rightArt = [[Interface\AddOns\SVUI_NamePlates\assets\PLATE-RIGHT]];
 MOD.media.leftArt = [[Interface\AddOns\SVUI_NamePlates\assets\PLATE-LEFT]];
 MOD.media.roles = [[Interface\AddOns\SVUI_NamePlates\assets\PLATE-ROLES]];
 
-SV.mediadefaults.shared.font["platename"]     	= {file = "SVUI Caps Font",   	size = 9,   outline = "OUTLINE"}
-SV.mediadefaults.shared.font["platenumber"]   	= {file = "SVUI Caps Font",   	size = 9,   outline = "OUTLINE"}
-SV.mediadefaults.shared.font["plateaura"]     	= {file = "SVUI Caps Font",   	size = 9,   outline = "OUTLINE"}
-
-SV.GlobalFontList["SVUI_Font_NamePlate"] = "platename";
-SV.GlobalFontList["SVUI_Font_NamePlate_Aura"] = "plateaura";
-SV.GlobalFontList["SVUI_Font_NamePlate_Number"] = "platenumber";
+SV:AssignMedia("font", "platename", "SVUI Caps Font", 9, "OUTLINE");
+SV:AssignMedia("font", "platenumber", "SVUI Caps Font", 9, "OUTLINE");
+SV:AssignMedia("font", "plateaura", "SVUI Caps Font", 9, "OUTLINE");
+SV:AssignMedia("globalfont", "platename", "SVUI_Font_NamePlate");
+SV:AssignMedia("globalfont", "platenumber", "SVUI_Font_NamePlate_Number");
+SV:AssignMedia("globalfont", "plateaura", "SVUI_Font_NamePlate_Aura");
+SV:AssignMedia("template", "Nameplate", "SVUI_StyleTemplate_Nameplate");
 
 SV.defaults[Schema] = {
 	["themed"] = true,
@@ -123,23 +123,6 @@ SV.defaults[Schema] = {
 	}, 
 };
 
-local plateFonts = {
-	["platename"] = {
-		order = 1,
-		name = "Nameplate Names",
-		desc = "Used on nameplates for unit names."
-	},
-	["platenumber"] = {
-		order = 2,
-		name = "Nameplate Numbers",
-		desc = "Used on nameplates for health and level numbers."
-	},
-    ["plateaura"] = {
-		order = 3,
-		name = "Nameplate Auras",
-		desc = "Used on nameplates for aura texts."
-	},
-};
 
 local function UpdateFilterGroupOptions()
 	if not activeFilter or not SV.db['NamePlates']['filter'][activeFilter] then 
@@ -211,6 +194,24 @@ local function UpdateFilterGroupOptions()
 end 
 
 function MOD:LoadOptions()
+	local plateFonts = {
+		["platename"] = {
+			order = 1,
+			name = "Nameplate Names",
+			desc = "Used on nameplates for unit names."
+		},
+		["platenumber"] = {
+			order = 2,
+			name = "Nameplate Numbers",
+			desc = "Used on nameplates for health and level numbers."
+		},
+	    ["plateaura"] = {
+			order = 3,
+			name = "Nameplate Auras",
+			desc = "Used on nameplates for aura texts."
+		},
+	};
+	
 	SV:GenerateFontOptionGroup("NamePlate", 5, "Fonts used in name plates.", plateFonts)
 	
 	SV.Options.args[Schema] = {

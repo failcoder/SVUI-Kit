@@ -34,26 +34,25 @@ SV.defaults[Schema] = {
 	},
 }
 
-SV.mediadefaults.shared.font["craftdialog"]   = {file = "SVUI Default Font", size = 12,  outline = "OUTLINE"}
-SV.mediadefaults.shared.font["craftnumber"]   = {file = "SVUI Caps Font",    size = 12,  outline = "OUTLINE"}
-
-SV.GlobalFontList["SVUI_Font_Craft"]   = "craftdialog";
-SV.GlobalFontList["SVUI_Font_CraftNumber"] = "craftnumber";
-
-local craftFonts = {
-	["craftdialog"] = {
-		order = 1,
-		name = "Craft-O-Matic Dialog",
-		desc = "Font used for log window text."
-	},
-	["craftnumber"] = {
-		order = 2,
-		name = "Craft-O-Matic Numbers",
-		desc = "Font used for log window numbers."
-	},
-};
+SV:AssignMedia("font", "craftdialog", "SVUI Default Font", 12, "OUTLINE");
+SV:AssignMedia("font", "craftnumber", "SVUI Caps Font", 12, "OUTLINE");
+SV:AssignMedia("globalfont", "craftdialog", "SVUI_Font_Craft");
+SV:AssignMedia("globalfont", "craftnumber", "SVUI_Font_CraftNumber");
 
 function PLUGIN:LoadOptions()
+	local craftFonts = {
+		["craftdialog"] = {
+			order = 1,
+			name = "Craft-O-Matic Dialog",
+			desc = "Font used for log window text."
+		},
+		["craftnumber"] = {
+			order = 2,
+			name = "Craft-O-Matic Numbers",
+			desc = "Font used for log window numbers."
+		},
+	};
+	
 	SV:GenerateFontOptionGroup("Craft-O-Matic", 11, "Fonts used for the Craft-O-Matic log window.", craftFonts)
 
 	SV.Options.args[Schema] = {

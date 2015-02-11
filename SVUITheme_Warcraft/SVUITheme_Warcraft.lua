@@ -23,11 +23,42 @@ GET ADDON DATA
 ]]--
 local SV = _G["SVUI"];
 local LSM = _G.LibStub("LibSharedMedia-3.0");
---[[ 
-########################################################## 
-MISC
-##########################################################
-]]--
+
+LSM:Register("border", "SVUI Warcraft Basic Border", [[Interface\Glues\COMMON\TextPanel-Border]])
+LSM:Register("border", "SVUI Warcraft Dialog Border", [[Interface\DialogFrame\UI-DialogBox-Border]])
+LSM:Register("border", "SVUI Warcraft Fancy Border", [[Interface\AddOns\SVUITheme_Warcraft\assets\artwork\THEMED-BORDER]])
+
+SV:AssignMedia("font", "default", "Arial Narrow");
+SV:AssignMedia("font", "dialog", "Arial Narrow");
+SV:AssignMedia("font", "title", "Arial Narrow");
+SV:AssignMedia("font", "narrator", "Arial Narrow");
+SV:AssignMedia("font", "lootdialog", "Arial Narrow");
+SV:AssignMedia("font", "rolldialog", "Arial Narrow");
+SV:AssignMedia("font", "number", "Friz Quadrata TT");
+SV:AssignMedia("font", "number_big", "Friz Quadrata TT");
+SV:AssignMedia("font", "header", "Friz Quadrata TT");
+SV:AssignMedia("font", "aura", "Friz Quadrata TT");
+SV:AssignMedia("font", "data", "Friz Quadrata TT");
+SV:AssignMedia("font", "lootnumber", "Friz Quadrata TT");
+SV:AssignMedia("font", "rollnumber", "Friz Quadrata TT");
+SV:AssignMedia("font", "combat", "Morpheus");
+SV:AssignMedia("font", "zone", "Morpheus");
+SV:AssignMedia("font", "alert", "Skurri");
+SV:AssignMedia("font", "caps", "Skurri");
+
+--SV:AssignMedia("bordercolor", "default", 1, 1, 1, 1);
+SV:AssignMedia("template", "Default", "SVUITheme_Warcraft_Default");
+SV:AssignMedia("template", "Button", "SVUITheme_Warcraft_DockButton");
+SV:AssignMedia("template", "DockButton", "SVUITheme_Warcraft_DockButton");
+SV:AssignMedia("template", "Pattern", "SVUITheme_Warcraft_Default");
+SV:AssignMedia("template", "Premium", "SVUITheme_Warcraft_Default");
+SV:AssignMedia("template", "Model", "SVUITheme_Warcraft_Default");
+SV:AssignMedia("template", "Window", "SVUITheme_Warcraft_Default");
+SV:AssignMedia("template", "Window2", "SVUITheme_Warcraft_Default");
+SV:AssignMedia("template", "Minimap", "SVUITheme_Warcraft_Minimap");
+SV:AssignMedia("template", "ActionPanel", "SVUITheme_Warcraft_ActionPanel");
+SV:AssignMedia("template", "Container", "SVUITheme_Warcraft_Default");
+
 local _RefreshZoneText = function(self)
 	if(self.InfoTop:IsShown()) then
 		self.InfoTop:Hide();
@@ -97,78 +128,67 @@ local _SetDockStyleTheme = function(dock, isBottom)
 	return backdrop 
 end
 
-LSM:Register("border", "SVUI Warcraft Basic Border", [[Interface\Glues\COMMON\TextPanel-Border]])
-LSM:Register("border", "SVUI Warcraft Dialog Border", [[Interface\DialogFrame\UI-DialogBox-Border]])
-LSM:Register("border", "SVUI Warcraft Fancy Border", [[Interface\AddOns\SVUITheme_Warcraft\assets\artwork\THEMED-BORDER]])
+local _SetBorderTheme = function(self)
+	self.Border.Top:ModPoint("TOPLEFT", SV.Screen, "TOPLEFT", -1, 1)
+	self.Border.Top:ModPoint("TOPRIGHT", SV.Screen, "TOPRIGHT", 1, 1)
+	self.Border.Top:ModHeight(10)
+	self.Border.Top:SetBackdrop({
+		bgFile = [[Interface\BUTTONS\WHITE8X8]], 
+		edgeFile = [[Interface\BUTTONS\WHITE8X8]], 
+		tile = false, 
+		tileSize = 0, 
+		edgeSize = 1, 
+		insets = {left = 0, right = 0, top = 0, bottom = 0}
+	})
+	self.Border.Top:SetBackdropColor(0,0,0,0)
+	self.Border.Top:SetBackdropBorderColor(0,0,0,0)
+	self.Border.Top:SetFrameLevel(0)
+	self.Border.Top:SetFrameStrata('BACKGROUND')
+	self.Border.Top:SetScript("OnShow", function(self)
+		self:SetFrameLevel(0)
+		self:SetFrameStrata('BACKGROUND')
+	end)
 
-SV.mediadefaults.shared.font["default"]     	= {file = "Arial Narrow",  size = 12,  outline = "OUTLINE"};
-SV.mediadefaults.shared.font["dialog"]      	= {file = "Arial Narrow",  size = 10,  outline = "OUTLINE"};
-SV.mediadefaults.shared.font["title"]       	= {file = "Arial Narrow",  size = 16,  outline = "OUTLINE"}; 
-SV.mediadefaults.shared.font["number"]      	= {file = "Friz Quadrata TT",   size = 11,  outline = "OUTLINE"};
-SV.mediadefaults.shared.font["number_big"]    = {file = "Friz Quadrata TT",   size = 18,  outline = "OUTLINE"};
-SV.mediadefaults.shared.font["header"]      	= {file = "Friz Quadrata TT",   size = 18,  outline = "OUTLINE"};  
-SV.mediadefaults.shared.font["combat"]      	= {file = "Morpheus",   size = 64,  outline = "OUTLINE"}; 
-SV.mediadefaults.shared.font["alert"]       	= {file = "Skurri",    size = 20,  outline = "OUTLINE"};
-SV.mediadefaults.shared.font["zone"]      	= {file = "Morpheus",     size = 16,  outline = "OUTLINE"};
-SV.mediadefaults.shared.font["caps"]      	= {file = "Skurri",     size = 12,  outline = "OUTLINE"};
-SV.mediadefaults.shared.font["aura"]      	= {file = "Friz Quadrata TT",   size = 10,  outline = "OUTLINE"};
-SV.mediadefaults.shared.font["data"]      	= {file = "Friz Quadrata TT",   size = 11,  outline = "OUTLINE"};
-SV.mediadefaults.shared.font["narrator"]    	= {file = "Arial Narrow", size = 12,  outline = "OUTLINE"};
-SV.mediadefaults.shared.font["lootdialog"]    = {file = "Arial Narrow",  size = 14,  outline = "OUTLINE"};
-SV.mediadefaults.shared.font["lootnumber"]    = {file = "Friz Quadrata TT",   size = 11,  outline = "OUTLINE"};
-SV.mediadefaults.shared.font["rolldialog"]    = {file = "Arial Narrow",  size = 14,  outline = "OUTLINE"};
-SV.mediadefaults.shared.font["rollnumber"]    = {file = "Friz Quadrata TT",   size = 11,  outline = "OUTLINE"};
-
-SV.mediadefaults.dock.durabilityLabel = [[Interface\AddOns\SVUITheme_Warcraft\assets\artwork\Dock\LABEL-DUR]];
-SV.mediadefaults.dock.reputationLabel = [[Interface\AddOns\SVUITheme_Warcraft\assets\artwork\Dock\LABEL-REP]];
-SV.mediadefaults.dock.experienceLabel = [[Interface\AddOns\SVUITheme_Warcraft\assets\artwork\Dock\LABEL-XP]];
-SV.mediadefaults.dock.hearthIcon = [[Interface\AddOns\SVUITheme_Warcraft\assets\artwork\Dock\DOCK-ICON-HEARTH]];
-SV.mediadefaults.dock.raidToolIcon = [[Interface\AddOns\SVUITheme_Warcraft\assets\artwork\Dock\DOCK-ICON-RAIDTOOL]];
-SV.mediadefaults.dock.garrisonToolIcon = [[Interface\AddOns\SVUITheme_Warcraft\assets\artwork\Dock\DOCK-ICON-GARRISON]];
-SV.mediadefaults.dock.professionIconFile = [[Interface\AddOns\SVUITheme_Warcraft\assets\artwork\Dock\PROFESSIONS]];
-SV.mediadefaults.dock.professionIconCoords = {
-	[171] 	= {0,0.25,0,0.25}, 				-- PRO-ALCHEMY
-    [794] 	= {0.25,0.5,0,0.25,80451}, 		-- PRO-ARCHAELOGY
-    [164] 	= {0.5,0.75,0,0.25}, 			-- PRO-BLACKSMITH
-    [185] 	= {0.75,1,0,0.25,818,67097}, 	-- PRO-COOKING
-    [333] 	= {0,0.25,0.25,0.5,13262}, 		-- PRO-ENCHANTING
-    [202] 	= {0.25,0.5,0.25,0.5}, 			-- PRO-ENGINEERING
-    [129] 	= {0.5,0.75,0.25,0.5}, 			-- PRO-FIRSTAID
-    [773] 	= {0,0.25,0.5,0.75,51005}, 		-- PRO-INSCRIPTION
-    [755] 	= {0.25,0.5,0.5,0.75,31252},	-- PRO-JEWELCRAFTING
-    [165] 	= {0.5,0.75,0.5,0.75}, 			-- PRO-LEATHERWORKING
-    [186] 	= {0.75,1,0.5,0.75}, 			-- PRO-MINING
-    [197] 	= {0.25,0.5,0.75,1}, 			-- PRO-TAILORING
-}
-
---SV.mediadefaults.bordercolor["default"]   	= {1, 1, 1, 1};
-
-SV.API.Templates["Default"]     	= "SVUITheme_Warcraft_Default";
-SV.API.Templates["DockButton"]  	= "SVUITheme_Warcraft_DockButton";
-SV.API.Templates["Window"]  		= "SVUITheme_Warcraft_Window";
-SV.API.Templates["Window2"] 		= "SVUITheme_Warcraft_Window2";
-SV.API.Templates["UnitLarge"]   	= "SVUITheme_Warcraft_UnitLarge";
-SV.API.Templates["UnitSmall"]   	= "SVUITheme_Warcraft_UnitSmall";
-SV.API.Templates["Minimap"] 		= "SVUITheme_Warcraft_Minimap";
-SV.API.Templates["ActionPanel"] 	= "SVUITheme_Warcraft_ActionPanel";
+	self.Border.Bottom:ModPoint("BOTTOMLEFT", SV.Screen, "BOTTOMLEFT", -1, -1)
+	self.Border.Bottom:ModPoint("BOTTOMRIGHT", SV.Screen, "BOTTOMRIGHT", 1, -1)
+	self.Border.Bottom:ModHeight(10)
+	self.Border.Bottom:SetBackdrop({
+		bgFile = [[Interface\BUTTONS\WHITE8X8]], 
+		edgeFile = [[Interface\BUTTONS\WHITE8X8]], 
+		tile = false, 
+		tileSize = 0, 
+		edgeSize = 1, 
+		insets = {left = 0, right = 0, top = 0, bottom = 0}
+	})
+	self.Border.Bottom:SetBackdropColor(0,0,0,0)
+	self.Border.Bottom:SetBackdropBorderColor(0,0,0,0)
+	self.Border.Bottom:SetFrameLevel(0)
+	self.Border.Bottom:SetFrameStrata('BACKGROUND')
+	self.Border.Bottom:SetScript("OnShow", function(self)
+		self:SetFrameLevel(0)
+		self:SetFrameStrata('BACKGROUND')
+	end)
+end
 
 function SV:LoadTheme()
-	if(SV.defaults.UnitFrames) then
-		SV.mediadefaults.shared.font["unitprimary"]   	= {file = "Friz Quadrata TT",   size = 14,  outline = "OUTLINE"}
-		SV.mediadefaults.shared.font["unitsecondary"]   = {file = "Friz Quadrata TT",   size = 14,  outline = "OUTLINE"}
-		SV.mediadefaults.shared.font["unitaurabar"]   	= {file = "Skurri",  			size = 12,  outline = "OUTLINE"}
-		SV.mediadefaults.shared.font["unitaura"]  		= {file = "Arial Narrow",  		size = 12,  outline = "OUTLINE"}
+	if(self.defaults.UnitFrames) then
+		self:AssignMedia("font", "unitprimary", "Friz Quadrata TT", 14);
+		self:AssignMedia("font", "unitsecondary", "Friz Quadrata TT", 14);
+		self:AssignMedia("font", "unitaurabar", "Skurri", 12);
+		self:AssignMedia("font", "unitaura", "Arial Narrow", 12);
 	end
-	if(SV.defaults.Maps) then
-		SV.mediadefaults.shared.font["mapinfo"]  	= {file = "Friz Quadrata TT", 	size = 14,  outline = "OUTLINE"}
-		SV.mediadefaults.shared.font["mapcoords"]   = {file = "Friz Quadrata TT",   size = 14,  outline = "OUTLINE"}
-		SV.defaults.Maps.locationText = "SIMPLE";
-		SV.defaults.Maps.bordersize = 1;
-		SV.defaults.Maps.bordercolor = "dark";
+	if(self.defaults.Maps) then
+		self:AssignMedia("font", "mapinfo", "Friz Quadrata TT", 14);
+		self:AssignMedia("font", "mapcoords", "Friz Quadrata TT", 14);
+		self.defaults.Maps.locationText = "SIMPLE";
+		self.defaults.Maps.bordersize = 1;
+		self.defaults.Maps.bordercolor = "dark";
 	end
-	if(SV.Maps) then
-		SV.Maps.RefreshZoneText = _RefreshZoneText
+	if(self.Maps) then
+		self.Maps.RefreshZoneText = _RefreshZoneText
 	end
-	SV.Dock.SetButtonTheme = _SetDockButtonTheme
-	SV.Dock.SetThemeDockStyle = _SetDockStyleTheme
+
+	self.Dock.SetButtonTheme = _SetDockButtonTheme
+	self.Dock.SetThemeDockStyle = _SetDockStyleTheme
+	self.Dock.SetBorderTheme = _SetBorderTheme
 end

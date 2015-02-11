@@ -70,7 +70,7 @@ MOD.Templates = {
     ["UnitLarge"]   = "SVUI_CoreStyle_UnitLarge",
     ["UnitSmall"]   = "SVUI_CoreStyle_UnitSmall",
     ["Window"]      = "SVUI_CoreStyle_Window",
-    ["Window2"]  = "SVUI_CoreStyle_Window2",
+    ["Window2"]     = "SVUI_CoreStyle_Window2",
 };
 MOD.Methods = {};
 MOD.Concepts = {};
@@ -1209,7 +1209,7 @@ local function FrameTemplateUpdates()
     end
 end
 
-SV.Events:On("SHARED_MEDIA_UPDATED", FrameTemplateUpdates, "FrameTemplateUpdates");
+SV.Events:On("SHARED_MEDIA_UPDATED", FrameTemplateUpdates, true);
 --[[ 
 ########################################################## 
 CORE FUNCTIONS
@@ -1699,7 +1699,6 @@ MOD.Concepts["ScrollBar"] = function(self, adjustable, frame)
     end
 
     RemoveTextures(frame)
-
     frame:SetBackdrop(nil)
     self.Methods["Frame"](self, frame, (not adjustable), "Transparent", true)
     frame:SetBackdropBorderColor(0.2,0.2,0.2)

@@ -47,23 +47,23 @@ SV.defaults[Schema] = {
 	}, 
 };
 
-SV.mediadefaults.shared.font["tipdialog"]     	= {file = "SVUI Default Font",  size = 12,  outline = "NONE"}
-SV.mediadefaults.shared.font["tipheader"]     	= {file = "SVUI Default Font",  size = 14,  outline = "NONE"}
-
-local tipFonts = {
-	["tipdialog"] = {
-		order = 1,
-		name = "Tooltip Dialog",
-		desc = "Default font used in tooltips"
-	},
-    ["tipheader"] = {
-		order = 2,
-		name = "Tooltip Headers",
-		desc = "Font used in tooltips to display large names."
-	},
-};
+SV:AssignMedia("font", "tipdialog", "SVUI Default Font", 12, "OUTLINE");
+SV:AssignMedia("font", "tipheader", "SVUI Default Font", 14, "OUTLINE");
 
 function MOD:LoadOptions()
+	local tipFonts = {
+		["tipdialog"] = {
+			order = 1,
+			name = "Tooltip Dialog",
+			desc = "Default font used in tooltips"
+		},
+	    ["tipheader"] = {
+			order = 2,
+			name = "Tooltip Headers",
+			desc = "Font used in tooltips to display large names."
+		},
+	};
+	
 	SV:GenerateFontOptionGroup("Tooltip", 8, "Fonts used in tooltips.", tipFonts)
 	
 	SV.Options.args[Schema] = {

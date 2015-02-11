@@ -89,5 +89,5 @@ local BagsColorUpdate = function()
 	end 
 end 
 
-SV.Events:On("SHARED_MEDIA_UPDATED", BagsColorUpdate, "BagsColorUpdates")
+SV.Events:On("SHARED_MEDIA_UPDATED", BagsColorUpdate, true)
 Reports:NewReportType("Bags", StatEvents,	bags_events, nil, bags_click, bags_focus);
