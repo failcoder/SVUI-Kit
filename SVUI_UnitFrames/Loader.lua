@@ -17,37 +17,7 @@ local L = SV.L
 local MOD = SV:NewModule(...);
 local Schema = MOD.Schema;
 
-MOD.media = {}
-MOD.media.groupNumbers = {
-	[[Interface\AddOns\SVUI_UnitFrames\assets\GroupNumbers\1]],
-	[[Interface\AddOns\SVUI_UnitFrames\assets\GroupNumbers\2]],
-	[[Interface\AddOns\SVUI_UnitFrames\assets\GroupNumbers\3]],
-	[[Interface\AddOns\SVUI_UnitFrames\assets\GroupNumbers\4]],
-	[[Interface\AddOns\SVUI_UnitFrames\assets\GroupNumbers\5]],
-	[[Interface\AddOns\SVUI_UnitFrames\assets\GroupNumbers\6]],
-	[[Interface\AddOns\SVUI_UnitFrames\assets\GroupNumbers\7]],
-	[[Interface\AddOns\SVUI_UnitFrames\assets\GroupNumbers\8]],
-};
-MOD.media.lml = [[Interface\AddOns\SVUI_UnitFrames\assets\UNIT-LML]];
-MOD.media.roles = [[Interface\AddOns\SVUI_UnitFrames\assets\UNIT-ROLES]];
-MOD.media.buddy = [[Interface\AddOns\SVUI_UnitFrames\assets\UNIT-FRIENDSHIP]];
-MOD.media.playerstate = [[Interface\AddOns\SVUI_UnitFrames\assets\UNIT-PLAYER-STATE]];
-MOD.media.afflicted = [[Interface\AddOns\SVUI_UnitFrames\assets\UNIT-AFFLICTED]];
-
-SV.API.Templates["ActionPanel"] = "SVUI_StyleTemplate_ActionPanel";
-SV.GlobalFontList["SVUI_Font_Unit"] = "unitprimary";
-SV.GlobalFontList["SVUI_Font_Unit_Small"] = "unitsecondary";
-SV.GlobalFontList["SVUI_Font_UnitAura"] = "unitaura";
-SV.GlobalFontList["SVUI_Font_UnitAura_Bar"] = "unitaurabar";
-SV.GlobalFontList["SVUI_Font_UnitAura_Small"] = "unitaurasmall";
-
-SV.mediadefaults.shared.font["unitprimary"]   	= {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"}
-SV.mediadefaults.shared.font["unitsecondary"]   = {file = "SVUI Number Font",   size = 11,  outline = "OUTLINE"}
-SV.mediadefaults.shared.font["unitaurabar"]   	= {file = "SVUI Alert Font",  	size = 10,  outline = "OUTLINE"}
-SV.mediadefaults.shared.font["unitaura"]  		= {file = "SVUI Caps Font",  	size = 18,  outline = "OUTLINE"}
-SV.mediadefaults.shared.font["unitaurasmall"]   = {file = "SVUI Pixel Font",  	size = 8,   outline = "MONOCHROMEOUTLINE"}
-
-SV.mediadefaults["unitframes"] = {
+local unitframeColors = {
 	["health"]       = {0.3, 0.5, 0.3}, 
 	["power"]        = {
 		["MANA"]         = {0.41, 0.85, 1}, 
@@ -82,6 +52,36 @@ SV.mediadefaults["unitframes"] = {
 		["absorbs"]          = {1, 1, 0, 0.25}
 	}
 };
+
+MOD.media = {}
+MOD.media.groupNumbers = {
+	[[Interface\AddOns\SVUI_UnitFrames\assets\GroupNumbers\1]],
+	[[Interface\AddOns\SVUI_UnitFrames\assets\GroupNumbers\2]],
+	[[Interface\AddOns\SVUI_UnitFrames\assets\GroupNumbers\3]],
+	[[Interface\AddOns\SVUI_UnitFrames\assets\GroupNumbers\4]],
+	[[Interface\AddOns\SVUI_UnitFrames\assets\GroupNumbers\5]],
+	[[Interface\AddOns\SVUI_UnitFrames\assets\GroupNumbers\6]],
+	[[Interface\AddOns\SVUI_UnitFrames\assets\GroupNumbers\7]],
+	[[Interface\AddOns\SVUI_UnitFrames\assets\GroupNumbers\8]],
+};
+MOD.media.lml = [[Interface\AddOns\SVUI_UnitFrames\assets\UNIT-LML]];
+MOD.media.roles = [[Interface\AddOns\SVUI_UnitFrames\assets\UNIT-ROLES]];
+MOD.media.buddy = [[Interface\AddOns\SVUI_UnitFrames\assets\UNIT-FRIENDSHIP]];
+MOD.media.playerstate = [[Interface\AddOns\SVUI_UnitFrames\assets\UNIT-PLAYER-STATE]];
+MOD.media.afflicted = [[Interface\AddOns\SVUI_UnitFrames\assets\UNIT-AFFLICTED]];
+
+SV:AssignMedia("font", "unitprimary", "SVUI Number Font", 11, "OUTLINE");
+SV:AssignMedia("font", "unitsecondary", "SVUI Number Font", 11, "OUTLINE");
+SV:AssignMedia("font", "unitaura", "SVUI Alert Font", 10, "OUTLINE");
+SV:AssignMedia("font", "unitaurabar", "SVUI Caps Font", 18, "OUTLINE");
+SV:AssignMedia("font", "unitaurasmall", "SVUI Pixel Font", 8, "MONOCHROMEOUTLINE");
+SV:AssignMedia("globalfont", "unitprimary", "SVUI_Font_Unit");
+SV:AssignMedia("globalfont", "unitsecondary", "SVUI_Font_Unit_Small");
+SV:AssignMedia("globalfont", "unitaura", "SVUI_Font_UnitAura");
+SV:AssignMedia("globalfont", "unitaurabar", "SVUI_Font_UnitAura_Bar");
+SV:AssignMedia("globalfont", "unitaurasmall", "SVUI_Font_UnitAura_Small");
+SV:AssignMedia("template", "ActionPanel", "SVUI_StyleTemplate_ActionPanel");
+SV:AssignMedia("extended", "unitframes", unitframeColors);
 
 SV.defaults[Schema] = {
 	["themed"] = true,

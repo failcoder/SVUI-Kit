@@ -790,9 +790,9 @@ do
 		if(NPUsePointer and NPPointerMatch and plate.setting.unit == "target") then
 			NPGlow:SetBackdropBorderColor(r,g,b)
 		end
-		--frame.health.eliteborder.bottom:SetVertexColor(r,g,b)
-		--frame.health.eliteborder.right:SetVertexColor(r,g,b)
-		--frame.health.eliteborder.left:SetVertexColor(r,g,b)
+		--frame.health.elite.bottom:SetVertexColor(r,g,b)
+		--frame.health.elite.right:SetVertexColor(r,g,b)
+		--frame.health.elite.left:SetVertexColor(r,g,b)
 
 		if(not plate.setting.scaled and not plate.setting.tiny and frame.health:GetWidth() ~= (HBWidth * scale)) then
 			frame.health:SetSize(HBWidth * scale, HBHeight * scale)
@@ -810,15 +810,15 @@ do
 		if(plate.ref.level:IsShown()) then
 			local level = plate.ref.level:GetObjectType() == 'FontString' and tonumber(plate.ref.level:GetText()) or nil
 			local elite, boss, mylevel = plate.ref.eliteicon:IsShown(), plate.ref.skullicon:IsShown(), UnitLevel("player")
-			frame.health.eliteborder:Hide()
+			frame.health.elite:Hide()
 			if(boss) then
 				frame.level:SetText("??")
 				frame.level:SetTextColor(0.8, 0.05, 0)
-				frame.health.eliteborder:Show()
+				frame.health.elite:Show()
 			elseif(level) then
 				frame.level:SetText(level..(elite and "+" or ""))
 				frame.level:SetTextColor(plate.ref.level:GetTextColor())
-				if(elite) then frame.health.eliteborder:Show() end
+				if(elite) then frame.health.elite:Show() end
 			end
 		elseif(plate.ref.skullicon:IsShown() and frame.level:GetText() ~= '??') then
 			frame.level:SetText("??")
@@ -1216,11 +1216,13 @@ do
 		frame.health = CreateFrame("StatusBar", nil, frame)
 		frame.health:SetPoint('BOTTOM', frame, 'BOTTOM', 0, 5)
 		frame.health:SetFrameStrata("BACKGROUND")
-		frame.health:SetFrameLevel(0)
+		frame.health:SetFrameLevel(1)
+		frame.health:SetStyle("Frame", "Nameplate")
 		frame.health:SetScript("OnSizeChanged", HealthBarSizeChanged)
+		frame.health.elite = frame.health.Panel.EliteBorder
 		frame.health.sync = plate;
 
-		CreatePlateBorder(frame.health)
+		--CreatePlateBorder(frame.health)
 
 		frame.health.text = frame.health:CreateFontString(nil, 'OVERLAY')
 		frame.health.text:SetPoint("CENTER", frame.health, HBTextAnchor, HBXoffset, HBYoffset)

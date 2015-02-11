@@ -48,6 +48,30 @@ local oUF_SVUI = MOD.oUF
 assert(oUF_SVUI, "SVUI UnitFrames: unable to locate oUF.")
 --[[ 
 ########################################################## 
+LOCALIZED GLOBALS
+##########################################################
+]]--
+local CreateFrame           = _G.CreateFrame;
+local InCombatLockdown      = _G.InCombatLockdown;
+
+local UnitIsUnit            = _G.UnitIsUnit;
+local UnitReaction          = _G.UnitReaction;
+local UnitIsPlayer          = _G.UnitIsPlayer;
+local UnitClass             = _G.UnitClass;
+local UnitFrame_OnEnter     = _G.UnitFrame_OnEnter;
+local UnitFrame_OnLeave     = _G.UnitFrame_OnLeave;
+
+local RegisterStateDriver       = _G.RegisterStateDriver;
+local UnregisterStateDriver     = _G.UnregisterStateDriver;
+local RegisterAttributeDriver   = _G.RegisterAttributeDriver;
+local UnregisterAttributeDriver = _G.UnregisterAttributeDriver;
+
+local RegisterUnitWatch     = _G.RegisterUnitWatch;
+local UnregisterUnitWatch   = _G.UnregisterUnitWatch;
+local FACTION_BAR_COLORS    = _G.FACTION_BAR_COLORS;
+local RAID_CLASS_COLORS     = _G.RAID_CLASS_COLORS
+--[[ 
+########################################################## 
 LOCAL DATA
 ##########################################################
 ]]--
@@ -328,7 +352,7 @@ BuildTemplates["party"] = function(self, unit)
     if self.isChild then
         self.originalParent = self:GetParent()
     else
-        self.Power = MOD:CreatePowerBar(self, true)
+        self.Power = MOD:CreatePowerBar(self)
         self.Power.frequentUpdates = false
         MOD:CreatePortrait(self, true)
         self.Buffs = MOD:CreateBuffs(self, "party")
@@ -461,7 +485,7 @@ BuildTemplates["raid"] = function(self, unit)
     MOD:SetActionPanel(self, "raid")
     self.Health = MOD:CreateHealthBar(self, true)
     self.Health.frequentUpdates = false
-    self.Power = MOD:CreatePowerBar(self, true)
+    self.Power = MOD:CreatePowerBar(self)
     self.Power.frequentUpdates = false
     self.Buffs = MOD:CreateBuffs(self, "raid")
     self.Debuffs = MOD:CreateDebuffs(self, "raid")
@@ -1138,7 +1162,7 @@ function MOD:GetGroupFrame(token, layout)
     if(not self.Headers[token]) then 
         oUF_SVUI:RegisterStyle(layout, BuildTemplates[token])
         oUF_SVUI:SetActiveStyle(layout)
-        local groupFrame = CreateFrame("Frame", layout, SVUI_UnitFrameParent, "SecureHandlerStateTemplate")
+        local groupFrame = CreateFrame("Frame", layout, _G.SVUI_UnitFrameParent, "SecureHandlerStateTemplate")
         groupFrame.___groupkey = token;
         groupFrame.___groupcount = GroupCounts[token] or 1
         groupFrame.groups = {}
@@ -1157,7 +1181,7 @@ function MOD:SetCustomFrame(token, layout)
     if(not self.Headers[token]) then 
         oUF_SVUI:RegisterStyle(layout, BuildTemplates[token])
         oUF_SVUI:SetActiveStyle(layout)
-        local groupFrame = self:SetGroupHeader(SVUI_UnitFrameParent, nil, layout, layout, token)
+        local groupFrame = self:SetGroupHeader(_G.SVUI_UnitFrameParent, nil, layout, layout, token)
         self.Headers[token] = groupFrame
     end
     self.Headers[token]:Show()

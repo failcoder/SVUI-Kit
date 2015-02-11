@@ -69,11 +69,12 @@ lib.UnlockCallback = {};
 function lib:Trigger(eventName, ...)
     if(not eventName) then return end;
     if(self.Triggers[eventName]) then
-        for id, fn in pairs(self.Triggers[eventName]) do 
+        for i=1, #self.Triggers[eventName] do
+            local fn = self.Triggers[eventName][i];
             if(fn and type(fn) == "function") then
                 local _, catch = pcall(fn, ...)
                 if(catch) then
-                    CoreObject:HandleError("Librarian:Events:Trigger(" .. eventName .. "):", id, catch)
+                    CoreObject:HandleError("Librarian:Events:Trigger(" .. eventName .. "):", "callback", catch)
                 end
             end
         end
@@ -83,7 +84,7 @@ function lib:Trigger(eventName, ...)
             if(fn and type(fn) == "function") then
                 local _, catch = pcall(fn, ...)
                 if(catch) then
-                    CoreObject:HandleError("Librarian:Events:Trigger(" .. eventName .. "):", id, catch)
+                    CoreObject:HandleError("Librarian:Events:Trigger(" .. eventName .. "):", "callback", catch)
                 end
             end
         end
@@ -95,11 +96,12 @@ end
 function lib:TriggerOnce(eventName, ...)
     if(not eventName) then return end;
     if(self.Triggers[eventName]) then
-        for id, fn in pairs(self.Triggers[eventName]) do 
+        for i=1, #self.Triggers[eventName] do
+            local fn = self.Triggers[eventName][i];
             if(fn and type(fn) == "function") then
                 local _, catch = pcall(fn, ...)
                 if(catch) then
-                    CoreObject:HandleError("Librarian:Events:Trigger(" .. eventName .. "):", id, catch)
+                    CoreObject:HandleError("Librarian:Events:TriggerOnce(" .. eventName .. "):", "callback", catch)
                 end
             end
         end
@@ -112,7 +114,7 @@ function lib:TriggerOnce(eventName, ...)
             if(fn and type(fn) == "function") then
                 local _, catch = pcall(fn, ...)
                 if(catch) then
-                    CoreObject:HandleError("Librarian:Events:Trigger(" .. eventName .. "):", id, catch)
+                    CoreObject:HandleError("Librarian:Events:TriggerOnce(" .. eventName .. "):", "callback", catch)
                 end
             end
         end
@@ -123,14 +125,14 @@ end
 
 --[[ REGISTRATION ]]--
 
-function lib:On(event, callback, id)
+function lib:On(event, callback, always)
     if((not event) or (not callback)) then return end; 
     if(type(callback) == "function") then
-        if(id and type(id) == "string") then
+        if(always) then
             if(not self.Triggers[event]) then
                 self.Triggers[event] = {}
             end
-            self.Triggers[event][id] = callback
+            self.Triggers[event][#self.Triggers[event] + 1] = callback
         else
             if(not self.FireOnce[event]) then
                 self.FireOnce[event] = {}
@@ -140,17 +142,15 @@ function lib:On(event, callback, id)
     end 
 end
 
-function lib:OnLock(id, callback)
-    if(not id) then return end; 
+function lib:OnLock(callback)
     if(callback and type(callback) == "function") then
-        self.LockCallback[id] = callback
+        self.LockCallback[#self.LockCallback + 1] = callback
     end 
 end
 
-function lib:OnUnlock(id, callback)
-    if(not id) then return end; 
+function lib:OnUnlock(callback)
     if(callback and type(callback) == "function") then
-        self.UnlockCallback[id] = callback
+        self.UnlockCallback[#self.UnlockCallback + 1] = callback
     end 
 end
 
@@ -159,20 +159,22 @@ end
 lib.EventManager = CreateFrame("Frame", nil)
 local Library_OnEvent = function(self, event, arg, ...)
     if(event == 'PLAYER_REGEN_DISABLED') then
-        for id, fn in pairs(lib.LockCallback) do 
+        for i=1, #lib.LockCallback do
+            local fn = lib.LockCallback[i]
             if(fn and type(fn) == "function") then
                 local _, catch = pcall(fn, ...)
                 if(catch) then
-                    CoreObject:HandleError("Librarian:Events:Trigger(" .. eventName .. "):", id, catch)
+                    CoreObject:HandleError("Librarian:Events:OnLock(" .. eventName .. "):", "callback", catch)
                 end
             end
         end
     elseif(event == "PLAYER_REGEN_ENABLED") then
-        for id, fn in pairs(lib.UnlockCallback) do 
+        for i=1, #lib.UnlockCallback do
+            local fn = lib.UnlockCallback[i] 
             if(fn and type(fn) == "function") then
                 local _, catch = pcall(fn, ...)
                 if(catch) then
-                    CoreObject:HandleError("Librarian:Events:Trigger(" .. eventName .. "):", id, catch)
+                    CoreObject:HandleError("Librarian:Events:OnUnlock(" .. eventName .. "):", "callback", catch)
                 end
             end
         end

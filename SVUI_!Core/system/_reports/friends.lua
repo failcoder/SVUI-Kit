@@ -370,6 +370,6 @@ local FriendsColorUpdate = function()
 	end 
 end 
 
-SV.Events:On("SHARED_MEDIA_UPDATED", FriendsColorUpdate, "FriendsColorUpdates")
+SV.Events:On("SHARED_MEDIA_UPDATED", FriendsColorUpdate, true)
 
 Reports:NewReportType('Friends', StatEvents, OnEvent, nil, Click, OnEnter)
