@@ -120,7 +120,7 @@ local NPComboColor={
 
 local NPUsePointer = true;
 local NPPointerMatch = false;
-local NPPointerColor = {0.7,0,1};
+local NPPointerColor = {0.9, 1, 0.9, 0.5};
 
 local NPUseThreat = false;
 local NPThreatGS = 1;
@@ -787,12 +787,13 @@ do
 		end
 
 		frame.health:SetStatusBarColor(r,g,b)
-		if(NPUsePointer and NPPointerMatch and plate.setting.unit == "target") then
-			NPGlow:SetBackdropBorderColor(r,g,b)
+		if(NPUsePointer and (NPPointerMatch == true) and plate.setting.unit == "target") then
+			NPGlow:SetBackdropColor(r,g,b,0.5)
+			NPGlow:SetBackdropBorderColor(r,g,b,0.5)
 		end
-		--frame.health.eliteborder.bottom:SetVertexColor(r,g,b)
-		--frame.health.eliteborder.right:SetVertexColor(r,g,b)
-		--frame.health.eliteborder.left:SetVertexColor(r,g,b)
+		--frame.health.elite.bottom:SetVertexColor(r,g,b)
+		--frame.health.elite.right:SetVertexColor(r,g,b)
+		--frame.health.elite.left:SetVertexColor(r,g,b)
 
 		if(not plate.setting.scaled and not plate.setting.tiny and frame.health:GetWidth() ~= (HBWidth * scale)) then
 			frame.health:SetSize(HBWidth * scale, HBHeight * scale)
@@ -806,21 +807,29 @@ do
 		if(region and region:GetObjectType() == 'FontString') then
 			plate.ref.level = region
 		end
+		frame.health.elitetop:Hide()
+		frame.health.elitebottom:Hide()
 
 		if(plate.ref.level:IsShown()) then
-			local level = plate.ref.level:GetObjectType() == 'FontString' and tonumber(plate.ref.level:GetText()) or nil
+			local level = plate.ref.level:GetObjectType() == 'FontString' and tonumber(plate.ref.level:GetText()) or "";
 			local elite, boss, mylevel = plate.ref.eliteicon:IsShown(), plate.ref.skullicon:IsShown(), UnitLevel("player")
-			frame.health.eliteborder:Hide()
 			if(boss) then
+				frame.health.elitetop:Show()
+				frame.health.elitebottom:Show()
 				frame.level:SetText("??")
 				frame.level:SetTextColor(0.8, 0.05, 0)
-				frame.health.eliteborder:Show()
-			elseif(level) then
-				frame.level:SetText(level..(elite and "+" or ""))
+			elseif(elite) then
+				frame.health.elitetop:Show()
+				frame.health.elitebottom:Show()
+				frame.level:SetText(level.."+")
 				frame.level:SetTextColor(plate.ref.level:GetTextColor())
-				if(elite) then frame.health.eliteborder:Show() end
+			else
+				frame.level:SetText(level)
+				frame.level:SetTextColor(plate.ref.level:GetTextColor())
 			end
-		elseif(plate.ref.skullicon:IsShown() and frame.level:GetText() ~= '??') then
+		elseif(plate.ref.skullicon:IsShown()) then
+			frame.health.elitetop:Show()
+			frame.health.elitebottom:Show()
 			frame.level:SetText("??")
 			frame.level:SetTextColor(0.8, 0.05, 0)
 		end
@@ -872,7 +881,7 @@ do
 			SVUI_PLATE.highlight:Hide()
 			if(NPUsePointer) then
 				NPGlow:SetParent(SVUI_PLATE)
-				NPGlow:WrapPoints(SVUI_PLATE.health,2,2)
+				NPGlow:WrapPoints(SVUI_PLATE.health,4,4)
 				NPGlow:SetFrameLevel(0)
 				NPGlow:SetFrameStrata("BACKGROUND")
 				NPGlow:Show()
@@ -1066,6 +1075,7 @@ do
 		end
 
 		if(not NPPointerMatch) then
+			NPGlow:SetBackdropColor(unpack(NPPointerColor))
 			NPGlow:SetBackdropBorderColor(unpack(NPPointerColor))
 		end
 	end
@@ -1216,21 +1226,24 @@ do
 		frame.health = CreateFrame("StatusBar", nil, frame)
 		frame.health:SetPoint('BOTTOM', frame, 'BOTTOM', 0, 5)
 		frame.health:SetFrameStrata("BACKGROUND")
-		frame.health:SetFrameLevel(0)
+		frame.health:SetFrameLevel(1)
+		frame.health:SetStyle("Frame", "Nameplate")
 		frame.health:SetScript("OnSizeChanged", HealthBarSizeChanged)
+		frame.health.elitetop = frame.health.Panel.Top
+		frame.health.elitebottom = frame.health.Panel.Bottom
 		frame.health.sync = plate;
 
-		CreatePlateBorder(frame.health)
+		--CreatePlateBorder(frame.health)
 
 		frame.health.text = frame.health:CreateFontString(nil, 'OVERLAY')
 		frame.health.text:SetPoint("CENTER", frame.health, HBTextAnchor, HBXoffset, HBYoffset)
 		frame.health.text:SetJustifyH("CENTER")
 
-		frame.level = frame:CreateFontString(nil, 'OVERLAY')
+		frame.level = frame.health:CreateFontString(nil, 'OVERLAY')
 		frame.level:SetPoint("BOTTOMRIGHT", frame.health, "TOPRIGHT", 3, 3)
 		frame.level:SetJustifyH("RIGHT")
 
-		frame.name = frame:CreateFontString(nil, 'OVERLAY')
+		frame.name = frame.health:CreateFontString(nil, 'OVERLAY')
 		frame.name:SetJustifyH("LEFT")
 
 		frame.eliteicon = frame:CreateTexture(nil, "OVERLAY")
@@ -1523,7 +1536,7 @@ function MOD:UpdateLocals()
 
 	NPUsePointer = db.pointer.enable;
 	NPPointerMatch = db.pointer.colorMatchHealthBar;
-	NPPointerColor = {db.pointer.color[1], db.pointer.color[2], db.pointer.color[3]};
+	NPPointerColor = {db.pointer.color[1], db.pointer.color[2], db.pointer.color[3], 0.5};
 
 	local tc = db.threat
 	NPUseThreat = tc.enable;
@@ -1587,6 +1600,9 @@ function MOD:ReLoad()
 end 
 
 function MOD:Load()
+	--SV.SpecialFX:Register("platepoint", [[Spells\Eastern_plaguelands_beam_effect.m2]], -12, 24, 12, -24, 1, 0, 0)
+	--SV.SpecialFX:Register("platepoint", [[Spells\Shadow_precast_uber_hand.m2]],  -12, 22, 12, -22, 0.23, -0.1, 0.1)
+	--SV.SpecialFX:SetFXFrame(NPGlow, "platepoint")
 	self:UpdateLocals()
 	self:RegisterEvent("PLAYER_ENTERING_WORLD")
 	self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")

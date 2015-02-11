@@ -27,34 +27,33 @@ SV.defaults[Schema] = {
 	["itemBarDirection"] = 'VERTICAL', 
 };
 
-SV.mediadefaults.shared.font["questdialog"]   	= {file = "SVUI Default Font", size = 12,  outline = "OUTLINE"}
-SV.mediadefaults.shared.font["questheader"]   	= {file = "SVUI Caps Font",    size = 16,  outline = "OUTLINE"}
-SV.mediadefaults.shared.font["questnumber"]   	= {file = "SVUI Number Font",  size = 11,  outline = "OUTLINE"}
-
-SV.GlobalFontList["SVUI_Font_Quest"] = "questdialog";
-SV.GlobalFontList["SVUI_Font_Quest_Header"] = "questheader";
-SV.GlobalFontList["SVUI_Font_Quest_Number"] = "questnumber";
-
-local questFonts = {
-	["questdialog"] = {
-		order = 1,
-		name = "Quest Tracker Dialog",
-		desc = "Default font used in the quest tracker"
-	},
-	["questheader"] = {
-		order = 2,
-		name = "Quest Tracker Titles",
-		desc = "Font used in the quest tracker for listing headers."
-	}, 
-	["questnumber"] = {
-		order = 3,
-		name = "Quest Tracker Numbers",
-		desc = "Font used in the quest tracker to display numeric values."
-	},
-};
+SV:AssignMedia("font", "questdialog", "SVUI Default Font", 12, "OUTLINE");
+SV:AssignMedia("font", "questheader", "SVUI Caps Font", 16, "OUTLINE");
+SV:AssignMedia("font", "questnumber", "SVUI Number Font", 11, "OUTLINE");
+SV:AssignMedia("globalfont", "questdialog", "SVUI_Font_Quest");
+SV:AssignMedia("globalfont", "questheader", "SVUI_Font_Quest_Header");
+SV:AssignMedia("globalfont", "questnumber", "SVUI_Font_Quest_Number");
 
 
 function MOD:LoadOptions()
+	local questFonts = {
+		["questdialog"] = {
+			order = 1,
+			name = "Quest Tracker Dialog",
+			desc = "Default font used in the quest tracker"
+		},
+		["questheader"] = {
+			order = 2,
+			name = "Quest Tracker Titles",
+			desc = "Font used in the quest tracker for listing headers."
+		}, 
+		["questnumber"] = {
+			order = 3,
+			name = "Quest Tracker Numbers",
+			desc = "Font used in the quest tracker to display numeric values."
+		},
+	};
+	
 	SV:GenerateFontOptionGroup("QuestTracker", 6, "Fonts used in the SVUI Quest Tracker.", questFonts)
 	
 	SV.Options.args[Schema] = {

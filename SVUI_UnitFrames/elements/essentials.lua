@@ -668,18 +668,14 @@ local PostUpdateAltPower = function(self, min, current, max)
 	end 
 end
 
-function MOD:CreatePowerBar(frame, bg)
+function MOD:CreatePowerBar(frame)
 	local power = CreateFrame("StatusBar", nil, frame)
 	power:SetStatusBarTexture(SV.media.statusbar.default)
 	power:SetStyle("Frame", "Bar")
 	power:SetFrameStrata("LOW")
 	power:SetFrameLevel(6)
-	if bg then 
-		power.bg = power:CreateTexture(nil, "BORDER")
-		power.bg:SetAllPoints()
-		power.bg:SetTexture(SV.BaseTexture)
-		power.bg.multiplier = 0.2 
-	end 
+	power.bg = power.Panel.Skin
+	power.bg.multiplier = 0.2 
 	power.colorDisconnected = false;
 	power.colorTapping = false;
 	power.PostUpdate = MOD.PostUpdatePower;

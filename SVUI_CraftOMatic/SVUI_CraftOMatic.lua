@@ -509,7 +509,7 @@ local function ResizeCraftingDock()
 	SVUI_ModeButton1:SetSize(BUTTON_SIZE,BUTTON_SIZE);
 end
 
-SV.Events:On("DOCKS_UPDATED", "ResizeCraftingDock", ResizeCraftingDock);
+SV.Events:On("DOCKS_UPDATED", ResizeCraftingDock, true);
 --[[ 
 ########################################################## 
 BUILD FUNCTION

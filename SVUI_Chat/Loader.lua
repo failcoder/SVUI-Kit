@@ -18,10 +18,10 @@ local name, obj = ...
 local MOD = SV:NewModule(name, obj, nil, "SVUI_Private_ChatCache");
 local Schema = MOD.Schema;
 
-SV.mediadefaults.shared.font["chatdialog"]  = {file = "SVUI Default Font", size = 12,  outline = "OUTLINE"}
-SV.mediadefaults.shared.font["chattab"]     = {file = "SVUI Caps Font",    size = 12,  outline = "OUTLINE"}
-SV.GlobalFontList["SVUI_Font_Chat"]   		= "chatdialog";
-SV.GlobalFontList["SVUI_Font_ChatTab"] 		= "chattab";
+SV:AssignMedia("font", "chatdialog", "SVUI Default Font", 12, "OUTLINE");
+SV:AssignMedia("font", "chattab", "SVUI Caps Font", 12, "OUTLINE");
+SV:AssignMedia("globalfont", "chatdialog", "SVUI_Font_Chat");
+SV:AssignMedia("globalfont", "chattab", "SVUI_Font_ChatTab");
 
 MOD.media = {}
 MOD.media.whisperSound = [[Interface\AddOns\SVUI_Chat\assets\whisper.mp3]];
@@ -55,20 +55,20 @@ SV.defaults[Schema] = {
 	["bubbles"] = true,
 };
 
-local chatFonts = {
-	["chatdialog"] = {
-		order = 1,
-		name = "Chat",
-		desc = "Font used for chat text."
-	},
-	["chattab"] = {
-		order = 2,
-		name = "Chat Tabs",
-		desc = "Font used for chat tab labels."
-	},
-};
-
 function MOD:LoadOptions()
+	local chatFonts = {
+		["chatdialog"] = {
+			order = 1,
+			name = "Chat",
+			desc = "Font used for chat text."
+		},
+		["chattab"] = {
+			order = 2,
+			name = "Chat Tabs",
+			desc = "Font used for chat tab labels."
+		},
+	};
+	
 	SV:GenerateFontOptionGroup("Chat", 5, "Fonts used for the chat frame.", chatFonts)
 	
 	SV.Options.args[Schema] = {

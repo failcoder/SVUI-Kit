@@ -145,6 +145,6 @@ local CTAColorUpdate = function()
 		CTA_OnEvent(currentObject)
 	end 
 end 
-SV.Events:On("SHARED_MEDIA_UPDATED", CTAColorUpdate, "CTAColorUpdates")
+SV.Events:On("SHARED_MEDIA_UPDATED", CTAColorUpdate, true)
 
 Reports:NewReportType('Call to Arms', StatEvents, CTA_OnEvent, nil, CTA_OnClick, CTA_OnEnter)

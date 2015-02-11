@@ -425,15 +425,13 @@ function MOD:Load()
 	scrollBar:SetHeight(scrollFrame:GetHeight());
 	scrollBar:SetWidth(18);
 	scrollBar:SetPoint("TOPRIGHT", self.Docklet, "TOPRIGHT", -4, -2);
-	scrollBar:SetBackdrop({bgFile = bgTex, edgeFile = bdTex, edgeSize = 4, insets = {left = 3, right = 3, top = 3, bottom = 3}});
 	scrollBar:SetFrameLevel(6)
-	scrollBar:SetThumbTexture("Interface\\Buttons\\UI-ScrollBar-Knob");
 	scrollBar:SetOrientation("VERTICAL");
 	scrollBar:SetValueStep(5);
 	scrollBar:SetMinMaxValues(1, 420);
 	scrollBar:SetValue(1);
 	scrollBar:SetScript("OnValueChanged", function(self, argValue)
-		SVUI_QuestTrackerScrollFrame:SetVerticalScroll(argValue)
+		_G.SVUI_QuestTrackerScrollFrame:SetVerticalScroll(argValue)
 	end)
 	SV.API:Set("ScrollBar", scrollBar)
 
@@ -484,5 +482,5 @@ function MOD:Load()
 
 	self.Headers["Popups"]:Refresh()
 
-	SV.Events:On("DOCK_RIGHT_EXPANDED", ExpandQuestTracker, "ExpandQuestTracker");
+	SV.Events:On("DOCK_RIGHT_EXPANDED", ExpandQuestTracker, true);
 end

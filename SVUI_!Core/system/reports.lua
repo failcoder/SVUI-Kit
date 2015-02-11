@@ -686,7 +686,7 @@ function MOD:Load()
 	self:UpdateAllReports()
 	self:RegisterEvent("PLAYER_ENTERING_WORLD", "UpdateAllReports");
 
-	SV.Events:On("DOCKS_UPDATED", MOD.UpdateAllReports, "RefreshReports");
+	SV.Events:On("DOCKS_UPDATED", MOD.UpdateAllReports, true);
 
 	local slashDesc = "Toggle PvP stats on docks";
 	SV:AddSlashCommand("bg", slashDesc, SlashPvPStats);

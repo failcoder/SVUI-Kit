@@ -446,5 +446,5 @@ function MOD:InitializeScenarios()
 	self:RegisterEvent("SCENARIO_CRITERIA_UPDATE", self.UpdateScenarioObjective);
 	self:RegisterEvent("SCENARIO_COMPLETED", self.UpdateScenarioObjective);
 
-	SV.Events:On("QUEST_UPVALUES_UPDATED", UpdateScenarioLocals, "UpdateScenarioLocals");
+	SV.Events:On("QUEST_UPVALUES_UPDATED", UpdateScenarioLocals, true);
 end
