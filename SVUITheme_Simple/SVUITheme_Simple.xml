@@ -18,6 +18,27 @@
         </Backdrop>
     </Frame>
 
+    <Frame name="SVUITheme_Simple_Button" virtual="true">
+        <Attributes>
+            <Attribute name="panelID" type="string" value="button" />
+            <Attribute name="panelPadding" type="number" value="1" />
+            <Attribute name="panelColor" type="string" value="button" />
+            <Attribute name="panelGradient" type="boolean" value="false" />
+            <Attribute name="panelTexUpdate" type="boolean" value="false" />
+            <Attribute name="panelSkipUpdate" type="boolean" value="false" />
+        </Attributes>
+        <Backdrop bgFile="Interface\AddOns\SVUI_!Core\assets\backgrounds\DEFAULT" edgeFile="Interface\BUTTONS\WHITE8X8" tile="false">
+            <EdgeSize val="1" />
+            <TileSize val="0" />
+            <BackgroundInsets left="0" right="0" top="0" bottom="0" />
+            <Color r="0" g="0" b="0" a="0.5" />
+            <BorderColor r="0" g="0" b="0" a="1" />
+        </Backdrop>
+        <Frames>
+            <Frame parentKey="Shadow" inherits="SVUI_ShadowTemplate" />
+        </Frames>
+    </Frame>
+
     <Frame name="SVUITheme_Simple_DockButton" virtual="true">
         <Attributes>
             <Attribute name="panelID" type="string" value="dockbutton" />

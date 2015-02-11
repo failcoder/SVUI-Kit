@@ -1056,11 +1056,11 @@ do
 			chat = FCF_GetCurrentChatFrame();
 		end
 		if ( not size ) then
-			size = self.value or SV.media.font.chatdialog.size;
+			size = self.value or SV.media.shared.font.chatdialog.size;
 		end
-		SV.media.font.chatdialog.size = size;
+		SV.media.shared.font.chatdialog.size = size;
 		SV.Events:Trigger("FONT_GROUP_UPDATED", "chatdialog");
-		if(SV.media.font.chatdialog.outline ~= 'NONE' )then
+		if(SV.media.shared.font.chatdialog.outline ~= 'NONE' )then
 			chat:SetShadowColor(0, 0, 0, 0)
 			chat:SetShadowOffset(0, 0)
 		else

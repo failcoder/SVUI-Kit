@@ -18,10 +18,10 @@ local name, obj = ...
 local MOD = SV:NewModule(name, obj, nil, "SVUI_Private_ChatCache");
 local Schema = MOD.Schema;
 
-SV.mediadefaults.shared.font["chatdialog"]   = {file = "SVUI Default Font", size = 12,  outline = "OUTLINE"}
-SV.mediadefaults.shared.font["chattab"]     	= {file = "SVUI Caps Font",    size = 12,  outline = "OUTLINE"}
-SV.GlobalFontList["SVUI_Font_Chat"]   = "chatdialog";
-SV.GlobalFontList["SVUI_Font_ChatTab"] = "chattab";
+SV.mediadefaults.shared.font["chatdialog"]  = {file = "SVUI Default Font", size = 12,  outline = "OUTLINE"}
+SV.mediadefaults.shared.font["chattab"]     = {file = "SVUI Caps Font",    size = 12,  outline = "OUTLINE"}
+SV.GlobalFontList["SVUI_Font_Chat"]   		= "chatdialog";
+SV.GlobalFontList["SVUI_Font_ChatTab"] 		= "chattab";
 
 MOD.media = {}
 MOD.media.whisperSound = [[Interface\AddOns\SVUI_Chat\assets\whisper.mp3]];
@@ -166,7 +166,7 @@ function MOD:LoadOptions()
 						type = "toggle",
 						name = L['Chat Bubbles'],
 						desc = L['Style the blizzard chat bubbles.'],
-						get = function(j)return SV.db[Schema][a[#a]] end,
+						get = function(a)return SV.db[Schema][a[#a]] end,
 						set = function(a,b) MOD:ChangeDBVar(b,a[#a]);SV:StaticPopup_Show("RL_CLIENT")end
 					},
 				}

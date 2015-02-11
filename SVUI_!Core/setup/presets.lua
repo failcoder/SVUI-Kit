@@ -1139,7 +1139,12 @@ function SV.Setup:CopyPreset(category, theme)
 		theme = theme or "default"
 		local saved = PRESET_DATA[category]["link"]
 		local preset =  PRESET_DATA[category][theme]
-		local data = SV.db[saved]
+		local data
+		if(saved == "media") then
+			data = SV.media
+		else
+			data = SV.db[saved]
+		end
 	
 		if(data) then
 	    	_copyPresets(data, preset)

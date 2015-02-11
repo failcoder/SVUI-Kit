@@ -1190,7 +1190,6 @@ function MOD:InitializeQuests()
 	self.Headers["Quests"]:Refresh()
 
 	WorldMapFrame:HookScript("OnHide", _hook_WorldMapFrameOnHide)
-
 	ItemBar:Show()
 
 	SV.Events:On("QUEST_UPVALUES_UPDATED", UpdateQuestLocals, "UpdateQuestLocals");

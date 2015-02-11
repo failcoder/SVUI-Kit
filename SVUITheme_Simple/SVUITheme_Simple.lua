@@ -127,11 +127,16 @@ SV.mediadefaults.shared.background["button"]   	= {file = "SVUI Backdrop", size 
 SV.mediadefaults.shared.background["unitlarge"]   = {file = "SVUI Backdrop", size = 0, tiled = false};
 SV.mediadefaults.shared.background["unitsmall"]   = {file = "SVUI Backdrop", size = 0, tiled = false};
 
+SV.mediadefaults["button"]["round"] = [[Interface\AddOns\SVUITheme_Simple\ROUND-SIMPLE]]
+
+SV.mediadefaults.color["button"]   	= {0, 0, 0, 0.5};
+
 SV.API.Templates["Default"]     	= "SVUITheme_Simple_Default";
---SV.API.Templates["Button"]  		= "SVUITheme_Simple_DockButton";
+SV.API.Templates["Button"]  		= "SVUITheme_Simple_Button";
 SV.API.Templates["DockButton"]  	= "SVUITheme_Simple_DockButton";
 SV.API.Templates["Pattern"]   		= "SVUITheme_Simple_Default";
 SV.API.Templates["Premium"]   		= "SVUITheme_Simple_Default";
+SV.API.Templates["Model"]   		= "SVUITheme_Simple_Default";
 SV.API.Templates["Window"]  		= "SVUITheme_Simple_Default";
 SV.API.Templates["Window2"] 		= "SVUITheme_Simple_Default";
 SV.API.Templates["Minimap"] 		= "SVUITheme_Simple_Minimap";

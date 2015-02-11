@@ -642,10 +642,10 @@ function SV:GenerateFontOptionGroup(groupName, groupCount, groupOverview, groupL
             guiInline = true,
             name = info.name,
             get = function(key)
-                return self.media.font[template][key[#key]]
+                return self.media.shared.font[template][key[#key]]
             end,
             set = function(key,value)
-                self.media.font[template][key[#key]] = value;
+                self.media.shared.font[template][key[#key]] = value;
                 if(groupCount == 1) then
                     self:StaticPopup_Show("RL_CLIENT")
                 else

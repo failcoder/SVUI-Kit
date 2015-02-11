@@ -236,7 +236,8 @@ do
 		["checkbox"] 	= [[Interface\AddOns\SVUI_!Core\assets\borders\DEFAULT]],
 	}
 	SV.mediadefaults["color"] = {
-		["default"]     = {0.2, 0.2, 0.2, 1}, 
+		["default"]     = {0.2, 0.2, 0.2, 1},
+		["button"]      = {0.2, 0.2, 0.2, 1},
 		["special"]     = {.37, .32, .29, 1},
 		["specialdark"] = {.23, .22, .21, 1},
 		["unique"]      = {0.32, 0.258, 0.21, 1},
@@ -400,6 +401,20 @@ do
 		        bottom = 0, 
 		    },
 		},
+		["buttonred"] = {
+			bgFile = [[Interface\AddOns\SVUI_!Core\assets\backgrounds\BUTTON]], 
+		    tile = false, 
+		    tileSize = 0, 
+		    edgeFile = [[Interface\AddOns\SVUI_!Core\assets\borders\DEFAULT]],
+		    edgeSize = 1,
+		    insets = 
+		    {
+		        left = 0, 
+		        right = 0, 
+		        top = 0, 
+		        bottom = 0, 
+		    },
+		},
 		["aura"] = {
 			bgFile = [[Interface\BUTTONS\WHITE8X8]], 
 		    tile = false, 
@@ -512,7 +527,7 @@ if(GetLocale() ~= "enUS") then
 	SV.DialogFontDefault = "SVUI Default Font";
 end
 SV.SplashImage 	= [[Interface\AddOns\SVUI_!Core\assets\textures\SPLASH]];
-SV.BaseTexture 	= [[Interface\AddOns\SVUI_!Core\assets\backgrounds\DEFAULT]];
+SV.BaseTexture 	= [[Interface\AddOns\SVUI_!Core\assets\backgrounds\TRANSPARENT]];
 SV.NoTexture 	= [[Interface\AddOns\SVUI_!Core\assets\textures\EMPTY]];
 --[[ 
 ########################################################## 

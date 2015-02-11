@@ -322,6 +322,13 @@ local function GetProfileKeys()
     else
         PROFILE_KEY = ("%s - %s"):format(playerName, SOURCE_KEY)
     end
+
+    if not GLOBAL_SV.profiles then GLOBAL_SV.profiles = {} end
+    if not MEDIA_SV.profiles then MEDIA_SV.profiles = {} end
+    if not GLOBAL_SV.profiles[PROFILE_KEY] then GLOBAL_SV.profiles[PROFILE_KEY] = {} end
+    if not MEDIA_SV.profiles[PROFILE_KEY] then MEDIA_SV.profiles[PROFILE_KEY] = {} end
+    if not MEDIA_SV.profiles[PROFILE_KEY].Theme then MEDIA_SV.profiles[PROFILE_KEY].Theme = {} end
+    if not MEDIA_SV.profiles[PROFILE_KEY].Theme[PROFILE_THEME] then MEDIA_SV.profiles[PROFILE_KEY].Theme[PROFILE_THEME] = {} end
 end
 
 local function LiveProfileChange()
@@ -329,9 +336,8 @@ local function LiveProfileChange()
     GetProfileKeys()
     if(PRIVATE_SV.SAFEDATA and PRIVATE_SV.SAFEDATA.DUALSPEC) then 
         lib.EventManager:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
-        if(not GLOBAL_SV.profiles[PROFILE_KEY]) then
-            GLOBAL_SV.profiles[PROFILE_KEY] = {}
-        end
+        if not GLOBAL_SV.profiles[PROFILE_KEY] then GLOBAL_SV.profiles[PROFILE_KEY] = {} end
+        if not MEDIA_SV.profiles[PROFILE_KEY] then MEDIA_SV.profiles[PROFILE_KEY] = {} end
         if(LastKey ~= SOURCE_KEY) then
             --construct core dataset
             local db           = setmetatable({}, meta_transdata)
@@ -339,6 +345,12 @@ local function LiveProfileChange()
             db.defaults        = CoreObject.defaults
             wipe(CoreObject.db)
             CoreObject.db      = db
+
+            local media        = setmetatable({}, meta_transdata)
+            media.data         = MEDIA_SV.profiles[PROFILE_KEY].Theme[PROFILE_THEME]
+            media.defaults     = CoreObject.mediadefaults
+            wipe(CoreObject.media)
+            CoreObject.media   = media
 
             if(CoreObject.ReLoad) then
                 CoreObject.Timers:ClearAllTimers()
@@ -777,7 +789,7 @@ local function ProcessLoadOnDemand()
     end
 end
 
-local function UpdateCoreDatabases()
+function lib:UpdateCoreDatabases()
      --construct core dataset
     local db           = setmetatable({}, meta_transdata)
     db.data            = GLOBAL_SV.profiles[PROFILE_KEY]
@@ -812,8 +824,6 @@ local function CorePreInitialize()
     if not PRIVATE_SV.SAFEDATA.THEME then PRIVATE_SV.SAFEDATA.THEME = "Default" end
     if not PRIVATE_SV.SAFEDATA.DUALSPEC then PRIVATE_SV.SAFEDATA.DUALSPEC = false end
     if not PRIVATE_SV.SAFEDATA.NEEDSLIVEUPDATE then PRIVATE_SV.SAFEDATA.NEEDSLIVEUPDATE = false end
-    
-    GetProfileKeys()
 
     --GLOBAL SAVED VARIABLES
     if not _G[GLOBAL_FILENAME] then _G[GLOBAL_FILENAME] = {} end
@@ -824,8 +834,6 @@ local function CorePreInitialize()
     else
       GLOBAL_SV.profileKeys = {}
     end
-
-    GLOBAL_SV.profiles = GLOBAL_SV.profiles or {}
 
     for k,v in pairs(GLOBAL_SV.profiles) do
         GLOBAL_SV.profileKeys[k] = k
@@ -850,12 +858,12 @@ local function CorePreInitialize()
     --MEDIA SAVED VARIABLES
     if not _G[MEDIA_FILENAME] then _G[MEDIA_FILENAME] = {} end
     MEDIA_SV = _G[MEDIA_FILENAME]
-    if not MEDIA_SV.profiles then MEDIA_SV.profiles = {} end
 
     --FILTER SAVED VARIABLES
     if not _G[FILTERS_FILENAME] then _G[FILTERS_FILENAME] = {} end
     FILTER_SV = _G[FILTERS_FILENAME]
 
+    GetProfileKeys()
 
     --KEY AND SPEC BASED VARIABLES
     if(PRIVATE_SV.SAFEDATA.DUALSPEC) then 
@@ -864,13 +872,8 @@ local function CorePreInitialize()
         lib.EventManager:UnregisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
     end
 
-    if not GLOBAL_SV.profiles[PROFILE_KEY] then GLOBAL_SV.profiles[PROFILE_KEY] = {} end
-    if not MEDIA_SV.profiles[PROFILE_KEY] then MEDIA_SV.profiles[PROFILE_KEY] = {} end
-    if not MEDIA_SV.profiles[PROFILE_KEY].Theme then MEDIA_SV.profiles[PROFILE_KEY].Theme = {} end
-    if not MEDIA_SV.profiles[PROFILE_KEY].Theme[PROFILE_THEME] then MEDIA_SV.profiles[PROFILE_KEY].Theme[PROFILE_THEME] = {} end
-
     ProcessLoadOnDemand()
-    UpdateCoreDatabases()
+    lib:UpdateCoreDatabases()
     CoreObject.initialized = true
 end
 
@@ -900,7 +903,7 @@ local Library_OnEvent = function(self, event, arg, ...)
             end
         end
     elseif(event == "PLAYER_LOGIN") then
-        UpdateCoreDatabases()
+        lib:UpdateCoreDatabases()
         if(not CoreObject.___initialized and CoreObject.Initialize and IsLoggedIn()) then
             if(CoreObject.LoadTheme) then
                 CoreObject:LoadTheme()

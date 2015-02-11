@@ -141,10 +141,12 @@ SV.mediadefaults.dock.professionIconCoords = {
     [197] 	= {0.25,0.5,0.75,1}, 			-- PRO-TAILORING
 }
 
+--SV.mediadefaults.bordercolor["default"]   	= {1, 1, 1, 1};
+
 SV.API.Templates["Default"]     	= "SVUITheme_Warcraft_Default";
 SV.API.Templates["DockButton"]  	= "SVUITheme_Warcraft_DockButton";
 SV.API.Templates["Window"]  		= "SVUITheme_Warcraft_Window";
-SV.API.Templates["Window2"] = "SVUITheme_Warcraft_Window2";
+SV.API.Templates["Window2"] 		= "SVUITheme_Warcraft_Window2";
 SV.API.Templates["UnitLarge"]   	= "SVUITheme_Warcraft_UnitLarge";
 SV.API.Templates["UnitSmall"]   	= "SVUITheme_Warcraft_UnitSmall";
 SV.API.Templates["Minimap"] 		= "SVUITheme_Warcraft_Minimap";

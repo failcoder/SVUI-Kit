@@ -262,6 +262,7 @@ local FadeEventManager_OnEvent = function(self, event)
             end
         end
         wipe(FRAMES_TO_HIDE)
+        --print("removed frames")
         for frame in pairs(FRAMES_TO_SHOW) do
             frame:Show()
             if(frame.___forceshowfunc) then
@@ -304,10 +305,8 @@ local SecureFade_OnUpdate = function(self, elasped)
                             frame.___fadefunc = nil
                         end
                     end
-
-                    self.Running = false;
-                    self:SetScript("OnUpdate", nil);
                 else
+                    frame:SetAlpha(state[2])
                     FRAMES_TO_HIDE[frame] = true;
                     FadeEventManager:RegisterEvent("PLAYER_REGEN_ENABLED");
                 end
@@ -318,10 +317,10 @@ local SecureFade_OnUpdate = function(self, elasped)
                         frame.___fadefunc = nil
                     end
                 end
-
-                self.Running = false;
-                self:SetScript("OnUpdate", nil);
             end
+
+            self.Running = false;
+            self:SetScript("OnUpdate", nil);
         end
     end
 end
@@ -351,7 +350,7 @@ local SecureFadeIn = function(self, duration, alphaStart, alphaEnd)
         end
 
         self.___fademode = "IN";
-        self.___fadehide = false;
+        self.___fadehide = nil;
         self.___fadefunc = nil;
 
         if(not self.___fadeset) then
@@ -1108,15 +1107,13 @@ local SetPanelColor = function(self, ...)
                 self.Panel.Skin:SetGradient(unpack(SV.media.gradient[arg1]))
                 if(SV.media.color[arg1]) then
                     local t = SV.media.color[arg1]
-                    local r,g,b,a = t[1], t[2], t[3], t[4] or 1;
-                    self:SetBackdropColor(r,g,b,a)
+                    self:SetBackdropColor(t[1], t[2], t[3], t[4])
                 end
             end 
         end 
     elseif(type(arg1) == "string" and SV.media.color[arg1]) then
         local t = SV.media.color[arg1]
-        local r,g,b,a = t[1], t[2], t[3], t[4] or 1;
-        self:SetBackdropColor(r,g,b)
+        self:SetBackdropColor(t[1], t[2], t[3], t[4])
     elseif(arg1 and type(arg1) == "number") then
         self:SetBackdropColor(...)
     end 
@@ -1403,7 +1400,7 @@ local Button_OnEnter = function(self)
 end
 
 local Button_OnLeave = function(self)
-    self:SetBackdropColor(unpack(SV.media.color.default))
+    self:SetBackdropColor(unpack(SV.media.color.button))
 end
 
 local ConceptButton_OnEnter = function(self)
@@ -1420,7 +1417,7 @@ local Tab_OnEnter = function(self)
 end
 
 local Tab_OnLeave = function(self)
-    self.backdrop:SetPanelColor("default")
+    self.backdrop:SetPanelColor("button")
     self.backdrop:SetBackdropBorderColor(0,0,0,1)
 end
 
