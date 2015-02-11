@@ -243,42 +243,6 @@ local function SetTextStyle(style, min, max)
 	end 
 end
 
-local function CreateAuraIcon(auras, plate)
-	local noscalemult = 2 * SV.Scale;
-
-	local button = CreateFrame("Frame", nil, auras)
-
-	button.bord = button:CreateTexture(nil, "BACKGROUND")
-	button.bord:SetDrawLayer('BACKGROUND', 2)
-	button.bord:SetTexture(0,0,0,1)
-	button.bord:SetPoint("TOPLEFT", button, "TOPLEFT", -noscalemult, noscalemult)
-	button.bord:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", noscalemult, -noscalemult)
-
-	button.Icon = button:CreateTexture(nil, "BORDER")
-	button.Icon:SetPoint("TOPLEFT",button,"TOPLEFT")
-	button.Icon:SetPoint("BOTTOMRIGHT",button,"BOTTOMRIGHT")
-	button.Icon:SetTexCoord(.1, .9, .2, .8)
-
-	button.TimeLeft = button:CreateFontString(nil, 'OVERLAY')
-	button.TimeLeft:SetFontObject(SVUI_Font_NamePlate_Aura)
-	button.TimeLeft:SetPoint("BOTTOMLEFT",button,"TOPLEFT",-3,-1)
-	button.TimeLeft:SetJustifyH('CENTER') 
-
-	button.Stacks = button:CreateFontString(nil,"OVERLAY")
-	button.Stacks:SetFontObject(SVUI_Font_NamePlate_Aura)
-	button.Stacks:SetPoint("BOTTOMRIGHT",button,"BOTTOMRIGHT",3,-3)
-
-	button:SetScript('OnHide', function()
-		if plate.guid then
-			UpdateAuraIconGrid(plate)
-		end
-	end)
-
-	button:Hide()
-
-	return button
-end
-
 local function CreatePlateBorder(plate)
 	local noscalemult = 2 * SV.Scale;
 
@@ -595,6 +559,42 @@ end
 local function SaveDuration(spellID, duration)
 	duration = duration or 0
 	if spellID then CachedAuraDurations[spellID] = duration end
+end
+
+local function CreateAuraIcon(auras, plate)
+	local noscalemult = 2 * SV.Scale;
+
+	local button = CreateFrame("Frame", nil, auras)
+
+	button.bord = button:CreateTexture(nil, "BACKGROUND")
+	button.bord:SetDrawLayer('BACKGROUND', 2)
+	button.bord:SetTexture(0,0,0,1)
+	button.bord:SetPoint("TOPLEFT", button, "TOPLEFT", -noscalemult, noscalemult)
+	button.bord:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", noscalemult, -noscalemult)
+
+	button.Icon = button:CreateTexture(nil, "BORDER")
+	button.Icon:SetPoint("TOPLEFT",button,"TOPLEFT")
+	button.Icon:SetPoint("BOTTOMRIGHT",button,"BOTTOMRIGHT")
+	button.Icon:SetTexCoord(.1, .9, .2, .8)
+
+	button.TimeLeft = button:CreateFontString(nil, 'OVERLAY')
+	button.TimeLeft:SetFontObject(SVUI_Font_NamePlate_Aura)
+	button.TimeLeft:SetPoint("BOTTOMLEFT",button,"TOPLEFT",-3,-1)
+	button.TimeLeft:SetJustifyH('CENTER') 
+
+	button.Stacks = button:CreateFontString(nil,"OVERLAY")
+	button.Stacks:SetFontObject(SVUI_Font_NamePlate_Aura)
+	button.Stacks:SetPoint("BOTTOMRIGHT",button,"BOTTOMRIGHT",3,-3)
+
+	button:SetScript('OnHide', function()
+		if plate.guid then
+			UpdateAuraIconGrid(plate)
+		end
+	end)
+
+	button:Hide()
+
+	return button
 end
 
 function MOD:UpdateAuras(plate)
