@@ -28,7 +28,7 @@ if(not MOD) then return end;
 MOD.ButtonCache = {};
 
 local L = SV.L;
-local LSM = LibStub("LibSharedMedia-3.0");
+local LSM = _G.LibStub("LibSharedMedia-3.0");
 --[[ 
 ########################################################## 
 LOCAL VARS

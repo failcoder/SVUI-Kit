@@ -129,6 +129,7 @@ local function ScreenUpdate()
     end
 
     SCREEN_MOD = (gxMod / gxScale);
+    SV.Scale = SCREEN_MOD;
 
     return gxWidth, gxHeight, gxScale, customScale
 end
@@ -262,6 +263,7 @@ local FadeEventManager_OnEvent = function(self, event)
             end
         end
         wipe(FRAMES_TO_HIDE)
+        --print("removed frames")
         for frame in pairs(FRAMES_TO_SHOW) do
             frame:Show()
             if(frame.___forceshowfunc) then
@@ -304,10 +306,8 @@ local SecureFade_OnUpdate = function(self, elasped)
                             frame.___fadefunc = nil
                         end
                     end
-
-                    self.Running = false;
-                    self:SetScript("OnUpdate", nil);
                 else
+                    frame:SetAlpha(state[2])
                     FRAMES_TO_HIDE[frame] = true;
                     FadeEventManager:RegisterEvent("PLAYER_REGEN_ENABLED");
                 end
@@ -318,10 +318,10 @@ local SecureFade_OnUpdate = function(self, elasped)
                         frame.___fadefunc = nil
                     end
                 end
-
-                self.Running = false;
-                self:SetScript("OnUpdate", nil);
             end
+
+            self.Running = false;
+            self:SetScript("OnUpdate", nil);
         end
     end
 end
@@ -351,7 +351,7 @@ local SecureFadeIn = function(self, duration, alphaStart, alphaEnd)
         end
 
         self.___fademode = "IN";
-        self.___fadehide = false;
+        self.___fadehide = nil;
         self.___fadefunc = nil;
 
         if(not self.___fadeset) then
@@ -941,8 +941,8 @@ MOD.Methods["Checkbox"] = function(self, frame, inverse, x, y)
     if(not frame or (frame and frame.Panel)) then return end
 
     local width, height = frame:GetSize()
-    x = x or -2
-    y = y or -2
+    x = x or -3
+    y = y or -3
 
     width = width + (x or 0)
     height = height + (y or 0)
@@ -950,7 +950,7 @@ MOD.Methods["Checkbox"] = function(self, frame, inverse, x, y)
     frame:SetSize(width, height)
 
     local underlay = (not inverse)
-    self:APPLY(frame, "Checkbox", underlay, 1, x, y)
+    self:APPLY(frame, "Checkbox", inverse, 1, x, y)
 
     if(frame.SetNormalTexture) then 
         frame:SetNormalTexture("")
@@ -1108,15 +1108,13 @@ local SetPanelColor = function(self, ...)
                 self.Panel.Skin:SetGradient(unpack(SV.media.gradient[arg1]))
                 if(SV.media.color[arg1]) then
                     local t = SV.media.color[arg1]
-                    local r,g,b,a = t[1], t[2], t[3], t[4] or 1;
-                    self:SetBackdropColor(r,g,b,a)
+                    self:SetBackdropColor(t[1], t[2], t[3], t[4])
                 end
             end 
         end 
     elseif(type(arg1) == "string" and SV.media.color[arg1]) then
         local t = SV.media.color[arg1]
-        local r,g,b,a = t[1], t[2], t[3], t[4] or 1;
-        self:SetBackdropColor(r,g,b)
+        self:SetBackdropColor(t[1], t[2], t[3], t[4])
     elseif(arg1 and type(arg1) == "number") then
         self:SetBackdropColor(...)
     end 
@@ -1403,7 +1401,7 @@ local Button_OnEnter = function(self)
 end
 
 local Button_OnLeave = function(self)
-    self:SetBackdropColor(unpack(SV.media.color.default))
+    self:SetBackdropColor(unpack(SV.media.color.button))
 end
 
 local ConceptButton_OnEnter = function(self)
@@ -1420,7 +1418,7 @@ local Tab_OnEnter = function(self)
 end
 
 local Tab_OnLeave = function(self)
-    self.backdrop:SetPanelColor("default")
+    self.backdrop:SetPanelColor("button")
     self.backdrop:SetBackdropBorderColor(0,0,0,1)
 end
 
@@ -1468,7 +1466,7 @@ MOD.Concepts["CloseButton"] = function(self, adjustable, frame, targetAnchor)
     
     RemoveTextures(frame)
 
-    self.Methods["Button"](self, frame, adjustable, -5, -5, "red")
+    self.Methods["Button"](self, frame, adjustable, -6, -6, "red")
     frame:SetFrameLevel(frame:GetFrameLevel() + 4)
     frame:SetNormalTexture(SV.media.icon.close)
     frame:HookScript("OnEnter", ConceptButton_OnEnter)
@@ -1476,7 +1474,7 @@ MOD.Concepts["CloseButton"] = function(self, adjustable, frame, targetAnchor)
 
     if(targetAnchor) then
         frame:ClearAllPoints()
-        frame:SetPoint("TOPRIGHT", targetAnchor, "TOPRIGHT", 0, 0) 
+        frame:SetPoint("TOPRIGHT", targetAnchor, "TOPRIGHT", 3, 3) 
     end
 end
 

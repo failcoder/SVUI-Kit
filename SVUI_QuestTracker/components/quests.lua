@@ -36,7 +36,7 @@ GET ADDON DATA
 ]]--
 local SV = _G['SVUI']
 local L = SV.L
-local LSM = LibStub("LibSharedMedia-3.0")
+local LSM = _G.LibStub("LibSharedMedia-3.0")
 local MOD = SV.QuestTracker;
 --[[ 
 ########################################################## 
@@ -1190,7 +1190,6 @@ function MOD:InitializeQuests()
 	self.Headers["Quests"]:Refresh()
 
 	WorldMapFrame:HookScript("OnHide", _hook_WorldMapFrameOnHide)
-
 	ItemBar:Show()
 
 	SV.Events:On("QUEST_UPVALUES_UPDATED", UpdateQuestLocals, "UpdateQuestLocals");

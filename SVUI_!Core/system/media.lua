@@ -69,7 +69,7 @@ SOUND:Register("Phase", [[sound\doodad\be_scryingorb_explode.ogg]])
 DEFINE SHARED MEDIA
 ##########################################################
 ]]--
-local LSM = LibStub("LibSharedMedia-3.0")
+local LSM = _G.LibStub("LibSharedMedia-3.0")
 
 LSM:Register("background", "SVUI Default BG", [[Interface\AddOns\SVUI_!Core\assets\backgrounds\DEFAULT]])
 LSM:Register("background", "SVUI Transparent BG", [[Interface\AddOns\SVUI_!Core\assets\backgrounds\TRANSPARENT]])
@@ -222,6 +222,7 @@ do
 		["premium"]     = [[Interface\AddOns\SVUI_!Core\assets\backgrounds\art\ART1]],
 		["unitlarge"] 	= [[Interface\AddOns\SVUI_!Core\assets\backgrounds\unit\UNIT-BG1]],
 		["unitsmall"] 	= [[Interface\AddOns\SVUI_!Core\assets\backgrounds\unit\UNIT-SMALL-BG1]],
+		["checkbox"]    = [[Interface\AddOns\SVUI_!Core\assets\buttons\CHECK-BG]],
 	}
 	SV.mediadefaults["border"] = {
 		["default"] 	= [[Interface\AddOns\SVUI_!Core\assets\borders\DEFAULT]],
@@ -232,9 +233,11 @@ do
 		["inset"]       = [[Interface\AddOns\SVUI_!Core\assets\borders\INSET]],
 		["unitlarge"] 	= [[Interface\BUTTONS\WHITE8X8]],
 		["unitsmall"] 	= [[Interface\BUTTONS\WHITE8X8]],
+		["checkbox"] 	= [[Interface\AddOns\SVUI_!Core\assets\borders\DEFAULT]],
 	}
 	SV.mediadefaults["color"] = {
-		["default"]     = {0.2, 0.2, 0.2, 1}, 
+		["default"]     = {0.2, 0.2, 0.2, 1},
+		["button"]      = {0.2, 0.2, 0.2, 1},
 		["special"]     = {.37, .32, .29, 1},
 		["specialdark"] = {.23, .22, .21, 1},
 		["unique"]      = {0.32, 0.258, 0.21, 1},
@@ -292,7 +295,7 @@ do
 		["check"]     	= [[Interface\AddOns\SVUI_!Core\assets\buttons\CHECK]],
 		["checkbg"]     = [[Interface\AddOns\SVUI_!Core\assets\buttons\CHECK-BG]],
 		["uncheck"]     = [[Interface\AddOns\SVUI_!Core\assets\buttons\CHECK-DISABLED]],
-		["round"]     	= [[Interface\AddOns\SVUI_!Core\assets\buttons\ ROUND-BORDER]],
+		["round"]     	= [[Interface\AddOns\SVUI_!Core\assets\buttons\ROUND-BORDER]],
 		["scrollup"]    = [[Interface\AddOns\SVUI_!Core\assets\buttons\SCROLLBAR-UP]],
 		["scrolldown"]  = [[Interface\AddOns\SVUI_!Core\assets\buttons\SCROLLBAR-DOWN]],
 		["knob"]     	= [[Interface\AddOns\SVUI_!Core\assets\buttons\SCROLLBAR-KNOB]],
@@ -390,6 +393,20 @@ do
 		    tileSize = 0, 
 		    edgeFile = [[Interface\AddOns\SVUI_!Core\assets\borders\TEXTURED]],
 		    edgeSize = 15,
+		    insets = 
+		    {
+		        left = 0, 
+		        right = 0, 
+		        top = 0, 
+		        bottom = 0, 
+		    },
+		},
+		["buttonred"] = {
+			bgFile = [[Interface\AddOns\SVUI_!Core\assets\backgrounds\BUTTON]], 
+		    tile = false, 
+		    tileSize = 0, 
+		    edgeFile = [[Interface\AddOns\SVUI_!Core\assets\borders\DEFAULT]],
+		    edgeSize = 1,
 		    insets = 
 		    {
 		        left = 0, 
@@ -510,7 +527,7 @@ if(GetLocale() ~= "enUS") then
 	SV.DialogFontDefault = "SVUI Default Font";
 end
 SV.SplashImage 	= [[Interface\AddOns\SVUI_!Core\assets\textures\SPLASH]];
-SV.BaseTexture 	= [[Interface\AddOns\SVUI_!Core\backgrounds\DEFAULT]];
+SV.BaseTexture 	= [[Interface\AddOns\SVUI_!Core\assets\backgrounds\TRANSPARENT]];
 SV.NoTexture 	= [[Interface\AddOns\SVUI_!Core\assets\textures\EMPTY]];
 --[[ 
 ########################################################## 
@@ -608,7 +625,7 @@ SV.GlobalFontList = {
 function SV:FontManager(obj, template, arg, sizeMod, styleOverride, colorR, colorG, colorB)
 	if not obj then return end
 	template = template or "default";
-	local info = SV.media.shared.font[template];
+	local info = SV.media.shared.font[template] or SV.media.shared.font.default;
 	if(not info) then return end
 
 	local isSystemFont = false;
@@ -616,7 +633,7 @@ function SV:FontManager(obj, template, arg, sizeMod, styleOverride, colorR, colo
 		isSystemFont = true;
 	end
 
-	local file = SV.media.font[template];
+	local file = SV.media.font[template] or SV.media.font.default;
 	local size = info.size;
 	local outline = info.outline;
 

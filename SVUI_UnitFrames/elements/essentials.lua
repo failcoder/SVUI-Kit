@@ -43,7 +43,7 @@ GET ADDON DATA
 ]]--
 local SV = _G['SVUI']
 local L = SV.L;
-local LSM = LibStub("LibSharedMedia-3.0")
+local LSM = _G.LibStub("LibSharedMedia-3.0")
 local MOD = SV.UnitFrames
 
 if(not MOD) then return end 
@@ -330,10 +330,10 @@ function MOD:SetActionPanel(frame, unit, noHealthText, noPowerText, noMiscText)
 		info:ModPoint("TOPRIGHT", frame.ActionPanel, "BOTTOMRIGHT", 1, 1)
 		info:SetHeight(30)
 
-		local bg = info:CreateTexture(nil, "BACKGROUND")
-		bg:InsetPoints(info)
-		bg:SetTexture(1, 1, 1, 1)
-		bg:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0, 0, 0, 0.7)
+		-- local bg = info:CreateTexture(nil, "BACKGROUND")
+		-- bg:InsetPoints(info)
+		-- bg:SetTexture(1, 1, 1, 1)
+		-- bg:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0, 0, 0, 0.7)
 
 		frame.TextGrip = CreateFrame("Frame", nil, info)
 		frame.TextGrip:SetFrameStrata("LOW")

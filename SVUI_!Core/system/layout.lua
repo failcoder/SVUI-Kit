@@ -714,19 +714,19 @@ function Layout:Toggle(isConfigMode)
 	if(InCombatLockdown()) then return end 
 	local enabled = false;
 	if((isConfigMode ~= nil) and (isConfigMode ~= "")) then 
-		self.ConfigurationMode = isConfigMode 
+		SV.ConfigurationMode = isConfigMode 
 	end 
 
-	if(not self.ConfigurationMode) then
+	if(not SV.ConfigurationMode) then
 		if(SV.OptionsLoaded) then 
 			LibStub("AceConfigDialog-3.0"):Close(SV.NameID)
 			GameTooltip:Hide()
-			self.ConfigurationMode = true 
+			SV.ConfigurationMode = true 
 		else 
-			self.ConfigurationMode = false 
+			SV.ConfigurationMode = false 
 		end 
 	else
-		self.ConfigurationMode = false
+		SV.ConfigurationMode = false
 	end
 
 	if(self:IsShown()) then
@@ -1197,8 +1197,8 @@ function SV:NewAnchor(frame, title, snapOffset, dragStopFunc, overrideName, call
 	return moveName
 end
 
-function SV:MoveAnchors(...)
-	Layout:Toggle(...)
+function SV:MoveAnchors(arg)
+	Layout:Toggle(arg)
 end
 
 function SV:UpdateAnchors()

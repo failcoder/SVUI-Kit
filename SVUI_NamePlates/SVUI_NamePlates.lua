@@ -39,9 +39,8 @@ local tremove, tcopy, twipe, tsort, tconcat = table.remove, table.copy, table.wi
 GET ADDON DATA
 ##########################################################
 ]]--
-local SV = _G['SVUI']
-local L = SV.L
-local LSM = LibStub("LibSharedMedia-3.0")
+local SV = _G['SVUI'];
+local L = SV.L;
 local MOD = SV.NamePlates;
 if(not MOD) then return end;
 --[[ 
@@ -49,7 +48,40 @@ if(not MOD) then return end;
 LOCALIZED GLOBALS
 ##########################################################
 ]]--
-local RAID_CLASS_COLORS = _G.RAID_CLASS_COLORS
+local SetCVar           	= _G.SetCVar;
+local UIParent              = _G.UIParent;
+local WorldFrame           	= _G.WorldFrame;
+local GameTooltip           = _G.GameTooltip;
+
+local CreateFrame           = _G.CreateFrame;
+local InCombatLockdown      = _G.InCombatLockdown;
+
+local UnitAura      		= _G.UnitAura;
+local UnitName      		= _G.UnitName;
+local UnitExists      		= _G.UnitExists;
+local UnitLevel      		= _G.UnitLevel;
+local UnitGUID              = _G.UnitGUID;
+local UnitHasVehicleUI      = _G.UnitHasVehicleUI;
+local UnitPlayerControlled  = _G.UnitPlayerControlled;
+
+local GetTime          		= _G.GetTime;
+local GetSpellInfo          = _G.GetSpellInfo;
+local GetSpellTexture   	= _G.GetSpellTexture;
+local GetComboPoints        = _G.GetComboPoints;
+local GetPlayerInfoByGUID   = _G.GetPlayerInfoByGUID;
+local GetRaidTargetIndex    = _G.GetRaidTargetIndex;
+
+local SPELL_AURA_APPLIED 		= _G.SPELL_AURA_APPLIED
+local SPELL_AURA_REMOVED 		= _G.SPELL_AURA_REMOVED
+local SPELL_AURA_REFRESH 		= _G.SPELL_AURA_REFRESH
+local SPELL_AURA_BROKEN 		= _G.SPELL_AURA_BROKEN
+local SPELL_AURA_BROKEN_SPELL 	= _G.SPELL_AURA_BROKEN_SPELL
+local SPELL_AURA_APPLIED_DOSE 	= _G.SPELL_AURA_APPLIED_DOSE
+local SPELL_AURA_REMOVED_DOSE 	= _G.SPELL_AURA_REMOVED_DOSE
+
+local RAID_CLASS_COLORS 			  = _G.RAID_CLASS_COLORS
+local MAX_COMBO_POINTS 				  = _G.MAX_COMBO_POINTS
+local COMBATLOG_OBJECT_CONTROL_PLAYER = _G.COMBATLOG_OBJECT_CONTROL_PLAYER
 --[[ 
 ########################################################## 
 LOCAL VARS
@@ -209,91 +241,89 @@ local function SetTextStyle(style, min, max)
 		result = result:gsub(".0%%", "%%")
 		return result 
 	end 
-end 
-
-local function SetPlateBorder(plate, point)
-	point = point or plate
-	local noscalemult = 2 * UIParent:GetScale()
-	if point.bordertop then return end
-	point.backdrop = plate:CreateTexture(nil, "BORDER")
-	point.backdrop:SetDrawLayer("BORDER", -4)
-	point.backdrop:SetAllPoints(point)
-	point.backdrop:SetTexture(SV.media.statusbar.default)
-	point.backdrop:SetVertexColor(0.1,0.1,0.1)
-
-	point.bordertop = plate:CreateTexture(nil, "BORDER")
-	point.bordertop:SetPoint("TOPLEFT", point, "TOPLEFT", -noscalemult, noscalemult)
-	point.bordertop:SetPoint("TOPRIGHT", point, "TOPRIGHT", noscalemult, noscalemult)
-	point.bordertop:SetHeight(noscalemult)
-	point.bordertop:SetTexture(0,0,0)	
-	point.bordertop:SetDrawLayer("BORDER", 1)
-
-	point.borderbottom = plate:CreateTexture(nil, "BORDER")
-	point.borderbottom:SetPoint("BOTTOMLEFT", point, "BOTTOMLEFT", -noscalemult, -noscalemult)
-	point.borderbottom:SetPoint("BOTTOMRIGHT", point, "BOTTOMRIGHT", noscalemult, -noscalemult)
-	point.borderbottom:SetHeight(noscalemult)
-	point.borderbottom:SetTexture(0,0,0)	
-	point.borderbottom:SetDrawLayer("BORDER", 1)
-
-	point.borderleft = plate:CreateTexture(nil, "BORDER")
-	point.borderleft:SetPoint("TOPLEFT", point, "TOPLEFT", -noscalemult, noscalemult)
-	point.borderleft:SetPoint("BOTTOMLEFT", point, "BOTTOMLEFT", noscalemult, -noscalemult)
-	point.borderleft:SetWidth(noscalemult)
-	point.borderleft:SetTexture(0,0,0)	
-	point.borderleft:SetDrawLayer("BORDER", 1)
-
-	point.borderright = plate:CreateTexture(nil, "BORDER")
-	point.borderright:SetPoint("TOPRIGHT", point, "TOPRIGHT", noscalemult, noscalemult)
-	point.borderright:SetPoint("BOTTOMRIGHT", point, "BOTTOMRIGHT", -noscalemult, -noscalemult)
-	point.borderright:SetWidth(noscalemult)
-	point.borderright:SetTexture(0,0,0)	
-	point.borderright:SetDrawLayer("BORDER", 1)
 end
 
-local function SetEliteBorder(point)
-	local noscalemult = 2 * UIParent:GetScale()
-	if point.eliteborder then return end
+local function CreatePlateBorder(plate)
+	local noscalemult = 2 * SV.Scale;
 
-	point.eliteborder = CreateFrame("Frame", nil, point)
-	point.eliteborder:SetAllPoints(point)
-	point.eliteborder:SetFrameStrata("BACKGROUND")
-	point.eliteborder:SetFrameLevel(0)
+	if(not plate.backdrop) then
+		plate.backdrop = plate:CreateTexture(nil, "BORDER")
+		plate.backdrop:SetDrawLayer("BORDER", -4)
+		plate.backdrop:SetAllPoints(plate)
+		plate.backdrop:SetTexture(SV.media.statusbar.default)
+		plate.backdrop:SetVertexColor(0.1,0.1,0.1)
 
-	point.eliteborder.top = point.eliteborder:CreateTexture(nil, "BACKGROUND")
-	point.eliteborder.top:SetPoint("BOTTOMLEFT", point.eliteborder, "TOPLEFT", 0, 0)
-	point.eliteborder.top:SetPoint("BOTTOMRIGHT", point.eliteborder, "TOPRIGHT", 0, 0)
-	point.eliteborder.top:SetHeight(22)
-	point.eliteborder.top:SetTexture(PLATE_TOP)
-	point.eliteborder.top:SetVertexColor(1, 1, 0)
-	point.eliteborder.top:SetBlendMode("BLEND")
+		plate.bordertop = plate:CreateTexture(nil, "BORDER")
+		plate.bordertop:SetPoint("TOPLEFT", plate, "TOPLEFT", -noscalemult, noscalemult)
+		plate.bordertop:SetPoint("TOPRIGHT", plate, "TOPRIGHT", noscalemult, noscalemult)
+		plate.bordertop:SetHeight(noscalemult)
+		plate.bordertop:SetTexture(0,0,0)	
+		plate.bordertop:SetDrawLayer("BORDER", 1)
 
-	point.eliteborder.bottom = point.eliteborder:CreateTexture(nil, "BACKGROUND")
-	point.eliteborder.bottom:SetPoint("TOPLEFT", point.eliteborder, "BOTTOMLEFT", 0, 0)
-	point.eliteborder.bottom:SetPoint("TOPRIGHT", point.eliteborder, "BOTTOMRIGHT", 0, 0)
-	point.eliteborder.bottom:SetHeight(32)
-	point.eliteborder.bottom:SetTexture(PLATE_BOTTOM)
-	point.eliteborder.bottom:SetVertexColor(1, 1, 0)
-	point.eliteborder.bottom:SetBlendMode("BLEND")
+		plate.borderbottom = plate:CreateTexture(nil, "BORDER")
+		plate.borderbottom:SetPoint("BOTTOMLEFT", plate, "BOTTOMLEFT", -noscalemult, -noscalemult)
+		plate.borderbottom:SetPoint("BOTTOMRIGHT", plate, "BOTTOMRIGHT", noscalemult, -noscalemult)
+		plate.borderbottom:SetHeight(noscalemult)
+		plate.borderbottom:SetTexture(0,0,0)	
+		plate.borderbottom:SetDrawLayer("BORDER", 1)
 
-	-- point.eliteborder.right = point.eliteborder:CreateTexture(nil, "BACKGROUND")
-	-- point.eliteborder.right:SetPoint("TOPLEFT", point.eliteborder, "TOPRIGHT", 0, 0)
-	-- point.eliteborder.right:SetPoint("BOTTOMLEFT", point.eliteborder, "BOTTOMRIGHT", 0, 0)
-	-- point.eliteborder.right:SetWidth(point:GetHeight() * 4)
-	-- point.eliteborder.right:SetTexture(PLATE_RIGHT)
-	-- point.eliteborder.right:SetVertexColor(1, 1, 0)
-	-- point.eliteborder.right:SetBlendMode("BLEND")
+		plate.borderleft = plate:CreateTexture(nil, "BORDER")
+		plate.borderleft:SetPoint("TOPLEFT", plate, "TOPLEFT", -noscalemult, noscalemult)
+		plate.borderleft:SetPoint("BOTTOMLEFT", plate, "BOTTOMLEFT", noscalemult, -noscalemult)
+		plate.borderleft:SetWidth(noscalemult)
+		plate.borderleft:SetTexture(0,0,0)	
+		plate.borderleft:SetDrawLayer("BORDER", 1)
 
-	-- point.eliteborder.left = point.eliteborder:CreateTexture(nil, "BACKGROUND")
-	-- point.eliteborder.left:SetPoint("TOPRIGHT", point.eliteborder, "TOPLEFT", 0, 0)
-	-- point.eliteborder.left:SetPoint("BOTTOMRIGHT", point.eliteborder, "BOTTOMLEFT", 0, 0)
-	-- point.eliteborder.left:SetWidth(point:GetHeight() * 4)
-	-- point.eliteborder.left:SetTexture(PLATE_LEFT)
-	-- point.eliteborder.left:SetVertexColor(1, 1, 0)
-	-- point.eliteborder.left:SetBlendMode("BLEND")
+		plate.borderright = plate:CreateTexture(nil, "BORDER")
+		plate.borderright:SetPoint("TOPRIGHT", plate, "TOPRIGHT", noscalemult, noscalemult)
+		plate.borderright:SetPoint("BOTTOMRIGHT", plate, "BOTTOMRIGHT", -noscalemult, -noscalemult)
+		plate.borderright:SetWidth(noscalemult)
+		plate.borderright:SetTexture(0,0,0)	
+		plate.borderright:SetDrawLayer("BORDER", 1)
+	end
 
-	point.eliteborder:SetAlpha(0.35)
+	if(not plate.eliteborder) then
+		plate.eliteborder = CreateFrame("Frame", nil, plate)
+		plate.eliteborder:SetAllPoints(plate)
+		plate.eliteborder:SetFrameStrata("BACKGROUND")
+		plate.eliteborder:SetFrameLevel(0)
 
-	point.eliteborder:Hide()
+		plate.eliteborder.top = plate.eliteborder:CreateTexture(nil, "BACKGROUND")
+		plate.eliteborder.top:SetPoint("BOTTOMLEFT", plate.eliteborder, "TOPLEFT", 0, 0)
+		plate.eliteborder.top:SetPoint("BOTTOMRIGHT", plate.eliteborder, "TOPRIGHT", 0, 0)
+		plate.eliteborder.top:SetHeight(22)
+		plate.eliteborder.top:SetTexture(PLATE_TOP)
+		plate.eliteborder.top:SetVertexColor(1, 1, 0)
+		plate.eliteborder.top:SetBlendMode("BLEND")
+
+		plate.eliteborder.bottom = plate.eliteborder:CreateTexture(nil, "BACKGROUND")
+		plate.eliteborder.bottom:SetPoint("TOPLEFT", plate.eliteborder, "BOTTOMLEFT", 0, 0)
+		plate.eliteborder.bottom:SetPoint("TOPRIGHT", plate.eliteborder, "BOTTOMRIGHT", 0, 0)
+		plate.eliteborder.bottom:SetHeight(32)
+		plate.eliteborder.bottom:SetTexture(PLATE_BOTTOM)
+		plate.eliteborder.bottom:SetVertexColor(1, 1, 0)
+		plate.eliteborder.bottom:SetBlendMode("BLEND")
+
+		-- plate.eliteborder.right = plate.eliteborder:CreateTexture(nil, "BACKGROUND")
+		-- plate.eliteborder.right:SetPoint("TOPLEFT", plate.eliteborder, "TOPRIGHT", 0, 0)
+		-- plate.eliteborder.right:SetPoint("BOTTOMLEFT", plate.eliteborder, "BOTTOMRIGHT", 0, 0)
+		-- plate.eliteborder.right:SetWidth(plate:GetHeight() * 4)
+		-- plate.eliteborder.right:SetTexture(PLATE_RIGHT)
+		-- plate.eliteborder.right:SetVertexColor(1, 1, 0)
+		-- plate.eliteborder.right:SetBlendMode("BLEND")
+
+		-- plate.eliteborder.left = plate.eliteborder:CreateTexture(nil, "BACKGROUND")
+		-- plate.eliteborder.left:SetPoint("TOPRIGHT", plate.eliteborder, "TOPLEFT", 0, 0)
+		-- plate.eliteborder.left:SetPoint("BOTTOMRIGHT", plate.eliteborder, "BOTTOMLEFT", 0, 0)
+		-- plate.eliteborder.left:SetWidth(plate:GetHeight() * 4)
+		-- plate.eliteborder.left:SetTexture(PLATE_LEFT)
+		-- plate.eliteborder.left:SetVertexColor(1, 1, 0)
+		-- plate.eliteborder.left:SetBlendMode("BLEND")
+
+		plate.eliteborder:SetAlpha(0.35)
+
+		plate.eliteborder:Hide()
+	end
 end
 --[[ 
 ########################################################## 
@@ -529,6 +559,42 @@ end
 local function SaveDuration(spellID, duration)
 	duration = duration or 0
 	if spellID then CachedAuraDurations[spellID] = duration end
+end
+
+local function CreateAuraIcon(auras, plate)
+	local noscalemult = 2 * SV.Scale;
+
+	local button = CreateFrame("Frame", nil, auras)
+
+	button.bord = button:CreateTexture(nil, "BACKGROUND")
+	button.bord:SetDrawLayer('BACKGROUND', 2)
+	button.bord:SetTexture(0,0,0,1)
+	button.bord:SetPoint("TOPLEFT", button, "TOPLEFT", -noscalemult, noscalemult)
+	button.bord:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", noscalemult, -noscalemult)
+
+	button.Icon = button:CreateTexture(nil, "BORDER")
+	button.Icon:SetPoint("TOPLEFT",button,"TOPLEFT")
+	button.Icon:SetPoint("BOTTOMRIGHT",button,"BOTTOMRIGHT")
+	button.Icon:SetTexCoord(.1, .9, .2, .8)
+
+	button.TimeLeft = button:CreateFontString(nil, 'OVERLAY')
+	button.TimeLeft:SetFontObject(SVUI_Font_NamePlate_Aura)
+	button.TimeLeft:SetPoint("BOTTOMLEFT",button,"TOPLEFT",-3,-1)
+	button.TimeLeft:SetJustifyH('CENTER') 
+
+	button.Stacks = button:CreateFontString(nil,"OVERLAY")
+	button.Stacks:SetFontObject(SVUI_Font_NamePlate_Aura)
+	button.Stacks:SetPoint("BOTTOMRIGHT",button,"BOTTOMRIGHT",3,-3)
+
+	button:SetScript('OnHide', function()
+		if plate.guid then
+			UpdateAuraIconGrid(plate)
+		end
+	end)
+
+	button:Hide()
+
+	return button
 end
 
 function MOD:UpdateAuras(plate)
@@ -887,34 +953,6 @@ SCRIPT HANDLERS
 ##########################################################
 ]]--
 do
-	local function CreateAuraIcon(auras, plate)
-	  local noscalemult = 2 * UIParent:GetScale()
-	  local button = CreateFrame("Frame", nil, auras)
-	  button:SetScript('OnHide', function()
-	    if plate.guid then
-	      UpdateAuraIconGrid(plate)
-	    end
-	  end)
-	  button.bord = button:CreateTexture(nil, "BACKGROUND")
-	  button.bord:SetDrawLayer('BACKGROUND', 2)
-	  button.bord:SetTexture(0,0,0,1)
-	  button.bord:SetPoint("TOPLEFT", button, "TOPLEFT", -noscalemult, noscalemult)
-	  button.bord:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", noscalemult, -noscalemult)
-	  button.Icon = button:CreateTexture(nil, "BORDER")
-	  button.Icon:SetPoint("TOPLEFT",button,"TOPLEFT")
-	  button.Icon:SetPoint("BOTTOMRIGHT",button,"BOTTOMRIGHT")
-	  button.Icon:SetTexCoord(.1, .9, .2, .8)
-	  button.TimeLeft = button:CreateFontString(nil, 'OVERLAY')
-	  button.TimeLeft:SetFontObject(SVUI_Font_NamePlate_Aura)
-	  button.TimeLeft:SetPoint("BOTTOMLEFT",button,"TOPLEFT",-3,-1)
-	  button.TimeLeft:SetJustifyH('CENTER') 
-	  button.Stacks = button:CreateFontString(nil,"OVERLAY")
-	  button.Stacks:SetFontObject(SVUI_Font_NamePlate_Aura)
-	  button.Stacks:SetPoint("BOTTOMRIGHT",button,"BOTTOMRIGHT",3,-3)
-	  button:Hide()
-	  return button
-	end
-
 	local function HealthBarSizeChanged(self, width, height)
 		if(not ProxyThisPlate(self.sync)) then return; end
 		width = floor(width + 0.5)
@@ -1181,8 +1219,8 @@ do
 		frame.health:SetFrameLevel(0)
 		frame.health:SetScript("OnSizeChanged", HealthBarSizeChanged)
 		frame.health.sync = plate;
-		SetPlateBorder(frame.health)
-		SetEliteBorder(frame.health)
+
+		CreatePlateBorder(frame.health)
 
 		frame.health.text = frame.health:CreateFontString(nil, 'OVERLAY')
 		frame.health.text:SetPoint("CENTER", frame.health, HBTextAnchor, HBXoffset, HBYoffset)
@@ -1260,8 +1298,6 @@ do
 		bgFrame:SetFrameLevel(bgFrame:GetFrameLevel() - 1)
 
 		bgFrame:SetStyle("Frame", "Bar", true, 2, 0, 0)
-
-		--SetPlateBorder(frame.cast, cast.icon)
 
 		cast.sync = frame.cast
 

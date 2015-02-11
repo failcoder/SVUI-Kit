@@ -41,7 +41,7 @@ local tsort         = table.sort;
 local tconcat       = table.concat;
 local tinsert       = _G.tinsert;
 local tremove       = _G.tremove;
-local twipe         = _G.wipe;
+local wipe          = _G.wipe;
 --BLIZZARD API
 local ReloadUI              = _G.ReloadUI;
 local GetLocale             = _G.GetLocale;
@@ -55,7 +55,14 @@ local GetAddOnMetadata      = _G.GetAddOnMetadata;
 local GetCVarBool           = _G.GetCVarBool;
 local GameTooltip           = _G.GameTooltip;
 local StaticPopup_Hide      = _G.StaticPopup_Hide;
+
+local IsInInstance          = _G.IsInInstance;
+local hooksecurefunc        = _G.hooksecurefunc;
+local collectgarbage        = _G.collectgarbage;
+local CombatText_AddMessage = _G.CombatText_AddMessage;
 local ERR_NOT_IN_COMBAT     = _G.ERR_NOT_IN_COMBAT;
+
+local RequestBattlefieldScoreData = _G.RequestBattlefieldScoreData;
 
 --[[  CONSTANTS ]]--
 
@@ -223,6 +230,7 @@ end
 -- has no method for parsing them in LUA.
 local SV = SVUILib:NewCore("SVUI_Global", "SVUI_Errors", "SVUI_Private", "SVUI_Media", "SVUI_Filters")
 
+SV.Scale              = 1;
 SV.ConfigID           = "SVUI_!Options";
 SV.class              = playerClass;
 SV.Allegiance         = UnitFactionGroup("player");
@@ -642,10 +650,10 @@ function SV:GenerateFontOptionGroup(groupName, groupCount, groupOverview, groupL
             guiInline = true,
             name = info.name,
             get = function(key)
-                return self.media.font[template][key[#key]]
+                return self.media.shared.font[template][key[#key]]
             end,
             set = function(key,value)
-                self.media.font[template][key[#key]] = value;
+                self.media.shared.font[template][key[#key]] = value;
                 if(groupCount == 1) then
                     self:StaticPopup_Show("RL_CLIENT")
                 else
@@ -677,7 +685,7 @@ function SV:GenerateFontOptionGroup(groupName, groupCount, groupOverview, groupL
                     order = 4,
                     name = self.L["Font File"],
                     desc = self.L["Set the font file to use with this font-type."],
-                    values = AceGUIWidgetLSMlists.font,
+                    values = _G.AceGUIWidgetLSMlists.font,
                 },
                 outline = {
                     order = 5, 

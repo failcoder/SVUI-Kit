@@ -1704,3 +1704,5 @@ SV.Options.args.Filters.args.selectFilter = {
 	set = function(key, value) SVUIOptions:SetFilterOptions(value) end,
 	values = GetAllFilterList()
 };
+
+SV.OptionsLoaded = true;

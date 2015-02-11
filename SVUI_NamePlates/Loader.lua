@@ -13,9 +13,10 @@ local select        = _G.select;
 local assert        = _G.assert;
 
 local SV = _G["SVUI"];
-local L = SV.L
+local L = SV.L;
 local MOD = SV:NewModule(...);
 local Schema = MOD.Schema;
+
 local positionTable = {
 	TOPLEFT = "TOPLEFT", 
 	LEFT = "LEFT", 

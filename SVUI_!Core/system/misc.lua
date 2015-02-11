@@ -381,6 +381,7 @@ do
 
 		HelmetToggle = CreateFrame('CheckButton', nil, CharacterModelFrame, "OptionsCheckButtonTemplate")
 		HelmetToggle:SetSize(16, 16)
+		HelmetToggle:SetStyle("Checkbox")
 		HelmetToggle.text = HelmetToggle:CreateFontString(nil, 'OVERLAY', "GameFontNormal")
 		HelmetToggle.text:SetPoint("LEFT", 24, 0)
 		HelmetToggle.TText = "Show/Hide Helmet"
@@ -390,6 +391,7 @@ do
 
 		CloakToggle = CreateFrame('CheckButton', nil, CharacterModelFrame, "OptionsCheckButtonTemplate")
 		CloakToggle:SetSize(16, 16)
+		CloakToggle:SetStyle("Checkbox")
 		CloakToggle.text = CloakToggle:CreateFontString(nil, 'OVERLAY', "GameFontNormal")
 		CloakToggle.text:SetPoint("LEFT", 24, 0)
 		CloakToggle.TText = "Show/Hide Cloak"
