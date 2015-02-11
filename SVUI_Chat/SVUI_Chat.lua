@@ -306,15 +306,11 @@ do
 		if(author ~= UnitName("player") and msg ~= nil and (event == "CHAT_MSG_YELL")) then
 			if THROTTLE_CACHE[msg] and CHAT_THROTTLE ~= 0 then
 				if difftime(time(), THROTTLE_CACHE[msg]) <= CHAT_THROTTLE then
-					blockFlag = true
+					return true;
 				end
 			end
-			if blockFlag then
-				return true;
-			else
-				if CHAT_THROTTLE ~= 0 then
-					THROTTLE_CACHE[msg] = time()
-				end
+			if CHAT_THROTTLE ~= 0 then
+				THROTTLE_CACHE[msg] = time()
 			end
 		end
 		return SVUI_ParseMessage(self, event, message, author, ...)

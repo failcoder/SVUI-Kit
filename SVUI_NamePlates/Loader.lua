@@ -67,7 +67,7 @@ SV.defaults[Schema] = {
 	["targetcount"] = true, 
 	["pointer"] = {
 		["enable"] = true, 
-		["colorMatchHealthBar"] = true, 
+		["colorMatchHealthBar"] = false, 
 		["color"] = {0.9, 1, 0.9}, 
 	}, 
 	["healthBar"] = {
