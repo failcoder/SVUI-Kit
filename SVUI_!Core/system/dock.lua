@@ -1274,7 +1274,7 @@ function MOD:Load()
 			SV:NewAnchor(dock, location .. " Dock Window")
 		end
 	end
-
+	
 	if MOD.private.LeftFaded then MOD.BottomLeft:Hide() end
 	if MOD.private.RightFaded then MOD.BottomRight:Hide() end
 

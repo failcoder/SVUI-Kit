@@ -787,10 +787,11 @@ do
 		end
 
 		frame.health:SetStatusBarColor(r,g,b)
-		if(NPUsePointer and (NPPointerMatch == true) and plate.setting.unit == "target") then
-			NPGlow:SetBackdropColor(r,g,b,0.5)
-			NPGlow:SetBackdropBorderColor(r,g,b,0.5)
-		end
+		--if(NPUsePointer and (NPPointerMatch == true) and plate.setting.unit == "target") then
+			--NPGlow:SetBackdropColor(r,g,b,0.5)
+			--NPGlow:SetBackdropBorderColor(r,g,b,0.5)
+			--NPGlow.FX:SetEffect("platepoint")
+		--end
 		--frame.health.elite.bottom:SetVertexColor(r,g,b)
 		--frame.health.elite.right:SetVertexColor(r,g,b)
 		--frame.health.elite.left:SetVertexColor(r,g,b)
@@ -884,7 +885,11 @@ do
 				NPGlow:WrapPoints(SVUI_PLATE.health,4,4)
 				NPGlow:SetFrameLevel(0)
 				NPGlow:SetFrameStrata("BACKGROUND")
-				NPGlow:Show()
+				if(not NPGlow:IsShown()) then
+					NPGlow:Show()
+					NPGlow.FX:Show()
+					NPGlow.FX:SetEffect("platepoint")
+				end
 			end
 			if((TARGET_CHECKS > 0) or PLATE_ARGS.allowed) then
 				TARGET_CHECKS = TARGET_CHECKS + 1
@@ -1074,10 +1079,11 @@ do
 			PLATE_ARGS.allowed = true
 		end
 
-		if(not NPPointerMatch) then
-			NPGlow:SetBackdropColor(unpack(NPPointerColor))
-			NPGlow:SetBackdropBorderColor(unpack(NPPointerColor))
-		end
+		--if(not NPPointerMatch) then
+			--NPGlow:SetBackdropColor(unpack(NPPointerColor))
+			--NPGlow:SetBackdropBorderColor(unpack(NPPointerColor))
+			--NPGlow.FX:SetEffect("platepoint")
+		--end
 	end
 
 	local function HideThisPlate(plate)
@@ -1097,6 +1103,7 @@ do
 		PLATE_ARGS.allowed = nil
 		if(NPGlow:GetParent() == SVUI_PLATE) then
 			NPGlow:Hide()
+			NPGlow.FX:Hide()
 		end
 		SVUI_PLATE.health.alert:Hide()
 		SVUI_PLATE.health.icon:Hide()
@@ -1442,6 +1449,7 @@ function MOD:PLAYER_TARGET_CHANGED()
 		WorldFrame.elapsed = 0.1;
 	else
 		NPGlow:Hide();
+		NPGlow.FX:Hide();
 		CURRENT_TARGET_NAME = nil;
 		TARGET_CHECKS = 0;
 	end
@@ -1600,9 +1608,12 @@ function MOD:ReLoad()
 end 
 
 function MOD:Load()
-	--SV.SpecialFX:Register("platepoint", [[Spells\Eastern_plaguelands_beam_effect.m2]], -12, 24, 12, -24, 1, 0, 0)
+	SV.SpecialFX:Register("platepoint", [[Spells\Cast_arcane_01.m2]], -12, 48, 12, -48, 0.25, 0, 0)
 	--SV.SpecialFX:Register("platepoint", [[Spells\Shadow_precast_uber_hand.m2]],  -12, 22, 12, -22, 0.23, -0.1, 0.1)
-	--SV.SpecialFX:SetFXFrame(NPGlow, "platepoint")
+	SV.SpecialFX:SetFXFrame(NPGlow, "platepoint", true)
+	NPGlow.FX:SetParent(SV.Screen)
+	NPGlow.FX:SetFrameStrata("BACKGROUND")
+	NPGlow.FX:SetFrameLevel(0)
 	self:UpdateLocals()
 	self:RegisterEvent("PLAYER_ENTERING_WORLD")
 	self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
