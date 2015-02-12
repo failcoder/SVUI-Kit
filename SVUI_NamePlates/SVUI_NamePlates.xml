@@ -42,13 +42,13 @@
     </Frame>
 
     <Frame name="SVUI_PlateGlowFrame" frameStrata="BACKGROUND" hidden="true">
-        <Backdrop bgFile="Interface\BUTTONS\WHITE8X8" edgeFile="Interface\AddOns\SVUI_!Core\assets\borders\SHADOW">
+        <!-- <Backdrop bgFile="Interface\BUTTONS\WHITE8X8" edgeFile="Interface\AddOns\SVUI_!Core\assets\borders\SHADOW">
             <EdgeSize val="3" />
             <TileSize val="0" />
             <BackgroundInsets left="3" right="3" top="3" bottom="3" />
             <Color r="0" g="0" b="0" a="0" />
             <BorderColor r="0" g="0" b="0" a="0" />
-        </Backdrop>
+        </Backdrop> -->
     	<Scripts>
             <OnLoad>
             	self:SetParent(_G['WorldFrame'])
