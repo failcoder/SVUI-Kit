@@ -1608,7 +1608,10 @@ function MOD:ReLoad()
 end 
 
 function MOD:Load()
-	SV.SpecialFX:Register("platepoint", [[Spells\Cast_arcane_01.m2]], -12, 48, 12, -48, 0.25, 0, 0)
+	--SV.SpecialFX:Register("platepoint", [[Spells\Arcane_missile_lvl1.m2]], -12, 48, 12, -48, 0.25, 0, 0)
+	SV.SpecialFX:Register("platepoint", [[Spells\Arrow_state_animated.m2]], -12, 12, 12, -50, 0.75, 0, 0.1)
+	--SV.SpecialFX:Register("platepoint", [[Spells\Cast_arcane_01.m2]], -12, 48, 12, -48, 0.25, 0, 0)
+	--SV.SpecialFX:Register("platepoint", [[Spells\Cast_arcane_01.m2]], -12, 48, 12, -48, 0.25, 0, 0)
 	--SV.SpecialFX:Register("platepoint", [[Spells\Shadow_precast_uber_hand.m2]],  -12, 22, 12, -22, 0.23, -0.1, 0.1)
 	SV.SpecialFX:SetFXFrame(NPGlow, "platepoint", true)
 	NPGlow.FX:SetParent(SV.Screen)
