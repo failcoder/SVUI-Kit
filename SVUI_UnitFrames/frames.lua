@@ -287,7 +287,6 @@ CONSTRUCTORS["player"] = function(self, unit)
     self.PvPText:SetFontObject(SpellFont_Small)
     self.Afflicted = MOD:CreateAfflicted(self)
     self.HealPrediction = MOD:CreateHealPrediction(self, true)
-    self.AuraBars = MOD:CreateAuraBarHeader(self, key)
     self.ResolveBar = MOD:CreateResolveBar(self)
     self.CombatFade = true;
     self:ModPoint("BOTTOMLEFT", SV.Screen, "BOTTOM", -413, 182)
@@ -359,7 +358,6 @@ CONSTRUCTORS["target"] = function(self, unit)
 
     self.Buffs = MOD:CreateBuffs(self, key)
     self.Debuffs = MOD:CreateDebuffs(self, key)
-    self.AuraBars = MOD:CreateAuraBarHeader(self, key)
     self.Afflicted = MOD:CreateAfflicted(self)
     self.RaidIcon = MOD:CreateRaidIcon(self)
 
@@ -574,7 +572,6 @@ CONSTRUCTORS["focus"] = function(self, unit)
     self.Castbar.LatencyTexture:Hide()
     self.Buffs = MOD:CreateBuffs(self, key)
     self.Debuffs = MOD:CreateDebuffs(self, key)
-    self.AuraBars = MOD:CreateAuraBarHeader(self, key)
     self.AuraWatch = MOD:CreateAuraWatch(self, key)
     self.RaidIcon = MOD:CreateRaidIcon(self)
     self.Range = { insideAlpha = 1, outsideAlpha = 1 }

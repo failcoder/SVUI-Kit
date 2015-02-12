@@ -30,38 +30,27 @@ local _, ns = ...
 local oUF = oUF or ns.oUF
 assert(oUF, 'oUF_AuraBars was unable to locate oUF install.')
 
-local function Round(number, decimalPlaces)
-	if decimalPlaces and decimalPlaces > 0 then
-		local mult = 10^decimalPlaces
-		return floor((number * mult) + .5) / mult
-	end
-	return floor(number + .5)
-end
+local DAY, HOUR, MINUTE = 86400, 3600, 60;
 
-local DAY, HOUR, MINUTE = 86400, 3600, 60
-local function FormatTime(s)
-	if s < MINUTE then
-		return ("%.1fs"):format(s)
-	elseif s < HOUR then
-		return ("%dm %ds"):format(s/60%60, s%60)
-	elseif s < DAY then
-		return ("%dh %dm"):format(s/(60*60), s/60%60)
+local function FormatTime(seconds)
+	if seconds < MINUTE then
+		return ("%.1fs"):format(seconds)
+	elseif seconds < HOUR then
+		return ("%dm %ds"):format(seconds/60%60, seconds%60)
+	elseif seconds < DAY then
+		return ("%dh %dm"):format(seconds/(60*60), seconds/60%60)
 	else
-		return ("%dd %dh"):format(s/DAY, (s / HOUR) - (floor(s/DAY) * 24))
+		return ("%dd %dh"):format(seconds/DAY, (seconds / HOUR) - (floor(seconds/DAY) * 24))
 	end
 end
 
-local function UpdateTooltip(self)
-	GameTooltip:SetUnitAura(self.__unit, self:GetParent().aura.name, self:GetParent().aura.rank, self:GetParent().aura.filter)
-end
-
-local function OnEnter(self)
+local OnEnter = function(self)
 	if(not self:IsVisible()) then return end
 	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT")
-	self:UpdateTooltip()
+	GameTooltip:SetUnitAura(self.parent.__owner.unit, self:GetID(), self.filter)
 end
 
-local function OnLeave(self)
+local OnLeave = function()
 	GameTooltip:Hide()
 end
 
@@ -130,8 +119,8 @@ local function SetBackground(frame)
     frame:SetBackdropBorderColor(0,0,0)
 end
 
-local function CreateAuraBar(oUF, anchor)
-	local auraBarParent = oUF.AuraBars
+local CreateAuraBar = function(self, anchor)
+	local auraBarParent = self.AuraBars
 	
 	local frame = CreateFrame("Frame", nil, auraBarParent)
 	frame:SetHeight(auraBarParent.auraBarHeight or 20)
@@ -173,7 +162,7 @@ local function CreateAuraBar(oUF, anchor)
 	holder:SetWidth(frame:GetHeight())
 	holder:SetPoint('BOTTOMRIGHT', frame, 'BOTTOMLEFT', -auraBarParent.gap, 0)
 	SetBackground(holder)
-	holder.__unit = oUF.unit
+	holder.__unit = self.unit
 	holder:SetScript('OnEnter', OnEnter)
 	holder:SetScript('OnLeave', OnLeave)
 	holder.UpdateTooltip = UpdateTooltip

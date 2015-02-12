@@ -127,7 +127,7 @@ local genericFilter = function(self, frame, _, name, _, _, _, _, _, _, caster, _
 	end
 end
 
-local function SetBarAnchors(self)
+local function SetAnchors(self)
 	local bars = self.Bars
 
 	for index = 1, #bars do
@@ -156,6 +156,42 @@ local function SetBarAnchors(self)
 		self:SetHeight(1)
 	else
 		self:SetHeight(self.activeHeight)
+		if(limit > 0) then
+			local col = 0
+			local row = 0
+			local gap = self.gap
+			local sizex = (self.size or 16) + (self['spacing-x'] or self.spacing or 0)
+			local sizey = (self.size or 16) + (self['spacing-y'] or self.spacing or 0)
+			local anchor = self.initialAnchor or "BOTTOMLEFT"
+			local growthx = (self["growth-x"] == "LEFT" and -1) or 1
+			local growthy = (self["growth-y"] == "DOWN" and -1) or 1
+			local cols = floor(self:GetWidth() / sizex + .5)
+			local rows = floor(self:GetHeight() / sizey + .5)
+
+			for i = 1, #auras do
+				local button = auras[i]
+				if(button and button:IsShown()) then
+					if(gap and button.debuff) then
+						if(col > 0) then
+							col = col + 1
+						end
+
+						gap = false
+					end
+
+					if(col >= cols) then
+						col = 0
+						row = row + 1
+					end
+					button:ClearAllPoints()
+					button:SetPoint(anchor, self, anchor, col * sizex * growthx, row * sizey * growthy)
+
+					col = col + 1
+				elseif(not button) then
+					break
+				end
+			end
+		end
 	end
 end
 
@@ -748,7 +784,7 @@ local Enable = function(self)
 
 			buffs:SetHeight(1)
 			buffs.activeHeight = buffs.activeHeight or 20
-			buffs.SetBarAnchors = SetBarAnchors
+			buffs.SetAnchors = SetAnchors
 		end
 
 		local debuffs = self.Debuffs
@@ -767,7 +803,7 @@ local Enable = function(self)
 
 			debuffs:SetHeight(1)
 			debuffs.activeHeight = debuffs.activeHeight or 20
-			debuffs.SetBarAnchors = SetBarAnchors
+			debuffs.SetAnchors = SetAnchors
 		end
 
 		return true

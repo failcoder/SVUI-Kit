@@ -61,7 +61,7 @@ LOCALS
 ##########################################################
 ]]--
 local LoadedUnitFrames, LoadedGroupHeaders;
-local SortAuraBars;
+local SortAuras;
 local ReversedUnit = {
 	["target"] = true, 
 	["targettarget"] = true, 
@@ -96,7 +96,7 @@ do
 		return a.name > b.name 
 	end
 
-	SortAuraBars = function(parent, sorting)
+	SortAuras = function(parent, sorting)
 		if not parent then return end 
 		if sorting == "TIME_REMAINING" then 
 			parent.sort = true;
@@ -436,9 +436,6 @@ function MOD:RefreshUnitLayout(frame, template)
 	local BUFF_ENABLED = (db.buffs and db.buffs.enable) or false;
 	local DEBUFF_GRIP = frame.Debuffs;
 	local DEBUFF_ENABLED = (db.debuffs and db.debuffs.enable) or false;
-	local AURABAR_GRIP = frame.AuraBars;
-	local AURABAR_ENABLED = (db.aurabar and db.aurabar.enable) or false;
-
 
 	MASTER_GRIP:ClearAllPoints();
 	MASTER_GRIP:ModPoint(TOP_ANCHOR1, frame, TOP_ANCHOR1, (1 * BOTTOM_MODIFIER), -1);
@@ -836,6 +833,7 @@ function MOD:RefreshUnitLayout(frame, template)
 			local perRow = db.buffs.perrow;
 			local buffCount = perRow * numRows;
 			
+			BUFF_GRIP.UseBars = db.buffs.useBars;
 			BUFF_GRIP.forceShow = frame.forceShowAuras;
 			BUFF_GRIP.num = GRID_MODE and 0 or buffCount;
 
@@ -848,14 +846,35 @@ function MOD:RefreshUnitLayout(frame, template)
 			end
 
 			BUFF_GRIP.size = auraSize;
+			BUFF_GRIP.activeHeight = (auraSize + BUFF_GRIP.spacing) * numRows;
 
 			local attachTo = FindAnchorFrame(frame, db.buffs.attachTo, db.debuffs.attachTo == 'BUFFS' and db.buffs.attachTo == 'DEBUFFS')
 			BUFF_GRIP:ClearAllPoints()
 			SV:SetReversePoint(BUFF_GRIP, db.buffs.anchorPoint, attachTo, db.buffs.xOffset + BOTTOM_MODIFIER, db.buffs.yOffset)
 			BUFF_GRIP:SetWidth((auraSize + BUFF_GRIP.spacing) * perRow)
-			BUFF_GRIP:ModHeight((auraSize + BUFF_GRIP.spacing) * numRows)
+			BUFF_GRIP:SetHeight(1)
 			BUFF_GRIP["growth-y"] = db.buffs.verticalGrowth;
 			BUFF_GRIP["growth-x"] = db.buffs.horizontalGrowth;
+
+			if(BUFF_GRIP.UseBars) then
+				if(db.buffs.anchorPoint == "BELOW") then
+					BUFF_GRIP.down = true
+				else
+					BUFF_GRIP.down = false
+				end 
+				BUFF_GRIP.buffColor = oUF_SVUI.colors.buff_bars
+
+				if(SV.db.UnitFrames.auraBarByType) then 
+					BUFF_GRIP.debuffColor = nil;
+					BUFF_GRIP.defaultDebuffColor = oUF_SVUI.colors.debuff_bars
+				else 
+					BUFF_GRIP.debuffColor = oUF_SVUI.colors.debuff_bars
+					BUFF_GRIP.defaultDebuffColor = nil 
+				end
+
+				SortAuras(BUFF_GRIP, db.buffs.sort)
+				BUFF_GRIP:SetBarAnchors()
+			end
 
 			if(BUFF_ENABLED) then 
 				BUFF_GRIP:Show()
@@ -869,6 +888,7 @@ function MOD:RefreshUnitLayout(frame, template)
 			local perRow = db.debuffs.perrow;
 			local debuffCount = perRow * numRows;
 			
+			DEBUFF_GRIP.UseBars = db.debuffs.useBars;
 			DEBUFF_GRIP.forceShow = frame.forceShowAuras;
 			DEBUFF_GRIP.num = GRID_MODE and 0 or debuffCount;
 
@@ -880,14 +900,35 @@ function MOD:RefreshUnitLayout(frame, template)
 			end
 
 			DEBUFF_GRIP.size = auraSize;
+			DEBUFF_GRIP.activeHeight = (auraSize + DEBUFF_GRIP.spacing) * numRows;
 
 			local attachTo = FindAnchorFrame(frame, db.debuffs.attachTo, db.debuffs.attachTo == 'BUFFS' and db.buffs.attachTo == 'DEBUFFS')
 			DEBUFF_GRIP:ClearAllPoints()
 			SV:SetReversePoint(DEBUFF_GRIP, db.debuffs.anchorPoint, attachTo, db.debuffs.xOffset + BOTTOM_MODIFIER, db.debuffs.yOffset)
 			DEBUFF_GRIP:SetWidth((auraSize + DEBUFF_GRIP.spacing) * perRow)
-			DEBUFF_GRIP:ModHeight((auraSize + DEBUFF_GRIP.spacing) * numRows)
+			DEBUFF_GRIP:SetHeight(1)
 			DEBUFF_GRIP["growth-y"] = db.debuffs.verticalGrowth;
 			DEBUFF_GRIP["growth-x"] = db.debuffs.horizontalGrowth;
+
+			if(DEBUFF_GRIP.UseBars) then
+				if(db.debuffs.anchorPoint == "BELOW") then
+					DEBUFF_GRIP.down = true
+				else
+					DEBUFF_GRIP.down = false
+				end 
+				DEBUFF_GRIP.buffColor = oUF_SVUI.colors.buff_bars
+
+				if(SV.db.UnitFrames.auraBarByType) then 
+					DEBUFF_GRIP.debuffColor = nil;
+					DEBUFF_GRIP.defaultDebuffColor = oUF_SVUI.colors.debuff_bars
+				else 
+					DEBUFF_GRIP.debuffColor = oUF_SVUI.colors.debuff_bars
+					DEBUFF_GRIP.defaultDebuffColor = nil 
+				end
+
+				SortAuras(DEBUFF_GRIP, db.debuffs.sort)
+				DEBUFF_GRIP:SetBarAnchors()
+			end
 
 			if(DEBUFF_ENABLED) then  
 				DEBUFF_GRIP:Show()
@@ -895,63 +936,6 @@ function MOD:RefreshUnitLayout(frame, template)
 				DEBUFF_GRIP:Hide()
 			end 
 		end 
-	end 
-
-	--[[ AURABAR LAYOUT ]]--
-
-	if(AURABAR_GRIP) then
-		if(AURABAR_ENABLED) then 
-			if(not frame:IsElementEnabled("AuraBars")) then 
-				frame:EnableElement("AuraBars") 
-			end 
-			AURABAR_GRIP:Show()
-
-			AURABAR_GRIP.forceShow = frame.forceShowAuras;
-			AURABAR_GRIP.friendlyAuraType = db.aurabar.friendlyAuraType
-			AURABAR_GRIP.enemyAuraType = db.aurabar.enemyAuraType
-
-			local attachTo = frame.ActionPanel;
-			local preOffset = 1;
-			if(db.aurabar.attachTo == "BUFFS" and frame.Buffs and frame.Buffs:IsShown()) then 
-				attachTo = frame.Buffs
-				preOffset = 10
-			elseif(db.aurabar.attachTo == "DEBUFFS" and frame.Debuffs and frame.Debuffs:IsShown()) then 
-				attachTo = frame.Debuffs
-				preOffset = 10
-			elseif(template ~= "player" and SVUI_Player and db.aurabar.attachTo == "PLAYER_AURABARS") then
-				attachTo = SVUI_Player.AuraBars
-				preOffset = 10
-			end
-
-			AURABAR_GRIP.auraBarHeight = db.aurabar.height;
-			AURABAR_GRIP:ClearAllPoints()
-			AURABAR_GRIP:SetSize(UNIT_WIDTH, db.aurabar.height)
-
-			if(db.aurabar.anchorPoint == "BELOW") then
-				AURABAR_GRIP:ModPoint("TOPLEFT", attachTo, "BOTTOMLEFT", 1, -preOffset)
-				AURABAR_GRIP.down = true
-			else
-				AURABAR_GRIP:ModPoint("BOTTOMLEFT", attachTo, "TOPLEFT", 1, preOffset)
-				AURABAR_GRIP.down = false
-			end 
-			AURABAR_GRIP.buffColor = oUF_SVUI.colors.buff_bars
-
-			if(SV.db.UnitFrames.auraBarByType) then 
-				AURABAR_GRIP.debuffColor = nil;
-				AURABAR_GRIP.defaultDebuffColor = oUF_SVUI.colors.debuff_bars
-			else 
-				AURABAR_GRIP.debuffColor = oUF_SVUI.colors.debuff_bars
-				AURABAR_GRIP.defaultDebuffColor = nil 
-			end
-
-			SortAuraBars(AURABAR_GRIP, db.aurabar.sort)
-			AURABAR_GRIP:SetAnchors()
-		else 
-			if(frame:IsElementEnabled("AuraBars")) then 
-				frame:DisableElement("AuraBars")
-				AURABAR_GRIP:Hide()
-			end 
-		end
 	end 
 
 	--[[ ICON LAYOUTS ]]--
