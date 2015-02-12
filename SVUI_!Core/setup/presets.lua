@@ -770,6 +770,9 @@ local function LoadPresetData()
 						overlay = true,
 						style = "3DOVERLAY",
 					},
+					["power"] = {
+						["enable"] = true,
+					},
 					["icons"] = {
 						["roleIcon"] = {
 							["attachTo"] = "INNERBOTTOMRIGHT",

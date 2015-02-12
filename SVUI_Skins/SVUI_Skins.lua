@@ -204,14 +204,18 @@ function MOD:PLAYER_ENTERING_WORLD(event, ...)
 			self:Style(addonName, fn, event, ...)
 		end 
 	end
+
+	SV.Events:Trigger("REQUEST_TEMPLATE_UPDATED");
 end
 
 function MOD:ADDON_LOADED(event, addon)
 	--print(addon)
+	local needsUpdate = false
 	for name, fn in pairs(self.OnLoadAddons) do
 		if(addon:find(name)) then
 			self:Style(name, fn, event, addon)
 			self.OnLoadAddons[name] = nil
+			needsUpdate = true
 		end
 	end
 
@@ -220,8 +224,13 @@ function MOD:ADDON_LOADED(event, addon)
 		for name, fn in pairs(self.AddOnQueue) do 
 			if(listener[name] and self:IsAddonReady(name)) then
 				self:Style(name, fn, event, addon)
+				needsUpdate = true
 			end 
 		end
+	end
+
+	if(needsUpdate) then
+		SV.Events:Trigger("REQUEST_TEMPLATE_UPDATED");
 	end
 end
 --[[ 

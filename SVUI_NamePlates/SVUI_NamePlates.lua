@@ -1443,13 +1443,13 @@ function MOD:PLAYER_REGEN_ENABLED()
 end
 
 function MOD:PLAYER_TARGET_CHANGED()
+	NPGlow:Hide()
+	NPGlow.FX:Hide()
 	if(UnitExists("target")) then
 		CURRENT_TARGET_NAME = UnitName("target");
 		TARGET_CHECKS = 1;
 		WorldFrame.elapsed = 0.1;
 	else
-		NPGlow:Hide();
-		NPGlow.FX:Hide();
 		CURRENT_TARGET_NAME = nil;
 		TARGET_CHECKS = 0;
 	end

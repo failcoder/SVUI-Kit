@@ -109,7 +109,7 @@ local function MirrorBarRegistry(barType)
 	bar.text:ModPoint('TOP', bar, 0, 2)
 	bar.text:SetPoint('BOTTOM', bar)
 	bar:ModSize(222, 18)
-	bar:SetStatusBarTexture(SV.BaseTexture)
+	bar:SetStatusBarTexture(SV.media.statusbar.gradient)
 	bar:SetStatusBarColor(r, g, b)
 	bar.type = barType;
 	bar.Start = MirrorBar_Start;
@@ -129,7 +129,7 @@ local function SetTimerStyle(bar)
 			child:SetFontObject(SVUI_Font_Default)
 		end 
 	end 
-	bar:SetStatusBarTexture(SV.BaseTexture)
+	bar:SetStatusBarTexture(SV.media.statusbar.gradient)
 	bar:SetStatusBarColor(0.37, 0.92, 0.08)
 	bar:SetStyle("Frame", "Bar", false, 3, 3, 3)
 end 
@@ -473,7 +473,7 @@ local function CreateRollFrame()
 	rollFrame.status:InsetPoints()
 	rollFrame.status:SetScript("OnUpdate",LootRoll_OnUpdate)
 	rollFrame.status:SetFrameLevel(rollFrame.status:GetFrameLevel() - 1)
-	rollFrame.status:SetStatusBarTexture(SV.BaseTexture)
+	rollFrame.status:SetStatusBarTexture(SV.media.statusbar.gradient)
 	rollFrame.status:SetStatusBarColor(.8,.8,.8,.9)
 	rollFrame.status.parent = rollFrame;
 	rollFrame.status.bg = rollFrame.status:CreateTexture(nil,'BACKGROUND')
