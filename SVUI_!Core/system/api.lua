@@ -908,6 +908,7 @@ MOD.Methods["Button"] = function(self, frame, inverse, xOffset, yOffset, default
     CommonButtonSettings(frame, true)
     if(defaultColor) then
         frame.Panel:SetAttribute("panelID", "button"..defaultColor)
+        tinsert(LIVE_UPDATE_FRAMES, frame);
     end
 end;
 
@@ -1203,13 +1204,12 @@ local function FrameTemplateUpdates()
                     end
                 end
             end
-        else
-            print("Missing Frame")
         end
     end
 end
 
 SV.Events:On("SHARED_MEDIA_UPDATED", FrameTemplateUpdates, true);
+SV.Events:On("REQUEST_TEMPLATE_UPDATED", FrameTemplateUpdates, true);
 --[[ 
 ########################################################## 
 CORE FUNCTIONS
