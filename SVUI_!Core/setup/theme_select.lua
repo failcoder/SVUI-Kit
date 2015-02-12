@@ -63,7 +63,6 @@ function SV.Setup:SelectTheme()
 			themeButton:EnableMouse(true)
 			themeButton:SetScript("OnMouseDown", function(self) 
 				SVUILib:SaveSafeData("THEME", themeName)
-				SVUILib:UpdateCoreDatabases()
 				SV:StaticPopup_Show("RL_CLIENT");
 			end)
 			themeButton:SetScript("OnEnter", function(this)

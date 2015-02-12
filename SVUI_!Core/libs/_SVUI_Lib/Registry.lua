@@ -254,9 +254,7 @@ local function sanitizeType2(db, src)
             db[k] = nil
         else
             if(src[k] ~= nil) then 
-                if(not defined) then
-                    removedefaults(db[k], src[k])
-                end
+                removedefaults(db[k], src[k])
             end
         end
     end
@@ -305,6 +303,7 @@ local meta_database = {
 }
 
 local function GetProfileKeys()
+    PROFILE_KEY = ("%s - %s"):format(playerName, SOURCE_KEY)
     if(PRIVATE_SV.SAFEDATA) then 
         if(PRIVATE_SV.SAFEDATA.DUALSPEC) then 
             local id = GetSpecialization();
@@ -315,28 +314,16 @@ local function GetProfileKeys()
         else
             SOURCE_KEY = "Default";
         end
+        if(PRIVATE_SV.SAFEDATA.CurrentProfile) then
+            PROFILE_KEY = PRIVATE_SV.SAFEDATA.CurrentProfile
+        end
         if(PRIVATE_SV.SAFEDATA.THEME) then 
             PROFILE_THEME = PRIVATE_SV.SAFEDATA.THEME;
-        else
-            PROFILE_THEME = "Default";
+            if not MEDIA_SV.profiles[PROFILE_KEY].Theme[PROFILE_THEME] then MEDIA_SV.profiles[PROFILE_KEY].Theme[PROFILE_THEME] = {} end
         end
     else
         SOURCE_KEY = "Default";
-        PROFILE_THEME = "Default";
     end
-
-    if(PRIVATE_SV.SAFEDATA.CurrentProfile) then
-        PROFILE_KEY = PRIVATE_SV.SAFEDATA.CurrentProfile
-    else
-        PROFILE_KEY = ("%s - %s"):format(playerName, SOURCE_KEY)
-    end
-
-    if not GLOBAL_SV.profiles then GLOBAL_SV.profiles = {} end
-    if not MEDIA_SV.profiles then MEDIA_SV.profiles = {} end
-    if not GLOBAL_SV.profiles[PROFILE_KEY] then GLOBAL_SV.profiles[PROFILE_KEY] = {} end
-    if not MEDIA_SV.profiles[PROFILE_KEY] then MEDIA_SV.profiles[PROFILE_KEY] = {} end
-    if not MEDIA_SV.profiles[PROFILE_KEY].Theme then MEDIA_SV.profiles[PROFILE_KEY].Theme = {} end
-    if not MEDIA_SV.profiles[PROFILE_KEY].Theme[PROFILE_THEME] then MEDIA_SV.profiles[PROFILE_KEY].Theme[PROFILE_THEME] = {} end
 end
 
 local function LiveProfileChange()
@@ -776,20 +763,20 @@ local function ProcessLoadOnDemand()
                 local enabled = PRIVATE_SV.SAFEDATA.SAVED[schema]
 
                 if(enabled) then
+                    EnableAddOn(addonName)
                     if(not IsAddOnLoaded(addonName)) then
                         local loaded, reason = LoadAddOn(addonName)
                     end
-                    EnableAddOn(addonName)
                 else
                     DisableAddOn(addonName)
                 end
             elseif(theme) then
                 CoreObject.AvailableThemes[theme] = theme;
                 if(theme == PROFILE_THEME) then
+                    EnableAddOn(addonName)
                     if(not IsAddOnLoaded(addonName)) then
                         local loaded, reason = LoadAddOn(addonName)
                     end
-                    EnableAddOn(addonName)
                 else
                     DisableAddOn(addonName)
                 end
@@ -799,7 +786,6 @@ local function ProcessLoadOnDemand()
 end
 
 function lib:UpdateCoreDatabases()
-     --construct core dataset
     local db           = setmetatable({}, meta_transdata)
     db.data            = GLOBAL_SV.profiles[PROFILE_KEY]
     db.defaults        = CoreObject.defaults
@@ -871,6 +857,12 @@ local function CorePreInitialize()
     --FILTER SAVED VARIABLES
     if not _G[FILTERS_FILENAME] then _G[FILTERS_FILENAME] = {} end
     FILTER_SV = _G[FILTERS_FILENAME]
+
+    if not GLOBAL_SV.profiles then GLOBAL_SV.profiles = {} end
+    if not MEDIA_SV.profiles then MEDIA_SV.profiles = {} end
+    if not GLOBAL_SV.profiles[PROFILE_KEY] then GLOBAL_SV.profiles[PROFILE_KEY] = {} end
+    if not MEDIA_SV.profiles[PROFILE_KEY] then MEDIA_SV.profiles[PROFILE_KEY] = {} end
+    if not MEDIA_SV.profiles[PROFILE_KEY].Theme then MEDIA_SV.profiles[PROFILE_KEY].Theme = {} end
 
     GetProfileKeys()
 
