@@ -197,28 +197,78 @@ local PostCreateAuraBars = function(self)
 	self:SetScript("OnClick", FilterAura_OnClick)
 end 
 
-local ColorizeAuraBars = function(self)
-	local bars = self.bars;
+local ColorizeAuraBars = function(self, filter, dtype)
+	local bars = self.Bars;
+	local barTexture = LSM:Fetch("statusbar", SV.db.UnitFrames.auraBarStatusbar);
+	local r, g, b = .2, .6, 1;
+
+	if filter == 'HARMFUL' then
+		local debuffType = dtype and dtype or 'none';
+		if(SV.db.UnitFrames.auraBarByType) then
+			if(DebuffTypeColor[debuffType]) then
+				r, g, b = DebuffTypeColor[debuffType].r, DebuffTypeColor[debuffType].g, DebuffTypeColor[debuffType].b
+			elseif(oUF_SVUI.colors.debuff_bars) then
+				r, g, b = unpack(oUF_SVUI.colors.debuff_bars)
+			else
+				r, g, b = .9, 0, 0;
+			end
+		end
+	else
+		if oUF_SVUI.colors.buff_bars then
+			r, g, b = unpack(oUF_SVUI.colors.buff_bars)
+		end	
+	end
+
 	for i = 1, #bars do 
-		local auraBar = bars[i]
-		if not auraBar:IsVisible()then break end 
+		local bar = bars[i]
+		if not bar:IsVisible()then break end 
 		local color
-		local spellID = auraBar.spellID;
+		local spellID = bar.spellID;
 		local filterKey = tostring(spellID)
+		local color;
 		if(SV.filters["Defense"][filterKey]) then 
 			color = oUF_SVUI.colors.shield_bars
 		elseif(SV.filters.AuraBars[filterKey]) then
 			color = SV.filters.AuraBars[filterKey]
 		end 
 		if color then 
-			auraBar.statusBar:SetStatusBarColor(unpack(color))
-			auraBar:SetBackdropColor(color[1] * 0.25, color[2] * 0.25, color[3] * 0.25, 0.5)
+			bar.statusBar:SetStatusBarColor(unpack(color))
+			bar:SetBackdropColor(color[1] * 0.25, color[2] * 0.25, color[3] * 0.25, 0.5)
 		else
-			local r, g, b = auraBar.statusBar:GetStatusBarColor()
-			auraBar:SetBackdropColor(r * 0.25, g * 0.25, b * 0.25, 0.5)
-		end 
+			bar:SetStatusBarColor(r, g, b)
+			bar:SetBackdropColor(r * 0.25, g * 0.25, b * 0.25, 0.5)
+		end
+		bar:SetStatusBarTexture(barTexture)
 	end 
 end
+
+local PostBarUpdate = function(self, bar, spellID, isDebuff, dtype)
+	local barTexture = LSM:Fetch("statusbar", SV.db.UnitFrames.auraBarStatusbar);
+	bar:SetStatusBarTexture(barTexture)
+	if not bar:IsVisible() then return end
+	local filterKey = tostring(spellID)
+	local color = SV.filters.AuraBars[filterKey]
+	local r, g, b;
+	if(color) then
+		r, g, b = color[1], color[2], color[3]
+		bar:SetStatusBarColor(r, g, b)
+		bar:SetBackdropColor(r * 0.25, g * 0.25, b * 0.25, 0.5)
+	elseif(SV.db.UnitFrames.auraBarByType) then
+		if isDebuff then
+			if(not dtype and oUF_SVUI.colors.debuff_bars) then
+				r, g, b = unpack(oUF_SVUI.colors.debuff_bars)
+			elseif(DebuffTypeColor[debuffType]) then
+				r, g, b = DebuffTypeColor[debuffType].r, DebuffTypeColor[debuffType].g, DebuffTypeColor[debuffType].b
+			else
+				r, g, b = .9, 0, 0;
+			end
+		elseif(oUF_SVUI.colors.buff_bars) then
+			r, g, b = unpack(oUF_SVUI.colors.buff_bars)
+		else
+			r, g, b = .2, .6, 1;	
+		end
+	end
+end 
 
 --[[ AURA FILTERING ]]--
 --self, this, unit, name, rank, texture, count, dtype, duration, timeLeft, caster, isStealable, shouldConsolidate, spellID, canApplyAura, isBossDebuff
@@ -232,9 +282,10 @@ local CommonAuraFilter = function(self, aura, unit, auraName, _, _, _, debuffTyp
 	local auraDB = db[auraType];
 	local isPlayer = caster == "player" or caster == "vehicle";
 	local isEnemy = UnitIsEnemy("player", unit);
-
-	aura.isPlayer = isPlayer;
-	aura.priority = 0;
+	if(aura) then
+		aura.isPlayer = isPlayer;
+		aura.priority = 0;
+	end
 
 	local filterKey = tostring(spellID)
 
@@ -293,8 +344,10 @@ local DetailedAuraFilter = function(self, aura, unit, auraName, _, _, _, debuffT
 	local isPlayer = caster == "player" or caster == "vehicle"
 	local isEnemy = UnitIsEnemy("player", unit);
 
-	aura.isPlayer = isPlayer;
-	aura.priority = 0;
+	if(aura) then
+		aura.isPlayer = isPlayer;
+		aura.priority = 0;
+	end
 
 	local filterKey = tostring(spellID)
 
@@ -348,12 +401,14 @@ function MOD:CreateBuffs(frame, unit)
 	local aura = CreateFrame("Frame", nil, frame)
 	aura.___key = unit;
 	aura.gap = 2;
+	aura.size = 16;
 	aura.spacing = 2;
 	aura.spark = true;
 	aura.UseBars = false;
 	aura.CreateIcon = CreateAuraIcon;
-	aura.PostUpdateBars = ColorizeAuraBars;
+	--aura.PostUpdateBars = ColorizeAuraBars;
 	aura.PostCreateBar = PostCreateAuraBars;
+	--aura.PostBarUpdate = PostBarUpdate;
 	if(BoolFilters[unit]) then
 		aura.CustomFilter = CommonAuraFilter;
 	else
@@ -368,13 +423,14 @@ function MOD:CreateDebuffs(frame, unit)
 	local aura = CreateFrame("Frame", nil, frame)
 	aura.___key = unit;
 	aura.gap = 2;
+	aura.size = 16;
 	aura.spacing = 2;
 	aura.spark = true;
 	aura.UseBars = false;
 	aura.CreateIcon = CreateAuraIcon;
-	aura.PostUpdateBars = ColorizeAuraBars;
+	--aura.PostUpdateBars = ColorizeAuraBars;
 	aura.PostCreateBar = PostCreateAuraBars;
-	
+	--aura.PostBarUpdate = PostBarUpdate;
 	if(BoolFilters[unit]) then
 		aura.CustomFilter = CommonAuraFilter;
 	else

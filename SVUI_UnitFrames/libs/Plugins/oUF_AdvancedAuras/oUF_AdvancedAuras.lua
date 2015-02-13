@@ -106,7 +106,9 @@ end
 
 local sort = function(a, b)
 	local compa, compb = a.noTime and huge or a.expirationTime, b.noTime and huge or b.expirationTime
-	return compa > compb
+	if(compa and compb) then
+		return compa > compb
+	end
 end
 
 local genericFilter = function(self, frame, _, name, _, _, _, _, _, _, caster, _, shouldConsolidate)
@@ -127,69 +129,27 @@ local genericFilter = function(self, frame, _, name, _, _, _, _, _, _, caster, _
 	end
 end
 
-local function SetAnchors(self)
+local function SetBarAnchors(self)
 	local bars = self.Bars
 
 	for index = 1, #bars do
 		local frame = bars[index]
 		local anchor = frame.anchor
-		frame:SetHeight(self.auraBarHeight or 20)
-		frame.statusBar.iconHolder:ModSize(frame:GetHeight())			
-		frame:SetWidth((self.auraBarWidth or self:GetWidth()) - (frame:GetHeight() + (self.gap or 0)))	
+		frame:SetHeight(self.barHeight or 16)
+		frame.iconHolder:SetWidth(frame:GetHeight())			
+		frame:SetWidth(self:GetWidth())	
 		frame:ClearAllPoints()
 		if self.down == true then
 			if self == anchor then -- Root frame so indent for icon
-				frame:SetPoint('TOPLEFT', anchor, 'TOPLEFT', (frame:GetHeight() + (self.gap or 0) ), -1)
+				frame:SetPoint('TOPLEFT', anchor, 'TOPLEFT', 0, -1)
 			else
 				frame:SetPoint('TOPLEFT', anchor, 'BOTTOMLEFT', 0, (-self.spacing or 0))
 			end
 		else
 			if self == anchor then -- Root frame so indent for icon
-				frame:SetPoint('BOTTOMLEFT', anchor, 'BOTTOMLEFT', (frame:GetHeight() + (self.gap or 0)), 1)
+				frame:SetPoint('BOTTOMLEFT', anchor, 'BOTTOMLEFT', 0, 1)
 			else
 				frame:SetPoint('BOTTOMLEFT', anchor, 'TOPLEFT', 0, (self.spacing or 0))
-			end
-		end
-	end
-
-	if(visible == 0) then
-		self:SetHeight(1)
-	else
-		self:SetHeight(self.activeHeight)
-		if(limit > 0) then
-			local col = 0
-			local row = 0
-			local gap = self.gap
-			local sizex = (self.size or 16) + (self['spacing-x'] or self.spacing or 0)
-			local sizey = (self.size or 16) + (self['spacing-y'] or self.spacing or 0)
-			local anchor = self.initialAnchor or "BOTTOMLEFT"
-			local growthx = (self["growth-x"] == "LEFT" and -1) or 1
-			local growthy = (self["growth-y"] == "DOWN" and -1) or 1
-			local cols = floor(self:GetWidth() / sizex + .5)
-			local rows = floor(self:GetHeight() / sizey + .5)
-
-			for i = 1, #auras do
-				local button = auras[i]
-				if(button and button:IsShown()) then
-					if(gap and button.debuff) then
-						if(col > 0) then
-							col = col + 1
-						end
-
-						gap = false
-					end
-
-					if(col >= cols) then
-						col = 0
-						row = row + 1
-					end
-					button:ClearAllPoints()
-					button:SetPoint(anchor, self, anchor, col * sizex * growthx, row * sizey * growthy)
-
-					col = col + 1
-				elseif(not button) then
-					break
-				end
 			end
 		end
 	end
@@ -199,7 +159,6 @@ end
 
 local Bars_OnUpdate = function(self)
 	local timenow = GetTime()
-
 	for index = 1, #self do
 		local frame = self[index]
 		local bar = frame.statusBar
@@ -220,11 +179,11 @@ local Bars_OnUpdate = function(self)
 	end
 end
 
-local CreateAuraBar = function(self, anchor)	
+local CreateAuraBar = function(self, parent, height)	
 	local frame = CreateFrame("Button", nil, self)
-	frame:SetHeight(self.auraBarHeight or 20)
-	frame:SetWidth((self.auraBarWidth or self:GetWidth()) - (frame:GetHeight() + (self.gap or 0)))
-	frame.anchor = anchor
+	frame:SetHeight(height)
+	frame:SetWidth(self:GetWidth())
+	frame.parent = self
 
 	frame:SetScript('OnEnter', OnEnter)
 	frame:SetScript('OnLeave', OnLeave)
@@ -289,40 +248,48 @@ local CreateAuraBar = function(self, anchor)
 	frame.statusBar:SetPoint("TOPLEFT", frame.barHolder, "TOPLEFT", 1, -1)
 	frame.statusBar:SetPoint("BOTTOMRIGHT", frame.barHolder, "BOTTOMRIGHT", -1, 1)
 
-	local spark = statusBar:CreateTexture(nil, "OVERLAY", nil);
+	local spark = frame.statusBar:CreateTexture(nil, "OVERLAY", nil);
 	spark:SetTexture([[Interface\CastingBar\UI-CastingBar-Spark]]);
 	spark:SetWidth(12);
 	spark:SetBlendMode("ADD");
-	spark:SetPoint('CENTER', statusBar:GetStatusBarTexture(), 'RIGHT')		
-	statusBar.spark = spark
+	spark:SetPoint('CENTER', frame.statusBar:GetStatusBarTexture(), 'RIGHT')		
+	frame.statusBar.spark = spark
 	
 	if self.down == true then
-		frame:SetPoint('TOPLEFT', anchor, 'BOTTOMLEFT', 0, (-self.spacing or 0))
+		if self == parent then -- Root frame so indent for icon
+			frame:SetPoint('TOPLEFT', parent, 'TOPLEFT', 0, -1)
+		else
+			frame:SetPoint('TOPLEFT', parent, 'BOTTOMLEFT', 0, (-self.spacing or 0))
+		end
 	else
-		frame:SetPoint('BOTTOMLEFT', anchor, 'TOPLEFT', 0, (self.spacing or 0))
+		if self == parent then -- Root frame so indent for icon
+			frame:SetPoint('BOTTOMLEFT', parent, 'BOTTOMLEFT', 0, 1)
+		else
+			frame:SetPoint('BOTTOMLEFT', parent, 'TOPLEFT', 0, (self.spacing or 0))
+		end
 	end
 
 	if self.PostCreateBar then
 		self.PostCreateBar(frame)
 	else
-		statusBar.spelltime = statusBar:CreateFontString(nil, 'ARTWORK')
-		statusBar.spelltime:SetFont(self.timeFont or [[Fonts\FRIZQT__.TTF]], self.textSize or 10, self.textOutline or "NONE")
-		statusBar.spelltime:SetTextColor(1 ,1, 1)
-		statusBar.spelltime:SetShadowOffset(1, -1)
-	  	statusBar.spelltime:SetShadowColor(0, 0, 0)
-		statusBar.spelltime:SetJustifyH'RIGHT'
-		statusBar.spelltime:SetJustifyV'CENTER'
-		statusBar.spelltime:SetPoint'RIGHT'
+		frame.statusBar.spelltime = frame.statusBar:CreateFontString(nil, 'ARTWORK')
+		frame.statusBar.spelltime:SetFont(self.timeFont or [[Fonts\FRIZQT__.TTF]], self.textSize or 10, self.textOutline or "NONE")
+		frame.statusBar.spelltime:SetTextColor(1 ,1, 1)
+		frame.statusBar.spelltime:SetShadowOffset(1, -1)
+	  	frame.statusBar.spelltime:SetShadowColor(0, 0, 0)
+		frame.statusBar.spelltime:SetJustifyH'RIGHT'
+		frame.statusBar.spelltime:SetJustifyV'CENTER'
+		frame.statusBar.spelltime:SetPoint'RIGHT'
 
-		statusBar.spellname = statusBar:CreateFontString(nil, 'ARTWORK')
-		statusBar.spellname:SetFont(self.textFont or [[Fonts\FRIZQT__.TTF]], self.textSize or 10, self.textOutline or "NONE")
-		statusBar.spellname:SetTextColor(1, 1, 1)
-		statusBar.spellname:SetShadowOffset(1, -1)
-	  	statusBar.spellname:SetShadowColor(0, 0, 0)
-		statusBar.spellname:SetJustifyH'LEFT'
-		statusBar.spellname:SetJustifyV'CENTER'
-		statusBar.spellname:SetPoint'LEFT'
-		statusBar.spellname:SetPoint('RIGHT', statusBar.spelltime, 'LEFT')
+		frame.statusBar.spellname = frame.statusBar:CreateFontString(nil, 'ARTWORK')
+		frame.statusBar.spellname:SetFont(self.textFont or [[Fonts\FRIZQT__.TTF]], self.textSize or 10, self.textOutline or "NONE")
+		frame.statusBar.spellname:SetTextColor(1, 1, 1)
+		frame.statusBar.spellname:SetShadowOffset(1, -1)
+	  	frame.statusBar.spellname:SetShadowColor(0, 0, 0)
+		frame.statusBar.spellname:SetJustifyH'LEFT'
+		frame.statusBar.spellname:SetJustifyV'CENTER'
+		frame.statusBar.spellname:SetPoint'LEFT'
+		frame.statusBar.spellname:SetPoint('RIGHT', frame.statusBar.spelltime, 'LEFT')
 	end
 	
 	return frame
@@ -343,7 +310,7 @@ local UpdateAuraBar = function(self, auras, unit, index, offset, filter, isDebuf
 		local n = visible + offset + 1
 		local this = auras[n]
 		if(not this) then
-			this = (self.CreateAuraBar or CreateAuraBar) (self, index == 1 and self or auras[index - 1])
+			this = (self.CreateAuraBar or CreateAuraBar) (self, n == 1 and self or auras[n - 1], self.barHeight)
 			auras[n] = this
 		end
 
@@ -354,7 +321,7 @@ local UpdateAuraBar = function(self, auras, unit, index, offset, filter, isDebuf
 
 		if(show) then
 			this:SetID(index)
-			this.icon:SetTexture(this.icon)
+			this.icon:SetTexture(texture)
 			this.spellID = spellID
 			this.name = name
 			this.count:SetText((count > 1 and count))
@@ -386,37 +353,18 @@ local UpdateAuraBar = function(self, auras, unit, index, offset, filter, isDebuf
 			bar.spellname:SetText(count > 1 and format("%s [%d]", this.name, count) or this.name)
 			bar.spelltime:SetText(not this.noTime and FormatTime(this.expirationTime-GetTime()))
 
-			-- Colour bars
-			local r, g, b = .2, .6, 1 -- Colour for buffs
-			if self.buffColor then
-				r, g, b = unpack(self.buffColor)
-			end		
-			
-			if filter == 'HARMFUL' then
-				local debuffType = dtype and dtype or 'none'
-				
-				r, g, b = DebuffTypeColor[debuffType].r, DebuffTypeColor[debuffType].g, DebuffTypeColor[debuffType].b
-				if self.debuffColor then
-					r, g, b = unpack(self.debuffColor)
-				else
-					if debuffType == 'none' and self.defaultDebuffColor then
-						r, g, b = unpack(self.defaultDebuffColor)
-					end
-				end			
-			end
-
-			bar:SetStatusBarColor(r, g, b)
-
 			this:Show()
+
+			if self.PostBarUpdate then
+				self:PostBarUpdate(filter, dtype, bar)
+			else
+				bar:SetStatusBarColor(.2, .6, 1)
+			end
 
 			return VISIBLE
 		else
 			return HIDDEN
 		end
-	end
-	
-	if self.PostUpdate then
-		self:PostUpdate(unit)
 	end
 end
 
@@ -448,19 +396,19 @@ local SetAuraBars = function(self, unit, filter, limit, isDebuff, offset, dontHi
 	if(visible == 0) then
 		self:SetHeight(1)
 	else
-		if(limit > 0) then
-			local this = auras[visible]
-			if(self.down and (self:GetTop() and this:GetBottom())) then
-				self:SetHeight(self:GetTop() - this:GetBottom())
-			elseif(this:GetTop() and self:GetBottom()) then
-				self:SetHeight(this:GetTop() - self:GetBottom())
-			else
-				self:SetHeight(20)
-			end
+		--local height = (self.spacing + self.barHeight) * visible
+		--self:SetHeight(height)
+		local frame = auras[visible]
+		if(self.down and (self:GetTop() and frame:GetBottom())) then
+			self:SetHeight(self:GetTop() - frame:GetBottom())
+		elseif(frame:GetTop() and self:GetBottom()) then
+			self:SetHeight(frame:GetTop() - self:GetBottom())
+		else
+			self:SetHeight(20)
 		end
 	end
 
-	if(self.PostUpdate) then self:PostUpdate(unit) end
+	if(self.PostUpdateBars) then self:PostUpdateBars(unit) end
 end
 
 --[[ ICON SPECIFIC ]]--
@@ -536,7 +484,7 @@ local UpdateAuraIcon = function(self, auras, unit, index, offset, filter, isDebu
 
 		if(show) then
 			this:SetID(index)
-			this.icon:SetTexture(this.icon)
+			this.icon:SetTexture(texture)
 			this.spellID = spellID
 			this.name = name
 			this.count:SetText((count > 1 and count))
@@ -599,8 +547,9 @@ local UpdateAuraIcon = function(self, auras, unit, index, offset, filter, isDebu
 				end	
 			end
 
-			if(self.size) then
-				this:SetSize(self.size)
+			local size = self.size
+			if(size) then
+				this:SetSize(size, size)
 			end
 			
 			if((not duration or duration == 0) or (not timeLeft or timeLeft == 0)) then
@@ -656,7 +605,7 @@ local SetAuraIcons = function(self, unit, filter, limit, isDebuff, offset, dontH
 	if(visible == 0) then
 		self:SetHeight(1)
 	else
-		self:SetHeight(self.activeHeight)
+		self:SetHeight(self.maxIconHeight)
 		if(limit > 0) then
 			local col = 0
 			local row = 0
@@ -772,38 +721,32 @@ local Enable = function(self)
 		if(buffs) then
 			buffs.__owner = self
 			buffs.Icons = buffs.Icons or CreateFrame("Frame", nil, buffs)
+			buffs.Bars = buffs.Bars or CreateFrame("Frame", nil, buffs)
 			buffs.ForceUpdate = ForceUpdate
 			buffs.SetAuraIcons = SetAuraIcons
 			buffs.SetAuraBars = SetAuraBars
-			if(buffs.UseBars) then
-				buffs.Bars = buffs.Bars or CreateFrame("Frame", nil, buffs)
-				buffs.Bars:SetScript('OnUpdate', Bars_OnUpdate)
-			else
-				buffs.Bars:SetScript('OnUpdate', nil)
-			end
+			buffs.Bars:SetScript('OnUpdate', Bars_OnUpdate)
 
 			buffs:SetHeight(1)
-			buffs.activeHeight = buffs.activeHeight or 20
-			buffs.SetAnchors = SetAnchors
+			buffs.maxIconHeight = buffs.maxIconHeight or 20
+			buffs.barHeight = buffs.barHeight or 16
+			buffs.SetBarAnchors = SetBarAnchors
 		end
 
 		local debuffs = self.Debuffs
 		if(debuffs) then
 			debuffs.__owner = self
 			debuffs.Icons = debuffs.Icons or CreateFrame("Frame", nil, debuffs)
+			debuffs.Bars = debuffs.Bars or CreateFrame("Frame", nil, debuffs)
 			debuffs.ForceUpdate = ForceUpdate
 			debuffs.SetAuraIcons = SetAuraIcons
 			debuffs.SetAuraBars = SetAuraBars
-			if(debuffs.UseBars) then
-				debuffs.Bars = debuffs.Bars or CreateFrame("Frame", nil, debuffs)
-				debuffs.Bars:SetScript('OnUpdate', Bars_OnUpdate)
-			else
-				debuffs.Bars:SetScript('OnUpdate', nil)
-			end
+			debuffs.Bars:SetScript('OnUpdate', Bars_OnUpdate)
 
 			debuffs:SetHeight(1)
-			debuffs.activeHeight = debuffs.activeHeight or 20
-			debuffs.SetAnchors = SetAnchors
+			debuffs.maxIconHeight = debuffs.maxIconHeight or 20
+			debuffs.barHeight = debuffs.barHeight or 16
+			debuffs.SetBarAnchors = SetBarAnchors
 		end
 
 		return true

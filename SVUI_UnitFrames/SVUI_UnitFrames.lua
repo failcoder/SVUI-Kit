@@ -314,10 +314,6 @@ function MOD:RefreshUnitMedia(unitName)
     local key = unitName or self.___key
     if((not db) or (not self)) then return end
     local CURRENT_BAR_TEXTURE = LSM:Fetch("statusbar", db.statusbar)
-    local CURRENT_AURABAR_TEXTURE = LSM:Fetch("statusbar", db.auraBarStatusbar);
-    local CURRENT_AURABAR_FONT = LSM:Fetch("font", db.auraFont);
-    local CURRENT_AURABAR_FONTSIZE = db.auraFontSize
-    local CURRENT_AURABAR_FONTOUTLINE = db.auraFontOutline
     local unitDB = db[key]
     if(unitDB and unitDB.enable) then
         local panel = self.TextGrip
@@ -352,19 +348,6 @@ function MOD:RefreshUnitMedia(unitName)
 			else
 				self.Castbar.CastColor = oUF_SVUI.colors.casting
 				self.Castbar.SparkColor = oUF_SVUI.colors.spark
-			end
-        end
-        if(self.AuraBars and (unitDB.aurabar and unitDB.aurabar.enable)) then
-            local ab = self.AuraBars
-            ab.auraBarTexture = CURRENT_AURABAR_TEXTURE
-            ab.buffColor = oUF_SVUI.colors.buff_bars
-
-			if SV.db.UnitFrames.auraBarByType then 
-				ab.debuffColor = nil;
-				ab.defaultDebuffColor = oUF_SVUI.colors.debuff_bars
-			else 
-				ab.debuffColor = oUF_SVUI.colors.debuff_bars
-				ab.defaultDebuffColor = nil 
 			end
         end
     end
@@ -846,7 +829,8 @@ function MOD:RefreshUnitLayout(frame, template)
 			end
 
 			BUFF_GRIP.size = auraSize;
-			BUFF_GRIP.activeHeight = (auraSize + BUFF_GRIP.spacing) * numRows;
+			BUFF_GRIP.maxIconHeight = (auraSize + BUFF_GRIP.spacing) * numRows;
+			BUFF_GRIP.maxBarHeight = (auraSize + BUFF_GRIP.spacing) * buffCount;
 
 			local attachTo = FindAnchorFrame(frame, db.buffs.attachTo, db.debuffs.attachTo == 'BUFFS' and db.buffs.attachTo == 'DEBUFFS')
 			BUFF_GRIP:ClearAllPoints()
@@ -900,7 +884,8 @@ function MOD:RefreshUnitLayout(frame, template)
 			end
 
 			DEBUFF_GRIP.size = auraSize;
-			DEBUFF_GRIP.activeHeight = (auraSize + DEBUFF_GRIP.spacing) * numRows;
+			DEBUFF_GRIP.maxIconHeight = (auraSize + DEBUFF_GRIP.spacing) * numRows;
+			DEBUFF_GRIP.maxBarHeight = (auraSize + DEBUFF_GRIP.spacing) * debuffCount;
 
 			local attachTo = FindAnchorFrame(frame, db.debuffs.attachTo, db.debuffs.attachTo == 'BUFFS' and db.buffs.attachTo == 'DEBUFFS')
 			DEBUFF_GRIP:ClearAllPoints()
