@@ -179,7 +179,7 @@ local function Reputation_OnShow()
 	for i = 1, GetNumFactions()do 
 		local bar = _G["ReputationBar"..i.."ReputationBar"]
 		if bar then
-			 bar:SetStatusBarTexture(SV.BaseTexture)
+			 bar:SetStatusBarTexture(SV.media.statusbar.default)
 			if not bar.Panel then
 				 bar:SetStyle("Frame", "Inset")
 			end 

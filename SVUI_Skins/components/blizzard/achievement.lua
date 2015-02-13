@@ -388,7 +388,7 @@ local function AchievementStyle()
 		if d then 
 			if not d.styled then 
 				d:RemoveTextures()
-				d:SetStatusBarTexture(SV.BaseTexture)
+				d:SetStatusBarTexture(SV.media.statusbar.default)
 				d:SetStatusBarColor(4/255, 179/255, 30/255)
 				d:SetFrameLevel(d:GetFrameLevel()+3)
 				d:ModHeight(d:GetHeight()-2)

@@ -199,6 +199,8 @@ SV.defaults[Schema] = {
 		{
 			["enable"] = true,
 			["useBars"] = false,
+			["barSize"] = 16,
+			["barCount"] = 8,
 			["perrow"] = 8, 
 			["numrows"] = 1, 
 			["attachTo"] = "FRAME", 
@@ -221,6 +223,8 @@ SV.defaults[Schema] = {
 		{
 			["enable"] = true,
 			["useBars"] = false,
+			["barSize"] = 16,
+			["barCount"] = 8,
 			["perrow"] = 8, 
 			["numrows"] = 1, 
 			["attachTo"] = "BUFFS", 
@@ -365,6 +369,8 @@ SV.defaults[Schema] = {
 		{
 			["enable"] = true, 
 			["useBars"] = false,
+			["barSize"] = 16,
+			["barCount"] = 8,
 			["perrow"] = 8, 
 			["numrows"] = 1, 
 			["attachTo"] = "FRAME", 
@@ -411,6 +417,8 @@ SV.defaults[Schema] = {
 		{
 			["enable"] = true, 
 			["useBars"] = false,
+			["barSize"] = 16,
+			["barCount"] = 8,
 			["perrow"] = 8, 
 			["numrows"] = 1, 
 			["attachTo"] = "BUFFS", 
@@ -730,6 +738,8 @@ SV.defaults[Schema] = {
 		{
 			["enable"] = true, 
 			["useBars"] = false,
+			["barSize"] = 16,
+			["barCount"] = 8,
 			["perrow"] = 7, 
 			["numrows"] = 1, 
 			["attachTo"] = "FRAME", 
@@ -776,6 +786,8 @@ SV.defaults[Schema] = {
 		{
 			["enable"] = true, 
 			["useBars"] = false,
+			["barSize"] = 16,
+			["barCount"] = 8,
 			["perrow"] = 5, 
 			["numrows"] = 1, 
 			["attachTo"] = "FRAME", 
