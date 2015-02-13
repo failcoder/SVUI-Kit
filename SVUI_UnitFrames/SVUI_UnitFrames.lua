@@ -774,10 +774,10 @@ function MOD:RefreshUnitLayout(frame, template)
 			local count 	= columns * rows;
 			local auraSize;
 
-			if(frame.AuraBarsAvailable and bars) then
+			if(frame.AuraBarsAvailable and (bars and bars == true)) then
 				BUFF_GRIP.UseBars = bars;
-				auraSize = db.buffs.barSize or 16
-				count = db.buffs.barCount or 8
+				auraSize = db.buffs.barSize;
+				count = db.buffs.barCount;
 				if(db.buffs.anchorPoint == "BELOW") then
 					BUFF_GRIP.down = true
 				else
@@ -802,8 +802,9 @@ function MOD:RefreshUnitLayout(frame, template)
 			SV:SetReversePoint(BUFF_GRIP, db.buffs.anchorPoint, attachTo, db.buffs.xOffset + BOTTOM_MODIFIER, db.buffs.yOffset)
 			BUFF_GRIP["growth-y"] = db.buffs.verticalGrowth;
 			BUFF_GRIP["growth-x"] = db.buffs.horizontalGrowth;
+			BUFF_GRIP:SetHeight(BUFF_GRIP.maxHeight)
 			BUFF_GRIP:SetWidth(UNIT_WIDTH)
-			BUFF_GRIP:SetSorting(db.buffs.sort)
+			--BUFF_GRIP:SetSorting(db.buffs.sort)
 
 			if(BUFF_ENABLED) then 
 				BUFF_GRIP:Show()
@@ -819,10 +820,10 @@ function MOD:RefreshUnitLayout(frame, template)
 			local count 	= columns * rows;
 			local auraSize;
 
-			if(frame.AuraBarsAvailable and bars) then
+			if(frame.AuraBarsAvailable and (bars and bars == true)) then
 				DEBUFF_GRIP.UseBars = bars;
-				auraSize = db.debuffs.barSize or 16
-				count = db.debuffs.barCount or 8
+				auraSize = db.debuffs.barSize;
+				count = db.debuffs.barCount;
 				if(db.debuffs.anchorPoint == "BELOW") then
 					DEBUFF_GRIP.down = true
 				else
@@ -847,8 +848,9 @@ function MOD:RefreshUnitLayout(frame, template)
 			SV:SetReversePoint(DEBUFF_GRIP, db.debuffs.anchorPoint, attachTo, db.debuffs.xOffset + BOTTOM_MODIFIER, db.debuffs.yOffset)
 			DEBUFF_GRIP["growth-y"] = db.debuffs.verticalGrowth;
 			DEBUFF_GRIP["growth-x"] = db.debuffs.horizontalGrowth;
+			DEBUFF_GRIP:SetHeight(DEBUFF_GRIP.maxHeight)
 			DEBUFF_GRIP:SetWidth(UNIT_WIDTH)
-			DEBUFF_GRIP:SetSorting(db.debuffs.sort)
+			--DEBUFF_GRIP:SetSorting(db.debuffs.sort)
 
 			if(DEBUFF_ENABLED) then  
 				DEBUFF_GRIP:Show()

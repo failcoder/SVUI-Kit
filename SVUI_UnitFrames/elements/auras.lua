@@ -184,7 +184,6 @@ local PostCreateAuraBars = function(self)
 	local bar = self.statusBar
 	local barTexture = LSM:Fetch("statusbar", SV.db.UnitFrames.auraBarStatusbar)
 	bar:SetStatusBarTexture(barTexture)
-	bar.spelltime = bar:CreateFontString(nil, 'ARTWORK')
 	bar.spelltime:SetFontObject(SVUI_Font_UnitAura);
 	bar.spelltime:SetTextColor(1 ,1, 1)
 	bar.spelltime:SetShadowOffset(1, -1)
@@ -193,7 +192,6 @@ local PostCreateAuraBars = function(self)
 	bar.spelltime:SetJustifyV'CENTER'
 	bar.spelltime:SetPoint'RIGHT'
 
-	bar.spellname = bar:CreateFontString(nil, 'ARTWORK')
 	bar.spellname:SetFontObject(SVUI_Font_UnitAura_Bar);
 	bar.spellname:SetTextColor(1, 1, 1)
 	bar.spellname:SetShadowOffset(1, -1)
@@ -202,7 +200,7 @@ local PostCreateAuraBars = function(self)
 	bar.spellname:SetJustifyV'CENTER'
 	bar.spellname:SetPoint'LEFT'
 	bar.spellname:SetPoint('RIGHT', bar.spelltime, 'LEFT')
-
+	
 	self:RegisterForClicks("RightButtonUp")
 	self:SetScript("OnClick", FilterAura_OnClick)
 end 
@@ -230,9 +228,7 @@ local PostBarUpdate = function(self, bar, spellID, isDebuff, debuffType)
 
 	bar:SetStatusBarTexture(AURA_STATUSBAR)
 
-	local r, g, b = unpack(color)
-	bar:SetStatusBarColor(r, g, b)
-	bar:SetBackdropColor(r * 0.25, g * 0.25, b * 0.25, 0.5)
+	bar:SetStatusBarColor(unpack(color))
 end
 
 --[[ AURA FILTERING ]]--
@@ -370,6 +366,7 @@ function MOD:CreateAuraFrames(frame, unit, barsAvailable)
 		buffs.CustomFilter = DetailedAuraFilter;
 	end
 	buffs:SetFrameLevel(10)
+	frame.Buffs = buffs
 
 	local debuffs = CreateFrame("Frame", frame:GetName().."Debuffs", frame)
 	debuffs.___unitkey = unit;
@@ -381,6 +378,7 @@ function MOD:CreateAuraFrames(frame, unit, barsAvailable)
 		debuffs.CustomFilter = DetailedAuraFilter;
 	end
 	debuffs:SetFrameLevel(10)
+	frame.Debuffs = debuffs
 
 	if(barsAvailable) then
 		frame.AuraBarsAvailable = true;
@@ -389,9 +387,6 @@ function MOD:CreateAuraFrames(frame, unit, barsAvailable)
 		debuffs.PostCreateBar = PostCreateAuraBars;
 		debuffs.PostBarUpdate = PostBarUpdate;
 	end
-
-	frame.Buffs = buffs
-	frame.Debuffs = debuffs 
 end
 --[[ 
 ########################################################## 

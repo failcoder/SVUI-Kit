@@ -300,7 +300,8 @@ local SetIconLayout = function(self, visible, cache)
 				end
 				button:ClearAllPoints()
 				button:SetPoint(anchor, self, anchor, col * size * growthx, row * size * growthy)
-
+				button:SetWidth(self.auraSize)
+				button:SetHeight(self.auraSize)
 				col = col + 1
 			elseif(not button) then
 				break
@@ -323,7 +324,8 @@ local SetIconLayout = function(self, visible, cache)
 				end
 				button:ClearAllPoints()
 				button:SetPoint(anchor, self, anchor, col * size * growthx, row * size * growthy)
-
+				button:SetWidth(self.auraSize)
+				button:SetHeight(self.auraSize)
 				col = col + 1
 			elseif(not button) then
 				break
@@ -380,10 +382,7 @@ end
 --[[ BAR SPECIFIC ]]--
 
 local CreateAuraBar = function(self, index)
-	local height = self.barHeight or 16
 	local frame = CreateFrame("Button", nil, self)
-	frame:SetHeight(height)
-	frame:SetWidth(self:GetWidth())
 
 	frame:SetScript('OnEnter', Aura_OnEnter)
 	frame:SetScript('OnLeave', Aura_OnLeave)
@@ -454,20 +453,22 @@ local CreateAuraBar = function(self, index)
 	spark:SetPoint('CENTER', frame.statusBar:GetStatusBarTexture(), 'RIGHT')		
 	frame.statusBar.spark = spark
 
-	if self.PostCreateBar then
+	frame.statusBar.spelltime = frame.statusBar:CreateFontString(nil, 'ARTWORK')
+	frame.statusBar.spellname = frame.statusBar:CreateFontString(nil, 'ARTWORK')
+
+	--print("New Bar #" .. index)
+
+	if self.PostCreateBar then 
 		self.PostCreateBar(frame)
 	else
-		frame.statusBar.spelltime = frame.statusBar:CreateFontString(nil, 'ARTWORK')
-		frame.statusBar.spelltime:SetFont(self.timeFont or [[Fonts\FRIZQT__.TTF]], self.textSize or 10, self.textOutline or "NONE")
+		frame.statusBar.spelltime:SetFont([[Fonts\FRIZQT__.TTF]], 10, "NONE")
 		frame.statusBar.spelltime:SetTextColor(1 ,1, 1)
 		frame.statusBar.spelltime:SetShadowOffset(1, -1)
 	  	frame.statusBar.spelltime:SetShadowColor(0, 0, 0)
 		frame.statusBar.spelltime:SetJustifyH'RIGHT'
 		frame.statusBar.spelltime:SetJustifyV'CENTER'
 		frame.statusBar.spelltime:SetPoint'RIGHT'
-
-		frame.statusBar.spellname = frame.statusBar:CreateFontString(nil, 'ARTWORK')
-		frame.statusBar.spellname:SetFont(self.textFont or [[Fonts\FRIZQT__.TTF]], self.textSize or 10, self.textOutline or "NONE")
+		frame.statusBar.spellname:SetFont([[Fonts\FRIZQT__.TTF]], 10, "NONE")
 		frame.statusBar.spellname:SetTextColor(1, 1, 1)
 		frame.statusBar.spellname:SetShadowOffset(1, -1)
 	  	frame.statusBar.spellname:SetShadowColor(0, 0, 0)
@@ -476,7 +477,6 @@ local CreateAuraBar = function(self, index)
 		frame.statusBar.spellname:SetPoint'LEFT'
 		frame.statusBar.spellname:SetPoint('RIGHT', frame.statusBar.spelltime, 'LEFT')
 	end
-	
 	return frame
 end
 
@@ -487,12 +487,14 @@ local UpdateIconAuras = function(self, cache, unit, index, filter, visible, isFr
 	local timeNow = GetTime()
 	local auras = self.Icons;
 
-	local name, rank, texture, count, debuffType, duration, timeLeft, caster, isStealable, shouldConsolidate, spellID, canApplyAura, isBossDebuff = UnitAura(unit, index, filter);
+	local name, rank, texture, count, debuffType, duration, timeLeft, caster, isStealable, shouldConsolidate, spellID, canApplyAura, isBossDebuff;
 
 	if(self.forceShow) then
 		spellID = 47540
 		name, rank, texture = GetSpellInfo(spellID)
 		count, debuffType, duration, timeLeft, caster, isStealable, shouldConsolidate, canApplyAura, isBossDebuff = 5, 'Magic', 0, 60, 'player', nil, nil, nil, nil
+	else
+		name, rank, texture, count, debuffType, duration, timeLeft, caster, isStealable, shouldConsolidate, spellID, canApplyAura, isBossDebuff = UnitAura(unit, index, filter);
 	end
 
 	if(name) then
@@ -695,7 +697,6 @@ local ParseMinorAuras = function(self, unit)
 
 	local limit = self.maxCount or 0;
 	local filter = self.filtering;
-
 	local index = 1;
 	local visible = 0;
 	local cache = {};
@@ -726,13 +727,13 @@ local ParseMajorAuras = function(self, unit)
 
 	local limit = self.maxCount or 0;
 	local filter = self.filtering;
-
 	local index = 1;
 	local visible = 0;
 	local cache = {};
 
 	local isFriend = (UnitIsFriend('player', unit) == 1) and true or false;
-
+	--print(self.unit)
+	--print(self.UseBars)
 	if(self.UseBars) then
 		while(visible < limit) do
 			local result = UpdateBarAuras(self, cache, unit, index, filter, visible, isFriend)
@@ -795,7 +796,6 @@ local MajorUpdate = function(self, event, unit)
 	if(buffs) then
 		if(not buffs.UseBars) then
 			if(buffs.Bars:IsShown()) then
-				buffs.Bars:SetScript('OnUpdate', nil)
 				buffs.Bars:Hide()
 			end
 			if(not buffs.Icons:IsShown()) then
@@ -807,7 +807,6 @@ local MajorUpdate = function(self, event, unit)
 			end
 			if(not buffs.Bars:IsShown()) then
 				buffs.Bars:Show()
-				buffs.Bars:SetScript('OnUpdate', AuraBars_OnUpdate)
 			end
 		end
 		ParseMajorAuras(buffs, unit)
@@ -817,7 +816,6 @@ local MajorUpdate = function(self, event, unit)
 	if(debuffs) then
 		if(not debuffs.UseBars) then
 			if(debuffs.Bars:IsShown()) then
-				debuffs.Bars:SetScript('OnUpdate', nil)
 				debuffs.Bars:Hide()
 			end
 			if(not debuffs.Icons:IsShown()) then
@@ -829,7 +827,6 @@ local MajorUpdate = function(self, event, unit)
 			end
 			if(not debuffs.Bars:IsShown()) then
 				debuffs.Bars:Show()
-				debuffs.Bars:SetScript('OnUpdate', AuraBars_OnUpdate)
 			end
 		end
 		ParseMajorAuras(debuffs, unit)
@@ -880,8 +877,7 @@ local Enable = function(self)
 				buffs.barHeight = buffs.barHeight or 16
 				buffs.Bars = buffs.Bars or CreateFrame("Frame", nil, buffs)
 				buffs.Bars:SetAllPoints(buffs)
-				buffs.Bars:Hide()
-				buffs.Icons:Hide()
+				buffs.Bars:SetScript('OnUpdate', AuraBars_OnUpdate)
 			end
 		end
 
@@ -911,8 +907,7 @@ local Enable = function(self)
 				debuffs.barHeight = debuffs.barHeight or 16
 				debuffs.Bars = debuffs.Bars or CreateFrame("Frame", nil, debuffs)
 				debuffs.Bars:SetAllPoints(debuffs)
-				debuffs.Bars:Hide()
-				debuffs.Icons:Hide()
+				debuffs.Bars:SetScript('OnUpdate', AuraBars_OnUpdate)
 			end
 		end
 
