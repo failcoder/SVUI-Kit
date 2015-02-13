@@ -197,7 +197,10 @@ SV.defaults[Schema] = {
 		}, 
 		["buffs"] = 
 		{
-			["enable"] = true, 
+			["enable"] = true,
+			["useBars"] = false,
+			["barSize"] = 16,
+			["barCount"] = 8,
 			["perrow"] = 8, 
 			["numrows"] = 1, 
 			["attachTo"] = "FRAME", 
@@ -214,10 +217,14 @@ SV.defaults[Schema] = {
 			["xOffset"] = 0, 
 			["yOffset"] = 8, 
 			["sizeOverride"] = 0, 
+			["sort"] = "TIME_REMAINING", 
 		}, 
 		["debuffs"] = 
 		{
-			["enable"] = true, 
+			["enable"] = true,
+			["useBars"] = false,
+			["barSize"] = 16,
+			["barCount"] = 8,
 			["perrow"] = 8, 
 			["numrows"] = 1, 
 			["attachTo"] = "BUFFS", 
@@ -233,22 +240,6 @@ SV.defaults[Schema] = {
 			["xOffset"] =  0, 
 			["yOffset"] = 8, 
 			["sizeOverride"] = 0, 
-		}, 
-		["aurabar"] = 
-		{
-			["enable"] = false, 
-			["anchorPoint"] = "ABOVE", 
-			["attachTo"] = "DEBUFFS",
-			["filterWhiteList"] = false,
-			["filterPlayer"] = true, 
-			["filterRaid"] = true, 
-			["filterAll"] = false, 
-			["filterInfinite"] = true, 
-			["filterDispellable"] = false, 
-			["useFilter"] = "", 
-			["friendlyAuraType"] = "HELPFUL", 
-			["enemyAuraType"] = "HARMFUL", 
-			["height"] = 18, 
 			["sort"] = "TIME_REMAINING", 
 		}, 
 		["castbar"] = 
@@ -377,6 +368,9 @@ SV.defaults[Schema] = {
 		["buffs"] = 
 		{
 			["enable"] = true, 
+			["useBars"] = false,
+			["barSize"] = 16,
+			["barCount"] = 8,
 			["perrow"] = 8, 
 			["numrows"] = 1, 
 			["attachTo"] = "FRAME", 
@@ -417,10 +411,14 @@ SV.defaults[Schema] = {
 			["xOffset"] = 0, 
 			["yOffset"] = 8, 
 			["sizeOverride"] = 0, 
+			["sort"] = "TIME_REMAINING", 
 		}, 
 		["debuffs"] = 
 		{
 			["enable"] = true, 
+			["useBars"] = false,
+			["barSize"] = 16,
+			["barCount"] = 8,
 			["perrow"] = 8, 
 			["numrows"] = 1, 
 			["attachTo"] = "BUFFS", 
@@ -456,46 +454,6 @@ SV.defaults[Schema] = {
 			["xOffset"] = 0, 
 			["yOffset"] = 8, 
 			["sizeOverride"] = 0, 
-		}, 
-		["aurabar"] = 
-		{
-			["enable"] = false, 
-			["anchorPoint"] = "ABOVE", 
-			["attachTo"] = "DEBUFFS",
-			["filterWhiteList"] = 
-			{
-				friendly = false, 
-				enemy = false, 
-			},
-			["filterPlayer"] = 
-			{
-				friendly = true, 
-				enemy = true, 
-			}, 
-			["filterAll"] = 
-			{
-				friendly = false, 
-				enemy = false, 
-			}, 
-			["filterInfinite"] = 
-			{
-				friendly = true, 
-				enemy = true, 
-			}, 
-			["filterRaid"] = 
-			{
-				friendly = true, 
-				enemy = true, 
-			}, 
-			["filterDispellable"] = 
-			{
-				friendly = false, 
-				enemy = false, 
-			}, 
-			["useFilter"] = "", 
-			["friendlyAuraType"] = "HELPFUL", 
-			["enemyAuraType"] = "HARMFUL", 
-			["height"] = 18, 
 			["sort"] = "TIME_REMAINING", 
 		}, 
 		["castbar"] = 
@@ -779,6 +737,9 @@ SV.defaults[Schema] = {
 		["buffs"] = 
 		{
 			["enable"] = true, 
+			["useBars"] = false,
+			["barSize"] = 16,
+			["barCount"] = 8,
 			["perrow"] = 7, 
 			["numrows"] = 1, 
 			["attachTo"] = "FRAME", 
@@ -818,11 +779,15 @@ SV.defaults[Schema] = {
 			["useFilter"] = "", 
 			["xOffset"] = 0, 
 			["yOffset"] = 4, 
-			["sizeOverride"] = 0, 
+			["sizeOverride"] = 0,
+			["sort"] = "TIME_REMAINING",  
 		}, 
 		["debuffs"] = 
 		{
 			["enable"] = true, 
+			["useBars"] = false,
+			["barSize"] = 16,
+			["barCount"] = 8,
 			["perrow"] = 5, 
 			["numrows"] = 1, 
 			["attachTo"] = "FRAME", 
@@ -858,52 +823,12 @@ SV.defaults[Schema] = {
 			["xOffset"] = -4, 
 			["yOffset"] = 0, 
 			["sizeOverride"] = 0, 
+			["sort"] = "TIME_REMAINING", 
 		},
 		["auraWatch"] = 
 		{
 			["enable"] = true, 
 			["size"] = 8, 
-		}, 
-		["aurabar"] = 
-		{
-			["enable"] = false, 
-			["anchorPoint"] = "ABOVE", 
-			["attachTo"] = "FRAME",
-			["filterWhiteList"] = 
-			{
-				friendly = false, 
-				enemy = false, 
-			},
-			["filterPlayer"] = 
-			{
-				friendly = false, 
-				enemy = true, 
-			},
-			["filterAll"] = 
-			{
-				friendly = false, 
-				enemy = false, 
-			}, 
-			["filterInfinite"] = 
-			{
-				friendly = false, 
-				enemy = false, 
-			}, 
-			["filterDispellable"] = 
-			{
-				friendly = false, 
-				enemy = false, 
-			}, 
-			["filterRaid"] = 
-			{
-				friendly = true, 
-				enemy = true, 
-			}, 
-			["useFilter"] = "", 
-			["friendlyAuraType"] = "HELPFUL", 
-			["enemyAuraType"] = "HARMFUL", 
-			["height"] = 18, 
-			["sort"] = "TIME_REMAINING", 
 		}, 
 		["icons"] = 
 		{

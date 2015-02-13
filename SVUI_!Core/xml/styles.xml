@@ -325,11 +325,11 @@
             <Attribute name="panelTexUpdate" type="boolean" value="false" />
             <Attribute name="panelSkipUpdate" type="boolean" value="true" />
         </Attributes>
-        <Backdrop bgFile="Interface\AddOns\SVUI_!Core\assets\textures\EMPTY" edgeFile="Interface\AddOns\SVUI_!Core\assets\borders\DEFAULT" tile="false">
+        <Backdrop bgFile="Interface\AddOns\SVUI_!Core\assets\backgrounds\DEFAULT" edgeFile="Interface\AddOns\SVUI_!Core\assets\borders\DEFAULT" tile="false">
             <EdgeSize val="1" />
             <TileSize val="0" />
             <BackgroundInsets left="0" right="0" top="0" bottom="0" />
-            <Color r="0" g="0" b="0" a="0" />
+            <Color r="0" g="0" b="0" a="1" />
             <BorderColor r="0" g="0" b="0" a="1" />
         </Backdrop>
         <Layers>

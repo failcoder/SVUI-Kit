@@ -41,7 +41,7 @@ local function StyleTinyDPS()
 
 	if tdpsStatusBar then
 		tdpsStatusBar:SetBackdrop({bgFile = SV.BaseTexture, edgeFile = S.Blank, tile = false, tileSize = 0, edgeSize = 1})
-		tdpsStatusBar:SetStatusBarTexture(SV.BaseTexture)
+		tdpsStatusBar:SetStatusBarTexture(SV.media.statusbar.default)
 	end
 
 	tdpsRefresh()

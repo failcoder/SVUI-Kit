@@ -189,7 +189,7 @@ local function PetJournalStyle()
 		_G['PetJournalLoadoutPet'..b..'HealthFrame'].healthBar:SetStatusBarTexture(SV.media.statusbar.default)
 		_G['PetJournalLoadoutPet'..b..'XPBar']:RemoveTextures()
 		_G['PetJournalLoadoutPet'..b..'XPBar']:SetStyle("Frame", 'Default')
-		_G['PetJournalLoadoutPet'..b..'XPBar']:SetStatusBarTexture(SV.BaseTexture)
+		_G['PetJournalLoadoutPet'..b..'XPBar']:SetStatusBarTexture(SV.media.statusbar.default)
 		_G['PetJournalLoadoutPet'..b..'XPBar']:SetFrameLevel(_G['PetJournalLoadoutPet'..b..'XPBar']:GetFrameLevel()+2)
 		for v = 1, 3 do 
 			local s = _G['PetJournalLoadoutPet'..b..'Spell'..v]
@@ -255,10 +255,10 @@ local function PetJournalStyle()
 
 	PetJournalPetCardHealthFrame.healthBar:RemoveTextures()
 	PetJournalPetCardHealthFrame.healthBar:SetStyle("Frame", 'Default')
-	PetJournalPetCardHealthFrame.healthBar:SetStatusBarTexture(SV.BaseTexture)
+	PetJournalPetCardHealthFrame.healthBar:SetStatusBarTexture(SV.media.statusbar.default)
 	PetJournalPetCardXPBar:RemoveTextures()
 	PetJournalPetCardXPBar:SetStyle("Frame", 'Default')
-	PetJournalPetCardXPBar:SetStatusBarTexture(SV.BaseTexture)
+	PetJournalPetCardXPBar:SetStatusBarTexture(SV.media.statusbar.default)
 
 	SV.API:Set("Tab", PetJournalParentTab3)
 
@@ -398,7 +398,7 @@ local function CollectionsJournalStyle()
 		_G['PetJournalLoadoutPet'..b..'HealthFrame'].healthBar:SetStatusBarTexture(SV.media.statusbar.default)
 		_G['PetJournalLoadoutPet'..b..'XPBar']:RemoveTextures()
 		_G['PetJournalLoadoutPet'..b..'XPBar']:SetStyle("Frame", 'Default')
-		_G['PetJournalLoadoutPet'..b..'XPBar']:SetStatusBarTexture(SV.BaseTexture)
+		_G['PetJournalLoadoutPet'..b..'XPBar']:SetStatusBarTexture(SV.media.statusbar.default)
 		_G['PetJournalLoadoutPet'..b..'XPBar']:SetFrameLevel(_G['PetJournalLoadoutPet'..b..'XPBar']:GetFrameLevel()+2)
 		for v = 1, 3 do 
 			local s = _G['PetJournalLoadoutPet'..b..'Spell'..v]
@@ -464,10 +464,10 @@ local function CollectionsJournalStyle()
 
 	PetJournalPetCardHealthFrame.healthBar:RemoveTextures()
 	PetJournalPetCardHealthFrame.healthBar:SetStyle("Frame", 'Default')
-	PetJournalPetCardHealthFrame.healthBar:SetStatusBarTexture(SV.BaseTexture)
+	PetJournalPetCardHealthFrame.healthBar:SetStatusBarTexture(SV.media.statusbar.default)
 	PetJournalPetCardXPBar:RemoveTextures()
 	PetJournalPetCardXPBar:SetStyle("Frame", 'Default')
-	PetJournalPetCardXPBar:SetStatusBarTexture(SV.BaseTexture)
+	PetJournalPetCardXPBar:SetStatusBarTexture(SV.media.statusbar.default)
 
 	SV.API:Set("Tab", CollectionsJournalTab3)
 

@@ -35,7 +35,7 @@ local function StyleDXEBar(bar)
 	bar.bg:SetTexture("")
 	bar.border.Show = SV.fubar
 	bar.border:Hide()
-	bar.statusbar:SetStatusBarTexture(SV.BaseTexture)
+	bar.statusbar:SetStatusBarTexture(SV.media.statusbar.default)
 	bar.statusbar:ClearAllPoints()
 	bar.statusbar:InsetPoints()
 	bar.righticon:SetStyle("!_Frame", "Default")
@@ -88,7 +88,7 @@ local function StyleDXE()
 				hw:SetStyle("!_Frame", "Transparent")
 				hw.border.Show = SV.fubar
 				hw.border:Hide()
-				hw.healthbar:SetStatusBarTexture(SV.BaseTexture)
+				hw.healthbar:SetStatusBarTexture(SV.media.statusbar.default)
 			end
 		end
 	end

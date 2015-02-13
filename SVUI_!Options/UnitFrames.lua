@@ -45,6 +45,7 @@ local MOD = SV.UnitFrames;
 if(not MOD) then return end;
 local _, SVUIOptions = ...;
 local Schema = MOD.Schema;
+local ACD = LibStub("AceConfigDialog-3.0");
 
 local DEFAULT_COLOR = {["r"] = 1, ["g"] = 0, ["b"] = 0};
 local STYLE_SELECT = {["coloredIcon"] = L["Colored Icon"], ["texturedIcon"] = L["Textured Icon"], [""] = NONE};
@@ -1459,7 +1460,7 @@ local function setAuraFilteringOptions(configTable, unitName, auraType, updateFu
 					type = "toggle", 
 					name = L["Only White Listed"], 
 					desc = L["Only show auras that are on the whitelist."], 
-					get = function(key)return SV.db.UnitFrames[unitName][auraType].filterPlayer.enemy end, 
+					get = function(key)return SV.db.UnitFrames[unitName][auraType].filterWhiteList.enemy end, 
 					set = function(key, value)
 						SV.db.UnitFrames[unitName][auraType].filterWhiteList.enemy = value;
 						if(value) then
@@ -1543,7 +1544,7 @@ function SVUIOptions:SetAuraConfigGroup(isPlayer, auraType, unused, updateFuncti
 	local groupOrder = auraType == "buffs" and 600 or 700
 	local groupName = auraType == "buffs" and L["Buffs"] or L["Debuffs"]
 	local attachToValue, attachToName;
-	if auraType == "buffs"then 
+	if auraType == "buffs" then 
 		attachToValue = "DEBUFFS"
 		attachToName = L["Debuffs"]
 	else
@@ -1731,100 +1732,51 @@ function SVUIOptions:SetAuraConfigGroup(isPlayer, auraType, unused, updateFuncti
 	end
 
 	setAuraFilteringOptions(configTable.args, unitName, auraType, updateFunction, isPlayer)
- 
-	return configTable 
-end 
 
-function SVUIOptions:SetAurabarConfigGroup(isPlayer, updateFunction, unitName)
-	local configTable = {
-		order = 1100, 
-		type = "group", 
-		name = L["Aura Bars"],
-		get = function(key)
-			return SV.db.UnitFrames[unitName]["aurabar"][key[#key]]
-		end,
-		set = function(key, value)
-			MOD:ChangeDBVar(value, key[#key], unitName, "aurabar")
-			updateFunction(MOD, unitName, count)
-			MOD:RefreshUnitFrames()
-		end,
-		args = {
-			enable = {
-				type = "toggle", 
-				order = 1, 
-				name = L["Aura Bars Enabled"]
-			},
-			commonGroup = {
-				order = 2, 
-				type = "group", 
-				guiInline = true, 
-				name = L["Base Settings"], 
-				args = { 
-					configureButton1 = {
-						order = 1, 
-						name = L["Coloring"], 
-						type = "execute", func = function() ACD:SelectGroup(SV.NameID, "UnitFrames", "common", "allColorsGroup", "auraBars") end
-					}, 
-					configureButton2 = {
-						order = 2, 
-						name = L["Coloring (Specific)"], 
-						type = "execute", func = function() SVUIOptions:SetToFilterConfig("AuraBars") end
-					},
-					spacer = {
-						order = 3, 
-						name = "", 
-						type = "description", 
-						width = "full", 
-					},
-					attachTo = {
-						type = "select", 
-						order = 4, 
-						name = L["Attach To"], desc = L["The object you want to attach to."], 
-						values = {["FRAME"] = L["Frame"], ["DEBUFFS"] = L["Debuffs"], ["BUFFS"] = L["Buffs"]}
-					},
-					anchorPoint = {
-						type = "select", 
-						order = 5, 
-						name = L["Anchor Point"], desc = L["What point to anchor to the frame you set to attach to."], values = {["ABOVE"] = L["Above"], ["BELOW"] = L["Below"]}
-					},  
-					height = {
-						type = "range", 
-						order = 6, 
-						name = L["Height"], min = 6, max = 40, step = 1
-					},
-				}
-			},
-			filterGroup = {
-				order = 3, 
-				type = "group", 
-				guiInline = true, 
-				name = L["Filtering and Sorting"], 
-				args = {
-					sort = {
-						type = "select", 
-						order = 1, 
-						name = L["Sort Method"], 
-						values = {["TIME_REMAINING"] = L["Time Remaining"], ["TIME_REMAINING_REVERSE"] = L["Time Remaining Reverse"], ["TIME_DURATION"] = L["Duration"], ["TIME_DURATION_REVERSE"] = L["Duration Reverse"], ["NAME"] = NAME, ["NONE"] = NONE}
-					},
-					friendlyAuraType = {
-						type = "select", 
-						order = 2, 
-						name = L["Friendly Aura Type"], desc = L["Set the type of auras to show when a unit is friendly."], values = {["HARMFUL"] = L["Debuffs"], ["HELPFUL"] = L["Buffs"]}
-					}, 
-					enemyAuraType = {
-						type = "select", 
-						order = 3, 
-						name = L["Enemy Aura Type"], desc = L["Set the type of auras to show when a unit is a foe."], values = {["HARMFUL"] = L["Debuffs"], ["HELPFUL"] = L["Buffs"]}
-					}
-				}
+	if(unitName == 'player' or unitName == 'target' or unitName == 'focus') then
+		configTable.args.barGroup = {
+			order = 20, 
+			type = "group", 
+			guiInline = true, 
+			name = L["Bar Style "..groupName], 
+			args = {
+				useBars = {
+					type = "toggle", 
+					order = 1, 
+					name = L["Enable"]
+				},
+				configureButton1 = {
+					order = 2, 
+					name = L["Coloring"], 
+					type = "execute", func = function() ACD:SelectGroup(SV.NameID, "UnitFrames", "common", "allColorsGroup", "auraBars") end,
+					disabled = function() return not SV.db.UnitFrames[unitName][auraType].useBars end,
+				}, 
+				configureButton2 = {
+					order = 3, 
+					name = L["Coloring (Specific)"], 
+					type = "execute", func = function() SVUIOptions:SetToFilterConfig("AuraBars") end,
+					disabled = function() return not SV.db.UnitFrames[unitName][auraType].useBars end,
+				},
+				spacer = {
+					order = 4, 
+					name = "", 
+					type = "description", 
+					width = "full",
+					disabled = function() return not SV.db.UnitFrames[unitName][auraType].useBars end,
+				},
+				sort = {
+					type = "select", 
+					order = 5, 
+					name = L["Sort Method"], 
+					values = {["TIME_REMAINING"] = L["Time Remaining"], ["TIME_REMAINING_REVERSE"] = L["Time Remaining Reverse"], ["TIME_DURATION"] = L["Duration"], ["TIME_DURATION_REVERSE"] = L["Duration Reverse"], ["NAME"] = NAME, ["NONE"] = NONE},
+					disabled = function() return not SV.db.UnitFrames[unitName][auraType].useBars end,
+				},
 			}
 		}
-	};
-
-	setAuraFilteringOptions(configTable.args.filterGroup.args, unitName, "aurabar", updateFunction, isPlayer)
-
+	end
+ 
 	return configTable 
-end 
+end
 
 SV:GenerateFontOptionGroup("UnitFrame", 6, "Fonts used in unit frames.", unitFonts)
 
@@ -3041,8 +2993,7 @@ SV.Options.args[Schema] = {
 						portrait = SVUIOptions:SetPortraitConfigGroup(MOD.SetUnitFrame, "player"), 
 						buffs = SVUIOptions:SetAuraConfigGroup(true, "buffs", false, MOD.SetUnitFrame, "player"), 
 						debuffs = SVUIOptions:SetAuraConfigGroup(true, "debuffs", false, MOD.SetUnitFrame, "player"), 
-						castbar = SVUIOptions:SetCastbarConfigGroup(MOD.SetUnitFrame, "player"), 
-						aurabar = SVUIOptions:SetAurabarConfigGroup(true, MOD.SetUnitFrame, "player"), 
+						castbar = SVUIOptions:SetCastbarConfigGroup(MOD.SetUnitFrame, "player"),
 						icons = SVUIOptions:SetIconConfigGroup(MOD.SetUnitFrame, "player"), 
 						classbar = {
 							order = 1000,
@@ -3407,7 +3358,6 @@ SV.Options.args[Schema] = {
 						buffs = SVUIOptions:SetAuraConfigGroup(false, "buffs", false, MOD.SetUnitFrame, "target"), 
 						debuffs = SVUIOptions:SetAuraConfigGroup(false, "debuffs", false, MOD.SetUnitFrame, "target"), 
 						castbar = SVUIOptions:SetCastbarConfigGroup(MOD.SetUnitFrame, "target"), 
-						aurabar = SVUIOptions:SetAurabarConfigGroup(false, MOD.SetUnitFrame, "target"), 
 						icons = SVUIOptions:SetIconConfigGroup(MOD.SetUnitFrame, "target")
 					}
 				},
@@ -3614,8 +3564,7 @@ SV.Options.args[Schema] = {
 						name = SVUIOptions:SetNameConfigGroup(MOD.SetUnitFrame, "focus"), 
 						buffs = SVUIOptions:SetAuraConfigGroup(false, "buffs", false, MOD.SetUnitFrame, "focus"), 
 						debuffs = SVUIOptions:SetAuraConfigGroup(false, "debuffs", false, MOD.SetUnitFrame, "focus"), 
-						castbar = SVUIOptions:SetCastbarConfigGroup(MOD.SetUnitFrame, "focus"), 
-						aurabar = SVUIOptions:SetAurabarConfigGroup(false, MOD.SetUnitFrame, "focus"), 
+						castbar = SVUIOptions:SetCastbarConfigGroup(MOD.SetUnitFrame, "focus"),
 						icons = SVUIOptions:SetIconConfigGroup(MOD.SetUnitFrame, "focus")
 					}
 				},

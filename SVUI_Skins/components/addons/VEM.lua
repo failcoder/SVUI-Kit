@@ -165,7 +165,7 @@ local StyleBoss = function()
 		end
 		bar:SetStyle("!_Frame", 'Transparent')
 		background:SetNormalTexture(nil)
-		progress:SetStatusBarTexture(SV.BaseTexture)
+		progress:SetStatusBarTexture(SV.media.statusbar.default)
 		progress:ClearAllPoints()
 		progress:InsetPoints(bar)
 		name:ClearAllPoints()

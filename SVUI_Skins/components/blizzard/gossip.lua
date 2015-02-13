@@ -57,7 +57,7 @@ local function GossipStyle()
 	SV.API:Set("CloseButton", GossipFrameCloseButton, GossipFrame.Panel)
 
 	NPCFriendshipStatusBar:RemoveTextures()
-	NPCFriendshipStatusBar:SetStatusBarTexture(SV.BaseTexture)
+	NPCFriendshipStatusBar:SetStatusBarTexture(SV.media.statusbar.default)
 	NPCFriendshipStatusBar:SetStyle("Frame", "Bar")
 
 	NPCFriendshipStatusBar:ClearAllPoints()

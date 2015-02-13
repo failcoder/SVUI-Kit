@@ -1,34 +1,348 @@
-local parent, ns = ...
-local oUF = ns.oUF
+--[[ MODIFIED FOR SVUI BY SVUILUNCH ]]--
 
-local VISIBLE = 1
-local HIDDEN = 0
+--GLOBAL NAMESPACE
+local _G = _G;
+--LUA
+local unpack        = _G.unpack;
+local select        = _G.select;
+local assert        = _G.assert;
+local type         	= _G.type;
+--STRING
+local string        = _G.string;
+local format        = string.format;
+--MATH
+local math          = math;
+local floor         = math.floor
+local ceil         	= math.ceil
+local hugeMath 		= math.huge;
+local min 			= math.min;
+--TABLE
+local table 		= _G.table;
+local tsort 		= table.sort;
+local tinsert 		= _G.tinsert;
+--BLIZZARD API
+local GetTime       = _G.GetTime;
+local CreateFrame   = _G.CreateFrame;
+local UnitAura      = _G.UnitAura;
+local UnitIsFriend  = _G.UnitIsFriend;
+local GameTooltip  	= _G.GameTooltip;
+local GetSpellInfo  = _G.GetSpellInfo;
+local DebuffTypeColor  = _G.DebuffTypeColor;
+local NumberFontNormal  = _G.NumberFontNormal;
 
-local floor = math.floor
-local tinsert = table.insert
+local _, ns = ...
+local oUF = oUF or ns.oUF
+assert(oUF, 'oUF_Auras was unable to locate oUF install.')
 
-local UpdateTooltip = function(self)
-	GameTooltip:SetUnitAura(self.parent.__owner.unit, self:GetID(), self.filter)
+local DAY, HOUR, MINUTE = 86400, 3600, 60;
+local BUFF_FILTER = 'HELPFUL';
+local DEBUFF_FILTER = 'HARMFUL';
+local VISIBLE = 1;
+local HIDDEN = 0;
+
+local function FormatTime(seconds)
+	if seconds < MINUTE then
+		return ("%.1fs"):format(seconds)
+	elseif seconds < HOUR then
+		return ("%dm %ds"):format(seconds/60%60, seconds%60)
+	elseif seconds < DAY then
+		return ("%dh %dm"):format(seconds/(60*60), seconds/60%60)
+	else
+		return ("%dd %dh"):format(seconds/DAY, (seconds / HOUR) - (floor(seconds/DAY) * 24))
+	end
 end
 
-local OnEnter = function(self)
+local SORTING_METHODS = {
+	["TIME_REMAINING"] = function(a, b)
+		local compA = a.noTime and hugeMath or a.expirationTime
+		local compB = b.noTime and hugeMath or b.expirationTime 
+		return compA > compB 
+	end,
+	["TIME_REMAINING_REVERSE"] = function(a, b)
+		local compA = a.noTime and hugeMath or a.expirationTime
+		local compB = b.noTime and hugeMath or b.expirationTime 
+		return compA < compB 
+	end,
+	["TIME_DURATION"] = function(a, b)
+		local compA = a.noTime and hugeMath or a.duration
+		local compB = b.noTime and hugeMath or b.duration 
+		return compA > compB 
+	end,
+	["TIME_DURATION_REVERSE"] = function(a, b)
+		local compA = a.noTime and hugeMath or a.duration
+		local compB = b.noTime and hugeMath or b.duration 
+		return compA < compB 
+	end,
+	["NAME"] = function(a, b)
+		return a.name > b.name
+	end,
+}
+
+local SetSorting = function(self, sorting)
+	if(sorting) then
+		if((type(sorting) == "string") and SORTING_METHODS[sorting]) then 
+			self.sort = SORTING_METHODS[sorting];
+		else
+			self.sort = SORTING_METHODS["TIME_REMAINING"];
+		end
+	else 
+		self.sort = nil;
+	end 
+end
+
+local genericFilter = function(self, frame, _, name, _, _, _, _, _, _, caster, _, shouldConsolidate)
+	local isPlayer
+
+	if(caster == 'player' or caster == 'vehicle') then
+		isPlayer = true
+	end
+
+	if((self.onlyShowPlayer and isPlayer) or (not self.onlyShowPlayer and name)) then
+		if(frame) then
+			frame.isPlayer = isPlayer
+			frame.owner = caster
+		end
+		if(not shouldConsolidate) then
+			return true
+		end
+	end
+end
+
+local Aura_OnEnter = function(self)
 	if(not self:IsVisible()) then return end
-
 	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT")
-	self:UpdateTooltip()
+	GameTooltip:SetUnitAura(self.unit, self.index, self.filter)
 end
 
-local OnLeave = function()
+local Aura_OnLeave = function()
 	GameTooltip:Hide()
 end
 
-local createAuraIcon = function(icons, index)
-	local button = CreateFrame("Button", nil, icons)
+local AuraBars_OnUpdate = function(self)
+	local timeNow = GetTime()
+	for index = 1, #self do
+		local frame = self[index]
+		local bar = frame.statusBar
+		if not frame:IsVisible() then
+			break
+		end
+		if frame.noTime then
+			bar.spelltime:SetText()
+			bar.spark:Hide()
+		else
+			local timeleft = frame.expirationTime - timeNow
+			bar:SetValue(timeleft)
+			bar.spelltime:SetText(FormatTime(timeleft))
+			if self.spark == true then
+				bar.spark:Show()
+			end
+		end
+	end
+end
+
+local AuraIcon_OnUpdate = function(self, elapsed)
+	self.expiration = self.expiration - elapsed;
+
+	if(self.nextUpdate > 0) then 
+		self.nextUpdate = self.nextUpdate - elapsed;
+		return;
+	end
+
+	if(self.expiration <= 0) then 
+		self:SetScript("OnUpdate", nil)
+		self.text:SetText('')
+		return;
+	end
+
+	local expires = self.expiration;
+	local calc, timeLeft = 0, 0;
+	local timeFormat;
+	if expires < 60 then 
+		if expires >= 4 then
+			timeLeft = floor(expires)
+			timeFormat = "|cffffff00%d|r"
+			self.nextUpdate = 0.51
+		else
+			timeLeft = expires
+			timeFormat = "|cffff0000%.1f|r"
+			self.nextUpdate = 0.051
+		end 
+	elseif expires < 3600 then
+		timeFormat = "|cffffffff%d|r|cffCC8811m|r"
+		timeLeft = ceil(expires / 60);
+		calc = floor((expires / 60) + 0.5);
+		self.nextUpdate = calc > 1 and ((expires - calc) * 29.5) or (expires - 59.5);
+	elseif expires < 86400 then
+		timeFormat = "|cff66ffff%d|r|cffAA5511h|r"
+		timeLeft = ceil(expires / 3600);
+		calc = floor((expires / 3600) + 0.5);
+		self.nextUpdate = calc > 1 and ((expires - calc) * 1799.5) or (expires - 3570);
+	else
+		timeFormat = "|cff6666ff%d|r|cff991100d|r"
+		timeLeft = ceil(expires / 86400);
+		calc = floor((expires / 86400) + 0.5);
+		self.nextUpdate = calc > 1 and ((expires - calc) * 43199.5) or (expires - 86400);
+	end
+
+	self.text:SetFormattedText(timeFormat, timeLeft)
+end
+
+local SetBarLayout = function(self, visible, cache)
+	local auras = self.Bars;
+
+	local newHeight = 1;
+	if(visible > 0) then
+		newHeight = 1 + ((self.auraSize + self.spacing) * visible);
+	end
+	self:SetHeight(newHeight)
+
+	local width = self:GetWidth();
+	local height = self.barHeight or 16;
+	local growDown = self.down or false;
+	local spacing = self.spacing or 0;
+
+	for i = visible + 1, #auras do
+		auras[i]:Hide()
+	end
+
+	local lastBar;
+	if(cache) then
+		for i = 1, #cache do
+			local info = cache[i]
+			local bar = auras[info.ref]
+			if(bar and bar:IsShown()) then
+				bar:SetHeight(height)
+				bar:SetWidth(width)
+				bar.iconHolder:SetWidth(height)
+				bar:ClearAllPoints()
+				if(growDown) then
+					if(not lastBar) then
+						bar:SetPoint('TOPLEFT', self, 'TOPLEFT', 0, 0)
+					else
+						bar:SetPoint('TOPLEFT', lastBar, 'BOTTOMLEFT', 0, -spacing)
+					end
+				else
+					if(not lastBar) then
+						bar:SetPoint('BOTTOMLEFT', self, 'BOTTOMLEFT', 0, 0)
+					else
+						bar:SetPoint('BOTTOMLEFT', lastBar, 'TOPLEFT', 0, spacing)
+					end
+				end
+				lastBar = bar
+			end
+		end
+	else
+		for index = 1, #auras do
+			local bar = auras[index]
+			if(bar and bar:IsShown()) then
+				bar:SetHeight(height)
+				bar:SetWidth(width)
+				bar.iconHolder:SetWidth(height)
+				bar:ClearAllPoints()
+				if(growDown) then
+					if(not lastBar) then
+						bar:SetPoint('TOPLEFT', self, 'TOPLEFT', 0, 0)
+					else
+						bar:SetPoint('TOPLEFT', lastBar, 'BOTTOMLEFT', 0, -spacing)
+					end
+				else
+					if(not lastBar) then
+						bar:SetPoint('BOTTOMLEFT', self, 'BOTTOMLEFT', 0, 0)
+					else
+						bar:SetPoint('BOTTOMLEFT', lastBar, 'TOPLEFT', 0, spacing)
+					end
+				end
+				lastBar = bar
+			end
+		end
+	end
+end
+
+local SetIconLayout = function(self, visible, cache)
+	local auras = self.Icons
+
+	local newHeight = 1;
+	if(visible > 0) then
+		local visibleRows = ceil(visible / self.maxColumns);
+		newHeight = 1 + ((self.auraSize + self.spacing) * visibleRows);
+	end
+	self:SetHeight(newHeight)
+
+	local col = 0
+	local row = 0
+	local gap = self.gap
+	local size = self.auraSize + self.spacing
+	local anchor = self.initialAnchor or "BOTTOMLEFT"
+	local growthx = (self["growth-x"] == "LEFT" and -1) or 1
+	local growthy = (self["growth-y"] == "DOWN" and -1) or 1
+	local cols = floor(self:GetWidth() / size + .5)
+	local rows = floor(self:GetHeight() / size + .5)
+
+	for i = visible + 1, #auras do
+		auras[i]:Hide()
+	end
+
+	if(cache) then
+		for i = 1, #cache do
+			local info = cache[i]
+			local button = auras[info.ref]
+			if(button and button:IsShown()) then
+				if(gap and button.debuff) then
+					if(col > 0) then
+						col = col + 1
+					end
+					gap = false
+				end
+
+				if(col >= cols) then
+					col = 0
+					row = row + 1
+				end
+				button:ClearAllPoints()
+				button:SetPoint(anchor, self, anchor, col * size * growthx, row * size * growthy)
+				button:SetWidth(self.auraSize)
+				button:SetHeight(self.auraSize)
+				col = col + 1
+			elseif(not button) then
+				break
+			end
+		end
+	else
+		for i = 1, #auras do
+			local button = auras[i]
+			if(button and button:IsShown()) then
+				if(gap and button.debuff) then
+					if(col > 0) then
+						col = col + 1
+					end
+					gap = false
+				end
+
+				if(col >= cols) then
+					col = 0
+					row = row + 1
+				end
+				button:ClearAllPoints()
+				button:SetPoint(anchor, self, anchor, col * size * growthx, row * size * growthy)
+				button:SetWidth(self.auraSize)
+				button:SetHeight(self.auraSize)
+				col = col + 1
+			elseif(not button) then
+				break
+			end
+		end
+	end
+end
+
+--[[ ICON SPECIFIC ]]--
+
+local CreateAuraIcon = function(self, index)
+	local button = CreateFrame("Button", nil, self)
 	button:EnableMouse(true)
 	button:RegisterForClicks'RightButtonUp'
 
-	button:SetWidth(icons.size or 16)
-	button:SetHeight(icons.size or 16)
+	button:SetWidth(self.auraSize or 16)
+	button:SetHeight(self.auraSize or 16)
 
 	local cd = CreateFrame("Cooldown", nil, button, "CooldownFrameTemplate")
 	cd:SetAllPoints(button)
@@ -53,103 +367,237 @@ local createAuraIcon = function(icons, index)
 	stealable:SetBlendMode'ADD'
 	button.stealable = stealable
 
-	button.UpdateTooltip = UpdateTooltip
-	button:SetScript("OnEnter", OnEnter)
-	button:SetScript("OnLeave", OnLeave)
+	button:SetScript("OnEnter", Aura_OnEnter)
+	button:SetScript("OnLeave", Aura_OnLeave)
 
-	tinsert(icons, button)
-
-	button.parent = icons
 	button.icon = icon
 	button.count = count
 	button.cd = cd
 
-	if(icons.PostCreateIcon) then icons:PostCreateIcon(button) end
+	if(self.PostCreateIcon) then self:PostCreateIcon(button) end
 
 	return button
 end
 
-local customFilter = function(icons, unit, icon, name, rank, texture, count, dtype, duration, timeLeft, caster)
-	local isPlayer
+--[[ BAR SPECIFIC ]]--
 
-	if(caster == 'player' or caster == 'vehicle') then
-		isPlayer = true
-	end
+local CreateAuraBar = function(self, index)
+	local frame = CreateFrame("Button", nil, self)
 
-	if((icons.onlyShowPlayer and isPlayer) or (not icons.onlyShowPlayer and name)) then
-		icon.isPlayer = isPlayer
-		icon.owner = caster
-		return true
+	frame:SetScript('OnEnter', Aura_OnEnter)
+	frame:SetScript('OnLeave', Aura_OnLeave)
+
+	local iconHolder = CreateFrame('Frame', nil, frame)
+	iconHolder:SetPoint('TOPLEFT', frame, 'TOPLEFT', 0, 0)
+	iconHolder:SetPoint('BOTTOMLEFT', frame, 'BOTTOMLEFT', 0, 0)
+	iconHolder:SetWidth(frame:GetHeight())
+	iconHolder:SetBackdrop({
+        bgFile = [[Interface\BUTTONS\WHITE8X8]], 
+        edgeFile = [[Interface\BUTTONS\WHITE8X8]], 
+        tile = false, 
+        tileSize = 0, 
+        edgeSize = 1, 
+        insets = 
+        {
+            left = 0, 
+            right = 0, 
+            top = 0, 
+            bottom = 0, 
+        }, 
+    })
+    iconHolder:SetBackdropColor(0,0,0,0.5)
+    iconHolder:SetBackdropBorderColor(0,0,0)
+	frame.iconHolder = iconHolder
+
+	frame.icon = frame.iconHolder:CreateTexture(nil, 'BORDER')
+	frame.icon:SetTexCoord(.1, .9, .1, .9)
+	frame.icon:SetPoint("TOPLEFT", frame.iconHolder, "TOPLEFT", 1, -1)
+	frame.icon:SetPoint("BOTTOMRIGHT", frame.iconHolder, "BOTTOMRIGHT", -1, 1)
+
+	frame.count = frame.iconHolder:CreateFontString(nil, "OVERLAY")
+	frame.count:SetFontObject(NumberFontNormal)
+	frame.count:SetPoint("BOTTOMRIGHT", frame.iconHolder, "BOTTOMRIGHT", -1, 0)
+
+	local barHolder = CreateFrame('Frame', nil, frame)
+	barHolder:SetPoint('BOTTOMLEFT', frame.iconHolder, 'BOTTOMRIGHT', self.gap, 0)
+	barHolder:SetPoint('TOPRIGHT', frame, 'TOPRIGHT', 0, 0)
+	barHolder:SetBackdrop({
+        bgFile = [[Interface\BUTTONS\WHITE8X8]], 
+        edgeFile = [[Interface\BUTTONS\WHITE8X8]], 
+        tile = false, 
+        tileSize = 0, 
+        edgeSize = 1, 
+        insets = 
+        {
+            left = 0, 
+            right = 0, 
+            top = 0, 
+            bottom = 0, 
+        }, 
+    })
+    barHolder:SetBackdropColor(0,0,0,0.5)
+    barHolder:SetBackdropBorderColor(0,0,0)
+	frame.barHolder = barHolder
+	
+	-- the main bar
+	frame.statusBar = CreateFrame("StatusBar", nil, frame.barHolder)
+	frame.statusBar:SetStatusBarTexture([[Interface\TargetingFrame\UI-StatusBar]])
+	frame.statusBar:SetAlpha(self.fgalpha or 1)
+	frame.statusBar:SetPoint("TOPLEFT", frame.barHolder, "TOPLEFT", 1, -1)
+	frame.statusBar:SetPoint("BOTTOMRIGHT", frame.barHolder, "BOTTOMRIGHT", -1, 1)
+
+	local spark = frame.statusBar:CreateTexture(nil, "OVERLAY", nil);
+	spark:SetTexture([[Interface\CastingBar\UI-CastingBar-Spark]]);
+	spark:SetWidth(12);
+	spark:SetBlendMode("ADD");
+	spark:SetPoint('CENTER', frame.statusBar:GetStatusBarTexture(), 'RIGHT')		
+	frame.statusBar.spark = spark
+
+	frame.statusBar.spelltime = frame.statusBar:CreateFontString(nil, 'ARTWORK')
+	frame.statusBar.spellname = frame.statusBar:CreateFontString(nil, 'ARTWORK')
+
+	--print("New Bar #" .. index)
+
+	if self.PostCreateBar then 
+		self.PostCreateBar(frame)
+	else
+		frame.statusBar.spelltime:SetFont([[Fonts\FRIZQT__.TTF]], 10, "NONE")
+		frame.statusBar.spelltime:SetTextColor(1 ,1, 1)
+		frame.statusBar.spelltime:SetShadowOffset(1, -1)
+	  	frame.statusBar.spelltime:SetShadowColor(0, 0, 0)
+		frame.statusBar.spelltime:SetJustifyH'RIGHT'
+		frame.statusBar.spelltime:SetJustifyV'CENTER'
+		frame.statusBar.spelltime:SetPoint'RIGHT'
+		frame.statusBar.spellname:SetFont([[Fonts\FRIZQT__.TTF]], 10, "NONE")
+		frame.statusBar.spellname:SetTextColor(1, 1, 1)
+		frame.statusBar.spellname:SetShadowOffset(1, -1)
+	  	frame.statusBar.spellname:SetShadowColor(0, 0, 0)
+		frame.statusBar.spellname:SetJustifyH'LEFT'
+		frame.statusBar.spellname:SetJustifyV'CENTER'
+		frame.statusBar.spellname:SetPoint'LEFT'
+		frame.statusBar.spellname:SetPoint('RIGHT', frame.statusBar.spelltime, 'LEFT')
 	end
+	return frame
 end
 
-local updateIcon = function(unit, icons, index, offset, filter, isDebuff, visible)
+local UpdateIconAuras = function(self, cache, unit, index, filter, visible, isFriend)
 	if not unit then return; end
-	local name, rank, texture, count, dtype, duration, timeLeft, caster, isStealable, shouldConsolidate, spellID, canApplyAura, isBossDebuff = UnitAura(unit, index, filter)
-	
-	if icons.forceShow then
+
+	local isDebuff = filter == DEBUFF_FILTER
+	local timeNow = GetTime()
+	local auras = self.Icons;
+
+	local name, rank, texture, count, debuffType, duration, timeLeft, caster, isStealable, shouldConsolidate, spellID, canApplyAura, isBossDebuff;
+
+	if(self.forceShow) then
 		spellID = 47540
 		name, rank, texture = GetSpellInfo(spellID)
-		count, dtype, duration, timeLeft, caster, isStealable, shouldConsolidate, canApplyAura, isBossDebuff = 5, 'Magic', 0, 60, 'player', nil, nil, nil, nil
+		count, debuffType, duration, timeLeft, caster, isStealable, shouldConsolidate, canApplyAura, isBossDebuff = 5, 'Magic', 0, 60, 'player', nil, nil, nil, nil
+	else
+		name, rank, texture, count, debuffType, duration, timeLeft, caster, isStealable, shouldConsolidate, spellID, canApplyAura, isBossDebuff = UnitAura(unit, index, filter);
 	end
-	
+
 	if(name) then
-		local n = visible + offset + 1
-		local icon = icons[n]
-		if(not icon) then
-			icon = (icons.CreateIcon or createAuraIcon) (icons, n)
-		end
-		
 		local show = true
-		if not icons.forceShow then
-			show = (icons.CustomFilter or customFilter) (icons, unit, icon, name, rank, texture, count, dtype, duration, timeLeft, caster, isStealable, shouldConsolidate, spellID, canApplyAura, isBossDebuff)
+		if(not self.forceShow) then
+			show = (self.CustomFilter or genericFilter) (self, false, unit, name, rank, texture, count, debuffType, duration, timeLeft, caster, isStealable, shouldConsolidate, spellID, canApplyAura, isBossDebuff)
+		elseif(visible > 3) then
+			show = false;
 		end
+
 		if(show) then
-			-- We might want to consider delaying the creation of an actual cooldown
-			-- object to this point, but I think that will just make things needlessly
-			-- complicated.
-			local cd = icon.cd
-			if(cd and not icons.disableCooldown) then
-				if(duration and duration > 0) then
+			local i = visible + 1
+			local this = auras[i]
+			if(not this) then
+				this = (self.CreateAuraIcon or CreateAuraIcon) (self, i)
+				auras[i] = this
+			end
+
+			duration = duration or 0;
+			timeLeft = timeLeft or 0;
+			count = count or 0;
+			local noTime = (duration == 0 and timeLeft == 0)
+			--FOR TOOLTIPS
+			this.unit = unit
+			this.index = index
+			this.filter = filter
+			--FOR ONCLICK EVENTS
+			this.name = name
+			this.spellID = spellID
+			--FOR ONUPDATE EVENTS
+			this.expirationTime = timeLeft
+			this.noTime = noTime
+
+			this.icon:SetTexture(texture)
+			this.count:SetText((count > 1 and count))
+			
+			this:Show()
+
+			--SORTING CACHE
+			local cached = {
+				ref = i,
+				noTime = noTime,
+				duration = duration,
+				expirationTime = timeLeft
+			}
+			tinsert(cache, cached)
+
+			local cd = this.cd
+			if(cd and not self.disableCooldown) then
+				if(noTime) then
+					cd:Hide()
+				else
 					cd:SetCooldown(timeLeft - duration, duration)
 					cd:Show()
-				else
-					cd:Hide()
 				end
 			end
 
-			if((isDebuff and icons.showDebuffType) or (not isDebuff and icons.showBuffType) or icons.showType) then
-				local color = DebuffTypeColor[dtype] or DebuffTypeColor.none
+			if(isDebuff) then
+				local color = DebuffTypeColor[debuffType] or DebuffTypeColor.none
+				if((not isFriend) and caster and (caster ~= "player") and (caster ~= "vehicle")) then
+					this:SetBackdropBorderColor(0.9, 0.1, 0.1, 1)
+					this.bg:SetBackdropColor(1, 0, 0, 1)
+					this.icon:SetDesaturated((unit and not unit:find('arena%d')) and true or false)
+				else
+					this:SetBackdropBorderColor(color.r * 0.6, color.g * 0.6, color.b * 0.6, 1)
+					this.bg:SetBackdropColor(color.r, color.g, color.b, 1)
+					this.icon:SetDesaturated(false)
+				end
 
-				icon.overlay:SetVertexColor(color.r, color.g, color.b)
-				icon.overlay:Show()
+				this.bg:SetBackdropBorderColor(0, 0, 0, 1)
+
+				if(self.showType and this.overlay) then
+					this.overlay:SetVertexColor(color.r, color.g, color.b)
+					this.overlay:Show()
+				else
+					this.overlay:Hide()
+				end
 			else
-				icon.overlay:Hide()
-			end
-
-			-- XXX: Avoid popping errors on layouts without icon.stealable.
-			if(icon.stealable) then
-				local stealable = not isDebuff and isStealable
-				if(stealable and icons.showStealableBuffs and not UnitIsUnit('player', unit)) then
-					icon.stealable:Show()
+				if((isStealable) and (not isFriend)) then
+					this:SetBackdropBorderColor(0.92, 0.91, 0.55, 1)
+					this.bg:SetBackdropColor(1, 1, 0.5, 1)
+					this.bg:SetBackdropBorderColor(0, 0, 0, 1)
 				else
-					icon.stealable:Hide()
-				end
+					this:SetBackdropBorderColor(0, 0, 0, 1)
+					this.bg:SetBackdropColor(0, 0, 0, 0)
+					this.bg:SetBackdropBorderColor(0, 0, 0, 0)		
+				end	
 			end
-
-			icon.icon:SetTexture(texture)
-			icon.count:SetText((count > 1 and count))
-
-			icon.filter = filter
-			icon.isDebuff = isDebuff
-
-			icon:SetID(index)
-			icon:Show()
-
-			if(icons.PostUpdateIcon) then
-				icons:PostUpdateIcon(unit, icon, index, offset)
+			
+			if(noTime) then
+				this:SetScript('OnUpdate', nil)
+				this.text:SetText('')
+			elseif(not this:GetScript('OnUpdate')) then
+				this.expirationTime = timeLeft
+				this.expiration = timeLeft - timeNow
+				this.nextUpdate = -1
+				this:SetScript('OnUpdate', AuraIcon_OnUpdate)
+			elseif(this.expirationTime ~= timeLeft) then
+				this.expirationTime = timeLeft
+				this.expiration = timeLeft - timeNow
+				this.nextUpdate = -1
 			end
-
+			
 			return VISIBLE
 		else
 			return HIDDEN
@@ -157,51 +605,106 @@ local updateIcon = function(unit, icons, index, offset, filter, isDebuff, visibl
 	end
 end
 
-local SetPosition = function(icons, x)
-	if(icons and x > 0) then
-		local col = 0
-		local row = 0
-		local gap = icons.gap
-		local sizex = (icons.size or 16) + (icons['spacing-x'] or icons.spacing or 0)
-		local sizey = (icons.size or 16) + (icons['spacing-y'] or icons.spacing or 0)
-		local anchor = icons.initialAnchor or "BOTTOMLEFT"
-		local growthx = (icons["growth-x"] == "LEFT" and -1) or 1
-		local growthy = (icons["growth-y"] == "DOWN" and -1) or 1
-		local cols = floor(icons:GetWidth() / sizex + .5)
-		local rows = floor(icons:GetHeight() / sizey + .5)
+local UpdateBarAuras = function(self, cache, unit, index, filter, visible, isFriend)
+	if not unit then return; end
+	local isDebuff = filter == DEBUFF_FILTER
+	local timeNow = GetTime()
+	local auras = self.Bars;
 
-		for i = 1, #icons do
-			local button = icons[i]
-			if(button and button:IsShown()) then
-				if(gap and button.debuff) then
-					if(col > 0) then
-						col = col + 1
-					end
+	local name, rank, texture, count, debuffType, duration, timeLeft, caster, isStealable, shouldConsolidate, spellID, canApplyAura, isBossDebuff = UnitAura(unit, index, filter);
 
-					gap = false
-				end
+	if(self.forceShow) then
+		spellID = 47540
+		name, rank, texture = GetSpellInfo(spellID)
+		count, debuffType, duration, timeLeft, caster, isStealable, shouldConsolidate, canApplyAura, isBossDebuff = 5, 'Magic', 0, 60, 'player', nil, nil, nil, nil
+	end
 
-				if(col >= cols) then
-					col = 0
-					row = row + 1
-				end
-				button:ClearAllPoints()
-				button:SetPoint(anchor, icons, anchor, col * sizex * growthx, row * sizey * growthy)
+	if(name) then
+		local show = true
+		if(not self.forceShow) then
+			show = (self.CustomFilter or genericFilter) (self, false, unit, name, rank, texture, count, debuffType, duration, timeLeft, caster, isStealable, shouldConsolidate, spellID, canApplyAura, isBossDebuff)
+		elseif(visible > 3) then
+			show = false;
+		end
 
-				col = col + 1
-			elseif(not button) then
-				break
+		if(show) then
+			local i = visible + 1
+			local this = auras[i]
+			if(not this) then
+				this = (self.CreateAuraBar or CreateAuraBar) (self, i)
+				auras[i] = this
 			end
+
+			duration = duration or 0;
+			timeLeft = timeLeft or 0;
+			count = count or 0;
+			local noTime = (duration == 0 and timeLeft == 0)
+			--FOR TOOLTIPS
+			this.unit = unit
+			this.index = index
+			this.filter = filter
+			--FOR ONCLICK EVENTS
+			this.name = name
+			this.spellID = spellID
+			--FOR ONUPDATE EVENTS
+			this.expirationTime = timeLeft
+			this.noTime = noTime
+
+			this.icon:SetTexture(texture)
+			this.count:SetText((count > 1 and count))
+			
+			this:Show()
+
+			--SORTING CACHE
+			local cached = {
+				ref = i,
+				noTime = noTime,
+				duration = duration,
+				expirationTime = timeLeft
+			}
+			tinsert(cache, cached)
+
+			local bar = this.statusBar
+			if(noTime) then
+				bar:SetMinMaxValues(0, 1)
+				bar:SetValue(1)
+				bar.spelltime:SetText('')
+			else
+				local value = timeLeft - timeNow
+				bar:SetMinMaxValues(0, duration)
+				bar:SetValue(value)
+				bar.spelltime:SetText(value)
+			end
+			bar.spellname:SetText(count > 1 and format("%s [%d]", name, count) or name)
+
+			if self.PostBarUpdate then
+				self:PostBarUpdate(bar, spellID, isDebuff, debuffType)
+			elseif(isDebuff) then
+				bar:SetStatusBarColor(.9, 0, 0)
+			else
+				bar:SetStatusBarColor(.2, .6, 1)
+			end
+			
+			return VISIBLE
+		else
+			return HIDDEN
 		end
 	end
 end
 
-local filterIcons = function(unit, icons, filter, limit, isDebuff, offset, dontHide)
-	if(not offset) then offset = 0 end
-	local index = 1
-	local visible = 0
+local ParseMinorAuras = function(self, unit)
+	if not unit then return; end
+
+	local limit = self.maxCount or 0;
+	local filter = self.filtering;
+	local index = 1;
+	local visible = 0;
+	local cache = {};
+
+	local isFriend = (UnitIsFriend('player', unit) == 1) and true or false;
+
 	while(visible < limit) do
-		local result = updateIcon(unit, icons, index, offset, filter, isDebuff, visible)
+		local result = UpdateIconAuras(self, cache, unit, index, filter, visible, isFriend)
 		if(not result) then
 			break
 		elseif(result == VISIBLE) then
@@ -211,89 +714,201 @@ local filterIcons = function(unit, icons, filter, limit, isDebuff, offset, dontH
 		index = index + 1
 	end
 
-	if(not dontHide) then
-		for i = visible + offset + 1, #icons do
-			icons[i]:Hide()
-		end
+	if(self.sort and type(self.sort) == 'function' and (#cache > 0)) then
+		tsort(cache, self.sort)
+		SetIconLayout(self, visible, cache)
+	else
+		SetIconLayout(self, visible)
 	end
-
-	return visible
 end
 
-local Update = function(self, event, unit)
-	if(self.unit ~= unit) or not unit then return end
+local ParseMajorAuras = function(self, unit)
+	if not unit then return; end
 
-	local auras = self.Auras
-	if(auras) then
-		if(auras.PreUpdate) then auras:PreUpdate(unit) end
+	local limit = self.maxCount or 0;
+	local filter = self.filtering;
+	local index = 1;
+	local visible = 0;
+	local cache = {};
 
-		local numBuffs = auras.numBuffs or 32
-		local numDebuffs = auras.numDebuffs or 40
-		local max = numBuffs + numDebuffs
+	local isFriend = (UnitIsFriend('player', unit) == 1) and true or false;
+	--print(self.unit)
+	--print(self.UseBars)
+	if(self.UseBars) then
+		while(visible < limit) do
+			local result = UpdateBarAuras(self, cache, unit, index, filter, visible, isFriend)
+			if(not result) then
+				break
+			elseif(result == VISIBLE) then
+				visible = visible + 1
+			end
 
-		local visibleBuffs = filterIcons(unit, auras, auras.buffFilter or auras.filter or 'HELPFUL', numBuffs, nil, 0, true)
-		auras.visibleBuffs = visibleBuffs
+			index = index + 1
+		end
 
-		auras.visibleDebuffs = filterIcons(unit, auras, auras.debuffFilter or auras.filter or 'HARMFUL', numDebuffs, true, visibleBuffs)
-		auras.visibleAuras = auras.visibleBuffs + auras.visibleDebuffs
+		if(self.sort and type(self.sort) == 'function' and (#cache > 0)) then
+			tsort(cache, self.sort)
+			SetBarLayout(self, visible, cache)
+		else
+			SetBarLayout(self, visible)
+		end
+	else
+		while(visible < limit) do
+			local result = UpdateIconAuras(self, cache, unit, index, filter, visible, isFriend)
+			if(not result) then
+				break
+			elseif(result == VISIBLE) then
+				visible = visible + 1
+			end
 
-		if(auras.PreSetPosition) then auras:PreSetPosition(max) end
-		(auras.SetPosition or SetPosition) (auras, max)
+			index = index + 1
+		end
 
-		if(auras.PostUpdate) then auras:PostUpdate(unit) end
+		if(self.sort and type(self.sort) == 'function' and (#cache > 0)) then
+			tsort(cache, self.sort)
+			SetIconLayout(self, visible, cache)
+		else
+			SetIconLayout(self, visible)
+		end
 	end
+end
+
+--[[ SETUP AND ENABLE/DISABLE ]]--
+
+local MinorUpdate = function(self, event, unit)
+	if(self.unit ~= unit) or not unit then return end
 
 	local buffs = self.Buffs
 	if(buffs) then
-		if(buffs.PreUpdate) then buffs:PreUpdate(unit) end
-
-		local numBuffs = buffs.num or 32
-		buffs.visibleBuffs = filterIcons(unit, buffs, buffs.filter or 'HELPFUL', numBuffs)
-
-		if(buffs.PreSetPosition) then buffs:PreSetPosition(numBuffs) end
-		(buffs.SetPosition or SetPosition) (buffs, numBuffs)
-
-		if(buffs.PostUpdate) then buffs:PostUpdate(unit) end
+		ParseMinorAuras(buffs, unit)
 	end
 
 	local debuffs = self.Debuffs
 	if(debuffs) then
-		if(debuffs.PreUpdate) then debuffs:PreUpdate(unit) end
+		ParseMinorAuras(debuffs, unit)
+	end
+end
 
-		local numDebuffs = debuffs.num or 40
-		debuffs.visibleDebuffs = filterIcons(unit, debuffs, debuffs.filter or 'HARMFUL', numDebuffs, true)
+local MajorUpdate = function(self, event, unit)
+	if(self.unit ~= unit) or not unit then return end
 
-		if(debuffs.PreSetPosition) then debuffs:PreSetPosition(numDebuffs) end
-		(debuffs.SetPosition or SetPosition) (debuffs, numDebuffs)
+	local buffs = self.Buffs
+	if(buffs) then
+		if(not buffs.UseBars) then
+			if(buffs.Bars:IsShown()) then
+				buffs.Bars:Hide()
+			end
+			if(not buffs.Icons:IsShown()) then
+				buffs.Icons:Show()
+			end
+		else
+			if(buffs.Icons:IsShown()) then
+				buffs.Icons:Hide()
+			end
+			if(not buffs.Bars:IsShown()) then
+				buffs.Bars:Show()
+			end
+		end
+		ParseMajorAuras(buffs, unit)
+	end
 
-		if(debuffs.PostUpdate) then debuffs:PostUpdate(unit) end
+	local debuffs = self.Debuffs
+	if(debuffs) then
+		if(not debuffs.UseBars) then
+			if(debuffs.Bars:IsShown()) then
+				debuffs.Bars:Hide()
+			end
+			if(not debuffs.Icons:IsShown()) then
+				debuffs.Icons:Show()
+			end
+		else
+			if(debuffs.Icons:IsShown()) then
+				debuffs.Icons:Hide()
+			end
+			if(not debuffs.Bars:IsShown()) then
+				debuffs.Bars:Show()
+			end
+		end
+		ParseMajorAuras(debuffs, unit)
+	end
+end
+
+local Path = function(self, ...)
+	if(self.AuraBarsAvailable) then
+		return MajorUpdate(self, ...)
+	else
+		return MinorUpdate(self, ...)
 	end
 end
 
 local ForceUpdate = function(element)
-	return Update(element.__owner, 'ForceUpdate', element.__owner.unit)
+	return Path(element.__owner, 'ForceUpdate', element.__owner.unit)
 end
 
 local Enable = function(self)
-	if(self.Buffs or self.Debuffs or self.Auras) then
-		self:RegisterEvent("UNIT_AURA", Update)
+	if(self.Buffs or self.Debuffs) then
+		self:RegisterEvent('UNIT_AURA', Path)
+
+		local barsAvailable = self.AuraBarsAvailable;
 
 		local buffs = self.Buffs
 		if(buffs) then
-			buffs.__owner = self
-			buffs.ForceUpdate = ForceUpdate
+			buffs.__owner 		= self;
+			buffs.unit 			= self.unit;
+			buffs.gap 			= buffs.gap or 2;
+			buffs.spacing 		= buffs.spacing or 2;
+			buffs.auraSize 		= buffs.auraSize or 16;
+			buffs.maxRows 		= buffs.maxRows or 2;
+			buffs.maxColumns 	= buffs.maxColumns or 8;
+			buffs.maxCount 		= buffs.maxCount or 16;
+			buffs.maxHeight 	= buffs.maxHeight or 20;
+			buffs.filtering 	= BUFF_FILTER;
+			buffs.ForceUpdate 	= ForceUpdate;
+			buffs.SetSorting 	= SetSorting;
+
+			buffs:SetHeight(1)
+
+			buffs.Icons = buffs.Icons or CreateFrame("Frame", nil, buffs)
+			buffs.Icons:SetAllPoints(buffs)
+
+			if(barsAvailable) then
+				buffs.spark = true;
+				buffs.UseBars = false;
+				buffs.barHeight = buffs.barHeight or 16
+				buffs.Bars = buffs.Bars or CreateFrame("Frame", nil, buffs)
+				buffs.Bars:SetAllPoints(buffs)
+				buffs.Bars:SetScript('OnUpdate', AuraBars_OnUpdate)
+			end
 		end
 
 		local debuffs = self.Debuffs
 		if(debuffs) then
-			debuffs.__owner = self
-			debuffs.ForceUpdate = ForceUpdate
-		end
+			debuffs.__owner 	= self;
+			debuffs.unit 		= self.unit;
+			debuffs.gap 		= debuffs.gap or 2;
+			debuffs.spacing 	= debuffs.spacing or 2;
+			debuffs.auraSize 	= debuffs.auraSize or 16;
+			debuffs.maxRows 	= debuffs.maxRows or 2;
+			debuffs.maxColumns 	= debuffs.maxColumns or 8;
+			debuffs.maxCount 	= debuffs.maxCount or 16;
+			debuffs.maxHeight 	= debuffs.maxHeight or 20;
+			debuffs.filtering 	= DEBUFF_FILTER;
+			debuffs.ForceUpdate = ForceUpdate;
+			debuffs.SetSorting 	= SetSorting;
 
-		local auras = self.Auras
-		if(auras) then
-			auras.__owner = self
-			auras.ForceUpdate = ForceUpdate
+			debuffs:SetHeight(1)
+
+			debuffs.Icons = debuffs.Icons or CreateFrame("Frame", nil, debuffs)
+			debuffs.Icons:SetAllPoints(debuffs)
+			
+			if(barsAvailable) then
+				debuffs.spark = true;
+				debuffs.UseBars = false;
+				debuffs.barHeight = debuffs.barHeight or 16
+				debuffs.Bars = debuffs.Bars or CreateFrame("Frame", nil, debuffs)
+				debuffs.Bars:SetAllPoints(debuffs)
+				debuffs.Bars:SetScript('OnUpdate', AuraBars_OnUpdate)
+			end
 		end
 
 		return true
@@ -301,9 +916,15 @@ local Enable = function(self)
 end
 
 local Disable = function(self)
-	if(self.Buffs or self.Debuffs or self.Auras) then
-		self:UnregisterEvent("UNIT_AURA", Update)
+	if(self.Buffs or self.Debuffs) then
+		self:UnregisterEvent('UNIT_AURA', Path)
+		if(self.Buffs and self.Buffs.Bars) then
+			self.Buffs.Bars:SetScript('OnUpdate', nil)
+		end
+		if(self.Debuffs and self.Debuffs.Bars) then
+			self.Debuffs.Bars:SetScript('OnUpdate', nil)
+		end
 	end
 end
 
-oUF:AddElement('Aura', Update, Enable, Disable)
+oUF:AddElement('Auras', Path, Enable, Disable)

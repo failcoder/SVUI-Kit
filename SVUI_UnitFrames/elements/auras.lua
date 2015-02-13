@@ -54,17 +54,27 @@ if(not MOD) then return end
 local oUF_SVUI = MOD.oUF
 assert(oUF_SVUI, "SVUI UnitFrames: unable to locate oUF.")
 
-local AURA_FONT = [[Interface\AddOns\SVUI_!Core\assets\fonts\Numbers.ttf]];
-local AURA_FONTSIZE = 11;
-local AURA_OUTLINE = "OUTLINE";
+local DEFAULT_BUFFS_COLOR = {.2, .6, 1};
+local BUFFS_COLOR = DEFAULT_BUFFS_COLOR;
+local DEFAULT_DEBUFFS_COLOR = {.9, 0, 0};
+local DEBUFFS_COLOR = DEFAULT_DEBUFFS_COLOR;
+local AURA_STATUSBAR = SV.media.statusbar.default;
 local BASIC_TEXTURE = SV.media.statusbar.default;
 local CanSteal = (SV.class == "MAGE");
+
+local CreateFrame 		= _G.CreateFrame;
+local UnitIsEnemy 		= _G.UnitIsEnemy;
+local IsShiftKeyDown 	= _G.IsShiftKeyDown;
+local DebuffTypeColor 	= _G.DebuffTypeColor;
+
+local SVUI_Font_UnitAura 		= _G.SVUI_Font_UnitAura;
+local SVUI_Font_UnitAura_Bar 	= _G.SVUI_Font_UnitAura_Bar;
 --[[ 
 ########################################################## 
 LOCAL FUNCTIONS
 ##########################################################
 ]]--
-local AuraIcon_OnClick = function(self)
+local FilterAura_OnClick = function(self)
 	if not IsShiftKeyDown() then return end 
 	local name = self.name;
 
@@ -74,21 +84,6 @@ local AuraIcon_OnClick = function(self)
 		SV.filters["BlackList"][filterKey] = {["enable"] = true}
 		MOD:RefreshUnitFrames()
 	end
-end
-
-local AuraIcon_OnEnter = function(self)
-	if(not self:IsVisible()) then return end
-
-	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT")
-	self:UpdateTooltip()
-end
-
-local AuraIcon_OnLeave = function()
-	GameTooltip:Hide()
-end
-
-local Aura_UpdateTooltip = function(self)
-	GameTooltip:SetUnitAura(self.parent.__owner.unit, self:GetID(), self.filter)
 end
 
 local _hook_AuraBGBorderColor = function(self, ...) self.bg:SetBackdropBorderColor(...) end
@@ -173,12 +168,7 @@ local CreateAuraIcon = function(icons, index)
 	-- stealable:SetPoint('BOTTOMRIGHT', 3, -3)
 	-- aura.stealable = stealable
 
-	aura.UpdateTooltip = Aura_UpdateTooltip;
-	aura:SetScript("OnEnter", AuraIcon_OnEnter);
-	aura:SetScript("OnLeave", AuraIcon_OnLeave);
-	aura:SetScript("OnClick", AuraIcon_OnClick);
-
-	tinsert(icons, aura);
+	aura:SetScript("OnClick", FilterAura_OnClick);
 
 	aura.parent = icons;
 	aura.cd = cd;
@@ -190,192 +180,71 @@ local CreateAuraIcon = function(icons, index)
 	return aura
 end
 
-local UpdateAuraTimer = function(self, elapsed)
-	self.expiration = self.expiration - elapsed;
-
-	if(self.nextUpdate > 0) then 
-		self.nextUpdate = self.nextUpdate - elapsed;
-		return;
-	end
-
-	if(self.expiration <= 0) then 
-		self:SetScript("OnUpdate", nil)
-		self.text:SetText('')
-		return;
-	end
-
-	local expires = self.expiration;
-	local calc, timeLeft = 0, 0;
-	local timeFormat;
-	if expires < 60 then 
-		if expires >= 4 then
-			timeLeft = floor(expires)
-			timeFormat = "|cffffff00%d|r"
-			self.nextUpdate = 0.51
-		else
-			timeLeft = expires
-			timeFormat = "|cffff0000%.1f|r"
-			self.nextUpdate = 0.051
-		end 
-	elseif expires < 3600 then
-		timeFormat = "|cffffffff%d|r|cffCC8811m|r"
-		timeLeft = ceil(expires / 60);
-		calc = floor((expires / 60) + 0.5);
-		self.nextUpdate = calc > 1 and ((expires - calc) * 29.5) or (expires - 59.5);
-	elseif expires < 86400 then
-		timeFormat = "|cff66ffff%d|r|cffAA5511h|r"
-		timeLeft = ceil(expires / 3600);
-		calc = floor((expires / 3600) + 0.5);
-		self.nextUpdate = calc > 1 and ((expires - calc) * 1799.5) or (expires - 3570);
-	else
-		timeFormat = "|cff6666ff%d|r|cff991100d|r"
-		timeLeft = ceil(expires / 86400);
-		calc = floor((expires / 86400) + 0.5);
-		self.nextUpdate = calc > 1 and ((expires - calc) * 43199.5) or (expires - 86400);
-	end
-
-	self.text:SetFormattedText(timeFormat, timeLeft)
-end 
-
-local PostUpdateAuraIcon = function(self, unit, button, index, offset)
-	local name, _, _, _, dtype, duration, expiration, _, isStealable = UnitAura(unit, index, button.filter)
-	local isFriend = (UnitIsFriend('player', unit) == 1) and true or false
-	if button.isDebuff then
-		if(not isFriend and button.owner and button.owner ~= "player" and button.owner ~= "vehicle") then
-			button:SetBackdropBorderColor(0.9, 0.1, 0.1, 1)
-			button.bg:SetBackdropColor(1, 0, 0, 1)
-			button.bg:SetBackdropBorderColor(0, 0, 0, 1)
-			button.icon:SetDesaturated((unit and not unit:find('arena%d')) and true or false)
-		else
-			local color = DebuffTypeColor[dtype] or DebuffTypeColor.none
-			if (name == "Unstable Affliction" or name == "Vampiric Touch") and SV.class ~= "WARLOCK" then
-				button:SetBackdropBorderColor(0.05, 0.85, 0.94, 1)
-				button.bg:SetBackdropColor(0, 0.9, 1, 1)
-				button.bg:SetBackdropBorderColor(0, 0, 0, 1)
-			else
-				button:SetBackdropBorderColor(color.r * 0.6, color.g * 0.6, color.b * 0.6, 1)
-				button.bg:SetBackdropColor(color.r, color.g, color.b, 1)
-				button.bg:SetBackdropBorderColor(0, 0, 0, 1)
-			end
-			button.icon:SetDesaturated(false)
-		end
-	else
-		if (isStealable) and not isFriend then
-			button:SetBackdropBorderColor(0.92, 0.91, 0.55, 1)
-			button.bg:SetBackdropColor(1, 1, 0.5, 1)
-			button.bg:SetBackdropBorderColor(0, 0, 0, 1)
-		else
-			button:SetBackdropBorderColor(0, 0, 0, 1)
-			button.bg:SetBackdropColor(0, 0, 0, 0)
-			button.bg:SetBackdropBorderColor(0, 0, 0, 0)		
-		end	
-	end
-
-	local size = button:GetParent().size
-	if size then
-		button:ModSize(size)
-	end
-	
-	button.spell = name
-	button.isStealable = isStealable
-	if(expiration and duration ~= 0) then
-		if(not button:GetScript('OnUpdate')) then
-			button.expirationTime = expiration
-			button.expiration = expiration - GetTime()
-			button.nextUpdate = -1
-			button:SetScript('OnUpdate', UpdateAuraTimer)
-		elseif(button.expirationTime ~= expiration) then
-			button.expirationTime = expiration
-			button.expiration = expiration - GetTime()
-			button.nextUpdate = -1
-		end
-	end	
-	if((duration == 0) or (expiration == 0)) then
-		button:SetScript('OnUpdate', nil)
-		button.text:SetText('')
-	end
-end
-
-
---[[ AURABAR HANDLERS ]]--
-
-local AuraBar_OnClick = function(self)
-	if not IsShiftKeyDown() then return end
-	local parent = self:GetParent()
-	local name = parent.aura.name
-
-	local filterKey = tostring(parent.aura.spellID)
-	if name and filterKey then 
-		SV:AddonMessage((L["The spell '%s' has been added to the BlackList unitframe aura filter."]):format(name))
-		SV.filters["BlackList"][filterKey] = {["enable"] = true}
-		MOD:RefreshUnitFrames()
-	end 
-end
-
 local PostCreateAuraBars = function(self)
-	self.spelltime = self:CreateFontString(nil, 'ARTWORK')
-	self.spelltime:SetFontObject(SVUI_Font_UnitAura);
-	self.spelltime:SetTextColor(1 ,1, 1)
-	self.spelltime:SetShadowOffset(1, -1)
-  	self.spelltime:SetShadowColor(0, 0, 0)
-	self.spelltime:SetJustifyH'RIGHT'
-	self.spelltime:SetJustifyV'CENTER'
-	self.spelltime:SetPoint'RIGHT'
+	local bar = self.statusBar
+	local barTexture = LSM:Fetch("statusbar", SV.db.UnitFrames.auraBarStatusbar)
+	bar:SetStatusBarTexture(barTexture)
+	bar.spelltime:SetFontObject(SVUI_Font_UnitAura);
+	bar.spelltime:SetTextColor(1 ,1, 1)
+	bar.spelltime:SetShadowOffset(1, -1)
+  	bar.spelltime:SetShadowColor(0, 0, 0)
+	bar.spelltime:SetJustifyH'RIGHT'
+	bar.spelltime:SetJustifyV'CENTER'
+	bar.spelltime:SetPoint'RIGHT'
 
-	self.spellname = self:CreateFontString(nil, 'ARTWORK')
-	self.spellname:SetFontObject(SVUI_Font_UnitAura_Bar);
-	self.spellname:SetTextColor(1, 1, 1)
-	self.spellname:SetShadowOffset(1, -1)
-  	self.spellname:SetShadowColor(0, 0, 0)
-	self.spellname:SetJustifyH'LEFT'
-	self.spellname:SetJustifyV'CENTER'
-	self.spellname:SetPoint'LEFT'
-	self.spellname:SetPoint('RIGHT', self.spelltime, 'LEFT')
-	self.iconHolder:RegisterForClicks("RightButtonUp")
-	self.iconHolder:SetScript("OnClick", AuraBar_OnClick)
+	bar.spellname:SetFontObject(SVUI_Font_UnitAura_Bar);
+	bar.spellname:SetTextColor(1, 1, 1)
+	bar.spellname:SetShadowOffset(1, -1)
+  	bar.spellname:SetShadowColor(0, 0, 0)
+	bar.spellname:SetJustifyH'LEFT'
+	bar.spellname:SetJustifyV'CENTER'
+	bar.spellname:SetPoint'LEFT'
+	bar.spellname:SetPoint('RIGHT', bar.spelltime, 'LEFT')
+	
+	self:RegisterForClicks("RightButtonUp")
+	self:SetScript("OnClick", FilterAura_OnClick)
 end 
 
-local ColorizeAuraBars = function(self)
-	local bars = self.bars;
-	for i = 1, #bars do 
-		local auraBar = bars[i]
-		if not auraBar:IsVisible()then break end 
-		local color
-		local spellID = auraBar.statusBar.aura.spellID;
+local PostBarUpdate = function(self, bar, spellID, isDebuff, debuffType)
+	if((not bar) or (not bar:IsVisible())) then return end
+
+	local color;
+	if(SV.db.UnitFrames.auraBarByType) then
 		local filterKey = tostring(spellID)
-		if(SV.filters["Defense"][filterKey]) then 
-			color = oUF_SVUI.colors.shield_bars
-		elseif(SV.filters.AuraBars[filterKey]) then
+		if(SV.filters.AuraBars[filterKey]) then
 			color = SV.filters.AuraBars[filterKey]
-		end 
-		if color then 
-			auraBar.statusBar:SetStatusBarColor(unpack(color))
-			auraBar:SetBackdropColor(color[1] * 0.25, color[2] * 0.25, color[3] * 0.25, 0.5)
+		elseif isDebuff then
+			if(debuffType and DebuffTypeColor[debuffType]) then
+				color = {DebuffTypeColor[debuffType].r, DebuffTypeColor[debuffType].g, DebuffTypeColor[debuffType].b}
+			else
+				color = DEBUFFS_COLOR;
+			end	
 		else
-			local r, g, b = auraBar.statusBar:GetStatusBarColor()
-			auraBar:SetBackdropColor(r * 0.25, g * 0.25, b * 0.25, 0.5)
-		end 
-	end 
+			color = BUFFS_COLOR;
+		end
+	else
+		color = BUFFS_COLOR;
+	end
+
+	bar:SetStatusBarTexture(AURA_STATUSBAR)
+
+	bar:SetStatusBarColor(unpack(color))
 end
 
 --[[ AURA FILTERING ]]--
-
-local CommonAuraFilter = function(self, unit, icon, auraName, _, _, _, debuffType, duration, _, caster, isStealable, shouldConsolidate, spellID, canApplyAura, isBossAura)
-	local db = SV.db.UnitFrames[self.___key]
-	local auraType = self.type;
-	if(not auraType) then return true end 
-	if((not db) or (db and not db[auraType])) then 
+--self, this, unit, name, rank, texture, count, dtype, duration, timeLeft, caster, isStealable, shouldConsolidate, spellID, canApplyAura, isBossDebuff
+local CommonAuraFilter = function(self, aura, unit, auraName, _, _, _, debuffType, duration, _, caster, isStealable, shouldConsolidate, spellID, canApplyAura, isBossAura)
+	local db = SV.db.UnitFrames[self.___unitkey]
+	if((not db) or (db and not db[self.___aurakey])) then 
 		return false;
 	end
-	local auraDB = db[auraType];
+	local auraDB = db[self.___aurakey];
 	local isPlayer = caster == "player" or caster == "vehicle";
 	local isEnemy = UnitIsEnemy("player", unit);
-
-	icon.isPlayer = isPlayer;
-	icon.priority = 0;
-	icon.owner = caster;
-	icon.name = auraName;
-	icon.spellID = spellID;
+	if(aura) then
+		aura.isPlayer = isPlayer;
+		aura.priority = 0;
+	end
 
 	local filterKey = tostring(spellID)
 
@@ -383,49 +252,6 @@ local CommonAuraFilter = function(self, unit, icon, auraName, _, _, _, debuffTyp
 		return false;
 	elseif(SV.filters.BlackList[filterKey] and SV.filters.BlackList[filterKey].enable) then
 		return false;
-	else
-		if(auraDB.filterPlayer and (not isPlayer)) then
-			return false
-		end
-
-		if(auraDB.filterDispellable and (debuffType and not MOD.Dispellable[debuffType])) then 
-			return false
-		end
-
-		if(auraDB.filterRaid and shouldConsolidate) then 
-			return false 
-		end
-
-		if(auraDB.filterInfinite and ((not duration) or (duration and duration == 0))) then 
-			return false 
-		end
-
-		local active = auraDB.useFilter
-		if(active and SV.filters[active]) then
-			local spellDB = SV.filters[active];
-			if(spellDB[filterKey] and spellDB[filterKey].enable) then
-				return false
-			end  
-		end
-	end
-  	return true
-end
-
-local CommonBarFilter = function(self, unit, auraName, _, _, _, debuffType, duration, _, caster, isStealable, shouldConsolidate, spellID)
-	local db = SV.db.UnitFrames[self.___key]
-	if((not db) or (db and not db.aurabar)) then 
-		return false;
-	end
-	local auraDB = db.aurabar;
-	local isPlayer = caster == "player" or caster == "vehicle";
-	local isEnemy = UnitIsEnemy("player", unit);
-
-	local filterKey = tostring(spellID)
-
-	if(auraDB.filterWhiteList and (not SV.filters.WhiteList[filterKey])) then
-		return false;
-	elseif(SV.filters.BlackList[filterKey] and SV.filters.BlackList[filterKey].enable) then
-		return false
 	else
 		if(auraDB.filterPlayer and (not isPlayer)) then
 			return false
@@ -466,22 +292,20 @@ local function filter_test(setting, isEnemy)
   	return false 
 end
 
-local DetailedAuraFilter = function(self, unit, icon, auraName, _, _, _, debuffType, duration, _, caster, isStealable, shouldConsolidate, spellID, canApplyAura, isBossAura)
-	local db = SV.db.UnitFrames[self.___key]
-	local auraType = self.type;
-	if(not auraType) then return true end 
-	if((not db) or (db and not db[auraType])) then 
+local DetailedAuraFilter = function(self, aura, unit, auraName, _, _, _, debuffType, duration, _, caster, isStealable, shouldConsolidate, spellID, canApplyAura, isBossAura)
+	local db = SV.db.UnitFrames[self.___unitkey]
+	local auraType = self.___aurakey
+	if((not db) or (not auraType) or (db and (not db[auraType]))) then 
 		return false;
 	end
-	local auraDB = db[auraType]
+	local auraDB = db[self.___aurakey];
 	local isPlayer = caster == "player" or caster == "vehicle"
 	local isEnemy = UnitIsEnemy("player", unit);
 
-	icon.isPlayer = isPlayer;
-	icon.priority = 0;
-	icon.owner = caster;
-	icon.name = auraName;
-	icon.spellID = spellID;
+	if(aura) then
+		aura.isPlayer = isPlayer;
+		aura.priority = 0;
+	end
 
 	local filterKey = tostring(spellID)
 
@@ -516,48 +340,6 @@ local DetailedAuraFilter = function(self, unit, icon, auraName, _, _, _, debuffT
 	end
   	return true 
 end
-
-local DetailedBarFilter = function(self, unit, auraName, _, _, _, debuffType, duration, _, caster, isStealable, shouldConsolidate, spellID)
-	local db = SV.db.UnitFrames[self.___key]
-	if((not db) or (db and not db.aurabar)) then 
-		return false;
-	end
-	local auraDB = db.aurabar;
-	local isPlayer = caster == "player" or caster == "vehicle";
-	local isEnemy = UnitIsEnemy("player", unit);
-
-	local filterKey = tostring(spellID)
-
-	if(filter_test(auraDB.filterAll, isEnemy)) then
-		return false
-	elseif(filter_test(auraDB.filterWhiteList, isEnemy) and (not SV.filters.WhiteList[filterKey])) then
-		return false;
-	elseif(SV.filters.BlackList[filterKey] and SV.filters.BlackList[filterKey].enable) then
-		return false
-	else
-		if(filter_test(auraDB.filterPlayer, isEnemy) and (not isPlayer)) then
-			return false
-		end
-		if(filter_test(auraDB.filterDispellable, isEnemy) and (debuffType and not MOD.Dispellable[debuffType])) then 
-			return false
-		end
-		if(filter_test(auraDB.filterRaid, isEnemy) and shouldConsolidate) then 
-			return false 
-		end
-		if(filter_test(auraDB.filterInfinite, isEnemy) and ((not duration) or (duration and duration == 0))) then 
-			return false 
-		end
-		local active = auraDB.useFilter
-		if(active and SV.filters[active]) then
-			local spellDB = SV.filters[active];
-			if(spellDB[filterKey] and spellDB[filterKey].enable) then
-				return false
-			end  
-		end
-	end
-  	return true 
-end
-
 --[[ 
 ########################################################## 
 BUILD FUNCTION
@@ -573,54 +355,39 @@ local BoolFilters = {
 	['raidpet'] = true,	
 };
 
-function MOD:CreateBuffs(frame, unit)
-	local aura = CreateFrame("Frame", nil, frame)
-	aura.___key = unit
-	aura.spacing = 2;
-	aura.CreateIcon = CreateAuraIcon;
-	aura.PostUpdateIcon = PostUpdateAuraIcon;
+function MOD:CreateAuraFrames(frame, unit, barsAvailable)
+	local buffs = CreateFrame("Frame", frame:GetName().."Buffs", frame)
+	buffs.___unitkey = unit;
+	buffs.___aurakey = "buffs";
+	buffs.CreateAuraIcon = CreateAuraIcon;
 	if(BoolFilters[unit]) then
-		aura.CustomFilter = CommonAuraFilter;
+		buffs.CustomFilter = CommonAuraFilter;
 	else
-		aura.CustomFilter = DetailedAuraFilter;
+		buffs.CustomFilter = DetailedAuraFilter;
 	end
-	aura:SetFrameLevel(10)
-	aura.type = "buffs"
-	return aura 
-end 
+	buffs:SetFrameLevel(10)
+	frame.Buffs = buffs
 
-function MOD:CreateDebuffs(frame, unit)
-	local aura = CreateFrame("Frame", nil, frame)
-	aura.___key = unit
-	aura.spacing = 2;
-	aura.CreateIcon = CreateAuraIcon;
-	aura.PostUpdateIcon = PostUpdateAuraIcon;
+	local debuffs = CreateFrame("Frame", frame:GetName().."Debuffs", frame)
+	debuffs.___unitkey = unit;
+	debuffs.___aurakey = "debuffs";
+	debuffs.CreateAuraIcon = CreateAuraIcon;
 	if(BoolFilters[unit]) then
-		aura.CustomFilter = CommonAuraFilter;
+		debuffs.CustomFilter = CommonAuraFilter;
 	else
-		aura.CustomFilter = DetailedAuraFilter;
+		debuffs.CustomFilter = DetailedAuraFilter;
 	end
-	aura.type = "debuffs"
-	aura:SetFrameLevel(10)
-	return aura 
-end 
+	debuffs:SetFrameLevel(10)
+	frame.Debuffs = debuffs
 
-function MOD:CreateAuraBarHeader(frame, unit)
-	local auraBarParent = CreateFrame("Frame", nil, frame)
-	auraBarParent.parent = frame;
-	auraBarParent.PostCreateBar = PostCreateAuraBars;
-	auraBarParent.gap = 2;
-	auraBarParent.spacing = 1;
-	auraBarParent.spark = true;
-	if(unit == "player") then
-		auraBarParent.filter = CommonBarFilter;
-	else
-		auraBarParent.filter = DetailedBarFilter;
+	if(barsAvailable) then
+		frame.AuraBarsAvailable = true;
+		buffs.PostCreateBar = PostCreateAuraBars;
+		buffs.PostBarUpdate = PostBarUpdate;
+		debuffs.PostCreateBar = PostCreateAuraBars;
+		debuffs.PostBarUpdate = PostBarUpdate;
 	end
-	auraBarParent.PostUpdate = ColorizeAuraBars;
-	auraBarParent.barTexture = LSM:Fetch("statusbar", SV.db.UnitFrames.auraBarStatusbar)
-	return auraBarParent 
-end 
+end
 --[[ 
 ########################################################## 
 AURA WATCH
@@ -657,3 +424,14 @@ function MOD:CreateAuraWatch(frame, unit)
 	watch.PreForcedUpdate = PreForcedUpdate
 	return watch
 end
+--[[ 
+########################################################## 
+CUSTOM EVENT UPDATES
+##########################################################
+]]--
+local function UpdateAuraMediaLocals()
+	BUFFS_COLOR = oUF_SVUI.colors.buff_bars or DEFAULT_BUFFS_COLOR;
+	DEBUFFS_COLOR = oUF_SVUI.colors.debuff_bars or DEFAULT_DEBUFFS_COLOR;
+	AURA_STATUSBAR = LSM:Fetch("statusbar", SV.db.UnitFrames.auraBarStatusbar);
+end
+SV.Events:On("UNITFRAME_COLORS_UPDATED", UpdateAuraMediaLocals, true);

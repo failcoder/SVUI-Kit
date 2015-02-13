@@ -43,18 +43,18 @@ local function StyleBars(self)
 
 				if not icon1.overlay then
 					icon1.overlay = CreateFrame('Frame', '$parentIcon1Overlay', tbar)
-					icon1.overlay:ModSize(28)
+					icon1.overlay:SetSize(28)
 					icon1.overlay:SetStyle("Frame", "Button")
 					icon1.overlay:SetFrameLevel(0)
-					icon1.overlay:ModPoint('BOTTOMRIGHT', frame, 'BOTTOMLEFT', -4, 0)
+					icon1.overlay:SetPoint('BOTTOMRIGHT', frame, 'BOTTOMLEFT', -4, 0)
 				end
 
 				if not icon2.overlay then
 					icon2.overlay = CreateFrame('Frame', '$parentIcon2Overlay', tbar)
-					icon2.overlay:ModSize(28)
+					icon2.overlay:SetSize(28)
 					icon2.overlay:SetStyle("Frame", "Button")
 					icon2.overlay:SetFrameLevel(0)
-					icon2.overlay:ModPoint('BOTTOMLEFT', frame, 'BOTTOMRIGHT', 4, 0)
+					icon2.overlay:SetPoint('BOTTOMLEFT', frame, 'BOTTOMRIGHT', 4, 0)
 				end
 
 				if bar.color then
@@ -88,7 +88,7 @@ local function StyleBars(self)
 				texture:SetTexture(SV.BaseTexture)
 				tbar:SetWidth(sharedWidth)
 				tbar:SetHeight(10)
-				tbar:ModPoint('BOTTOMLEFT', frame, 'BOTTOMLEFT', 0, 0)
+				tbar:SetPoint('BOTTOMLEFT', frame, 'BOTTOMLEFT', 0, 0)
 				tbar:SetStyle("Frame", "Bar")
 
 				name:ClearAllPoints()
@@ -96,14 +96,14 @@ local function StyleBars(self)
 				name:SetWidth(sharedWidth)
 				name:SetJustifyH('LEFT')
 				name:SetShadowColor(0, 0, 0, 0)
-				name:ModPoint('TOPLEFT', frame, 'TOPLEFT', 0, 0)
+				name:SetPoint('TOPLEFT', frame, 'TOPLEFT', 0, 0)
 				name:SetFont(SV.media.font.default, 12, 'OUTLINE')
 				name:SetTextColor(bar.owner.options.TextColorR, bar.owner.options.TextColorG, bar.owner.options.TextColorB)
 
 				timer:ClearAllPoints()
 				timer:SetJustifyH('RIGHT')
 				timer:SetShadowColor(0, 0, 0, 0)
-				timer:ModPoint('TOPRIGHT', frame, 'TOPRIGHT', 0, 0)
+				timer:SetPoint('TOPRIGHT', frame, 'TOPRIGHT', 0, 0)
 				timer:SetFont(SV.media.font.default, 12, 'OUTLINE')
 				timer:SetTextColor(bar.owner.options.TextColorR, bar.owner.options.TextColorG, bar.owner.options.TextColorB)
 
@@ -152,21 +152,21 @@ local StyleBoss = function()
 		local _, anch, _ ,_, _ = bar:GetPoint()
 		bar:ClearAllPoints()
 		if count == 1 then
-			if DBM_SavedOptions.HealthFrameGrowUp then
-				bar:ModPoint('BOTTOM', anch, 'TOP' , 0 , 12)
+			if(DBM_SavedOptions and DBM_SavedOptions.HealthFrameGrowUp) then
+				bar:SetPoint('BOTTOM', anch, 'TOP' , 0 , 12)
 			else
-				bar:ModPoint('TOP', anch, 'BOTTOM' , 0, -22)
+				bar:SetPoint('TOP', anch, 'BOTTOM' , 0, -22)
 			end
 		else
-			if DBM_SavedOptions.HealthFrameGrowUp then
-				bar:ModPoint('TOPLEFT', prev, 'TOPLEFT', 0, 22 + 4)
+			if(DBM_SavedOptions and DBM_SavedOptions.HealthFrameGrowUp) then
+				bar:SetPoint('TOPLEFT', prev, 'TOPLEFT', 0, 22 + 4)
 			else
-				bar:ModPoint('TOPLEFT', prev, 'TOPLEFT', 0, -(22 + 4))
+				bar:SetPoint('TOPLEFT', prev, 'TOPLEFT', 0, -(22 + 4))
 			end
 		end
 		bar:SetStyle("!_Frame", 'Transparent')
 		background:SetNormalTexture(nil)
-		progress:SetStatusBarTexture(SV.BaseTexture)
+		progress:SetStatusBarTexture(SV.media.statusbar.default)
 		progress:ClearAllPoints()
 		progress:InsetPoints(bar)
 		name:ClearAllPoints()
@@ -176,8 +176,8 @@ local StyleBoss = function()
 		timer:SetJustifyH('RIGHT')
 		timer:SetShadowColor(0, 0, 0, 0)
 		bar:SetHeight(22)
-		name:ModPoint('LEFT', bar, 'LEFT', 4, 0)
-		timer:ModPoint('RIGHT', bar, 'RIGHT', -4, 0)
+		name:SetPoint('LEFT', bar, 'LEFT', 4, 0)
+		timer:SetPoint('RIGHT', bar, 'RIGHT', -4, 0)
 		name:SetFontObject(SpellFont_Small)
 		timer:SetFontObject(SVUI_Font_Default)
 		count = count + 1
