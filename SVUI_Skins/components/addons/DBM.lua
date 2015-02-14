@@ -43,7 +43,7 @@ local function StyleBars(self)
 
 				if not icon1.overlay then
 					icon1.overlay = CreateFrame('Frame', '$parentIcon1Overlay', tbar)
-					icon1.overlay:SetSize(28)
+					icon1.overlay:SetSize(28,28)
 					icon1.overlay:SetStyle("Frame", "Button")
 					icon1.overlay:SetFrameLevel(0)
 					icon1.overlay:SetPoint('BOTTOMRIGHT', frame, 'BOTTOMLEFT', -4, 0)
@@ -51,7 +51,7 @@ local function StyleBars(self)
 
 				if not icon2.overlay then
 					icon2.overlay = CreateFrame('Frame', '$parentIcon2Overlay', tbar)
-					icon2.overlay:SetSize(28)
+					icon2.overlay:SetSize(28,28)
 					icon2.overlay:SetStyle("Frame", "Button")
 					icon2.overlay:SetFrameLevel(0)
 					icon2.overlay:SetPoint('BOTTOMLEFT', frame, 'BOTTOMRIGHT', 4, 0)
