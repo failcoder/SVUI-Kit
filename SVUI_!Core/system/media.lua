@@ -184,7 +184,7 @@ do
 			["border"] = {
 				["default"] 	= {file = "SVUI Border", 		  	size = 1},
 				["transparent"] = {file = "SVUI Border", 			size = 1},
-				["button"]      = {file = "SVUI Textured Border", 	size = 15},
+				["button"]      = {file = "SVUI Border", 			size = 1},
 				["pattern"]     = {file = "SVUI Textured Border", 	size = 15},
 				["premium"]     = {file = "SVUI Textured Border", 	size = 15},
 				["shadow"]      = {file = "SVUI Shadow Border",   	size = 3},
@@ -227,7 +227,7 @@ do
 		},
 		["border"] = {
 			["default"] 	= [[Interface\AddOns\SVUI_!Core\assets\borders\DEFAULT]],
-			["button"]      = [[Interface\AddOns\SVUI_!Core\assets\borders\TEXTURED]],
+			["button"]      = [[Interface\AddOns\SVUI_!Core\assets\borders\DEFAULT]],
 			["pattern"]     = [[Interface\AddOns\SVUI_!Core\assets\borders\TEXTURED]],
 			["premium"]     = [[Interface\AddOns\SVUI_!Core\assets\borders\TEXTURED]],
 			["shadow"]      = [[Interface\AddOns\SVUI_!Core\assets\borders\SHADOW]],
@@ -446,7 +446,7 @@ do
 			    },
 			},
 			["tooltip"] = {
-				bgFile = [[Interface\DialogFrame\UI-DialogBox-Background-Dark]], 
+				bgFile = [[Interface\DialogFrame\UI-DialogBox-Background]], 
 			    tile = false, 
 			    tileSize = 0, 
 			    edgeFile = [[Interface\AddOns\SVUI_!Core\assets\textures\EMPTY]],

@@ -196,6 +196,7 @@ local function LoadPresetData()
 				["player"] = {
 					["buffs"] = {
 						enable = true,
+						useBars = false,
 						attachTo = "FRAME",
 						anchorPoint = 'TOPLEFT',
 						verticalGrowth = 'UP',
@@ -203,6 +204,7 @@ local function LoadPresetData()
 					},
 					["debuffs"] = {
 						enable = true,
+						useBars = false,
 						attachTo = "BUFFS",
 						anchorPoint = 'TOPLEFT',
 						verticalGrowth = 'UP',
@@ -215,6 +217,7 @@ local function LoadPresetData()
 				["target"] = {
 					["buffs"] = {
 						enable = true,
+						useBars = false,
 						attachTo = "FRAME",
 						anchorPoint = 'TOPRIGHT',
 						verticalGrowth = 'UP',
@@ -222,6 +225,7 @@ local function LoadPresetData()
 					},
 					["debuffs"] = {
 						enable = true,
+						useBars = false,
 						attachTo = "BUFFS",
 						anchorPoint = 'TOPRIGHT',
 						verticalGrowth = 'UP',
@@ -250,6 +254,7 @@ local function LoadPresetData()
 				["focus"] = {
 					["buffs"] = {
 						enable = true,
+						useBars = false,
 						attachTo = "FRAME",
 						anchorPoint = 'TOPRIGHT',
 						verticalGrowth = 'UP',
@@ -257,6 +262,7 @@ local function LoadPresetData()
 					},
 					["debuffs"] = {
 						enable = true,
+						useBars = false,
 						attachTo = "BUFFS",
 						anchorPoint = 'TOPRIGHT',
 						verticalGrowth = 'UP',
@@ -287,7 +293,7 @@ local function LoadPresetData()
 				["player"] = {
 					["buffs"] = {
 						enable = true,
-						useBars = false,
+						useBars = true,
 						attachTo = "FRAME",
 						anchorPoint = 'TOPLEFT',
 						verticalGrowth = 'UP',
@@ -295,7 +301,7 @@ local function LoadPresetData()
 					},
 					["debuffs"] = {
 						enable = true,
-						useBars = false,
+						useBars = true,
 						attachTo = "BUFFS",
 						anchorPoint = 'TOPLEFT',
 						verticalGrowth = 'UP',
@@ -305,7 +311,7 @@ local function LoadPresetData()
 				["target"] = {
 					["buffs"] = {
 						enable = true,
-						useBars = false,
+						useBars = true,
 						attachTo = "FRAME",
 						anchorPoint = 'TOPRIGHT',
 						verticalGrowth = 'UP',
@@ -313,7 +319,7 @@ local function LoadPresetData()
 					},
 					["debuffs"] = {
 						enable = true,
-						useBars = false,
+						useBars = true,
 						attachTo = "BUFFS",
 						anchorPoint = 'TOPRIGHT',
 						verticalGrowth = 'UP',
@@ -339,7 +345,7 @@ local function LoadPresetData()
 				["focus"] = {
 					["buffs"] = {
 						enable = true,
-						useBars = false,
+						useBars = true,
 						attachTo = "FRAME",
 						anchorPoint = 'TOPRIGHT',
 						verticalGrowth = 'UP',
@@ -347,7 +353,7 @@ local function LoadPresetData()
 					},
 					["debuffs"] = {
 						enable = true,
-						useBars = false,
+						useBars = true,
 						attachTo = "BUFFS",
 						anchorPoint = 'TOPRIGHT',
 						verticalGrowth = 'UP',

@@ -819,7 +819,7 @@ local function ApplyTooltipSkins()
 		    mask[8]:SetWidth(1)
 		    mask[8]:SetTexture(0,0,0)
 
-		    --mask:SetBackdrop(SV.media.backdrop.tooltip)
+		    mask:SetBackdrop(SV.media.backdrop.tooltip)
 		    --mask:SetBackdropBorderColor(0, 0, 0)
 
 		    mask.SetMaskBorderColor = SetMaskBorderColor

@@ -47,7 +47,7 @@ local ModeLogsFrame;
 
 local ArchRaces = GetNumArchaeologyRaces()
 
-local COUNT_TEX = [[Interface\AddOns\SVUI\assets\artwork\Numbers\TYPE2\NUM]]
+local COUNT_TEX = [[Interface\AddOns\SVUI_!Core\assets\textures\Numbers\TYPE2\NUM]]
 
 local refArtifacts = {};
 for i = 1, ArchRaces do
