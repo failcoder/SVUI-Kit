@@ -43,6 +43,8 @@ local SV = _G['SVUI'];
 local L = SV.L;
 local MOD = SV.NamePlates;
 if(not MOD) then return end;
+
+local LSM = _G.LibStub("LibSharedMedia-3.0")
 --[[ 
 ########################################################## 
 LOCALIZED GLOBALS
@@ -118,8 +120,11 @@ local NPComboColor={
 	[5]={0.33,0.59,0.33}
 }
 
+local NPBarTex = [[Interface\BUTTONS\WHITE8X8]];
+
 local NPUsePointer = true;
 local NPPointerMatch = false;
+local NPUseModel = true;
 local NPPointerColor = {0.9, 1, 0.9, 0.5};
 
 local NPUseThreat = false;
@@ -787,11 +792,10 @@ do
 		end
 
 		frame.health:SetStatusBarColor(r,g,b)
-		--if(NPUsePointer and (NPPointerMatch == true) and plate.setting.unit == "target") then
-			--NPGlow:SetBackdropColor(r,g,b,0.5)
-			--NPGlow:SetBackdropBorderColor(r,g,b,0.5)
-			--NPGlow.FX:SetEffect("platepoint")
-		--end
+		if(NPUsePointer and (NPPointerMatch == true) and plate.setting.unit == "target") then
+			NPGlow:SetBackdropColor(r,g,b,0.5)
+			NPGlow:SetBackdropBorderColor(r,g,b,0.5)
+		end
 		--frame.health.elite.bottom:SetVertexColor(r,g,b)
 		--frame.health.elite.right:SetVertexColor(r,g,b)
 		--frame.health.elite.left:SetVertexColor(r,g,b)
@@ -882,13 +886,15 @@ do
 			SVUI_PLATE.highlight:Hide()
 			if(NPUsePointer) then
 				NPGlow:SetParent(SVUI_PLATE)
-				NPGlow:WrapPoints(SVUI_PLATE.health,4,4)
+				NPGlow:WrapPoints(SVUI_PLATE.health,2,2)
 				NPGlow:SetFrameLevel(0)
 				NPGlow:SetFrameStrata("BACKGROUND")
 				if(not NPGlow:IsShown()) then
 					NPGlow:Show()
-					NPGlow.FX:Show()
-					NPGlow.FX:SetEffect("platepoint")
+					if(NPUseModel) then
+						NPGlow.FX:Show()
+						NPGlow.FX:SetEffect("platepoint")
+					end
 				end
 			end
 			if((TARGET_CHECKS > 0) or PLATE_ARGS.allowed) then
@@ -1079,11 +1085,10 @@ do
 			PLATE_ARGS.allowed = true
 		end
 
-		--if(not NPPointerMatch) then
-			--NPGlow:SetBackdropColor(unpack(NPPointerColor))
-			--NPGlow:SetBackdropBorderColor(unpack(NPPointerColor))
-			--NPGlow.FX:SetEffect("platepoint")
-		--end
+		if(NPUsePointer and (not NPPointerMatch)) then
+			NPGlow:SetBackdropColor(unpack(NPPointerColor))
+			NPGlow:SetBackdropBorderColor(unpack(NPPointerColor))
+		end
 	end
 
 	local function HideThisPlate(plate)
@@ -1103,7 +1108,9 @@ do
 		PLATE_ARGS.allowed = nil
 		if(NPGlow:GetParent() == SVUI_PLATE) then
 			NPGlow:Hide()
-			NPGlow.FX:Hide()
+			if(NPGlow.FX:IsShown()) then
+				NPGlow.FX:Hide()
+			end
 		end
 		SVUI_PLATE.health.alert:Hide()
 		SVUI_PLATE.health.icon:Hide()
@@ -1133,10 +1140,10 @@ do
 		if not PLATE_ARGS.scaled and not PLATE_ARGS.tiny then
 			SVUI_PLATE.health:SetSize(HBWidth, HBHeight)
 		end
-		SVUI_PLATE.health:SetStatusBarTexture(MOD.media.healthBar)
+		SVUI_PLATE.health:SetStatusBarTexture(NPBarTex)
 		SVUI_PLATE.health.text:SetFontObject(SVUI_Font_NamePlate_Number)
 		SVUI_PLATE.cast:SetSize(HBWidth, CBHeight)
-		SVUI_PLATE.cast:SetStatusBarTexture(MOD.media.castBar)
+		SVUI_PLATE.cast:SetStatusBarTexture(NPBarTex)
 		SVUI_PLATE.cast.text:SetFont(SV.media.font.default, 8, "OUTLINE")
 		plate.cast.text:SetFont(SV.media.font.default, 8, "OUTLINE")
 		plate.cast.icon:ModSize((CBHeight + HBHeight) + 5)
@@ -1444,7 +1451,9 @@ end
 
 function MOD:PLAYER_TARGET_CHANGED()
 	NPGlow:Hide()
-	NPGlow.FX:Hide()
+	if(NPGlow.FX:IsShown()) then
+		NPGlow.FX:Hide()
+	end
 	if(UnitExists("target")) then
 		CURRENT_TARGET_NAME = UnitName("target");
 		TARGET_CHECKS = 1;
@@ -1515,6 +1524,8 @@ function MOD:UpdateLocals()
 	local db = SV.db.NamePlates
 	if not db then return end 
 
+	NPBarTex = LSM:Fetch("statusbar", db.barTexture);
+
 	NPClassRole = SV.ClassRole;
 	NPBaseAlpha = db.nonTargetAlpha;
 	NPCombatHide = db.combatHide;
@@ -1545,6 +1556,7 @@ function MOD:UpdateLocals()
 	NPUsePointer = db.pointer.enable;
 	NPPointerMatch = db.pointer.colorMatchHealthBar;
 	NPPointerColor = {db.pointer.color[1], db.pointer.color[2], db.pointer.color[3], 0.5};
+	NPUseModel = db.pointer.useArrowEffect
 
 	local tc = db.threat
 	NPUseThreat = tc.enable;
@@ -1617,6 +1629,7 @@ function MOD:Load()
 	NPGlow.FX:SetParent(SV.Screen)
 	NPGlow.FX:SetFrameStrata("BACKGROUND")
 	NPGlow.FX:SetFrameLevel(0)
+	NPGlow.FX:Hide()
 	self:UpdateLocals()
 	self:RegisterEvent("PLAYER_ENTERING_WORLD")
 	self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")

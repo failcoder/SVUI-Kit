@@ -42,13 +42,13 @@
     </Frame>
 
     <Frame name="SVUI_PlateGlowFrame" frameStrata="BACKGROUND" hidden="true">
-        <!-- <Backdrop bgFile="Interface\BUTTONS\WHITE8X8" edgeFile="Interface\AddOns\SVUI_!Core\assets\borders\SHADOW">
-            <EdgeSize val="3" />
+        <Backdrop bgFile="Interface\BUTTONS\WHITE8X8" edgeFile="Interface\AddOns\SVUI_!Core\assets\borders\SHADOW">
+            <EdgeSize val="2" />
             <TileSize val="0" />
-            <BackgroundInsets left="3" right="3" top="3" bottom="3" />
+            <BackgroundInsets left="2" right="2" top="2" bottom="2" />
             <Color r="0" g="0" b="0" a="0" />
             <BorderColor r="0" g="0" b="0" a="0" />
-        </Backdrop> -->
+        </Backdrop>
     	<Scripts>
             <OnLoad>
             	self:SetParent(_G['WorldFrame'])
@@ -67,11 +67,11 @@
             <Attribute name="panelSkipUpdate" type="boolean" value="false" />
             <Attribute name="panelOffset" type="number" value="1" />
         </Attributes>
-        <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\BUTTONS\WHITE8X8" tile="false">
+        <Backdrop bgFile="Interface\BUTTONS\WHITE8X8" edgeFile="Interface\BUTTONS\WHITE8X8" tile="false">
             <EdgeSize val="1" />
             <TileSize val="0" />
             <BackgroundInsets left="1" right="1" top="1" bottom="1" />
-            <Color r="0" g="0" b="0" a="0.5" />
+            <Color r="0" g="0" b="0" a="0.8" />
             <BorderColor r="0" g="0" b="0" a="1" />
         </Backdrop>
         <Layers>

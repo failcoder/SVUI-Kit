@@ -456,7 +456,7 @@ local ContainerFrame_UpdateLayout = function(self)
 				bagSlot:SetPushedTexture("")
 				bagSlot:SetScript("OnClick", nil)
 				bagSlot:RemoveTextures()
-				bagSlot:SetStyle("ActionSlot");
+				bagSlot:SetStyle("!_ActionSlot");
 
 				if(not bagSlot.icon) then
 					bagSlot.icon = bagSlot:CreateTexture(nil, "BORDER");
@@ -542,7 +542,7 @@ local ContainerFrame_UpdateLayout = function(self)
 					self.Bags[bagID][slotID]:SetNormalTexture("");
 					self.Bags[bagID][slotID]:SetCheckedTexture("");
 					self.Bags[bagID][slotID]:RemoveTextures();
-					self.Bags[bagID][slotID]:SetStyle("ActionSlot");
+					self.Bags[bagID][slotID]:SetStyle("!_ActionSlot");
 					
 					if(not self.Bags[bagID][slotID].NewItemTexture) then
 						self.Bags[bagID][slotID].NewItemTexture = self.Bags[bagID][slotID]:CreateTexture(nil, "OVERLAY", 1);
@@ -684,7 +684,7 @@ local ReagentFrame_UpdateLayout = function(self)
 			slot:SetNormalTexture(nil);
 			slot:SetCheckedTexture(nil);
 			slot:RemoveTextures()
-			slot:SetStyle("ActionSlot");
+			slot:SetStyle("!_ActionSlot");
 
 			slot.NewItemTexture = slot:CreateTexture(nil, "OVERLAY", 1);
 			slot.NewItemTexture:InsetPoints(slot);

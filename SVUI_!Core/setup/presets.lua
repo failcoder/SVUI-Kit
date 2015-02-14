@@ -196,6 +196,7 @@ local function LoadPresetData()
 				["player"] = {
 					["buffs"] = {
 						enable = true,
+						useBars = false,
 						attachTo = "FRAME",
 						anchorPoint = 'TOPLEFT',
 						verticalGrowth = 'UP',
@@ -203,6 +204,7 @@ local function LoadPresetData()
 					},
 					["debuffs"] = {
 						enable = true,
+						useBars = false,
 						attachTo = "BUFFS",
 						anchorPoint = 'TOPLEFT',
 						verticalGrowth = 'UP',
@@ -215,6 +217,7 @@ local function LoadPresetData()
 				["target"] = {
 					["buffs"] = {
 						enable = true,
+						useBars = false,
 						attachTo = "FRAME",
 						anchorPoint = 'TOPRIGHT',
 						verticalGrowth = 'UP',
@@ -222,6 +225,7 @@ local function LoadPresetData()
 					},
 					["debuffs"] = {
 						enable = true,
+						useBars = false,
 						attachTo = "BUFFS",
 						anchorPoint = 'TOPRIGHT',
 						verticalGrowth = 'UP',
@@ -250,6 +254,7 @@ local function LoadPresetData()
 				["focus"] = {
 					["buffs"] = {
 						enable = true,
+						useBars = false,
 						attachTo = "FRAME",
 						anchorPoint = 'TOPRIGHT',
 						verticalGrowth = 'UP',
@@ -257,6 +262,7 @@ local function LoadPresetData()
 					},
 					["debuffs"] = {
 						enable = true,
+						useBars = false,
 						attachTo = "BUFFS",
 						anchorPoint = 'TOPRIGHT',
 						verticalGrowth = 'UP',
@@ -286,77 +292,8 @@ local function LoadPresetData()
 			["bars"] = {
 				["player"] = {
 					["buffs"] = {
-						enable = false,
-					},
-					["debuffs"] = {
-						enable = false,
-					},
-					["aurabar"] = {
 						enable = true,
-						attachTo = "FRAME"
-					}
-				},
-				["target"] = {
-					["buffs"] = {
-						enable = false,
-					},
-					["debuffs"] = {
-						enable = false,
-					},
-					["aurabar"] = {
-						enable = true,
-						attachTo = "FRAME"
-					}
-				},
-				["targettarget"] = {
-					["buffs"] = {
-						enable = true,
-						attachTo = "FRAME",
-						anchorPoint = 'TOPRIGHT',
-						verticalGrowth = 'UP',
-						horizontalGrowth = 'LEFT',
-					},
-					["debuffs"] = {
-						enable = true,
-						attachTo = "BUFFS",
-						anchorPoint = 'TOPRIGHT',
-						verticalGrowth = 'UP',
-						horizontalGrowth = 'LEFT',
-					},
-				},
-				["focus"] = {
-					["buffs"] = {
-						enable = false,
-					},
-					["debuffs"] = {
-						enable = false,
-					},
-					["aurabar"] = {
-						enable = true,
-						attachTo = "FRAME"
-					}
-				},
-				["focustarget"] = {
-					["buffs"] = {
-						enable = true,
-						attachTo = "FRAME",
-						anchorPoint = 'TOPRIGHT',
-						verticalGrowth = 'UP',
-						horizontalGrowth = 'LEFT',
-					},
-					["debuffs"] = {
-						enable = true,
-						attachTo = "BUFFS",
-						anchorPoint = 'TOPRIGHT',
-						verticalGrowth = 'UP',
-						horizontalGrowth = 'LEFT',
-					},
-				}
-			},
-			["theworks"] = {
-				["player"] = {
-					["buffs"] = {
-						enable = true,
+						useBars = true,
 						attachTo = "FRAME",
 						anchorPoint = 'TOPLEFT',
 						verticalGrowth = 'UP',
@@ -364,19 +301,17 @@ local function LoadPresetData()
 					},
 					["debuffs"] = {
 						enable = true,
+						useBars = true,
 						attachTo = "BUFFS",
 						anchorPoint = 'TOPLEFT',
 						verticalGrowth = 'UP',
 						horizontalGrowth = 'RIGHT',
 					},
-					["aurabar"] = {
-						enable = true,
-						attachTo = "DEBUFFS"
-					}
 				},
 				["target"] = {
 					["buffs"] = {
 						enable = true,
+						useBars = true,
 						attachTo = "FRAME",
 						anchorPoint = 'TOPRIGHT',
 						verticalGrowth = 'UP',
@@ -384,15 +319,12 @@ local function LoadPresetData()
 					},
 					["debuffs"] = {
 						enable = true,
+						useBars = true,
 						attachTo = "BUFFS",
 						anchorPoint = 'TOPRIGHT',
 						verticalGrowth = 'UP',
 						horizontalGrowth = 'LEFT',
 					},
-					["aurabar"] = {
-						enable = true,
-						attachTo = "DEBUFFS"
-					}
 				},
 				["targettarget"] = {
 					["buffs"] = {
@@ -413,6 +345,7 @@ local function LoadPresetData()
 				["focus"] = {
 					["buffs"] = {
 						enable = true,
+						useBars = true,
 						attachTo = "FRAME",
 						anchorPoint = 'TOPRIGHT',
 						verticalGrowth = 'UP',
@@ -420,15 +353,12 @@ local function LoadPresetData()
 					},
 					["debuffs"] = {
 						enable = true,
+						useBars = true,
 						attachTo = "BUFFS",
 						anchorPoint = 'TOPRIGHT',
 						verticalGrowth = 'UP',
 						horizontalGrowth = 'LEFT',
 					},
-					["aurabar"] = {
-						enable = true,
-						attachTo = "DEBUFFS"
-					}
 				},
 				["focustarget"] = {
 					["buffs"] = {
@@ -1021,7 +951,6 @@ local function LoadPageData()
 
 			["Option1"] = {L["Icons"], "Auralayout", "default"},
 			["Option2"] = {L["Bars"], "Auralayout", "bars"},
-			["Option3"] = {L["The" .. "\n" .. "Works!"], "Auralayout", "theworks"},
 		},
 		--PAGE 9
 		{

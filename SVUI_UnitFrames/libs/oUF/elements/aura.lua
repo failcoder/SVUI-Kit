@@ -501,8 +501,6 @@ local UpdateIconAuras = function(self, cache, unit, index, filter, visible, isFr
 		local show = true
 		if(not self.forceShow) then
 			show = (self.CustomFilter or genericFilter) (self, false, unit, name, rank, texture, count, debuffType, duration, timeLeft, caster, isStealable, shouldConsolidate, spellID, canApplyAura, isBossDebuff)
-		elseif(visible > 3) then
-			show = false;
 		end
 
 		if(show) then
@@ -623,8 +621,6 @@ local UpdateBarAuras = function(self, cache, unit, index, filter, visible, isFri
 		local show = true
 		if(not self.forceShow) then
 			show = (self.CustomFilter or genericFilter) (self, false, unit, name, rank, texture, count, debuffType, duration, timeLeft, caster, isStealable, shouldConsolidate, spellID, canApplyAura, isBossDebuff)
-		elseif(visible > 3) then
-			show = false;
 		end
 
 		if(show) then
@@ -700,10 +696,10 @@ local ParseMinorAuras = function(self, unit)
 	local index = 1;
 	local visible = 0;
 	local cache = {};
-
 	local isFriend = (UnitIsFriend('player', unit) == 1) and true or false;
 
 	while(visible < limit) do
+		if(self.forceShow and visible > 9) then break end
 		local result = UpdateIconAuras(self, cache, unit, index, filter, visible, isFriend)
 		if(not result) then
 			break
@@ -736,6 +732,7 @@ local ParseMajorAuras = function(self, unit)
 	--print(self.UseBars)
 	if(self.UseBars) then
 		while(visible < limit) do
+			if(self.forceShow and visible > 9) then break end
 			local result = UpdateBarAuras(self, cache, unit, index, filter, visible, isFriend)
 			if(not result) then
 				break

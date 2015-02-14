@@ -56,6 +56,7 @@ SV:AssignMedia("template", "Nameplate", "SVUI_StyleTemplate_Nameplate");
 SV.defaults[Schema] = {
 	["themed"] = true,
 	["filter"] = {}, 
+	["barTexture"] = "SVUI MultiColorBar",
 	["font"] = DIALOGUE_FONT, 
 	["fontSize"] = 10, 
 	["fontOutline"] = "OUTLINE", 
@@ -67,8 +68,9 @@ SV.defaults[Schema] = {
 	["targetcount"] = true, 
 	["pointer"] = {
 		["enable"] = true, 
-		["colorMatchHealthBar"] = false, 
+		["colorMatchHealthBar"] = true, 
 		["color"] = {0.9, 1, 0.9}, 
+		["useArrowEffect"] = true, 
 	}, 
 	["healthBar"] = {
 		["lowThreshold"] = 0.4, 
@@ -262,9 +264,17 @@ function MOD:LoadOptions()
 								name = L["Threat Text"],
 								desc = L["Display threat level as text on targeted,	boss or mouseover nameplate."]
 							},
+							barTexture = {
+								type = "select", 
+								dialogControl = "LSM30_Statusbar", 
+								order = 5, 
+								name = L["StatusBar Texture"], 
+								desc = L["Main statusbar texture."], 
+								values = AceGUIWidgetLSMlists.statusbar
+							},
 							nonTargetAlpha = {
 								type = "range",
-								order = 5,
+								order = 6,
 								name = L["Non-Target Alpha"],
 								desc = L["Alpha of nameplates that are not your current target."],
 								min = 0,
@@ -483,8 +493,13 @@ function MOD:LoadOptions()
 								type = "toggle",
 								name = L["Enable"]
 							},
-							colorMatchHealthBar = {
+							useArrowEffect = {
 								order = 2,
+								type = "toggle",
+								name = L["Use 3D Arrow"]
+							},
+							colorMatchHealthBar = {
+								order = 3,
 								type = "toggle",
 								name = L["Color By Healthbar"],
 								desc = L["Match the color of the healthbar."],
@@ -498,7 +513,7 @@ function MOD:LoadOptions()
 							color = {
 								type = "color",
 								name = L["Color"],
-								order = 3,
+								order = 4,
 								disabled = function()return SV.db[Schema].pointer.colorMatchHealthBar end,
 								get = function(key)
 									local color = SV.db[Schema].pointer[key[#key]]

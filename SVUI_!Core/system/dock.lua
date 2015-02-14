@@ -558,7 +558,7 @@ local DockletButton_OnClick = function(self, button)
 	MOD.ButtonSound()
 	if(IsAltKeyDown() and (not InCombatLockdown()) and self:GetAttribute("hasDropDown") and self.GetMenuList) then
 		local list = self:GetMenuList();
-		SV.Dropdown:Open(self, list);
+		SV.Dropdown:Open(self, list, "Dock Options");
 	else
 		if self.PostClickFunction then
 			self:PostClickFunction()
@@ -579,7 +579,7 @@ local DockletButton_OnPostClick = function(self, button)
 	MOD.ButtonSound()
 	if(IsAltKeyDown() and self:GetAttribute("hasDropDown") and self.GetMenuList) then
 		local list = self:GetMenuList();
-		SV.Dropdown:Open(self, list);
+		SV.Dropdown:Open(self, list, "Dock Options");
 	end
 end
 

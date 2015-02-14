@@ -98,19 +98,21 @@ local function GetScreenPosition(frame)
 	return result 
 end
 
-function SV.Dropdown:Open(target, list)
+function SV.Dropdown:Open(target, list, titleText)
 	if(InCombatLockdown() or (not list)) then return end
 
 	if(not self.option) then
 		self.option = {};
-		self:SetFrameStrata("DIALOG");
-		self:SetClampedToScreen(true);
-		tinsert(UISpecialFrames, self:GetName());
-		self:Hide();
 	end
 
 	local maxPerColumn = 25;
 	local cols = 1;
+
+	if(titleText) then
+		self.Title:SetText(titleText)
+	else
+		self.Title:SetText("Menu")
+	end
 
 	for i=1, #self.option do
 		self.option[i].button:Hide();
@@ -176,7 +178,7 @@ function SV.Dropdown:Open(target, list)
 		end
 
 		if(i == 1) then
-			self.option[i]:SetPoint("TOPLEFT", self, "TOPLEFT", 10, -10)
+			self.option[i]:SetPoint("TOPLEFT", self, "TOPLEFT", 10, -30)
 		elseif((i - 1) % maxPerColumn == 0) then
 			self.option[i]:SetPoint("TOPLEFT", self.option[i - maxPerColumn], "TOPRIGHT", 10, 0)
 			cols = cols + 1
@@ -210,15 +212,28 @@ local function InitializeDropdown()
 	SV.Dropdown:SetFrameStrata("DIALOG")
 	SV.Dropdown:SetFrameLevel(99)
 	SV.Dropdown:SetStyle("Frame", "Default")
-	SV.Dropdown.option = {}
-	SV.Dropdown:SetClampedToScreen(true)
+	SV.Dropdown.option = {};
+	SV.Dropdown.close = CreateFrame("Button", nil, SV.Dropdown, "UIPanelCloseButton")
+	SV.Dropdown.close:SetPoint("TOPRIGHT", SV.Dropdown, "TOPRIGHT")
+	SV.Dropdown.close:SetScript("OnClick", function() ToggleFrame(SV.Dropdown) end)
+	SV.API:Set("CloseButton", SV.Dropdown.close)
+	SV.Dropdown.Title = SV.Dropdown:CreateFontString(nil, "OVERLAY")
+	SV.Dropdown.Title:SetFont(SV.media.font.zone, 16, "OUTLINE")
+	SV.Dropdown.Title:SetPoint("TOPLEFT", SV.Dropdown, "TOPLEFT", 7, -7)
+	SV.Dropdown.Title:SetText("Menu")
+	SV.Dropdown.Title:SetTextColor(1, 0.5, 0)
+	SV.Dropdown:SetFrameStrata("DIALOG");
+	SV.Dropdown:SetClampedToScreen(true);
 	SV.Dropdown:SetSize(155, 94)
 
-	WorldFrame:HookScript("OnMouseDown", function()
-		if(SV.Dropdown:IsShown()) then
-			ToggleFrame(SV.Dropdown)
-		end
-	end)
+	tinsert(UISpecialFrames, SV.Dropdown:GetName());
+	SV.Dropdown:Hide();
+
+	-- WorldFrame:HookScript("OnMouseDown", function()
+	-- 	if(SV.Dropdown:IsShown()) then
+	-- 		ToggleFrame(SV.Dropdown)
+	-- 	end
+	-- end)
 
 	SV:ManageVisibility(SV.Dropdown)
 end

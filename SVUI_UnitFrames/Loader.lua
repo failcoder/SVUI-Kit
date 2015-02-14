@@ -73,7 +73,7 @@ MOD.media.afflicted = [[Interface\AddOns\SVUI_UnitFrames\assets\UNIT-AFFLICTED]]
 SV:AssignMedia("font", "unitprimary", "SVUI Number Font", 11, "OUTLINE");
 SV:AssignMedia("font", "unitsecondary", "SVUI Number Font", 11, "OUTLINE");
 SV:AssignMedia("font", "unitaura", "SVUI Alert Font", 10, "OUTLINE");
-SV:AssignMedia("font", "unitaurabar", "SVUI Caps Font", 18, "OUTLINE");
+SV:AssignMedia("font", "unitaurabar", "SVUI Caps Font", 12, "OUTLINE");
 SV:AssignMedia("font", "unitaurasmall", "SVUI Pixel Font", 8, "MONOCHROMEOUTLINE");
 SV:AssignMedia("globalfont", "unitprimary", "SVUI_Font_Unit");
 SV:AssignMedia("globalfont", "unitsecondary", "SVUI_Font_Unit_Small");
