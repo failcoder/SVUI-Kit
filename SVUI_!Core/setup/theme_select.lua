@@ -80,6 +80,7 @@ function SV.Setup:SelectTheme()
 		local closeButton = CreateFrame("Button", nil, frame, "UIPanelCloseButton")
 		closeButton:SetPoint("TOPRIGHT", frame, "TOPRIGHT")
 		closeButton:SetScript("OnClick", function() frame:Hide() end)
+		SV.API:Set("CloseButton", closeButton)
 
 		frame:ClearAllPoints()
 		frame:ModSize(350, (135 * (count - 1)) + 20)

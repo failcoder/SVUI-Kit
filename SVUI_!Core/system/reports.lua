@@ -295,7 +295,7 @@ do
 
 	local Parent_OnClick = function(self, button)
 		if IsAltKeyDown() then
-			SV.Dropdown:Open(self, self.MenuList);
+			SV.Dropdown:Open(self, self.MenuList, "Select Report");
 		elseif(self.onClick) then
 			self.onClick(self, button);
 		end

@@ -284,9 +284,7 @@ local function CreateHenchmenSubOptions(buttonIndex,optionIndex)
 	frame.bg:SetVertexColor(1,1,1,0.6)
 	frame.txt = frame:CreateFontString(nil,"DIALOG")
 	frame.txt:InsetPoints(frame)
-	frame.txt:SetFont(STANDARD_TEXT_FONT,12,"OUTLINE")
-	frame.txt:SetJustifyH("CENTER")
-	frame.txt:SetJustifyV("MIDDLE")
+	frame.txt:SetFontObject(SVUI_Font_Default)
 	frame.txt:SetTextColor(1,1,1)
 	frame.txthigh = frame:CreateFontString(nil,"HIGHLIGHT")
 	frame.txthigh:InsetPoints(frame)
@@ -431,27 +429,20 @@ local function CreateHenchmenFrame()
 	HenchmenOptionButton3:SetScript("OnMouseUp",SubOption_OnMouseUp)
 	------------------------------------------------------------------------
 	CreateHenchmenSubOptions(4,1)
-	HenchmenOptionButton4Sub1.txt:SetText("Icons Only")
-	HenchmenOptionButton4Sub1.txthigh:SetText("Icons Only")
+	HenchmenOptionButton4Sub1.txt:SetText("Icons")
+	HenchmenOptionButton4Sub1.txthigh:SetText("Icons")
 	HenchmenOptionButton4Sub1.value = "icons"
 	HenchmenOptionButton4Sub1.callback = AuraFunc
 	HenchmenOptionButton4Sub1:SetScript("OnMouseUp", Option_OnMouseUp)
 
 	CreateHenchmenSubOptions(4,2)
-	HenchmenOptionButton4Sub2.txt:SetText("Bars Only")
-	HenchmenOptionButton4Sub2.txthigh:SetText("Bars Only")
+	HenchmenOptionButton4Sub2.txt:SetText("Bars")
+	HenchmenOptionButton4Sub2.txthigh:SetText("Bars")
 	HenchmenOptionButton4Sub2.value = "bars"
 	HenchmenOptionButton4Sub2.callback = AuraFunc
 	HenchmenOptionButton4Sub2:SetScript("OnMouseUp", Option_OnMouseUp)
 
-	CreateHenchmenSubOptions(4,3)
-	HenchmenOptionButton4Sub3.txt:SetText("The Works: Bars and Icons")
-	HenchmenOptionButton4Sub3.txthigh:SetText("The Works: Bars and Icons")
-	HenchmenOptionButton4Sub3.value = "theworks"
-	HenchmenOptionButton4Sub3.callback = AuraFunc
-	HenchmenOptionButton4Sub3:SetScript("OnMouseUp", Option_OnMouseUp)
-
-	HenchmenOptionButton4.suboptions = 3;
+	HenchmenOptionButton4.suboptions = 2;
 	HenchmenOptionButton4.isopen = false;
 	HenchmenOptionButton4:SetScript("OnMouseUp",SubOption_OnMouseUp)
 	------------------------------------------------------------------------

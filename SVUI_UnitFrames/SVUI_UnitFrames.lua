@@ -774,7 +774,7 @@ function MOD:RefreshUnitLayout(frame, template)
 			local count 	= columns * rows;
 			local auraSize;
 
-			if(frame.AuraBarsAvailable and (bars and bars == true)) then
+			if(bars and bars == true) then
 				BUFF_GRIP.UseBars = bars;
 				auraSize = db.buffs.barSize;
 				count = db.buffs.barCount;
@@ -804,10 +804,11 @@ function MOD:RefreshUnitLayout(frame, template)
 			BUFF_GRIP["growth-x"] = db.buffs.horizontalGrowth;
 			BUFF_GRIP:SetHeight(BUFF_GRIP.maxHeight)
 			BUFF_GRIP:SetWidth(UNIT_WIDTH)
-			--BUFF_GRIP:SetSorting(db.buffs.sort)
+			BUFF_GRIP:SetSorting(db.buffs.sort)
 
 			if(BUFF_ENABLED) then 
 				BUFF_GRIP:Show()
+				BUFF_GRIP:ForceUpdate()
 			else 
 				BUFF_GRIP:Hide()
 			end 
@@ -820,7 +821,7 @@ function MOD:RefreshUnitLayout(frame, template)
 			local count 	= columns * rows;
 			local auraSize;
 
-			if(frame.AuraBarsAvailable and (bars and bars == true)) then
+			if(bars and bars == true) then
 				DEBUFF_GRIP.UseBars = bars;
 				auraSize = db.debuffs.barSize;
 				count = db.debuffs.barCount;
@@ -850,10 +851,11 @@ function MOD:RefreshUnitLayout(frame, template)
 			DEBUFF_GRIP["growth-x"] = db.debuffs.horizontalGrowth;
 			DEBUFF_GRIP:SetHeight(DEBUFF_GRIP.maxHeight)
 			DEBUFF_GRIP:SetWidth(UNIT_WIDTH)
-			--DEBUFF_GRIP:SetSorting(db.debuffs.sort)
+			DEBUFF_GRIP:SetSorting(db.debuffs.sort)
 
 			if(DEBUFF_ENABLED) then  
 				DEBUFF_GRIP:Show()
+				DEBUFF_GRIP:ForceUpdate()
 			else 
 				DEBUFF_GRIP:Hide()
 			end 

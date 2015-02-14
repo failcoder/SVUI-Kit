@@ -214,7 +214,7 @@ end
 
 local function Tokens_OnClick(self, button)
   CacheTokenData(self);
-	SV.Dropdown:Open(self, self.TokenList) 
+	SV.Dropdown:Open(self, self.TokenList, "Select Currency") 
 end
 
 local function Tokens_OnInit(self)

@@ -160,7 +160,7 @@ end
 
 local function Reputation_OnClick(self, button)
 	CacheRepData()
-	SV.Dropdown:Open(self, RepMenuList) 
+	SV.Dropdown:Open(self, RepMenuList, "Select Faction") 
 end 
 
 local function Reputation_OnInit(self)
