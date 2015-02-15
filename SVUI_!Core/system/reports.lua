@@ -77,7 +77,6 @@ local DIRTY_LIST = true;
 LOCALIZED GLOBALS
 ##########################################################
 ]]--
-local CUSTOM_CLASS_COLORS = _G.CUSTOM_CLASS_COLORS
 local RAID_CLASS_COLORS = _G.RAID_CLASS_COLORS
 --[[ 
 ########################################################## 

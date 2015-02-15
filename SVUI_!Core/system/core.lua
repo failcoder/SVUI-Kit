@@ -140,40 +140,6 @@ local function _needsupdate(value, lowest)
     end
 end
 
---[[ CLASS COLOR LOCALS ]]--
-
-local function RegisterCallback(self, m, h)
-    assert(type(m) == "string" or type(m) == "function", "Bad argument #1 to :RegisterCallback (string or function expected)")
-    if type(m) == "string" then
-        assert(type(h) == "table", "Bad argument #2 to :RegisterCallback (table expected)")
-        assert(type(h[m]) == "function", "Bad argument #1 to :RegisterCallback (m \"" .. m .. "\" not found)")
-        m = h[m]
-    end
-    callbacks[m] = h or true
-    numCallbacks = numCallbacks + 1
-end
-
-local function UnregisterCallback(self, m, h)
-    assert(type(m) == "string" or type(m) == "function", "Bad argument #1 to :UnregisterCallback (string or function expected)")
-    if type(m) == "string" then
-        assert(type(h) == "table", "Bad argument #2 to :UnregisterCallback (table expected)")
-        assert(type(h[m]) == "function", "Bad argument #1 to :UnregisterCallback (m \"" .. m .. "\" not found)")
-        m = h[m]
-    end
-    callbacks[m] = nil
-    numCallbacks = numCallbacks + 1
-end
-
-local function DispatchCallbacks()
-    if (numCallbacks < 1) then return end 
-    for m, h in pairs(callbacks) do
-        local ok, err = pcall(m, h ~= true and h or nil)
-        if not ok then
-            print("ERROR:", err)
-        end
-    end
-end
-
 --[[ BUILD CLASS COLOR GLOBAL, CAN BE OVERRIDDEN BY THE ADDON !ClassColors ]]--
 
 local CUSTOM_CLASS_COLORS = _G.CUSTOM_CLASS_COLORS;
@@ -182,6 +148,38 @@ if(not CUSTOM_CLASS_COLORS) then
     local env = getfenv(0)
     env.CUSTOM_CLASS_COLORS = {}
     CUSTOM_CLASS_COLORS = env.CUSTOM_CLASS_COLORS
+
+    local function RegisterCallback(self, m, h)
+        assert(type(m) == "string" or type(m) == "function", "Bad argument #1 to :RegisterCallback (string or function expected)")
+        if type(m) == "string" then
+            assert(type(h) == "table", "Bad argument #2 to :RegisterCallback (table expected)")
+            assert(type(h[m]) == "function", "Bad argument #1 to :RegisterCallback (m \"" .. m .. "\" not found)")
+            m = h[m]
+        end
+        callbacks[m] = h or true
+        numCallbacks = numCallbacks + 1
+    end
+
+    local function UnregisterCallback(self, m, h)
+        assert(type(m) == "string" or type(m) == "function", "Bad argument #1 to :UnregisterCallback (string or function expected)")
+        if type(m) == "string" then
+            assert(type(h) == "table", "Bad argument #2 to :UnregisterCallback (table expected)")
+            assert(type(h[m]) == "function", "Bad argument #1 to :UnregisterCallback (m \"" .. m .. "\" not found)")
+            m = h[m]
+        end
+        callbacks[m] = nil
+        numCallbacks = numCallbacks + 1
+    end
+
+    local function DispatchCallbacks()
+        if (numCallbacks < 1) then return end 
+        for m, h in pairs(callbacks) do
+            local ok, err = pcall(m, h ~= true and h or nil)
+            if not ok then
+                print("ERROR:", err)
+            end
+        end
+    end
 
     local classes = {};
     local supercolors = {
@@ -197,6 +195,23 @@ if(not CUSTOM_CLASS_COLORS) then
         ["DEATHKNIGHT"]   = { r = 0.847, g = 0.117, b = 0.074 },
         ["MONK"]          = { r = 0.015, g = 0.886, b = 0.38 },
     };
+
+    --[[ IF WE NEED TO FORCE DEFAULT COLORS, USE THIS INSTEAD ]]--
+
+    -- local supercolors = {
+    --     ["HUNTER"]        = { r = 0.67,  g = 0.83,  b = 0.45 },
+    --     ["WARLOCK"]       = { r = 0.58,  g = 0.51,  b = 0.79 },
+    --     ["PRIEST"]        = { r = 1,     g = 1,     b = 1 },
+    --     ["PALADIN"]       = { r = 0.96,  g = 0.55,  b = 0.73 },
+    --     ["MAGE"]          = { r = 0.41,  g = 0.80,  b = 0.94 },
+    --     ["ROGUE"]         = { r = 1,     g = 0.96,  b = 0.41 },
+    --     ["DRUID"]         = { r = 1,     g = 0.49,  b = 0.04 },
+    --     ["SHAMAN"]        = { r = 0,     g = 0.44,  b = 0.87 },
+    --     ["WARRIOR"]       = { r = 0.78,  g = 0.61,  b = 0.43 },
+    --     ["DEATHKNIGHT"]   = { r = 0.77,  g = 0.12,  b = 0.23 },
+    --     ["MONK"]          = { r = 0.33,  g = 0.54,  b = 0.52 },
+    -- };
+
     for class in pairs(RAID_CLASS_COLORS) do
         tinsert(classes, class)
     end
@@ -262,6 +277,7 @@ SV.defaults           = {
     },
     ["general"] = {
         ["loginmessage"] = true,
+        ["customClassColor"] = false,
         ["cooldown"] = true, 
         ["saveDraggable"] = false,
         ["taintLog"] = false, 

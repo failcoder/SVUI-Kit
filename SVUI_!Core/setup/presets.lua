@@ -210,9 +210,6 @@ local function LoadPresetData()
 						verticalGrowth = 'UP',
 						horizontalGrowth = 'RIGHT',
 					},
-					["aurabar"] = {
-						enable = false
-					}
 				},
 				["target"] = {
 					["buffs"] = {
@@ -231,9 +228,6 @@ local function LoadPresetData()
 						verticalGrowth = 'UP',
 						horizontalGrowth = 'LEFT',
 					},
-					["aurabar"] = {
-						enable = false
-					}
 				},
 				["targettarget"] = {
 					["buffs"] = {
@@ -268,9 +262,6 @@ local function LoadPresetData()
 						verticalGrowth = 'UP',
 						horizontalGrowth = 'LEFT',
 					},
-					["aurabar"] = {
-						enable = false
-					}
 				},
 				["focustarget"] = {
 					["buffs"] = {

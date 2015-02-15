@@ -39,18 +39,11 @@ LOCAL VARS
 ##########################################################
 ]]--
 local CURRENT_PAGE, MAX_PAGE, XOFF = 0, 9, (GetScreenWidth() * 0.025)
-local okToResetMOVE = false
+local okToResetMOVE = false;
 local mungs = false;
 local user_music_vol = GetCVar("Sound_MusicVolume") or 0;
 local musicIsPlaying;
-local PageData, OnClickData
-local CUSTOM_CLASS_COLORS = _G.CUSTOM_CLASS_COLORS
-local RAID_CLASS_COLORS = _G.RAID_CLASS_COLORS
-local scc = CUSTOM_CLASS_COLORS[SV.class];
-local rcc = RAID_CLASS_COLORS[SV.class];
-local r2 = .1 + (rcc.r * .1)
-local g2 = .1 + (rcc.g * .1)
-local b2 = .1 + (rcc.b * .1)
+local PageData, OnClickData;
 local SetCVar = _G.SetCVar;
 local ToggleChatColorNamesByClassGroup = _G.ToggleChatColorNamesByClassGroup;
 local ChatFrame_AddMessageGroup = _G.ChatFrame_AddMessageGroup;
@@ -80,7 +73,7 @@ local function PlayThemeSong()
 		SetCVar("Sound_MusicVolume", 100)
 		SetCVar("Sound_EnableMusic", 1)
 		StopMusic()
-		PlayMusic([[Interface\AddOns\SVUI_!Core\assets\sounds\Comics.mp3]])
+		PlayMusic([[Interface\AddOns\SVUI_!Core\assets\sounds\SuperVillain.mp3]])
 		musicIsPlaying = true
 	end
 end 
@@ -523,7 +516,6 @@ end
 function SV.Setup:GroupframeLayout(style, preserve)
 	if(not SV.UnitFrames) then return end
 	preset_groupstyle = style or "default";
-
 	self:CopyPreset("layouts", preset_groupstyle)
 	SVUILib:SaveSafeData("preset_groupstyle", preset_groupstyle);
 
@@ -571,15 +563,14 @@ function SV.Setup:BarLayout(style, preserve)
 end 
 
 function SV.Setup:Auralayout(style, preserve)
-	if(not SV.Auras) then return end
+	if(not SV.UnitFrames) then return end
 	preset_aurastyle = style or "default";
+
 	self:CopyPreset("auras", preset_aurastyle)
 
 	SVUILib:SaveSafeData("preset_aurastyle", preset_aurastyle);
 
 	if(not mungs) then
-		SVUILib:RefreshModule('Dock')
-		SVUILib:RefreshModule('Auras')
 		SVUILib:RefreshModule('UnitFrames')
 		if(not preserve) then
 			SV:SavedPopup()

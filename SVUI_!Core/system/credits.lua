@@ -42,8 +42,8 @@ Other Silent Partners.. (Let me know if I have forgotten you)
 |cff4f4f4f---------------------------------------------|r
 
 |cff3399ffCODE MONKEYS  (aka CONTRIBUTORS):|r
-Azilroka, Sortokk, Kkthnx, Vyntrox, AlleyKat
-Quokka, Duugu, Zork, Haleth, P3lim
+Azilroka, Sortokk, Kkthnx, Vyntrox, Mydraal
+AlleyKat, Quokka, Duugu, Zork, Haleth, P3lim
 Haste, Totalpackage, Kryso, Thepilli, Phanx
 |cff4f4f4f---------------------------------------------|r
 

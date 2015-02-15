@@ -688,9 +688,7 @@ local UpdateBarAuras = function(self, cache, unit, index, filter, visible, isFri
 	end
 end
 
-local ParseMinorAuras = function(self, unit)
-	if not unit then return; end
-
+local ParseIconAuras = function(self, unit)
 	local limit = self.maxCount or 0;
 	local filter = self.filtering;
 	local index = 1;
@@ -699,7 +697,7 @@ local ParseMinorAuras = function(self, unit)
 	local isFriend = (UnitIsFriend('player', unit) == 1) and true or false;
 
 	while(visible < limit) do
-		if(self.forceShow and visible > 9) then break end
+		if(self.forceShow and visible > 8) then break end
 		local result = UpdateIconAuras(self, cache, unit, index, filter, visible, isFriend)
 		if(not result) then
 			break
@@ -718,9 +716,7 @@ local ParseMinorAuras = function(self, unit)
 	end
 end
 
-local ParseMajorAuras = function(self, unit)
-	if not unit then return; end
-
+local ParseBarAuras = function(self, unit)
 	local limit = self.maxCount or 0;
 	local filter = self.filtering;
 	local index = 1;
@@ -728,130 +724,70 @@ local ParseMajorAuras = function(self, unit)
 	local cache = {};
 
 	local isFriend = (UnitIsFriend('player', unit) == 1) and true or false;
-	--print(self.unit)
-	--print(self.UseBars)
-	if(self.UseBars) then
-		while(visible < limit) do
-			if(self.forceShow and visible > 9) then break end
-			local result = UpdateBarAuras(self, cache, unit, index, filter, visible, isFriend)
-			if(not result) then
-				break
-			elseif(result == VISIBLE) then
-				visible = visible + 1
-			end
 
-			index = index + 1
+	while(visible < limit) do
+		if(self.forceShow and visible > 8) then break end
+		local result = UpdateBarAuras(self, cache, unit, index, filter, visible, isFriend)
+		if(not result) then
+			break
+		elseif(result == VISIBLE) then
+			visible = visible + 1
 		end
 
-		if(self.sort and type(self.sort) == 'function' and (#cache > 0)) then
-			tsort(cache, self.sort)
-			SetBarLayout(self, visible, cache)
-		else
-			SetBarLayout(self, visible)
-		end
+		index = index + 1
+	end
+
+	if(self.sort and type(self.sort) == 'function' and (#cache > 0)) then
+		tsort(cache, self.sort)
+		SetBarLayout(self, visible, cache)
 	else
-		while(visible < limit) do
-			local result = UpdateIconAuras(self, cache, unit, index, filter, visible, isFriend)
-			if(not result) then
-				break
-			elseif(result == VISIBLE) then
-				visible = visible + 1
-			end
-
-			index = index + 1
-		end
-
-		if(self.sort and type(self.sort) == 'function' and (#cache > 0)) then
-			tsort(cache, self.sort)
-			SetIconLayout(self, visible, cache)
-		else
-			SetIconLayout(self, visible)
-		end
+		SetBarLayout(self, visible)
 	end
 end
 
 --[[ SETUP AND ENABLE/DISABLE ]]--
 
-local MinorUpdate = function(self, event, unit)
-	if(self.unit ~= unit) or not unit then return end
+local Update = function(self, event, unit)
+	if((not unit) or (self.unit ~= unit)) then return end
 
 	local buffs = self.Buffs
 	if(buffs) then
-		ParseMinorAuras(buffs, unit)
+		--if(self.unit == 'player') then print(event)print(buffs.UseBars) end
+		if(buffs.UseBars and (buffs.UseBars == true)) then
+			--if(self.unit == 'player') then print('Parsing BUFF BARS') end
+			ParseBarAuras(buffs, unit)
+		else
+			--if(self.unit == 'player') then print('Parsing BUFF ICONS') end
+			ParseIconAuras(buffs, unit)
+		end
 	end
 
 	local debuffs = self.Debuffs
 	if(debuffs) then
-		ParseMinorAuras(debuffs, unit)
-	end
-end
-
-local MajorUpdate = function(self, event, unit)
-	if(self.unit ~= unit) or not unit then return end
-
-	local buffs = self.Buffs
-	if(buffs) then
-		if(not buffs.UseBars) then
-			if(buffs.Bars:IsShown()) then
-				buffs.Bars:Hide()
-			end
-			if(not buffs.Icons:IsShown()) then
-				buffs.Icons:Show()
-			end
+		--if(self.unit == 'player') then print(event)print(debuffs.UseBars) end
+		if(debuffs.UseBars and (debuffs.UseBars == true)) then
+			--if(self.unit == 'player') then print('Parsing DEBUFF BARS') end
+			ParseBarAuras(debuffs, unit)
 		else
-			if(buffs.Icons:IsShown()) then
-				buffs.Icons:Hide()
-			end
-			if(not buffs.Bars:IsShown()) then
-				buffs.Bars:Show()
-			end
+			--if(self.unit == 'player') then print('Parsing DEBUFF ICONS') end
+			ParseIconAuras(debuffs, unit)
 		end
-		ParseMajorAuras(buffs, unit)
-	end
-
-	local debuffs = self.Debuffs
-	if(debuffs) then
-		if(not debuffs.UseBars) then
-			if(debuffs.Bars:IsShown()) then
-				debuffs.Bars:Hide()
-			end
-			if(not debuffs.Icons:IsShown()) then
-				debuffs.Icons:Show()
-			end
-		else
-			if(debuffs.Icons:IsShown()) then
-				debuffs.Icons:Hide()
-			end
-			if(not debuffs.Bars:IsShown()) then
-				debuffs.Bars:Show()
-			end
-		end
-		ParseMajorAuras(debuffs, unit)
-	end
-end
-
-local Path = function(self, ...)
-	if(self.AuraBarsAvailable) then
-		return MajorUpdate(self, ...)
-	else
-		return MinorUpdate(self, ...)
 	end
 end
 
 local ForceUpdate = function(element)
-	return Path(element.__owner, 'ForceUpdate', element.__owner.unit)
+	return Update(element.__owner, 'ForceUpdate', element.unit)
 end
 
 local Enable = function(self)
 	if(self.Buffs or self.Debuffs) then
-		self:RegisterEvent('UNIT_AURA', Path)
+		self:RegisterEvent('UNIT_AURA', Update)
 
 		local barsAvailable = self.AuraBarsAvailable;
 
 		local buffs = self.Buffs
 		if(buffs) then
 			buffs.__owner 		= self;
-			buffs.unit 			= self.unit;
 			buffs.gap 			= buffs.gap or 2;
 			buffs.spacing 		= buffs.spacing or 2;
 			buffs.auraSize 		= buffs.auraSize or 16;
@@ -881,7 +817,6 @@ local Enable = function(self)
 		local debuffs = self.Debuffs
 		if(debuffs) then
 			debuffs.__owner 	= self;
-			debuffs.unit 		= self.unit;
 			debuffs.gap 		= debuffs.gap or 2;
 			debuffs.spacing 	= debuffs.spacing or 2;
 			debuffs.auraSize 	= debuffs.auraSize or 16;
@@ -914,7 +849,7 @@ end
 
 local Disable = function(self)
 	if(self.Buffs or self.Debuffs) then
-		self:UnregisterEvent('UNIT_AURA', Path)
+		self:UnregisterEvent('UNIT_AURA', Update)
 		if(self.Buffs and self.Buffs.Bars) then
 			self.Buffs.Bars:SetScript('OnUpdate', nil)
 		end
@@ -924,4 +859,4 @@ local Disable = function(self)
 	end
 end
 
-oUF:AddElement('Auras', Path, Enable, Disable)
+oUF:AddElement('Auras', Update, Enable, Disable)

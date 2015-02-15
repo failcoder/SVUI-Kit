@@ -24,7 +24,7 @@ local parent, ns = ...
 local oUF = ns.oUF
 
 local Update = function(self, event, unit, forced)
-	if(not unit or not UnitIsUnit(self.unit, unit)) then return end
+	if(self.unit ~= unit) or not unit then return end
 
 	local portrait = self.Portrait
 	if(portrait.PreUpdate) then portrait:PreUpdate(unit) end

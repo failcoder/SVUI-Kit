@@ -34,7 +34,6 @@ if(not MOD) then return end;
 LOCALIZED GLOBALS
 ##########################################################
 ]]--
-local CUSTOM_CLASS_COLORS = _G.CUSTOM_CLASS_COLORS
 local RAID_CLASS_COLORS = _G.RAID_CLASS_COLORS
 --[[ 
 ########################################################## 
@@ -420,9 +419,13 @@ local function UpdateWorldMapConfig()
 			SV.Timers:RemoveLoop(MOD.MMCoordTimer)
 			MOD.MMCoordTimer = nil;
 		end
+		MiniMapCoords.XLabel:SetText("")
 		MiniMapCoords.X:SetText("")
+		MiniMapCoords.YLabel:SetText("")
 		MiniMapCoords.Y:SetText("")
 	else
+		MiniMapCoords.XLabel:SetText("X:")
+		MiniMapCoords.YLabel:SetText("Y:")
 		UpdateMiniMapCoords()
 		MOD.MMCoordTimer = SV.Timers:ExecuteLoop(UpdateMiniMapCoords, 0.1)
 	end
@@ -432,11 +435,40 @@ local function UpdateWorldMapConfig()
 			SV.Timers:RemoveLoop(MOD.WMCoordTimer)
 			MOD.WMCoordTimer = nil;
 		end
-		if(WorldMapFrame:IsShown()) then
-			WorldMapCoords.Player:FadeOut(0.2, 1, 0, true)
-			WorldMapCoords.Mouse:FadeOut(0.2, 1, 0, true)
-		end
+		WorldMapCoords.Player.Name:SetText("")
+		WorldMapCoords.Player.XLabel:SetText("")
+		WorldMapCoords.Player.X:SetText("")
+		WorldMapCoords.Player.YLabel:SetText("")
+		WorldMapCoords.Player.Y:SetText("")
+
+		WorldMapCoords.Mouse.Name:SetText("")
+		WorldMapCoords.Mouse.XLabel:SetText("")
+		WorldMapCoords.Mouse.X:SetText("")
+		WorldMapCoords.Mouse.YLabel:SetText("")
+		WorldMapCoords.Mouse.Y:SetText("")
 	else
+		if(not WMP_XY_COORD) then
+			WorldMapCoords.Player.XLabel:SetText("")
+			WorldMapCoords.Player.X:SetText("")
+			WorldMapCoords.Player.YLabel:SetText("")
+			WorldMapCoords.Player.Y:SetText("")
+			WorldMapCoords.Player.Name:SetText("");
+		else
+			WorldMapCoords.Player.XLabel:SetText("X:")
+			WorldMapCoords.Player.YLabel:SetText("Y:")
+			WorldMapCoords.Player.Name:SetText(PLAYER);
+		end
+		if(not WMM_XY_COORD) then
+			WorldMapCoords.Mouse.XLabel:SetText("")
+			WorldMapCoords.Mouse.X:SetText("")
+			WorldMapCoords.Mouse.YLabel:SetText("")
+			WorldMapCoords.Mouse.Y:SetText("")
+			WorldMapCoords.Mouse.Name:SetText("");
+		else
+			WorldMapCoords.Mouse.XLabel:SetText("X:")
+			WorldMapCoords.Mouse.YLabel:SetText("Y:")
+			WorldMapCoords.Mouse.Name:SetText(MOUSE_LABEL);
+		end
 		UpdateWorldMapCoords()
 		MOD.WMCoordTimer = SV.Timers:ExecuteLoop(UpdateWorldMapCoords, 0.1)
 	end

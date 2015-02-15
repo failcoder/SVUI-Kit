@@ -920,15 +920,18 @@ local ArenaPrepHandler_OnEvent = function(self, event)
                 if(prepframe) then
                     if i <= numOpps then
                         local s = GetArenaOpponentSpec(i)
-                        local _, spec, class, icon = nil, "UNKNOWN", "UNKNOWN", [[INTERFACE\ICONS\INV_MISC_QUESTIONMARK]]
+                        local _, spec, classToken, icon = nil, "UNKNOWN", "UNKNOWN", [[INTERFACE\ICONS\INV_MISC_QUESTIONMARK]]
                         if s and s > 0 then
-                            _, spec, _, icon, _, _, class = GetSpecializationInfoByID(s)
+                            _, spec, _, icon, _, _, classToken = GetSpecializationInfoByID(s)
                         end
-                        if class and spec then
-                            prepframe.SpecClass:SetText(spec .. " - " .. LOCALIZED_CLASS_NAMES_MALE[class])
+                        if classToken and spec then
+                            prepframe.SpecClass:SetText(spec .. " - " .. LOCALIZED_CLASS_NAMES_MALE[classToken])
                             prepframe.SpecIcon.Icon:SetTexture(icon or [[INTERFACE\ICONS\INV_MISC_QUESTIONMARK]])
 
-                            local color = CUSTOM_CLASS_COLORS[class]
+                            local color = CUSTOM_CLASS_COLORS[classToken]
+                            if(not SV.db.general.customClassColor) then
+                                color = RAID_CLASS_COLORS[classToken]
+                            end
                             local textcolor = RAID_CLASS_COLORS[class] or color
                             if color then
                                 prepframe.Health:SetStatusBarColor(color.r, color.g, color.b)

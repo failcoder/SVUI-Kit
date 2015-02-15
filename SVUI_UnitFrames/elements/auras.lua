@@ -89,7 +89,7 @@ end
 local _hook_AuraBGBorderColor = function(self, ...) self.bg:SetBackdropBorderColor(...) end
 
 local CreateAuraIcon = function(icons, index)
-	local baseSize = icons.size or 16
+	local baseSize = icons.auraSize or 16
 	local aura = CreateFrame("Button", nil, icons)
 	aura:RemoveTextures()
 	aura:EnableMouse(true)
