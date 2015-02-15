@@ -121,8 +121,11 @@ local Minion_OnMouseUp = function(self)
 end 
 
 local Option_OnMouseUp = function(self)
+	--print('Option_OnMouseUp Fired')
 	if(type(self.callback) == "function") then
 		self:callback()
+	--else
+		--print('Option_OnMouseUp No Callbacks')
 	end
 end 
 
@@ -431,7 +434,7 @@ local function CreateHenchmenFrame()
 	CreateHenchmenSubOptions(4,1)
 	HenchmenOptionButton4Sub1.txt:SetText("Icons")
 	HenchmenOptionButton4Sub1.txthigh:SetText("Icons")
-	HenchmenOptionButton4Sub1.value = "icons"
+	HenchmenOptionButton4Sub1.value = "default"
 	HenchmenOptionButton4Sub1.callback = AuraFunc
 	HenchmenOptionButton4Sub1:SetScript("OnMouseUp", Option_OnMouseUp)
 

@@ -500,37 +500,22 @@ end
 HEALTH
 ##########################################################
 ]]--
-function MOD:OverlayHealthUpdate(event, unit)
-	if(self.unit ~= unit) or not unit then return end
-	local health = self.Health
-
-	local min, max = UnitHealth(unit), UnitHealthMax(unit)
+local OverlayHealthUpdate = function(health, unit, min, max)
 	local disconnected = not UnitIsConnected(unit)
+	health:SetMinMaxValues(-max, 0)
+	health:SetValue(disconnected and 0 or -min)
 	local invisible = ((min == max) or UnitIsDeadOrGhost(unit) or disconnected);
-	local tapped = (UnitIsTapped(unit) and (not UnitIsTappedByPlayer(unit)));
 	if invisible then health.lowAlerted = false end
 	
 	if health.fillInverted then
 		health:SetReverseFill(true)
 	end
-
-	health:SetMinMaxValues(-max, 0)
-	health:SetValue(-min)
-
 	health.percent = invisible and 100 or ((min / max) * 100)
-	
 	health.disconnected = disconnected
 
-	if health.frequentUpdates ~= health.__frequentUpdates then
-		health.__frequentUpdates = health.frequentUpdates
-		self:UpdateFrequentUpdates()
-	end
-
 	local bg = health.bg;
-	local mu
-	if(max == 0) then
-		mu = 0
-	else
+	local mu = 0;
+	if(max ~= 0) then
 		mu = (min / max)
 	end
 
@@ -563,31 +548,13 @@ function MOD:OverlayHealthUpdate(event, unit)
 			health.animation[1]:SetAlpha(0)
 		end
 	end
-
-	if self.ResurrectIcon then 
-		self.ResurrectIcon:SetAlpha(min == 0 and 1 or 0)
-	end
-
-	if self.isForced then 
-		local current = random(1,max)
-		health:SetValue(-current)
-	end
-
-	if(health.LowAlertFunc and UnitIsPlayer("target") and health.percent < 6 and UnitIsEnemy("target", "player") and not health.lowAlerted) then
-		health.lowAlerted = true
-		health.LowAlertFunc(self)
-	end
-
-	if(health.PostUpdate) then
-		return health.PostUpdate(self, health.percent)
-	end
 end 
 
 local RefreshHealthBar = function(self, overlay)
 	if(overlay) then
-		self.Health.Override = MOD.OverlayHealthUpdate;
+		self.Health.PreUpdate = OverlayHealthUpdate;
 	else
-		self.Health.Override = nil;
+		self.Health.PreUpdate = nil;
 	end 
 end
 
@@ -624,7 +591,6 @@ function MOD:CreateHealthBar(frame, hasbg)
 	healthBar.gridMode = false;
 	healthBar.colorTapping = true;
 	healthBar.colorDisconnected = true;
-	healthBar.Override = false;
 
 	frame.RefreshHealthBar = RefreshHealthBar
 	

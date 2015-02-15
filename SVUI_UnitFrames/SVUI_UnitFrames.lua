@@ -754,112 +754,135 @@ function MOD:RefreshUnitLayout(frame, template)
 
 	--[[ AURA LAYOUT ]]--
 
-	if(BUFF_GRIP or DEBUFF_GRIP) then
-		do
-			if(BUFF_ENABLED or DEBUFF_ENABLED) then 
-				if not frame:IsElementEnabled('Aura')then 
-					frame:EnableElement('Aura')
-				end 
-			else 
-				if frame:IsElementEnabled('Aura')then 
-					frame:DisableElement('Aura')
-				end 
-			end
-		end 
+	if(BUFF_GRIP) then
+		local rows 		= db.buffs.numrows;
+		local columns 	= db.buffs.perrow;
+		local count 	= columns * rows;
+		local auraSize;
 
-		if(BUFF_GRIP) then
-			local bars 		= db.buffs.useBars;
-			local rows 		= db.buffs.numrows;
-			local columns 	= db.buffs.perrow;
-			local count 	= columns * rows;
-			local auraSize;
-
-			if(bars and bars == true) then
-				BUFF_GRIP.UseBars = bars;
+		if(BUFF_GRIP.Bars and BUFF_GRIP.Icons) then
+			BUFF_GRIP.UseBars = db.buffs.useBars or false;
+			--if(template == 'player') then print(db.buffs.useBars) end
+			if(BUFF_GRIP.UseBars and (BUFF_GRIP.UseBars == true)) then
 				auraSize = db.buffs.barSize;
 				count = db.buffs.barCount;
 				if(db.buffs.anchorPoint == "BELOW") then
 					BUFF_GRIP.down = true
 				else
 					BUFF_GRIP.down = false
-				end 
-			elseif(db.buffs.sizeOverride and db.buffs.sizeOverride > 0) then
-				auraSize = db.buffs.sizeOverride
+				end
+				--if(template == 'player') then print('WIPING BUFF ICONS') end
+				for i = 1, #BUFF_GRIP.Icons do
+					BUFF_GRIP.Icons[i]:Hide()
+				end
 			else
-				local tempSize = (((UNIT_WIDTH + 2) - (BUFF_GRIP.spacing * (columns - 1))) / columns);
-				auraSize = min(BEST_SIZE, tempSize)
+				--if(template == 'player') then print('WIPING BUFF BARS') end
+				for i = 1, #BUFF_GRIP.Bars do
+					BUFF_GRIP.Bars[i]:Hide()
+				end
 			end
-
-			BUFF_GRIP.auraSize  	= auraSize;
-			BUFF_GRIP.maxCount 		= GRID_MODE and 0 or count;
-			BUFF_GRIP.maxRows 		= rows;
-			BUFF_GRIP.maxColumns 	= columns;
-			BUFF_GRIP.maxHeight 	= (auraSize + BUFF_GRIP.spacing) * rows;
-			BUFF_GRIP.forceShow 	= frame.forceShowAuras;
-
-			local attachTo = FindAnchorFrame(frame, db.buffs.attachTo, db.debuffs.attachTo == 'BUFFS' and db.buffs.attachTo == 'DEBUFFS')
-			BUFF_GRIP:ClearAllPoints()
-			SV:SetReversePoint(BUFF_GRIP, db.buffs.anchorPoint, attachTo, db.buffs.xOffset + BOTTOM_MODIFIER, db.buffs.yOffset)
-			BUFF_GRIP["growth-y"] = db.buffs.verticalGrowth;
-			BUFF_GRIP["growth-x"] = db.buffs.horizontalGrowth;
-			BUFF_GRIP:SetHeight(BUFF_GRIP.maxHeight)
-			BUFF_GRIP:SetWidth(UNIT_WIDTH)
-			BUFF_GRIP:SetSorting(db.buffs.sort)
-
-			if(BUFF_ENABLED) then 
-				BUFF_GRIP:Show()
-				BUFF_GRIP:ForceUpdate()
-			else 
-				BUFF_GRIP:Hide()
-			end 
 		end
 
-		if(DEBUFF_GRIP) then 
-			local bars 		= db.debuffs.useBars;
-			local rows 		= db.debuffs.numrows;
-			local columns 	= db.debuffs.perrow;
-			local count 	= columns * rows;
-			local auraSize;
+		if(not auraSize) then
+			if(db.debuffs.sizeOverride and db.debuffs.sizeOverride > 0) then
+				auraSize = db.debuffs.sizeOverride
+			else
+				local tempSize = (((UNIT_WIDTH + 2) - (DEBUFF_GRIP.spacing * (columns - 1))) / columns);
+				auraSize = min(BEST_SIZE, tempSize)
+			end
+		end
 
-			if(bars and bars == true) then
-				DEBUFF_GRIP.UseBars = bars;
+		BUFF_GRIP.auraSize  	= auraSize;
+		BUFF_GRIP.maxCount 		= GRID_MODE and 0 or count;
+		BUFF_GRIP.maxRows 		= rows;
+		BUFF_GRIP.maxColumns 	= columns;
+		BUFF_GRIP.maxHeight 	= (auraSize + BUFF_GRIP.spacing) * rows;
+		BUFF_GRIP.forceShow 	= frame.forceShowAuras;
+
+		local attachTo = FindAnchorFrame(frame, db.buffs.attachTo, db.debuffs.attachTo == 'BUFFS' and db.buffs.attachTo == 'DEBUFFS')
+		BUFF_GRIP:ClearAllPoints()
+		SV:SetReversePoint(BUFF_GRIP, db.buffs.anchorPoint, attachTo, db.buffs.xOffset + BOTTOM_MODIFIER, db.buffs.yOffset)
+		BUFF_GRIP["growth-y"] = db.buffs.verticalGrowth;
+		BUFF_GRIP["growth-x"] = db.buffs.horizontalGrowth;
+		BUFF_GRIP:SetHeight(BUFF_GRIP.maxHeight)
+		BUFF_GRIP:SetWidth(UNIT_WIDTH)
+		BUFF_GRIP:SetSorting(db.buffs.sort)
+	end
+
+	if(DEBUFF_GRIP) then 
+		local rows 		= db.debuffs.numrows;
+		local columns 	= db.debuffs.perrow;
+		local count 	= columns * rows;
+		local auraSize;
+
+		if(DEBUFF_GRIP.Bars and DEBUFF_GRIP.Icons) then
+			DEBUFF_GRIP.UseBars = db.debuffs.useBars or false;
+			if(DEBUFF_GRIP.UseBars and (DEBUFF_GRIP.UseBars == true)) then
 				auraSize = db.debuffs.barSize;
 				count = db.debuffs.barCount;
 				if(db.debuffs.anchorPoint == "BELOW") then
 					DEBUFF_GRIP.down = true
 				else
 					DEBUFF_GRIP.down = false
-				end 
-			elseif(db.debuffs.sizeOverride and db.debuffs.sizeOverride > 0) then
+				end
+				--if(template == 'player') then print('WIPING DEBUFF ICONS') end
+				for i = 1, #DEBUFF_GRIP.Icons do
+					DEBUFF_GRIP.Icons[i]:Hide()
+				end
+			else
+				--if(template == 'player') then print('WIPING DEBUFF BARS') end
+				for i = 1, #DEBUFF_GRIP.Bars do
+					DEBUFF_GRIP.Bars[i]:Hide()
+				end
+			end
+		end
+
+		if(not auraSize) then
+			if(db.debuffs.sizeOverride and db.debuffs.sizeOverride > 0) then
 				auraSize = db.debuffs.sizeOverride
 			else
 				local tempSize = (((UNIT_WIDTH + 2) - (DEBUFF_GRIP.spacing * (columns - 1))) / columns);
 				auraSize = min(BEST_SIZE, tempSize)
 			end
+		end
 
-			DEBUFF_GRIP.auraSize  	= auraSize;
-			DEBUFF_GRIP.maxRows 	= rows;
-			DEBUFF_GRIP.maxColumns 	= columns;
-			DEBUFF_GRIP.maxCount 	= GRID_MODE and 0 or count;
-			DEBUFF_GRIP.maxHeight 	= (auraSize + DEBUFF_GRIP.spacing) * rows;
-			DEBUFF_GRIP.forceShow 	= frame.forceShowAuras;
+		DEBUFF_GRIP.auraSize  	= auraSize;
+		DEBUFF_GRIP.maxRows 	= rows;
+		DEBUFF_GRIP.maxColumns 	= columns;
+		DEBUFF_GRIP.maxCount 	= GRID_MODE and 0 or count;
+		DEBUFF_GRIP.maxHeight 	= (auraSize + DEBUFF_GRIP.spacing) * rows;
+		DEBUFF_GRIP.forceShow 	= frame.forceShowAuras;
 
-			local attachTo = FindAnchorFrame(frame, db.debuffs.attachTo, db.debuffs.attachTo == 'BUFFS' and db.buffs.attachTo == 'DEBUFFS')
-			DEBUFF_GRIP:ClearAllPoints()
-			SV:SetReversePoint(DEBUFF_GRIP, db.debuffs.anchorPoint, attachTo, db.debuffs.xOffset + BOTTOM_MODIFIER, db.debuffs.yOffset)
-			DEBUFF_GRIP["growth-y"] = db.debuffs.verticalGrowth;
-			DEBUFF_GRIP["growth-x"] = db.debuffs.horizontalGrowth;
-			DEBUFF_GRIP:SetHeight(DEBUFF_GRIP.maxHeight)
-			DEBUFF_GRIP:SetWidth(UNIT_WIDTH)
-			DEBUFF_GRIP:SetSorting(db.debuffs.sort)
+		local attachTo = FindAnchorFrame(frame, db.debuffs.attachTo, db.debuffs.attachTo == 'BUFFS' and db.buffs.attachTo == 'DEBUFFS')
+		DEBUFF_GRIP:ClearAllPoints()
+		SV:SetReversePoint(DEBUFF_GRIP, db.debuffs.anchorPoint, attachTo, db.debuffs.xOffset + BOTTOM_MODIFIER, db.debuffs.yOffset)
+		DEBUFF_GRIP["growth-y"] = db.debuffs.verticalGrowth;
+		DEBUFF_GRIP["growth-x"] = db.debuffs.horizontalGrowth;
+		DEBUFF_GRIP:SetHeight(DEBUFF_GRIP.maxHeight)
+		DEBUFF_GRIP:SetWidth(UNIT_WIDTH)
+		DEBUFF_GRIP:SetSorting(db.debuffs.sort) 
+	end
 
-			if(DEBUFF_ENABLED) then  
+	if(BUFF_GRIP or DEBUFF_GRIP) then
+		if((not BUFF_ENABLED) and (not DEBUFF_ENABLED)) then
+			if(frame:IsElementEnabled('Aura')) then 
+				frame:DisableElement('Aura')
+			end
+			BUFF_GRIP:Hide()
+			DEBUFF_GRIP:Hide()
+		else
+			if(not frame:IsElementEnabled('Aura')) then 
+				frame:EnableElement('Aura')
+			end
+			if(BUFF_ENABLED) then
+				BUFF_GRIP:Show()
+				BUFF_GRIP:ForceUpdate()
+			end
+			if(DEBUFF_ENABLED) then
 				DEBUFF_GRIP:Show()
 				DEBUFF_GRIP:ForceUpdate()
-			else 
-				DEBUFF_GRIP:Hide()
-			end 
-		end 
+			end
+		end
 	end 
 
 	--[[ ICON LAYOUTS ]]--

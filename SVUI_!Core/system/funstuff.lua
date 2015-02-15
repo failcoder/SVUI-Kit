@@ -386,6 +386,10 @@ local function InitializeFunStuff()
 	local afk = SV.AFK;
 	local classToken = select(2,UnitClass("player"))
 	local color = CUSTOM_CLASS_COLORS[classToken]
+	if(not SV.db.general.customClassColor) then
+		color = RAID_CLASS_COLORS[classToken]
+	end
+
 	afk.BG:SetVertexColor(color.r, color.g, color.b)
 	afk.BG:ClearAllPoints()
 	afk.BG:SetSize(500,600)

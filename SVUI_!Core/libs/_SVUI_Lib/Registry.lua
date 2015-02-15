@@ -471,7 +471,7 @@ end
 --REGISTRY LOCAL HELPERS
 
 local function LoadingProxy(schema, obj)
-    if(not obj) then return end
+    if(not obj) then print(schema .. ' not found')return end
     if(not obj.initialized) then
         if(obj.Load and type(obj.Load) == "function") then
             local _, catch = pcall(obj.Load, obj)
@@ -483,6 +483,7 @@ local function LoadingProxy(schema, obj)
         end
     else
         if(obj.ReLoad and type(obj.ReLoad) == "function") then
+            --print(schema .. ' Reloading')
             local _, catch = pcall(obj.ReLoad, obj)
             if(catch) then
                 CoreObject:HandleError(schema, "ReLoad", catch)

@@ -23,12 +23,16 @@ GET ADDON DATA
 ##########################################################
 ]]--
 local SV = _G['SVUI'];
-local MOD = SV.ActionBars;
-if(not MOD) then return end;
-MOD.ButtonCache = {};
-
 local L = SV.L;
-local LSM = _G.LibStub("LibSharedMedia-3.0");
+local MODULE_NAME, MODULE_OBJ = ...;
+local MOD = SV.ActionBars;
+if(not MOD) then MOD = MODULE_OBJ end;
+MOD.ButtonCache = {};
+local LibStub = _G.LibStub;
+if(not LibStub) then return end;
+local LSM = LibStub("LibSharedMedia-3.0");
+local LibAB = LibStub("LibActionButton-1.0");
+local Masque = LibStub("Masque", true);
 --[[ 
 ########################################################## 
 LOCAL VARS
@@ -44,10 +48,11 @@ local NUM_ACTIONBAR_BUTTONS = NUM_ACTIONBAR_BUTTONS;
 LOCAL FUNCTIONS
 ##########################################################
 ]]--
-local LibAB = LibStub("LibActionButton-1.0");
-
 local function NewActionBar(barName)
 	local bar = CreateFrame("Frame", barName, UIParent, "SecureHandlerStateTemplate")
+	if Masque then
+	    bar.MasqueGroup = Masque:Group(MODULE_NAME, barName)
+	end
 	bar.buttons = {}
 	bar.conditions = ""
 	bar.config = {
@@ -154,19 +159,21 @@ local function Pinpoint(parent)
     return result 
 end 
 
-local function SaveActionButton(parent)
-	local button = parent:GetName()
-	local cooldown = _G[button.."Cooldown"]
+local function SaveActionButton(button, noStyle)
+	local name = button:GetName()
+	local cooldown = _G[name.."Cooldown"]
 	cooldown.SizeOverride = SV.db.ActionBars.cooldownSize
 	-- cooldown:SetSwipeColor(0, 0, 0, 0)
 	-- cooldown:SetDrawBling(false)
-	if(not parent.cd) then
-		parent.cd = cooldown;
+	if(not button.cd) then
+		button.cd = cooldown;
 	end
-	MOD:FixKeybindText(parent)
-	MOD.ButtonCache[parent] = true 
-	parent:SetStyle("ActionSlot", true)
-	parent:SetCheckedTexture("")
+	MOD:FixKeybindText(button)
+	MOD.ButtonCache[button] = true 
+	if(not noStyle) then
+		button:SetStyle("ActionSlot", true)
+		button:SetCheckedTexture("")
+	end
 end 
 
 local function SetFlyoutButton(button)
@@ -222,59 +229,64 @@ local function SetFlyoutButton(button)
 	end 
 end 
 
-local function ModifyActionButton(parent)
-	local button = parent:GetName()
-	if(not button) then return; end
-	local icon = _G[button.."Icon"]
-	local count = _G[button.."Count"]
-	local flash = _G[button.."Flash"]
-	local hotkey = _G[button.."HotKey"]
-	local border = _G[button.."Border"]
-	local normal = _G[button.."NormalTexture"]
-	local cooldown = _G[button.."Cooldown"]
-	local parentTex = parent:GetNormalTexture()
-	local shine = _G[button.."Shine"]
-	local highlight = parent:GetHighlightTexture()
-	local pushed = parent:GetPushedTexture()
-	local checked = parent:GetCheckedTexture()
+local function ModifyActionButton(button, noStyle)
+	local name = button:GetName()
+	if(not name) then return; end
+	local icon = _G[name.."Icon"]
+	local count = _G[name.."Count"]
+	local flash = _G[name.."Flash"]
+	local hotkey = _G[name.."HotKey"]
+	local border = _G[name.."Border"]
+	local normal = _G[name.."NormalTexture"]
+	local cooldown = _G[name.."Cooldown"]
+	local buttonTex = button:GetNormalTexture()
+	local shine = _G[name.."Shine"]
+	local highlight = button:GetHighlightTexture()
+	local pushed = button:GetPushedTexture()
+	local checked = button:GetCheckedTexture()
 	if cooldown then
 		cooldown.SizeOverride = SV.db.ActionBars.cooldownSize
 		--cooldown:SetAlpha(0)
 	end 
-	if highlight then 
-		highlight:SetTexture(1,1,1,.2)
-	end 
-	if pushed then 
-		pushed:SetTexture(0,0,0,.4)
-	end 
-	if checked then 
-		checked:SetTexture(1,1,1,.2)
-	end 
-	if flash then 
-		flash:SetTexture("")
-	end 
-	if normal then 
-		normal:SetTexture("")
-		normal:Hide()
-		normal:SetAlpha(0)
-	end 
-	if parentTex then 
-		parentTex:SetTexture("")
-		parentTex:Hide()
-		parentTex:SetAlpha(0)
-	end 
-	if border then border:Die()end 
+
+	if(not noStyle) then
+		if highlight then 
+			highlight:SetTexture(1,1,1,.2)
+		end 
+		if pushed then 
+			pushed:SetTexture(0,0,0,.4)
+		end 
+		if checked then 
+			checked:SetTexture(1,1,1,.2)
+		end 
+		if flash then 
+			flash:SetTexture("")
+		end 
+		if normal then 
+			normal:SetTexture("")
+			normal:Hide()
+			normal:SetAlpha(0)
+		end 
+		if buttonTex then 
+			buttonTex:SetTexture("")
+			buttonTex:Hide()
+			buttonTex:SetAlpha(0)
+		end 
+		if border then border:Die()end 
+		if icon then 
+			icon:SetTexCoord(.1,.9,.1,.9)
+			icon:InsetPoints(name)
+		end 
+		if shine then shine:SetAllPoints()end
+	end
+
 	if count then
 		count:ClearAllPoints()
 		count:SetPoint("BOTTOMRIGHT",1,1)
 		count:SetShadowOffset(1,-1)
 		SV:FontManager(count, "number")
 	end 
-	if icon then 
-		icon:SetTexCoord(.1,.9,.1,.9)
-		icon:InsetPoints(button)
-	end 
-	if shine then shine:SetAllPoints()end 
+
 	if SV.db.ActionBars.hotkeytext then 
 		hotkey:ClearAllPoints()
 		hotkey:SetAllPoints()
@@ -284,8 +296,8 @@ local function ModifyActionButton(parent)
 		hotkey:SetShadowOffset(1,-1)
 	end 
 
-	parent.FlyoutUpdateFunc = SetFlyoutButton;
-	MOD:FixKeybindText(parent)
+	button.FlyoutUpdateFunc = SetFlyoutButton;
+	MOD:FixKeybindText(button)
 end 
 
 do
@@ -628,11 +640,15 @@ do
 					button.cd:SetSwipeColor(0, 0, 0, 1)
 					button.cd:SetDrawBling(true)
 				end
-			end 
-
+			end
+			local hasMasque = false;
+			if bar.MasqueGroup then
+			    bar.MasqueGroup:AddButton(button)
+			    hasMasque = true
+			end
 			if (not isStance or (isStance and not button.FlyoutUpdateFunc)) then 
-	      		ModifyActionButton(button);
-	      		SaveActionButton(button);
+	      		ModifyActionButton(button, hasMasque);
+	      		SaveActionButton(button, hasMasque);
 	    	end
 		end
 

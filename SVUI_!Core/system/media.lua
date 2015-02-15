@@ -25,12 +25,25 @@ local floor, modf = math.floor, math.modf;
 local twipe, tsort = table.wipe, table.sort;
 --[[ 
 ########################################################## 
+LOCALIZED GLOBALS
+##########################################################
+]]--
+local NAMEPLATE_FONT      = _G.NAMEPLATE_FONT
+local CHAT_FONT_HEIGHTS   = _G.CHAT_FONT_HEIGHTS
+local STANDARD_TEXT_FONT  = _G.STANDARD_TEXT_FONT
+local UNIT_NAME_FONT      = _G.UNIT_NAME_FONT
+local CUSTOM_CLASS_COLORS = _G.CUSTOM_CLASS_COLORS
+local RAID_CLASS_COLORS   = _G.RAID_CLASS_COLORS
+local UIDROPDOWNMENU_DEFAULT_TEXT_HEIGHT  = _G.UIDROPDOWNMENU_DEFAULT_TEXT_HEIGHT
+--[[ 
+########################################################## 
 GET ADDON DATA
 ##########################################################
 ]]--
 local SV = select(2, ...)
 local SVUILib = Librarian("Registry")
 local L = SV.L
+local classToken = select(2,UnitClass("player"))
 --[[ 
 ########################################################## 
 DEFINE SOUND EFFECTS
@@ -128,13 +141,11 @@ CREATE AND POPULATE MEDIA DATA
 ##########################################################
 ]]--
 do
-	local myclass = select(2,UnitClass("player"))
-	local cColor1 = CUSTOM_CLASS_COLORS[myclass]
-	local cColor2 = RAID_CLASS_COLORS[myclass]
-	local r1,g1,b1 = cColor1.r,cColor1.g,cColor1.b
-	local r2,g2,b2 = cColor2.r*.25, cColor2.g*.25, cColor2.b*.25
+	local cColor = RAID_CLASS_COLORS[classToken]
+	local r1,g1,b1 = cColor.r,cColor.g,cColor.b
+	local r2,g2,b2 = cColor.r*.25, cColor.g*.25, cColor.b*.25
 	local ir1,ig1,ib1 = (1 - r1), (1 - g1), (1 - b1)
-	local ir2,ig2,ib2 = (1 - cColor2.r)*.25, (1 - cColor2.g)*.25, (1 - cColor2.b)*.25
+	local ir2,ig2,ib2 = (1 - cColor.r)*.25, (1 - cColor.g)*.25, (1 - cColor.b)*.25
 	
 	SV.mediadefaults = {
 		["extended"] = {},
@@ -476,18 +487,6 @@ do
 		}
 	};
 end
---[[ 
-########################################################## 
-LOCALIZED GLOBALS
-##########################################################
-]]--
-local NAMEPLATE_FONT      = _G.NAMEPLATE_FONT
-local CHAT_FONT_HEIGHTS   = _G.CHAT_FONT_HEIGHTS
-local STANDARD_TEXT_FONT  = _G.STANDARD_TEXT_FONT
-local UNIT_NAME_FONT      = _G.UNIT_NAME_FONT
-local CUSTOM_CLASS_COLORS = _G.CUSTOM_CLASS_COLORS
-local RAID_CLASS_COLORS   = _G.RAID_CLASS_COLORS
-local UIDROPDOWNMENU_DEFAULT_TEXT_HEIGHT  = _G.UIDROPDOWNMENU_DEFAULT_TEXT_HEIGHT
 --[[ 
 ########################################################## 
 FORCIBLY CHANGE THE GAME WORLD COMBAT TEXT FONT
@@ -932,11 +931,24 @@ function SV:UpdateSharedMedia()
 		end
 	end
 
-	local cColor1 = self.media.color.special
-	local cColor2 = self.media.color.default
-	local r1,g1,b1 = cColor1[1], cColor1[2], cColor1[3]
-	local r2,g2,b2 = cColor2[1], cColor2[2], cColor2[3]
-	self.media.gradient.special = {"VERTICAL",r1,g1,b1,r2,g2,b2}
+	local special = self.media.color.special
+	local default = self.media.color.default
+	self.media.gradient.special = {"VERTICAL",special[1], special[2], special[3], default[1], default[2], default[3]}
+
+	local cColor1 = RAID_CLASS_COLORS[classToken]
+	local cColor2 = RAID_CLASS_COLORS[classToken]
+    if(SV.db.general.customClassColor and CUSTOM_CLASS_COLORS[classToken]) then
+        cColor1 = CUSTOM_CLASS_COLORS[classToken]
+    end
+	local r1,g1,b1 = cColor1.r,cColor1.g,cColor1.b
+	local r2,g2,b2 = cColor2.r*.25, cColor2.g*.25, cColor2.b*.25
+	local ir1,ig1,ib1 = (1 - r1), (1 - g1), (1 - b1)
+	local ir2,ig2,ib2 = (1 - cColor2.r)*.25, (1 - cColor2.g)*.25, (1 - cColor2.b)*.25
+	self.media.color.class = {r1, g1, b1, 1}
+	self.media.color.bizzaro = {ir1, ig1, ib1, 1}
+	self.media.bordercolor.class = {r1, g1, b1, 1}
+	self.media.gradient.class = {"VERTICAL", r2, g2, b2, r1, g1, b1}
+	self.media.gradient.bizzaro = {"VERTICAL", ir2, ig2, ib2, ir1, ig1, ib1}
 
 	self.Events:Trigger("SHARED_MEDIA_UPDATED");
 end
