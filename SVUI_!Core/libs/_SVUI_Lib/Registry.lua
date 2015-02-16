@@ -831,10 +831,6 @@ local function CorePreInitialize()
       GLOBAL_SV.profileKeys = {}
     end
 
-    for k,v in pairs(GLOBAL_SV.profiles) do
-        GLOBAL_SV.profileKeys[k] = k
-    end
-
     --SAVED ERRORS
     if not _G[ERROR_FILENAME] then _G[ERROR_FILENAME] = {} end
     ERROR_SV = _G[ERROR_FILENAME]
@@ -860,6 +856,9 @@ local function CorePreInitialize()
     FILTER_SV = _G[FILTERS_FILENAME]
 
     if not GLOBAL_SV.profiles then GLOBAL_SV.profiles = {} end
+ for k,v in pairs(GLOBAL_SV.profiles) do
+        GLOBAL_SV.profileKeys[k] = k
+    end
     if not MEDIA_SV.profiles then MEDIA_SV.profiles = {} end
     if not GLOBAL_SV.profiles[PROFILE_KEY] then GLOBAL_SV.profiles[PROFILE_KEY] = {} end
     if not MEDIA_SV.profiles[PROFILE_KEY] then MEDIA_SV.profiles[PROFILE_KEY] = {} end
