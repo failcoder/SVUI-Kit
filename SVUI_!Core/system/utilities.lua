@@ -436,15 +436,16 @@ do
             local globalName = ("%s%s"):format(category, slotName)
             local slotId = GetInventorySlotInfo(slotName)
             local iLink = GetInventoryItemLink(unit, slotId)
+            local iLevel;
             if(iLink and type(iLink) == "string") then 
-                local iLevel = _scanItemLevel(unit, iLink)
+                iLevel = _scanItemLevel(unit, iLink)
                 if(iLevel and iLevel > 0) then
                     totalSlots = totalSlots + 1;
                     averageLevel = averageLevel + iLevel
-                    if(flags[1] and firstCallback and type(firstCallback) == "function") then
-                        firstCallback(globalName, iLevel)
-                    end
                 end
+            end
+            if(flags[1] and firstCallback and type(firstCallback) == "function") then
+                firstCallback(globalName, iLevel)
             end
             if(slotId ~= nil) then
                 if((not inspecting) and flags[2] and secondCallback and type(secondCallback) == "function") then

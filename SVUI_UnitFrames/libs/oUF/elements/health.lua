@@ -42,7 +42,7 @@ local Update = function(self, event, unit)
 	local min, max = UnitHealth(unit), UnitHealthMax(unit)
 
 	if(health.PreUpdate) then
-		health.PreUpdate(health, unit, min, max)
+		health:PreUpdate(unit, min, max)
 	else
 		local disconnected = not UnitIsConnected(unit)
 		local invisible = ((min == max) or UnitIsDeadOrGhost(unit) or disconnected)
@@ -104,7 +104,6 @@ local Update = function(self, event, unit)
 	end
 
 	if health.frequentUpdates ~= health.__frequentUpdates then
-		health.__frequentUpdates = health.frequentUpdates
 		UpdateFrequentUpdates(self)
 	end
 
@@ -137,6 +136,7 @@ end
 
 function UpdateFrequentUpdates(self)
 	local health = self.Health
+	health.__frequentUpdates = health.frequentUpdates
 	if health.frequentUpdates and not self:IsEventRegistered("UNIT_HEALTH_FREQUENT") then
 		if GetCVarBool("predictedHealth") ~= 1 then
 			SetCVar("predictedHealth", 1)
@@ -162,7 +162,12 @@ local Enable = function(self, unit)
 		health.__owner = self
 		health.ForceUpdate = ForceUpdate
 		health.__frequentUpdates = health.frequentUpdates
-		UpdateFrequentUpdates(self)
+		
+		if(health.frequentUpdates) then
+			self:RegisterEvent('UNIT_HEALTH_FREQUENT', Update)
+		else
+			self:RegisterEvent('UNIT_HEALTH', Update)
+		end
 
 		self:RegisterEvent("UNIT_MAXHEALTH", Update)
 		self:RegisterEvent('UNIT_CONNECTION', Update)

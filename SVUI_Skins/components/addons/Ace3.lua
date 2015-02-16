@@ -66,7 +66,7 @@ end
 
 local function SetAdjustedStyle(this, template, xTopleft, yTopleft, xBottomright, yBottomright)
 	if(not this or (this and this.Panel)) then return end
-	template = template or "Transparent"
+	template = template or "Default"
 	this:SetStyle("Frame", template)
 	this.Panel:SetPoint("TOPLEFT", this, "TOPLEFT", xTopleft, yTopleft)
 	this.Panel:SetPoint("BOTTOMRIGHT", this, "BOTTOMRIGHT", xBottomright, yBottomright)
@@ -85,7 +85,7 @@ local WidgetDropButton_OnClick = function(self)
 	local obj = self.obj;
 	local widgetFrame = obj.dropdown
 	if(widgetFrame) then
-		SetAdjustedStyle(widgetFrame, "Transparent", 20, -2, -20, 2)
+		SetAdjustedStyle(widgetFrame, "Default", 20, -2, -20, 2)
 	end
 end
 --[[ 
@@ -136,7 +136,7 @@ local function StyleAceGUI(event, addon)
 			widgetButton:SetFrameLevel(widgetButton:GetFrameLevel() + 1)
 			Widget_PaginationStyle(widgetButton, true)
 
-			SetAdjustedStyle(widgetDropdown, "Transparent", 20, -2, -20, 2)
+			SetAdjustedStyle(widgetDropdown, "Default", 20, -2, -20, 2)
 
 			widgetButton:SetParent(widgetDropdown.Panel)
 			widget.text:SetParent(widgetDropdown.Panel)

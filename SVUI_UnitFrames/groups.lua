@@ -348,7 +348,7 @@ BuildTemplates["party"] = function(self, unit)
 
     MOD:SetActionPanel(self, "party")
     self.Health = MOD:CreateHealthBar(self, true)
-
+    self.Health.debug = true
     if self.isChild then
         self.originalParent = self:GetParent()
     else
@@ -364,26 +364,7 @@ BuildTemplates["party"] = function(self, unit)
         self.RaidIcon = MOD:CreateRaidIcon(self)
         self.ReadyCheck = MOD:CreateReadyCheckIcon(self)
         self.HealPrediction = MOD:CreateHealPrediction(self)
-        --self.GPS = MOD:CreateGPS(self, true)
-
-        local shadow = CreateFrame("Frame", nil, self)
-        shadow:SetFrameLevel(1)
-        shadow:SetFrameStrata(self:GetFrameStrata())
-        shadow:WrapPoints(self, 3, 3)
-        shadow:SetBackdrop({
-            edgeFile = SV.media.border.shadow, 
-            edgeSize = 3, 
-            insets = {
-                left = 5, 
-                right = 5, 
-                top = 5, 
-                bottom = 5
-            }
-        })
-        shadow:SetBackdropColor(0, 0, 0, 0)
-        shadow:SetBackdropBorderColor(0, 0, 0, 0.9)
-        shadow:Hide()
-        self.TargetGlow = shadow
+        self.TargetGlow = self.Threat
         tinsert(self.__elements, UpdateTargetGlow)
         self:RegisterEvent("PLAYER_TARGET_CHANGED", UpdateTargetGlow)
         self:RegisterEvent("PLAYER_ENTERING_WORLD", UpdateTargetGlow)
@@ -501,26 +482,7 @@ BuildTemplates["raid"] = function(self, unit)
     self.Restrict = RestrictElement
     self.Allow = AllowElement
     self.UnitUpdate = RaidUnitUpdate
-
-    local shadow = CreateFrame("Frame", nil, self)
-    shadow:SetFrameLevel(1)
-    shadow:SetFrameStrata(self:GetFrameStrata())
-    shadow:WrapPoints(self, 3, 3)
-    shadow:SetBackdrop({
-        edgeFile = SV.media.border.shadow, 
-        edgeSize = 3, 
-        insets = {
-            left = 5, 
-            right = 5, 
-            top = 5, 
-            bottom = 5
-        }
-    })
-    shadow:SetBackdropColor(0, 0, 0, 0)
-    shadow:SetBackdropBorderColor(0, 0, 0, 0.9)
-    shadow:Hide()
-    self.TargetGlow = shadow
-
+    self.TargetGlow = self.Threat
     tinsert(self.__elements, UpdateTargetGlow)
 
     self:SetScript("OnEnter", UnitFrame_OnEnter)
@@ -592,24 +554,7 @@ BuildTemplates["raidpet"] = function(self, unit)
     self.Allow = AllowElement
     self.UnitUpdate = RaidUnitUpdate
 
-    local shadow = CreateFrame("Frame", nil, self)
-    shadow:SetFrameLevel(1)
-    shadow:SetFrameStrata(self:GetFrameStrata())
-    shadow:WrapPoints(self, 3, 3)
-    shadow:SetBackdrop({
-        edgeFile = SV.media.border.shadow, 
-        edgeSize = 3, 
-        insets = {
-            left = 5, 
-            right = 5, 
-            top = 5, 
-            bottom = 5
-        }
-    })
-    shadow:SetBackdropColor(0, 0, 0, 0)
-    shadow:SetBackdropBorderColor(0, 0, 0, 0.9)
-    shadow:Hide()
-    self.TargetGlow = shadow
+    self.TargetGlow = self.Threat
     tinsert(self.__elements, UpdateTargetGlow)
 
     self:RegisterEvent("PLAYER_TARGET_CHANGED", UpdateTargetGlow)

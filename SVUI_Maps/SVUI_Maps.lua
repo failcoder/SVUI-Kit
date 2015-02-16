@@ -835,7 +835,7 @@ function MOD:Load()
 
 	QueueStatusMinimapButton:ClearAllPoints()
 	QueueStatusMinimapButton:ModPoint("BOTTOMLEFT", self.Holder, "BOTTOMLEFT", 2, 1)
-	QueueStatusMinimapButton:SetStyle("Frame", "Icon", true, 1, -6, -6)
+	QueueStatusMinimapButton:SetStyle("Frame", "Default", true, 1, -6, -6)
 
 	QueueStatusFrame:SetClampedToScreen(true)
 	QueueStatusMinimapButtonBorder:Hide()
@@ -858,7 +858,7 @@ function MOD:Load()
 
 	self.InfoTop:ModPoint("TOPLEFT", self.Holder, "TOPLEFT", 2, -2)
 	self.InfoTop:SetSize(100, 22)
-	self.InfoTop:SetStyle("!_Frame")
+	self.InfoTop:SetStyle("Frame")
   	self.InfoTop:SetPanelColor("yellow")
   	self.InfoTop:SetBackdropColor(1, 1, 0, 1)
 	self.InfoTop:SetFrameLevel(Minimap:GetFrameLevel() + 2)

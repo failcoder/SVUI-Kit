@@ -66,8 +66,8 @@ LOCAL FUNCTIONS
 local function SetItemLevelDisplay(globalName, iLevel)
 	local frame = _G[globalName]
 	if(not frame) then return; end
-	frame.ItemLevel:SetText()
-	if(SHOW_LEVEL) then 
+	frame.ItemLevel:SetText('')
+	if(SHOW_LEVEL and iLevel) then 
 		local key = (iLevel < (AVG_LEVEL - 10)) and 0 or (iLevel > (AVG_LEVEL + 10)) and 1 or 2;
 		frame.ItemLevel:SetFormattedText("%s%d|r", COLOR_KEYS[key], iLevel) 
 	end

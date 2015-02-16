@@ -394,10 +394,10 @@ do
 			    edgeSize = 15,
 			    insets = 
 			    {
-			        left = 0, 
-			        right = 0, 
-			        top = 0, 
-			        bottom = 0, 
+			        left = 5, 
+			        right = 5, 
+			        top = 5, 
+			        bottom = 5, 
 			    },
 			},
 			["premium"] = {
@@ -408,10 +408,10 @@ do
 			    edgeSize = 15,
 			    insets = 
 			    {
-			        left = 0, 
-			        right = 0, 
-			        top = 0, 
-			        bottom = 0, 
+			        left = 5, 
+			        right = 5, 
+			        top = 5, 
+			        bottom = 5, 
 			    },
 			},
 			["buttonred"] = {
@@ -694,6 +694,7 @@ local function ChangeSystemFonts()
 	_alterFont("QuestFont_Large", "zone", -3);
 	_alterFont("QuestFont_Huge", "zone", -2);
 	_alterFont("QuestFont_Super_Huge", "zone");
+	_alterFont("QuestFont_Shadow_Huge", "zone");
 	_alterFont("SystemFont_OutlineThick_Huge2", "zone", 2, "OUTLINE");
 	_alterFont("Game18Font", "number", 1)
 	_alterFont("Game24Font", "number", 3)
