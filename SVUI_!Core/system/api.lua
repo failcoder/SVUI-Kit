@@ -466,8 +466,8 @@ local HookCustomBackdrop = function(self)
                     --if(bgid == "premium") then print("SetPoint from Backdrop1") end
                     local offset = ceil(edgeSize * 0.25)
                     self.Panel:ClearAllPoints()
-                    self.Panel:SetPoint("TOPLEFT", self, "TOPLEFT", offset, -offset)
-                    self.Panel:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -offset, offset)
+                    self.Panel:SetPoint("TOPLEFT", self, "TOPLEFT", -offset, offset)
+                    self.Panel:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", offset, -offset)
                 end
             end
             self.Panel:SetBackdrop(SV.media.backdrop[bgid])
@@ -485,10 +485,10 @@ local HookCustomBackdrop = function(self)
                     edgeSize = edgeSize, 
                     insets = 
                     {
-                        left = 0, 
-                        right = 0, 
-                        top = 0, 
-                        bottom = 0, 
+                        left = offset, 
+                        right = offset, 
+                        top = offset, 
+                        bottom = offset, 
                     }, 
                 })
                 self.Panel:SetBackdropBorderColor(0,0,0,1)
@@ -496,8 +496,8 @@ local HookCustomBackdrop = function(self)
                     --if(bgid == "premium") then print("SetPoint from Backdrop2") end
                     local offset = ceil(edgeSize * 0.25)
                     self.Panel:ClearAllPoints()
-                    self.Panel:SetPoint("TOPLEFT", self, "TOPLEFT", offset, -offset)
-                    self.Panel:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -offset, offset)
+                    self.Panel:SetPoint("TOPLEFT", self, "TOPLEFT", -offset, offset)
+                    self.Panel:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", offset, -offset)
                 end
             end
         end
@@ -758,8 +758,9 @@ function MOD:APPLY(frame, templateName, underlay, padding, xOffset, yOffset, def
     end
 
     if(panel.Shadow) then
-        panel.Shadow:SetPoint('TOPLEFT', panel, 'TOPLEFT', -3, 3)
-        panel.Shadow:SetPoint('BOTTOMRIGHT', panel, 'BOTTOMRIGHT', 3, -3)
+        --panel.Shadow:SetAllPoints(panel)
+        panel.Shadow:SetPoint('TOPLEFT', panel, 'TOPLEFT', -2, 2)
+        panel.Shadow:SetPoint('BOTTOMRIGHT', panel, 'BOTTOMRIGHT', 2, -2)
 
         local alpha = panel.Shadow:GetAttribute("shadowAlpha") or 0.5
         panel.Shadow:SetBackdropBorderColor(0,0,0,alpha)
@@ -797,8 +798,8 @@ function MOD:APPLY(frame, templateName, underlay, padding, xOffset, yOffset, def
                 --hooksecurefunc(frame, "SetBackdrop", HookBackdrop)
                 hooksecurefunc(frame, "SetBackdropColor", HookBackdropColor)
             end
-            frame.BackdropNeedsUpdate = true
             frame.UpdateBackdrop = HookCustomBackdrop
+            frame.BackdropNeedsUpdate = true
         end
     end
 

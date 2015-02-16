@@ -78,9 +78,8 @@ local tooltips = {
 	BattlePetTooltip, FloatingBattlePetTooltip, FloatingPetBattleAbilityTooltip, FloatingGarrisonFollowerTooltip,
 	GarrisonMissionMechanicTooltip, GarrisonFollowerTooltip,
 	GarrisonMissionMechanicFollowerCounterTooltip, GarrisonFollowerAbilityTooltip,
-	SmallTextTooltip, 
-	BrowserSettingsTooltip, 
-	QueueStatusFrame
+	SmallTextTooltip, BrowserSettingsTooltip, QueueStatusFrame, FrameStackTooltip, EventTraceTooltip,
+	ItemSocketingDescription
 };
 
 local classification = {
@@ -835,11 +834,14 @@ local function ApplyTooltipSkins()
 			tooltip:HookScript("OnShow", _hook_OnTipShow)
 			tooltip:HookScript("OnHide", _hook_OnTipHide)
 			tooltip:HookScript("OnSizeChanged", _hook_OnSizeChanged)
-		end
-		tremove(tooltips, i)	
+			tremove(tooltips, i)
+		end	
 	end
-	if(not tooltips[1]) then
-		MOD.AllSkinned = true
+end
+
+local function Throttled_Styling()
+	if(#tooltips > 0) then
+		ApplyTooltipSkins()
 	end
 end
 
@@ -859,9 +861,7 @@ function MOD:UpdateLocals()
 end
 
 function MOD:ReLoad()
-	if(not self.AllSkinned) then
-		ApplyTooltipSkins()
-	end
+	Throttled_Styling()
 end
 
 function MOD:Load()
@@ -902,7 +902,7 @@ function MOD:Load()
 	NewHook("GameTooltip_SetDefaultAnchor", _hook_GameTooltip_SetDefaultAnchor)
 	NewHook("GameTooltip_ShowStatusBar", _hook_GameTooltip_ShowStatusBar)
 
-	--NewHook("GameTooltip_ShowCompareItem", _hook_GameTooltip_ShowCompareItem) -- BROKEN IN WOD, REMOVING NOW
+	NewHook("GameTooltip_ShowCompareItem", Throttled_Styling)
 
 	NewHook(GameTooltip, "SetUnitAura", _hook_OnSetUnitAura)
 	NewHook(GameTooltip, "SetUnitBuff", _hook_OnSetUnitAura)

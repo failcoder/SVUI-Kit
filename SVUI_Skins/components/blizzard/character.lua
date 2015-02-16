@@ -106,19 +106,17 @@ local function StyleCharacterSlots()
 				end
 			end
 
-			local slotID = GetInventorySlotInfo(slotName)
+			local slotID,_ = GetInventorySlotInfo(slotName)
+			local r, g, b = 0, 0, 0;
 			if(slotID) then
 				local itemID = GetInventoryItemID("player", slotID)
 				if(itemID) then 
-					local info = select(3, GetItemInfo(itemID))
-					if info and info > 1 then
-						 charSlot:SetBackdropBorderColor(GetItemQualityColor(info))
-					else
-						 charSlot:SetBackdropBorderColor(0,0,0,1)
-					end 
-				else
-					 charSlot:SetBackdropBorderColor(0,0,0,1)
+					local rarity = select(3, GetItemInfo(itemID))
+					if(rarity and rarity > 1) then
+						r,g,b = GetItemQualityColor(rarity)
+					end
 				end
+				charSlot:SetBackdropBorderColor(r,g,b,1)
 			end
 		end 
 	end
