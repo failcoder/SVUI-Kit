@@ -86,6 +86,16 @@ local FilterAura_OnClick = function(self)
 	end
 end
 
+local Aura_OnEnter = function(self)
+	if(not self:IsVisible()) then return end
+	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT")
+	GameTooltip:SetUnitAura(self.unit, self.index, self.filter)
+end
+
+local Aura_OnLeave = function()
+	GameTooltip:Hide()
+end
+
 local _hook_AuraBGBorderColor = function(self, ...) self.bg:SetBackdropBorderColor(...) end
 
 local CreateAuraIcon = function(icons, index)
@@ -169,6 +179,8 @@ local CreateAuraIcon = function(icons, index)
 	-- aura.stealable = stealable
 
 	aura:SetScript("OnClick", FilterAura_OnClick);
+	aura:SetScript("OnEnter", Aura_OnEnter);
+	aura:SetScript("OnLeave", Aura_OnLeave);
 
 	aura.parent = icons;
 	aura.cd = cd;
