@@ -831,9 +831,11 @@ local function CorePreInitialize()
       GLOBAL_SV.profileKeys = {}
     end
 
-    for k,v in pairs(GLOBAL_SV.profiles) do
-        GLOBAL_SV.profileKeys[k] = k
-    end
+	if GLOBAL_SV.profiles then 
+      for k,v in pairs(GLOBAL_SV.profiles) do
+          GLOBAL_SV.profileKeys[k] = k
+      end
+	end
 
     --SAVED ERRORS
     if not _G[ERROR_FILENAME] then _G[ERROR_FILENAME] = {} end
