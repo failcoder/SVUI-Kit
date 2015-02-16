@@ -394,7 +394,7 @@ do
 		local lastGoodFrame
 		local maxShown = #MOD.media.hyperAuraIcons - 1
 		local CB_HEIGHT = Minimap:GetHeight() - 50
-		local buffSize = (CB_HEIGHT / maxShown) + 4
+		local buffSize = (CB_HEIGHT / maxShown) - 1
 
 		for i=1, NUM_LE_RAID_BUFF_TYPES do 
 			local buff = MOD.HyperBuffFrame[i]
@@ -515,8 +515,11 @@ UPDATE AND BUILD
 function MOD:ReLoad()
 	if(InCombatLockdown()) then return end
 	local maxShown = #self.media.hyperAuraIcons - 1
-	local CB_HEIGHT = Minimap:GetHeight() - 50
-	local CB_WIDTH = (CB_HEIGHT / maxShown) + 4
+	local CB_HEIGHT = Minimap:GetHeight() - 50;
+	local CB_WIDTH = (CB_HEIGHT / maxShown) + 4;
+	if(SVUI_MinimapFrame) then
+		CB_HEIGHT = SVUI_MinimapFrame:GetHeight() - 50;
+	end
 	self.Holder:SetSize(CB_WIDTH, CB_HEIGHT)
 	AURA_FADE_TIME = SV.db.Auras.fadeBy
 	self:UpdateAuraHeader(SVUI_PlayerBuffs, "buffs");
@@ -528,9 +531,9 @@ function MOD:Load()
 	local CB_HEIGHT = Minimap:GetHeight() - 50;
 	local CB_WIDTH = (CB_HEIGHT / maxShown) + 4;
 
-	if(not SV.Maps) then
+	if(SVUI_MinimapFrame) then
 		HOLDER_OFFSET = -32;
-		CB_HEIGHT = Minimap:GetHeight();
+		CB_HEIGHT = SVUI_MinimapFrame:GetHeight() - 50;
 	end
 
 	self.Holder:SetSize(CB_WIDTH, CB_HEIGHT)

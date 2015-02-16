@@ -138,7 +138,9 @@ local function LFDFrameStyle()
   if SV.db.Skins.blizzard.enable ~= true or SV.db.Skins.blizzard.lfg ~= true then return end
   
   SV.API:Set("Window", PVEFrame)
-  SV.API:Set("Window", LFGDungeonReadyDialog, true)
+  
+  LFGDungeonReadyDialog:RemoveTextures()
+  LFGDungeonReadyDialog:SetStyle("Frame", "Pattern", true, 2, 4, 4)
   
   PVEFrameLeftInset:RemoveTextures()
   RaidFinderQueueFrame:RemoveTextures(true)

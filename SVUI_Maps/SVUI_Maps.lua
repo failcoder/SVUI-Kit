@@ -835,7 +835,7 @@ function MOD:Load()
 
 	QueueStatusMinimapButton:ClearAllPoints()
 	QueueStatusMinimapButton:ModPoint("BOTTOMLEFT", self.Holder, "BOTTOMLEFT", 2, 1)
-	QueueStatusMinimapButton:SetStyle("Frame", "Default", true, 1, -6, -6)
+	QueueStatusMinimapButton:SetStyle("Frame", "Default", true, 1, -4, -4)
 
 	QueueStatusFrame:SetClampedToScreen(true)
 	QueueStatusMinimapButtonBorder:Hide()
