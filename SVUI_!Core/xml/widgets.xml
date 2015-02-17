@@ -231,27 +231,17 @@
             <Layer level="ARTWORK">
                 <FontString parentKey="Title" inherits="SVUI_Font_Narrator" justifyH="CENTER" text="Mentalo The Frame Mover!">
                     <Anchors>
-                        <Anchor point="BOTTOMLEFT" relativeTo="$parentTitleBG" relativePoint="TOPLEFT">
-                            <Offset x="4" y="4"/>
-                        </Anchor>
-                        <Anchor point="BOTTOMRIGHT" relativeTo="$parentTitleBG" relativePoint="TOPRIGHT">
-                            <Offset x="-4" y="4"/>
-                        </Anchor>
+                        <Anchor point="CENTER" relativeTo="$parentTitleBG" relativePoint="CENTER" />
                     </Anchors>
                     <Color r="1" g="1" b="1" a="1"/>
                 </FontString>
                 <FontString parentKey="SubTitle" inherits="SVUI_Font_Caps" justifyH="CENTER" text="Right-click frames to move with precision.">
                     <Anchors>
-                        <Anchor point="TOPLEFT" relativeTo="$parentTitleBG" relativePoint="BOTTOMLEFT">
-                            <Offset x="4" y="-4"/>
-                        </Anchor>
-                        <Anchor point="TOPRIGHT" relativeTo="$parentTitleBG" relativePoint="BOTTOMRIGHT">
-                            <Offset x="-4" y="-4"/>
-                        </Anchor>
+                        <Anchor point="TOP" relativeTo="$parentTitleBG" relativePoint="BOTTOM" />
                     </Anchors>
                     <Color r="1" g="1" b="0" a="0.8"/>
                 </FontString>
-                <Texture parentKey="Portrait" file="Interface\AddOns\SVUI_!Core\assets\textures\EMPTY">
+                <Texture name="$parentPortrait" parentKey="Portrait" file="Interface\AddOns\SVUI_!Core\assets\textures\EMPTY">
                     <Size x="132" y="132"/>
                     <Anchors>
                         <Anchor point="BOTTOM" relativeTo="$parentBG" relativePoint="TOP"/>
@@ -260,20 +250,16 @@
             </Layer>
         </Layers>
         <Frames>
-            <Button name="$parentGridButton" inherits="OptionsButtonTemplate" text="Grid">
+            <Button name="$parentGridButton" inherits="OptionsButtonTemplate" text="">
                 <Size x="104" y="24"/>
                 <Anchors>
-                    <Anchor point="RIGHT" relativeTo="$parentBG">
-                        <Offset x="-4" y="0"/>
-                    </Anchor>
+                    <Anchor point="CENTER" relativeTo="$parentPortrait" relativePoint="TOPRIGHT" x="0" y="0" />
                 </Anchors>
             </Button>
-            <Button name="$parentLockButton" inherits="OptionsButtonTemplate" text="Lock">
+            <Button name="$parentLockButton" inherits="OptionsButtonTemplate" text="">
                 <Size x="104" y="24"/>
                 <Anchors>
-                    <Anchor point="RIGHT" relativeTo="$parentGridButton" relativePoint="LEFT">
-                        <Offset x="-4" y="0"/>
-                    </Anchor>
+                    <Anchor point="CENTER" relativeTo="$parentPortrait" relativePoint="TOPLEFT" x="0" y="0" />
                 </Anchors>
             </Button>
         </Frames>
@@ -394,6 +380,8 @@
             </Layer>
         </Layers>
     </Frame>
+
+    <StatusBar name="SVUI_ThreatOMeter" frameStrata="DIALOG" hidden="true" />
 
     <Frame name="SVUI_ComixFrame" frameStrata="DIALOG" hidden="true" />
 
