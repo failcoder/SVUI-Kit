@@ -979,7 +979,7 @@ function MOD:LoadOptions()
 					desc = L["Restore the actionbars default settings"], 
 					func = function()
 						SV:ResetData("ActionBars", barKey)
-						SV:ResetAnchors("Bar "..d)
+						SV:ResetAnchors(barKey)
 						MOD:RefreshBar(barKey)
 					end, 
 					disabled = function()return not SV.db[Schema][barKey].enable end, 
