@@ -1,6 +1,6 @@
 ## Interface: 60000
-## Author: S.Jackson
-## Version: 1.0.0
+## Author: Munglunch
+## Version: 1.0.01
 ## Title: |cffFF9900SVUI |r|cffFFEF00Auras|r
 ## Notes: Aura Plugin for [|cff9911FFSVUI|r].
 ## OptionalDeps: LibSharedMedia-3.0
@@ -12,5 +12,9 @@
 ## X-Donate: PayPal:munglunch@gmail.com
 ## X-License: All Rights Reserved
 ## X-Category: Interface Enhancements
+## X-Curse-Packaged-Version: r20150218023040
+## X-Curse-Project-Name: SuperVillain UI: Auras
+## X-Curse-Project-ID: supervillain-ui-auras
+## X-Curse-Repository-ID: wow/supervillain-ui-auras/mainline
 
 SVUI_Auras.xml

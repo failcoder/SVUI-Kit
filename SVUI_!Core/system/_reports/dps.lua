@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 
 STATS:Extend EXAMPLE USAGE: Reports:NewReportType(newStat,eventList,onEvents,update,click,focus,blur,load)

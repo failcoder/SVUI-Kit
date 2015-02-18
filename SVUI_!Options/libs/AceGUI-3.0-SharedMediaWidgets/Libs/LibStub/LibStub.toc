@@ -9,5 +9,13 @@
 ## X-Curse-Project-Name: LibStub
 ## X-Curse-Project-ID: libstub
 ## X-Curse-Repository-ID: wow/libstub/mainline
+## X-Curse-Packaged-Version: r20150218024212
+## X-Curse-Project-Name: SuperVillain UI
+## X-Curse-Project-ID: supervillain-ui
+## X-Curse-Repository-ID: wow/supervillain-ui/mainline
+## X-Curse-Packaged-Version: r20150218041931
+## X-Curse-Project-Name: SuperVillain UI
+## X-Curse-Project-ID: supervillain-ui
+## X-Curse-Repository-ID: wow/supervillain-ui/mainline
 
 LibStub.lua

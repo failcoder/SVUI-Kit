@@ -1,0 +1,11 @@
+Steven Jackson:
+	- toc update
+	- pkgmeta update
+	- fix for struct part 2
+	- fix for file struct
+	- changing for packager
+	- Updating to the new core
+	- Cleaning up
+Munglunch:
+	- 5.4.2
+	- First Commit

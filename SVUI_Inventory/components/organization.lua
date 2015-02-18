@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -296,6 +296,15 @@ local Container_OnEvent = function(self, event, ...)
 	elseif(event == "BAG_UPDATE_COOLDOWN") then 
 		self:RefreshCooldowns()
 	elseif(event == "PLAYERBANKSLOTS_CHANGED") then
+		if(self.isBank and self.BagMenu) then
+			for i, bagID in ipairs(self.BagIDs) do
+				local bagSlot = self.BagMenu[i];
+				if(bagSlot) then
+					BankFrameItemButton_Update(bagSlot)
+					BankFrameItemButton_UpdateLocked(bagSlot)
+				end
+			end
+		end
 		self:RefreshBags();
 	elseif(event == "PLAYERREAGENTBANKSLOTS_CHANGED") then 
 		local slotID = ...

@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ############################################################################## ]]-- 
 --[[ GLOBALS ]]--
 local _G = _G;
@@ -237,6 +237,7 @@ _G.ToggleSuperDockLeft = function(self, button)
 		end
 		MOD.BottomLeft.Bar:Update()
 		MOD:UpdateDockBackdrops()
+		SV.Events:Trigger("DOCK_LEFT_EXPANDED");
 	else
 		if MOD.private.LeftFaded then 
 			MOD.private.LeftFaded = nil;
@@ -275,6 +276,7 @@ _G.ToggleSuperDockRight = function(self, button)
 		end
 		MOD.BottomRight.Bar:Update()
 		MOD:UpdateDockBackdrops()
+		SV.Events:Trigger("DOCK_RIGHT_EXPANDED");
 	else
 		if MOD.private.RightFaded then 
 			MOD.private.RightFaded = nil;
@@ -1300,8 +1302,6 @@ function MOD:Load()
 	self.TopLeft.Bar:Refresh()
 	self.TopRight.Bar:Refresh()
 
-	self:UpdateDockBackdrops()
-
 	self:LoadProfessionTools();
 	self:LoadGarrisonTool();
 	self:LoadRaidLeaderTools();
@@ -1314,6 +1314,8 @@ local function UpdateAllDocks()
 		dock.Bar:Cycle()
 		dock.Bar:GetDefault()
 	end
+
+	MOD:UpdateDockBackdrops()
 end
 
 SV:NewScript(UpdateAllDocks)

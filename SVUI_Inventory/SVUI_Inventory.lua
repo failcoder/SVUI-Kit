@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-S V U I  By: S.Jackson
+S V U I  By: Munglunch
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -437,9 +437,10 @@ local ContainerFrame_UpdateLayout = function(self)
 		if((not isBank and bagID <= 3) or (isBank and bagID ~= -1 and numContainerSlots >= 1 and not (i - 1 > numContainerSlots))) then
 
 			menu:ModSize(((buttonSize + buttonSpacing) * (isBank and i - 1 or i)) + buttonSpacing, buttonSize + (buttonSpacing * 2))
-			
-			if(not menu[i]) then
-				local bagSlot, globalName, bagTemplate;
+			local bagSlot = menu[i];
+
+			if(not bagSlot) then
+				local globalName, bagTemplate;
 				if isBank then
 					globalName = "SVUI_BankBag" .. bagID - 4;
 					bagTemplate = "BankItemButtonBagTemplate"
@@ -479,26 +480,26 @@ local ContainerFrame_UpdateLayout = function(self)
 				menu[i] = bagSlot;
 			end
 
-			menu[i]:ModSize(buttonSize) 
-			menu[i]:ClearAllPoints()
+			bagSlot:ModSize(buttonSize) 
+			bagSlot:ClearAllPoints()
 
 			if(isBank) then
-				BankFrameItemButton_Update(menu[i])
-				BankFrameItemButton_UpdateLocked(menu[i])
+				BankFrameItemButton_Update(bagSlot)
+				BankFrameItemButton_UpdateLocked(bagSlot)
 
 				if(i == 2) then 
-					menu[i]:SetPoint("BOTTOMLEFT", menu, "BOTTOMLEFT", buttonSpacing, buttonSpacing)
+					bagSlot:SetPoint("BOTTOMLEFT", menu, "BOTTOMLEFT", buttonSpacing, buttonSpacing)
 				else 
-					menu[i]:SetPoint("LEFT", lastMenu, "RIGHT", buttonSpacing, 0)
+					bagSlot:SetPoint("LEFT", lastMenu, "RIGHT", buttonSpacing, 0)
 				end
 			else
 				if(i == 1) then 
-					menu[i]:SetPoint("BOTTOMLEFT", menu, "BOTTOMLEFT", buttonSpacing, buttonSpacing)
+					bagSlot:SetPoint("BOTTOMLEFT", menu, "BOTTOMLEFT", buttonSpacing, buttonSpacing)
 				else 
-					menu[i]:SetPoint("LEFT", lastMenu, "RIGHT", buttonSpacing, 0)
+					bagSlot:SetPoint("LEFT", lastMenu, "RIGHT", buttonSpacing, 0)
 				end
 			end
-			lastMenu = menu[i];	
+			lastMenu = bagSlot;	
 		end
 
 		local numSlots = GetContainerNumSlots(bagID);

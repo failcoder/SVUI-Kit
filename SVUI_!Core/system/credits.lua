@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 ]]--
 
@@ -16,7 +16,7 @@ local L = SV.L;
 SV.Credits = [[
 |cffff9900SUPERVILLAIN CREDITS:|r
 |cff4f4f4f---------------------------------------------|r
-|cffff9900CREATED BY:|r  S.Jackson
+|cffff9900CREATED BY:|r  Munglunch
 |cff4f4f4f---------------------------------------------|r
 |cffff9900CODE GRANTS BY:|r  Azilroka, Sortokk, Kkthnx
 |cff4f4f4f---------------------------------------------|r

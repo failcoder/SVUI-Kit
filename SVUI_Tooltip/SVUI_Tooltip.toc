@@ -1,6 +1,6 @@
 ## Interface: 60000
-## Author: S.Jackson
-## Version: 1.0.0
+## Author: Munglunch
+## Version: 1.0.01
 ## Title: |cffFF9900SVUI |r|cffFFEF00Tooltip|r
 ## Notes: Tooltip Plugin for [|cff9911FFSVUI|r].
 ## OptionalDeps: LibSharedMedia-3.0
@@ -12,5 +12,9 @@
 ## X-Donate: PayPal:munglunch@gmail.com
 ## X-License: All Rights Reserved
 ## X-Category: Interface Enhancements
+## X-Curse-Packaged-Version: r20150218022908
+## X-Curse-Project-Name: SuperVillain UI: Tooltip
+## X-Curse-Project-ID: supervillain-ui-tooltip
+## X-Curse-Repository-ID: wow/supervillain-ui-tooltip/mainline
 
 SVUI_Tooltip.xml

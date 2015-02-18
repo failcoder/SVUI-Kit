@@ -1,6 +1,6 @@
 ## Interface: 60000
-## Author: S.Jackson
-## Version: 1.0.0
+## Author: Munglunch
+## Version: 1.0.01
 ## Title: |cffFF9900SVUI |r|cffFFEF00QuestTracker|r
 ## Notes: QuestTracker Plugin for [|cff9911FFSVUI|r].
 ## OptionalDeps: LibSharedMedia-3.0
@@ -12,5 +12,13 @@
 ## X-Donate: PayPal:munglunch@gmail.com
 ## X-License: All Rights Reserved
 ## X-Category: Interface Enhancements
+## X-Curse-Packaged-Version: r20150218022938
+## X-Curse-Project-Name: SuperVillain UI: QuestTracker
+## X-Curse-Project-ID: supervillain-ui-questtracker
+## X-Curse-Repository-ID: wow/supervillain-ui-questtracker/mainline
+## X-Curse-Packaged-Version: r20150218042013
+## X-Curse-Project-Name: SuperVillain UI: QuestTracker
+## X-Curse-Project-ID: supervillain-ui-questtracker
+## X-Curse-Repository-ID: wow/supervillain-ui-questtracker/mainline
 
 SVUI_QuestTracker.xml

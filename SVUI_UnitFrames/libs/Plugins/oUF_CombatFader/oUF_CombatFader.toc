@@ -2,7 +2,11 @@
 ## Title: oUF Combat Fader
 ## Notes: Adds combat fade ability to oUF
 ## Author: SV
-## Version: 1.0.0
+## Version: 1.0.01
 ## Dependencies: oUF
+## X-Curse-Packaged-Version: r20150218022926
+## X-Curse-Project-Name: SuperVillain UI: UnitFrames
+## X-Curse-Project-ID: supervillain-ui-unitframes
+## X-Curse-Repository-ID: wow/supervillain-ui-unitframes/mainline
 
 oUF_CombatFader.lua

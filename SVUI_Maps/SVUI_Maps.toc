@@ -1,6 +1,6 @@
 ## Interface: 60000
-## Author: S.Jackson
-## Version: 1.0.0
+## Author: Munglunch
+## Version: 1.0.01
 ## Title: |cffFF9900SVUI |r|cffFFEF00Maps|r
 ## Notes: Maps Plugin for [|cff9911FFSVUI|r].
 ## OptionalDeps: LibSharedMedia-3.0
@@ -12,5 +12,9 @@
 ## X-Donate: PayPal:munglunch@gmail.com
 ## X-License: All Rights Reserved
 ## X-Category: Interface Enhancements
+## X-Curse-Packaged-Version: r20150218023002
+## X-Curse-Project-Name: SuperVillain UI: Maps
+## X-Curse-Project-ID: supervillain-ui-maps
+## X-Curse-Repository-ID: wow/supervillain-ui-maps/mainline
 
 SVUI_Maps.xml

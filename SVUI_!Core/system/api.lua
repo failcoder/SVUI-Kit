@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -106,7 +106,7 @@ local function ScreenUpdate()
     end
 
     local gxScale;
-    if(SV.db and SV.db.screen.advanced) then
+    if(SV.db.screen.advanced) then
         BASE_MOD = 0.64
         local ADJUSTED_SCALE = SV.db.screen.scaleAdjust;
         if(ADJUSTED_SCALE) then
@@ -121,7 +121,7 @@ local function ScreenUpdate()
 
         gxScale = BASE_MOD;
     else
-        if(SV.db and SV.db.screen.autoScale) then
+        if(SV.db.screen.autoScale) then
             gxScale = max(0.64, min(1.15, gxMod));
         else
             gxScale = max(0.64, min(1.15, GetCVar("uiScale") or UIParent:GetScale() or gxMod));

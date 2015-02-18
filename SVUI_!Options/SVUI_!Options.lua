@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -1243,44 +1243,71 @@ SV.Options.args.Dock = {
 					get = function(j)return SV.db.Dock.topPanel end,
 					set = function(key,value)SV.Dock:ChangeDBVar(value,key[#key]);SV.Dock:TopBorderVisibility()end
 				},
-				time24 = {
+				buttonSize = {
 					order = 3, 
+					type = "range", 
+					name = L["Dock Button Size"], 
+					desc = L["PANEL_DESC"], 
+					min = 20, 
+					max = 80, 
+					step = 1,
+					width = "full",
+					get = function()return SV.db.Dock.buttonSize;end, 
+					set = function(key,value)
+						SV.Dock:ChangeDBVar(value,key[#key]);
+						SV.Dock:Refresh()
+					end, 
+				},
+			},
+		},
+		dataGroup = {
+			order = 2,
+			type = "group",
+			name = "Reports (Data Texts)",
+			guiInline = true,
+			get = function(key)return SV.db.Reports[key[#key]];end, 
+			set = function(key,value)
+				SV.Reports:ChangeDBVar(value,key[#key]);
+			end, 
+			args = {
+				time24 = {
+					order = 1, 
 					type = "toggle", 
 					name = L["24-Hour Time"], 
 					desc = L["Toggle 24-hour mode for the time datatext."],
 				}, 
 				localtime = {
-					order = 4, 
+					order = 2, 
 					type = "toggle", 
 					name = L["Local Time"], 
 					desc = L["If not set to true then the server time will be displayed instead."]
 				}, 
 				battleground = {
-					order = 5, 
+					order = 3, 
 					type = "toggle", 
 					name = L["Battleground Texts"], 
 					desc = L["When inside a battleground display personal scoreboard information on the main datatext bars."]
 				}, 
-				dataBackdrop = {
-					order = 6, 
-					name = "Show Backgrounds", 
-					desc = L["Display statistic background textures"], 
+				backdrop = {
+					order = 4, 
+					name = "Data Backgrounds", 
+					desc = L["Display background textures on docked data texts"], 
 					type = "toggle",
-					set = function(key, value) SV.Dock:ChangeDBVar(value, key[#key]); SV:StaticPopup_Show("RL_CLIENT") end,
+					set = function(key, value) SV.Reports:ChangeDBVar(value, key[#key]); SV.Reports:UpdateAllReports() end,
 				},
 				shortGold = {
-					order = 7, 
+					order = 5, 
 					type = "toggle", 
 					name = L["Shortened Gold Text"], 
 				},
 				spacer1 = {
-					order = 9, 
+					order = 6, 
 					name = "", 
 					type = "description", 
 					width = "full", 
 				},
 				dockCenterWidth = {
-					order = 10,
+					order = 7,
 					type = 'range',
 					name = L['Stat Panel Width'],
 					desc = L["PANEL_DESC"], 
@@ -1295,13 +1322,13 @@ SV.Options.args.Dock = {
 					end, 
 				},
 				spacer2 = {
-					order = 11, 
+					order = 8, 
 					name = "", 
 					type = "description", 
 					width = "full", 
 				},
 				buttonSize = {
-					order = 12, 
+					order = 9, 
 					type = "range", 
 					name = L["Dock Button Size"], 
 					desc = L["PANEL_DESC"], 

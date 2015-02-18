@@ -1,5 +1,5 @@
 ###############################################################################
-# S V U I   By: S.Jackson                             
+# S V U I   By: Munglunch                             
 ###############################################################################
 
 ModKit_!Options License Copyright 2014 http://wowinterface.com
@@ -20,4 +20,4 @@ Authors of this addon hereby grant you the following rights:
 All rights not explicitly addressed in this license are reserved by
 the copyright holders.
 
-You can write S.Jackson at Wowinterface.com for reporting abuse / bugs.
+You can write Munglunch at Wowinterface.com for reporting abuse / bugs.
