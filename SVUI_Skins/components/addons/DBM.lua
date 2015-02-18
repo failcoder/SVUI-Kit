@@ -85,7 +85,7 @@ local function StyleBars(self)
 				icon2:ClearAllPoints()
 				icon2:SetAllPoints(icon2.overlay)
 
-				texture:SetTexture(SV.BaseTexture)
+				texture:SetTexture(SV.media.statusbar.default)
 				tbar:SetWidth(sharedWidth)
 				tbar:SetHeight(10)
 				tbar:SetPoint('BOTTOMLEFT', frame, 'BOTTOMLEFT', 0, 0)
