@@ -21,5 +21,9 @@
 ## X-Curse-Project-Name: SuperVillain UI
 ## X-Curse-Project-ID: supervillain-ui
 ## X-Curse-Repository-ID: wow/supervillain-ui/mainline
+## X-Curse-Packaged-Version: r20150218062720
+## X-Curse-Project-Name: SuperVillain UI
+## X-Curse-Project-ID: supervillain-ui
+## X-Curse-Repository-ID: wow/supervillain-ui/mainline
 
 SVUI_!Core.xml

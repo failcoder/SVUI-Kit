@@ -339,7 +339,7 @@ function SV.Setup:ChatConfigs(mungs)
 	for i = 1, NUM_CHAT_WINDOWS do
 		local chat = _G["ChatFrame"..i]
 		local chatID = chat:GetID()
-		if i == 1 then 
+		if i == 1 and SV.Chat then 
 			chat:ClearAllPoints()
 			chat:SetAllPoints(SV.Chat.Dock);
 		end 
@@ -460,16 +460,18 @@ function SV.Setup:ColorTheme(style, preserve)
 	self:CopyPreset("media", preset_mediastyle)
 	SVUILib:SaveSafeData("preset_mediastyle", preset_mediastyle);
 
-	if(preset_mediastyle == "default") then 
-		SV.db.UnitFrames.healthclass = true;
-	else
-		SV.db.UnitFrames.healthclass = false;
+	if(SV.UnitFrames) then
+		if(preset_mediastyle == "default") then 
+			SV.db.UnitFrames.healthclass = true;
+		else
+			SV.db.UnitFrames.healthclass = false;
+		end
 	end 
 	
 	if(not mungs) then
 		SV:UpdateSharedMedia()
 		SVUILib:RefreshModule('Dock')
-		SVUILib:RefreshModule('UnitFrames')
+		if(SV.UnitFrames) then SVUILib:RefreshModule('UnitFrames') end
 		if(not preserve) then
 			SV:SavedPopup()
 		end

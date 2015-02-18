@@ -822,7 +822,7 @@ end
 local function AlterBlizzMainBar()
 	if(not SV.ActionBars and MainMenuBar) then
 		MainMenuBar:ClearAllPoints()
-		MainMenuBar:SetPoint("BOTTOM", self.BottomCenter, "TOP", 0, 4)
+		MainMenuBar:SetPoint("BOTTOM", SV.Dock.BottomCenter, "TOP", 0, 4)
 		if(MainMenuBarTexture0) then
 			MainMenuBarTexture0:SetTexture("")
 		end

@@ -856,7 +856,7 @@ local function CorePreInitialize()
     FILTER_SV = _G[FILTERS_FILENAME]
 
     if not GLOBAL_SV.profiles then GLOBAL_SV.profiles = {} end
- for k,v in pairs(GLOBAL_SV.profiles) do
+    for k,v in pairs(GLOBAL_SV.profiles) do
         GLOBAL_SV.profileKeys[k] = k
     end
     if not MEDIA_SV.profiles then MEDIA_SV.profiles = {} end

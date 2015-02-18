@@ -61,6 +61,7 @@ MOD.Border = {};
 LOCALS
 ##########################################################
 ]]--
+local DOCK_CHECK = false;
 local ORDER_TEMP, ORDER_TEST, DOCK_REGISTRY, DOCK_DROPDOWN_OPTIONS = {}, {}, {}, {};
 local DOCK_LOCATIONS = {
 	["BottomLeft"] = {1, "LEFT", true, "ANCHOR_TOPLEFT"},
@@ -1016,6 +1017,7 @@ function MOD:NewDocklet(location, globalName, readableName, texture, onclick)
 	frame.DockButton.FrameLink = frame
 	DOCK_REGISTRY[globalName] = frame;
 	frame:SetAlpha(0)
+	DOCK_CHECK = true
 	return frame
 end
 
@@ -1056,6 +1058,7 @@ function MOD:NewAdvancedDocklet(location, globalName)
 	SV:NewAnchor(frame.Bar, globalName .. " Dock Bar");
 
 	DOCK_REGISTRY[globalName] = frame;
+	DOCK_CHECK = true
 	return frame
 end
 --[[ 
@@ -1064,7 +1067,7 @@ BUILD/UPDATE
 ##########################################################
 ]]--
 function MOD:UpdateDockBackdrops()
-	if SV.db.Dock.rightDockBackdrop then
+	if(DOCK_CHECK and SV.db.Dock.rightDockBackdrop) then
 		MOD.BottomRight.backdrop:Show()
 		MOD.BottomRight.backdrop:ClearAllPoints()
 		MOD.BottomRight.backdrop:WrapPoints(MOD.BottomRight.Window, 4, 4)
@@ -1074,7 +1077,7 @@ function MOD:UpdateDockBackdrops()
 	else
 		MOD.BottomRight.backdrop:Hide()
 	end
-	if SV.db.Dock.leftDockBackdrop then
+	if(DOCK_CHECK and SV.db.Dock.leftDockBackdrop) then
 		MOD.BottomLeft.backdrop:Show()
 		MOD.BottomLeft.backdrop:ClearAllPoints()
 		MOD.BottomLeft.backdrop:WrapPoints(MOD.BottomLeft.Window, 4, 4)

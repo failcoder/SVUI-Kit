@@ -613,7 +613,7 @@ function SV:ToggleConfig()
             return 
         end 
     end
-    local aceConfig = LibStub("AceConfigDialog-3.0")
+    local aceConfig = LibStub("AceConfigDialog-3.0", true)
     if(aceConfig) then
         local switch = not aceConfig.OpenFrames[self.NameID] and "Open" or "Close"
         aceConfig[switch](aceConfig, self.NameID)

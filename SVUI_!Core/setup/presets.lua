@@ -896,6 +896,7 @@ local function LoadPageData()
 		},
 		--PAGE 5
 		{
+			["REQUIRED"] = "UnitFrames",
 			["SubTitle"] = UNITFRAME_LABEL.." "..SETTINGS,
 
 			["Desc1"] = L["You can now choose what primary unitframe style you wish to use."],
@@ -908,6 +909,7 @@ local function LoadPageData()
 		},
 		--PAGE 6
 		{
+			["REQUIRED"] = "UnitFrames",
 			["SubTitle"] = "Group Layout",
 
 			["Desc1"] = L["You can now choose what group layout you prefer."],
@@ -921,6 +923,7 @@ local function LoadPageData()
 		},
 		--PAGE 7
 		{
+			["REQUIRED"] = "ActionBars",
 			["SubTitle"] = ACTIONBAR_LABEL.." "..SETTINGS,
 
 			["Desc1"] = L["Choose a layout for your action bars."],
@@ -934,6 +937,7 @@ local function LoadPageData()
 		},
 		--PAGE 8
 		{
+			["REQUIRED"] = "UnitFrames",
 			["SubTitle"] = AURAS.." "..SETTINGS,
 
 			["Desc1"] = L["Select an aura layout. \"Icons\" will display only icons and aurabars won't be used. \"Bars\" will display only aurabars and icons won't be used (duh). \"The Works!\" does just what it says.... icons, bars and awesomeness."],
@@ -1078,7 +1082,12 @@ end
 function SV.Setup:CopyPage(pageNum)
 	if(not PAGE_DIALOG) then LoadPageData() end
 	if(PAGE_DIALOG and PAGE_DIALOG[pageNum]) then
-		return PAGE_DIALOG[pageNum], #PAGE_DIALOG
+		local req = PAGE_DIALOG[pageNum].REQUIRED
+		if(req and not SV[req]) then
+			return SV.Setup:CopyPage(pageNum + 1)
+		else
+			return PAGE_DIALOG[pageNum], #PAGE_DIALOG
+		end
 	end
 end
 
