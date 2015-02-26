@@ -42,9 +42,6 @@ local Update = function(self, event, unit, forced)
 			portrait:SetModel([[Spells\Monk_travelingmist_missile.m2]])
 			portrait.guid = nil
 			portrait:SetBackdropColor(0.25,0.25,0.25)
-			if portrait.UpdateColor then 
-				portrait:UpdateColor(0.25,0.25,0.25)
-			end 
 		elseif((forced) or (portrait.guid ~= guid) or (event == 'UNIT_MODEL_CHANGED')) then
 			portrait:ClearModel()
 			portrait:SetUnit(unit)
@@ -71,9 +68,6 @@ local Update = function(self, event, unit, forced)
 				end 
 			end
 			portrait:SetBackdropColor(r,g,b)
-			if portrait.UpdateColor then 
-				portrait:UpdateColor(r,g,b)
-			end 
 		end
 	else
 		SetPortraitTexture(portrait, unit)
