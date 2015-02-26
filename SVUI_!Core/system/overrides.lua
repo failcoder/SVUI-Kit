@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -97,7 +97,7 @@ local function MirrorBarRegistry(barType)
 		return RegisteredMirrorBars[barType]
 	end 
 	local bar = CreateFrame('StatusBar', nil, UIParent)
-	bar:SetStyle("Frame", "Bar", false, 3, 3, 3)
+	bar:SetStyle("Frame", "Transparent", false, 3, 3, 3)
 	bar:SetScript("OnUpdate", MirrorBar_OnUpdate)
 	local r, g, b = unpack(mirrorTypeColor[barType])
 	bar.text = bar:CreateFontString(nil, 'OVERLAY')
@@ -131,7 +131,7 @@ local function SetTimerStyle(bar)
 	end 
 	bar:SetStatusBarTexture(SV.media.statusbar.gradient)
 	bar:SetStatusBarColor(0.37, 0.92, 0.08)
-	bar:SetStyle("Frame", "Bar", false, 3, 3, 3)
+	bar:SetStyle("Frame", "Transparent", false, 3, 3, 3)
 end 
 
 local MirrorBar_OnEvent = function(self, event, arg, ...)
@@ -448,7 +448,7 @@ local function CreateRollFrame()
 	UpdateLootUpvalues()
 	local rollFrame = CreateFrame("Frame", nil, UIParent)
 	rollFrame:ModSize(LOOT_WIDTH,LOOT_HEIGHT)
-	rollFrame:SetStyle("!_Frame", 'Default')
+	rollFrame:SetStyle("Frame", 'Default')
 	rollFrame:SetScript("OnEvent",LootRoll_OnEvent)
 	rollFrame:RegisterEvent("CANCEL_LOOT_ROLL")
 	rollFrame:Hide()
@@ -822,7 +822,7 @@ end
 local function AlterBlizzMainBar()
 	if(not SV.ActionBars and MainMenuBar) then
 		MainMenuBar:ClearAllPoints()
-		MainMenuBar:SetPoint("BOTTOM", self.BottomCenter, "TOP", 0, 4)
+		MainMenuBar:SetPoint("BOTTOM", SV.Dock.BottomCenter, "TOP", 0, 4)
 		if(MainMenuBarTexture0) then
 			MainMenuBarTexture0:SetTexture("")
 		end
@@ -888,8 +888,8 @@ LOAD
 ##########################################################
 ]]--
 local function SetOverrides()
-	if(CompanionsMicroButtonAlert) then
-		CompanionsMicroButtonAlert:Die()
+	if(CollectionsMicroButtonAlert) then
+		CollectionsMicroButtonAlert:Die()
 	end
 	
 	DurabilityFrame:SetFrameStrata("HIGH")
@@ -924,7 +924,7 @@ local function SetOverrides()
 	SVUI_BailOut:SetNormalTexture(SV.media.icon.exitIcon)
 	SVUI_BailOut:SetPushedTexture(SV.media.icon.exitIcon)
 	SVUI_BailOut:SetHighlightTexture(SV.media.icon.exitIcon)
-	SVUI_BailOut:SetStyle("!_Frame", "Transparent")
+	SVUI_BailOut:SetStyle("Frame", "Transparent")
 	SVUI_BailOut:RegisterForClicks("AnyUp")
 	SVUI_BailOut:SetScript("OnClick", VehicleExit)
 	SVUI_BailOut:RegisterEvent("UNIT_ENTERED_VEHICLE")
@@ -961,7 +961,7 @@ local function SetOverrides()
 		SV:NewAnchor(SVUI_LootFrameHolder, L["Loot Frame"], nil, nil, "SVUI_LootFrame");
 		
 		SVUI_LootFrame:ModSize(256, 64);
-		SVUI_LootFrame:SetStyle("!_Frame", 'Transparent');
+		SVUI_LootFrame:SetStyle("Frame", 'Transparent');
 		SVUI_LootFrame.title:SetFontObject(SVUI_Font_Header)
 		SV:ManageVisibility(SVUI_LootFrame);
 		SVUI_LootFrame:Hide();

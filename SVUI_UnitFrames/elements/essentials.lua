@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -637,7 +637,7 @@ end
 function MOD:CreatePowerBar(frame)
 	local power = CreateFrame("StatusBar", nil, frame)
 	power:SetStatusBarTexture(SV.media.statusbar.default)
-	power:SetStyle("Frame", "Bar")
+	power:SetStyle("Frame", "Transparent")
 	power:SetFrameStrata("LOW")
 	power:SetFrameLevel(6)
 	power.bg = power.Panel.Skin
@@ -651,7 +651,7 @@ end
 function MOD:CreateAltPowerBar(frame)
 	local altPower = CreateFrame("StatusBar", nil, frame)
 	altPower:SetStatusBarTexture(SV.media.statusbar.default)
-	altPower:SetStyle("Frame", "Bar")
+	altPower:SetStyle("Frame", "Transparent")
 	altPower:GetStatusBarTexture():SetHorizTile(false)
 	altPower:SetFrameStrata("LOW")
 	altPower:SetFrameLevel(8)
@@ -698,9 +698,9 @@ function MOD:CreatePortrait(frame,smallUnit,isPlayer)
 	portrait3D:SetFrameLevel(2)
 
 	if smallUnit then 
-		portrait3D:SetStyle("Frame", "UnitSmall")
+		portrait3D:SetStyle("Frame", "PatternUnitSmall")
 	else 
-		portrait3D:SetStyle("Frame", "UnitLarge")
+		portrait3D:SetStyle("Frame", "PatternUnitLarge")
 	end
 
 	local overlay = CreateFrame("Frame",nil,portrait3D)
@@ -720,9 +720,9 @@ function MOD:CreatePortrait(frame,smallUnit,isPlayer)
 	portrait2D:SetAllPoints(portrait2Danchor)
 	portrait2D.anchor = portrait2Danchor;
 	if smallUnit then 
-		portrait2Danchor:SetStyle("!_Frame")
+		portrait2Danchor:SetStyle("Frame")
 	else 
-		portrait2Danchor:SetStyle("!_Frame")
+		portrait2Danchor:SetStyle("Frame")
 	end 
 	portrait2D.Panel = portrait2Danchor.Panel;
 

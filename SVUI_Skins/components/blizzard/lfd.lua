@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -41,7 +41,7 @@ local function StyleMoneyRewards(frameName)
       local size = frame:GetHeight() - 6
       local texture = icon:GetTexture()
       frame:RemoveTextures()
-      frame:SetStyle("!_Frame", "Inset")
+      frame:SetStyle("Frame[INSET]", "Transparent")
       icon:SetTexture(texture)
       icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
       icon:ClearAllPoints()
@@ -50,7 +50,7 @@ local function StyleMoneyRewards(frameName)
       if(not frame.IconSlot) then 
         frame.IconSlot = CreateFrame("Frame", nil, frame)
         frame.IconSlot:WrapPoints(icon)
-        frame.IconSlot:SetStyle("Icon")
+        frame.IconSlot:SetStyle("Frame", "Outline")
         icon:SetParent(frame.IconSlot)
       end
   end
@@ -85,7 +85,7 @@ local LFDQueueRandom_OnUpdate = function()
         z:SetSize(118, 39)
         x:SetAlpha(0)
         t.border = CreateFrame("Frame", nil, t)
-        t.border:SetStyle("!_Frame")
+        t.border:SetStyle("Frame")
         t.border:WrapPoints(icon)
         icon:SetParent(t.border)
         y:SetParent(t.border)
@@ -117,7 +117,7 @@ local ScenarioQueueRandom_OnUpdate = function()
         z:SetSize(118, 39)
         x:SetAlpha(0)
         t.border = CreateFrame("Frame", nil, t)
-        t.border:SetStyle("!_Frame")
+        t.border:SetStyle("Frame")
         t.border:WrapPoints(icon)
         icon:SetParent(t.border)
         y:SetParent(t.border)
@@ -265,7 +265,7 @@ local function LFDFrameStyle()
       button.icon:ClearAllPoints()
       button.icon:SetPoint("LEFT", 10, 0)
       button.border = CreateFrame("Frame", nil, button)
-      button.border:SetStyle("!_Frame", 'Default')
+      button.border:SetStyle("Frame", 'Default')
       button.border:WrapPoints(button.icon)
       button.icon:SetParent(button.border)
     end
@@ -315,7 +315,7 @@ local function LFDFrameStyle()
         z:SetSize(118, 39)
         x:SetAlpha(0)
         t.border = CreateFrame("Frame", nil, t)
-        t.border:SetStyle("!_Frame")
+        t.border:SetStyle("Frame")
         t.border:WrapPoints(icon)
         icon:SetParent(t.border)
         y:SetParent(t.border)

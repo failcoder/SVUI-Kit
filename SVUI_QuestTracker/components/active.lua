@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -316,7 +316,7 @@ function MOD:InitializeActive()
 	block.Button = CreateFrame("Button", nil, block)
 	block.Button:ModPoint("TOPLEFT", block, "TOPLEFT", 0, 0);
 	block.Button:ModPoint("BOTTOMRIGHT", block, "BOTTOMRIGHT", 0, 8);
-	block.Button:SetStyle("DockButton")
+	SV.API:Set("DockButton", block.Button)
 	block.Button:SetPanelColor("gold")
 	block.Button:SetID(0)
 	block.Button.Parent = active;
@@ -339,7 +339,7 @@ function MOD:InitializeActive()
 	block.Badge = CreateFrame("Frame", nil, block.Button)
 	block.Badge:ModPoint("TOPLEFT", block.Button, "TOPLEFT", 4, -4);
 	block.Badge:ModSize((LARGE_INNER_HEIGHT - 4), (LARGE_INNER_HEIGHT - 4));
-	block.Badge:SetStyle("!_Frame", "Inset")
+	block.Badge:SetStyle("Frame[INSET]", "Transparent")
 
 	block.Badge.Icon = block.Badge:CreateTexture(nil,"OVERLAY")
 	block.Badge.Icon:InsetPoints(block.Badge);

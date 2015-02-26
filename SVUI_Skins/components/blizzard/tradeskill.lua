@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -49,16 +49,16 @@ local function TradeSkillStyle()
 
 	TradeSkillGuildFrame:ModPoint("BOTTOMLEFT", TradeSkillFrame, "BOTTOMRIGHT", 3, 19)
 	TradeSkillGuildFrameContainer:RemoveTextures()
-	TradeSkillGuildFrameContainer:SetStyle("Frame", "Inset")
+	TradeSkillGuildFrameContainer:SetStyle("Frame[INSET]", "Transparent")
 	SV.API:Set("CloseButton", TradeSkillGuildFrameCloseButton)
 
-	TradeSkillRankFrame:SetStyle("Frame", "Bar", true)
+	TradeSkillRankFrame:SetStyle("Frame", "Transparent", true)
 	TradeSkillRankFrame:SetStatusBarTexture(SV.media.statusbar.default)
 
 	TradeSkillListScrollFrame:ModSize(327, 290)
-	TradeSkillListScrollFrame:SetStyle("Frame", "Inset")
+	TradeSkillListScrollFrame:SetStyle("Frame[INSET]", "Transparent")
 	TradeSkillDetailScrollFrame:ModSize(327, 180)
-	TradeSkillDetailScrollFrame:SetStyle("Frame", "Inset")
+	TradeSkillDetailScrollFrame:SetStyle("Frame[INSET]", "Transparent")
 
 	TradeSkillCreateButton:SetStyle("Button")
 	TradeSkillCancelButton:SetStyle("Button")
@@ -83,12 +83,12 @@ local function TradeSkillStyle()
 	TradeSkillIncrementButton:ModPoint("RIGHT", TradeSkillCreateButton, "LEFT", -13, 0)
 	SV.API:Set("CloseButton", TradeSkillFrameCloseButton)
 
-	TradeSkillSkillIcon:SetStyle("!_Frame", "Icon") 
+	TradeSkillSkillIcon:SetStyle("Frame", "Outline") 
 
 	local internalTest = false;
 
 	hooksecurefunc("TradeSkillFrame_SetSelection", function(_)
-		TradeSkillSkillIcon:SetStyle("!_Frame", "Icon") 
+		TradeSkillSkillIcon:SetStyle("Frame", "Outline") 
 		if TradeSkillSkillIcon:GetNormalTexture() then
 			TradeSkillSkillIcon:GetNormalTexture():SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 		end 
@@ -106,7 +106,7 @@ local function TradeSkillStyle()
 					 a2:SetFrameLevel(0)
 				end 
 				a2:WrapPoints(icon)
-				a2:SetStyle("!_Frame", "Icon")
+				a2:SetStyle("Frame", "Outline")
 				icon:SetParent(a2)
 				icon.backdrop = a2 
 			end 

@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -30,7 +30,7 @@ MOD.media.microMenuCoords = {
   {"LFDMicroButton",0.75,1,0.25,0.5},         -- MICRO-LFD
   {"EJMicroButton",0,0.25,0.5,0.75},          -- MICRO-ENCOUNTER
   {"StoreMicroButton",0.25,0.5,0.5,0.75},     -- MICRO-STORE
-  {"CompanionsMicroButton",0.5,0.75,0.5,0.75},-- MICRO-COMPANION
+  {"CollectionsMicroButton",0.5,0.75,0.5,0.75},-- MICRO-COMPANION
   {"MainMenuMicroButton",0.75,1,0.5,0.75},    -- MICRO-SYSTEM
   {"HelpMicroButton",0,0.25,0.75,1},          -- MICRO-HELP
 }
@@ -979,7 +979,7 @@ function MOD:LoadOptions()
 					desc = L["Restore the actionbars default settings"], 
 					func = function()
 						SV:ResetData("ActionBars", barKey)
-						SV:ResetAnchors("Bar "..d)
+						SV:ResetAnchors(barKey)
 						MOD:RefreshBar(barKey)
 					end, 
 					disabled = function()return not SV.db[Schema][barKey].enable end, 

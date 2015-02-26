@@ -1,6 +1,6 @@
 --[[
- /$$$$$$$                      /$$            /$$                        
-| $$__  $$                    |__/           | $$                        
+ /$$$$$$$                      /$$            /$$
+| $$__  $$                    |__/           | $$
 | $$  \ $$  /$$$$$$   /$$$$$$  /$$  /$$$$$$$/$$$$$$    /$$$$$$  /$$   /$$
 | $$$$$$$/ /$$__  $$ /$$__  $$| $$ /$$_____/_  $$_/   /$$__  $$| $$  | $$
 | $$__  $$| $$$$$$$$| $$  \ $$| $$|  $$$$$$  | $$    | $$  \__/| $$  | $$
@@ -9,7 +9,7 @@
 |__/  |__/ \_______/ \____  $$|__/|_______/   \___/  |__/       \____  $$
                      /$$  \ $$                                  /$$  | $$
                     |  $$$$$$/                                 |  $$$$$$/
-                     \______/                                   \______/ 
+                     \______/                                   \______/
 
 Registry is a component used to manage packages and scripts embedded
 into the SVUI core addon.
@@ -128,29 +128,29 @@ local rootstring = function(self) return self.NameID end
 
 --LOCAL HELPERS
 function math.parsefloat(value, decimal)
-    if(decimal and decimal > 0) then 
+    if(decimal and decimal > 0) then
         local calc1 = 10 ^ decimal;
         local calc2 = (value * calc1) + 0.5;
         return floor(calc2) / calc1
-    end 
+    end
     return floor(value + 0.5)
 end
 
 function table.copy(targetTable, deepCopy, mergeTable)
     mergeTable = mergeTable or {};
-    if(targetTable == nil) then return nil end 
-    if(mergeTable[targetTable]) then return mergeTable[targetTable] end 
+    if(targetTable == nil) then return nil end
+    if(mergeTable[targetTable]) then return mergeTable[targetTable] end
     local replacementTable = {}
-    for key,value in pairs(targetTable)do 
-        if deepCopy and type(value) == "table" then 
+    for key,value in pairs(targetTable)do
+        if deepCopy and type(value) == "table" then
             replacementTable[key] = table.copy(value, deepCopy, mergeTable)
-        else 
-            replacementTable[key] = value 
-        end 
-    end 
+        else
+            replacementTable[key] = value
+        end
+    end
     setmetatable(replacementTable, table.copy(getmetatable(targetTable), deepCopy, mergeTable))
     mergeTable[targetTable] = replacementTable;
-    return replacementTable 
+    return replacementTable
 end
 
 --DATABASE LOCAL HELPERS
@@ -203,8 +203,8 @@ end
 
 local function removedefaults(db, src, nometa)
     if(type(src) ~= "table") then
-        if(db == src) then db = nil end 
-        return 
+        if(db == src) then db = nil end
+        return
     end
     if(not nometa) then
         setmetatable(db, nil)
@@ -231,7 +231,7 @@ local function sanitizeType1(db, src, output)
                 if(not src[k] and (not saved[k])) then
                     db[k] = nil
                 else
-                    if(src[k] ~= nil) then 
+                    if(src[k] ~= nil) then
                         removedefaults(db[k], src[k])
                     end
                 end
@@ -253,7 +253,7 @@ local function sanitizeType2(db, src)
         if(not src[k] and (not defined)) then
             db[k] = nil
         else
-            if(src[k] ~= nil) then 
+            if(src[k] ~= nil) then
                 removedefaults(db[k], src[k])
             end
         end
@@ -271,7 +271,7 @@ local function CleanupData(data, checkLOD)
 end
 
 --DATABASE META METHODS
-local meta_transdata = { 
+local meta_transdata = {
     __index = function(t, k)
         if(not k or k == "") then return end
         local sv = rawget(t, "data")
@@ -279,7 +279,7 @@ local meta_transdata = {
         local src = dv and dv[k]
 
         if(src ~= nil) then
-            if(type(src) == "table") then 
+            if(type(src) == "table") then
                 if(sv[k] == nil or (sv[k] ~= nil and type(sv[k]) ~= "table")) then sv[k] = {} end
                 tablecopy(sv[k], src)
             else
@@ -288,24 +288,24 @@ local meta_transdata = {
         end
 
         rawset(t, k, sv[k])
-        return rawget(t, k)  
+        return rawget(t, k)
     end,
 }
 
-local meta_database = { 
+local meta_database = {
     __index = function(t, k)
         if(not k or k == "") then return end
         local sv = rawget(t, "data")
         if(not sv[k]) then sv[k] = {} end
         rawset(t, k, sv[k])
-        return rawget(t, k)  
+        return rawget(t, k)
     end,
 }
 
 local function GetProfileKeys()
     PROFILE_KEY = ("%s - %s"):format(playerName, SOURCE_KEY)
-    if(PRIVATE_SV.SAFEDATA) then 
-        if(PRIVATE_SV.SAFEDATA.DUALSPEC) then 
+    if(PRIVATE_SV.SAFEDATA) then
+        if(PRIVATE_SV.SAFEDATA.DUALSPEC) then
             local id = GetSpecialization();
             if(id) then
                 local _, specName, _, _, _, _ = GetSpecializationInfo(id);
@@ -317,8 +317,10 @@ local function GetProfileKeys()
         if(PRIVATE_SV.SAFEDATA.CurrentProfile) then
             PROFILE_KEY = PRIVATE_SV.SAFEDATA.CurrentProfile
         end
-        if(PRIVATE_SV.SAFEDATA.THEME) then 
+        if(PRIVATE_SV.SAFEDATA.THEME) then
             PROFILE_THEME = PRIVATE_SV.SAFEDATA.THEME;
+            if not MEDIA_SV.profiles[PROFILE_KEY] then MEDIA_SV.profiles[PROFILE_KEY] = {} end
+            if not MEDIA_SV.profiles[PROFILE_KEY].Theme then MEDIA_SV.profiles[PROFILE_KEY].Theme = {} end
             if not MEDIA_SV.profiles[PROFILE_KEY].Theme[PROFILE_THEME] then MEDIA_SV.profiles[PROFILE_KEY].Theme[PROFILE_THEME] = {} end
         end
     else
@@ -329,7 +331,7 @@ end
 local function LiveProfileChange()
     local LastKey = SOURCE_KEY
     GetProfileKeys()
-    if(PRIVATE_SV.SAFEDATA and PRIVATE_SV.SAFEDATA.DUALSPEC) then 
+    if(PRIVATE_SV.SAFEDATA and PRIVATE_SV.SAFEDATA.DUALSPEC) then
         lib.EventManager:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
         if not GLOBAL_SV.profiles[PROFILE_KEY] then GLOBAL_SV.profiles[PROFILE_KEY] = {} end
         if not MEDIA_SV.profiles[PROFILE_KEY] then MEDIA_SV.profiles[PROFILE_KEY] = {} end
@@ -391,16 +393,21 @@ function lib:UnsetProfile()
     PRIVATE_SV.SAFEDATA.CurrentProfile = nil;
 end
 
-function lib:ImportDatabase(key, noreload)
+function lib:ImportDatabase(key, linked)
     if(not key) then return end
 
     if(not GLOBAL_SV.profiles[key]) then GLOBAL_SV.profiles[key] = {} end;
-    GLOBAL_SV.profiles[PROFILE_KEY] = GLOBAL_SV.profiles[key]
 
-    PRIVATE_SV.SAFEDATA.CurrentProfile = key;
-    if(not noreload) then
-        ReloadUI()
+    if(not linked) then
+        wipe(GLOBAL_SV.profiles[PROFILE_KEY])
+        local export = GLOBAL_SV.profiles[key];
+        local saved = GLOBAL_SV.profiles[PROFILE_KEY];
+        tablecopy(saved, export);
+    else
+        GLOBAL_SV.profiles[PROFILE_KEY] = GLOBAL_SV.profiles[key]
+        PRIVATE_SV.SAFEDATA.CurrentProfile = key;
     end
+    ReloadUI()
 end
 
 function lib:ExportDatabase(key)
@@ -525,23 +532,6 @@ local changeDBVar = function(self, value, key, sub1, sub2, sub3)
     end
 end
 
-local changePluginDBVar = function(self, value, key, sub1, sub2, sub3)
-    local db = self.db
-    if((sub1 and sub2 and sub3) and (db[sub1] and db[sub1][sub2] and db[sub1][sub2][sub3])) then
-        db[sub1][sub2][sub3][key] = value
-    elseif((sub1 and sub2) and (db[sub1] and db[sub1][sub2])) then
-        db[sub1][sub2][key] = value
-    elseif(sub1 and db[sub1]) then
-        db[sub1][key] = value
-    else
-        db[key] = value
-    end
-
-    if(self.UpdateLocals) then
-        self:UpdateLocals()
-    end
-end
-
 local innerOnEvent = function(self, event, ...)
     local obj = self.___owner
     local fn = self[event]
@@ -560,7 +550,7 @@ local registerEvent = function(self, eventname, eventfunc)
         self.___eventframe.___owner = self
         self.___eventframe:SetScript("OnEvent", innerOnEvent)
     end
-    
+
     if(not self.___eventframe[eventname]) then
         local fn = eventfunc
         if(type(eventfunc) == "string") then
@@ -570,7 +560,7 @@ local registerEvent = function(self, eventname, eventfunc)
         end
         self.___eventframe[eventname] = fn
     end
-    
+
     self.___eventframe:RegisterEvent(eventname)
 end
 
@@ -668,7 +658,7 @@ end
 
 function lib:LoadModuleOptions()
     if(MODULES) then
-        for i=1,#MODULES do 
+        for i=1,#MODULES do
             local schema = MODULES[i]
             local obj = CoreObject[schema]
             if(obj and (not obj.optionsLoaded)) then
@@ -730,23 +720,23 @@ local function ProcessLoadOnDemand()
                     PRIVATE_SV.SAFEDATA.SAVED[schema] = true
                 end
                 CoreObject.Options.args[schema] = {
-                    type = "group", 
-                    name = header, 
-                    childGroups = "tree", 
+                    type = "group",
+                    name = header,
+                    childGroups = "tree",
                     args = {
                         enable = {
                             order = 1,
                             type = "execute",
                             width = "full",
-                            name = function() 
+                            name = function()
                                 local nameString = "Disable"
-                                if(not IsAddOnLoaded(addonName)) then 
-                                    nameString = "Enable" 
+                                if(not IsAddOnLoaded(addonName)) then
+                                    nameString = "Enable"
                                 end
                                 return nameString
                             end,
                             func = function()
-                                if(not IsAddOnLoaded(addonName)) then 
+                                if(not IsAddOnLoaded(addonName)) then
                                     local loaded, reason = LoadAddOn(addonName)
                                     PRIVATE_SV.SAFEDATA.SAVED[schema] = true
                                     EnableAddOn(addonName)
@@ -825,14 +815,10 @@ local function CorePreInitialize()
     if not _G[GLOBAL_FILENAME] then _G[GLOBAL_FILENAME] = {} end
     GLOBAL_SV = _G[GLOBAL_FILENAME]
 
-    if(GLOBAL_SV.profileKeys) then 
-      wipe(GLOBAL_SV.profileKeys) 
+    if(GLOBAL_SV.profileKeys) then
+      wipe(GLOBAL_SV.profileKeys)
     else
       GLOBAL_SV.profileKeys = {}
-    end
-
-    for k,v in pairs(GLOBAL_SV.profiles) do
-        GLOBAL_SV.profileKeys[k] = k
     end
 
     --SAVED ERRORS
@@ -841,11 +827,11 @@ local function CorePreInitialize()
 
     local datestamp = date("%m_%d_%y")
 
-    if(ERROR_SV.TODAY and ERROR_SV.TODAY ~= datestamp) then 
-        ERROR_SV.FOUND = {} 
+    if(ERROR_SV.TODAY and ERROR_SV.TODAY ~= datestamp) then
+        ERROR_SV.FOUND = {}
     end
 
-    if(not ERROR_SV.FOUND) then 
+    if(not ERROR_SV.FOUND) then
         ERROR_SV.FOUND = {}
     end
 
@@ -860,6 +846,9 @@ local function CorePreInitialize()
     FILTER_SV = _G[FILTERS_FILENAME]
 
     if not GLOBAL_SV.profiles then GLOBAL_SV.profiles = {} end
+    for k,v in pairs(GLOBAL_SV.profiles) do
+        GLOBAL_SV.profileKeys[k] = k
+    end
     if not MEDIA_SV.profiles then MEDIA_SV.profiles = {} end
     if not GLOBAL_SV.profiles[PROFILE_KEY] then GLOBAL_SV.profiles[PROFILE_KEY] = {} end
     if not MEDIA_SV.profiles[PROFILE_KEY] then MEDIA_SV.profiles[PROFILE_KEY] = {} end
@@ -868,7 +857,7 @@ local function CorePreInitialize()
     GetProfileKeys()
 
     --KEY AND SPEC BASED VARIABLES
-    if(PRIVATE_SV.SAFEDATA.DUALSPEC) then 
+    if(PRIVATE_SV.SAFEDATA.DUALSPEC) then
         lib.EventManager:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
     else
         lib.EventManager:UnregisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
@@ -952,7 +941,7 @@ local Core_NewPlugin = function(self, addonName, addonObject, gfile, pfile)
     addonObject.LoD                 = lod
     addonObject.initialized         = false
     addonObject.CombatLocked        = false
-    addonObject.ChangeDBVar         = changePluginDBVar
+    addonObject.ChangeDBVar         = changeDBVar
     addonObject.RegisterEvent       = registerEvent
     addonObject.UnregisterEvent     = unregisterEvent
     addonObject.RegisterUpdate      = registerUpdate
@@ -998,14 +987,14 @@ local Core_NewPackage = function(self, schema, header)
     setmetatable( obj, addonmeta )
 
     self[schema] = obj
-    
+
     return self[schema]
 end
 
 local Core_NewScript = function(self, fn)
     if(fn and type(fn) == "function") then
         ScriptQueue[#ScriptQueue+1] = fn
-    end 
+    end
 end
 
 local Core_NewModule = function(self, addonName, addonObject, gfile, pfile)
@@ -1050,7 +1039,7 @@ local Core_NewModule = function(self, addonName, addonObject, gfile, pfile)
     addonObject.___svfiles          = {["PUBLIC"] = gfile, ["PRIVATE"] = pfile}
 
     self[schema] = addonObject
-    
+
     return self[schema]
 end
 
@@ -1202,11 +1191,11 @@ function lib:Launch()
                         if IsAddOnLoaded(addon) then halt = true end
                     end
                 end
-                if(not halt) then 
+                if(not halt) then
                     local files = obj.___svfiles;
                     if(files) then
-                        if(not PRIVATE_SV.SAFEDATA.SAVED[schema]) then 
-                            PRIVATE_SV.SAFEDATA.SAVED[schema] = true 
+                        if(not PRIVATE_SV.SAFEDATA.SAVED[schema]) then
+                            PRIVATE_SV.SAFEDATA.SAVED[schema] = true
                         end
 
                         if(files.PRIVATE) then
@@ -1224,7 +1213,7 @@ function lib:Launch()
                         end
                     end
 
-                    LoadingProxy(schema, obj) 
+                    LoadingProxy(schema, obj)
                 end
             end
         end
@@ -1237,11 +1226,11 @@ function lib:Launch()
             local halt = false;
             local schema = PLUGINS[i];
             local obj = _G[schema];
-            if(obj and (not obj.initialized)) then     
+            if(obj and (not obj.initialized)) then
                 local files = obj.___svfiles;
                 if(files) then
-                    if(not PRIVATE_SV.SAFEDATA.SAVED[schema]) then 
-                        PRIVATE_SV.SAFEDATA.SAVED[schema] = true 
+                    if(not PRIVATE_SV.SAFEDATA.SAVED[schema]) then
+                        PRIVATE_SV.SAFEDATA.SAVED[schema] = true
                     end
 
                     if(files.PRIVATE) then
@@ -1275,11 +1264,11 @@ end
 
 function lib:LoadScripts()
     if ScriptQueue then
-        for i=1, #ScriptQueue do 
+        for i=1, #ScriptQueue do
             local fn = ScriptQueue[i]
             if(fn and type(fn) == "function") then
                 fn()
-            end 
+            end
         end
 
         ScriptQueue = nil
@@ -1311,23 +1300,23 @@ local addNewSubClass = function(self, schema)
     setmetatable( obj, addonmeta )
 
     self[schema] = obj
-    
+
     return self[schema]
 end
 
 local function tablesplice(mergeTable, targetTable)
     if type(targetTable) ~= "table" then targetTable = {} end
 
-    if type(mergeTable) == 'table' then 
-        for key,val in pairs(mergeTable) do 
-            if type(val) == "table" then 
+    if type(mergeTable) == 'table' then
+        for key,val in pairs(mergeTable) do
+            if type(val) == "table" then
                 targetTable[key] = tablesplice(val, targetTable[key])
             else
                 targetTable[key] = val
-            end  
-        end 
-    end 
-    return targetTable 
+            end
+        end
+    end
+    return targetTable
 end
 
 local function ScheduledDatabase(obj)

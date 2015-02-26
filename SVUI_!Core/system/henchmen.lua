@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -59,7 +59,6 @@ local OPTION_RIGHT = [[Interface\Addons\SVUI_!Core\assets\textures\Doodads\HENCH
 local OPTION_SUB = [[Interface\Addons\SVUI_!Core\assets\textures\Doodads\HENCHMEN-SUBOPTION]];
 local SWITCH = [[Interface\Addons\SVUI_!Core\assets\textures\Doodads\HENCHMEN-MINION-SWITCH]];
 local BUBBLE = [[Interface\Addons\SVUI_!Core\assets\textures\Doodads\HENCHMEN-SPEECH]];
-local CALLOUTICON = [[Interface\Addons\SVUI_!Core\assets\textures\Doodads\HENCHMEN-CALLOUT]];
 local SUBOPTIONS = {};
 local HENCHMEN_DATA = {
 	{
@@ -78,6 +77,15 @@ local HENCHMEN_DATA = {
 	}
 }
 
+local CALLOUTICON = {
+	[[Interface\Addons\SVUI_!Core\assets\textures\Doodads\HENCHMEN-CALLOUT]],
+	[[Interface\Addons\SVUI_!Core\assets\textures\Doodads\HENCHMEN-WTF]],
+	[[Interface\Addons\SVUI_!Core\assets\textures\Doodads\HENCHMEN-WTF]],
+	[[Interface\Addons\SVUI_!Core\assets\textures\Doodads\HENCHMEN-SRSLY]],
+	[[Interface\Addons\SVUI_!Core\assets\textures\Doodads\HENCHMEN-SRSLY]],
+	[[Interface\Addons\SVUI_!Core\assets\textures\Doodads\HENCHMEN-CALLOUT]],
+	[[Interface\Addons\SVUI_!Core\assets\textures\Doodads\HENCHMEN-CALLOUT]]
+};
 SV.YOUR_HENCHMEN = {
 	{49084,67,113,69,70,73,75}, --Rascal Bot
 	{29404,67,113,69,70,73,75}, --Macabre Marionette
@@ -156,6 +164,7 @@ local function UpdateHenchmanModel(hide)
 		local emod = random(2,7)
 		local id = models[mod][1]
 		local emote = models[mod][emod]
+		HenchmenCalloutFramePic:SetTexture(CALLOUTICON[mod])
 		HenchmenFrameModel:ClearModel()
 		HenchmenFrameModel:SetDisplayInfo(id)
 		HenchmenFrameModel:SetAnimation(emote)
@@ -324,7 +333,7 @@ local function CreateHenchmenFrame()
 	HenchmenCalloutFrame:SetFrameLevel(24)
 	SV.Animate:Slide(HenchmenCalloutFrame,-356,-278)
 	local HenchmenCalloutFramePic = HenchmenCalloutFrame:CreateTexture("HenchmenCalloutFramePic","ARTWORK")
-	HenchmenCalloutFramePic:SetTexture(CALLOUTICON)
+	HenchmenCalloutFramePic:SetTexture([[Interface\Addons\SVUI_!Core\assets\textures\Doodads\HENCHMEN-CALLOUT]])
 	HenchmenCalloutFramePic:SetAllPoints(HenchmenCalloutFrame)
 	HenchmenCalloutFrame:Hide()
 

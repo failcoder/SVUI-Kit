@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 
 STATS:Extend EXAMPLE USAGE: Reports:NewReportType(newStat,eventList,onEvents,update,click,focus,blur)
@@ -120,6 +120,7 @@ local function CacheTokenData(self)
         AddToTokenMenu(self, 1008, key)
         AddToTokenMenu(self, 1017, key)
     end
+    AddToTokenMenu(self, 994, key)
     AddToTokenMenu(self, 697, key)
     AddToTokenMenu(self, 738, key)
     AddToTokenMenu(self, 615, key)
@@ -164,6 +165,7 @@ local function Tokens_OnEnter(self)
 
 	Reports.ReportTooltip:AddLine(" ")
 	Reports.ReportTooltip:AddLine("Raiding and Dungeons")
+  TokenInquiry(994, false, true)
 	TokenInquiry(697, false, true)
 	TokenInquiry(738)
 	TokenInquiry(615)

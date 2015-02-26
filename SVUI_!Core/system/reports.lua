@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -113,6 +113,7 @@ local UpdateAnchor = function()
 			height = parent:GetHeight() - 4;
 			if(backdrops) then
 				height = height + 6
+
 			end
 		end
 
@@ -193,18 +194,20 @@ local function GetDataSlot(parent, index)
 
 
 		slot.barframe = CreateFrame("Frame", nil, slot)
-		
-		if(SV.db.Reports.backdrop) then
-			slot.barframe:ModPoint("TOPLEFT", slot, "TOPLEFT", 24, -2)
-			slot.barframe:ModPoint("BOTTOMRIGHT", slot, "BOTTOMRIGHT", -2, 2)
-			slot:SetStyle(parent.Stats.templateType, parent.Stats.templateName)
-		else
+		slot:SetStyle(parent.Stats.templateType, parent.Stats.templateName, false, 2, 0, 0)
+
+		if(not SV.db.Reports.backdrop) then
 			slot.barframe:ModPoint("TOPLEFT", slot, "TOPLEFT", 24, 2)
 			slot.barframe:ModPoint("BOTTOMRIGHT", slot, "BOTTOMRIGHT", 2, -2)
 			slot.barframe.bg = slot.barframe:CreateTexture(nil, "BORDER")
 			slot.barframe.bg:InsetPoints(slot.barframe, 2, 2)
 			slot.barframe.bg:SetTexture([[Interface\BUTTONS\WHITE8X8]])
 			slot.barframe.bg:SetGradient(unpack(SV.media.gradient.dark))
+			slot.Panel:Hide()
+		else
+			slot.barframe:ModPoint("TOPLEFT", slot, "TOPLEFT", 24, -2)
+			slot.barframe:ModPoint("BOTTOMRIGHT", slot, "BOTTOMRIGHT", -2, 2)
+			slot.Panel:Show()
 		end
 
 		slot.barframe:SetFrameLevel(slot:GetFrameLevel()-1)
@@ -339,6 +342,11 @@ do
 		end
 
 		parent:Show()
+		if(not SV.db.Reports.backdrop) then
+			parent.Panel:Hide()
+		else
+			parent.Panel:Show()
+		end
 	end
 
 	local BG_OnUpdate = function(self)
@@ -523,12 +531,12 @@ function MOD:NewHolder(parent, maxCount, tipAnchor, pvpSet, customTemplate, isVe
 	end
 
 	if(customTemplate) then
-		parent.Stats.templateType = "!_Frame"
+		parent.Stats.templateType = "Frame"
 		parent.Stats.templateName = customTemplate
 		parent.Stats.textStrata = "LOW"
 	else
-		parent.Stats.templateType = "DockButton";
-		parent.Stats.templateName = "DockButton";
+		parent.Stats.templateType = "Frame";
+		parent.Stats.templateName = "Transparent";
 		parent.Stats.textStrata = "MEDIUM";
 	end
 

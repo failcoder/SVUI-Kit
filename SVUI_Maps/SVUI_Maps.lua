@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -65,6 +65,7 @@ local MM_OFFSET_BOTTOM = (MM_SIZE * 0.11)
 local MM_WIDTH = MM_SIZE + (MM_BRDR * 2)
 local MM_HEIGHT = (MM_SIZE - (MM_OFFSET_TOP + MM_OFFSET_BOTTOM) + (MM_BRDR * 2))
 local WM_ALPHA = false;
+local MM_SHAPE = 'RECTANGLE';
 local NARR_TEXT = "Meanwhile";
 local NARR_PREFIX = "In ";
 --[[ 
@@ -670,7 +671,7 @@ function MOD:RefreshMiniMap()
 	if(self.Holder and self.Holder:IsShown()) then
 		local minimapRotationEnabled = GetCVar("rotateMinimap") ~= "0"
 
-		if(minimapRotationEnabled) then
+		if(minimapRotationEnabled or (MM_SHAPE == 'ROUND')) then
 			SV.Dock.TopRight:ModSize(MM_WIDTH, (MM_WIDTH + 4))
 			self.Holder:ModSize(MM_WIDTH, MM_WIDTH)
 			Minimap:ModSize(MM_SIZE,MM_SIZE)
@@ -687,7 +688,7 @@ function MOD:RefreshMiniMap()
 			self.Holder.Square:Show()
 			self.Holder.Square:SetPanelColor(MM_COLOR)
 
-			if SV.db.Maps.customshape then
+			if MM_SHAPE == 'RECTANGLE' then
 				Minimap:SetPoint("BOTTOMLEFT", self.Holder, "BOTTOMLEFT", MM_BRDR, -(MM_OFFSET_BOTTOM - MM_BRDR))
 				Minimap:SetPoint("TOPRIGHT", self.Holder, "TOPRIGHT", -MM_BRDR, (MM_OFFSET_TOP - MM_BRDR))
 				Minimap:SetMaskTexture(MOD.media.rectangleMask)
@@ -741,7 +742,8 @@ function MOD:UpdateLocals()
 	MM_OFFSET_TOP = (MM_SIZE * 0.07)
 	MM_OFFSET_BOTTOM = (MM_SIZE * 0.11)
 	MM_WIDTH = MM_SIZE + (MM_BRDR * 2)
-	MM_HEIGHT = db.customshape and (MM_SIZE - (MM_OFFSET_TOP + MM_OFFSET_BOTTOM) + (MM_BRDR * 2)) or MM_WIDTH
+	MM_SHAPE = db.mapShape;
+	MM_HEIGHT = (MM_SHAPE == 'RECTANGLE') and (MM_SIZE - (MM_OFFSET_TOP + MM_OFFSET_BOTTOM) + (MM_BRDR * 2)) or MM_WIDTH
 	WM_ALPHA = GetCVarBool("mapFade")
 end
 

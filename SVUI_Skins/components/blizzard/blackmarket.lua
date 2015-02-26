@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -57,7 +57,7 @@ local function BlackMarketStyle()
 	SV.API:Set("Window", BlackMarketFrame)
 
 	BlackMarketFrame.Inset:RemoveTextures()
-	BlackMarketFrame.Inset:SetStyle("!_Frame", "Inset")
+	BlackMarketFrame.Inset:SetStyle("Frame[INSET]", "Transparent")
 
 	SV.API:Set("CloseButton", BlackMarketFrame.CloseButton)
 	SV.API:Set("ScrollFrame", BlackMarketScrollFrameScrollBar, 4)

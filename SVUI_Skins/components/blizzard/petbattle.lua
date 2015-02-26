@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -26,7 +26,7 @@ local PetBattleActionBar = CreateFrame("Frame", "SVUI_PetBattleActionBar", UIPar
 local ITEM_QUALITY_COLORS = _G.ITEM_QUALITY_COLORS;
 
 local function PetBattleButtonHelper(frame)
-	frame:SetStyle("Frame", "Blackout")
+	frame:SetStyle("Frame", "Shadow")
 	frame:SetNormalTexture("")
 	frame.Icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 	frame.Icon:SetDrawLayer('BORDER')
@@ -89,7 +89,7 @@ local _hook_AuraHolderUpdate = function(self)
 			local frame = self.frames[nextFrame]
 			frame.DebuffBorder:Hide()
 			if not frame.isStyled then
-				frame:SetStyle("Icon", 2, -8,-2)
+				frame:SetStyle("Frame", "Outline", 2, -8,-2)
 				frame.Icon:InsetPoints(frame.Panel, 2, 2)
 				frame.Icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 				frame.isStyled = true
@@ -213,16 +213,16 @@ local function PetBattleStyle()
 			frame.IconBackdrop = CreateFrame("Frame", nil, frame)
 			frame.IconBackdrop:SetFrameLevel(0)
 			frame.IconBackdrop:SetAllPoints(frame.Icon)
-			frame.IconBackdrop:SetStyle("Icon");
+			frame.IconBackdrop:SetStyle("Frame", "Outline");
 
-			frame.IconBackdrop.Panel:SetStyle("!_Frame", "Blackout")
+			frame.IconBackdrop.Panel:SetStyle("Frame", "Shadow")
 
 			frame.BorderFlash:Die()
 			frame.HealthBarBG:Die()
 			frame.HealthBarFrame:Die()
 			frame.HealthBarBackdrop = CreateFrame("Frame", nil, frame)
 			frame.HealthBarBackdrop:SetFrameLevel(frame:GetFrameLevel()-1)
-			frame.HealthBarBackdrop:SetStyle("!_Frame", "Blackout")
+			frame.HealthBarBackdrop:SetStyle("Frame", "Shadow")
 			frame.HealthBarBackdrop:ModWidth(frame.healthBarWidth+(2))
 			frame.ActualHealthBar:SetTexture(SV.media.statusbar.default)
 			frame.PetTypeFrame = CreateFrame("Frame", nil, frame)
@@ -293,9 +293,9 @@ local function PetBattleStyle()
 			frame.IconBackdrop = CreateFrame("Frame", nil, frame)
 			frame.IconBackdrop:SetFrameLevel(0)
 			frame.IconBackdrop:SetAllPoints(frame)
-			frame.IconBackdrop:SetStyle("Icon");
+			frame.IconBackdrop:SetStyle("Frame", "Outline");
 
-			frame.IconBackdrop.Panel:SetStyle("!_Frame", "Blackout")
+			frame.IconBackdrop.Panel:SetStyle("Frame", "Shadow")
 
 			frame:ClearAllPoints()
 			frame.healthBarWidth = 40;
@@ -304,7 +304,7 @@ local function PetBattleStyle()
 			frame.ActualHealthBar:SetTexture(SV.media.statusbar.default)
 			frame.HealthBarBackdrop = CreateFrame("Frame", nil, frame)
 			frame.HealthBarBackdrop:SetFrameLevel(frame:GetFrameLevel()-1)
-			frame.HealthBarBackdrop:SetStyle("!_Frame", "Blackout")
+			frame.HealthBarBackdrop:SetStyle("Frame", "Shadow")
 			frame.HealthBarBackdrop:ModWidth(frame.healthBarWidth+2)
 			frame.HealthBarBackdrop:ModPoint('TOPLEFT', frame.ActualHealthBar, 'TOPLEFT', -1, 1)
 			frame.HealthBarBackdrop:ModPoint('BOTTOMLEFT', frame.ActualHealthBar, 'BOTTOMLEFT', -1, -1)
@@ -317,7 +317,7 @@ local function PetBattleStyle()
 	PetBattleActionBar:EnableMouse(true)
 	PetBattleActionBar:SetFrameLevel(0)
 	PetBattleActionBar:SetFrameStrata('BACKGROUND')
-	PetBattleActionBar:SetStyle("!_Frame", "Blackout")
+	PetBattleActionBar:SetStyle("Frame", "Shadow")
 
 	local SVUI_DockBottomCenter = _G.SVUI_DockBottomCenter;
 	if(SVUI_DockBottomCenter) then
@@ -357,7 +357,7 @@ local function PetBattleStyle()
 	BottomFrame.xpBar:SetParent(PetBattleActionBar)
 	BottomFrame.xpBar:ModSize((PBAB_WIDTH * 0.8) - 4, 16)
 	BottomFrame.xpBar:SetStatusBarTexture(SV.media.statusbar.default)
-	BottomFrame.xpBar:SetStyle("Frame", "Bar")
+	BottomFrame.xpBar:SetStyle("Frame", "Transparent")
 	BottomFrame.xpBar:SetPoint("BOTTOMRIGHT", PetBattleActionBar.Panel, "TOPRIGHT", -3, 3)
 	BottomFrame.xpBar:SetScript("OnShow", function(self)
 		self:RemoveTextures()

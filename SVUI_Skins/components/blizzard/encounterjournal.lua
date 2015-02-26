@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -145,22 +145,24 @@ local function EncounterJournalStyle()
 
   EncounterJournal:SetStyle("Frame", "Window2")
   EncounterJournal:SetPanelColor("dark")
-  EncounterJournalInset:SetStyle("!_Frame", "Inset")
+  EncounterJournalInset:SetStyle("Frame[INSET]", "Transparent")
 
-  EncounterJournalInstanceSelectScrollFrameScrollChild:SetStyle("!_Frame", "Default")
+  EncounterJournalInstanceSelectScrollFrameScrollChild:SetStyle("Frame", "Default")
   EncounterJournalInstanceSelectScrollFrameScrollChild:SetPanelColor("dark")
   EncounterJournalInstanceSelectScrollDownButton:SetStyle("Button")
   EncounterJournalInstanceSelectScrollDownButton:SetNormalTexture(SV.media.icon.move_down)
 
-  EncounterJournalEncounterFrameInstanceFrame:SetStyle("!_Frame", "Inset")
+  EncounterJournalEncounterFrameInstanceFrame:SetStyle("Frame[INSET]", "Transparent")
 
-  local comicHolder = CreateFrame('Frame', nil, EncounterJournal.encounter)
-  comicHolder:SetPoint("TOPLEFT", EncounterJournalEncounterFrameInfoBossesScrollFrame, "TOPLEFT", -20, 40)
-  comicHolder:SetPoint("BOTTOMRIGHT", EncounterJournalEncounterFrameInfoBossesScrollFrame, "BOTTOMRIGHT", 0, 0)
-  comicHolder:SetStyle("Frame", "Premium")
-  comicHolder:SetPanelColor("dark")
-  EncounterJournal.encounter.info.encounterTitle:SetParent(comicHolder)
-  EncounterJournal.searchResults.TitleText:SetParent(comicHolder)
+  SV.API:Set("SkinPremium", EncounterJournalEncounterFrameInfoBossesScrollFrame, -20, 40, 0, 0)
+
+  -- local comicHolder = CreateFrame('Frame', nil, EncounterJournal.encounter)
+  -- comicHolder:SetPoint("TOPLEFT", EncounterJournalEncounterFrameInfoBossesScrollFrame, "TOPLEFT", -20, 40)
+  -- comicHolder:SetPoint("BOTTOMRIGHT", EncounterJournalEncounterFrameInfoBossesScrollFrame, "BOTTOMRIGHT", 0, 0)
+  -- comicHolder:SetStyle("Frame", "PatternComic")
+  -- comicHolder:SetPanelColor("dark")
+  -- EncounterJournal.encounter.info.encounterTitle:SetParent(comicHolder)
+  -- EncounterJournal.searchResults.TitleText:SetParent(comicHolder)
 
   EncounterJournalNavBarHomeButton:SetStyle("Button")
   EncounterJournalEncounterFrameInfoDifficulty:SetStyle("Button")
@@ -236,7 +238,7 @@ local function EncounterJournalStyle()
       if index <= numLoot then
           item.icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
           if(not item.Panel) then
-            item:SetStyle("!_Frame", "Icon")
+            item:SetStyle("Frame", "Outline")
           end
           item.slot:SetTextColor(0.5, 1, 0)
           item.armorType:SetTextColor(1, 1, 0)

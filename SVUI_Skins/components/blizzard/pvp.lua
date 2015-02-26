@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -64,7 +64,7 @@ local function PVPFrameStyle()
 
 	SV.API:Set("DropDown", HonorFrameTypeDropDown)
 	HonorFrame.Inset:RemoveTextures()
-	HonorFrame.Inset:SetStyle("!_Frame", "Inset")
+	HonorFrame.Inset:SetStyle("Frame[INSET]", "Transparent")
 	SV.API:Set("ScrollFrame", HonorFrameSpecificFrameScrollBar)
 	HonorFrameSoloQueueButton:RemoveTextures()
 	HonorFrameGroupQueueButton:RemoveTextures()
@@ -73,7 +73,7 @@ local function PVPFrameStyle()
 	HonorFrame.BonusFrame:RemoveTextures()
 	HonorFrame.BonusFrame.ShadowOverlay:RemoveTextures()
 	HonorFrame.BonusFrame.RandomBGButton:RemoveTextures()
-	HonorFrame.BonusFrame.RandomBGButton:SetStyle("!_Frame", "Button")
+	HonorFrame.BonusFrame.RandomBGButton:SetStyle("Frame", "Button")
 	HonorFrame.BonusFrame.RandomBGButton:SetStyle("Button")
 	HonorFrame.BonusFrame.RandomBGButton.SelectedTexture:InsetPoints()
 	HonorFrame.BonusFrame.RandomBGButton.SelectedTexture:SetTexture(1, 1, 0, 0.1)
@@ -105,14 +105,14 @@ local function PVPFrameStyle()
 	ConquestPointsBarBG:Die()
 	ConquestPointsBarShadow:Die()
 	ConquestPointsBar.progress:SetTexture(SV.BaseTexture)
-	ConquestPointsBar:SetStyle("!_Frame", 'Inset')
+	ConquestPointsBar:SetStyle("Frame", 'Inset')
 	ConquestPointsBar.Panel:WrapPoints(ConquestPointsBar, nil, -2)
 	ConquestFrame:RemoveTextures()
 	ConquestFrame.ShadowOverlay:RemoveTextures()
 	ConquestJoinButton:RemoveTextures()
 	ConquestJoinButton:SetStyle("Button")
 	ConquestFrame.RatedBG:RemoveTextures()
-	ConquestFrame.RatedBG:SetStyle("!_Frame", "Inset")
+	ConquestFrame.RatedBG:SetStyle("Frame[INSET]", "Transparent")
 	ConquestFrame.RatedBG:SetStyle("Button")
 	ConquestFrame.RatedBG.SelectedTexture:InsetPoints()
 	ConquestFrame.RatedBG.SelectedTexture:SetTexture(1, 1, 0, 0.1)
@@ -134,8 +134,8 @@ local function PVPFrameStyle()
 	PVPReadyDialogRoleIcon.texture:SetTexture("Interface\\LFGFrame\\UI-LFG-ICONS-ROLEBACKGROUNDS")
 	PVPReadyDialogRoleIcon.texture:SetAlpha(0.5)
 	
-	ConquestFrame.Inset:SetStyle("!_Frame", "Inset")
-	WarGamesFrameScrollFrame:SetStyle("Frame", "Inset",false,2,2,6)
+	ConquestFrame.Inset:SetStyle("Frame[INSET]", "Transparent")
+	WarGamesFrameScrollFrame:SetStyle("Frame[INSET]", "Transparent",false,2,2,6)
 
 	hooksecurefunc("PVPReadyDialog_Display", _hook_PVPReadyDialogDisplay)
 end 

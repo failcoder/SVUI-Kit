@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -53,7 +53,7 @@ local function RaidUIStyle()
 				local slot = _G[name]
 				if(slot) then
 					slot:RemoveTextures()
-					slot:SetStyle("Frame", "Inset", true)
+					slot:SetStyle("Frame[INSET]", "Transparent", true)
 				end
 			end
 		end 

@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 credit: Elv.       NamePlatess was parently nameplates.lua adapted from ElvUI #
 ##############################################################################
@@ -1324,7 +1324,7 @@ do
 		bgFrame:WrapPoints(cast.icon)
 		bgFrame:SetFrameLevel(bgFrame:GetFrameLevel() - 1)
 
-		bgFrame:SetStyle("Frame", "Bar", true, 2, 0, 0)
+		bgFrame:SetStyle("Frame", "Transparent", true, 2, 0, 0)
 
 		cast.sync = frame.cast
 

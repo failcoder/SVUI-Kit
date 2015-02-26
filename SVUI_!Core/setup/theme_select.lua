@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -42,15 +42,21 @@ function SV.Setup:SelectTheme()
 		frame:SetPoint("CENTER", SV.Screen, "CENTER", 0, 0)
 		frame:SetFrameStrata("TOOLTIP");
 
-		local count = 1;
+		local closeButton = CreateFrame("Button", nil, frame, "UIPanelCloseButton")
+		closeButton:SetPoint("TOPRIGHT", frame, "TOPRIGHT")
+		closeButton:SetScript("OnClick", function() frame:Hide() end)
+		SV.API:Set("CloseButton", closeButton)
+	end
 
-		--[[ NEXT PAGE BUTTON ]]--
-		for themeName, _ in pairs(SV.AvailableThemes) do
-			local yOffset = ((135 * count) - 125) * -1;
-			local icon = SV.media.icon[themeName] or SV.media.icon.theme
-			local themeButton = CreateFrame("Frame", nil, frame)
+	local count = 0;
+	for themeName, _ in pairs(SV.AvailableThemes) do
+		local yOffset = ((125 * count) + 10) * -1;
+		local icon = SV.media.icon[themeName] or SV.media.icon.theme
+		local themeButton = SVUI_ThemeSelectFrame[themeName]
+		if(not themeButton) then
+			themeButton = CreateFrame("Frame", nil, SVUI_ThemeSelectFrame)
 			themeButton:ModSize(125, 125)
-			themeButton:SetPoint("TOP", frame, "TOP", 0, yOffset)
+			themeButton:SetPoint("TOP", SVUI_ThemeSelectFrame, "TOP", 0, yOffset)
 			themeButton.texture = themeButton:CreateTexture(nil, "BORDER")
 			themeButton.texture:SetAllPoints()
 			themeButton.texture:SetTexture(icon)
@@ -73,19 +79,19 @@ function SV.Setup:SelectTheme()
 				this.texture:SetVertexColor(1, 1, 1)
 				this.text:SetTextColor(0.1, 0.5, 1)
 			end)
-
-			count = count + 1
+			SVUI_ThemeSelectFrame[themeName] = themeButton
 		end
 
-		local closeButton = CreateFrame("Button", nil, frame, "UIPanelCloseButton")
-		closeButton:SetPoint("TOPRIGHT", frame, "TOPRIGHT")
-		closeButton:SetScript("OnClick", function() frame:Hide() end)
-		SV.API:Set("CloseButton", closeButton)
-
-		frame:ClearAllPoints()
-		frame:ModSize(350, (135 * (count - 1)) + 20)
-		frame:SetPoint("CENTER", SV.Screen, "CENTER", 0, 0)
+		count = count + 1
 	end
 
-	SVUI_ThemeSelectFrame:Show()
+	if(count > 1) then
+		SVUI_ThemeSelectFrame:ClearAllPoints()
+		SVUI_ThemeSelectFrame:ModSize(350, (135 * count) + 20)
+		SVUI_ThemeSelectFrame:SetPoint("CENTER", SV.Screen, "CENTER", 0, 0)
+		SVUI_ThemeSelectFrame:Show()
+	else
+		SVUI_ThemeSelectFrame:Hide()
+		SV:AddonMessage("You do not have any themes installed")
+	end
 end

@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -21,7 +21,7 @@ local function MailFrame_OnUpdate()
 	for b = 1, ATTACHMENTS_MAX_SEND do 
 		local d = _G["SendMailAttachment"..b]
 		if not d.styled then
-			d:RemoveTextures()d:SetStyle("!_Frame", "Default")
+			d:RemoveTextures()d:SetStyle("Frame", "Default")
 			d:SetStyle("Button")
 			d.styled = true 
 		end 
@@ -45,7 +45,7 @@ local function MailBoxStyle()
 	for b = 1, INBOXITEMS_TO_DISPLAY do 
 		local i = _G["MailItem"..b]
 		i:RemoveTextures()
-		i:SetStyle("Frame", "Inset")
+		i:SetStyle("Frame[INSET]", "Transparent")
 		i.Panel:ModPoint("TOPLEFT", 2, 1)
 		i.Panel:ModPoint("BOTTOMRIGHT", -2, 2)
 		local d = _G["MailItem"..b.."Button"]
@@ -63,7 +63,7 @@ local function MailBoxStyle()
 	SV.API:Set("Tab", MailFrameTab1)
 	SV.API:Set("Tab", MailFrameTab2)
 	SendMailScrollFrame:RemoveTextures(true)
-	SendMailScrollFrame:SetStyle("!_Frame", "Inset")
+	SendMailScrollFrame:SetStyle("Frame[INSET]", "Transparent")
 	SV.API:Set("ScrollFrame", SendMailScrollFrameScrollBar)
 	SendMailNameEditBox:SetStyle("Editbox")
 	SendMailSubjectEditBox:SetStyle("Editbox")
@@ -91,7 +91,7 @@ local function MailBoxStyle()
 	SendMailMailButton:SetStyle("Button")
 	SendMailCancelButton:SetStyle("Button")
 	OpenMailFrame:RemoveTextures(true)
-	OpenMailFrame:SetStyle("!_Frame", "Transparent", true)
+	OpenMailFrame:SetStyle("Frame", "Transparent", true)
 	OpenMailFrameInset:Die()
 	SV.API:Set("CloseButton", OpenMailFrameCloseButton)
 	OpenMailReportSpamButton:SetStyle("Button")
@@ -101,19 +101,19 @@ local function MailBoxStyle()
 	InboxFrame:RemoveTextures()
 	MailFrameInset:Die()
 	OpenMailScrollFrame:RemoveTextures(true)
-	OpenMailScrollFrame:SetStyle("!_Frame", "Default")
+	OpenMailScrollFrame:SetStyle("Frame", "Default")
 	SV.API:Set("ScrollFrame", OpenMailScrollFrameScrollBar)
 	SendMailBodyEditBox:SetTextColor(1, 1, 1)
 	OpenMailBodyText:SetTextColor(1, 1, 1)
 	InvoiceTextFontNormal:SetTextColor(1, 1, 1)
 	OpenMailArithmeticLine:Die()
 	OpenMailLetterButton:RemoveTextures()
-	OpenMailLetterButton:SetStyle("!_Frame", "Default")
+	OpenMailLetterButton:SetStyle("Frame", "Default")
 	OpenMailLetterButton:SetStyle("Button")
 	OpenMailLetterButtonIconTexture:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 	OpenMailLetterButtonIconTexture:InsetPoints()
 	OpenMailMoneyButton:RemoveTextures()
-	OpenMailMoneyButton:SetStyle("!_Frame", "Default")
+	OpenMailMoneyButton:SetStyle("Frame", "Default")
 	OpenMailMoneyButton:SetStyle("Button")
 	OpenMailMoneyButtonIconTexture:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 	OpenMailMoneyButtonIconTexture:InsetPoints()

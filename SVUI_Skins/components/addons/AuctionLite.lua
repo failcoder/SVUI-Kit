@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -29,7 +29,7 @@ AUCTIONLITE
 ]]--
 local function BGHelper(parent)
   parent.bg = CreateFrame("Frame", nil, parent)
-  parent.bg:SetStyle("!_Frame", "Inset")
+  parent.bg:SetStyle("Frame[INSET]", "Transparent")
   parent.bg:ModPoint("TOPLEFT", parent, "TOPLEFT", 16, -103)
   parent.bg:ModPoint("BOTTOMRIGHT", AuctionFrame, "BOTTOMRIGHT", -8, 36)
   parent.bg:SetFrameLevel(parent.bg:GetFrameLevel() - 1)

@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -171,7 +171,7 @@ local function SaveActionButton(button, noStyle)
 	MOD:FixKeybindText(button)
 	MOD.ButtonCache[button] = true 
 	if(not noStyle) then
-		button:SetStyle("ActionSlot", true)
+		button:SetStyle("Button[SLOT]", true)
 		button:SetCheckedTexture("")
 	end
 end 
@@ -1129,7 +1129,8 @@ do
 	  self:RegisterEvent("UPDATE_SHAPESHIFT_FORM", SetStanceBarButtons)
 	  self:RegisterEvent("ACTIONBAR_PAGE_CHANGED", SetStanceBarButtons)
 	  UpdateShapeshiftForms()
-	  SV:NewAnchor(stanceBar, L["Stance Bar"], -3)
+	  stanceBar.snapOffset = -3
+	  SV:NewAnchor(stanceBar, L["Stance Bar"])
 	  self:RefreshBar("Stance")
 	  SetStanceBarButtons()
 	  self:UpdateBarBindings(false, true)

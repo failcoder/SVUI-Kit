@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -110,6 +110,8 @@ local SystemFrameList15 = {
 	"ControlsPanelAutoLootCorpse",
 	"ControlsPanelInteractOnLeftClick",
 	"ControlsPanelAutoOpenLootHistory",
+	"ControlsPanelReverseCleanUpBags",
+	"ControlsPanelReverseNewLoot",
 	"CombatPanelEnemyCastBarsOnOnlyTargetNameplates",
 	"CombatPanelEnemyCastBarsNameplateSpellNames",
 	"CombatPanelAttackOnAssist",
@@ -140,6 +142,7 @@ local SystemFrameList15 = {
 	"ObjectivesPanelMapQuestDifficulty",
 	"ObjectivesPanelAdvancedWorldMap",
 	"ObjectivesPanelWatchFrameWidth",
+	"ObjectivesPanelMapFade",
 	"SocialPanelProfanityFilter",
 	"SocialPanelSpamFilter",
 	"SocialPanelChatBubbles",
@@ -147,6 +150,7 @@ local SystemFrameList15 = {
 	"SocialPanelChatHoverDelay",
 	"SocialPanelGuildMemberAlert",
 	"SocialPanelChatMouseScroll",
+	"SocialPanelEnableTwitter",
 	"ActionBarsPanelLockActionBars",
 	"ActionBarsPanelSecureAbilityToggle",
 	"ActionBarsPanelAlwaysShowActionBars",
@@ -154,6 +158,7 @@ local SystemFrameList15 = {
 	"ActionBarsPanelBottomRight",
 	"ActionBarsPanelRight",
 	"ActionBarsPanelRightTwo",
+	"ActionBarsPanelCountdownCooldowns",
 	"NamesPanelMyName",
 	"NamesPanelFriendlyPlayerNames",
 	"NamesPanelFriendlyPets",
@@ -211,6 +216,7 @@ local SystemFrameList15 = {
 	"MousePanelInvertMouse",
 	"MousePanelClickToMove",
 	"MousePanelWoWMouse",
+	"MousePanelEnableMouseSpeed",
 	"HelpPanelShowTutorials",
 	"HelpPanelLoadingScreenTips",
 	"HelpPanelEnhancedTooltips",
@@ -238,6 +244,8 @@ local SystemFrameList15 = {
 	"UnitFramePanelArenaEnemyPets",
 	"UnitFramePanelFullSizeFocusFrame",
 	"NamesPanelUnitNameplatesNameplateClassColors",
+	"AccessibilityPanelMovePad",
+	"AccessibilityPanelColorblindMode"
 };
 local SystemFrameList16 ={
 	"ControlsPanelAutoLootKeyDropDown",
@@ -267,7 +275,8 @@ local SystemFrameList16 ={
 	"MousePanelClickMoveStyleDropDown",
 	"LanguagesPanelLocaleDropDown",
 	"LanguagesPanelAudioLocaleDropDown",
-	"StatusTextPanelDisplayDropDown"
+	"StatusTextPanelDisplayDropDown",
+	"AccessibilityPanelColorFilterDropDown"
 };
 local SystemFrameList17 = {
 	"Advanced_MaxFPSCheckBox",
@@ -333,6 +342,7 @@ local SystemFrameList19 = {
 	"RecordLoopbackSoundButton",
 	"PlayLoopbackSoundButton",
 	"AudioOptionsVoicePanelChatMode1KeyBindingButton",
+	"InterfaceOptionsSocialPanelTwitterLoginButton",
 	"CompactUnitFrameProfilesSaveButton",
 	"CompactUnitFrameProfilesDeleteButton",
 };
@@ -434,7 +444,7 @@ local function SystemPanelQue()
 	end
 	
 	LFDRoleCheckPopup:RemoveTextures()
-	LFDRoleCheckPopup:SetStyle("!_Frame")
+	LFDRoleCheckPopup:SetStyle("Frame")
 	LFDRoleCheckPopupAcceptButton:SetStyle("Button")
 	LFDRoleCheckPopupDeclineButton:SetStyle("Button")
 	LFDRoleCheckPopupRoleButtonTank.checkButton:SetStyle("Checkbox")
@@ -454,7 +464,7 @@ local function SystemPanelQue()
 			_G["StaticPopup"..i.."EditBox"].Panel:ModPoint("BOTTOMRIGHT", 2, 4)
 			_G["StaticPopup"..i.."ItemFrameNameFrame"]:Die()
 			_G["StaticPopup"..i.."ItemFrame"]:GetNormalTexture():Die()
-			_G["StaticPopup"..i.."ItemFrame"]:SetStyle("!_Frame", "Default")
+			_G["StaticPopup"..i.."ItemFrame"]:SetStyle("Frame", "Default")
 			_G["StaticPopup"..i.."ItemFrame"]:SetStyle("Button")
 			_G["StaticPopup"..i.."ItemFrameIconTexture"]:SetTexCoord(0.1,0.9,0.1,0.9 )
 			_G["StaticPopup"..i.."ItemFrameIconTexture"]:InsetPoints()
@@ -484,7 +494,7 @@ local function SystemPanelQue()
 		GhostFrameContentsFrameIcon:SetTexture("")
 		local x = CreateFrame("Frame", nil, GhostFrame)
 		x:SetFrameStrata("MEDIUM")
-		x:SetStyle("!_Frame", "Default")
+		x:SetStyle("Frame", "Default")
 		x:WrapPoints(GhostFrameContentsFrameIcon)
 		local tex = x:CreateTexture(nil, "OVERLAY")
 		tex:SetTexture("Interface\\Icons\\spell_holy_guardianspirit")
@@ -527,7 +537,7 @@ local function SystemPanelQue()
 	ReadyCheckListenerFrame:SetAlpha(0)
 	ReadyCheckFrame:HookScript("OnShow", function(self) if UnitIsUnit("player", self.initiator) then self:Hide() end end)
 	StackSplitFrame:GetRegions():Hide()
-	RolePollPopup:SetStyle("!_Frame", "Transparent", true)
+	RolePollPopup:SetStyle("Frame", "Transparent", true)
 	InterfaceOptionsFrame:SetClampedToScreen(true)
 	InterfaceOptionsFrame:SetMovable(true)
 	InterfaceOptionsFrame:EnableMouse(true)
@@ -542,12 +552,12 @@ local function SystemPanelQue()
 		self:StopMovingOrSizing()
 	end)
 	if IsMacClient() then
-		MacOptionsFrame:SetStyle("!_Frame", "Default")
+		MacOptionsFrame:SetStyle("Frame", "Default")
 		MacOptionsFrameHeader:SetTexture("")
 		MacOptionsFrameHeader:ClearAllPoints()
 		MacOptionsFrameHeader:SetPoint("TOP", MacOptionsFrame, 0, 0)
-		MacOptionsFrameMovieRecording:SetStyle("!_Frame", "Default")
-		MacOptionsITunesRemote:SetStyle("!_Frame", "Default")
+		MacOptionsFrameMovieRecording:SetStyle("Frame", "Default")
+		MacOptionsITunesRemote:SetStyle("Frame", "Default")
 		MacOptionsFrameCancel:SetStyle("Button")
 		MacOptionsFrameOkay:SetStyle("Button")
 		MacOptionsButtonKeybindings:SetStyle("Button")
@@ -574,7 +584,7 @@ local function SystemPanelQue()
 		MacOptionsFrameDefaults:SetHeight(22)
 	end
 	OpacityFrame:RemoveTextures()
-	OpacityFrame:SetStyle("!_Frame", "Transparent", true)
+	OpacityFrame:SetStyle("Frame", "Transparent", true)
 
 	hooksecurefunc("UIDropDownMenu_InitializeHelper", function(self)
 		for i = 1, UIDROPDOWNMENU_MAXLEVELS do
@@ -617,6 +627,8 @@ local function SystemPanelQue()
 	VideoOptionsFrameDefaults:SetPoint("TOPLEFT",VideoOptionsFrameCategoryFrame,"BOTTOMLEFT",-1,-5)
 	InterfaceOptionsFrameDefaults:SetPoint("TOPLEFT",InterfaceOptionsFrameCategories,"BOTTOMLEFT",-1,-5)
 	InterfaceOptionsFrameCancel:SetPoint("TOPRIGHT",InterfaceOptionsFramePanelContainer,"BOTTOMRIGHT",0,-6)
+	InterfaceOptionsCombatPanelLossOfControl:SetPoint("TOPLEFT",InterfaceOptionsCombatPanelActionButtonUseKeyDown,"BOTTOMLEFT",0,-16)
+	InterfaceOptionsCombatPanelLossOfControlFullDropDown:SetPoint("TOPLEFT",InterfaceOptionsCombatPanelLossOfControl,"BOTTOMLEFT",16,-16)
 	for i = 1, #SystemFrameList15 do
 		local this = _G["InterfaceOptions"..SystemFrameList15[i]]
 		if(this) then
@@ -672,7 +684,7 @@ local function SystemPanelQue()
 
 	if(MacOptionsFrame) then
 		MacOptionsFrame:RemoveTextures()
-		MacOptionsFrame:SetStyle("!_Frame")
+		MacOptionsFrame:SetStyle("Frame")
 		MacOptionsButtonCompress:SetStyle("Button")
 		MacOptionsButtonKeybindings:SetStyle("Button")
 		MacOptionsFrameDefaults:SetStyle("Button")
@@ -704,12 +716,12 @@ local function SystemPanelQue()
 	ReportCheatingDialogCommentFrame:RemoveTextures()
 	ReportCheatingDialogReportButton:SetStyle("Button")
 	ReportCheatingDialogCancelButton:SetStyle("Button")
-	ReportCheatingDialog:SetStyle("!_Frame", "Transparent", true)
+	ReportCheatingDialog:SetStyle("Frame", "Transparent", true)
 	ReportCheatingDialogCommentFrameEditBox:SetStyle("Editbox")
 	ReportPlayerNameDialog:RemoveTextures()
 	ReportPlayerNameDialogCommentFrame:RemoveTextures()
 	ReportPlayerNameDialogCommentFrameEditBox:SetStyle("Editbox")
-	ReportPlayerNameDialog:SetStyle("!_Frame", "Transparent", true)
+	ReportPlayerNameDialog:SetStyle("Frame", "Transparent", true)
 	ReportPlayerNameDialogReportButton:SetStyle("Button")
 	ReportPlayerNameDialogCancelButton:SetStyle("Button")
 
@@ -718,7 +730,7 @@ local function SystemPanelQue()
 	SideDressUpFrame:ModSize(300, 400)
 	SideDressUpModel:RemoveTextures(true)
 	SideDressUpModel:SetAllPoints(SideDressUpFrame)
-	SideDressUpModel:SetStyle("!_Frame", "Model")
+	SideDressUpModel:SetStyle("Frame", "PatternModel")
 	SideDressUpModelResetButton:SetStyle("Button")
 	SideDressUpModelResetButton:SetPoint("BOTTOM", SideDressUpModel, "BOTTOM", 0, 20)
 	SV.API:Set("CloseButton", SideDressUpModelCloseButton)	

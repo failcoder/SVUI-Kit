@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -282,12 +282,28 @@ end
 
 local Container_OnEvent = function(self, event, ...)
 	if(event == "ITEM_LOCK_CHANGED" or event == "ITEM_UNLOCKED") then
+		-- if(self.isBank and self.BagMenu) then
+		-- 	for i, bagID in ipairs(self.BagIDs) do
+		-- 		local bagSlot = self.BagMenu[i];
+		-- 		if(bagSlot) then
+		-- 			BankFrameItemButton_Update(bagSlot)
+		-- 			BankFrameItemButton_UpdateLocked(bagSlot)
+		-- 		end
+		-- 	end
+		-- end
 		UpdateSlot(self, ...)
 	elseif(event == "BAG_UPDATE" or event == "EQUIPMENT_SETS_CHANGED") then
 		MOD:BuildEquipmentMap()
-		for _, id in ipairs(self.BagIDs) do
-			local numSlots = GetContainerNumSlots(id)
-			if(not self.Bags[id] and numSlots ~= 0) or (self.Bags[id] and (numSlots ~= self.Bags[id].numSlots)) then
+		for i, bagID in ipairs(self.BagIDs) do
+			-- if(self.isBank and self.BagMenu) then
+			-- 	local bagSlot = self.BagMenu[i];
+			-- 	if(bagSlot) then
+			-- 		BankFrameItemButton_Update(bagSlot)
+			-- 		BankFrameItemButton_UpdateLocked(bagSlot)
+			-- 	end
+			-- end
+			local numSlots = GetContainerNumSlots(bagID)
+			if(not self.Bags[bagID] and numSlots ~= 0) or (self.Bags[bagID] and (numSlots ~= self.Bags[bagID].numSlots)) then
 				self:UpdateLayout();
 				return;
 			end
@@ -296,6 +312,15 @@ local Container_OnEvent = function(self, event, ...)
 	elseif(event == "BAG_UPDATE_COOLDOWN") then 
 		self:RefreshCooldowns()
 	elseif(event == "PLAYERBANKSLOTS_CHANGED") then
+		if(self.isBank and self.BagMenu) then
+			for i, bagID in ipairs(self.BagIDs) do
+				local bagSlot = self.BagMenu[i];
+				if(bagSlot) then
+					BankFrameItemButton_Update(bagSlot)
+					BankFrameItemButton_UpdateLocked(bagSlot)
+				end
+			end
+		end
 		self:RefreshBags();
 	elseif(event == "PLAYERREAGENTBANKSLOTS_CHANGED") then 
 		local slotID = ...

@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -29,7 +29,7 @@ local function DressUpStyle()
 	DressUpModel:ModPoint("TOPLEFT", DressUpFrame, "TOPLEFT", 12, -76)
 	DressUpModel:ModPoint("BOTTOMRIGHT", DressUpFrame, "BOTTOMRIGHT", -12, 36)
 
-	DressUpModel:SetStyle("!_Frame", "Model")
+	DressUpModel:SetStyle("Frame", "PatternModel")
 
 	DressUpFrameCancelButton:ModPoint("BOTTOMRIGHT", DressUpFrame, "BOTTOMRIGHT", -12, 12)
 	DressUpFrameCancelButton:SetStyle("Button")

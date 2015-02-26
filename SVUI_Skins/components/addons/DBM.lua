@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -85,11 +85,11 @@ local function StyleBars(self)
 				icon2:ClearAllPoints()
 				icon2:SetAllPoints(icon2.overlay)
 
-				texture:SetTexture(SV.BaseTexture)
+				texture:SetTexture(SV.media.statusbar.default)
 				tbar:SetWidth(sharedWidth)
 				tbar:SetHeight(10)
 				tbar:SetPoint('BOTTOMLEFT', frame, 'BOTTOMLEFT', 0, 0)
-				tbar:SetStyle("Frame", "Bar")
+				tbar:SetStyle("Frame", "Transparent")
 
 				name:ClearAllPoints()
 				name:SetHeight(8)
@@ -164,7 +164,7 @@ local StyleBoss = function()
 				bar:SetPoint('TOPLEFT', prev, 'TOPLEFT', 0, -(22 + 4))
 			end
 		end
-		bar:SetStyle("!_Frame", 'Transparent')
+		bar:SetStyle("Frame", 'Transparent')
 		background:SetNormalTexture(nil)
 		progress:SetStatusBarTexture(SV.media.statusbar.default)
 		progress:ClearAllPoints()
@@ -199,15 +199,15 @@ local function StyleDBM(event, addon)
 	if((not RangeSet) and DBMRangeCheck and (not DBM_SavedOptions['DontShowRangeFrame'])) then
 		DBM.RangeCheck:Show()
 		DBM.RangeCheck:Hide()
-		DBMRangeCheck:HookScript('OnShow', function(self) self:SetStyle("!_Frame", 'Transparent') end)
-		DBMRangeCheckRadar:SetStyle("!_Frame", 'Transparent')
+		DBMRangeCheck:HookScript('OnShow', function(self) self:SetStyle("Frame", 'Transparent') end)
+		DBMRangeCheckRadar:SetStyle("Frame", 'Transparent')
 		RangeSet = true
 	end
 
 	if((not InfoSet) and DBMInfoFrame and (not DBM_SavedOptions['DontShowInfoFrame'])) then
 		DBM.InfoFrame:Show(5, 'test')
 		DBM.InfoFrame:Hide()
-		DBMInfoFrame:HookScript('OnShow', function(self) self:SetStyle("!_Frame", 'Transparent') end)
+		DBMInfoFrame:HookScript('OnShow', function(self) self:SetStyle("Frame", 'Transparent') end)
 		InfoSet = true
 	end
 

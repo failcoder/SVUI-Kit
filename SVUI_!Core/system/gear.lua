@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -228,29 +228,18 @@ function SV:GearSwap()
 	end
 end
 
-function SV:BuildGearInfo()
-	if(not self.GearBuildComplete) then
-		SHOW_LEVEL = SV.db.Gear.itemlevel.enable
-		SHOW_DURABILITY = SV.db.Gear.durability.enable
-		ONLY_DAMAGED = SV.db.Gear.durability.onlydamaged
-		MAX_LEVEL, AVG_LEVEL = GetAverageItemLevel()
-		LoadAddOn("Blizzard_InspectUI")
-		SetDisplayStats("Character")
-		SetDisplayStats("Inspect")
-		NewHook('InspectFrame_UpdateTabs', Gear_UpdateTabs)
-		SV.Timers:ExecuteTimer(SV.UpdateGearInfo, 10)
-		SV:GearSwap()
-		self.GearBuildComplete = true
-	end
-end
-
 local MSG_PREFIX = "You have equipped equipment set: "
-local GearSwapComplete = function()
-	if LIVESET then
-		local strMsg = ("%s%s"):format(MSG_PREFIX, LIVESET)
-		SV:AddonMessage(strMsg)
-		LIVESET = nil 
-	end 
+local GearHandler = CreateFrame("Frame", nil);
+local GearHandler_OnEvent = function(self, event, ...)
+	if(event == "EQUIPMENT_SWAP_FINISHED") then
+		if LIVESET then
+			local strMsg = ("%s%s"):format(MSG_PREFIX, LIVESET)
+			SV:AddonMessage(strMsg)
+			LIVESET = nil 
+		end
+	else
+		SV:UpdateGearInfo()
+	end
 end
 
 function SV:UpdateLocals()
@@ -262,13 +251,26 @@ end
 
 local function InitializeGearInfo()
 	MSG_PREFIX = L["You have equipped equipment set: "]
-	SV.GearBuildComplete = false
-	SV:RegisterEvent("UPDATE_INVENTORY_DURABILITY", "UpdateGearInfo")
-	SV:RegisterEvent("PLAYER_EQUIPMENT_CHANGED", "UpdateGearInfo")
-	SV:RegisterEvent("SOCKET_INFO_UPDATE", "UpdateGearInfo")
-	SV:RegisterEvent("COMBAT_RATING_UPDATE", "UpdateGearInfo")
-	SV:RegisterEvent("MASTERY_UPDATE", "UpdateGearInfo")
-	SV:RegisterEvent("EQUIPMENT_SWAP_FINISHED", GearSwapComplete)
+	SHOW_LEVEL = SV.db.Gear.itemlevel.enable
+	SHOW_DURABILITY = SV.db.Gear.durability.enable
+	ONLY_DAMAGED = SV.db.Gear.durability.onlydamaged
+	MAX_LEVEL, AVG_LEVEL = GetAverageItemLevel()
+
+	GearHandler:RegisterEvent("UPDATE_INVENTORY_DURABILITY")
+	GearHandler:RegisterEvent("PLAYER_EQUIPMENT_CHANGED")
+	GearHandler:RegisterEvent("SOCKET_INFO_UPDATE")
+	GearHandler:RegisterEvent("COMBAT_RATING_UPDATE")
+	GearHandler:RegisterEvent("MASTERY_UPDATE")
+	GearHandler:RegisterEvent("EQUIPMENT_SWAP_FINISHED")
+	GearHandler:SetScript("OnEvent", GearHandler_OnEvent)
+
+	LoadAddOn("Blizzard_InspectUI")
+	SetDisplayStats("Character")
+	SetDisplayStats("Inspect")
+	NewHook('InspectFrame_UpdateTabs', Gear_UpdateTabs)
+	SV.Timers:ExecuteTimer(SV.UpdateGearInfo, 10)
+	SV:GearSwap()
+	SV.GearBuildComplete = true
 end
 
 SV:NewScript(InitializeGearInfo)

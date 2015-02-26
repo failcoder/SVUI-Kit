@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -57,6 +57,7 @@ local StaticPopup_Hide      = _G.StaticPopup_Hide;
 local ERR_NOT_IN_COMBAT     = _G.ERR_NOT_IN_COMBAT;
 
 local SV = select(2, ...);
+local L = SV.L;
 --[[ 
 ########################################################## 
 LOCAL VARS

@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ############################################################################## ]]-- 
 --[[ GLOBALS ]]--
 local _G = _G;
@@ -61,6 +61,7 @@ MOD.Border = {};
 LOCALS
 ##########################################################
 ]]--
+local DOCK_CHECK = false;
 local ORDER_TEMP, ORDER_TEST, DOCK_REGISTRY, DOCK_DROPDOWN_OPTIONS = {}, {}, {}, {};
 local DOCK_LOCATIONS = {
 	["BottomLeft"] = {1, "LEFT", true, "ANCHOR_TOPLEFT"},
@@ -80,67 +81,65 @@ THEMEABLE ITEMS
 MOD.ButtonSound = SV.Sounds:Blend("DockButton", "Buttons", "Levers");
 MOD.ErrorSound = SV.Sounds:Blend("Malfunction", "Sparks", "Wired");
 
-function MOD.SetThemeDockStyle(dock, isBottom)
-	if dock.backdrop then return end
-
-	local backdrop = CreateFrame("Frame", nil, dock)
-	backdrop:SetAllPoints(dock)
+function MOD.SetThemeDockStyle(frame, isBottom)
+	local backdrop = CreateFrame("Frame", nil, frame)
+	backdrop:SetAllPoints(frame)
 	backdrop:SetFrameStrata("BACKGROUND")
 
-	backdrop.bg = backdrop:CreateTexture(nil, "BORDER")
-	backdrop.bg:InsetPoints(backdrop)
-	backdrop.bg:SetTexture(1, 1, 1, 1)
+	local bg = backdrop:CreateTexture(nil, "BORDER")
+	bg:InsetPoints(backdrop)
+	bg:SetTexture(1, 1, 1, 1)
 	
 	if(isBottom) then
-		backdrop.bg:SetGradientAlpha("VERTICAL", 0, 0, 0, 0.8, 0, 0, 0, 0)
+		bg:SetGradientAlpha("VERTICAL", 0, 0, 0, 0.8, 0, 0, 0, 0)
 	else
-		backdrop.bg:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0, 0, 0, 0.8)
+		bg:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0, 0, 0, 0.8)
 	end
 
-	backdrop.left = backdrop:CreateTexture(nil, "OVERLAY")
-	backdrop.left:SetTexture(1, 1, 1, 1)
-	backdrop.left:ModPoint("TOPLEFT", 1, -1)
-	backdrop.left:ModPoint("BOTTOMLEFT", -1, -1)
-	backdrop.left:ModWidth(4)
+	local left = backdrop:CreateTexture(nil, "OVERLAY")
+	left:SetTexture(1, 1, 1, 1)
+	left:ModPoint("TOPLEFT", 1, -1)
+	left:ModPoint("BOTTOMLEFT", -1, -1)
+	left:ModWidth(4)
 	if(isBottom) then
-		backdrop.left:SetGradientAlpha("VERTICAL", 0, 0, 0, 1, 0, 0, 0, 0)
+		left:SetGradientAlpha("VERTICAL", 0, 0, 0, 1, 0, 0, 0, 0)
 	else
-		backdrop.left:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0, 0, 0, 1)
+		left:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0, 0, 0, 1)
 	end
 
-	backdrop.right = backdrop:CreateTexture(nil, "OVERLAY")
-	backdrop.right:SetTexture(1, 1, 1, 1)
-	backdrop.right:ModPoint("TOPRIGHT", -1, -1)
-	backdrop.right:ModPoint("BOTTOMRIGHT", -1, -1)
-	backdrop.right:ModWidth(4)
+	local right = backdrop:CreateTexture(nil, "OVERLAY")
+	right:SetTexture(1, 1, 1, 1)
+	right:ModPoint("TOPRIGHT", -1, -1)
+	right:ModPoint("BOTTOMRIGHT", -1, -1)
+	right:ModWidth(4)
 	if(isBottom) then
-		backdrop.right:SetGradientAlpha("VERTICAL", 0, 0, 0, 1, 0, 0, 0, 0)
+		right:SetGradientAlpha("VERTICAL", 0, 0, 0, 1, 0, 0, 0, 0)
 	else
-		backdrop.right:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0, 0, 0, 1)
+		right:SetGradientAlpha("VERTICAL", 0, 0, 0, 0, 0, 0, 0, 1)
 	end
 
-	backdrop.bottom = backdrop:CreateTexture(nil, "OVERLAY")
-	backdrop.bottom:ModPoint("BOTTOMLEFT", 1, -1)
-	backdrop.bottom:ModPoint("BOTTOMRIGHT", -1, -1)
+	local bottom = backdrop:CreateTexture(nil, "OVERLAY")
+	bottom:ModPoint("BOTTOMLEFT", 1, -1)
+	bottom:ModPoint("BOTTOMRIGHT", -1, -1)
 	if(isBottom) then
-		backdrop.bottom:SetTexture(0, 0, 0, 1)
-		backdrop.bottom:ModHeight(4)
+		bottom:SetTexture(0, 0, 0, 1)
+		bottom:ModHeight(4)
 	else
-		backdrop.bottom:SetTexture(0, 0, 0, 0)
-		backdrop.bottom:SetAlpha(0)
-		backdrop.bottom:ModHeight(1)
+		bottom:SetTexture(0, 0, 0, 0)
+		bottom:SetAlpha(0)
+		bottom:ModHeight(1)
 	end
 
-	backdrop.top = backdrop:CreateTexture(nil, "OVERLAY")
-	backdrop.top:ModPoint("TOPLEFT", 1, -1)
-	backdrop.top:ModPoint("TOPRIGHT", -1, 1)
+	local top = backdrop:CreateTexture(nil, "OVERLAY")
+	top:ModPoint("TOPLEFT", 1, -1)
+	top:ModPoint("TOPRIGHT", -1, 1)
 	if(isBottom) then
-		backdrop.top:SetTexture(0, 0, 0, 0)
-		backdrop.top:SetAlpha(0)
-		backdrop.top:ModHeight(1)
+		top:SetTexture(0, 0, 0, 0)
+		top:SetAlpha(0)
+		top:ModHeight(1)
 	else
-		backdrop.top:SetTexture(0, 0, 0, 1)
-		backdrop.top:ModHeight(4)
+		top:SetTexture(0, 0, 0, 1)
+		top:ModHeight(4)
 	end
 
 	return backdrop 
@@ -192,7 +191,7 @@ function MOD:SetButtonTheme(button, size)
 	local sparkSize = size * 5;
     local sparkOffset = size * 0.5;
 
-    button:SetStyle("DockButton")
+    SV.API:Set("DockButton", button)
 
 	local sparks = button:CreateTexture(nil, "OVERLAY", nil, 2)
 	sparks:ModSize(sparkSize, sparkSize)
@@ -237,6 +236,7 @@ _G.ToggleSuperDockLeft = function(self, button)
 		end
 		MOD.BottomLeft.Bar:Update()
 		MOD:UpdateDockBackdrops()
+		SV.Events:Trigger("DOCK_LEFT_EXPANDED");
 	else
 		if MOD.private.LeftFaded then 
 			MOD.private.LeftFaded = nil;
@@ -275,6 +275,7 @@ _G.ToggleSuperDockRight = function(self, button)
 		end
 		MOD.BottomRight.Bar:Update()
 		MOD:UpdateDockBackdrops()
+		SV.Events:Trigger("DOCK_RIGHT_EXPANDED");
 	else
 		if MOD.private.RightFaded then 
 			MOD.private.RightFaded = nil;
@@ -1014,6 +1015,7 @@ function MOD:NewDocklet(location, globalName, readableName, texture, onclick)
 	frame.DockButton.FrameLink = frame
 	DOCK_REGISTRY[globalName] = frame;
 	frame:SetAlpha(0)
+	DOCK_CHECK = true
 	return frame
 end
 
@@ -1054,6 +1056,7 @@ function MOD:NewAdvancedDocklet(location, globalName)
 	SV:NewAnchor(frame.Bar, globalName .. " Dock Bar");
 
 	DOCK_REGISTRY[globalName] = frame;
+	DOCK_CHECK = true
 	return frame
 end
 --[[ 
@@ -1062,7 +1065,7 @@ BUILD/UPDATE
 ##########################################################
 ]]--
 function MOD:UpdateDockBackdrops()
-	if SV.db.Dock.rightDockBackdrop then
+	if(DOCK_CHECK and SV.db.Dock.rightDockBackdrop) then
 		MOD.BottomRight.backdrop:Show()
 		MOD.BottomRight.backdrop:ClearAllPoints()
 		MOD.BottomRight.backdrop:WrapPoints(MOD.BottomRight.Window, 4, 4)
@@ -1072,7 +1075,7 @@ function MOD:UpdateDockBackdrops()
 	else
 		MOD.BottomRight.backdrop:Hide()
 	end
-	if SV.db.Dock.leftDockBackdrop then
+	if(DOCK_CHECK and SV.db.Dock.leftDockBackdrop) then
 		MOD.BottomLeft.backdrop:Show()
 		MOD.BottomLeft.backdrop:ClearAllPoints()
 		MOD.BottomLeft.backdrop:WrapPoints(MOD.BottomLeft.Window, 4, 4)
@@ -1141,6 +1144,7 @@ function MOD:Refresh()
 	self:UpdateDockBackdrops();
 
 	self:UpdateProfessionTools();
+	self:UpdateMiscTools();
 	self:UpdateGarrisonTool();
 	self:UpdateRaidLeader();
 
@@ -1153,6 +1157,11 @@ function MOD:PLAYER_REGEN_ENABLED()
 	if(self.ProfessionNeedsUpdate) then
 		self.ProfessionNeedsUpdate = nil;
 		self:UpdateProfessionTools()
+	end
+
+	if(self.MiscNeedsUpdate) then
+		self.MiscNeedsUpdate = nil;
+		self:UpdateMiscTools()
 	end
 
 	if(self.GarrisonNeedsUpdate) then
@@ -1300,9 +1309,8 @@ function MOD:Load()
 	self.TopLeft.Bar:Refresh()
 	self.TopRight.Bar:Refresh()
 
-	self:UpdateDockBackdrops()
-
 	self:LoadProfessionTools();
+	self:LoadAllMiscTools();
 	self:LoadGarrisonTool();
 	self:LoadRaidLeaderTools();
 	self:LoadBreakStuff();
@@ -1314,6 +1322,8 @@ local function UpdateAllDocks()
 		dock.Bar:Cycle()
 		dock.Bar:GetDefault()
 	end
+
+	MOD:UpdateDockBackdrops()
 end
 
 SV:NewScript(UpdateAllDocks)

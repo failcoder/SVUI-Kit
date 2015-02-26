@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -62,7 +62,7 @@ local function TransmogStyle()
 	TransmogrifyModelFrame:ClearAllPoints()
 	TransmogrifyModelFrame:ModPoint("TOPLEFT", TransmogrifyFrame, "TOPLEFT", 12, -22)
 	TransmogrifyModelFrame:ModPoint("BOTTOMRIGHT", TransmogrifyFrame, "BOTTOMRIGHT", -12, 36)
-	TransmogrifyModelFrame:SetStyle("!_Frame", "Model")
+	TransmogrifyModelFrame:SetStyle("Frame", "PatternModel")
 
 	TransmogrifyFrameButtonFrame:GetRegions():Die()
 	TransmogrifyApplyButton:RemoveTextures()
@@ -76,7 +76,7 @@ local function TransmogStyle()
 		local a9 = _G["TransmogrifyFrame"..a9 .."Slot"]
 		if a9 then
 			a9:RemoveTextures()
-			a9:SetStyle("ActionSlot")
+			a9:SetStyle("Button[SLOT]")
 			a9:SetFrameLevel(a9:GetFrameLevel()+2)
 			
 			a9.Panel:SetAllPoints()

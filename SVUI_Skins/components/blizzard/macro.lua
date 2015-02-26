@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -95,7 +95,7 @@ local function MacroUIStyle()
 
 	MacroButtonContainer:RemoveTextures()
 	SV.API:Set("ScrollFrame", MacroButtonScrollFrame)
-	MacroButtonScrollFrame:SetStyle("!_Frame", "Inset")
+	MacroButtonScrollFrame:SetStyle("Frame[INSET]", "Transparent")
 
 	MacroPopupFrame:HookScript("OnShow", function(c)
 		c:ClearAllPoints()
@@ -105,7 +105,7 @@ local function MacroUIStyle()
 	MacroFrameSelectedMacroButton:SetFrameStrata(parentStrata)
 	MacroFrameSelectedMacroButton:SetFrameLevel(parentLevel + 1)
 	MacroFrameSelectedMacroButton:RemoveTextures()
-	MacroFrameSelectedMacroButton:SetStyle("ActionSlot")
+	MacroFrameSelectedMacroButton:SetStyle("Button[SLOT]")
 	MacroFrameSelectedMacroButtonIcon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 	MacroFrameSelectedMacroButtonIcon:InsetPoints()
 
@@ -119,7 +119,7 @@ local function MacroUIStyle()
 		local button = _G["MacroButton"..i]
 		if(button) then
 			button:RemoveTextures()
-			button:SetStyle("ActionSlot")
+			button:SetStyle("Button[SLOT]")
 
 			local icon = _G["MacroButton"..i.."Icon"]
 			if(icon) then

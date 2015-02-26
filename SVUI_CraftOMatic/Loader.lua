@@ -59,7 +59,7 @@ function PLUGIN:LoadOptions()
 		type = "group", 
 		name = Schema, 
 		get = function(a)return SV.db[Schema][a[#a]]end, 
-		set = function(a,b)PLUGIN:ChangeDBVar(b,a[#a]); end, 
+		set = function(a,b) PLUGIN:ChangeDBVar(b,a[#a]); end, 
 		args = {
 			fishing = {
 			    order = 1, 
@@ -73,7 +73,7 @@ function PLUGIN:LoadOptions()
 						name = L['AutoEquip'], 
 						desc = L['Enable/Disable automatically equipping fishing gear.'], 
 						get = function(key)return SV.db[Schema].fishing[key[#key]] end,
-						set = function(key, value)PLUGIN:ChangeDBVar(value, key[#key], "fishing") end
+						set = function(key, value) PLUGIN:ChangeDBVar(value, key[#key], "fishing") end
 					}
 				}
 			},
@@ -89,7 +89,7 @@ function PLUGIN:LoadOptions()
 						name = L['AutoEquip'], 
 						desc = L['Enable/Disable automatically equipping cooking gear.'], 
 						get = function(key)return SV.db[Schema].cooking[key[#key]]end,
-						set = function(key, value)PLUGIN:ChangeDBVar(value, key[#key], "cooking")end
+						set = function(key, value) PLUGIN:ChangeDBVar(value, key[#key], "cooking")end
 					}
 				}
 			},
@@ -99,7 +99,7 @@ function PLUGIN:LoadOptions()
 				name = L["Farming Mode Settings"], 
 				guiInline = true, 
 				get = function(key)return SV.db[Schema].farming[key[#key]]end, 
-				set = function(key, value)SV.db[Schema].farming[key[#key]] = value end, 
+				set = function(key, value) SV.db[Schema].farming[key[#key]] = value end, 
 				args = {
 					buttonsize = {
 						type = 'range', 
@@ -148,7 +148,7 @@ function PLUGIN:LoadOptions()
 						type = 'select', 
 						name = L['Bar Direction'], 
 						desc = L['The direction of the bar buttons (Horizontal or Vertical).'], 
-						set = function(key, value)PLUGIN:ChangeDBVar(value, key[#key],"farming"); PLUGIN:RefreshFarmingTools() end,
+						set = function(key, value) PLUGIN:ChangeDBVar(value, key[#key],"farming"); PLUGIN:RefreshFarmingTools() end,
 						values = {
 								['VERTICAL'] = L['Vertical'], ['HORIZONTAL'] = L['Horizontal']
 						}

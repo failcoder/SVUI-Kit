@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -360,7 +360,6 @@ local function GuildBankStyle()
 		-- local sortButton = CreateFrame("Button", nil, GuildBankFrame)
 		-- sortButton:ModPoint("BOTTOMLEFT", GuildBankFrame, "BOTTOMRIGHT", 2, 0)
 		-- sortButton:ModSize(36, 36)
-		-- sortButton:SetStyle("DockButton") 
 		-- sortButton:SetNormalTexture(BAGS.media.cleanupIcon)
 		-- StyleSortingButton(sortButton)
 		-- local Sort_OnClick = BAGS:RunSortingProcess(BAGS.Sort, "guild")
@@ -387,7 +386,7 @@ local function GuildBankStyle()
 						texture:SetTexture("")
 					end
 					button:RemoveTextures()
-					button:SetStyle("ActionSlot")
+					button:SetStyle("Button[SLOT]")
 
 					local icon = _G[btnName.."IconTexture"]
 					if(icon) then
@@ -430,7 +429,7 @@ local function GuildBankStyle()
 
 	GuildBankPopupFrame:RemoveTextures()
 	GuildBankPopupScrollFrame:RemoveTextures()
-	GuildBankPopupFrame:SetStyle("!_Frame", "Transparent", true)
+	GuildBankPopupFrame:SetStyle("Frame", "Transparent", true)
 	GuildBankPopupFrame:ModPoint("TOPLEFT", GuildBankFrame, "TOPRIGHT", 1, -30)
 	GuildBankPopupOkayButton:SetStyle("Button")
 	GuildBankPopupCancelButton:SetStyle("Button")
@@ -448,7 +447,7 @@ local function GuildBankStyle()
 		local button = _G[btnName]
 		if(button) then
 			button:RemoveTextures()
-			button:SetStyle("!_Frame", "Default")
+			button:SetStyle("Frame", "Default")
 			button:SetStyle("Button")
 
 			local icon = _G[btnName.."Icon"]
@@ -516,11 +515,11 @@ local function GuildFrameStyle()
 
 	GuildFactionBar:RemoveTextures()
 	GuildFactionBar.progress:SetTexture(SV.BaseTexture)
-	GuildFactionBar:SetStyle("Frame", "Inset")
+	GuildFactionBar:SetStyle("Frame[INSET]", "Transparent")
 	GuildFactionBar.Panel:ModPoint("TOPLEFT", GuildFactionBar.progress, "TOPLEFT", -1, 1)
 	GuildFactionBar.Panel:ModPoint("BOTTOMRIGHT", GuildFactionBar, "BOTTOMRIGHT", 1, 1)
 	
-	GuildRosterContainer:SetStyle("Frame", "Inset")
+	GuildRosterContainer:SetStyle("Frame[INSET]", "Transparent")
 	SV.API:Set("ScrollFrame", GuildRosterContainerScrollBar, 4, -4)
 	GuildRosterShowOfflineButton:SetStyle("Checkbox")
 
@@ -549,7 +548,7 @@ local function GuildFrameStyle()
 	GuildMemberRankDropdown:HookScript("OnShow", function() GuildMemberDetailRankText:Hide() end)
 	GuildMemberRankDropdown:HookScript("OnHide", function() GuildMemberDetailRankText:Show() end)
 	GuildNewsFrame:RemoveTextures()
-	GuildNewsContainer:SetStyle("Frame", "Inset")
+	GuildNewsContainer:SetStyle("Frame[INSET]", "Transparent")
 
 	for i = 1, 17 do
 		local btn = _G["GuildNewsContainerButton"..i]
@@ -561,7 +560,7 @@ local function GuildFrameStyle()
 	end 
 
 	GuildNewsFiltersFrame:RemoveTextures()
-	GuildNewsFiltersFrame:SetStyle("!_Frame", "Transparent", true)
+	GuildNewsFiltersFrame:SetStyle("Frame", "Transparent", true)
 	SV.API:Set("CloseButton", GuildNewsFiltersFrameCloseButton)
 
 	for i = 1, 7 do
@@ -597,10 +596,10 @@ local function GuildFrameStyle()
 	panel3:SetPoint("BOTTOMRIGHT", GuildInfoFrameInfo, "BOTTOMRIGHT", 0, 3)
 	panel3:SetStyle("Frame", 'Transparent')
 
-	GuildRecruitmentCommentInputFrame:SetStyle("!_Frame", "Default")
-	GuildTextEditFrame:SetStyle("!_Frame", "Transparent", true)
+	GuildRecruitmentCommentInputFrame:SetStyle("Frame", "Default")
+	GuildTextEditFrame:SetStyle("Frame", "Transparent", true)
 	SV.API:Set("ScrollFrame", GuildTextEditScrollFrameScrollBar, 4, 4)
-	GuildTextEditContainer:SetStyle("!_Frame", "Default")
+	GuildTextEditContainer:SetStyle("Frame", "Default")
 
 	local editChildren = GuildTextEditFrame:GetNumChildren()
 
@@ -631,7 +630,7 @@ local function GuildFrameStyle()
 		end 
 	end 
 
-	GuildRewardsFrame:SetStyle("Frame", "Inset")
+	GuildRewardsFrame:SetStyle("Frame[INSET]", "Transparent")
 	SV.API:Set("ScrollFrame", GuildRewardsContainerScrollBar, 4, -4)
 	SV.API:Set("ScrollFrame", GuildPerksContainerScrollBar, 4, 2)
 
@@ -791,11 +790,11 @@ local function LFGuildFrameStyle()
 	end
 
 	GuildFinderRequestMembershipFrame:RemoveTextures(true)
-	GuildFinderRequestMembershipFrame:SetStyle("!_Frame", "Transparent", true)
+	GuildFinderRequestMembershipFrame:SetStyle("Frame", "Transparent", true)
 	GuildFinderRequestMembershipFrameAcceptButton:SetStyle("Button")
 	GuildFinderRequestMembershipFrameCancelButton:SetStyle("Button")
 	GuildFinderRequestMembershipFrameInputFrame:RemoveTextures()
-	GuildFinderRequestMembershipFrameInputFrame:SetStyle("!_Frame", "Default")
+	GuildFinderRequestMembershipFrameInputFrame:SetStyle("Frame", "Default")
 end 
 --[[ 
 ########################################################## 

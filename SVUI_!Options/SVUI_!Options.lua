@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -117,28 +117,37 @@ local function RefreshProfileOptions()
 		hasProfile = false
 		currentProfile = profileKey
 	end
+	SV.Options.args.profiles.desc = " |cff66FF33" .. L["current"] .. currentProfile .. "|r";
 	local optionGroup = SV.Options.args.profiles.args
 
-	optionGroup.desc = {
+	optionGroup.spacer1 = {
 		order = 1,
 		type = "description",
-		name = L["intro"] .. "\n\n" .. " |cff66FF33" .. L["current"] .. currentProfile .. "|r",
+		name = "|cff66FF33" .. L["current"] .. currentProfile .. "|r",
 		width = "full",
 	}
-	optionGroup.spacer1 = {
+	optionGroup.spacer2 = {
 		order = 2,
 		type = "description",
 		name = "",
 		width = "full",
 	}
-	optionGroup.importdesc = {
+	optionGroup.dualSpec = {
 		order = 3,
+		type = "toggle",
+		name = "Dual-Spec Switching",
+		get = function() return SVUILib:CheckDualProfile() end,
+		set = function(key, value) SVUILib:ToggleDualProfile(value) end,
+		width = 'full'
+	}
+	optionGroup.importdesc = {
+		order = 4,
 		type = "description",
 		name = "\n" .. L["import_desc"],
 		width = "full"
 	}
-	optionGroup.spacer2 = {
-		order = 4,
+	optionGroup.spacer3 = {
+		order = 5,
 		type = "description",
 		name = "",
 		width = "full",
@@ -151,30 +160,41 @@ local function RefreshProfileOptions()
 		get = false,
 		set = function(key, value) SVUILib:ExportDatabase(value) SV:SavedPopup() end,
 	}
-	optionGroup.import = {
-		name = L["import"],
-		desc = L["import_sub"],
+	optionGroup.copy = {
+		name = L["Copy From"],
+		desc = L["Copy profile from another (non persistent)"],
 		type = "select",
 		order = 7,
-		get = function() return " SELECT ONE" end,
-		set = function(key, value) SV:ImportProfile(value) RefreshProfileOptions() end,
+		get = function() return currentProfile end,
+		set = function(key, value) SV:CopyProfile(value) RefreshProfileOptions() end,
 		disabled = function() local t = SVUILib:CheckProfiles() return (not t) end,
 		values = SVUILib:GetProfiles(),
 	}
-	optionGroup.spacer3 = {
+	optionGroup.import = {
+		name = L["Link To"],
+		desc = L["Link to an already existing profile (persistent)"],
+		type = "select",
 		order = 8,
+		get = function() return currentProfile end,
+		set = function(key, value) SV:ImportProfile(value) RefreshProfileOptions() end,
+		disabled = function() local t = SVUILib:CheckProfiles() return (not t) end,
+		values = SVUILib:GetProfiles(),
+		width = 'fill',
+	}
+	optionGroup.spacer4 = {
+		order = 9,
 		type = "description",
 		name = "",
 		width = "full",
 	}
-	optionGroup.deldesc = {
-		order = 9,
+	optionGroup.spacer5 = {
+		order = 10,
 		type = "description",
-		name = "\n" .. L["delete_desc"],
+		name = L["delete_desc"],
 		width = "full",
 	}
 	optionGroup.delete = {
-		order = 10,
+		order = 11,
 		type = "select",
 		name = L["delete"],
 		desc = L["delete_sub"],
@@ -185,38 +205,25 @@ local function RefreshProfileOptions()
 		confirm = true,
 		confirmText = L["delete_confirm"],
 	}
-	optionGroup.spacer4 = {
-		order = 11,
+	optionGroup.spacer6 = {
+		order = 12,
 		type = "description",
 		name = "",
 		width = "full",
 	}
-	optionGroup.descreset = {
-		order = 12,
+	optionGroup.spacer7 = {
+		order = 13,
 		type = "description",
 		name = L["reset_desc"],
 		width = "full",
 	}
 	optionGroup.reset = {
-		order = 13,
+		order = 14,
 		type = "execute",
 		name = function() return L["reset"] .. " " .. " |cffFFFF00" .. currentProfile .. "|r" end,
 		desc = L["reset_sub"],
 		func = function() SV:StaticPopup_Show("RESET_PROFILE_PROMPT") end,
-		width = "full",
-	}
-	optionGroup.spacer5 = {
-		order = 14,
-		type = "description",
-		name = "",
-		width = "full",
-	}
-	optionGroup.dualSpec = {
-		order = 15,
-		type = "toggle",
-		name = "Dual-Spec Switching",
-		get = function() return SVUILib:CheckDualProfile() end,
-		set = function(key, value) SVUILib:ToggleDualProfile(value) end,
+		width = 'full'
 	}
 end
 
@@ -532,9 +539,17 @@ SV.Options.args.Core = {
 					name = L["Colors"], 
 					guiInline = true,
 					args = {
+						customClassColor = {
+							type = "toggle",
+							order = 1,
+							name = L["Use Custom Class Colors"],
+							desc = L["Use the enhanced class colors provided by SVUI"],
+							get = function(key) return SV.media.customClassColor end,
+							set = function(key, value) SV.media.customClassColor = value; SV:StaticPopup_Show("RL_CLIENT") end,
+						},
 						default = {
 							type = "color",
-							order = 1,
+							order = 2,
 							name = L["Default Color"],
 							desc = L["Main color used by most UI elements. (ex: Backdrop Color)"],
 							hasAlpha = true,
@@ -549,7 +564,7 @@ SV.Options.args.Core = {
 						},
 						special = {
 							type = "color",
-							order = 2,
+							order = 3,
 							name = L["Accent Color"],
 							desc = L["Color used in various frame accents.  (ex: Dressing Room Backdrop Color)"],
 							hasAlpha = true,
@@ -565,7 +580,7 @@ SV.Options.args.Core = {
 						},
 						resetbutton = {
 							type = "execute",
-							order = 3,
+							order = 4,
 							name = L["Restore Defaults"],
 							func = function()
 								SV.media.color.default = {0.15, 0.15, 0.15, 1};
@@ -829,7 +844,7 @@ SV.Options.args.Core = {
 							type = 'select',
 							name = L["Comic Popups"],
 							get = function(j)return SV.db.FunStuff.comix end,
-							set = function(j,value) SV.db.FunStuff.comix = value; THEME.Comix:Toggle() end,
+							set = function(j,value) SV.db.FunStuff.comix = value; SV.Comix:Toggle() end,
 							values = {
 								['NONE'] = NONE,
 								['1'] = 'All Popups',
@@ -841,7 +856,7 @@ SV.Options.args.Core = {
 							type = 'select',
 							name = L["AFK Screen"],
 							get = function(j)return SV.db.FunStuff.afk end,
-							set = function(j,value) SV.db.FunStuff.afk = value; THEME.AFK:Toggle() end,
+							set = function(j,value) SV.db.FunStuff.afk = value; SV.AFK:Toggle() end,
 							values = {
 								['NONE'] = NONE,
 								['1'] = 'Fully Enabled',
@@ -1243,44 +1258,71 @@ SV.Options.args.Dock = {
 					get = function(j)return SV.db.Dock.topPanel end,
 					set = function(key,value)SV.Dock:ChangeDBVar(value,key[#key]);SV.Dock:TopBorderVisibility()end
 				},
-				time24 = {
+				buttonSize = {
 					order = 3, 
+					type = "range", 
+					name = L["Dock Button Size"], 
+					desc = L["PANEL_DESC"], 
+					min = 20, 
+					max = 80, 
+					step = 1,
+					width = "full",
+					get = function()return SV.db.Dock.buttonSize;end, 
+					set = function(key,value)
+						SV.Dock:ChangeDBVar(value,key[#key]);
+						SV.Dock:Refresh()
+					end, 
+				},
+			},
+		},
+		dataGroup = {
+			order = 2,
+			type = "group",
+			name = "Reports (Data Texts)",
+			guiInline = true,
+			get = function(key)return SV.db.Reports[key[#key]];end, 
+			set = function(key,value)
+				SV.Reports:ChangeDBVar(value,key[#key]);
+			end, 
+			args = {
+				time24 = {
+					order = 1, 
 					type = "toggle", 
 					name = L["24-Hour Time"], 
 					desc = L["Toggle 24-hour mode for the time datatext."],
 				}, 
 				localtime = {
-					order = 4, 
+					order = 2, 
 					type = "toggle", 
 					name = L["Local Time"], 
 					desc = L["If not set to true then the server time will be displayed instead."]
 				}, 
 				battleground = {
-					order = 5, 
+					order = 3, 
 					type = "toggle", 
 					name = L["Battleground Texts"], 
 					desc = L["When inside a battleground display personal scoreboard information on the main datatext bars."]
 				}, 
-				dataBackdrop = {
-					order = 6, 
-					name = "Show Backgrounds", 
-					desc = L["Display statistic background textures"], 
+				backdrop = {
+					order = 4, 
+					name = "Data Backgrounds", 
+					desc = L["Display background textures on docked data texts"], 
 					type = "toggle",
-					set = function(key, value) SV.Dock:ChangeDBVar(value, key[#key]); SV:StaticPopup_Show("RL_CLIENT") end,
+					set = function(key, value) SV.Reports:ChangeDBVar(value, key[#key]); SV.Reports:UpdateAllReports() end,
 				},
 				shortGold = {
-					order = 7, 
+					order = 5, 
 					type = "toggle", 
 					name = L["Shortened Gold Text"], 
 				},
 				spacer1 = {
-					order = 9, 
+					order = 6, 
 					name = "", 
 					type = "description", 
 					width = "full", 
 				},
 				dockCenterWidth = {
-					order = 10,
+					order = 7,
 					type = 'range',
 					name = L['Stat Panel Width'],
 					desc = L["PANEL_DESC"], 
@@ -1295,13 +1337,13 @@ SV.Options.args.Dock = {
 					end, 
 				},
 				spacer2 = {
-					order = 11, 
+					order = 8, 
 					name = "", 
 					type = "description", 
 					width = "full", 
 				},
 				buttonSize = {
-					order = 12, 
+					order = 9, 
 					type = "range", 
 					name = L["Dock Button Size"], 
 					desc = L["PANEL_DESC"], 
@@ -1437,36 +1479,112 @@ SV.Options.args.Dock = {
 				},
 			}
 		},
-		reportGroup1 = {
+		toolsGroup = {
 			order = 5,
+			type = "group", 
+			name = L["Dock Tools"], 
+			guiInline = true,
+			get = function(key) return SV.db.Dock.dockTools[key[#key]] end,
+			set = function(key,value) SV.Dock:ChangeDBVar(value, key[#key], "dockTools"); SV:StaticPopup_Show("RL_CLIENT"); end,
+			args = {
+				garrison = {
+					order = 1,
+					type = 'toggle',
+					name = L['Garrison Utility'],
+					desc = L['Left click for landing, right click to use Garrison hearth.'],
+				},
+				leader = {
+					order = 2,
+					type = 'toggle',
+					name = L['Raid Leader'],
+					desc = L['Quick launch menu of raid leader tools.'],
+				},
+				primary = {
+					order = 3,
+					type = 'toggle',
+					name = L['Primary Profession'],
+					desc = L['Quick launch of your primary profession window'],
+				},
+				secondary = {
+					order = 4,
+					type = 'toggle',
+					name = L['Secondary Profession'],
+					desc = L['Quick launch of your secondary profession window'],
+				},
+				firstAid = {
+					order = 5,
+					type = 'toggle',
+					name = L['First Aid'],
+					desc = L['Quick launch of your first aid window'],
+				},
+				cooking = {
+					order = 6,
+					type = 'toggle',
+					name = L['Cooking'],
+					desc = L['Quick launch of your cooking window'],
+				},
+				archaeology = {
+					order = 7,
+					type = 'toggle',
+					name = L['Archaeology'],
+					desc = L['Quick launch of your archaeology window'],
+				},
+				hearth = {
+					order = 8,
+					type = 'toggle',
+					name = L['Hearth Tool'],
+					desc = L['Left click to use your hearthstone, right click for various class-based options.'],
+				},
+				specswap = {
+					order = 9,
+					type = 'toggle',
+					name = L['Spec Swap'],
+					desc = L['Click to simply swap specs (out of combat).'],
+				},
+				breakstuff = {
+					order = 10,
+					type = 'toggle',
+					name = L['Break Stuff'],
+					desc = L['This tool, when available and enabled, will allow you to single click items in your bags for certain abilities. [Milling, Prospecting, Disenchanting, Lockpicking or use a Skeleton Key]'],
+				},
+				power = {
+					order = 11,
+					type = 'toggle',
+					name = L['Power Button'],
+					desc = L['This tool gives you one-click access to logging out, reloading the UI and exiting the game]'],
+				},
+			}
+		},
+		reportGroup1 = {
+			order = 6,
 			type = "group", 
 			name = L["Bottom Stats: Left"], 
 			guiInline = true, 
 			args = {}
 		},
 		reportGroup2 = {
-			order = 6,
+			order = 7,
 			type = "group", 
 			name = L["Bottom Stats: Right"], 
 			guiInline = true, 
 			args = {}
 		},
 		reportGroup3 = {
-			order = 7,
+			order = 8,
 			type = "group", 
 			name = L["Top Stats: Left"], 
 			guiInline = true,  
 			args = {}
 		},
 		reportGroup4 = {
-			order = 8,
+			order = 9,
 			type = "group", 
 			name = L["Top Stats: Right"], 
 			guiInline = true,  
 			args = {}
 		},
 		AddonDocklets = {
-			order = 9,
+			order = 10,
 			type = "group", 
 			name = L["Docked Addons"], 
 			guiInline = true,  

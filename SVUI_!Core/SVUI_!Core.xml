@@ -38,6 +38,7 @@
     <Script file="system\_reports\hps.lua"/>
 
     <Script file="system\_docklets\profession.lua"/>
+    <Script file="system\_docklets\misc.lua"/>
     <Script file="system\_docklets\garrison.lua"/>
     <Script file="system\_docklets\raidleader.lua"/>
     <Script file="system\_docklets\breakstuff.lua"/>

@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -379,19 +379,19 @@ end
 
 function MOD:UpdateDimensions()
 	local totalHeight = 1;
-	local scrollHeight = self.Docklet.ScrollFrame:GetHeight();
-	local scrollWidth = self.Docklet.ScrollFrame:GetWidth();
+	local scrollHeight = MOD.Docklet.ScrollFrame:GetHeight();
+	local scrollWidth = MOD.Docklet.ScrollFrame:GetWidth();
 
-	for headerName, headerFrame in pairs(self.Headers) do
+	for headerName, headerFrame in pairs(MOD.Headers) do
 		totalHeight = totalHeight + headerFrame:GetHeight()
 		headerFrame:SetWidth(scrollWidth)
 	end
 
-	self.Docklet.ScrollFrame.MaxVal = totalHeight;
-	self.Docklet.ScrollFrame.ScrollBar:SetMinMaxValues(1, totalHeight);
-	self.Docklet.ScrollFrame.ScrollBar:SetHeight(scrollHeight);
-	self.Docklet.ScrollFrame.ScrollChild:SetWidth(scrollWidth);
-	self.Docklet.ScrollFrame.ScrollChild:SetHeight(totalHeight);
+	MOD.Docklet.ScrollFrame.MaxVal = totalHeight;
+	MOD.Docklet.ScrollFrame.ScrollBar:SetMinMaxValues(1, totalHeight);
+	MOD.Docklet.ScrollFrame.ScrollBar:SetHeight(scrollHeight);
+	MOD.Docklet.ScrollFrame.ScrollChild:SetWidth(scrollWidth);
+	MOD.Docklet.ScrollFrame.ScrollChild:SetHeight(totalHeight);
 end
 
 local function ExpandQuestTracker()

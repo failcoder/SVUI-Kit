@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -86,7 +86,7 @@ local GetPopUpRow = function(self, index)
 		row.Button = CreateFrame("Button", nil, row)
 		row.Button:ModPoint("TOPLEFT", row, "TOPLEFT", 0, 0);
 		row.Button:ModPoint("BOTTOMRIGHT", row, "BOTTOMRIGHT", 0, 0);
-		row.Button:SetStyle("DockButton")
+		SV.API:Set("DockButton", row.Button)
 		row.Button:SetPanelColor("yellow")
 		row.Button:SetID(0)
 		row.Button.PopUpType = nil;
@@ -94,7 +94,7 @@ local GetPopUpRow = function(self, index)
 		row.Badge = CreateFrame("Frame", nil, row.Button)
 		row.Badge:ModPoint("TOPLEFT", row.Button, "TOPLEFT", 4, -4);
 		row.Badge:ModSize((LARGE_INNER_HEIGHT - 4), (LARGE_INNER_HEIGHT - 4));
-		row.Badge:SetStyle("!_Frame", "Inset")
+		row.Badge:SetStyle("Frame[INSET]", "Transparent")
 		row.Badge.Icon = row.Badge:CreateTexture(nil,"OVERLAY")
 		row.Badge.Icon:InsetPoints(row.Badge);
 		row.Badge.Icon:SetTexture(MOD.media.incompleteIcon)

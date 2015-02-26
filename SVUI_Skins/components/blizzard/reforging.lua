@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -34,7 +34,7 @@ local function ReforgingStyle()
 	ReforgingFrameReforgeButton:SetStyle("Button")
 
 	ReforgingFrame.ItemButton:RemoveTextures()
-	ReforgingFrame.ItemButton:SetStyle("ActionSlot")
+	ReforgingFrame.ItemButton:SetStyle("Button[SLOT]")
 	ReforgingFrame.ItemButton.IconTexture:InsetPoints()
 	hooksecurefunc("ReforgingFrame_Update", function(k)
 		local w, x, u, y, z, A = GetReforgeItemInfo()

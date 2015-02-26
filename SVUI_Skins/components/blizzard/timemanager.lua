@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -34,7 +34,7 @@ local function TimeManagerStyle()
 	TimeManagerMilitaryTimeCheck:SetStyle("Checkbox")
 	TimeManagerLocalTimeCheck:SetStyle("Checkbox")
 	TimeManagerStopwatchFrame:RemoveTextures()
-	TimeManagerStopwatchCheck:SetStyle("!_Frame", "Default")
+	TimeManagerStopwatchCheck:SetStyle("Frame", "Default")
 	TimeManagerStopwatchCheck:GetNormalTexture():SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 	TimeManagerStopwatchCheck:GetNormalTexture():InsetPoints()
 	local sWatch = TimeManagerStopwatchCheck:CreateTexture(nil, "OVERLAY")

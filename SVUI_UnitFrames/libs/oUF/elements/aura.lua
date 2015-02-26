@@ -142,7 +142,7 @@ end
 
 local AuraIcon_OnUpdate = function(self, elapsed)
 	self.expiration = self.expiration - elapsed;
-
+	
 	if(self.nextUpdate > 0) then 
 		self.nextUpdate = self.nextUpdate - elapsed;
 		return;
@@ -156,35 +156,32 @@ local AuraIcon_OnUpdate = function(self, elapsed)
 
 	local expires = self.expiration;
 	local calc, timeLeft = 0, 0;
-	local timeFormat;
-	if expires < 60 then 
-		if expires >= 4 then
-			timeLeft = floor(expires)
-			timeFormat = "|cffffff00%d|r"
-			self.nextUpdate = 0.51
-		else
-			timeLeft = expires
-			timeFormat = "|cffff0000%.1f|r"
-			self.nextUpdate = 0.051
-		end 
-	elseif expires < 3600 then
-		timeFormat = "|cffffffff%d|r|cffCC8811m|r"
-		timeLeft = ceil(expires / 60);
-		calc = floor((expires / 60) + 0.5);
-		self.nextUpdate = calc > 1 and ((expires - calc) * 29.5) or (expires - 59.5);
-	elseif expires < 86400 then
-		timeFormat = "|cff66ffff%d|r|cffAA5511h|r"
-		timeLeft = ceil(expires / 3600);
-		calc = floor((expires / 3600) + 0.5);
-		self.nextUpdate = calc > 1 and ((expires - calc) * 1799.5) or (expires - 3570);
-	else
-		timeFormat = "|cff6666ff%d|r|cff991100d|r"
-		timeLeft = ceil(expires / 86400);
-		calc = floor((expires / 86400) + 0.5);
-		self.nextUpdate = calc > 1 and ((expires - calc) * 43199.5) or (expires - 86400);
-	end
-
-	self.text:SetFormattedText(timeFormat, timeLeft)
+	if expires < 4 then
+        self.nextUpdate = 0.051
+        self.text:SetFormattedText("|cffff0000%.1f|r", expires)
+    elseif expires < 60 then 
+        self.nextUpdate = 0.51
+        self.text:SetFormattedText("|cffffff00%d|r", floor(expires)) 
+    elseif expires < 3600 then
+        timeLeft = ceil(expires / 60);
+        calc = floor((expires / 60) + .5);
+        self.nextUpdate = calc > 1 and ((expires - calc) * 29.5) or (expires - 59.5);
+        self.text:SetFormattedText("|cffffffff%dm|r", timeLeft)
+    elseif expires < 86400 then
+        timeLeft = ceil(expires / 3600);
+        calc = floor((expires / 3600) + .5);
+        self.nextUpdate = calc > 1 and ((expires - calc) * 1799.5) or (expires - 3570);
+        self.text:SetFormattedText("|cff66ffff%dh|r", timeLeft)
+    else
+        timeLeft = ceil(expires / 86400);
+        calc = floor((expires / 86400) + .5);
+        self.nextUpdate = calc > 1 and ((expires - calc) * 43199.5) or (expires - 85680);
+        if(timeLeft > 7) then
+            self.text:SetFormattedText("|cff6666ff%s|r", "long")
+        else
+            self.text:SetFormattedText("|cff6666ff%dd|r", timeLeft)
+        end
+    end
 end
 
 local SetBarLayout = function(self, visible, cache)

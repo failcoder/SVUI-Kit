@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -74,7 +74,7 @@ local function InspectStyle()
 		texture:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 		texture:InsetPoints()
 		frame:SetFrameLevel(frame:GetFrameLevel() + 1)
-		frame:SetStyle("!_Frame")
+		frame:SetStyle("Frame")
 	end 
 	hooksecurefunc('InspectPaperDollItemSlotButton_Update', function(q)
 		local unit = InspectFrame.unit;

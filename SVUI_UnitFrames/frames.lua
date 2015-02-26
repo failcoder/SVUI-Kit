@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --LUA
@@ -519,7 +519,8 @@ CONSTRUCTORS["pettarget"] = function(self, unit)
     MOD:CreateAuraFrames(self, key)
     self.Range = { insideAlpha = 1, outsideAlpha = 1 }
     self:ModPoint("BOTTOM", SVUI_Pet, "TOP", 0, 7)
-    SV:NewAnchor(self, L["PetTarget Frame"], -7)
+    self.snapOffset = -7
+    SV:NewAnchor(self, L["PetTarget Frame"])
 
     self.MediaUpdate = MOD.RefreshUnitMedia
     self.Update = UpdatePetTargetFrame
@@ -635,7 +636,8 @@ CONSTRUCTORS["focustarget"] = function(self, unit)
     self.RaidIcon = MOD:CreateRaidIcon(self)
     self.Range = { insideAlpha = 1, outsideAlpha = 1 }
     self:ModPoint("LEFT", SVUI_Focus, "RIGHT", 12, 0)
-    SV:NewAnchor(self, L["FocusTarget Frame"], -7)
+    self.snapOffset = -7
+    SV:NewAnchor(self, L["FocusTarget Frame"])
 
     self.MediaUpdate = MOD.RefreshUnitMedia
     self.Update = UpdateFocusTargetFrame
@@ -837,7 +839,7 @@ CONSTRUCTORS["arena"] = function(self, unit)
         prep:SetFrameStrata("MEDIUM")
         prep:SetAllPoints(self)
         prep:SetID(selfID)
-        prep:SetStyle("Frame", "Bar", true, 3, 1, 1)
+        prep:SetStyle("Frame", "Transparent", true, 3, 1, 1)
 
         local health = CreateFrame("StatusBar", nil, prep)
         health:SetAllPoints(prep)
@@ -929,7 +931,7 @@ local ArenaPrepHandler_OnEvent = function(self, event)
                             prepframe.SpecIcon.Icon:SetTexture(icon or [[INTERFACE\ICONS\INV_MISC_QUESTIONMARK]])
 
                             local color = CUSTOM_CLASS_COLORS[classToken]
-                            if(not SV.db.general.customClassColor) then
+                            if(not SV.media.customClassColor) then
                                 color = RAID_CLASS_COLORS[classToken]
                             end
                             local textcolor = RAID_CLASS_COLORS[class] or color

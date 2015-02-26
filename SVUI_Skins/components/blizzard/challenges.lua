@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -22,7 +22,7 @@ local function ChallengesFrameStyle()
   ChallengesFrameInset:RemoveTextures()
   ChallengesFrameInsetBg:Hide()
   ChallengesFrameDetails.bg:Hide()
-  ChallengesFrameDetails:SetStyle("Frame", "Inset")
+  ChallengesFrameDetails:SetStyle("Frame[INSET]", "Transparent")
   ChallengesFrameLeaderboard:SetStyle("Button")
   select(2, ChallengesFrameDetails:GetRegions()):Hide()
   select(9, ChallengesFrameDetails:GetRegions()):Hide()

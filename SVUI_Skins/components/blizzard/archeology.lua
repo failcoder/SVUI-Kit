@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -25,7 +25,7 @@ local function ArchaeologyStyle()
 	ArchaeologyFrame:SetStyle("Frame", "Window")
 	ArchaeologyFrame.Panel:SetAllPoints()
 	ArchaeologyFrame.portrait:SetAlpha(0)
-	ArchaeologyFrameInset:SetStyle("Frame", "Inset")
+	ArchaeologyFrameInset:SetStyle("Frame[INSET]", "Transparent")
 	ArchaeologyFrameInset.Panel:SetPoint("TOPLEFT")
 	ArchaeologyFrameInset.Panel:SetPoint("BOTTOMRIGHT", -3, -1)
 	ArchaeologyFrameArtifactPageSolveFrameSolveButton:SetStyle("Button")
@@ -51,7 +51,7 @@ local function ArchaeologyStyle()
 			_G["ArchaeologyFrameCompletedPageArtifact"..b.."Bg"]:Die()
 			_G["ArchaeologyFrameCompletedPageArtifact"..b.."Icon"]:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 			_G["ArchaeologyFrameCompletedPageArtifact"..b.."Icon"].backdrop = CreateFrame("Frame", nil, c)
-			_G["ArchaeologyFrameCompletedPageArtifact"..b.."Icon"].backdrop:SetStyle("!_Frame", "Default")
+			_G["ArchaeologyFrameCompletedPageArtifact"..b.."Icon"].backdrop:SetStyle("Frame", "Default")
 			_G["ArchaeologyFrameCompletedPageArtifact"..b.."Icon"].backdrop:WrapPoints(_G["ArchaeologyFrameCompletedPageArtifact"..b.."Icon"])
 			_G["ArchaeologyFrameCompletedPageArtifact"..b.."Icon"].backdrop:SetFrameLevel(c:GetFrameLevel()-2)
 			_G["ArchaeologyFrameCompletedPageArtifact"..b.."Icon"]:SetDrawLayer("OVERLAY")
@@ -60,7 +60,7 @@ local function ArchaeologyStyle()
 	
 	ArchaeologyFrameArtifactPageIcon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 	ArchaeologyFrameArtifactPageIcon.backdrop = CreateFrame("Frame", nil, ArchaeologyFrameArtifactPage)
-	ArchaeologyFrameArtifactPageIcon.backdrop:SetStyle("!_Frame", "Default")
+	ArchaeologyFrameArtifactPageIcon.backdrop:SetStyle("Frame", "Default")
 	ArchaeologyFrameArtifactPageIcon.backdrop:WrapPoints(ArchaeologyFrameArtifactPageIcon)
 	ArchaeologyFrameArtifactPageIcon.backdrop:SetFrameLevel(ArchaeologyFrameArtifactPage:GetFrameLevel())
 	ArchaeologyFrameArtifactPageIcon:SetParent(ArchaeologyFrameArtifactPageIcon.backdrop)

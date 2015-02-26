@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ############################################################################## ]]-- 
 --[[ GLOBALS ]]--
 local _G = _G;
@@ -670,9 +670,9 @@ _G.SLASH_SVUI_FRAME_DEBUG1 = "/svdf"
 local function InitializeScriptError()
     SV.ScriptError:SetParent(SV.Screen)
     SV.ScriptError.Source = "";
-    SV.ScriptError:SetStyle("!_Frame", "Transparent")
+    SV.ScriptError:SetStyle("Frame", "Transparent")
     SV.ScriptError:SetScript("OnShow", ScriptError_OnShow)
-    ScriptErrorDialog:SetStyle("!_Frame", "Transparent")
+    ScriptErrorDialog:SetStyle("Frame", "Transparent")
     ScriptErrorDialog.Input:SetScript("OnTextChanged", ScriptError_OnTextChanged)
     SV.ScriptError:RegisterForDrag("LeftButton");
 end

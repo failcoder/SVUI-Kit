@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -26,7 +26,7 @@ local function BattlefieldStyle()
 	BattlefieldMinimapTabLeft:Die()
 	BattlefieldMinimapTabMiddle:Die()
 	BattlefieldMinimapTabRight:Die()
-	BattlefieldMinimap:SetStyle("!_Frame", "Transparent")
+	BattlefieldMinimap:SetStyle("Frame", "Transparent")
 	BattlefieldMinimap.Panel:ModPoint("BOTTOMRIGHT", -4, 2)
 	BattlefieldMinimap:SetFrameStrata("LOW")
 	BattlefieldMinimapCloseButton:ClearAllPoints()

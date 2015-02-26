@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ############################################################################## ]]-- 
 
 --[[ GLOBALS ]]--
@@ -277,7 +277,6 @@ SV.defaults           = {
     },
     ["general"] = {
         ["loginmessage"] = true,
-        ["customClassColor"] = false,
         ["cooldown"] = true, 
         ["saveDraggable"] = false,
         ["taintLog"] = false, 
@@ -403,10 +402,19 @@ SV.defaults           = {
         ["rightDockBackdrop"] = true, 
         ["topPanel"] = true, 
         ["bottomPanel"] = true,
-        ["garrison"] = true,
-        ["professions"] = true,
-        ["raidTool"] = true,
-        ["breakstuff"] = true
+        ["dockTools"] = {
+            ["garrison"] = true,
+            ["firstAid"] = true,
+            ["cooking"] = true,
+            ["archaeology"] = true,
+            ["primary"] = true,
+            ["secondary"] = true,
+            ["hearth"] = true,
+            ["specswap"] = true,
+            ["leader"] = true,
+            ["breakstuff"] = true,
+            ["power"] = false
+        },
     },
     ["Reports"] = {
         ["holders"] = {
@@ -588,6 +596,12 @@ function SV:ResetUI(confirmed)
 end
 
 function SV:ImportProfile(key)
+    self.SystemAlert["COPY_PROFILE_PROMPT"].text = "Are you sure you want to link to the profile '" .. key .. "'?"
+    self.SystemAlert["COPY_PROFILE_PROMPT"].OnAccept = function() SVUILib:ImportDatabase(key, true) end
+    self:StaticPopup_Show("COPY_PROFILE_PROMPT")
+end
+
+function SV:CopyProfile(key)
     self.SystemAlert["COPY_PROFILE_PROMPT"].text = "Are you sure you want to copy the profile '" .. key .. "'?"
     self.SystemAlert["COPY_PROFILE_PROMPT"].OnAccept = function() SVUILib:ImportDatabase(key) end
     self:StaticPopup_Show("COPY_PROFILE_PROMPT")
@@ -613,7 +627,7 @@ function SV:ToggleConfig()
             return 
         end 
     end
-    local aceConfig = LibStub("AceConfigDialog-3.0")
+    local aceConfig = LibStub("AceConfigDialog-3.0", true)
     if(aceConfig) then
         local switch = not aceConfig.OpenFrames[self.NameID] and "Open" or "Close"
         aceConfig[switch](aceConfig, self.NameID)
@@ -622,9 +636,16 @@ function SV:ToggleConfig()
 end 
 
 function SV:VersionCheck()
-    local version = SVUILib:GetSafeData("install_version");
-    if(not version or (version and _needsupdate(version, 1))) then
-        self.Setup:Install(true)
+    if(_G.SVUI_TRANSFER_WIZARD) then
+        local copied = SVUILib:GetSafeData("transfer_wizard_used");
+        if(not copied) then
+            SVUI_TRANSFER_WIZARD()
+        end
+    else
+        local version = SVUILib:GetSafeData("install_version");
+        if(not version or (version and _needsupdate(version, 1))) then
+            self.Setup:Install(true)
+        end
     end
 end
 
@@ -746,8 +767,6 @@ function SV:PLAYER_ENTERING_WORLD()
         self.BGTimer = nil 
     end
 
-    self:BuildGearInfo()
-
     if(not InCombatLockdown()) then
         collectgarbage("collect") 
     end
@@ -772,18 +791,9 @@ function SV:PLAYER_REGEN_DISABLED()
             aceConfig:Close(self.NameID)
             forceClosed = true 
         end 
-    end 
-
-    if(self.Layout.Frames) then 
-        for frame,_ in pairs(self.Layout.Frames) do 
-            if _G[frame] and _G[frame]:IsShown() then 
-                forceClosed = true;
-                _G[frame]:Hide()
-            end 
-        end 
     end
 
-    if forceClosed == true then 
+    if(self:ForceAnchors(forceClosed) == true) then 
         self:AddonMessage(ERR_NOT_IN_COMBAT)
     end
 

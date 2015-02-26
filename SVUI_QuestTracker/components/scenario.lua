@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -345,12 +345,12 @@ function MOD:InitializeScenarios()
 	block:ModPoint("TOPLEFT", scenario, "TOPLEFT", 2, -2);
 	block:ModPoint("TOPRIGHT", scenario, "TOPRIGHT", -2, -2);
 	block:SetHeight(1);
-	block:SetStyle("Frame", "Lite");
+	block:SetStyle("Frame", "Transparent");
 
 	block.Badge = CreateFrame("Frame", nil, block)
 	block.Badge:ModPoint("TOPLEFT", block, "TOPLEFT", 4, -4);
 	block.Badge:ModSize((LARGE_INNER_HEIGHT - 4), (LARGE_INNER_HEIGHT - 4));
-	block.Badge:SetStyle("!_Frame", "Inset")
+	block.Badge:SetStyle("Frame[INSET]", "Transparent")
 
 	block.Icon = block.Badge:CreateTexture(nil,"OVERLAY")
 	block.Icon:InsetPoints(block.Badge);
@@ -389,7 +389,7 @@ function MOD:InitializeScenarios()
 	timer:ModPoint("TOPLEFT", block.Header, "BOTTOMLEFT", 4, -4);
 	timer:ModPoint("TOPRIGHT", block.Header, "BOTTOMRIGHT", -4, -4);
 	timer:SetHeight(INNER_HEIGHT);
-	timer:SetStyle("!_Frame", "Bar");
+	timer:SetStyle("Frame", "Transparent");
 
 	timer.StartTimer = StartTimer;
 	timer.StopTimer = StopTimer;

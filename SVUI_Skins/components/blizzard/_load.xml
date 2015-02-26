@@ -35,6 +35,7 @@
 	<Script file='quest.lua'/>
 	<Script file='raid.lua'/>
 	<Script file='reforging.lua'/>
+	<!-- <Script file='social.lua'/> -->
 	<Script file='spellbook.lua'/>
 	<Script file='tabard.lua'/>
 	<Script file='talents.lua'/>

@@ -1,23 +1,31 @@
-###############################################################################
-# S V U I   By: S.Jackson
-###############################################################################
 
-SVUI_!Core License Copyright 2014 http://wowinterface.com
+The MIT License
 
-The contents of this addon, excluding third-party resources, are
-copyrighted to their authors with all rights reserved.
+Copyright (c) <year> <copyright holders>
 
-Authors of this addon hereby grant you the following rights:
+Permission is hereby granted, free of charge, to any person obtaining a
+copy
+of this software and associated documentation files (the "Software"), to
+deal
+in the Software without restriction, including without limitation the
+rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or
+sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-1. 	You may NOT make any modification inside this addon. If you want
-	to create your own edited version, please create it from outside.
+The above copyright notice and this permission notice shall be included
+in
+all copies or substantial portions of the Software.
 
-2. 	Do not modify the name of this addon, including the addon folders.
-
-3. 	This copyright notice shall be included in all copies or substantial
-	portions of the Software.
-
-All rights not explicitly addressed in this license are reserved by
-the copyright holders.
-
-You can write S.Jackson at Wowinterface.com for reporting abuse / bugs.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+IN
+THE SOFTWARE.

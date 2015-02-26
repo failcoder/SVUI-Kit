@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -23,10 +23,6 @@ local function TaxiStyle()
 	end
 
 	SV.API:Set("Window", TaxiFrame)
-	
-	--TaxiRouteMap:SetStyle("Frame", "Blackout")
-	--TaxiRouteMap.Panel:WrapPoints(TaxiRouteMap, 4, 4)
-	
 	SV.API:Set("CloseButton", TaxiFrame.CloseButton)
 end 
 --[[ 

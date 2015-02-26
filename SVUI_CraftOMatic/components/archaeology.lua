@@ -433,7 +433,7 @@ function PLUGIN:LoadArchaeologyMode()
 		local solve = CreateFrame("Button", nil, bar, "SecureHandlerClickTemplate")
 		local yOffset,xOffset = 0,0;
 
-		bar:SetStyle("Frame", "Bar")
+		bar:SetStyle("Frame", "Transparent")
 		bar:SetStatusBarTexture([[Interface\AddOns\SVUI\assets\artwork\Template\DEFAULT]])
 		bar:SetSize(BAR_WIDTH,BAR_HEIGHT)
 		if(i > 10) then

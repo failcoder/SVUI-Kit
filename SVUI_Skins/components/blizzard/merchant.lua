@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -28,7 +28,7 @@ local function MerchantStyle()
 		MerchantFrame:SetFrameLevel(0)
 	end
 	MerchantBuyBackItem:RemoveTextures(true)
-	MerchantBuyBackItem:SetStyle("Frame", "Inset", true, 2, 2, 3)
+	MerchantBuyBackItem:SetStyle("Frame[INSET]", "Transparent", true, 2, 2, 3)
 	MerchantBuyBackItem.Panel:SetFrameLevel(MerchantBuyBackItem.Panel:GetFrameLevel() + 1)
 	MerchantBuyBackItemItemButton:RemoveTextures()
 	MerchantBuyBackItemItemButton:SetStyle("Button")
@@ -37,7 +37,7 @@ local function MerchantStyle()
 	MerchantFrameInset:RemoveTextures()
 	MerchantMoneyBg:RemoveTextures()
 	MerchantMoneyInset:RemoveTextures()
-	MerchantFrameInset:SetStyle("Frame", "Inset")
+	MerchantFrameInset:SetStyle("Frame[INSET]", "Transparent")
 	MerchantFrameInset.Panel:SetFrameLevel(MerchantFrameInset.Panel:GetFrameLevel() + 1)
 	SV.API:Set("DropDown", MerchantFrameLootFilter)
 	for b = 1, 2 do
@@ -47,7 +47,7 @@ local function MerchantStyle()
 		local d = _G["MerchantItem"..b.."ItemButton"]
 		local e = _G["MerchantItem"..b.."ItemButtonIconTexture"]
 		local o = _G["MerchantItem"..b]o:RemoveTextures(true)
-		o:SetStyle("!_Frame", "Inset")
+		o:SetStyle("Frame[INSET]", "Transparent")
 		d:RemoveTextures()
 		d:SetStyle("Button")
 		d:ModPoint("TOPLEFT", o, "TOPLEFT", 4, -4)

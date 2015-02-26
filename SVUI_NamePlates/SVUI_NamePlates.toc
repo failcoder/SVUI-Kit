@@ -1,7 +1,7 @@
-## Interface: 60000
-## Author: S.Jackson
-## Version: 1.0.0
-## Title: |cffFF9900SVUI |r|cffFFEF00NamePlates|r
+## Interface: 60100
+## Author: Munglunch
+## Version: 1.0.01
+## Title: |cffFF9900SuperVillain UI: |r|cffFFEF00NamePlates|r
 ## Notes: NamePlates Plugin for [|cff9911FFSVUI|r].
 ## OptionalDeps: LibSharedMedia-3.0
 ## RequiredDeps: SVUI_!Core
@@ -12,5 +12,9 @@
 ## X-Donate: PayPal:munglunch@gmail.com
 ## X-License: All Rights Reserved
 ## X-Category: Interface Enhancements
+## X-Curse-Packaged-Version: r20150224202634
+## X-Curse-Project-Name: SuperVillain UI: NamePlates
+## X-Curse-Project-ID: supervillain-ui-nameplates
+## X-Curse-Repository-ID: wow/supervillain-ui-nameplates/mainline
 
 SVUI_NamePlates.xml

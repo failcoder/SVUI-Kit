@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -87,7 +87,7 @@ local function VoidSlotStyler(name, index)
   if(button) then
     local border = button.IconBorder
     if(bg) then bg:Hide() end
-    button:SetStyle("ActionSlot")
+    button:SetStyle("Button[SLOT]")
     if(icon) then
       icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
       icon:InsetPoints(button)
@@ -120,7 +120,7 @@ local function VoidStorageStyle()
   end
 
   VoidStoragePurchaseFrame:SetFrameStrata('DIALOG')
-  VoidStoragePurchaseFrame:SetStyle("!_Frame", "Button", true)
+  VoidStoragePurchaseFrame:SetStyle("Frame", "Button", true)
   VoidStorageFrameMarbleBg:Die()
   VoidStorageFrameLines:Die()
 
@@ -132,7 +132,7 @@ local function VoidStorageStyle()
 
   SV.API:Set("CloseButton", VoidStorageBorderFrame.CloseButton)
 
-  VoidItemSearchBox:SetStyle("Frame", "Inset")
+  VoidItemSearchBox:SetStyle("Frame[INSET]", "Transparent")
   VoidItemSearchBox.Panel:ModPoint("TOPLEFT", 10, -1)
   VoidItemSearchBox.Panel:ModPoint("BOTTOMRIGHT", 4, 1)
 

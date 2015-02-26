@@ -1,7 +1,7 @@
 --[[
 ##########################################################
-S V U I   By: S.Jackson
-########################################################## 
+S V U I   By: Munglunch
+##########################################################
 LOCALIZED LUA FUNCTIONS
 ##########################################################
 ]]--
@@ -25,16 +25,16 @@ local string 	= _G.string;
 local table     = _G.table;
 local format = string.format;
 local tcopy = table.copy;
---[[ 
-########################################################## 
+--[[
+##########################################################
 GET ADDON DATA
 ##########################################################
 ]]--
 local SV = select(2, ...)
 local SVUILib = Librarian("Registry");
 local L = SV.L;
---[[ 
-########################################################## 
+--[[
+##########################################################
 LOCAL VARS
 ##########################################################
 ]]--
@@ -47,8 +47,8 @@ local PageData, OnClickData;
 local SetCVar = _G.SetCVar;
 local ToggleChatColorNamesByClassGroup = _G.ToggleChatColorNamesByClassGroup;
 local ChatFrame_AddMessageGroup = _G.ChatFrame_AddMessageGroup;
---[[ 
-########################################################## 
+--[[
+##########################################################
 SETUP CLASS OBJECT
 ##########################################################
 ]]--
@@ -63,8 +63,8 @@ local preset_barstyle = "default";
 local preset_unitstyle = "default";
 local preset_groupstyle = "default";
 local preset_aurastyle = "default";
---[[ 
-########################################################## 
+--[[
+##########################################################
 LOCAL FUNCTIONS
 ##########################################################
 ]]--
@@ -76,10 +76,10 @@ local function PlayThemeSong()
 		PlayMusic([[Interface\AddOns\SVUI_!Core\assets\sounds\SuperVillain.mp3]])
 		musicIsPlaying = true
 	end
-end 
+end
 
 local function SetInstallButton(button)
-    if(not button) then return end 
+    if(not button) then return end
     button.Left:SetAlpha(0)
     button.Middle:SetAlpha(0)
     button.Right:SetAlpha(0)
@@ -89,7 +89,7 @@ local function SetInstallButton(button)
     button:SetDisabledTexture("")
     button:RemoveTextures()
     button:SetFrameLevel(button:GetFrameLevel() + 1)
-end 
+end
 
 local function forceCVars()
 	SetCVar("alternateResourceText",1)
@@ -133,12 +133,13 @@ local function BarShuffle()
 	local tH = SV.db.ActionBars.Bar1.buttonsize  +  (base - bS);
 	local b2h = bar2 and tH or base;
 	local sph = (400 - b2h);
-	local anchors = SV.private.Anchors
+	local anchors = SV.db.LAYOUT
 	if not anchors then anchors = {} end
 	anchors.SVUI_SpecialAbility_MOVE = "BOTTOMSVUIParentBOTTOM0"..sph;
 	anchors.SVUI_ActionBar2_MOVE = "BOTTOMSVUI_ActionBar1TOP0"..(-bS);
 	anchors.SVUI_ActionBar3_MOVE = "BOTTOMLEFTSVUI_ActionBar1BOTTOMRIGHT40";
 	anchors.SVUI_ActionBar5_MOVE = "BOTTOMRIGHTSVUI_ActionBar1BOTTOMLEFT-40";
+	--print(bar2)
 	if bar2 then
 		anchors.SVUI_PetActionBar_MOVE = "BOTTOMLEFTSVUI_ActionBar2TOPLEFT04"
 		anchors.SVUI_StanceBar_MOVE = "BOTTOMRIGHTSVUI_ActionBar2TOPRIGHT04";
@@ -146,11 +147,11 @@ local function BarShuffle()
 		anchors.SVUI_PetActionBar_MOVE = "BOTTOMLEFTSVUI_ActionBar1TOPLEFT04"
 		anchors.SVUI_StanceBar_MOVE = "BOTTOMRIGHTSVUI_ActionBar1TOPRIGHT04";
 	end
-end 
+end
 
 local function UFMoveBottomQuadrant(toggle)
 	if(not SV.UnitFrames) then return end
-	local anchors = SV.private.Anchors
+	local anchors = SV.db.LAYOUT
 	if not toggle then
 		anchors.SVUI_Player_MOVE = "BOTTOMSVUIParentBOTTOM-278182"
 		anchors.SVUI_PlayerCastbar_MOVE = "BOTTOMSVUIParentBOTTOM-278122"
@@ -188,11 +189,11 @@ local function UFMoveBottomQuadrant(toggle)
 		anchors.SVUI_Focus_MOVE = "BOTTOMSVUIParentBOTTOM"..c..""..(d + 150);
 		anchors.SVUI_ThreatBar_MOVE = "BOTTOMRIGHTSVUIParentBOTTOMRIGHT-495"..d;
 	end
-end 
+end
 
 local function UFMoveLeftQuadrant(toggle)
 	if(not SV.UnitFrames) then return end
-	local anchors = SV.private.Anchors
+	local anchors = SV.db.LAYOUT
 	if not toggle then
 		anchors.SVUI_Assist_MOVE = "TOPLEFTSVUIParentTOPLEFT"..XOFF.."-250"
 		anchors.SVUI_Tank_MOVE = "TOPLEFTSVUIParentTOPLEFT"..XOFF.."-175"
@@ -210,11 +211,11 @@ local function UFMoveLeftQuadrant(toggle)
 		anchors.SVUI_Raid10_MOVE = "BOTTOMLEFTSVUIParentBOTTOMLEFT4300"
 		anchors.SVUI_Raid25_MOVE = "BOTTOMLEFTSVUIParentBOTTOMLEFT4300"
 	end
-end 
+end
 
 local function UFMoveTopQuadrant(toggle)
 	if(not SV.UnitFrames) then return end
-	local anchors = SV.private.Anchors
+	local anchors = SV.db.LAYOUT
 	if not toggle then
 		anchors.GM_MOVE = "TOPLEFTSVUIParentTOPLEFT250-25"
 		anchors.SVUI_LootFrame_MOVE = "BOTTOMSVUIParentBOTTOM0350"
@@ -228,11 +229,11 @@ local function UFMoveTopQuadrant(toggle)
 		anchors.LoC_MOVE = "BOTTOMSVUIParentBOTTOM0443"
 		anchors.BattleNetToasts_MOVE = "TOPRIGHTSVUIParentTOPRIGHT-4-248"
 	end
-end 
+end
 
 local function UFMoveRightQuadrant(toggle)
 	if(not SV.UnitFrames) then return end
-	local anchors = SV.private.Anchors
+	local anchors = SV.db.LAYOUT
 	local dH = SV.db.Dock.dockRightHeight  +  60
 	if not toggle or toggle == "high" then
 		anchors.SVUI_BossHolder_MOVE = "RIGHTSVUIParentRIGHT-1050"
@@ -243,23 +244,23 @@ local function UFMoveRightQuadrant(toggle)
 		anchors.SVUI_ArenaHolder_MOVE = "RIGHTSVUIParentRIGHT-1050"
 		anchors.Tooltip_MOVE = "BOTTOMRIGHTSVUIParentBOTTOMRIGHT-284"..dH;
 	end
-end  
---[[ 
-########################################################## 
+end
+--[[
+##########################################################
 GLOBAL/MODULE FUNCTIONS
 ##########################################################
 ]]--
 function SV.Setup:UserScreen(rez, preserve)
 	if not preserve then
-		if okToResetMOVE then 
+		if okToResetMOVE then
 			SV:ResetAnchors("")
 			okToResetMOVE = false;
 		end
 		SV:ResetData("UnitFrames")
 	end
 
-	if rez == "low" then 
-		if not preserve then 
+	if rez == "low" then
+		if not preserve then
 			SV.db.Dock.dockLeftWidth = 350;
 			SV.db.Dock.dockLeftHeight = 180;
 			SV.db.Dock.dockRightWidth = 350;
@@ -286,16 +287,16 @@ function SV.Setup:UserScreen(rez, preserve)
 				SV.db.UnitFrames.boss.width = 200;
 				SV.db.UnitFrames.boss.castbar.width = 200;
 				SV.db.UnitFrames.arena.width = 200;
-				SV.db.UnitFrames.arena.castbar.width = 200 
+				SV.db.UnitFrames.arena.castbar.width = 200
 			end
-		end 
+		end
 		if not mungs then
 			UFMoveBottomQuadrant(true)
 			UFMoveLeftQuadrant(true)
 			UFMoveTopQuadrant(true)
 			UFMoveRightQuadrant(true)
 		end
-		SV.LowRez = true 
+		SV.LowRez = true
 	else
 		SV:ResetData("Dock")
 		SV:ResetData("Auras")
@@ -305,8 +306,8 @@ function SV.Setup:UserScreen(rez, preserve)
 			UFMoveTopQuadrant()
 			UFMoveRightQuadrant()
 		end
-		SV.LowRez = nil 
-	end 
+		SV.LowRez = nil
+	end
 
 	if(not preserve and not mungs) then
 		BarShuffle()
@@ -339,21 +340,21 @@ function SV.Setup:ChatConfigs(mungs)
 	for i = 1, NUM_CHAT_WINDOWS do
 		local chat = _G["ChatFrame"..i]
 		local chatID = chat:GetID()
-		if i == 1 then 
+		if i == 1 and SV.Chat then
 			chat:ClearAllPoints()
 			chat:SetAllPoints(SV.Chat.Dock);
-		end 
+		end
 		FCF_SavePositionAndDimensions(chat)
 		FCF_StopDragging(chat)
 		FCF_SetChatWindowFontSize(nil, chat, 12)
-		if i == 1 then 
+		if i == 1 then
 			FCF_SetWindowName(chat, GENERAL)
-		elseif i == 2 then 
+		elseif i == 2 then
 			FCF_SetWindowName(chat, GUILD_EVENT_LOG)
-		elseif i == 3 then 
+		elseif i == 3 then
 			FCF_SetWindowName(chat, LOOT)
-		end 
-	end 
+		end
+	end
 	ChatFrame_RemoveAllMessageGroups(ChatFrame1)
 	ChatFrame_AddMessageGroup(ChatFrame1, "SAY")
 	ChatFrame_AddMessageGroup(ChatFrame1, "EMOTE")
@@ -394,7 +395,7 @@ function SV.Setup:ChatConfigs(mungs)
 	ChatFrame_AddMessageGroup(ChatFrame1, "COMBAT_XP_GAIN")
 	ChatFrame_AddMessageGroup(ChatFrame1, "COMBAT_HONOR_GAIN")
 	ChatFrame_AddMessageGroup(ChatFrame1, "COMBAT_GUILD_XP_GAIN")
-	
+
 	ChatFrame_RemoveAllMessageGroups(ChatFrame3)
 	ChatFrame_AddMessageGroup(ChatFrame3, "COMBAT_FACTION_CHANGE")
 	ChatFrame_AddMessageGroup(ChatFrame3, "SKILL")
@@ -440,11 +441,11 @@ function SV.Setup:ChatConfigs(mungs)
 	ChangeChatColor("CHANNEL3", 232 / 255, 228 / 255, 121 / 255)
 
 	if not mungs then
-		if SV.Chat then 
+		if SV.Chat then
 			SV.Chat:ReLoad(true)
-			if(SV.private.Docks.LeftFaded or SV.private.Docks.RightFaded) then 
-				ToggleSuperDocks() 
-			end 
+			if(SV.private.Docks.LeftFaded or SV.private.Docks.RightFaded) then
+				ToggleSuperDocks()
+			end
 		end
 		SV:SavedPopup()
 	end
@@ -460,21 +461,23 @@ function SV.Setup:ColorTheme(style, preserve)
 	self:CopyPreset("media", preset_mediastyle)
 	SVUILib:SaveSafeData("preset_mediastyle", preset_mediastyle);
 
-	if(preset_mediastyle == "default") then 
-		SV.db.UnitFrames.healthclass = true;
-	else
-		SV.db.UnitFrames.healthclass = false;
-	end 
-	
+	if(SV.UnitFrames) then
+		if(preset_mediastyle == "default") then
+			SV.db.UnitFrames.healthclass = true;
+		else
+			SV.db.UnitFrames.healthclass = false;
+		end
+	end
+
 	if(not mungs) then
 		SV:UpdateSharedMedia()
 		SVUILib:RefreshModule('Dock')
-		SVUILib:RefreshModule('UnitFrames')
+		if(SV.UnitFrames) then SVUILib:RefreshModule('UnitFrames') end
 		if(not preserve) then
 			SV:SavedPopup()
 		end
 	end
-end 
+end
 
 function SV.Setup:UnitframeLayout(style, preserve)
 	if(not SV.UnitFrames) then return end
@@ -492,13 +495,13 @@ function SV.Setup:UnitframeLayout(style, preserve)
 	self:CopyPreset("units", preset_unitstyle)
 	SVUILib:SaveSafeData("preset_unitstyle", preset_unitstyle);
 
-	if(preset_mediastyle == "default") then 
+	if(preset_mediastyle == "default") then
 		SV.db.UnitFrames.healthclass = true;
-	end 
+	end
 
 	if(not mungs) then
 		if(not preserve) then
-			if preset_barstyle and (preset_barstyle == "twosmall" or preset_barstyle == "twobig") then 
+			if preset_barstyle and (preset_barstyle == "twosmall" or preset_barstyle == "twobig") then
 				UFMoveBottomQuadrant("shift")
 			else
 				UFMoveBottomQuadrant()
@@ -511,7 +514,7 @@ function SV.Setup:UnitframeLayout(style, preserve)
 			SV:SavedPopup()
 		end
 	end
-end 
+end
 
 function SV.Setup:GroupframeLayout(style, preserve)
 	if(not SV.UnitFrames) then return end
@@ -525,26 +528,26 @@ function SV.Setup:GroupframeLayout(style, preserve)
 			SV:SavedPopup()
 		end
 	end
-end 
+end
 
 function SV.Setup:BarLayout(style, preserve)
 	if(not SV.ActionBars) then return end
 	preset_barstyle = style or "default";
 
-	if not preserve then 
+	if not preserve then
 		SV:ResetData("ActionBars")
 		if okToResetMOVE then
 			SV:ResetAnchors('')
 			okToResetMOVE=false
 		end
-	end 
+	end
 
 	self:CopyPreset("bars", preset_barstyle)
 	SVUILib:SaveSafeData("preset_barstyle", preset_barstyle);
 
 	if(not mungs) then
 		if(not preserve) then
-			if(preset_barstyle == 'twosmall' or preset_barstyle == 'twobig') then 
+			if(preset_barstyle == 'twosmall' or preset_barstyle == 'twobig') then
 				UFMoveBottomQuadrant("shift")
 			else
 				UFMoveBottomQuadrant()
@@ -560,7 +563,7 @@ function SV.Setup:BarLayout(style, preserve)
 			SV:SavedPopup()
 		end
 	end
-end 
+end
 
 function SV.Setup:Auralayout(style, preserve)
 	if(not SV.UnitFrames) then return end
@@ -599,7 +602,7 @@ function SV.Setup:EZDefault()
 	SV.db.general.woot = true;
 	SV.db.general.arenadrink = true;
 	SV.db.general.stupidhat = true;
-	
+
 	SV.db.Dock.leftDockBackdrop = true;
 	SV.db.Dock.rightDockBackdrop = true;
 	SV.db.Dock.dataBackdrop = true;
@@ -803,7 +806,7 @@ local InstallerFrame_PreparePage = function(self)
 	else
 		self.Prev:Enable()
 		self.Prev:Show()
-	end 
+	end
 
 	if CURRENT_PAGE == MAX_PAGE then
 		self.Next:Disable()
@@ -829,41 +832,43 @@ local InstallerFrame_SetPage = function(self, newPage)
 	ShowAuras(willShowAuras)
 
 	for option, data in pairs(PageData) do
-		if(type(data) == "table" and data[1] and data[2]) then
-			if(data[4] and not data[4]()) then return end;
-			self[option]:Show()
-			self[option]:SetText(data[1])
-			self[option].FuncName = data[2]
-			self[option].Arg = data[3]
-			local postclickIndex = ("%d_%s"):format(newPage, option)
-			self[option].ClickIndex = SV.Setup:CopyOnClick(postclickIndex)
-			self[option]:SetScript("OnClick", OptionButton_OnClick)
-		elseif(type(data) == "function") then
-			local optionText = data()
-			self[option]:SetText(optionText)
-		else
-			self[option]:SetText(data)
+		if(self[option]) then
+			if(type(data) == "table" and data[1] and data[2]) then
+				if(data[4] and not data[4]()) then return end;
+				self[option]:Show()
+				self[option]:SetText(data[1])
+				self[option].FuncName = data[2]
+				self[option].Arg = data[3]
+				local postclickIndex = ("%d_%s"):format(newPage, option)
+				self[option].ClickIndex = SV.Setup:CopyOnClick(postclickIndex)
+				self[option]:SetScript("OnClick", OptionButton_OnClick)
+			elseif(type(data) == "function") then
+				local optionText = data()
+				self[option]:SetText(optionText)
+			else
+				self[option]:SetText(data)
+			end
 		end
 	end
-end 
+end
 
 local NextPage_OnClick = function(self)
-	if CURRENT_PAGE ~= MAX_PAGE then 
+	if CURRENT_PAGE ~= MAX_PAGE then
 		CURRENT_PAGE = CURRENT_PAGE + 1;
 		self.parent:SetPage(CURRENT_PAGE)
 	end
-end 
+end
 
 local PreviousPage_OnClick = function(self)
-	if CURRENT_PAGE ~= 1 then 
+	if CURRENT_PAGE ~= 1 then
 		CURRENT_PAGE = CURRENT_PAGE - 1;
 		self.parent:SetPage(CURRENT_PAGE)
-	end 
+	end
 end
 
 function SV.Setup:Reset()
 	SVUILib:WipeDatabase()
-	
+
 	mungs = true;
 	okToResetMOVE = false;
 	self:ChatConfigs(true);
@@ -884,7 +889,7 @@ function SV.Setup:Reset()
 
 	SVUILib:SaveSafeData("install_version", SV.Version);
 	ReloadUI()
-end 
+end
 
 function SV.Setup:Install(autoLoaded)
 	local old = SVUILib:GetSafeData()
@@ -893,8 +898,8 @@ function SV.Setup:Install(autoLoaded)
 	preset_unitstyle = old.preset_unitstyle or "default";
 	preset_groupstyle = old.preset_groupstyle or "default";
 	preset_aurastyle = old.preset_aurastyle or "default";
-	
-	if not SVUI_InstallerFrame then 
+
+	if not SVUI_InstallerFrame then
 		local frame = CreateFrame("Button", "SVUI_InstallerFrame", UIParent)
 		frame:ModSize(550, 400)
 		frame:SetStyle("Frame", "Window2")
@@ -1072,7 +1077,7 @@ function SV.Setup:Install(autoLoaded)
 		frame.Option1:Hide()
 
 		--[[ OPTION 2 ]]--
-		
+
 		frame.Option2 = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
 		frame.Option2:RemoveTextures()
 		frame.Option2:ModSize(120, 30)
@@ -1165,7 +1170,7 @@ function SV.Setup:Install(autoLoaded)
 			this.texture:SetGradient("VERTICAL", 0.3, 0.3, 0.3, 0.7, 0.7, 0.7)
 		end)
 		frame.Option4:SetScript("OnShow", function()
-			
+
 			frame.Option2:ModWidth(110)
 			frame.Option2.texture:ModSize(110, 110)
 			frame.Option2.texture:SetPoint("CENTER", frame.Option2, "BOTTOM", 0, -(110 * 0.09))
@@ -1234,7 +1239,7 @@ function SV.Setup:Install(autoLoaded)
 		tutorialImage:ModSize(256, 128)
 		tutorialImage:SetTexture(SV.SplashImage)
 		tutorialImage:ModPoint("BOTTOM", 0, 70)
-	end 
+	end
 
 	SVUI_InstallerFrame:SetScript("OnHide", function()
 		StopMusic()
@@ -1243,7 +1248,7 @@ function SV.Setup:Install(autoLoaded)
 		ShowLayout()
 		ShowAuras()
 	end)
-	
+
 	SVUI_InstallerFrame:Show()
 	SVUI_InstallerFrame:SetPage(1)
 	if(not autoLoaded) then

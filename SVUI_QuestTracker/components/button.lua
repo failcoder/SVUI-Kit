@@ -1,12 +1,12 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 
 QUEST TRACKER BUTTON: 
 
 Originally "ExtraQuestButton" by p3lim, 
-modified/minimally re-written for SVUI by S.Jackson
+modified/minimally re-written for SVUI by Munglunch
 
 ########################################################## 
 LOCALIZED LUA FUNCTIONS

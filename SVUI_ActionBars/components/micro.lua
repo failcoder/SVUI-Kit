@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -161,7 +161,7 @@ function MOD:InitializeMicroBar()
 				local buttonMask = NewFrame("Frame",nil,button)
 				buttonMask:SetPoint("TOPLEFT",button,"TOPLEFT",0,-28)
 				buttonMask:SetPoint("BOTTOMRIGHT",button,"BOTTOMRIGHT",0,0)
-				buttonMask:SetStyle("DockButton") 
+				SV.API:Set("DockButton", buttonMask) 
 				buttonMask:SetPanelColor()
 				buttonMask.icon = buttonMask:CreateTexture(nil,"OVERLAY",nil,2)
 				buttonMask.icon:InsetPoints(buttonMask,2,2)

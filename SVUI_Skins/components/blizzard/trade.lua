@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -65,20 +65,20 @@ local function TradeFrameStyle()
 			Z:RemoveTextures()
 			b:InsetPoints(Y)
 			b:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
-			Y:SetStyle("!_Frame", "Button", true)
+			Y:SetStyle("Frame", "Button", true)
 			Y:SetStyle("Button")
 			Y.bg = CreateFrame("Frame", nil, Y)
-			Y.bg:SetStyle("Frame", "Inset")
+			Y.bg:SetStyle("Frame[INSET]", "Transparent")
 			Y.bg:SetPoint("TOPLEFT", Y, "TOPRIGHT", 4, 0)
 			Y.bg:SetPoint("BOTTOMRIGHT", _G["TradePlayerItem"..i.."NameFrame"], "BOTTOMRIGHT", 0, 14)
 			Y.bg:SetFrameLevel(Y:GetFrameLevel()-3)
 			Y:SetFrameLevel(Y:GetFrameLevel()-1)
 			z:InsetPoints(Z)
 			z:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
-			Z:SetStyle("!_Frame", "Button", true)
+			Z:SetStyle("Frame", "Button", true)
 			Z:SetStyle("Button")
 			Z.bg = CreateFrame("Frame", nil, Z)
-			Z.bg:SetStyle("Frame", "Inset")
+			Z.bg:SetStyle("Frame[INSET]", "Transparent")
 			Z.bg:SetPoint("TOPLEFT", Z, "TOPRIGHT", 4, 0)
 			Z.bg:SetPoint("BOTTOMRIGHT", _G["TradeRecipientItem"..i.."NameFrame"], "BOTTOMRIGHT", 0, 14)
 			Z.bg:SetFrameLevel(Z:GetFrameLevel()-3)

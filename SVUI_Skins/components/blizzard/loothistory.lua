@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -48,7 +48,7 @@ local LootHistoryFrame_OnUpdate = function(self)
       frame.Icon:SetTexture(Icon)
       frame.Icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 
-      frame:SetStyle("!_Frame", "Button")
+      frame:SetStyle("Frame", "Button")
       frame.Panel:WrapPoints(frame.Icon)
       frame.Icon:SetParent(frame.Panel)
 
@@ -79,7 +79,7 @@ local _hook_MasterLootFrame_OnShow = function()
         if child:GetPushedTexture() then
           SV.API:Set("CloseButton", child)
         else
-          child:SetStyle("!_Frame")
+          child:SetStyle("Frame")
           child:SetStyle("Button")
         end 
         child.isStyled = true 
@@ -111,9 +111,9 @@ local function LootHistoryStyle()
   LootHistoryFrame:RemoveTextures()
   SV.API:Set("CloseButton", LootHistoryFrame.CloseButton)
   LootHistoryFrame:RemoveTextures()
-  LootHistoryFrame:SetStyle("!_Frame", 'Transparent')
+  LootHistoryFrame:SetStyle("Frame", 'Transparent')
   SV.API:Set("CloseButton", LootHistoryFrame.ResizeButton)
-  LootHistoryFrame.ResizeButton:SetStyle("!_Frame")
+  LootHistoryFrame.ResizeButton:SetStyle("Frame")
   LootHistoryFrame.ResizeButton:ModWidth(LootHistoryFrame:GetWidth())
   LootHistoryFrame.ResizeButton:ModHeight(19)
   LootHistoryFrame.ResizeButton:ClearAllPoints()
@@ -131,7 +131,7 @@ local function LootHistoryStyle()
   hooksecurefunc("LootHistoryFrame_FullUpdate", LootHistoryFrame_OnUpdate)
 
   MasterLooterFrame:RemoveTextures()
-  MasterLooterFrame:SetStyle("!_Frame")
+  MasterLooterFrame:SetStyle("Frame")
   MasterLooterFrame:SetFrameStrata('FULLSCREEN_DIALOG')
 
   hooksecurefunc("MasterLooterFrame_Show", _hook_MasterLootFrame_OnShow)

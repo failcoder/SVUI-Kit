@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -100,7 +100,7 @@ local _hook_AchievementsUpdate = function()
 				icontex:InsetPoints()
 			end
 			if(icon and not icon.Panel) then 
-				icon:SetStyle("!_Frame", "Icon")
+				icon:SetStyle("Frame", "Outline")
 				icon:ModHeight(icon:GetHeight() - 14)
 				icon:ModWidth(icon:GetWidth() - 14)
 				icon:ClearAllPoints()
@@ -171,7 +171,7 @@ local function AchievementStyle()
 	AchievementFrameHeaderTitle:ModPoint("TOPLEFT", AchievementFrame.Panel, "TOPLEFT", -30, -8)
 	AchievementFrameHeaderPoints:ClearAllPoints()
 	AchievementFrameHeaderPoints:ModPoint("LEFT", AchievementFrameHeaderTitle, "RIGHT", 2, 0)
-	AchievementFrameCategoriesContainer:SetStyle("Frame", "Inset", true, 2, -2, 2)
+	AchievementFrameCategoriesContainer:SetStyle("Frame[INSET]", "Transparent", true, 2, -2, 2)
 	AchievementFrameAchievementsContainer:SetStyle("Frame", "Default")
 	AchievementFrameAchievementsContainer.Panel:ModPoint("TOPLEFT", 0, 2)
 	AchievementFrameAchievementsContainer.Panel:ModPoint("BOTTOMRIGHT", -3, -3)
@@ -282,7 +282,7 @@ local function AchievementStyle()
 					tex:InsetPoints()
 				end
 
-				icon:SetStyle("!_Frame", "Default")
+				icon:SetStyle("Frame", "Default")
 				icon:ModHeight(icon:GetHeight()-14)
 				icon:ModWidth(icon:GetWidth()-14)
 				icon:ClearAllPoints()
@@ -337,7 +337,7 @@ local function AchievementStyle()
 
 			_G[d.."IconBling"]:Die()
 			_G[d.."IconOverlay"]:Die()
-			_G[d.."Icon"]:SetStyle("!_Frame", "Default")
+			_G[d.."Icon"]:SetStyle("Frame", "Default")
 			_G[d.."Icon"]:ModHeight(_G[d.."Icon"]:GetHeight()-14)
 			_G[d.."Icon"]:ModWidth(_G[d.."Icon"]:GetWidth()-14)
 			_G[d.."Icon"]:ClearAllPoints()

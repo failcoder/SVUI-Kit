@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -266,20 +266,21 @@ end
 
 local function CurrentPosition(frame)
 	if not frame then return end
-
 	local parentName
 	local anchor1, parent, anchor2, x, y = frame:GetPoint()
-
 	if((not anchor1) or (not anchor2) or (not x) or (not y)) then
 		anchor1, anchor2, x, y = "TOPLEFT", "TOPLEFT", 160, -80
 	end
-	
 	if(not parent or (parent and (not parent:GetName()))) then 
 		parentName = "UIParent" 
 	else
 		parentName = parent:GetName()
 	end
-	return ("%s\031%s\031%s\031%d\031%d"):format(anchor1, parentName, anchor2, parsefloat(x), parsefloat(y))
+	local width, height = frame:GetSize()
+	if((not width) or (not height)) then
+		width, height = 0, 0
+	end
+	return ("%s\031%s\031%s\031%d\031%d\031%d\031%d"):format(anchor1, parentName, anchor2, parsefloat(x), parsefloat(y), parsefloat(width), parsefloat(height))
 end
 
 local function SaveAnchor(frameName)
@@ -579,28 +580,27 @@ end
 CONSTRUCTS
 ##########################################################
 ]]--
-local function SetNewAnchor(frame, moveName, title, snap, dragStopFunc, callbackOnEnter)
+local function SetNewAnchor(frame, moveName, title, postSizeFunc, postDragFunc, callbackOnEnter)
 	if(not frame or (Layout.Frames[moveName] ~= nil)) then return end
 
 	Layout.Frames[moveName] = {
 		text = title,
-		postdrag = dragStopFunc,
-		point = CurrentPosition(frame)
+		postsize = postSizeFunc,
+		postdrag = postDragFunc,
+		layoutString = CurrentPosition(frame)
 	} 
 
 	local movable = CreateFrame("Button", moveName, SV.Screen)
 	movable:SetFrameLevel(frame:GetFrameLevel() + 1)
 	movable:SetClampedToScreen(true)
-	movable:SetWidth(frame:GetWidth())
-	movable:SetHeight(frame:GetHeight())
 	movable:SetFrameStrata("DIALOG")
 
 	movable.parent = frame;
 	movable.name = moveName;
 	movable.textString = title;
-	movable.postdrag = dragStopFunc;
+	movable.postdrag = postDragFunc;
 	movable.HasMoved = Layout.Movable_HasMoved
-	movable.snapOffset = snap or -2; 
+	movable.snapOffset = frame.snapOffset or -2; 
 
 	local anchor1, anchorParent, anchor2, xPos, yPos
 	if(Layout.Anchors and Layout.Anchors[moveName] and (type(Layout.Anchors[moveName]) == "string")) then 
@@ -609,8 +609,10 @@ local function SetNewAnchor(frame, moveName, title, snap, dragStopFunc, callback
 		anchor1, anchorParent, anchor2, xPos, yPos = split("\031", CurrentPosition(frame))
 	end 
 
+	local width, height = frame:GetSize()
 	movable:SetPoint(anchor1, anchorParent, anchor2, xPos, yPos)
-	movable:SetStyle("!_Frame", "Transparent")
+	movable:SetSize(width, height)
+	movable:SetStyle("Frame", "Transparent")
 	movable:SetAlpha(0.4)
 
 	frame:SetScript("OnSizeChanged", Layout.Movable_OnSizeChanged)
@@ -641,11 +643,11 @@ local function SetNewAnchor(frame, moveName, title, snap, dragStopFunc, callback
 	movable:SetMovable(true)
 	movable:Hide()
 
-	if(dragStopFunc and (type(dragStopFunc) == "function") and callbackOnEnter) then 
+	if(postDragFunc and (type(postDragFunc) == "function") and callbackOnEnter) then 
 		movable:RegisterEvent("PLAYER_ENTERING_WORLD")
 		movable:SetScript("OnEvent", function(this, event)
 			local point = Pinpoint(this)
-			dragStopFunc(this, point)
+			postDragFunc(this, point)
 			this:UnregisterAllEvents()
 		end)
 	end 
@@ -657,11 +659,17 @@ function Layout:Reset(request, bypass)
 	if(request == "" or request == nil) then 
 		for frameName, frameData in pairs(self.Frames) do 
 			local frame = _G[frameName];
-			if(frameData.point) then
-				local u, v, w, x, y = split("\031", frameData.point)
+			if(frameData.layoutString) then
+				local anchor1, anchorParent, anchor2, xPos, yPos, width, height = split("\031", frameData.layoutString)
 				frame:ClearAllPoints()
-				frame:SetPoint(u, v, w, x, y)
+				frame:SetPoint(anchor1, anchorParent, anchor2, xPos, yPos)
 				if(not bypass) then
+					if(frameData.postsize and (type(frameData.postsize) == "function")) then
+						if(not width or width == 0) then width = frame:GetWidth() end
+						if(not height or height == 0) then height = frame:GetHeight() end
+						frame:SetSize(width, height)
+						frameData.postsize(frame)
+					end
 					if(frameData.postdrag and (type(frameData.postdrag) == "function")) then 
 						frameData.postdrag(frame, Pinpoint(frame))
 					end
@@ -673,12 +681,18 @@ function Layout:Reset(request, bypass)
 		end
 	else 
 		for frameName, frameData in pairs(self.Frames) do
-			if(frameData.point and (request == frameData.text)) then
+			if(frameData.layoutString and (request == frameData.text)) then
 				local frame = _G[frameName]
-				local u, v, w, x, y = split("\031", frameData.point)
+				local anchor1, anchorParent, anchor2, xPos, yPos, width, height = split("\031", frameData.layoutString)
 				frame:ClearAllPoints()
-				frame:SetPoint(u, v, w, x, y) 
+				frame:SetPoint(anchor1, anchorParent, anchor2, xPos, yPos) 
 				if(not bypass) then
+					if(frameData.postsize and (type(frameData.postsize) == "function")) then
+						if(not width or width == 0) then width = frame:GetWidth() end
+						if(not height or height == 0) then height = frame:GetHeight() end
+						frame:SetSize(width, height)
+						frameData.postsize(frame)
+					end
 					if(frameData.postdrag and (type(frameData.postdrag) == "function")) then 
 						frameData.postdrag(frame, Pinpoint(frame))
 					end
@@ -698,13 +712,25 @@ function Layout:Update()
 		local anchor1, parent, anchor2, x, y;
 		if frame then
 			if (self.Anchors and self.Anchors[frameName] and (type(self.Anchors[frameName]) == "string")) then 
-				anchor1, parent, anchor2, x, y = split("\031", self.Anchors[frameName])
+				anchor1, parent, anchor2, x, y, width, height = split("\031", self.Anchors[frameName])
 				frame:ClearAllPoints()
 				frame:SetPoint(anchor1, parent, anchor2, x, y)
-			elseif(frameData.point) then 
-				anchor1, parent, anchor2, x, y = split("\031", frameData.point)
+				if(frameData.postsize and (type(frameData.postsize) == "function")) then
+					if(not width or width == 0) then width = frame:GetWidth() end
+					if(not height or height == 0) then height = frame:GetHeight() end
+					frame:SetSize(width, height)
+					frameData.postsize(frame)
+				end
+			elseif(frameData.layoutString) then 
+				anchor1, parent, anchor2, x, y, width, height = split("\031", frameData.layoutString)
 				frame:ClearAllPoints()
 				frame:SetPoint(anchor1, parent, anchor2, x, y)
+				if(frameData.postsize and (type(frameData.postsize) == "function")) then
+					if(not width or width == 0) then width = frame:GetWidth() end
+					if(not height or height == 0) then height = frame:GetHeight() end
+					frame:SetSize(width, height)
+					frameData.postsize(frame)
+				end
 			end
 		end
 	end
@@ -1126,18 +1152,73 @@ LOAD BY TRIGGER
 ]]--
 local function InitializeMovables()
 	Layout.Anchors = SV.db.LAYOUT or {}
-	Layout:SetStyle("!_Frame", "Transparent")
 	--Layout:SetPanelColor("yellow")
 	Layout:RegisterForDrag("LeftButton")
 	Layout:RegisterEvent("PLAYER_REGEN_DISABLED")
 	Layout:SetScript("OnEvent", XML_Layout_OnEvent)
 	Layout.Portrait:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\Doodads\MENTALO-OFF]])
 
-	SVUI_LayoutGridButton:SetScript("OnClick", XML_LayoutGridButton_OnClick)
+
+	SVUI_LayoutLockButton:ModSize(110, 25)
+	SVUI_LayoutLockButton.Left:SetAlpha(0)
+    SVUI_LayoutLockButton.Middle:SetAlpha(0)
+    SVUI_LayoutLockButton.Right:SetAlpha(0)
+    SVUI_LayoutLockButton:SetNormalTexture("")
+    SVUI_LayoutLockButton:SetPushedTexture("")
+    SVUI_LayoutLockButton:SetPushedTexture("")
+    SVUI_LayoutLockButton:SetDisabledTexture("")
+    SVUI_LayoutLockButton:RemoveTextures()
+    SVUI_LayoutLockButton:SetFrameLevel(SVUI_LayoutLockButton:GetFrameLevel() + 1)
+	SVUI_LayoutLockButton.texture = SVUI_LayoutLockButton:CreateTexture(nil, "BORDER")
+	SVUI_LayoutLockButton.texture:ModSize(110, 50)
+	SVUI_LayoutLockButton.texture:SetPoint("CENTER", SVUI_LayoutLockButton, "CENTER", 0, -4)
+	SVUI_LayoutLockButton.texture:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\Doodads\QUESTION]])
+	SVUI_LayoutLockButton.texture:SetVertexColor(1, 1, 1)
+	SVUI_LayoutLockButton.texture:SetTexCoord(1, 0, 1, 1, 0, 0, 0, 1)
+	SVUI_LayoutLockButton.text = SVUI_LayoutLockButton:CreateFontString(nil, "OVERLAY")
+	SVUI_LayoutLockButton.text:SetFont(SV.media.font.caps, 18, "OUTLINE")
+	SVUI_LayoutLockButton.text:SetTextColor(1, 0.5, 0)
+	SVUI_LayoutLockButton.text:SetPoint("CENTER")
+	SVUI_LayoutLockButton.text:SetText("Lock")
+	SVUI_LayoutLockButton:SetScript("OnEnter", function(this)
+		this.texture:SetVertexColor(0.1, 0.1, 0.1)
+		this.text:SetTextColor(1, 1, 0)
+	end)
+	SVUI_LayoutLockButton:SetScript("OnLeave", function(this)
+		this.texture:SetVertexColor(1, 1, 1)
+		this.text:SetTextColor(1, 0.5, 0)
+	end)
 	SVUI_LayoutLockButton:SetScript("OnClick", XML_LayoutLockButton_OnClick)
 
-	SVUI_LayoutGridButton:SetStyle("Button")
-	SVUI_LayoutLockButton:SetStyle("Button")
+	SVUI_LayoutGridButton:ModSize(110, 25)
+	SVUI_LayoutGridButton.Left:SetAlpha(0)
+    SVUI_LayoutGridButton.Middle:SetAlpha(0)
+    SVUI_LayoutGridButton.Right:SetAlpha(0)
+    SVUI_LayoutGridButton:SetNormalTexture("")
+    SVUI_LayoutGridButton:SetPushedTexture("")
+    SVUI_LayoutGridButton:SetPushedTexture("")
+    SVUI_LayoutGridButton:SetDisabledTexture("")
+    SVUI_LayoutGridButton:RemoveTextures()
+    SVUI_LayoutGridButton:SetFrameLevel(SVUI_LayoutGridButton:GetFrameLevel() + 1)
+	SVUI_LayoutGridButton.texture = SVUI_LayoutGridButton:CreateTexture(nil, "BORDER")
+	SVUI_LayoutGridButton.texture:ModSize(110, 50)
+	SVUI_LayoutGridButton.texture:SetPoint("CENTER", SVUI_LayoutGridButton, "CENTER", 0, -4)
+	SVUI_LayoutGridButton.texture:SetTexture([[Interface\AddOns\SVUI_!Core\assets\textures\Doodads\QUESTION]])
+	SVUI_LayoutGridButton.texture:SetVertexColor(1, 1, 1)
+	SVUI_LayoutGridButton.text = SVUI_LayoutGridButton:CreateFontString(nil, "OVERLAY")
+	SVUI_LayoutGridButton.text:SetFont(SV.media.font.caps, 18, "OUTLINE")
+	SVUI_LayoutGridButton.text:SetTextColor(1, 0.5, 0)
+	SVUI_LayoutGridButton.text:SetPoint("CENTER")
+	SVUI_LayoutGridButton.text:SetText("Grid")
+	SVUI_LayoutGridButton:SetScript("OnEnter", function(this)
+		this.texture:SetVertexColor(0.1, 0.1, 0.1)
+		this.text:SetTextColor(1, 1, 0)
+	end)
+	SVUI_LayoutGridButton:SetScript("OnLeave", function(this)
+		this.texture:SetVertexColor(1, 1, 1)
+		this.text:SetTextColor(1, 0.5, 0)
+	end)
+	SVUI_LayoutGridButton:SetScript("OnClick", XML_LayoutGridButton_OnClick)
 
 	SVUI_LayoutPrecision:SetStyle("Frame", "Transparent")
 	SVUI_LayoutPrecision:EnableMouse(true)
@@ -1189,11 +1270,11 @@ SV.Events:On("LOAD_ALL_WIDGETS", InitializeMovables);
 CORE FUNCTIONS
 ##########################################################
 ]]--
-function SV:NewAnchor(frame, title, snapOffset, dragStopFunc, overrideName, callbackOnEnter)
+function SV:NewAnchor(frame, title, postSizeFunc, postDragFunc, overrideName, callbackOnEnter)
 	if(not frame or (not frame:GetName() and not overrideName)) then return end
 	local frameName = overrideName or frame:GetName()
 	local moveName = ("%s_MOVE"):format(frameName)
-	SetNewAnchor(frame, moveName, title, snapOffset, dragStopFunc, callbackOnEnter)
+	SetNewAnchor(frame, moveName, title, postSizeFunc, postDragFunc, callbackOnEnter)
 	return moveName
 end
 
@@ -1207,6 +1288,18 @@ end
 
 function SV:ResetAnchors(...)
 	Layout:Reset(...)
+end
+
+function SV:ForceAnchors(forced)
+	if(Layout.Frames) then 
+        for frame,_ in pairs(Layout.Frames) do 
+            if _G[frame] and _G[frame]:IsShown() then 
+                forced = true;
+                _G[frame]:Hide()
+            end 
+        end 
+    end
+    return forced
 end
 
 SV.SystemAlert["RESETBLIZZARD_CHECK"] = {

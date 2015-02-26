@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 local _G = _G;
@@ -79,7 +79,7 @@ RAID DEBUFFS / DEBUFF HIGHLIGHT
 ]]--
 function MOD:CreateRaidDebuffs(frame)
 	local raidDebuff = CreateFrame("Frame", nil, frame)
-	raidDebuff:SetStyle("!_Frame", "Icon")
+	raidDebuff:SetStyle("Frame", "Outline")
 	raidDebuff.icon = raidDebuff:CreateTexture(nil, "OVERLAY")
 	raidDebuff.icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 	raidDebuff.icon:InsetPoints(raidDebuff)
@@ -617,7 +617,7 @@ function MOD:CreateResolveBar(frame)
 
 	local bar = CreateFrame('StatusBar', nil, resolve)
 	bar:InsetPoints(resolve)
-	bar:SetStyle("Frame", "Bar")
+	bar:SetStyle("Frame", "Transparent")
 	bar:SetStatusBarTexture([[Interface\BUTTONS\WHITE8X8]])
 	bar:SetStatusBarColor(0.15, 0.7, 0.05, 0.9)
 	bar:SetMinMaxValues(0, 100)

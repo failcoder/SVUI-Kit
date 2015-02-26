@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I  By: S.Jackson               #
+S V U I  By: Munglunch               #
 ##############################################################################
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
@@ -511,7 +511,7 @@ function MOD:CreateCastbar(frame, reversed, moverName, ryu, useFader, isBoss, ha
 	organizer:SetFrameStrata("HIGH")
 
 	local iconHolder = CreateFrame("Frame", nil, organizer)
-	iconHolder:SetStyle("!_Frame", "Inset", false)
+	iconHolder:SetStyle("Frame[INSET]", "Transparent", false)
 	organizer.Icon = iconHolder
 
 	local buttonIcon = iconHolder:CreateTexture(nil, "BORDER")
@@ -708,7 +708,8 @@ function MOD:CreateCastbar(frame, reversed, moverName, ryu, useFader, isBoss, ha
 	castbar.SparkColor = oUF_SVUI.colors.spark
 
 	if moverName then
-		SV:NewAnchor(castbar.Holder, moverName, -6)
+		castbar.Holder.snapOffset = -6
+		SV:NewAnchor(castbar.Holder, moverName)
 	end 
 	
 	if useFader then

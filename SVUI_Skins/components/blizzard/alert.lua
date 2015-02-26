@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -58,7 +58,7 @@ local function StyleAlertIcon(frame, icon)
 	if(not frame.IconSlot) then 
 		frame.IconSlot = CreateFrame("Frame", nil, frame)
 		frame.IconSlot:WrapPoints(icon)
-		frame.IconSlot:SetStyle("Icon")
+		frame.IconSlot:SetStyle("Frame", "Outline")
 		icon:SetParent(frame.IconSlot)
 	end
 end

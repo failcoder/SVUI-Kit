@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -115,7 +115,7 @@ local function AbilityButtonHelper(index)
 		end
 
 		button:RemoveTextures()
-		button:SetStyle("Frame", "Icon", true, 2, 0, 0)
+		button:SetStyle("Frame", "Outline", true, 2, 0, 0)
 
 		if(button.iconTexture) then
 			button.iconTexture:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
@@ -151,7 +151,7 @@ local ButtonUpdateHelper = function(self)
 		end
 
 		self:RemoveTextures() 
-		self:SetStyle("Frame", "Icon", true, 2, 0, 0)
+		self:SetStyle("Frame", "Outline", true, 2, 0, 0)
 
 		if(icon) then
 			icon:SetTexture(iconTex)
@@ -191,7 +191,7 @@ local function SpellBookStyle()
 
 	if(SpellBookFrameInset) then 
 		SpellBookFrameInset:RemoveTextures()
-		SpellBookFrameInset:SetStyle("!_Frame", "Inset", true, 6)
+		SpellBookFrameInset:SetStyle("Frame[INSET]", "Transparent", true, 6)
 	end
 	if(SpellBookSpellIconsFrame) then SpellBookSpellIconsFrame:RemoveTextures() end
 	if(SpellBookSideTabsFrame) then SpellBookSideTabsFrame:RemoveTextures() end
@@ -261,7 +261,7 @@ local function SpellBookStyle()
 				buttonTex:InsetPoints()
 				button:SetFrameLevel(button:GetFrameLevel() + 2)
 				if not button.Panel then
-					button:SetStyle("Frame", "Inset", false, 3, 3, 3)
+					button:SetStyle("Frame[INSET]", "Transparent", false, 3, 3, 3)
 					button.Panel:SetAllPoints()
 				end 
 			end

@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -39,7 +39,7 @@ SV:SetAtlasFunc("GarrMission_PortraitsFromLevel", GarrMission_PortraitsFromLevel
 local GarrMission_MaterialFrame = function(self)
   local frame = self:GetParent()
   frame:RemoveTextures()
-  frame:SetStyle("Frame", "Inset", true, 1, -5, -7)
+  frame:SetStyle("Frame[INSET]", "Transparent", true, 1, -5, -7)
 end
 SV:SetAtlasFunc("GarrMission_MaterialFrame", GarrMission_MaterialFrame)
 

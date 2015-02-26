@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -108,7 +108,7 @@ local function StyleAceGUI(event, addon)
 		if(widgetType == "MultiLineEditBox") then 
 			local widgetFrame = widget.frame;
 			SV.API:Set("!_Frame", widgetFrame, "Default", true)
-			SV.API:Set("Frame", widget.scrollBG, "Lite", true) 
+			SV.API:Set("Frame", widget.scrollBG, "Transparent", true) 
 			Widget_ButtonStyle(widget.button)
 			SV.API:Set("ScrollFrame", widget.scrollBar) 
 			widget.scrollBar:SetPoint("RIGHT", widgetFrame, "RIGHT", -4)
@@ -239,7 +239,7 @@ local function StyleAceGUI(event, addon)
 					return newButton 
 				end
 			elseif(not widgetParent.Panel) then
-				SV.API:Set("Frame", widgetParent, "Lite")
+				SV.API:Set("Frame", widgetParent, "Transparent")
 			end
 
 			if(widgetType == "TabGroup") then

@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -64,7 +64,7 @@ local function NewToolButton(name, parent, template, width, height, point, relat
 	button:ModWidth(width)
 	button:ModHeight(height)
 	button:ModPoint(point, relativeto, point2, xOfs, yOfs)
-	button:SetStyle("DockButton") 
+	SV.API:Set("DockButton", button)
 
 	if(textDisplay) then
 		local text = button:CreateFontString(nil,"OVERLAY")
@@ -102,7 +102,7 @@ function MOD:UpdateRaidLeader(event)
 end 
 
 function MOD:LoadRaidLeaderTools()
-	if(not SV.db.Dock.raidTool) then return end
+	if(not SV.db.Dock.dockTools.leader) then return end
 	local dock = SV.Dock.TopLeft.Bar
 	
 	self.RaidTool = SV.Dock:SetDockButton("TopLeft", RAID_CONTROL, SV.media.dock.raidToolIcon, nil, "SVUI_RaidToolDockButton");
@@ -191,7 +191,7 @@ function MOD:LoadRaidLeaderTools()
 		markerButton:ModHeight(18)
 		markerButton:SetWidth(109)
 		markerButton:RemoveTextures()
-		markerButton:SetStyle("DockButton") 
+		SV.API:Set("DockButton", markerButton)
 
 		local markersText = markerButton:CreateFontString(nil,"OVERLAY")
 		markersText:SetFont(SV.media.font.default, 14, "NONE")

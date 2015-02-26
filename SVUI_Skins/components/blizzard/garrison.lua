@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -41,9 +41,35 @@ local function StyleTextureIcon(frame)
 	if(not frame.IconSlot) then 
 		frame.IconSlot = CreateFrame("Frame", nil, frame)
 		frame.IconSlot:WrapPoints(frame.Texture)
-		frame.IconSlot:SetStyle("Icon")
+		frame.IconSlot:SetStyle("Frame", "Outline")
 		frame.Texture:SetParent(frame.IconSlot)
 	end
+end
+
+local function StyleIconElement(frame)
+	if(not frame) then return end
+	if(frame.Icon) then
+    	local size = frame:GetHeight() - 6
+    	if(not frame.IconSlot) then
+    		local texture = frame.Icon:GetTexture()
+			frame:RemoveTextures()
+			frame.IconSlot = CreateFrame("Frame", nil, frame)
+			frame.IconSlot:WrapPoints(frame.Icon)
+			frame.IconSlot:SetStyle("Frame", "Outline")
+			frame.Icon:SetParent(frame.IconSlot)
+			frame.Icon:SetTexture(texture)
+		end
+		frame.Icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
+		frame.Icon:ClearAllPoints()
+		frame.Icon:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -3, -3)
+		frame.Icon:SetSize(size, size)
+		frame.Icon:SetDesaturated(false)
+		frame.Icon:SetDrawLayer("ARTWORK", -1)
+		if(frame.Quantity) then
+	    	frame.Quantity:SetFontObject(SVUI_Font_Number)
+	        frame.Quantity:SetParent(frame.IconSlot)
+	    end
+    end
 end
 
 local function StyleListItem(item)
@@ -52,7 +78,7 @@ local function StyleListItem(item)
     	local size = item:GetHeight() - 8
     	local texture = item.Icon:GetTexture()
 		item:RemoveTextures()
-    	item:SetStyle("Inset")
+    	item:SetStyle("Frame[INSET]", "Transparent")
     	item.Icon:SetTexture(texture)
 		item.Icon:ClearAllPoints()
 		item.Icon:SetPoint("TOPLEFT", item, "TOPLEFT", 4, -4)
@@ -62,9 +88,14 @@ local function StyleListItem(item)
 		if(not item.IconSlot) then 
 			item.IconSlot = CreateFrame("Frame", nil, item)
 			item.IconSlot:SetAllPoints(item.Icon)
-			item.IconSlot:SetStyle("Icon")
+			item.IconSlot:SetStyle("Frame", "Outline")
 			item.Icon:SetParent(item.IconSlot)
 		end
+		item.Icon:SetDrawLayer("ARTWORK", -1)
+    end
+    if(item.Quantity) then
+    	item.Quantity:SetFontObject(SVUI_Font_Number)
+        item.Quantity:SetDrawLayer("ARTWORK", 1)
     end
 end
 
@@ -83,7 +114,7 @@ local function StyleAbilityIcon(frame)
 		if(not frame.IconSlot) then
 			frame.IconSlot = CreateFrame("Frame", nil, frame)
 			frame.IconSlot:WrapPoints(frame.Icon)
-			frame.IconSlot:SetStyle("Icon")
+			frame.IconSlot:SetStyle("Frame", "Outline")
 			frame.Icon:SetParent(frame.IconSlot)
 		end
     end
@@ -99,7 +130,7 @@ local _hook_ReagentUpdate = function(self)
     for i = 1, #reagents do
     	if(reagents[i] and (not reagents[i].Panel)) then
     		reagents[i]:RemoveTextures()
-        	reagents[i]:SetStyle("Icon")
+        	reagents[i]:SetStyle("Frame", "Outline")
         	if(reagents[i].Icon) then
 				reagents[i].Icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 			end
@@ -135,7 +166,7 @@ local _hook_GarrisonFollowerListUpdate = function(self)
         	local follower = followers[followersList[index]];
 	        if(not button.Panel) then
 	            button:RemoveTextures()
-	            button:SetStyle("Frame", 'Blackout', true, 1, 0, 0)
+	            button:SetStyle("Frame", "Shadow", true, 1, 0, 0)
 				if(button.XPBar) then
 					button.XPBar:SetTexture(SV.media.statusbar.default)
 					button.XPBar:SetGradient('HORIZONTAL', 0.5, 0, 1, 1, 0, 1)
@@ -202,7 +233,7 @@ local _hook_GarrisonFollowerPage_ShowFollower = function(self, followerID)
     if(not self.XPBar.Panel) then
 	    self.XPBar:RemoveTextures()
 		self.XPBar:SetStatusBarTexture(SV.media.statusbar.default)
-		self.XPBar:SetStyle("!_Frame", "Bar")
+		self.XPBar:SetStyle("Frame", "Transparent")
 	end
  
     for i=1, #self.AbilitiesFrame.Abilities do
@@ -244,23 +275,15 @@ local function StyleRewardButtons(rewardButtons)
     end
 end
 
-local function StyleListButtons(listButtons)
+local function StyleListButtons(parent)
+	if(not parent) then return end
+	local listButtons = parent.Rewards
+	SV.API:Set("ItemButton", parent)
+	if(parent.LocBG) then
+		parent.LocBG:SetDrawLayer("ARTWORK", -2)
+	end
     for i = 1, #listButtons do
-        local frame = listButtons[i];
-        if(frame.Icon) then
-	    	local size = frame:GetHeight() - 6
-	    	if(not frame.Panel) then
-		    	local texture = frame.Icon:GetTexture()
-				frame:RemoveTextures()
-		    	frame:SetStyle("!_Frame", 'Blackout', true, 3)
-		    	frame.Icon:SetTexture(texture)
-		    end
-			frame.Icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
-			frame.Icon:ClearAllPoints()
-			frame.Icon:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -3, -3)
-			frame.Icon:SetSize(size, size)
-			frame.Icon:SetDesaturated(false)
-	    end
+        StyleIconElement(listButtons[i])
     end
 end
 
@@ -272,8 +295,7 @@ local function StyleUpdateRewards()
 	local self = GarrisonMissionFrame
     local missionButtons = self.MissionTab.MissionList.listScroll.buttons;
     for i = 1, #missionButtons do
-    	SV.API:Set("ItemButton", missionButtons[i])
-        StyleListButtons(missionButtons[i].Rewards)
+        StyleListButtons(missionButtons[i])
     end
     StyleRewardButtons(self.MissionTab.MissionPage.RewardsFrame.Rewards);
     StyleRewardButtons(self.MissionComplete.BonusRewards.Rewards);
@@ -283,21 +305,7 @@ local _hook_GarrisonMissionButton_SetRewards = function(self, rewards, numReward
 	if (numRewards > 0) then
 		local index = 1;
 		for id, reward in pairs(rewards) do
-			local frame = self.Rewards[index];
-	        if(frame.Icon) then
-		    	local size = frame:GetHeight() - 6
-		    	if(not frame.Panel) then
-			    	local texture = frame.Icon:GetTexture()
-					frame:RemoveTextures()
-			    	frame:SetStyle("!_Frame", 'Blackout', true, 3)
-			    	frame.Icon:SetTexture(texture)
-			    end
-				frame.Icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
-				frame.Icon:ClearAllPoints()
-				frame.Icon:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -3, -3)
-				frame.Icon:SetSize(size, size)
-				frame.Icon:SetDesaturated(false)
-		    end
+	        StyleIconElement(self.Rewards[index])
 		    index = index + 1;
 		end
 	end
@@ -320,11 +328,11 @@ local function LoadGarrisonStyle()
 	GarrisonBuildingFrameFollowers:ClearAllPoints()
 	GarrisonBuildingFrameFollowers:SetPoint("LEFT", GarrisonBuildingFrame, "LEFT", 10, 0)
 	GarrisonBuildingFrame.BuildingList:RemoveTextures()
-	GarrisonBuildingFrame.BuildingList:SetStyle("!_Frame", 'Inset')
+	GarrisonBuildingFrame.BuildingList:SetStyle("Frame", 'Inset')
 	GarrisonBuildingFrame.TownHallBox:RemoveTextures()
-	GarrisonBuildingFrame.TownHallBox:SetStyle("!_Frame", 'Inset')
+	GarrisonBuildingFrame.TownHallBox:SetStyle("Frame", 'Inset')
 	GarrisonBuildingFrame.InfoBox:RemoveTextures()
-	GarrisonBuildingFrame.InfoBox:SetStyle("!_Frame", 'Inset')
+	GarrisonBuildingFrame.InfoBox:SetStyle("Frame", 'Inset')
 	--SV.API:Set("Tab", GarrisonBuildingFrame.BuildingList.Tab1)
 	GarrisonBuildingFrame.BuildingList.Tab1:GetNormalTexture().SetAtlas = function() return end
 	GarrisonBuildingFrame.BuildingList.Tab1:RemoveTextures(true)
@@ -338,18 +346,14 @@ local function LoadGarrisonStyle()
 	GarrisonBuildingFrame.BuildingList.Tab3:RemoveTextures(true)
 	GarrisonBuildingFrame.BuildingList.Tab3:SetStyle("Button", -4, -10)
 	GarrisonBuildingFrame.BuildingList.MaterialFrame:RemoveTextures()
-	GarrisonBuildingFrame.BuildingList.MaterialFrame:SetStyle("Frame", "Inset", true, 1, -5, -7)
+	GarrisonBuildingFrame.BuildingList.MaterialFrame:SetStyle("Frame[INSET]", "Transparent", true, 1, -5, -7)
 	GarrisonBuildingFrameTutorialButton:Die()
 
 	StyleUpdateRewards()
 
-	GarrisonLandingPage.FollowerTab:RemoveTextures()
+	SV.API:Set("Skin", GarrisonLandingPage.FollowerTab, 12, 0, -2, 30)
 	GarrisonLandingPage.FollowerTab.AbilitiesFrame:RemoveTextures()
-	GarrisonLandingPage.FollowerTab:SetStyle("Frame", "Model")
-
-	GarrisonLandingPage.FollowerTab.Panel:ClearAllPoints()
-	GarrisonLandingPage.FollowerTab.Panel:SetPoint("TOPLEFT", GarrisonLandingPage.FollowerList.SearchBox, "TOPRIGHT", 10, 6)
-	GarrisonLandingPage.FollowerTab.Panel:SetPoint("BOTTOMRIGHT", GarrisonLandingPage, "BOTTOMRIGHT", -38, 30)
+	--GarrisonLandingPage.FollowerTab:SetStyle("Frame", "PatternModel")
 
 	GarrisonLandingPage.FollowerList:RemoveTextures()
 	GarrisonLandingPage.FollowerList:SetStyle("Frame", 'Inset', false, 4, 0, 0)
@@ -357,7 +361,7 @@ local function LoadGarrisonStyle()
 	local bgFrameTop = CreateFrame("Frame", nil, GarrisonLandingPage.Report)
 	bgFrameTop:SetPoint("TOPLEFT", GarrisonLandingPage.Report, "TOPLEFT", 38, -91)
 	bgFrameTop:SetPoint("BOTTOMRIGHT", GarrisonLandingPage.Report.List, "BOTTOMLEFT", -4, 0)
-	bgFrameTop:SetStyle("Frame", "Paper")
+	bgFrameTop:SetStyle("Frame", "PatternPaper")
 	bgFrameTop:SetPanelColor("special")
 
 	SV.API:Set("Tab", GarrisonLandingPageTab1, nil, 10, 4)
@@ -378,13 +382,28 @@ local function LoadGarrisonStyle()
 	GarrisonLandingPageReport.InProgress:GetNormalTexture().SetAtlas = function() return end
 
 	GarrisonMissionFrameMissions:RemoveTextures()
-	GarrisonMissionFrameMissions:SetStyle("!_Frame", "Inset")
+	GarrisonMissionFrameMissions:SetStyle("Frame[INSET]", "Transparent")
+
+	local readyBG = CreateFrame("Frame", nil, GarrisonMissionFrameMissions.CompleteDialog)
+	readyBG:SetAllPoints(GarrisonMissionFrame.Panel)
+	local readyBGTex = readyBG:CreateTexture(nil, "BACKGROUND")
+	readyBGTex:SetAllPoints(readyBG)
+	readyBGTex:SetTexture(0,0,0,0.8)
+
+	GarrisonMissionFrameMissions.CompleteDialog:DisableDrawLayer("BACKGROUND")
 	GarrisonMissionFrameMissions.CompleteDialog.BorderFrame:RemoveTextures()
 	GarrisonMissionFrameMissions.CompleteDialog.BorderFrame:SetStyle("Frame", 'Window', false, 4, 0, 0)
 	GarrisonMissionFrameMissions.CompleteDialog.BorderFrame.Stage:RemoveTextures()
-	GarrisonMissionFrameMissions.CompleteDialog.BorderFrame.Stage:SetStyle("!_Frame", "Model")
+	GarrisonMissionFrameMissions.CompleteDialog.BorderFrame.Stage:SetStyle("Frame", "PatternModel")
 	GarrisonMissionFrameMissions.CompleteDialog.BorderFrame.ViewButton:RemoveTextures(true)
 	GarrisonMissionFrameMissions.CompleteDialog.BorderFrame.ViewButton:SetStyle("Button")
+
+	local completedBG = CreateFrame("Frame", nil, GarrisonMissionFrame.MissionCompleteBackground)
+	completedBG:SetAllPoints(GarrisonMissionFrame.Panel)
+	local completedBGTex = completedBG:CreateTexture(nil, "BACKGROUND")
+	completedBGTex:SetAllPoints(completedBG)
+	completedBGTex:SetTexture(0,0,0,0.8)
+	GarrisonMissionFrame.MissionCompleteBackground:DisableDrawLayer("BACKGROUND")
 
 	GarrisonMissionFrameMissionsListScrollFrame:RemoveTextures()
 	SV.API:Set("ScrollFrame", GarrisonMissionFrameMissionsListScrollFrame)
@@ -395,10 +414,9 @@ local function LoadGarrisonStyle()
 	GarrisonMissionFrameMissionsTab1:SetPoint(a1, p, a2, x, (y + 8))
 
 	GarrisonMissionFrameMissions.MaterialFrame:RemoveTextures()
-	GarrisonMissionFrameMissions.MaterialFrame:SetStyle("Frame", "Inset", true, 1, -3, -3)
+	GarrisonMissionFrameMissions.MaterialFrame:SetStyle("Frame[INSET]", "Transparent", true, 1, -3, -3)
 
-	GarrisonMissionFrame.FollowerTab:RemoveTextures()
-	GarrisonMissionFrame.FollowerTab:SetStyle("!_Frame", "Model")
+	SV.API:Set("Skin", GarrisonMissionFrame.FollowerTab)
 
 	GarrisonMissionFrame.FollowerTab.ItemWeapon:RemoveTextures()
 	StyleListItem(GarrisonMissionFrame.FollowerTab.ItemWeapon)
@@ -430,7 +448,7 @@ local function LoadGarrisonStyle()
 	GarrisonMissionFrameFollowers:RemoveTextures()
 	GarrisonMissionFrameFollowers:SetStyle("Frame", 'Inset', false, 4, 0, 0)
 	GarrisonMissionFrameFollowers.MaterialFrame:RemoveTextures()
-	GarrisonMissionFrameFollowers.MaterialFrame:SetStyle("Frame", "Inset", true, 1, -5, -7)
+	GarrisonMissionFrameFollowers.MaterialFrame:SetStyle("Frame[INSET]", "Transparent", true, 1, -5, -7)
 	SV.API:Set("EditBox", GarrisonMissionFrameFollowers.SearchBox)
 
 	--GarrisonMissionFrameFollowersListScrollFrame
@@ -460,14 +478,14 @@ local function LoadGarrisonStyle()
 	mComplete.NextMissionButton:SetStyle("Button")
 
 	--GarrisonMissionFrame.MissionComplete.BonusRewards:RemoveTextures()
-	--GarrisonMissionFrame.MissionComplete.BonusRewards:SetStyle("!_Frame", "Model")
+	--GarrisonMissionFrame.MissionComplete.BonusRewards:SetStyle("Frame", "PatternModel")
 
 	local display = GarrisonCapacitiveDisplayFrame
 	display:RemoveTextures(true)
 	GarrisonCapacitiveDisplayFrameInset:RemoveTextures(true)
 	display.CapacitiveDisplay:RemoveTextures(true)
 	display.CapacitiveDisplay:SetStyle("Frame", 'Transparent')
-	display.CapacitiveDisplay.ShipmentIconFrame:SetStyle("Icon")
+	display.CapacitiveDisplay.ShipmentIconFrame:SetStyle("Frame", "Outline")
 	display.CapacitiveDisplay.ShipmentIconFrame.Icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 	display:SetStyle("Frame", "Window2")
 
@@ -475,7 +493,7 @@ local function LoadGarrisonStyle()
     for i = 1, #reagents do
     	if(reagents[i]) then
     		reagents[i]:RemoveTextures()
-        	reagents[i]:SetStyle("Icon")
+        	reagents[i]:SetStyle("Frame", "Outline")
         	if(reagents[i].Icon) then
 				reagents[i].Icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 			end
@@ -525,10 +543,10 @@ local function LoadGarrisonStyle()
 
 	SV.API:Set("Window", GarrisonRecruiterFrame, true)
 	GarrisonRecruiterFrameInset:RemoveTextures()
-	GarrisonRecruiterFrameInset:SetStyle("!_Frame", "Inset")
+	GarrisonRecruiterFrameInset:SetStyle("Frame[INSET]", "Transparent")
 	SV.API:Set("DropDown", GarrisonRecruiterFramePickThreatDropDown)
-	GarrisonRecruiterFrame.Pick.Radio1:SetStyle("!_Checkbox", false, -3, -3, true)
-	GarrisonRecruiterFrame.Pick.Radio2:SetStyle("!_Checkbox", false, -3, -3, true)
+	GarrisonRecruiterFrame.Pick.Radio1:SetStyle("Checkbox", false, -3, -3, true)
+	GarrisonRecruiterFrame.Pick.Radio2:SetStyle("Checkbox", false, -3, -3, true)
 
 	SV.API:Set("Window", GarrisonRecruitSelectFrame, true)
 	GarrisonRecruitSelectFrame.FollowerSelection:RemoveTextures()

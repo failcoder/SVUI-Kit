@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -28,7 +28,7 @@ local function ItemUpgradeStyle()
 	ItemUpgradeFrameUpgradeButton:RemoveTextures()
 	ItemUpgradeFrameUpgradeButton:SetStyle("Button")
 	ItemUpgradeFrame.ItemButton:RemoveTextures()
-	ItemUpgradeFrame.ItemButton:SetStyle("ActionSlot")
+	ItemUpgradeFrame.ItemButton:SetStyle("Button[SLOT]")
 	ItemUpgradeFrame.ItemButton.IconTexture:InsetPoints()
 	hooksecurefunc('ItemUpgradeFrame_Update', function()
 		if GetItemUpgradeItemInfo() then

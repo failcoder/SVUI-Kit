@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -386,7 +386,7 @@ local function InitializeFunStuff()
 	local afk = SV.AFK;
 	local classToken = select(2,UnitClass("player"))
 	local color = CUSTOM_CLASS_COLORS[classToken]
-	if(not SV.db.general.customClassColor) then
+	if(not SV.media.customClassColor) then
 		color = RAID_CLASS_COLORS[classToken]
 	end
 

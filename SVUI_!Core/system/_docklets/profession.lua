@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -63,7 +63,6 @@ local MOD = SV.Dock;
 LOCALS
 ##########################################################
 ]]--
-local HEARTH_SPELLS = {556,50977,18960,126892}
 local LastAddedMacro;
 local MacroCount = 0;
 
@@ -111,19 +110,6 @@ local SetMacroTooltip = function(self)
 	end
 end
 
-local SetHearthTooltip = function(self)
-	local text1 = self:GetAttribute("tipText")
-	local text2 = self:GetAttribute("tipExtraText")
-	GameTooltip:AddDoubleLine("[Left-Click]", text1, 0, 1, 0, 1, 1, 1)
-	if InCombatLockdown() then return end
-	local remaining = GetMacroCooldown(6948)
-	GameTooltip:AddDoubleLine(L["Time Remaining"], remaining, 1, 1, 1, 0, 1, 1)
-	if(text2) then
-		GameTooltip:AddLine(" ", 1, 1, 1)
-		GameTooltip:AddDoubleLine("[Right Click]", text2, 0, 1, 0, 1, 1, 1)
-	end
-end
-
 local function CreateMacroToolButton(proName, proID, itemID) 
 	local data = SV.media.dock.professionIconCoords[proID]
 	if(not data) then return end
@@ -154,59 +140,41 @@ local function CreateMacroToolButton(proName, proID, itemID)
 end
 
 local function LoadToolBarProfessions()
-	if((not SV.db.Dock.professions) or MOD.ToolBarLoaded) then return end
+	if(MOD.ToolBarLoaded) then return end
+	
 	if(InCombatLockdown()) then 
 		MOD.ProfessionNeedsUpdate = true; 
 		MOD:RegisterEvent("PLAYER_REGEN_ENABLED"); 
 		return 
 	end
 
-	-- HEARTH BUTTON
-	local hearthStone = GetItemInfo(6948);
-	if(hearthStone and type(hearthStone) == "string") then
-		local hearth = SV.Dock:SetDockButton("BottomLeft", L["Hearthstone"], SV.media.dock.hearthIcon, nil, "SVUI_Hearth", SetHearthTooltip, "SecureActionButtonTemplate")
-		hearth.Icon:SetTexCoord(0,0.5,0,1)
-		hearth:SetAttribute("type1", "macro")
-		hearth:SetAttribute("macrotext1", "/use [nomod]" .. hearthStone)
-		local hasRightClick = false;
-		for i = 1, #HEARTH_SPELLS do
-			if(IsSpellKnown(HEARTH_SPELLS[i])) then
-				local rightClickSpell = GetSpellInfo(HEARTH_SPELLS[i])
-				hearth:SetAttribute("tipExtraText", rightClickSpell)
-				hearth:SetAttribute("type2", "macro")
-				hearth:SetAttribute("macrotext2", "/use [nomod] " .. rightClickSpell)
-				hasRightClick = true;
-			end
-		end
-	end
-
 	-- PROFESSION BUTTONS
 	local proName, proID
 	local prof1, prof2, archaeology, _, cooking, firstAid = GetProfessions()
 
-	if(firstAid ~= nil) then 
+	if(firstAid ~= nil and (SV.db.Dock.dockTools.firstAid)) then 
 		proName, _, _, _, _, _, proID = GetProfessionInfo(firstAid)
 		CreateMacroToolButton(proName, proID, firstAid)
 	end 
 
-	if(archaeology ~= nil) then 
+	if(archaeology ~= nil and (SV.db.Dock.dockTools.archaeology)) then 
 		proName, _, _, _, _, _, proID = GetProfessionInfo(archaeology)
 		CreateMacroToolButton(proName, proID, archaeology)
 	end 
 
-	if(cooking ~= nil) then 
+	if(cooking ~= nil and (SV.db.Dock.dockTools.cooking)) then 
 		proName, _, _, _, _, _, proID = GetProfessionInfo(cooking)
 		CreateMacroToolButton(proName, proID, cooking)
 	end 
 
-	if(prof2 ~= nil) then 
+	if(prof2 ~= nil and (SV.db.Dock.dockTools.secondary)) then 
 		proName, _, _, _, _, _, proID = GetProfessionInfo(prof2)
 		if(proID ~= 182 and proID ~= 393) then
 			CreateMacroToolButton(proName, proID, prof2)
 		end
 	end 
 
-	if(prof1 ~= nil) then 
+	if(prof1 ~= nil and (SV.db.Dock.dockTools.primary)) then 
 		proName, _, _, _, _, _, proID = GetProfessionInfo(prof1)
 		if(proID ~= 182 and proID ~= 393) then
 			CreateMacroToolButton(proName, proID, prof1)
@@ -221,11 +189,11 @@ BUILD/UPDATE
 ##########################################################
 ]]--
 function MOD:UpdateProfessionTools() 
-	if((not SV.db.Dock.professions) or self.ToolBarLoaded) then return end
+	if(self.ToolBarLoaded) then return end
 	LoadToolBarProfessions()
 end 
 
 function MOD:LoadProfessionTools()
-	if((not SV.db.Dock.professions) or self.ToolBarLoaded) then return end
+	if(self.ToolBarLoaded) then return end
 	SV.Timers:ExecuteTimer(LoadToolBarProfessions, 5)
 end

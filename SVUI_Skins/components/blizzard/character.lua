@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -96,7 +96,7 @@ local function StyleCharacterSlots()
 			if(not charSlot.Panel) then
 				charSlot:RemoveTextures()
 				charSlot.ignoreTexture:SetTexture([[Interface\PaperDollInfoFrame\UI-GearManager-LeaveItem-Transparent]])
-				charSlot:SetStyle("!_ActionSlot", 1, 0, 0)
+				charSlot:SetStyle("ActionSlot", 1, 0, 0)
 
 				local iconTex = _G[globalName.."IconTexture"]
 				if(iconTex) then
@@ -179,7 +179,7 @@ local function Reputation_OnShow()
 		if bar then
 			 bar:SetStatusBarTexture(SV.media.statusbar.default)
 			if not bar.Panel then
-				 bar:SetStyle("Frame", "Inset")
+				 bar:SetStyle("Frame[INSET]", "Transparent")
 			end 
 			_G["ReputationBar"..i.."Background"]:SetTexture("")
 			_G["ReputationBar"..i.."ReputationBarHighlight1"]:SetTexture("")
@@ -220,7 +220,7 @@ local function PaperDollEquipmentManagerPane_OnShow()
 	end
 
 	GearManagerDialogPopup:RemoveTextures()
-	GearManagerDialogPopup:SetStyle("Frame", "Inset", true)
+	GearManagerDialogPopup:SetStyle("Frame[INSET]", "Transparent", true)
 	GearManagerDialogPopup:ModPoint("LEFT", PaperDollFrame, "RIGHT", 4, 0)
 	GearManagerDialogPopupScrollFrame:RemoveTextures()
 	GearManagerDialogPopupEditBox:RemoveTextures()
@@ -317,7 +317,7 @@ local function CharacterFrameStyle()
 	CharacterModelFrameBackgroundBotLeft:SetTexture("")
 	CharacterModelFrameBackgroundBotRight:SetTexture("")
 
-	CharacterModelFrame:SetStyle("!_Frame", "Model")
+	CharacterModelFrame:SetStyle("Frame", "PatternModel")
 	CharacterFrameExpandButton:SetFrameLevel(CharacterModelFrame:GetFrameLevel() + 5)
 
 	PaperDollTitlesPane:RemoveTextures()
@@ -343,9 +343,9 @@ local function CharacterFrameStyle()
 
 	ReputationFrame:RemoveTextures(true)
 	ReputationListScrollFrame:RemoveTextures()
-	ReputationListScrollFrame:SetStyle("Frame", "Inset")
+	ReputationListScrollFrame:SetStyle("Frame[INSET]", "Transparent")
 	ReputationDetailFrame:RemoveTextures()
-	ReputationDetailFrame:SetStyle("Frame", "Inset", true)
+	ReputationDetailFrame:SetStyle("Frame[INSET]", "Transparent", true)
 	ReputationDetailFrame:ModPoint("TOPLEFT", ReputationFrame, "TOPRIGHT", 4, -28)
 	ReputationFrame:HookScript("OnShow", Reputation_OnShow)
 	hooksecurefunc("ExpandFactionHeader", Reputation_OnShow)
@@ -366,14 +366,14 @@ local function CharacterFrameStyle()
 			end 
 		end 
 		TokenFramePopup:RemoveTextures()
-		TokenFramePopup:SetStyle("Frame", "Inset", true)
+		TokenFramePopup:SetStyle("Frame[INSET]", "Transparent", true)
 		TokenFramePopup:ModPoint("TOPLEFT", TokenFrame, "TOPRIGHT", 4, -28)
 	end)
 
-	PetModelFrame:SetStyle("Frame", "Premium", false, 1, -7, -7)
+	PetModelFrame:SetStyle("Frame", "PatternComic", false, 1, -7, -7)
 	PetPaperDollPetInfo:GetRegions():SetTexCoord(.12, .63, .15, .55)
 	PetPaperDollPetInfo:SetFrameLevel(PetPaperDollPetInfo:GetFrameLevel() + 10)
-	PetPaperDollPetInfo:SetStyle("Frame", "Icon")
+	PetPaperDollPetInfo:SetStyle("Frame", "Outline")
 	PetPaperDollPetInfo.Panel:SetFrameLevel(0)
 	PetPaperDollPetInfo:ModSize(24, 24)
 end 

@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -117,7 +117,7 @@ function MOD:Docklet_Omen(parent)
   --OmenTitle:SetPanelColor("class")
   --OmenTitle:GetFontString():SetFont(SV.media.font.default, 12, "OUTLINE")
   OmenBarList:RemoveTextures()
-  OmenAnchor:SetStyle("!_Frame", 'Transparent')
+  OmenAnchor:SetStyle("Frame", 'Transparent')
   OmenAnchor:ClearAllPoints()
   OmenAnchor:SetAllPoints(parent)
   OmenAnchor:SetParent(parent)

@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -57,7 +57,7 @@ SV.defaults[Schema] = {
 	["mapAlpha"] = 1, 
 	["tinyWorldMap"] = true, 
 	["size"] = 240, 
-	["customshape"] = true,  
+	["mapShape"] = 'RECTANGLE',  
 	["miniPlayerXY"] = true,
 	["worldPlayerXY"] = true,
 	["worldMouseXY"] = true,
@@ -136,11 +136,16 @@ function MOD:LoadOptions()
 						desc = "Adjust the color of the minimap's outer border",
 						values = colorSelect,
 					},
-					customshape = {
+					mapShape = {
 						order = 4,
-						type = "toggle",
-						name = "Custom Shape",
-						desc = "Toggle the use of either rectangular or square minimap.",
+						type = "select",
+						name = "Minimap Shape",
+						desc = "Select the shape of your minimap.",
+						values = {
+							['RECTANGLE'] = 'Rectangular (Default)',
+							['SQUARE'] = 'Square',
+							['ROUND'] = 'Round',
+						},
 					},
 					customIcons = {
 						order = 5,

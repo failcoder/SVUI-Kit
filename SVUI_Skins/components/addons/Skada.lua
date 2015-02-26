@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -30,28 +30,35 @@ local StupidSkada = function() return end
 SKADA
 ##########################################################
 ]]--
-local function skada_panel_loader(dock, window)
-  local width,height = dock:GetSize()
-
-  window.db.barspacing = 1;
-  window.db.barwidth = width - 10;
-  window.db.background.height = height - (window.db.enabletitle and window.db.title.height or 0) - 12;
-  window.db.spark = false;
-  window.db.barslocked = true;
+local function skada_panel_loader(dock, window, heightOverride)
+  local height = heightOverride or MOD.Docklet:GetHeight()
+  local width = dock:GetWidth()
+  local db = window.db
+  local curHeight = 0
+  if(db) then
+    if(db.enabletitle) then curHeight = db.title.height end
+    db.barspacing = 1;
+    db.barwidth = width - 10;
+    db.background.height = (height - curHeight) - 12;
+    db.spark = false;
+    db.barslocked = true;
+  end
   window.bargroup:ClearAllPoints()
   window.bargroup:InsetPoints(dock, 3, 3)
   window.bargroup:SetFrameStrata('LOW')
 
   local bgroup = window.bargroup.backdrop;
-  if bgroup then 
+  if (bgroup) then 
     bgroup:Show()
-    bgroup:SetStyle("!_Frame", 'Transparent', true) 
+    if(not bgroup.Panel) then
+      bgroup:SetStyle("Frame", 'Transparent', true)
+    end
   end
 
   dock.FrameLink = window;
 end
 
-function MOD:Docklet_Skada()
+function MOD:Docklet_Skada(_, heightOverride)
   if not Skada then return end
 
   local dock1,dock2,enabled1,enabled2 = MOD:FetchDocklets();
@@ -62,9 +69,11 @@ function MOD:Docklet_Skada()
       local key = "SkadaBarWindow" .. wname
 
       if(enabled1 and dock1:find(key)) then
-        skada_panel_loader(MOD.Docklet.Dock1, window);
+        skada_panel_loader(MOD.Docklet.Dock1, window, heightOverride);
+        Skada.displays['bar']:ApplySettings(window)
       elseif(enabled2 and dock2:find(key)) then
-        skada_panel_loader(MOD.Docklet.Dock2, window);
+        skada_panel_loader(MOD.Docklet.Dock2, window, heightOverride);
+        Skada.displays['bar']:ApplySettings(window)
       else
         window.db.barslocked = false;
       end

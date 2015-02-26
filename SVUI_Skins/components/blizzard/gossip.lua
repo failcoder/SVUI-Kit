@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -45,7 +45,7 @@ local function GossipStyle()
 		_G[t]:RemoveTextures()
 	end 
 	GossipFrame:SetStyle("Frame", "Window")
-	GossipGreetingScrollFrame:SetStyle("!_Frame", "Inset", true)
+	GossipGreetingScrollFrame:SetStyle("Frame[INSET]", "Transparent", true)
 	GossipGreetingScrollFrame.spellTex = GossipGreetingScrollFrame:CreateTexture(nil, "ARTWORK")
 	GossipGreetingScrollFrame.spellTex:SetTexture([[Interface\QuestFrame\QuestBG]])
 	GossipGreetingScrollFrame.spellTex:SetPoint("TOPLEFT", 2, -2)
@@ -58,7 +58,7 @@ local function GossipStyle()
 
 	NPCFriendshipStatusBar:RemoveTextures()
 	NPCFriendshipStatusBar:SetStatusBarTexture(SV.media.statusbar.default)
-	NPCFriendshipStatusBar:SetStyle("Frame", "Bar")
+	NPCFriendshipStatusBar:SetStyle("Frame", "Transparent")
 
 	NPCFriendshipStatusBar:ClearAllPoints()
 	NPCFriendshipStatusBar:SetPoint("TOPLEFT", GossipFrame, "TOPLEFT", 58, -34)

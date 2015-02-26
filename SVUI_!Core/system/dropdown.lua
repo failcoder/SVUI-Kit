@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -187,7 +187,7 @@ function SV.Dropdown:Open(target, list, titleText)
 		end
 	end
 
-	local maxHeight = (min(maxPerColumn, #list) * 16) + 20;
+	local maxHeight = (min(maxPerColumn, #list) * 16) + 50;
 	local maxWidth = (135 * cols) + (10 * cols) + 10;
 	local point = GetScreenPosition(target);
 

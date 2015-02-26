@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -33,7 +33,7 @@ local function WorldMap_SmallView()
   local WorldMapFrame = _G.WorldMapFrame;
   WorldMapFrame.Panel:ClearAllPoints()
   WorldMapFrame.Panel:WrapPoints(WorldMapFrame, 4, 4)
-  WorldMapFrame.Panel.Panel:WrapPoints(WorldMapFrame.Panel)
+  --WorldMapFrame.Panel.Panel:WrapPoints(WorldMapFrame.Panel)
   if(SVUI_WorldMapCoords) then
     SVUI_WorldMapCoords:SetPoint("BOTTOMLEFT", WorldMapFrame, "BOTTOMLEFT", 5, 5)
   end
@@ -47,7 +47,7 @@ local function WorldMap_FullView()
   local w, h = WorldMapDetailFrame:GetSize()
   WorldMapFrame.Panel:ModSize(w + 24, h + 98)
   WorldMapFrame.Panel:ModPoint("TOP", WorldMapFrame, "TOP", 0, 0)
-  WorldMapFrame.Panel.Panel:WrapPoints(WorldMapFrame.Panel)
+  --WorldMapFrame.Panel.Panel:WrapPoints(WorldMapFrame.Panel)
   if(SVUI_WorldMapCoords) then
     SVUI_WorldMapCoords:SetPoint("BOTTOMLEFT", WorldMapFrame.Panel, "BOTTOMLEFT", 5, 5)
   end
@@ -76,16 +76,17 @@ local function StripQuestMapFrame()
   QuestMapFrame.DetailsFrame.TrackButton:RemoveTextures(true)
   QuestMapFrame.DetailsFrame.RewardsFrame:RemoveTextures(true)
 
-  QuestMapFrame.DetailsFrame:SetStyle("Frame", "Paper")
+  QuestMapFrame.DetailsFrame:SetStyle("Frame", "PatternPaper")
   QuestMapFrame.DetailsFrame.CompleteQuestFrame.CompleteButton:SetStyle("Button")
   QuestMapFrame.DetailsFrame.BackButton:SetStyle("Button")
   QuestMapFrame.DetailsFrame.AbandonButton:SetStyle("Button")
   QuestMapFrame.DetailsFrame.ShareButton:SetStyle("Button")
   QuestMapFrame.DetailsFrame.TrackButton:SetStyle("Button")
-  QuestMapFrame.DetailsFrame.RewardsFrame:SetStyle("Frame", "Paper")
-  QuestMapFrame.DetailsFrame.RewardsFrame:SetPanelColor("dark")
 
-  QuestScrollFrame:SetStyle("!_Frame", "Paper")
+  SV.API:Set("ScrollFrame", QuestMapDetailsScrollFrameScrollBar)
+  SV.API:Set("Skin", QuestMapFrame.DetailsFrame.RewardsFrame, 0, -10, 0, 0)
+
+  QuestScrollFrame:SetStyle("Frame", "PatternPaper")
   QuestScrollFrame:SetPanelColor("special")
 
   QuestScrollFrame.ViewAll:SetStyle("Button")
@@ -133,14 +134,14 @@ local function WorldMapStyle()
   if SV.db.Skins.blizzard.enable ~= true or SV.db.Skins.blizzard.worldmap ~= true then return end
 
   SV.API:Set("Window", WorldMapFrame, true, true)
-  WorldMapFrame.Panel:SetStyle("Frame", "Blackout")
+  --WorldMapFrame.Panel:SetStyle("Frame", "Transparent")
 
   SV.API:Set("ScrollFrame", QuestScrollFrameScrollBar)
   SV.API:Set("ScrollFrame", WorldMapQuestScrollFrameScrollBar)
   SV.API:Set("ScrollFrame", WorldMapQuestDetailScrollFrameScrollBar, 4)
   SV.API:Set("ScrollFrame", WorldMapQuestRewardScrollFrameScrollBar, 4)
 
-  WorldMapDetailFrame:SetStyle("Frame", "Blackout")
+  WorldMapDetailFrame:SetStyle("Frame", "Shadow")
   
   WorldMapFrameSizeDownButton:SetFrameLevel(999)
   WorldMapFrameSizeUpButton:SetFrameLevel(999)
@@ -158,17 +159,17 @@ local function WorldMapStyle()
 
   StripQuestMapFrame()
 
-  --WorldMapFrame.UIElementsFrame:SetStyle("Frame", "Blackout")
-
   WorldMapFrame:HookScript("OnShow", WorldMap_OnShow)
   hooksecurefunc("WorldMap_ToggleSizeUp", WorldMap_OnShow)
-  BlackoutWorld:SetParent(WorldMapFrame.Panel.Panel)
+  BlackoutWorld:SetParent(WorldMapFrame.Panel)
 
   WorldMapFrameNavBar:ClearAllPoints()
   WorldMapFrameNavBar:ModPoint("TOPLEFT", WorldMapFrame.Panel, "TOPLEFT", 12, -26)
-  WorldMapFrameNavBar:SetStyle("Frame", "Blackout")
-  WorldMapFrameTutorialButton:ClearAllPoints()
-  WorldMapFrameTutorialButton:ModPoint("LEFT", WorldMapFrameNavBar.Panel, "RIGHT", -50, 0)
+  WorldMapFrameNavBar:SetStyle("Frame[INSET]", "Transparent", true, 2, 2, 1)
+  WorldMapFrameTutorialButton:Die()
+
+  --SV.API:Set("InfoButton", WorldMapFrameTutorialButton)
+  --WorldMapFrameTutorialButton:ModPoint("LEFT", WorldMapFrameNavBar.Panel, "RIGHT", -50, 0)
 
   WorldMap_OnShow()
 end 

@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 credit: Elv.                      original logic from ElvUI. Adapted to SVUI #
 ##############################################################################
@@ -33,7 +33,7 @@ local QuestFrameList = {
 };
 
 local function QuestScrollHelper(b, c, d, e)
-	b:SetStyle("Frame", "Inset")
+	b:SetStyle("Frame[INSET]", "Transparent")
 	b.spellTex = b:CreateTexture(nil, 'ARTWORK')
 	b.spellTex:SetTexture([[Interface\QuestFrame\QuestBG]])
 	if e then
@@ -56,59 +56,20 @@ local QuestRewardScrollFrame_OnShow = function(self)
 	end
 end
 
-local function StyleReward(item)
-	if(item and (not item.Panel)) then
-		local name = item:GetName()
-		if(name) then
-			local tex = _G[name.."IconTexture"]
-			local icon
-			if(tex) then
-				icon = tex:GetTexture()
-			end
-			item:RemoveTextures()
-			item:SetStyle("Icon")
-			if(tex) then
-				local size = item:GetHeight() - 4
-				if(icon) then tex:SetTexture(icon) end
-				tex:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
-				tex:ClearAllPoints()
-				tex:SetPoint("TOPLEFT", item, "TOPLEFT", 2, -2)
-				tex:SetSize(size, size)
-			end
-		end
-	end
-end
-
-local function StyleDisplayReward(item)
-	if(item and (not item.Panel)) then
-		local oldIcon
-		if(item.Icon) then
-			oldIcon = item.Icon:GetTexture()
-		end
-		item:RemoveTextures()
-		item:SetStyle("Icon")
-
-		if(oldIcon) then
-			item.Icon:SetTexture(oldIcon)
-			item.Icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
-		end
-	end
-end
-
 local function StyleQuestRewards()
 	local rewardsFrame = QuestInfoFrame.rewardsFrame
 	if(not rewardsFrame) then return end
 	local parentName = rewardsFrame:GetName()
 	for i = 1, 10 do
 		local name = ("%sQuestInfoItem%d"):format(parentName,i)
-		StyleReward(_G[name])
+		SV.API:Set("!_QuestItem", _G[name])
 	end
 	if(rewardsFrame:GetName() == 'MapQuestInfoRewardsFrame') then
-		StyleDisplayReward(rewardsFrame.XPFrame)
-		StyleDisplayReward(rewardsFrame.SpellFrame)
-		StyleDisplayReward(rewardsFrame.MoneyFrame)
-		StyleDisplayReward(rewardsFrame.SkillPointFrame)
-		StyleDisplayReward(rewardsFrame.PlayerTitleFrame)
+		SV.API:Set("!_QuestItem", rewardsFrame.XPFrame)
+		SV.API:Set("!_QuestItem", rewardsFrame.SpellFrame)
+		SV.API:Set("!_QuestItem", rewardsFrame.MoneyFrame)
+		SV.API:Set("!_QuestItem", rewardsFrame.SkillPointFrame)
+		SV.API:Set("!_QuestItem", rewardsFrame.PlayerTitleFrame)
 	end
 end
 
@@ -140,7 +101,7 @@ end
 local _hook_QuestLogPopupDetailFrameShow = function(self)
 	local QuestLogPopupDetailFrameScrollFrame = _G.QuestLogPopupDetailFrameScrollFrame;
 	if not QuestLogPopupDetailFrameScrollFrame.spellTex then
-		QuestLogPopupDetailFrameScrollFrame:SetStyle("!_Frame", "Default")
+		QuestLogPopupDetailFrameScrollFrame:SetStyle("Frame", "Default")
 		QuestLogPopupDetailFrameScrollFrame.spellTex = QuestLogPopupDetailFrameScrollFrame:CreateTexture(nil, 'ARTWORK')
 		QuestLogPopupDetailFrameScrollFrame.spellTex:SetTexture([[Interface\QuestFrame\QuestBookBG]])
 		QuestLogPopupDetailFrameScrollFrame.spellTex:SetPoint("TOPLEFT", 2, -2)
@@ -198,12 +159,12 @@ local function QuestFrameStyle()
 
 	for i = 1, 10 do
 		local name = ("QuestInfoRewardsFrameQuestInfoItem%d"):format(i)
-		StyleReward(_G[name])
+		SV.API:Set("!_QuestItem", _G[name])
 	end
 
 	for i = 1, 10 do
 		local name = ("MapQuestInfoRewardsFrameQuestInfoItem%d"):format(i)
-		StyleReward(_G[name])
+		SV.API:Set("!_QuestItem", _G[name])
 	end
 
 	QuestInfoSkillPointFrame:RemoveTextures()
@@ -211,7 +172,7 @@ local function QuestFrameStyle()
 
 	local curLvl = QuestInfoSkillPointFrame:GetFrameLevel() + 1
 	QuestInfoSkillPointFrame:SetFrameLevel(curLvl)
-	QuestInfoSkillPointFrame:SetStyle("!_Frame", "Icon")
+	QuestInfoSkillPointFrame:SetStyle("Frame", "Outline")
 	QuestInfoSkillPointFrame:SetBackdropColor(1, 1, 0, 0.5)
 	QuestInfoSkillPointFrameIconTexture:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 	QuestInfoSkillPointFrameIconTexture:SetDrawLayer("OVERLAY")
@@ -219,7 +180,7 @@ local function QuestFrameStyle()
 	QuestInfoSkillPointFrameIconTexture:ModSize(QuestInfoSkillPointFrameIconTexture:GetWidth()-2, QuestInfoSkillPointFrameIconTexture:GetHeight()-2)
 	QuestInfoSkillPointFrameCount:SetDrawLayer("OVERLAY")
 	QuestInfoItemHighlight:RemoveTextures()
-	QuestInfoItemHighlight:SetStyle("!_Frame", "Icon")
+	QuestInfoItemHighlight:SetStyle("Frame", "Outline")
 	QuestInfoItemHighlight:SetBackdropBorderColor(1, 1, 0)
 	QuestInfoItemHighlight:SetBackdropColor(0, 0, 0, 0)
 	QuestInfoItemHighlight:ModSize(142, 40)
@@ -233,9 +194,9 @@ local function QuestFrameStyle()
 	QuestFrameDetailPanel:RemoveTextures(true)
 	QuestDetailScrollFrame:RemoveTextures(true)
 	QuestScrollHelper(QuestDetailScrollFrame, 506, 615, true)
-	QuestProgressScrollFrame:SetStyle("!_Frame")
+	QuestProgressScrollFrame:SetStyle("Frame")
 	QuestScrollHelper(QuestProgressScrollFrame, 506, 615, true)
-	QuestGreetingScrollFrame:SetStyle("!_Frame")
+	QuestGreetingScrollFrame:SetStyle("Frame")
 	QuestScrollHelper(QuestGreetingScrollFrame, 506, 615, true)
 	QuestDetailScrollChildFrame:RemoveTextures(true)
 	QuestRewardScrollFrame:RemoveTextures(true)
@@ -255,7 +216,7 @@ local function QuestFrameStyle()
 		local i = _G["QuestProgressItem"..j]
 		local texture = _G["QuestProgressItem"..j.."IconTexture"]
 		i:RemoveTextures()
-		i:SetStyle("!_Frame", "Inset")
+		i:SetStyle("Frame[INSET]", "Transparent")
 		i:ModWidth(_G["QuestProgressItem"..j]:GetWidth() - 4)
 		texture:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 		texture:SetDrawLayer("OVERLAY")
@@ -265,7 +226,7 @@ local function QuestFrameStyle()
 	end
 
 	QuestNPCModel:RemoveTextures()
-	QuestNPCModel:SetStyle("Frame", "Premium")
+	QuestNPCModel:SetStyle("Frame", "PatternComic")
 
 	QuestNPCModelTextFrame:RemoveTextures()
 	QuestNPCModelTextFrame:SetStyle("Frame", "Default")
@@ -284,19 +245,19 @@ local function QuestChoiceFrameStyle()
 	bgFrameTop:SetPoint("TOPLEFT", QuestChoiceFrame, "TOPLEFT", 42, -44)
 	bgFrameTop:SetPoint("TOPRIGHT", QuestChoiceFrame, "TOPRIGHT", -42, -44)
 	bgFrameTop:SetHeight(85)
-	bgFrameTop:SetStyle("Frame", "Paper")
+	bgFrameTop:SetStyle("Frame", "PatternPaper")
 	bgFrameTop:SetPanelColor("dark")
 
 	local bgFrameBottom = CreateFrame("Frame", nil, QuestChoiceFrame)
 	bgFrameBottom:SetPoint("TOPLEFT", QuestChoiceFrame, "TOPLEFT", 42, -140)
 	bgFrameBottom:SetPoint("BOTTOMRIGHT", QuestChoiceFrame, "BOTTOMRIGHT", -42, 44)
-	bgFrameBottom:SetStyle("Frame", "Paper")
+	bgFrameBottom:SetStyle("Frame", "PatternPaper")
 
 
 	SV.API:Set("CloseButton", QuestChoiceFrame.CloseButton)
-	--QuestChoiceFrame.Option1:SetStyle("Frame", "Inset")
+	--QuestChoiceFrame.Option1:SetStyle("Frame[INSET]", "Transparent")
 	QuestChoiceFrame.Option1.OptionButton:SetStyle("Button")
-	--QuestChoiceFrame.Option2:SetStyle("Frame", "Inset")
+	--QuestChoiceFrame.Option2:SetStyle("Frame[INSET]", "Transparent")
 	QuestChoiceFrame.Option2.OptionButton:SetStyle("Button")
 end 
 --[[ 

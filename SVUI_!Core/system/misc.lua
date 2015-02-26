@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -30,6 +30,21 @@ LOCALS
 ##########################################################
 ]]--
 local PlayerName = UnitName("player");
+local ThreatMeter = _G["SVUI_ThreatOMeter"];
+
+--[[ LOCALS ]]--
+local BARFILE = [[Interface\AddOns\SVUI_!Core\assets\textures\Doodads\THREAT-BAR]];
+local TEXTUREFILE = [[Interface\AddOns\SVUI_!Core\assets\textures\Doodads\THREAT-BAR-ELEMENTS]];
+local REACTION_COLORS = {
+	[1] = {0.92, 0.15, 0.15}, 
+	[2] = {0.92, 0.15, 0.15}, 
+	[3] = {0.92, 0.15, 0.15}, 
+	[4] = {0.85, 0.85, 0.13}, 
+	[5] = {0.19, 0.85, 0.13}, 
+	[6] = {0.19, 0.85, 0.13}, 
+	[7] = {0.19, 0.85, 0.13}, 
+	[8] = {0.19, 0.85, 0.13}, 
+};
 local Reactions = {
 	Woot = {
 		[29166] = true, [20484] = true, [61999] = true, 
@@ -608,6 +623,100 @@ function SV:ToggleReactions()
 		ReactionListener:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 	end
 end
+
+--[[ HELPER ]]--
+local function GetThreatBarColor(highest)
+	local unitReaction = UnitReaction(highest, 'player');
+	local r, g, b = 0.5, 0.5, 0.5;
+
+	if(UnitIsPlayer(highest)) then
+		local _,token = UnitClass(highest);
+		local colors = RAID_CLASS_COLORS[token];
+		if(colors) then
+			r, g, b = colors.r*255, colors.g*255, colors.b*255
+		end 
+	elseif(unitReaction) then 
+		local colors = REACTION_COLORS[unitReaction];
+		if(colors) then
+			r, g, b = colors[1], colors[2], colors[3]
+		end
+	end
+
+	return r, g, b
+end 
+
+--[[ HANDLER ]]--
+local ThreatBar_OnEvent = function(self, event)
+	local isTanking, status, scaledPercent = UnitDetailedThreatSituation('player', 'target')
+	if(scaledPercent and (scaledPercent > 0)) then
+		-- if SVUI is installed then fade instead of show
+		if(self.FadeIn) then
+			self:FadeIn()
+		else
+			self:Show()
+		end
+
+		local r,g,b = 0,0.9,0;
+		local peak = 0;
+		local unitKey, highest;
+
+		if(UnitExists('pet')) then 
+			local threat = select(3, UnitDetailedThreatSituation('pet', 'target'))
+			if(threat > peak) then 
+				peak = threat;
+				highest = 'pet';
+			end
+		end
+
+		if(IsInRaid()) then 
+			for i=1,40 do
+				unitKey = 'raid'..i;
+				if(UnitExists(unitKey) and not UnitIsUnit(unitKey, 'player')) then 
+					local threat = select(3, UnitDetailedThreatSituation(unitKey, 'target'))
+					if(threat > peak) then 
+						peak = threat;
+						highest = 'pet';
+					end
+				end 
+			end
+		elseif(IsInGroup()) then
+			for i=1,4 do
+				unitKey = 'party'..i; 
+				if(UnitExists(unitKey)) then 
+					local threat = select(3, UnitDetailedThreatSituation(unitKey, 'target'))
+					if(threat and threat > peak) then 
+						peak = threat;
+						highest = 'pet';
+					end
+				end 
+			end
+		end
+
+		if(highest) then
+			if(isTanking or (scaledPercent == 100)) then
+				peak = (scaledPercent - peak);
+				if(peak > 0) then
+					scaledPercent = peak;
+				end
+			else
+				r,g,b = GetThreatBarColor(highest)
+			end
+		elseif(status) then
+			r,g,b = GetThreatStatusColor(status);
+		end
+
+		self:SetStatusBarColor(r,g,b)
+		self:SetValue(scaledPercent)
+		self.text:SetFormattedText('%.0f%%', scaledPercent)
+	else
+		-- if SVUI is installed then fade instead of hide
+		if(self.FadeOut) then
+			self:FadeOut(0.2, 1, 0, true)
+		else
+			self:Hide()
+		end
+	end 
+end 
 --[[ 
 ########################################################## 
 LOAD BY TRIGGER
@@ -626,6 +735,38 @@ local function InitializeMisc()
 
 	SV:ToggleReactions()
 	ReactionListener:SetScript("OnEvent", ReactionListener_OnEvent)
+
+	if(SV.db.Extras.threatbar) then
+		ThreatMeter:SetParent(SV.Screen)
+		ThreatMeter:SetPoint('CENTER', UIParent, 'CENTER', 150, -150)
+		ThreatMeter:SetSize(50, 100)
+		ThreatMeter:SetStatusBarTexture(BARFILE)
+		ThreatMeter:SetFrameStrata('MEDIUM')
+		ThreatMeter:SetOrientation("VERTICAL")
+		ThreatMeter:SetMinMaxValues(0, 100)
+
+		ThreatMeter.backdrop = ThreatMeter:CreateTexture(nil,"BACKGROUND")
+		ThreatMeter.backdrop:SetAllPoints(ThreatMeter)
+		ThreatMeter.backdrop:SetTexture(TEXTUREFILE)
+		ThreatMeter.backdrop:SetTexCoord(0.5,0.75,0,0.5)
+		ThreatMeter.backdrop:SetBlendMode("ADD")
+
+		ThreatMeter.overlay = ThreatMeter:CreateTexture(nil,"OVERLAY",nil,1)
+		ThreatMeter.overlay:SetAllPoints(ThreatMeter)
+		ThreatMeter.overlay:SetTexture(TEXTUREFILE)
+		ThreatMeter.overlay:SetTexCoord(0.75,1,0,0.5)
+
+		ThreatMeter.text = ThreatMeter:CreateFontString(nil, 'OVERLAY')
+		ThreatMeter.text:SetFontObject(NumberFontNormal)
+		ThreatMeter.text:SetPoint('TOP',ThreatMeter,'BOTTOM',0,0)
+
+		ThreatMeter:RegisterEvent('PLAYER_TARGET_CHANGED');
+		ThreatMeter:RegisterEvent('UNIT_THREAT_LIST_UPDATE');
+		ThreatMeter:RegisterEvent('GROUP_ROSTER_UPDATE');
+		ThreatMeter:RegisterEvent('UNIT_PET');
+		ThreatMeter:SetScript("OnEvent", ThreatBar_OnEvent);
+		SV:NewAnchor(ThreatMeter, L["Threat-O-Meter"])
+	end
 end
 
 SV.Events:On("CORE_INITIALIZED", InitializeMisc);

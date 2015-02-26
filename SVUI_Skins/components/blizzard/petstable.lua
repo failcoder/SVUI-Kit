@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -24,7 +24,7 @@ local function PetStableStyle()
 	PetStableLeftInset:RemoveTextures()
 	PetStableBottomInset:RemoveTextures()
 	PetStableFrame:SetStyle("Frame", "Window")
-	PetStableFrameInset:SetStyle("!_Frame", 'Inset')
+	PetStableFrameInset:SetStyle("Frame", 'Inset')
 	SV.API:Set("CloseButton", PetStableFrameCloseButton)
 	PetStablePrevPageButton:SetStyle("Button")
 	PetStableNextPageButton:SetStyle("Button")

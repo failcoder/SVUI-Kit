@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -138,7 +138,7 @@ local function HelpFrameStyle()
 	SV.API:Set("CloseButton", HelpFrameCloseButton, HelpFrame.Panel)
 	SV.API:Set("CloseButton", HelpFrameKnowledgebaseErrorFrameCloseButton, HelpFrameKnowledgebaseErrorFrame.Panel)
 	HelpFrameCharacterStuckHearthstone:SetStyle("Button")
-	HelpFrameCharacterStuckHearthstone:SetStyle("!_Frame", "Default")
+	HelpFrameCharacterStuckHearthstone:SetStyle("Frame", "Default")
 	HelpFrameCharacterStuckHearthstone.IconTexture:InsetPoints()
 	HelpFrameCharacterStuckHearthstone.IconTexture:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 	hooksecurefunc("NavBar_AddButton", function(h, k)
@@ -159,7 +159,7 @@ local function HelpFrameStyle()
 		if e and e:GetObjectType()
 		 == "Frame"and not e:GetName()
 		then
-			e:SetStyle("!_Frame", "Default")
+			e:SetStyle("Frame", "Default")
 		end 
 	end 
 end 

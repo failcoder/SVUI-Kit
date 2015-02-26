@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -55,7 +55,7 @@ local function BarberShopStyle()
 	end
 
 	BarberShopFrameMoneyFrame:RemoveTextures()
-	BarberShopFrameMoneyFrame:SetStyle("Frame", "Inset")
+	BarberShopFrameMoneyFrame:SetStyle("Frame[INSET]", "Transparent")
 	BarberShopFrameMoneyFrame:ModPoint("TOP", lastframe, "BOTTOM", 0, -10)
 
 	BarberShopFrameBackground:Die()

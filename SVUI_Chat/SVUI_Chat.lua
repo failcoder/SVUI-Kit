@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -274,7 +274,7 @@ do
 
 	local AddModifiedMessage = function(self, text, ...)
 		internalTest = false;
-		if text:find("%pTInterface%p+") or text:find("%pTINTERFACE%p+") then 
+		if text:find("%pTInterface%p+") or text:find("%pTINTERFACE%p+") or text:find("%pHshare%p+") or text:find("%pHSHARE%p+") then 
 			internalTest = true 
 		end 
 		if not internalTest then text = text:gsub("(%s?)(%d%d?%d?%.%d%d?%d?%.%d%d?%d?%.%d%d?%d?:%d%d?%d?%d?%d?)(%s?)", _parse) end 
@@ -390,9 +390,7 @@ do
 				editBox:SetText(text)
 				editBox:SetFocus()
 				editBox:HighlightText()
-			end 
-		else 
-			ChatFrame_OnHyperlinkShow(self, link, ...)
+			end
 		end
 	end
 
@@ -717,7 +715,7 @@ do
 			_G[editBoxName.."FocusLeft"]:Die()
 			_G[editBoxName.."FocusMid"]:Die()
 			_G[editBoxName.."FocusRight"]:Die()
-			editBox:SetStyle("Frame", "Lite", true, 2, -2, -3)
+			editBox:SetStyle("Frame", "Transparent", true, 2, -2, -3)
 			editBox:SetAltArrowKeyMode(false)
 			editBox:SetAllPoints(MOD.Dock.Parent.Alert)
 			editBox:HookScript("OnEditFocusGained", EditBox_OnEditFocusGained)
@@ -727,7 +725,7 @@ do
 			-------------------------------------------
 			chat:SetTimeVisible(100)	
 			chat:SetFading(CHAT_FADING)
-			chat:SetScript("OnHyperlinkClick", SVUI_OnHyperlinkShow)
+			chat:HookScript("OnHyperlinkClick", SVUI_OnHyperlinkShow)
 
 			local alertSize = MOD.Dock.Bar:GetHeight();
 			local alertOffset = alertSize * 0.25
@@ -746,7 +744,7 @@ do
 			chat.button:SetAlpha(0.35)
 			chat.button:ModSize(38, 18)
 			chat.button:SetPoint('TOPRIGHT', chat, 'TOPRIGHT', 0, 0)
-			chat.button:SetStyle("Frame", "Lite")
+			chat.button:SetStyle("Frame", "Transparent")
 			
 			chat.button.Title = chat.button:CreateFontString()
 			chat.button.Title:SetFontObject(SVUI_Font_ChatTab)
@@ -1328,7 +1326,7 @@ function MOD:Load()
 
 	_G.GeneralDockManagerOverflowButton:ClearAllPoints()
 	_G.GeneralDockManagerOverflowButton:SetPoint('BOTTOMRIGHT', self.Dock.Bar, 'BOTTOMRIGHT', -2, 2)
-	_G.GeneralDockManagerOverflowButtonList:SetStyle("!_Frame", 'Transparent')
+	_G.GeneralDockManagerOverflowButtonList:SetStyle("Frame", 'Transparent')
 	_G.GeneralDockManager:SetAllPoints(self.Dock.Bar)
 
 	SetAllChatHooks()

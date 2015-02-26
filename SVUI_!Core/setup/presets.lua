@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -73,6 +73,7 @@ SV.Setup.ColorThemes = {
 	["data"] = {
 		["link"] = "media",
 		["default"] = {
+			["customClassColor"] = false,
 			["color"] = {
 				["special"] = {.37, .32, .29, 1},
 				["specialdark"] = {.23, .22, .21, 1},
@@ -93,6 +94,7 @@ SV.Setup.ColorThemes = {
 			},
 		},
 		["kaboom"] = {
+			["customClassColor"] = true,
 			["color"] = {
 				["special"] = {.28, .31, .32, 1},
 				["specialdark"] = {.21, .22, .23, 1},
@@ -113,6 +115,7 @@ SV.Setup.ColorThemes = {
 			},
 		},
 		["classy"] = {
+			["customClassColor"] = false,
 			["color"] = {
 				["special"] = {r2, g2, b2, 1},
 				["specialdark"] = {(r2 * 0.75), (g2 * 0.75), (b2 * 0.75), 1},
@@ -133,6 +136,7 @@ SV.Setup.ColorThemes = {
 			},
 		},
 		["dark"] = {
+			["customClassColor"] = true,
 			["color"] = {
 				["special"] = {.25, .26, .27, 1},
 				["specialdark"] = {.17, .18, .19, 1},
@@ -896,6 +900,7 @@ local function LoadPageData()
 		},
 		--PAGE 5
 		{
+			["REQUIRED"] = "UnitFrames",
 			["SubTitle"] = UNITFRAME_LABEL.." "..SETTINGS,
 
 			["Desc1"] = L["You can now choose what primary unitframe style you wish to use."],
@@ -908,6 +913,7 @@ local function LoadPageData()
 		},
 		--PAGE 6
 		{
+			["REQUIRED"] = "UnitFrames",
 			["SubTitle"] = "Group Layout",
 
 			["Desc1"] = L["You can now choose what group layout you prefer."],
@@ -921,6 +927,7 @@ local function LoadPageData()
 		},
 		--PAGE 7
 		{
+			["REQUIRED"] = "ActionBars",
 			["SubTitle"] = ACTIONBAR_LABEL.." "..SETTINGS,
 
 			["Desc1"] = L["Choose a layout for your action bars."],
@@ -934,6 +941,7 @@ local function LoadPageData()
 		},
 		--PAGE 8
 		{
+			["REQUIRED"] = "UnitFrames",
 			["SubTitle"] = AURAS.." "..SETTINGS,
 
 			["Desc1"] = L["Select an aura layout. \"Icons\" will display only icons and aurabars won't be used. \"Bars\" will display only aurabars and icons won't be used (duh). \"The Works!\" does just what it says.... icons, bars and awesomeness."],
@@ -1037,7 +1045,7 @@ LOCAL FUNCTIONS
 ##########################################################
 ]]--
 local function _copyPresets(saved, preset)
-	--if not saved then return end
+	if not saved then return end
 	if(type(preset) == 'table') then
         for key,val in pairs(preset) do
         	if(not saved[key]) then saved[key] = {} end
@@ -1078,7 +1086,12 @@ end
 function SV.Setup:CopyPage(pageNum)
 	if(not PAGE_DIALOG) then LoadPageData() end
 	if(PAGE_DIALOG and PAGE_DIALOG[pageNum]) then
-		return PAGE_DIALOG[pageNum], #PAGE_DIALOG
+		local req = PAGE_DIALOG[pageNum].REQUIRED
+		if(req and not SV[req]) then
+			return SV.Setup:CopyPage(pageNum + 1)
+		else
+			return PAGE_DIALOG[pageNum], #PAGE_DIALOG
+		end
 	end
 end
 

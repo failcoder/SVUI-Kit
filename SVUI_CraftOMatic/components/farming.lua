@@ -260,7 +260,7 @@ do
 	local function CreateFarmingButton(index, owner, buttonName, buttonType, name, texture, allowDrop, showCount)
 		local BUTTONSIZE = owner.ButtonSize;
 		local button = CreateFrame("Button", ("FarmingButton"..buttonName.."%d"):format(index), owner, "SecureActionButtonTemplate")
-		button:SetStyle("!_Frame", "Transparent")
+		button:SetStyle("Frame", "Transparent")
 		button.Panel:SetFrameLevel(0)
 		button:SetNormalTexture(nil)
 		button:ModSize(BUTTONSIZE, BUTTONSIZE)
@@ -545,7 +545,7 @@ function PLUGIN:PrepareFarmingTools()
 		slotSlider:SetPoint("BOTTOMLEFT", farmingDocklet, -28, 0);
 		slotSlider:SetBackdrop({bgFile = bgTex, edgeFile = bdTex, edgeSize = 4, insets = {left = 3, right = 3, top = 3, bottom = 3}});
 		slotSlider:SetFrameLevel(6)
-		slotSlider:SetStyle("!_Frame", "Transparent", true);
+		slotSlider:SetStyle("Frame", "Transparent", true);
 		slotSlider:SetThumbTexture("Interface\\Buttons\\UI-ScrollBar-Knob");
 		slotSlider:SetOrientation("VERTICAL");
 		slotSlider:SetValueStep(5);

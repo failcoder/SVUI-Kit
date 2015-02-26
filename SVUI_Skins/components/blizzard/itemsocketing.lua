@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -23,7 +23,7 @@ local function ItemSocketStyle()
 	ItemSocketingFrame:SetStyle("Frame", "Window2")
 	ItemSocketingFrameInset:Die()
 	ItemSocketingScrollFrame:RemoveTextures()
-	ItemSocketingScrollFrame:SetStyle("Frame", "Inset", true)
+	ItemSocketingScrollFrame:SetStyle("Frame[INSET]", "Transparent", true)
 	SV.API:Set("ScrollFrame", ItemSocketingScrollFrameScrollBar, 2)
 	for j = 1, MAX_NUM_SOCKETS do 
 		local i = _G[("ItemSocketingSocket%d"):format(j)];
@@ -32,7 +32,7 @@ local function ItemSocketStyle()
 		local E = _G[("ItemSocketingSocket%dIconTexture"):format(j)];
 		i:RemoveTextures()
 		i:SetStyle("Button")
-		i:SetStyle("!_Frame", "Button", true)
+		i:SetStyle("Frame", "Button", true)
 		C:Die()
 		D:Die()
 		E:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))

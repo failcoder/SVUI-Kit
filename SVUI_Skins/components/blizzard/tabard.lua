@@ -1,6 +1,6 @@
 --[[
 ##############################################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ##############################################################################
 --]]
 --[[ GLOBALS ]]--
@@ -49,7 +49,7 @@ local function TabardFrameStyle()
 	end 
 	cleanT(TabardFrame, true)
 	TabardFrame:SetStyle("Frame", "Window2", false)
-	TabardModel:SetStyle("!_Frame", "Transparent")
+	TabardModel:SetStyle("Frame", "Transparent")
 	TabardFrameCancelButton:SetStyle("Button")
 	TabardFrameAcceptButton:SetStyle("Button")
 	SV.API:Set("CloseButton", TabardFrameCloseButton)

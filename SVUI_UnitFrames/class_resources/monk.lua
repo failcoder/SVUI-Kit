@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -138,7 +138,7 @@ function MOD:CreateClassBar(playerFrame)
 	stagger:ModPoint('TOPLEFT', playerFrame, 'TOPRIGHT', 3, 0)
 	stagger:ModPoint('BOTTOMLEFT', playerFrame, 'BOTTOMRIGHT', 3, 0)
 	stagger:SetWidth(10)
-	stagger:SetStyle("Frame", "Bar")
+	stagger:SetStyle("Frame", "Transparent")
 	stagger:SetOrientation("VERTICAL")
 	stagger:SetStatusBarTexture(SV.media.statusbar.default)
 	--stagger:GetStatusBarTexture():SetHorizTile(false)

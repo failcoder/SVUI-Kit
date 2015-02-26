@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -190,6 +190,15 @@ function MOD:ResetUnitOptions(unit)
 end
 
 function MOD:RefreshUnitColors()
+	if(not SV.media.customClassColor) then
+		for eclass, color in next, RAID_CLASS_COLORS do
+			oUF_SVUI.colors.class[eclass] = {color.r, color.g, color.b}
+		end
+	else
+		for eclass, color in next, CUSTOM_CLASS_COLORS do
+			oUF_SVUI.colors.class[eclass] = {color.r, color.g, color.b}
+		end
+	end
 	local db = SV.media.extended.unitframes 
 	for i, setting in pairs(db) do
 		if setting and type(setting) == "table" then

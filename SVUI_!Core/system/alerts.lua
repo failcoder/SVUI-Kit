@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -980,7 +980,8 @@ local function LoadSystemAlerts()
 	end
 
 	SVUI_AlertFrame:ModSize(180, 20);
-	SV:NewAnchor(SVUI_AlertFrame, L["Loot / Alert Frames"], nil, AlertFramePostMove_Hook, nil, true)
+	SVUI_AlertFrame.callbackOnEnter = true;
+	SV:NewAnchor(SVUI_AlertFrame, L["Loot / Alert Frames"], nil, AlertFramePostMove_Hook, nil)
 
 	NewHook('AlertFrame_FixAnchors', AlertFramePostMove_Hook)
 	NewHook('AlertFrame_SetLootAnchors', _hook_AlertFrame_SetLootAnchors)

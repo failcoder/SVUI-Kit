@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -459,11 +459,11 @@ function MOD:LoadKeyBinder()
   pop:SetClampedToScreen(true)
   pop:SetWidth(360)
   pop:SetHeight(130)
-  pop:SetStyle("!_Frame", "Transparent")
+  pop:SetStyle("Frame", "Transparent")
   pop:Hide()
 
   local moveHandle = NewFrame("Button", nil, pop)
-  moveHandle:SetStyle("!_Frame", "Button", true)
+  moveHandle:SetStyle("Frame", "Button", true)
   moveHandle:SetWidth(100)
   moveHandle:SetHeight(25)
   moveHandle:SetPoint("CENTER", pop, "TOP")

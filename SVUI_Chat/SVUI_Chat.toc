@@ -1,7 +1,7 @@
-## Interface: 60000
-## Author: S.Jackson
-## Version: 1.0.0
-## Title: |cffFF9900SVUI |r|cffFFEF00Chat|r
+## Interface: 60100
+## Author: Munglunch
+## Version: 1.0.05
+## Title: |cffFF9900SuperVillain UI: |r|cffFFEF00Chat|r
 ## Notes: Chat Plugin for [|cff9911FFSVUI|r].
 ## SavedVariablesPerCharacter: SVUI_Private_ChatCache
 ## RequiredDeps: SVUI_!Core
@@ -13,5 +13,9 @@
 ## X-Donate: PayPal:munglunch@gmail.com
 ## X-License: All Rights Reserved
 ## X-Category: Interface Enhancements
+## X-Curse-Packaged-Version: r20150226002026
+## X-Curse-Project-Name: SuperVillain UI: Chat
+## X-Curse-Project-ID: supervillain-ui-chat
+## X-Curse-Repository-ID: wow/supervillain-ui-chat/mainline
 
 SVUI_Chat.xml

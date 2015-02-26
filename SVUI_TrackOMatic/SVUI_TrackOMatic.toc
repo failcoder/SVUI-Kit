@@ -1,7 +1,7 @@
 ## Interface: 60000
 ## Author: S.Jackson
 ## Version: 1.0.0
-## Title: |cffFF9900SVUI |r|cffFFEF00Track-O-Matic|r
+## Title: |cffFF9900SVUI Plugin: |r|cffFF69B4Track-O-Matic|r
 ## Notes: Supervillain UI [|cff9911FFRaid & Party Member Tracking|r].
 ## RequiredDeps: SVUI_!Core
 ## OptionalDeps: LibSharedMedia-3.0

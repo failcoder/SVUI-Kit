@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -49,7 +49,7 @@ local function StyleFrame(frame)
   frame:SetBackdrop(nil)
 
   frame.TitleBackground = CreateFrame('Frame', nil, frame)
-  frame.TitleBackground:SetStyle("!_Frame", "Transparent")
+  frame.TitleBackground:SetStyle("Frame", "Transparent")
   --frame.TitleBackground:SetPanelColor("class")
   frame.TitleBackground:SetPoint('TOP', frame, 'TOP', 0, -8)
   frame.TitleBackground.timeLapse = 0

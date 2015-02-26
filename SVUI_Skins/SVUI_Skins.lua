@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -271,7 +271,9 @@ function MOD:RegisterAddonDocklets()
   	local active1, active2 = false, false;
 
   	self.Docklet.Dock1.FrameLink = nil;
+  	self.Docklet.Dock1.ExpandCallback = nil;
   	self.Docklet.Dock2.FrameLink = nil;
+  	self.Docklet.Dock2.ExpandCallback = nil;
 
   	if(enabled1) then
   		local width = self.Docklet:GetWidth();
@@ -284,22 +286,27 @@ function MOD:RegisterAddonDocklets()
 				tipRight = " and Skada";
 				self:Docklet_Skada()
 				active2 = true
+				self.Docklet.Dock2.ExpandCallback = "Docklet_Skada"
 			elseif(self:DockletReady("Omen", dock2)) then
 				tipRight = " and Omen";
 				self:Docklet_Omen(self.Docklet.Dock2)
 				active2 = true
+				self.Docklet.Dock2.ExpandCallback = "Docklet_Omen"
 			elseif(self:DockletReady("Recount", dock2)) then
 				tipRight = " and Recount";
 				self:Docklet_Recount(self.Docklet.Dock2)
 				active2 = true
+				self.Docklet.Dock2.ExpandCallback = "Docklet_Recount"
 			elseif(self:DockletReady("TinyDPS", dock2)) then
 				tipRight = " and TinyDPS";
 				self:Docklet_TinyDPS(self.Docklet.Dock2)
 				active2 = true
+				self.Docklet.Dock2.ExpandCallback = "Docklet_TinyDPS"
 			elseif(self:DockletReady("alDamageMeter", dock2)) then
 				tipRight = " and alDamageMeter";
 				self:Docklet_alDamageMeter(self.Docklet.Dock2)
 				active2 = true
+				self.Docklet.Dock2.ExpandCallback = "Docklet_alDamageMeter"
 			end
 		end
 
@@ -311,22 +318,27 @@ function MOD:RegisterAddonDocklets()
 			tipLeft = "Skada";
 			self:Docklet_Skada()
 			active1 = true
+			self.Docklet.Dock1.ExpandCallback = "Docklet_Skada"
 		elseif(self:DockletReady("Omen", dock1)) then
 			tipLeft = "Omen";
 			self:Docklet_Omen(self.Docklet.Dock1)
 			active1 = true
+			self.Docklet.Dock1.ExpandCallback = "Docklet_Omen"
 		elseif(self:DockletReady("Recount", dock1)) then
 			tipLeft = "Recount";
 			self:Docklet_Recount(self.Docklet.Dock1)
 			active1 = true
+			self.Docklet.Dock1.ExpandCallback = "Docklet_Recount"
 		elseif(self:DockletReady("TinyDPS", dock1)) then
 			tipLeft = "TinyDPS";
 			self:Docklet_TinyDPS(self.Docklet.Dock1) 
 			active1 = true
+			self.Docklet.Dock1.ExpandCallback = "Docklet_TinyDPS"
 		elseif(self:DockletReady("alDamageMeter", dock1)) then
 			tipLeft = "alDamageMeter";
 			self:Docklet_alDamageMeter(self.Docklet.Dock1)
 			active1 = true
+			self.Docklet.Dock1.ExpandCallback = "alDamageMeter"
 		end
 	end
 
@@ -430,6 +442,18 @@ local HideSubDocklet = function(self)
 	end
 end
 
+local function DockExpandDocklet()
+	local height = SV.Dock.BottomRight.Window:GetHeight()
+	local fn1 = MOD.Docklet.Dock1.ExpandCallback
+	if(fn1 and MOD[fn1] and type(MOD[fn1]) == 'function') then
+		MOD[fn1](MOD.Docklet.Dock1, height)
+	end
+	local fn2 = MOD.Docklet.Dock2.ExpandCallback
+	if(fn2 and MOD[fn2] and type(MOD[fn2]) == 'function') then
+		MOD[fn2](MOD.Docklet.Dock2, height)
+	end
+end
+
 local function DockFadeInDocklet()
 	local active = MOD.Docklet.DockButton:GetAttribute("isActive")
 	if(active) then
@@ -458,7 +482,7 @@ function MOD:Load()
 	SV.private.Docks = SV.private.Docks or {"None", "None"}
 
 	local alert = CreateFrame('Frame', nil, UIParent);
-	alert:SetStyle("!_Frame", 'Transparent');
+	alert:SetStyle("Frame", 'Transparent');
 	alert:SetSize(250, 70);
 	alert:SetPoint('CENTER', UIParent, 'CENTER');
 	alert:SetFrameStrata('DIALOG');
@@ -516,4 +540,5 @@ function MOD:Load()
 
 	SV.Events:On("DOCK_RIGHT_FADE_IN", DockFadeInDocklet, true);
 	SV.Events:On("DOCK_RIGHT_FADE_OUT", DockFadeOutDocklet, true);
+	SV.Events:On("DOCK_RIGHT_EXPANDED", DockExpandDocklet, true);
 end

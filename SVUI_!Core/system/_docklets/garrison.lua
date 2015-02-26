@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -246,7 +246,7 @@ local SetGarrisonTooltip = function(self)
 end
 
 local function LoadToolBarGarrison()
-	if((not SV.db.Dock.garrison) or MOD.GarrisonLoaded) then return end
+	if((not SV.db.Dock.dockTools.garrison) or MOD.GarrisonLoaded) then return end
 	GarrisonLandingPageMinimapButton:FadeOut()
 	if(InCombatLockdown()) then 
 		MOD.GarrisonNeedsUpdate = true; 
@@ -298,11 +298,11 @@ BUILD/UPDATE
 ##########################################################
 ]]--
 function MOD:UpdateGarrisonTool() 
-	if((not SV.db.Dock.garrison) or self.GarrisonLoaded) then return end
+	if((not SV.db.Dock.dockTools.garrison) or self.GarrisonLoaded) then return end
 	LoadToolBarGarrison()
 end 
 
 function MOD:LoadGarrisonTool()
-	if((not SV.db.Dock.garrison) or self.GarrisonLoaded or (not GarrisonLandingPageMinimapButton)) then return end
+	if((not SV.db.Dock.dockTools.garrison) or self.GarrisonLoaded or (not GarrisonLandingPageMinimapButton)) then return end
 	SV.Timers:ExecuteTimer(LoadToolBarGarrison, 5)
 end

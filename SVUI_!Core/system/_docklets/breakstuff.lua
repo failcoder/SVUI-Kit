@@ -1,6 +1,6 @@
 --[[
 ##########################################################
-S V U I   By: S.Jackson
+S V U I   By: Munglunch
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
@@ -313,7 +313,7 @@ local function LoadToolBreakStuff()
 	BreakStuffButton:ModPoint("RIGHT", MOD.BottomRight.Bar.ToolBar, "LEFT", -6, 0)
 	BreakStuffButton.icon:SetTexture(SV.media.dock.breakStuffIcon)
 	BreakStuffButton:Show();
-	BreakStuffButton:SetStyle("DockButton") 
+	SV.API:Set("DockButton", BreakStuffButton)
 	
 	BreakStuffButton:SetScript("OnEnter", BreakStuff_OnEnter);
 	BreakStuffButton:SetScript("OnLeave", BreakStuff_OnLeave);
@@ -338,7 +338,7 @@ local function LoadToolBreakStuff()
 end
 
 function MOD:CloseBreakStuff()
-	if((not SV.db.Dock.breakstuff) or self.BreakStuffLoaded) then return end
+	if((not SV.db.Dock.dockTools.breakstuff) or self.BreakStuffLoaded) then return end
 	BreakStuffHandler:MODIFIER_STATE_CHANGED()
 	BreakStuffHandler.ReadyToSmash = false
 	BreakStuffButton.ttText = "BreakStuff : OFF";
@@ -346,6 +346,6 @@ function MOD:CloseBreakStuff()
 end
 
 function MOD:LoadBreakStuff()
-	if((not SV.db.Dock.breakstuff) or self.BreakStuffLoaded) then return end
+	if((not SV.db.Dock.dockTools.breakstuff) or self.BreakStuffLoaded) then return end
 	SV.Timers:ExecuteTimer(LoadToolBreakStuff, 5)
 end
