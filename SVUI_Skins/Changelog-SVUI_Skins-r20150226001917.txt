@@ -1,0 +1,12 @@
+Steven Jackson:
+	- updated styles in interface options
+	- api updates
+	- Styling update of quest items and garrison panels
+	- build update
+	- 6.1 style update
+	- updating with core
+	- toc update
+	- DBM fix
+	- more updates
+	- fix for file struct
+	- First Commit

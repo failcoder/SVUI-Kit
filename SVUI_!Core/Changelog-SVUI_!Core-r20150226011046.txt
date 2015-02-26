@@ -1,0 +1,24 @@
+Steven Jackson:
+	- transfer wizard code added
+	- api updates
+	- api updates
+	- Styling update of quest items and garrison panels
+	- build update
+	- issue #60 and #61 fixed
+	- release 1.0.04
+	- fixed more installer issues, visual adjustments
+	- Combat closing of anchors fixed
+	- toc updates
+	- colors, installer, profiles updated
+	- installer issues fixed
+	- more updates
+	- toc update
+	- pkgmeta update
+	- fix for struct part 2
+	- fix for file struct
+	- changing for packager
+	- Updating to the new core
+	- Cleaning up
+Munglunch:
+	- 5.4.2
+	- First Commit

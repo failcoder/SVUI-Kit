@@ -1,0 +1,8 @@
+Steven Jackson:
+	- build update
+	- release 1.0.04
+	- updating with core
+	- toc update
+	- color updates
+	- fix for file struct
+	- First commit

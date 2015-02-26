@@ -1,0 +1,7 @@
+Steven Jackson:
+	- build update
+	- updating with core
+	- toc update
+	- more updates
+	- fix for file struct
+	- First commit

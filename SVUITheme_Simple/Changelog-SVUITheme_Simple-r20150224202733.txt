@@ -1,0 +1,6 @@
+Steven Jackson:
+	- build update
+	- updating with core
+	- toc update
+	- second commit
+	- first commit

@@ -1,0 +1,9 @@
+Steven Jackson:
+	- toc update, removal of unneeded event handlers
+	- build update
+	- updating with core
+	- toc update
+	- bag event update
+	- more updates
+	- fix for file struct
+	- First commit

@@ -1,0 +1,5 @@
+Steven Jackson:
+	- toc update
+	- new shape options
+	- fix for file struct
+	- First commit
