@@ -46,8 +46,8 @@ local function MailBoxStyle()
 		local i = _G["MailItem"..b]
 		i:RemoveTextures()
 		i:SetStyle("Frame[INSET]", "Transparent")
-		i.Panel:ModPoint("TOPLEFT", 2, 1)
-		i.Panel:ModPoint("BOTTOMRIGHT", -2, 2)
+		--i.Panel:ModPoint("TOPLEFT", 2, 1)
+		--i.Panel:ModPoint("BOTTOMRIGHT", -2, 2)
 		local d = _G["MailItem"..b.."Button"]
 		d:RemoveTextures()
 		d:SetStyle("Button")

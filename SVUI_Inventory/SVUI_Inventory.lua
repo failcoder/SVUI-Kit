@@ -457,7 +457,7 @@ local ContainerFrame_UpdateLayout = function(self)
 				bagSlot:SetPushedTexture("")
 				bagSlot:SetScript("OnClick", nil)
 				bagSlot:RemoveTextures()
-				bagSlot:SetStyle("ActionSlot");
+				bagSlot:SetStyle("Button[SLOT]");
 
 				if(not bagSlot.icon) then
 					bagSlot.icon = bagSlot:CreateTexture(nil, "BORDER");
@@ -543,7 +543,7 @@ local ContainerFrame_UpdateLayout = function(self)
 					self.Bags[bagID][slotID]:SetNormalTexture("");
 					self.Bags[bagID][slotID]:SetCheckedTexture("");
 					self.Bags[bagID][slotID]:RemoveTextures();
-					self.Bags[bagID][slotID]:SetStyle("ActionSlot");
+					self.Bags[bagID][slotID]:SetStyle("Button[SLOT]");
 
 					-- if(self.Bags[bagID][slotID].flashAnim) then
 					-- 	self.Bags[bagID][slotID].flashAnim.Play = SV.fubar
@@ -689,7 +689,7 @@ local ReagentFrame_UpdateLayout = function(self)
 			slot:SetNormalTexture(nil);
 			slot:SetCheckedTexture(nil);
 			slot:RemoveTextures()
-			slot:SetStyle("ActionSlot");
+			slot:SetStyle("Button[SLOT]");
 
 			slot.NewItemTexture = slot:CreateTexture(nil, "OVERLAY", 1);
 			slot.NewItemTexture:InsetPoints(slot);

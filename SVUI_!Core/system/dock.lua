@@ -1065,25 +1065,29 @@ BUILD/UPDATE
 ##########################################################
 ]]--
 function MOD:UpdateDockBackdrops()
-	if(DOCK_CHECK and SV.db.Dock.rightDockBackdrop) then
-		MOD.BottomRight.backdrop:Show()
-		MOD.BottomRight.backdrop:ClearAllPoints()
-		MOD.BottomRight.backdrop:WrapPoints(MOD.BottomRight.Window, 4, 4)
+	if(MOD.BottomRight.backdrop) then
+		if(DOCK_CHECK and SV.db.Dock.rightDockBackdrop) then
+			MOD.BottomRight.backdrop:Show()
+			MOD.BottomRight.backdrop:ClearAllPoints()
+			MOD.BottomRight.backdrop:WrapPoints(MOD.BottomRight.Window, 4, 4)
 
-		MOD.BottomRight.Alert.backdrop:ClearAllPoints()
-		MOD.BottomRight.Alert.backdrop:WrapPoints(MOD.BottomRight.Alert, 4, 4)
-	else
-		MOD.BottomRight.backdrop:Hide()
+			MOD.BottomRight.Alert.backdrop:ClearAllPoints()
+			MOD.BottomRight.Alert.backdrop:WrapPoints(MOD.BottomRight.Alert, 4, 4)
+		else
+			MOD.BottomRight.backdrop:Hide()
+		end
 	end
-	if(DOCK_CHECK and SV.db.Dock.leftDockBackdrop) then
-		MOD.BottomLeft.backdrop:Show()
-		MOD.BottomLeft.backdrop:ClearAllPoints()
-		MOD.BottomLeft.backdrop:WrapPoints(MOD.BottomLeft.Window, 4, 4)
+	if(MOD.BottomLeft.backdrop) then
+		if(DOCK_CHECK and SV.db.Dock.leftDockBackdrop) then
+			MOD.BottomLeft.backdrop:Show()
+			MOD.BottomLeft.backdrop:ClearAllPoints()
+			MOD.BottomLeft.backdrop:WrapPoints(MOD.BottomLeft.Window, 4, 4)
 
-		MOD.BottomLeft.Alert.backdrop:ClearAllPoints()
-		MOD.BottomLeft.Alert.backdrop:WrapPoints(MOD.BottomLeft.Alert, 4, 4)
-	else
-		MOD.BottomLeft.backdrop:Hide()
+			MOD.BottomLeft.Alert.backdrop:ClearAllPoints()
+			MOD.BottomLeft.Alert.backdrop:WrapPoints(MOD.BottomLeft.Alert, 4, 4)
+		else
+			MOD.BottomLeft.backdrop:Hide()
+		end
 	end
 end 
 

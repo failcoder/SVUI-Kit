@@ -213,7 +213,7 @@ end
 
 function MOD:SetActionPanel(frame, unit, noHealthText, noPowerText, noMiscText)
 	if(frame.ActionPanel) then return; end
-	frame:SetStyle("Frame", "ActionPanel")
+	frame:SetStyle("Frame[SHADOW]", "ActionPanel")
 	if(unit and (unit == "target" or unit == "player")) then
 		local baseSize = SV.media.shared.font.unitprimary.size / 0.55;
 		local info = CreateFrame("Frame", nil, frame)
@@ -720,9 +720,9 @@ function MOD:CreatePortrait(frame,smallUnit,isPlayer)
 	portrait2D:SetAllPoints(portrait2Danchor)
 	portrait2D.anchor = portrait2Danchor;
 	if smallUnit then 
-		portrait2Danchor:SetStyle("Frame")
+		portrait2Danchor:SetStyle("Frame", "Default")
 	else 
-		portrait2Danchor:SetStyle("Frame")
+		portrait2Danchor:SetStyle("Frame", "Default")
 	end 
 	portrait2D.Panel = portrait2Danchor.Panel;
 

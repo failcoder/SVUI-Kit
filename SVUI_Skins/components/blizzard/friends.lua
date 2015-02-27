@@ -118,7 +118,7 @@ local function FriendsFrameStyle()
 		 return 
 	end
 
-	SV.API:Set("Window", FriendsFrame)
+	SV.API:Set("Frame", FriendsFrame, "Window")
 
 	FriendsFrameInset:RemoveTextures()
 	WhoFrameListInset:RemoveTextures()

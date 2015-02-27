@@ -243,6 +243,7 @@ do
 		},
 		["background"] = {
 			["default"] 	= [[Interface\AddOns\SVUI_!Core\assets\backgrounds\DEFAULT]],
+			["outline"] 	= [[Interface\AddOns\SVUI_!Core\assets\textures\EMPTY]],
 			["transparent"] = [[Interface\AddOns\SVUI_!Core\assets\backgrounds\TRANSPARENT]],
 			["button"]      = [[Interface\AddOns\SVUI_!Core\assets\backgrounds\BUTTON]],
 			["pattern"]     = [[Interface\AddOns\SVUI_!Core\assets\backgrounds\pattern\PATTERN1]],
@@ -250,7 +251,7 @@ do
 			["container"]   = [[Interface\AddOns\SVUI_!Core\assets\backgrounds\pattern\PAPER]],
 			["comic"]     	= [[Interface\AddOns\SVUI_!Core\assets\backgrounds\pattern\COMIC1]],
 			["model"]     	= [[Interface\AddOns\SVUI_!Core\assets\backgrounds\pattern\MODEL]],
-			["dark"]    	= [[Interface\AddOns\SVUI_!Core\assets\backgrounds\DARK]],
+			["shadow"]    	= [[Interface\AddOns\SVUI_!Core\assets\backgrounds\DARK]],
 			["unitlarge"] 	= [[Interface\AddOns\SVUI_!Core\assets\backgrounds\pattern\UNIT-BG1]],
 			["unitsmall"] 	= [[Interface\AddOns\SVUI_!Core\assets\backgrounds\pattern\UNIT-SMALL-BG1]],
 			["checkbox"]    = [[Interface\AddOns\SVUI_!Core\assets\buttons\CHECK-BG]],
@@ -277,6 +278,7 @@ do
 			["comic"]       = {r1, g1, b1, 1},
 			["bizzaro"]     = {ir1, ig1, ib1, 1},
 			["medium"]      = {0.47, 0.47, 0.47},
+			["shadow"]      = {0, 0, 0, 1},
 			["dark"]        = {0.1, 0.1, 0.1, 1},
 			["darkest"]     = {0, 0, 0, 1},
 			["light"]       = {0.95, 0.95, 0.95, 1},
@@ -292,7 +294,7 @@ do
 			["gold"]        = {1, 0.68, 0.1, 1},
 			["transparent"] = {0, 0, 0, 0.5},
 			["hinted"]      = {0, 0, 0, 0.35},
-			["invisible"]   = {0, 0, 0, 0},
+			["outline"]     = {0, 0, 0, 0},
 			["white"]       = {1, 1, 1, 1},
 		},
 		["bordercolor"] = {

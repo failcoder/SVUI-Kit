@@ -96,7 +96,7 @@ local function StyleCharacterSlots()
 			if(not charSlot.Panel) then
 				charSlot:RemoveTextures()
 				charSlot.ignoreTexture:SetTexture([[Interface\PaperDollInfoFrame\UI-GearManager-LeaveItem-Transparent]])
-				charSlot:SetStyle("ActionSlot", 1, 0, 0)
+				charSlot:SetStyle("Button[SLOT]")
 
 				local iconTex = _G[globalName.."IconTexture"]
 				if(iconTex) then

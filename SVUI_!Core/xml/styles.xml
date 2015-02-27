@@ -166,10 +166,11 @@
         </Backdrop>
     </Frame>
 
-    <Frame name="SVUI_CoreStyle_Shadow" inherits="SVUI_ShadowTemplate" virtual="true">
+    <Frame name="SVUI_CoreStyle_Shadow" inherits="SVUI_ShadowBorderTemplate" virtual="true">
         <Attributes>
             <Attribute name="panelID" type="string" value="shadow" />
             <Attribute name="panelSkipUpdate" type="boolean" value="true" />
+            <Attribute name="panelPresetVariant" type="boolean" value="true" />
         </Attributes>
     </Frame>
 
@@ -246,107 +247,17 @@
     <Frame name="SVUI_CoreStyle_Window" virtual="true">
         <Attributes>
             <Attribute name="panelID" type="string" value="window" />
+            <Attribute name="panelWindowPane" type="string" value="COMPOSITE1" />
             <Attribute name="panelPadding" type="number" value="2" />
         </Attributes>
-        <Backdrop bgFile="Interface\BUTTONS\WHITE8X8" edgeFile="Interface\BUTTONS\WHITE8X8" tile="false">
-            <EdgeSize val="2" />
-            <TileSize val="0" />
-            <BackgroundInsets left="1" right="1" top="1" bottom="1" />
-            <Color r="0.2" g="0.2" b="0.2" a="1" />
-            <BorderColor r="0" g="0" b="0" a="1" />
-        </Backdrop>
-        <Layers>
-            <Layer level="BACKGROUND" textureSubLevel="2">
-                <Texture parentKey="TopLeft" nonBlocking="true" file="Interface\AddOns\SVUI_!Core\assets\backgrounds\window\COMPOSITE1-TOPLEFT">
-                    <Anchors>
-                        <Anchor point="TOPLEFT" relativePoint="TOPLEFT" />
-                        <Anchor point="TOPRIGHT" relativePoint="TOP" />
-                        <Anchor point="BOTTOMLEFT" relativePoint="LEFT" />
-                    </Anchors>
-                    <Color r="0.05" g="0.05" b="0.05" a="0.5" />
-                </Texture>
-                <Texture parentKey="TopRight" nonBlocking="true" file="Interface\AddOns\SVUI_!Core\assets\backgrounds\window\COMPOSITE1-TOPRIGHT">
-                    <Anchors>
-                        <Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" />
-                        <Anchor point="TOPLEFT" relativePoint="TOP" />
-                        <Anchor point="BOTTOMRIGHT" relativePoint="RIGHT" />
-                    </Anchors>
-                    <Color r="0.05" g="0.05" b="0.05" a="0.5" />
-                </Texture>
-                <Texture parentKey="BottomLeft" nonBlocking="true" file="Interface\AddOns\SVUI_!Core\assets\backgrounds\window\COMPOSITE1-BOTTOMLEFT">
-                    <Anchors>
-                        <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" />
-                        <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOM" />
-                        <Anchor point="TOPLEFT" relativePoint="LEFT" />
-                    </Anchors>
-                    <Color r="0.1" g="0.1" b="0.1" a="0.5" />
-                </Texture>
-                <Texture parentKey="BottomRight" nonBlocking="true" file="Interface\AddOns\SVUI_!Core\assets\backgrounds\window\COMPOSITE1-BOTTOMRIGHT">
-                    <Anchors>
-                        <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" />
-                        <Anchor point="BOTTOMLEFT" relativePoint="BOTTOM" />
-                        <Anchor point="TOPRIGHT" relativePoint="RIGHT" />
-                    </Anchors>
-                    <Color r="0.1" g="0.1" b="0.1" a="0.5" />
-                </Texture>
-            </Layer>
-        </Layers>
-        <Frames>
-            <Frame parentKey="Shadow" inherits="SVUI_ShadowTemplate" />
-        </Frames>
     </Frame>
     
     <Frame name="SVUI_CoreStyle_Window2" virtual="true">
         <Attributes>
             <Attribute name="panelID" type="string" value="window2" />
+            <Attribute name="panelWindowPane" type="string" value="COMPOSITE2" />
             <Attribute name="panelPadding" type="number" value="2" />
         </Attributes>
-        <Backdrop bgFile="Interface\BUTTONS\WHITE8X8" edgeFile="Interface\BUTTONS\WHITE8X8" tile="false">
-            <EdgeSize val="2" />
-            <TileSize val="0" />
-            <BackgroundInsets left="1" right="1" top="1" bottom="1" />
-            <Color r="0.2" g="0.2" b="0.2" a="1" />
-            <BorderColor r="0" g="0" b="0" a="1" />
-        </Backdrop>
-        <Layers>
-            <Layer level="BACKGROUND" textureSubLevel="2">
-                <Texture parentKey="TopLeft" nonBlocking="true" file="Interface\AddOns\SVUI_!Core\assets\backgrounds\window\COMPOSITE2-TOPLEFT">
-                    <Anchors>
-                        <Anchor point="TOPLEFT" relativePoint="TOPLEFT" />
-                        <Anchor point="TOPRIGHT" relativePoint="TOP" />
-                        <Anchor point="BOTTOMLEFT" relativePoint="LEFT" />
-                    </Anchors>
-                    <Color r="0.05" g="0.05" b="0.05" a="0.5" />
-                </Texture>
-                <Texture parentKey="TopRight" nonBlocking="true" file="Interface\AddOns\SVUI_!Core\assets\backgrounds\window\COMPOSITE2-TOPRIGHT">
-                    <Anchors>
-                        <Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" />
-                        <Anchor point="TOPLEFT" relativePoint="TOP" />
-                        <Anchor point="BOTTOMRIGHT" relativePoint="RIGHT" />
-                    </Anchors>
-                    <Color r="0.05" g="0.05" b="0.05" a="0.5" />
-                </Texture>
-                <Texture parentKey="BottomLeft" nonBlocking="true" file="Interface\AddOns\SVUI_!Core\assets\backgrounds\window\COMPOSITE2-BOTTOMLEFT">
-                    <Anchors>
-                        <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" />
-                        <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOM" />
-                        <Anchor point="TOPLEFT" relativePoint="LEFT" />
-                    </Anchors>
-                    <Color r="0.1" g="0.1" b="0.1" a="0.5" />
-                </Texture>
-                <Texture parentKey="BottomRight" nonBlocking="true" file="Interface\AddOns\SVUI_!Core\assets\backgrounds\window\COMPOSITE2-BOTTOMRIGHT">
-                    <Anchors>
-                        <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" />
-                        <Anchor point="BOTTOMLEFT" relativePoint="BOTTOM" />
-                        <Anchor point="TOPRIGHT" relativePoint="RIGHT" />
-                    </Anchors>
-                    <Color r="0.1" g="0.1" b="0.1" a="0.5" />
-                </Texture>
-            </Layer>
-        </Layers>
-        <Frames>
-            <Frame parentKey="Shadow" inherits="SVUI_ShadowTemplate" />
-        </Frames>
     </Frame>
 
     <Frame name="SVUI_CoreStyle_UnitLarge" virtual="true">
