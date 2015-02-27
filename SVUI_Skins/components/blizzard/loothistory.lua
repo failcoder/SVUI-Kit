@@ -48,7 +48,7 @@ local LootHistoryFrame_OnUpdate = function(self)
       frame.Icon:SetTexture(Icon)
       frame.Icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 
-      frame:SetStyle("Frame", "Button")
+      frame:SetStyle()
       frame.Panel:WrapPoints(frame.Icon)
       frame.Icon:SetParent(frame.Panel)
 
@@ -68,7 +68,7 @@ local _hook_MasterLootFrame_OnShow = function()
     item:RemoveTextures()
     icon:SetTexture(tex)
     icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
-    item:SetStyle("Frame", "Pattern")
+    item:SetStyle("Pattern")
     item.Panel:WrapPoints(icon)
     item:SetBackdropBorderColor(colors.r, colors.g, colors.b)
   end 
@@ -79,8 +79,8 @@ local _hook_MasterLootFrame_OnShow = function()
         if child:GetPushedTexture() then
           SV.API:Set("CloseButton", child)
         else
-          child:SetStyle("Frame")
-          child:SetStyle("Button")
+          child:SetStyle("{!}")
+          child:SetStyle()
         end 
         child.isStyled = true 
       end 
@@ -104,16 +104,16 @@ local function LootHistoryStyle()
   LootHistoryFrame:SetFrameStrata('HIGH')
 
   MissingLootFrame:RemoveTextures()
-  MissingLootFrame:SetStyle("Frame", "Pattern")
+  MissingLootFrame:SetStyle("Pattern")
 
   SV.API:Set("CloseButton", MissingLootFramePassButton)
   hooksecurefunc("MissingLootFrame_Show", MissingLootFrame_OnShow)
   LootHistoryFrame:RemoveTextures()
   SV.API:Set("CloseButton", LootHistoryFrame.CloseButton)
   LootHistoryFrame:RemoveTextures()
-  LootHistoryFrame:SetStyle("Frame", 'Transparent')
+  LootHistoryFrame:SetStyle("Transparent")
   SV.API:Set("CloseButton", LootHistoryFrame.ResizeButton)
-  LootHistoryFrame.ResizeButton:SetStyle("Frame")
+  LootHistoryFrame.ResizeButton:SetStyle("{!}")
   LootHistoryFrame.ResizeButton:ModWidth(LootHistoryFrame:GetWidth())
   LootHistoryFrame.ResizeButton:ModHeight(19)
   LootHistoryFrame.ResizeButton:ClearAllPoints()
@@ -131,7 +131,7 @@ local function LootHistoryStyle()
   hooksecurefunc("LootHistoryFrame_FullUpdate", LootHistoryFrame_OnUpdate)
 
   MasterLooterFrame:RemoveTextures()
-  MasterLooterFrame:SetStyle("Frame")
+  MasterLooterFrame:SetStyle("{!}")
   MasterLooterFrame:SetFrameStrata('FULLSCREEN_DIALOG')
 
   hooksecurefunc("MasterLooterFrame_Show", _hook_MasterLootFrame_OnShow)

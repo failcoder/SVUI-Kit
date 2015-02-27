@@ -121,7 +121,7 @@ local GetAchievementRow = function(self, index)
 		row.Badge = CreateFrame("Frame", nil, row)
 		row.Badge:SetPoint("TOPLEFT", row, "TOPLEFT", 2, -2);
 		row.Badge:SetSize(INNER_HEIGHT, INNER_HEIGHT);
-		row.Badge:SetStyle("Frame", "Transparent")
+		row.Badge:SetStyle("Transparent")
 		row.Badge.Icon = row.Badge:CreateTexture(nil,"OVERLAY")
 		row.Badge.Icon:SetAllPoints(row.Badge);
 		row.Badge.Icon:SetTexture(LINE_ACHIEVEMENT_ICON)
@@ -141,7 +141,7 @@ local GetAchievementRow = function(self, index)
 
 		row.Button = CreateFrame("Button", nil, row.Header)
 		row.Button:SetAllPoints(row.Header);
-		row.Button:SetStyle("Button[LITE]")
+		row.Button:SetStyle("Lite")
 		row.Button:SetID(0)
 		row.Button:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 		row.Button:SetScript("OnClick", ViewButton_OnClick)

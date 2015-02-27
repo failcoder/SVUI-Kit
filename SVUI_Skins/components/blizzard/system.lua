@@ -433,7 +433,7 @@ local function SystemPanelQue()
 		local this = _G[SystemDropDownList[i]]
 		if(this) then
 			this:RemoveTextures()
-			this:SetStyle("Frame")
+			this:SetStyle("{!}")
 		end
 	end
 	for i = 1, #SystemFrameList1 do
@@ -444,28 +444,28 @@ local function SystemPanelQue()
 	end
 	
 	LFDRoleCheckPopup:RemoveTextures()
-	LFDRoleCheckPopup:SetStyle("Frame")
-	LFDRoleCheckPopupAcceptButton:SetStyle("Button")
-	LFDRoleCheckPopupDeclineButton:SetStyle("Button")
-	LFDRoleCheckPopupRoleButtonTank.checkButton:SetStyle("Checkbox")
-	LFDRoleCheckPopupRoleButtonDPS.checkButton:SetStyle("Checkbox")
-	LFDRoleCheckPopupRoleButtonHealer.checkButton:SetStyle("Checkbox")
+	LFDRoleCheckPopup:SetStyle("{!}")
+	LFDRoleCheckPopupAcceptButton:SetStyle()
+	LFDRoleCheckPopupDeclineButton:SetStyle()
+	LFDRoleCheckPopupRoleButtonTank.checkButton:SetStyle()
+	LFDRoleCheckPopupRoleButtonDPS.checkButton:SetStyle()
+	LFDRoleCheckPopupRoleButtonHealer.checkButton:SetStyle()
 	LFDRoleCheckPopupRoleButtonTank.checkButton:SetFrameLevel(LFDRoleCheckPopupRoleButtonTank.checkButton:GetFrameLevel() + 1)
 	LFDRoleCheckPopupRoleButtonDPS.checkButton:SetFrameLevel(LFDRoleCheckPopupRoleButtonDPS.checkButton:GetFrameLevel() + 1)
 	LFDRoleCheckPopupRoleButtonHealer.checkButton:SetFrameLevel(LFDRoleCheckPopupRoleButtonHealer.checkButton:GetFrameLevel() + 1)
 	for i = 1, 3 do
 		for j = 1, 3 do
-			_G["StaticPopup"..i.."Button"..j]:SetStyle("Button")
-			_G["StaticPopup"..i.."EditBox"]:SetStyle("Editbox")
-			_G["StaticPopup"..i.."MoneyInputFrameGold"]:SetStyle("Editbox")
-			_G["StaticPopup"..i.."MoneyInputFrameSilver"]:SetStyle("Editbox")
-			_G["StaticPopup"..i.."MoneyInputFrameCopper"]:SetStyle("Editbox")
+			_G["StaticPopup"..i.."Button"..j]:SetStyle()
+			_G["StaticPopup"..i.."EditBox"]:SetStyle()
+			_G["StaticPopup"..i.."MoneyInputFrameGold"]:SetStyle()
+			_G["StaticPopup"..i.."MoneyInputFrameSilver"]:SetStyle()
+			_G["StaticPopup"..i.."MoneyInputFrameCopper"]:SetStyle()
 			_G["StaticPopup"..i.."EditBox"].Panel:ModPoint("TOPLEFT", -2, -4)
 			_G["StaticPopup"..i.."EditBox"].Panel:ModPoint("BOTTOMRIGHT", 2, 4)
 			_G["StaticPopup"..i.."ItemFrameNameFrame"]:Die()
 			_G["StaticPopup"..i.."ItemFrame"]:GetNormalTexture():Die()
-			_G["StaticPopup"..i.."ItemFrame"]:SetStyle("Frame", "Default")
-			_G["StaticPopup"..i.."ItemFrame"]:SetStyle("Button")
+			_G["StaticPopup"..i.."ItemFrame"]:SetStyle()
+			_G["StaticPopup"..i.."ItemFrame"]:SetStyle()
 			_G["StaticPopup"..i.."ItemFrameIconTexture"]:SetTexCoord(0.1,0.9,0.1,0.9 )
 			_G["StaticPopup"..i.."ItemFrameIconTexture"]:InsetPoints()
 		end
@@ -475,26 +475,26 @@ local function SystemPanelQue()
 	for i = 1, #SystemFrameList4 do
 		local this = _G["GameMenuButton"..SystemFrameList4[i]]
 		if(this) then
-			this:SetStyle("Button")
+			this:SetStyle()
 		end
 	end
 	if IsAddOnLoaded("OptionHouse") then
-		GameMenuButtonOptionHouse:SetStyle("Button")
+		GameMenuButtonOptionHouse:SetStyle()
 	end
 
 	do
-		GhostFrame:SetStyle("Button")
+		GhostFrame:SetStyle()
 		GhostFrame:SetBackdropColor(0,0,0,0)
 		GhostFrame:SetBackdropBorderColor(0,0,0,0)
 		hooksecurefunc(GhostFrame, "SetBackdropColor", _hook_GhostFrameBackdropColor)
 		hooksecurefunc(GhostFrame, "SetBackdropBorderColor", _hook_GhostFrameBackdropColor)
 		GhostFrame:ClearAllPoints()
 		GhostFrame:SetPoint("CENTER", SVUI_SpecialAbility, "CENTER", 0, 0)
-		GhostFrameContentsFrame:SetStyle("Button")
+		GhostFrameContentsFrame:SetStyle()
 		GhostFrameContentsFrameIcon:SetTexture("")
 		local x = CreateFrame("Frame", nil, GhostFrame)
 		x:SetFrameStrata("MEDIUM")
-		x:SetStyle("Frame", "Default")
+		x:SetStyle()
 		x:WrapPoints(GhostFrameContentsFrameIcon)
 		local tex = x:CreateTexture(nil, "OVERLAY")
 		tex:SetTexture("Interface\\Icons\\spell_holy_guardianspirit")
@@ -516,7 +516,7 @@ local function SystemPanelQue()
 	for i = 1, #SystemFrameList6 do
 		local this = _G[SystemFrameList6[i]]
 		if(this) then
-			this:SetStyle("Button")
+			this:SetStyle()
 		end
 	end
 	VideoOptionsFrameCancel:ClearAllPoints()
@@ -537,7 +537,7 @@ local function SystemPanelQue()
 	ReadyCheckListenerFrame:SetAlpha(0)
 	ReadyCheckFrame:HookScript("OnShow", function(self) if UnitIsUnit("player", self.initiator) then self:Hide() end end)
 	StackSplitFrame:GetRegions():Hide()
-	RolePollPopup:SetStyle("Frame", "Transparent", true)
+	RolePollPopup:SetStyle("Transparent")
 	InterfaceOptionsFrame:SetClampedToScreen(true)
 	InterfaceOptionsFrame:SetMovable(true)
 	InterfaceOptionsFrame:EnableMouse(true)
@@ -552,17 +552,17 @@ local function SystemPanelQue()
 		self:StopMovingOrSizing()
 	end)
 	if IsMacClient() then
-		MacOptionsFrame:SetStyle("Frame", "Default")
+		MacOptionsFrame:SetStyle()
 		MacOptionsFrameHeader:SetTexture("")
 		MacOptionsFrameHeader:ClearAllPoints()
 		MacOptionsFrameHeader:SetPoint("TOP", MacOptionsFrame, 0, 0)
-		MacOptionsFrameMovieRecording:SetStyle("Frame", "Default")
-		MacOptionsITunesRemote:SetStyle("Frame", "Default")
-		MacOptionsFrameCancel:SetStyle("Button")
-		MacOptionsFrameOkay:SetStyle("Button")
-		MacOptionsButtonKeybindings:SetStyle("Button")
-		MacOptionsFrameDefaults:SetStyle("Button")
-		MacOptionsButtonCompress:SetStyle("Button")
+		MacOptionsFrameMovieRecording:SetStyle()
+		MacOptionsITunesRemote:SetStyle()
+		MacOptionsFrameCancel:SetStyle()
+		MacOptionsFrameOkay:SetStyle()
+		MacOptionsButtonKeybindings:SetStyle()
+		MacOptionsFrameDefaults:SetStyle()
+		MacOptionsButtonCompress:SetStyle()
 		local tPoint, tRTo, tRP, tX, tY = MacOptionsButtonCompress:GetPoint()
 		MacOptionsButtonCompress:SetWidth(136)
 		MacOptionsButtonCompress:ClearAllPoints()
@@ -584,22 +584,22 @@ local function SystemPanelQue()
 		MacOptionsFrameDefaults:SetHeight(22)
 	end
 	OpacityFrame:RemoveTextures()
-	OpacityFrame:SetStyle("Frame", "Transparent", true)
+	OpacityFrame:SetStyle("Transparent")
 
 	hooksecurefunc("UIDropDownMenu_InitializeHelper", function(self)
 		for i = 1, UIDROPDOWNMENU_MAXLEVELS do
 			local name = ("DropDownList%d"):format(i)
 			local bg = _G[("%sBackdrop"):format(name)]
-			bg:SetStyle("Frame", 'Transparent')
+			bg:SetStyle("Transparent")
 			local menu = _G[("%sMenuBackdrop"):format(name)]
-			menu:SetStyle("Frame", 'Transparent')
+			menu:SetStyle("Transparent")
 		end
 	end)
 
 	for i=1, BattleTagInviteFrame:GetNumChildren() do
 		local child = select(i, BattleTagInviteFrame:GetChildren())
 		if child:GetObjectType() == 'Button' then
-			child:SetStyle("Button")
+			child:SetStyle()
 		end
 	end
 
@@ -607,7 +607,7 @@ local function SystemPanelQue()
 		local frame = _G[SystemFrameList13[i]]
 		if(frame) then
 			frame:RemoveTextures()
-			frame:SetStyle("Frame", 'Transparent')
+			frame:SetStyle("Transparent")
 		end
 	end
 
@@ -632,7 +632,7 @@ local function SystemPanelQue()
 	for i = 1, #SystemFrameList15 do
 		local this = _G["InterfaceOptions"..SystemFrameList15[i]]
 		if(this) then
-			this:SetStyle("Checkbox")
+			this:SetStyle()
 		end
 	end
 	for i = 1, #SystemFrameList16 do
@@ -641,11 +641,11 @@ local function SystemPanelQue()
 			SV.API:Set("DropDown", this)
 		end
 	end
-	InterfaceOptionsHelpPanelResetTutorials:SetStyle("Button")
+	InterfaceOptionsHelpPanelResetTutorials:SetStyle()
 	for i = 1, #SystemFrameList17 do
 		local this = _G[SystemFrameList17[i]]
 		if(this) then
-			this:SetStyle("Checkbox")
+			this:SetStyle()
 		end
 	end
 	for i = 1, #SystemFrameList18 do
@@ -657,18 +657,18 @@ local function SystemPanelQue()
 	for i = 1, #SystemFrameList19 do
 		local this = _G[SystemFrameList19[i]]
 		if(this) then
-			this:SetStyle("Button")
+			this:SetStyle()
 		end
 	end
 	AudioOptionsVoicePanelChatMode1KeyBindingButton:ClearAllPoints()
 	AudioOptionsVoicePanelChatMode1KeyBindingButton:ModPoint("CENTER", AudioOptionsVoicePanelBinding, "CENTER", 0, -10)
-	CompactUnitFrameProfilesRaidStylePartyFrames:SetStyle("Checkbox")
-	CompactUnitFrameProfilesGeneralOptionsFrameResetPositionButton:SetStyle("Button")
+	CompactUnitFrameProfilesRaidStylePartyFrames:SetStyle()
+	CompactUnitFrameProfilesGeneralOptionsFrameResetPositionButton:SetStyle()
 
 	for i = 1, #SystemFrameList20 do
 		local this = _G["CompactUnitFrameProfilesGeneralOptionsFrame"..SystemFrameList20[i]]
 		if(this) then
-			this:SetStyle("Checkbox")
+			this:SetStyle()
 			this:SetFrameLevel(40)
 		end
 	end
@@ -684,12 +684,12 @@ local function SystemPanelQue()
 
 	if(MacOptionsFrame) then
 		MacOptionsFrame:RemoveTextures()
-		MacOptionsFrame:SetStyle("Frame")
-		MacOptionsButtonCompress:SetStyle("Button")
-		MacOptionsButtonKeybindings:SetStyle("Button")
-		MacOptionsFrameDefaults:SetStyle("Button")
-		MacOptionsFrameOkay:SetStyle("Button")
-		MacOptionsFrameCancel:SetStyle("Button")
+		MacOptionsFrame:SetStyle("{!}")
+		MacOptionsButtonCompress:SetStyle()
+		MacOptionsButtonKeybindings:SetStyle()
+		MacOptionsFrameDefaults:SetStyle()
+		MacOptionsFrameOkay:SetStyle()
+		MacOptionsFrameCancel:SetStyle()
 		MacOptionsFrameMovieRecording:RemoveTextures()
 		MacOptionsITunesRemote:RemoveTextures()
 		MacOptionsFrameMisc:RemoveTextures()
@@ -700,7 +700,7 @@ local function SystemPanelQue()
 		for i = 1, 11 do
 			local this = _G["MacOptionsFrameCheckButton"..i]
 			if(this) then
-				this:SetStyle("Checkbox")
+				this:SetStyle()
 			end
 		end
 		MacOptionsButtonKeybindings:ClearAllPoints()
@@ -714,24 +714,24 @@ local function SystemPanelQue()
 	
 	ReportCheatingDialog:RemoveTextures()
 	ReportCheatingDialogCommentFrame:RemoveTextures()
-	ReportCheatingDialogReportButton:SetStyle("Button")
-	ReportCheatingDialogCancelButton:SetStyle("Button")
-	ReportCheatingDialog:SetStyle("Frame", "Transparent", true)
-	ReportCheatingDialogCommentFrameEditBox:SetStyle("Editbox")
+	ReportCheatingDialogReportButton:SetStyle()
+	ReportCheatingDialogCancelButton:SetStyle()
+	ReportCheatingDialog:SetStyle("Transparent")
+	ReportCheatingDialogCommentFrameEditBox:SetStyle()
 	ReportPlayerNameDialog:RemoveTextures()
 	ReportPlayerNameDialogCommentFrame:RemoveTextures()
-	ReportPlayerNameDialogCommentFrameEditBox:SetStyle("Editbox")
-	ReportPlayerNameDialog:SetStyle("Frame", "Transparent", true)
-	ReportPlayerNameDialogReportButton:SetStyle("Button")
-	ReportPlayerNameDialogCancelButton:SetStyle("Button")
+	ReportPlayerNameDialogCommentFrameEditBox:SetStyle()
+	ReportPlayerNameDialog:SetStyle("Transparent")
+	ReportPlayerNameDialogReportButton:SetStyle()
+	ReportPlayerNameDialogCancelButton:SetStyle()
 
 
 	SideDressUpFrame:RemoveTextures(true)
 	SideDressUpFrame:ModSize(300, 400)
 	SideDressUpModel:RemoveTextures(true)
 	SideDressUpModel:SetAllPoints(SideDressUpFrame)
-	SideDressUpModel:SetStyle("Frame", "PatternModel")
-	SideDressUpModelResetButton:SetStyle("Button")
+	SideDressUpModel:SetStyle("PatternModel")
+	SideDressUpModelResetButton:SetStyle()
 	SideDressUpModelResetButton:SetPoint("BOTTOM", SideDressUpModel, "BOTTOM", 0, 20)
 	SV.API:Set("CloseButton", SideDressUpModelCloseButton)	
 	SV.API:Set("CloseButton", SideDressUpModelCloseButton)

@@ -127,7 +127,7 @@ local function StyleAtlasLoot(event, addon)
 
 	for _, object in pairs(StripAllTextures) do _G[object]:RemoveTextures()end 
 	for _, object in pairs(SetTemplateDefault) do SV.API:Set("Frame", _G[object], "Default")end 
-	for _, button in pairs(buttons) do _G[button]:SetStyle("Button")end 
+	for _, button in pairs(buttons) do _G[button]:SetStyle()end 
 
 	-- Manipulate the main frames
 	SV.API:Set("Frame", _G["AtlasLootDefaultFrame"], "Window2");
@@ -138,18 +138,18 @@ local function StyleAtlasLoot(event, addon)
 	_G["AtlasLootPanel"]:SetPoint("TOP",_G["AtlasLootDefaultFrame"],"BOTTOM",0,-1);
 	-- Back to the rest
 	SV.API:Set("Frame", _G["AtlasLootCompareFrame"], "Transparent");
-	if AtlasLoot_PanelButton_1 then AtlasLoot_PanelButton_1:SetStyle("Button") end
-	if AtlasLoot_PanelButton_2 then AtlasLoot_PanelButton_2:SetStyle("Button") end
-	if AtlasLoot_PanelButton_3 then AtlasLoot_PanelButton_3:SetStyle("Button") end
-	if AtlasLoot_PanelButton_4 then AtlasLoot_PanelButton_4:SetStyle("Button") end
-	if AtlasLoot_PanelButton_5 then AtlasLoot_PanelButton_5:SetStyle("Button") end
-	if AtlasLoot_PanelButton_6 then AtlasLoot_PanelButton_6:SetStyle("Button") end
-	if AtlasLoot_PanelButton_7 then AtlasLoot_PanelButton_7:SetStyle("Button") end
-	if AtlasLoot_PanelButton_8 then AtlasLoot_PanelButton_8:SetStyle("Button") end
-	if AtlasLoot_PanelButton_9 then AtlasLoot_PanelButton_9:SetStyle("Button") end
-	if AtlasLoot_PanelButton_10 then AtlasLoot_PanelButton_10:SetStyle("Button") end
-	if AtlasLoot_PanelButton_11 then AtlasLoot_PanelButton_11:SetStyle("Button") end
-	if AtlasLoot_PanelButton_12 then AtlasLoot_PanelButton_12:SetStyle("Button") end
+	if AtlasLoot_PanelButton_1 then AtlasLoot_PanelButton_1:SetStyle() end
+	if AtlasLoot_PanelButton_2 then AtlasLoot_PanelButton_2:SetStyle() end
+	if AtlasLoot_PanelButton_3 then AtlasLoot_PanelButton_3:SetStyle() end
+	if AtlasLoot_PanelButton_4 then AtlasLoot_PanelButton_4:SetStyle() end
+	if AtlasLoot_PanelButton_5 then AtlasLoot_PanelButton_5:SetStyle() end
+	if AtlasLoot_PanelButton_6 then AtlasLoot_PanelButton_6:SetStyle() end
+	if AtlasLoot_PanelButton_7 then AtlasLoot_PanelButton_7:SetStyle() end
+	if AtlasLoot_PanelButton_8 then AtlasLoot_PanelButton_8:SetStyle() end
+	if AtlasLoot_PanelButton_9 then AtlasLoot_PanelButton_9:SetStyle() end
+	if AtlasLoot_PanelButton_10 then AtlasLoot_PanelButton_10:SetStyle() end
+	if AtlasLoot_PanelButton_11 then AtlasLoot_PanelButton_11:SetStyle() end
+	if AtlasLoot_PanelButton_12 then AtlasLoot_PanelButton_12:SetStyle() end
 
 	for i = 1, 15 do local f = _G["AtlasLootCompareFrameMainFilterButton"..i]f:RemoveTextures() end 
 
@@ -179,22 +179,22 @@ local function StyleAtlasLoot(event, addon)
 	AtlasLootCompareFrameSearch_StatsListDropDown:SetWidth(240)
 	SV.API:Set("DropDown", AtlasLootCompareFrame_WishlistDropDown)
 	AtlasLootCompareFrame_WishlistDropDown:SetWidth(240)
-	AtlasLootPanelSearch_Box:SetStyle("Editbox")
-	AtlasLootCompareFrameSearch_Box:SetStyle("Editbox")
+	AtlasLootPanelSearch_Box:SetStyle()
+	AtlasLootCompareFrameSearch_Box:SetStyle()
 
 	if AtlasLootFilterCheck then 
-		AtlasLootFilterCheck:SetStyle("Checkbox") 
+		AtlasLootFilterCheck:SetStyle() 
 	end
 	if AtlasLootItemsFrame_Heroic then 
-		AtlasLootItemsFrame_Heroic:SetStyle("Checkbox") 
+		AtlasLootItemsFrame_Heroic:SetStyle() 
 	end
-	if AtlasLootCompareFrameSearch_FilterCheck then AtlasLootCompareFrameSearch_FilterCheck:SetStyle("Checkbox")
+	if AtlasLootCompareFrameSearch_FilterCheck then AtlasLootCompareFrameSearch_FilterCheck:SetStyle()
 	end
 	if AtlasLootItemsFrame_RaidFinder then 
-		AtlasLootItemsFrame_RaidFinder:SetStyle("Checkbox") 
+		AtlasLootItemsFrame_RaidFinder:SetStyle() 
 	end
 	if AtlasLootItemsFrame_Thunderforged then 
-		AtlasLootItemsFrame_Thunderforged:SetStyle("Checkbox") 
+		AtlasLootItemsFrame_Thunderforged:SetStyle() 
 	end
 
 	AtlasLootPanel.Titel:SetTextColor(23/255, 132/255, 209/255)

@@ -213,7 +213,7 @@ end
 
 function MOD:SetActionPanel(frame, unit, noHealthText, noPowerText, noMiscText)
 	if(frame.ActionPanel) then return; end
-	frame:SetStyle("Frame[SHADOW]", "ActionPanel")
+	frame:SetStyle("[SHADOW]ActionPanel")
 	if(unit and (unit == "target" or unit == "player")) then
 		local baseSize = SV.media.shared.font.unitprimary.size / 0.55;
 		local info = CreateFrame("Frame", nil, frame)
@@ -267,7 +267,7 @@ function MOD:SetActionPanel(frame, unit, noHealthText, noPowerText, noMiscText)
 			frame.ActionPanel.class = CreateFrame("Frame", nil, frame.TextGrip)
 			frame.ActionPanel.class:ModSize(18)
 			frame.ActionPanel.class:ModPoint("TOPLEFT", frame.ActionPanel, "TOPLEFT", 2, -2)
-			frame.ActionPanel.class:SetStyle("Frame", "Default", true, 2, 0, 0)
+			frame.ActionPanel.class:SetStyle("Default", true, 2, 0, 0)
 
 			frame.ActionPanel.class.texture = frame.ActionPanel.class.Panel:CreateTexture(nil, "BORDER")
 			frame.ActionPanel.class.texture:SetAllPoints(frame.ActionPanel.class.Panel)
@@ -637,7 +637,7 @@ end
 function MOD:CreatePowerBar(frame)
 	local power = CreateFrame("StatusBar", nil, frame)
 	power:SetStatusBarTexture(SV.media.statusbar.default)
-	power:SetStyle("Frame", "Transparent")
+	power:SetStyle("Transparent")
 	power:SetFrameStrata("LOW")
 	power:SetFrameLevel(6)
 	power.bg = power.Panel.Skin
@@ -651,7 +651,7 @@ end
 function MOD:CreateAltPowerBar(frame)
 	local altPower = CreateFrame("StatusBar", nil, frame)
 	altPower:SetStatusBarTexture(SV.media.statusbar.default)
-	altPower:SetStyle("Frame", "Transparent")
+	altPower:SetStyle("Transparent")
 	altPower:GetStatusBarTexture():SetHorizTile(false)
 	altPower:SetFrameStrata("LOW")
 	altPower:SetFrameLevel(8)
@@ -698,9 +698,9 @@ function MOD:CreatePortrait(frame,smallUnit,isPlayer)
 	portrait3D:SetFrameLevel(2)
 
 	if smallUnit then 
-		portrait3D:SetStyle("Frame", "PatternUnitSmall")
+		portrait3D:SetStyle("PatternUnitSmall")
 	else 
-		portrait3D:SetStyle("Frame", "PatternUnitLarge")
+		portrait3D:SetStyle("PatternUnitLarge")
 	end
 
 	local overlay = CreateFrame("Frame",nil,portrait3D)
@@ -720,9 +720,9 @@ function MOD:CreatePortrait(frame,smallUnit,isPlayer)
 	portrait2D:SetAllPoints(portrait2Danchor)
 	portrait2D.anchor = portrait2Danchor;
 	if smallUnit then 
-		portrait2Danchor:SetStyle("Frame", "Default")
+		portrait2Danchor:SetStyle()
 	else 
-		portrait2Danchor:SetStyle("Frame", "Default")
+		portrait2Danchor:SetStyle()
 	end 
 	portrait2D.Panel = portrait2Danchor.Panel;
 

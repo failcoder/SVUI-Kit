@@ -354,7 +354,7 @@ do
 	    button:SetHitRectInsets(0, 0, 0, 0);
 	    button:SetFrameStrata("FULLSCREEN_DIALOG");
 	    button.TText = tooltip
-	    button:SetStyle("Button")
+	    button:SetStyle()
 	    button:SetScript("OnEnter", Button_OnEnter)        
 	    button:SetScript("OnLeave", GameTooltip_Hide)
 	    return button
@@ -396,7 +396,7 @@ do
 
 		HelmetToggle = CreateFrame('CheckButton', nil, CharacterModelFrame, "OptionsCheckButtonTemplate")
 		HelmetToggle:SetSize(16, 16)
-		HelmetToggle:SetStyle("Checkbox")
+		HelmetToggle:SetStyle()
 		HelmetToggle.text = HelmetToggle:CreateFontString(nil, 'OVERLAY', "GameFontNormal")
 		HelmetToggle.text:SetPoint("LEFT", 24, 0)
 		HelmetToggle.TText = "Show/Hide Helmet"
@@ -406,7 +406,7 @@ do
 
 		CloakToggle = CreateFrame('CheckButton', nil, CharacterModelFrame, "OptionsCheckButtonTemplate")
 		CloakToggle:SetSize(16, 16)
-		CloakToggle:SetStyle("Checkbox")
+		CloakToggle:SetStyle()
 		CloakToggle.text = CloakToggle:CreateFontString(nil, 'OVERLAY', "GameFontNormal")
 		CloakToggle.text:SetPoint("LEFT", 24, 0)
 		CloakToggle.TText = "Show/Hide Cloak"

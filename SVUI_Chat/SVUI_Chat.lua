@@ -655,7 +655,7 @@ do
 		SV:FontManager(chat, "chatdialog", "LEFT")
 		SV:FontManager(tabText, "chattab")
 		if(not chat.Panel) then
-			chat:SetStyle("Frame", "Transparent", true, 1, 3, 6)
+			chat:SetStyle("Transparent", 1, 3, 6)
 			chat.Panel:Hide()
 		end
 		if(SV.media.shared.font.chatdialog.outline ~= 'NONE' )then
@@ -715,7 +715,7 @@ do
 			_G[editBoxName.."FocusLeft"]:Die()
 			_G[editBoxName.."FocusMid"]:Die()
 			_G[editBoxName.."FocusRight"]:Die()
-			editBox:SetStyle("Frame", "Transparent", true, 2, -2, -3)
+			editBox:SetStyle("Transparent", 2, -2, -3)
 			editBox:SetAltArrowKeyMode(false)
 			editBox:SetAllPoints(MOD.Dock.Parent.Alert)
 			editBox:HookScript("OnEditFocusGained", EditBox_OnEditFocusGained)
@@ -744,7 +744,7 @@ do
 			chat.button:SetAlpha(0.35)
 			chat.button:ModSize(38, 18)
 			chat.button:SetPoint('TOPRIGHT', chat, 'TOPRIGHT', 0, 0)
-			chat.button:SetStyle("Frame", "Transparent")
+			chat.button:SetStyle("Transparent")
 			
 			chat.button.Title = chat.button:CreateFontString()
 			chat.button.Title:SetFontObject(SVUI_Font_ChatTab)
@@ -1326,7 +1326,7 @@ function MOD:Load()
 
 	_G.GeneralDockManagerOverflowButton:ClearAllPoints()
 	_G.GeneralDockManagerOverflowButton:SetPoint('BOTTOMRIGHT', self.Dock.Bar, 'BOTTOMRIGHT', -2, 2)
-	_G.GeneralDockManagerOverflowButtonList:SetStyle("Frame", 'Transparent')
+	_G.GeneralDockManagerOverflowButtonList:SetStyle("Transparent")
 	_G.GeneralDockManager:SetAllPoints(self.Dock.Bar)
 
 	SetAllChatHooks()

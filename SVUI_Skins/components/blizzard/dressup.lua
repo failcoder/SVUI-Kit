@@ -29,13 +29,13 @@ local function DressUpStyle()
 	DressUpModel:ModPoint("TOPLEFT", DressUpFrame, "TOPLEFT", 12, -76)
 	DressUpModel:ModPoint("BOTTOMRIGHT", DressUpFrame, "BOTTOMRIGHT", -12, 36)
 
-	DressUpModel:SetStyle("Frame", "PatternModel")
+	DressUpModel:SetStyle("PatternModel")
 
 	DressUpFrameCancelButton:ModPoint("BOTTOMRIGHT", DressUpFrame, "BOTTOMRIGHT", -12, 12)
-	DressUpFrameCancelButton:SetStyle("Button")
+	DressUpFrameCancelButton:SetStyle()
 
 	DressUpFrameResetButton:ModPoint("RIGHT", DressUpFrameCancelButton, "LEFT", -12, 0)
-	DressUpFrameResetButton:SetStyle("Button")
+	DressUpFrameResetButton:SetStyle()
 
 	SV.API:Set("CloseButton", DressUpFrameCloseButton, DressUpFrame.Panel)
 end 

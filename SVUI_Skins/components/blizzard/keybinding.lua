@@ -33,7 +33,7 @@ local function BindingStyle()
 		local btn = _G[gName]
 		if(btn) then
 			btn:RemoveTextures()
-			btn:SetStyle("Button")
+			btn:SetStyle()
 		end
 	end
 
@@ -41,19 +41,19 @@ local function BindingStyle()
 		local button1 = _G["KeyBindingFrameBinding"..i.."Key1Button"]
 		if(button1) then
 			button1:RemoveTextures(true)
-			button1:SetStyle("Editbox")
+			button1:SetStyle()
 		end
 
 		local button2 = _G["KeyBindingFrameBinding"..i.."Key2Button"]
 		if(button2) then
 			button2:RemoveTextures(true)
-			button2:SetStyle("Editbox")
+			button2:SetStyle()
 		end
 	end
 
 	SV.API:Set("ScrollFrame", KeyBindingFrameScrollFrameScrollBar)
 	KeyBindingFrame:RemoveTextures()
-	KeyBindingFrame:SetStyle("Frame", "Window")
+	KeyBindingFrame:SetStyle("{0}Window")
 end
 --[[ 
 ########################################################## 

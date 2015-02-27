@@ -511,7 +511,7 @@ function MOD:CreateCastbar(frame, reversed, moverName, ryu, useFader, isBoss, ha
 	organizer:SetFrameStrata("HIGH")
 
 	local iconHolder = CreateFrame("Frame", nil, organizer)
-	iconHolder:SetStyle("Frame[INSET]", "Transparent", false)
+	iconHolder:SetStyle("[INSET]Transparent")
 	organizer.Icon = iconHolder
 
 	local buttonIcon = iconHolder:CreateTexture(nil, "BORDER")

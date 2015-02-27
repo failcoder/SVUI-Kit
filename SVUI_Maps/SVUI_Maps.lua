@@ -241,7 +241,7 @@ do
 				end 
 			end
 
-			btn:SetStyle("Button", -1, -1)
+			btn:SetStyle(-1, -1)
 
 			if(name == "DBMMinimapButton") then 
 				btn:SetNormalTexture("Interface\\Icons\\INV_Helmet_87")
@@ -787,7 +787,7 @@ function MOD:Load()
 
 	self.Holder.Square = CreateFrame("Frame", nil, self.Holder)
 	self.Holder.Square:WrapPoints(self.Holder, 2)
-	self.Holder.Square:SetStyle("Frame", "Minimap")
+	self.Holder.Square:SetStyle("Minimap")
 	self.Holder.Square:SetPanelColor(MM_COLOR)
 
 	self.Holder.Circle = self.Holder:CreateTexture(nil, "BACKGROUND", nil, -2)
@@ -837,7 +837,7 @@ function MOD:Load()
 
 	QueueStatusMinimapButton:ClearAllPoints()
 	QueueStatusMinimapButton:ModPoint("BOTTOMLEFT", self.Holder, "BOTTOMLEFT", 2, 1)
-	QueueStatusMinimapButton:SetStyle("Frame", "Default", true, 1, -4, -4)
+	QueueStatusMinimapButton:SetStyle("Default", true, 1, -4, -4)
 
 	QueueStatusFrame:SetClampedToScreen(true)
 	QueueStatusMinimapButtonBorder:Hide()
@@ -860,7 +860,7 @@ function MOD:Load()
 
 	self.InfoTop:ModPoint("TOPLEFT", self.Holder, "TOPLEFT", 2, -2)
 	self.InfoTop:SetSize(100, 22)
-	self.InfoTop:SetStyle("Frame", "Default", true, 1, 1, 1, "yellow")
+	self.InfoTop:SetStyle("Default", true, 1, 1, 1, "yellow")
 	self.InfoTop:SetFrameLevel(Minimap:GetFrameLevel() + 2)
 
 	self.InfoTop.Text:SetShadowColor(0, 0, 0, 0.3)

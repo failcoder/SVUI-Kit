@@ -26,9 +26,9 @@ local function ItemUpgradeStyle()
 
 	SV.API:Set("CloseButton", ItemUpgradeFrameCloseButton)
 	ItemUpgradeFrameUpgradeButton:RemoveTextures()
-	ItemUpgradeFrameUpgradeButton:SetStyle("Button")
+	ItemUpgradeFrameUpgradeButton:SetStyle()
 	ItemUpgradeFrame.ItemButton:RemoveTextures()
-	ItemUpgradeFrame.ItemButton:SetStyle("Button[SLOT]")
+	ItemUpgradeFrame.ItemButton:SetStyle("Item")
 	ItemUpgradeFrame.ItemButton.IconTexture:InsetPoints()
 	hooksecurefunc('ItemUpgradeFrame_Update', function()
 		if GetItemUpgradeItemInfo() then

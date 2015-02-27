@@ -211,7 +211,7 @@ local function InitializeDropdown()
 	SV.Dropdown:SetParent(SV.Screen)
 	SV.Dropdown:SetFrameStrata("DIALOG")
 	SV.Dropdown:SetFrameLevel(99)
-	SV.Dropdown:SetStyle("Frame", "Default")
+	SV.Dropdown:SetStyle()
 	SV.Dropdown.option = {};
 	SV.Dropdown.close = CreateFrame("Button", nil, SV.Dropdown, "UIPanelCloseButton")
 	SV.Dropdown.close:SetPoint("TOPRIGHT", SV.Dropdown, "TOPRIGHT")

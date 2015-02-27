@@ -41,7 +41,7 @@ local function ChangeTabHelper(this, xOffset, yOffset)
   this.backdrop:InsetPoints(this)
   this.backdrop:SetFrameLevel(0)
 
-  this.backdrop:SetStyle("Frame")
+  this.backdrop:SetStyle("{!}")
   this.backdrop:SetPanelColor("dark")
   this:HookScript("OnEnter",Tab_OnEnter)
   this:HookScript("OnLeave",Tab_OnLeave)
@@ -143,35 +143,35 @@ local function EncounterJournalStyle()
 
   EncounterJournalSearchResults:RemoveTextures(true)
 
-  EncounterJournal:SetStyle("Frame", "Window2")
+  EncounterJournal:SetStyle("{0}Window2")
   EncounterJournal:SetPanelColor("dark")
-  EncounterJournalInset:SetStyle("Frame[INSET]", "Transparent")
+  EncounterJournalInset:SetStyle("[INSET]Transparent")
 
-  EncounterJournalInstanceSelectScrollFrameScrollChild:SetStyle("Frame", "Default")
+  EncounterJournalInstanceSelectScrollFrameScrollChild:SetStyle()
   EncounterJournalInstanceSelectScrollFrameScrollChild:SetPanelColor("dark")
-  EncounterJournalInstanceSelectScrollDownButton:SetStyle("Button")
+  EncounterJournalInstanceSelectScrollDownButton:SetStyle()
   EncounterJournalInstanceSelectScrollDownButton:SetNormalTexture(SV.media.icon.move_down)
 
-  EncounterJournalEncounterFrameInstanceFrame:SetStyle("Frame[INSET]", "Transparent")
+  EncounterJournalEncounterFrameInstanceFrame:SetStyle("[INSET]Transparent")
 
   SV.API:Set("SkinPremium", EncounterJournalEncounterFrameInfoBossesScrollFrame, -20, 40, 0, 0)
 
   -- local comicHolder = CreateFrame('Frame', nil, EncounterJournal.encounter)
   -- comicHolder:SetPoint("TOPLEFT", EncounterJournalEncounterFrameInfoBossesScrollFrame, "TOPLEFT", -20, 40)
   -- comicHolder:SetPoint("BOTTOMRIGHT", EncounterJournalEncounterFrameInfoBossesScrollFrame, "BOTTOMRIGHT", 0, 0)
-  -- comicHolder:SetStyle("Frame", "PatternComic")
+  -- comicHolder:SetStyle("PatternComic")
   -- comicHolder:SetPanelColor("dark")
   -- EncounterJournal.encounter.info.encounterTitle:SetParent(comicHolder)
   -- EncounterJournal.searchResults.TitleText:SetParent(comicHolder)
 
-  EncounterJournalNavBarHomeButton:SetStyle("Button")
-  EncounterJournalEncounterFrameInfoDifficulty:SetStyle("Button")
+  EncounterJournalNavBarHomeButton:SetStyle()
+  EncounterJournalEncounterFrameInfoDifficulty:SetStyle()
   EncounterJournalEncounterFrameInfoDifficulty:SetFrameLevel(EncounterJournalEncounterFrameInfoDifficulty:GetFrameLevel() + 10)
-  EncounterJournalEncounterFrameInfoLootScrollFrameFilterToggle:SetStyle("Button")
+  EncounterJournalEncounterFrameInfoLootScrollFrameFilterToggle:SetStyle()
   EncounterJournalEncounterFrameInfoLootScrollFrameFilterToggle:SetFrameLevel(EncounterJournalEncounterFrameInfoLootScrollFrameFilterToggle:GetFrameLevel() + 10)
 
-  EncounterJournalInstanceSelectDungeonTab:SetStyle("Button")
-  EncounterJournalInstanceSelectRaidTab:SetStyle("Button")
+  EncounterJournalInstanceSelectDungeonTab:SetStyle()
+  EncounterJournalInstanceSelectRaidTab:SetStyle()
 
   SV.API:Set("ScrollBar", EncounterJournalEncounterFrameInfoLootScrollBar)
 
@@ -181,7 +181,7 @@ local function EncounterJournalStyle()
   bgParent.loreBG:SetPoint("TOPLEFT", bgParent, "TOPLEFT", 0, 0)
   bgParent.loreBG:SetPoint("BOTTOMRIGHT", bgParent, "BOTTOMRIGHT", 0, 90)
 
-  loreParent:SetStyle("Frame", "Pattern", true, 1, 1, 5)
+  loreParent:SetStyle("Pattern", true, 1, 1, 5)
   loreParent:SetPanelColor("dark")
   loreParent.child.lore:SetTextColor(1, 1, 1)
   EncounterJournal.encounter.infoFrame.description:SetTextColor(1, 1, 1)
@@ -217,7 +217,7 @@ local function EncounterJournalStyle()
       if(not used.button.Panel) then
           used:RemoveTextures(true)
           used.button:RemoveTextures(true)
-          used.button:SetStyle("Button")
+          used.button:SetStyle()
       end
       used.description:SetTextColor(1, 1, 1)
       --used.button.portrait.icon:Hide()
@@ -238,7 +238,7 @@ local function EncounterJournalStyle()
       if index <= numLoot then
           item.icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
           if(not item.Panel) then
-            item:SetStyle("Frame", "Outline")
+            item:SetStyle("Outline")
           end
           item.slot:SetTextColor(0.5, 1, 0)
           item.armorType:SetTextColor(1, 1, 0)

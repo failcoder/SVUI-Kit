@@ -65,7 +65,7 @@ local function StyleSexyCooldownIcon(bar, icon)
 end
 
 local function StyleSexyCooldownBackdrop(bar)
-	bar:SetStyle("Frame", "Transparent")
+	bar:SetStyle("Transparent")
 end
 
 local function HookSCDBar(bar)

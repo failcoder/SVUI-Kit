@@ -199,11 +199,11 @@ local _hook_RankOrder_OnUpdate = function()
 	for i = 1, GuildControlGetNumRanks()do 
 		local frame = _G["GuildControlUIRankOrderFrameRank"..i]
 		if frame then 
-			frame.downButton:SetStyle("Button")
-			frame.upButton:SetStyle("Button")
-			frame.deleteButton:SetStyle("Button")
+			frame.downButton:SetStyle()
+			frame.upButton:SetStyle()
+			frame.deleteButton:SetStyle()
 			if not frame.nameBox.Panel then 
-				frame.nameBox:SetStyle("Editbox")
+				frame.nameBox:SetStyle()
 			end 
 			frame.nameBox.Panel:ModPoint("TOPLEFT",-2,-4)
 			frame.nameBox.Panel:ModPoint("BOTTOMRIGHT",-4,4)
@@ -295,31 +295,31 @@ local _hook_BankTabPermissions = function(self)
 		
 		if(tab) then
 			if(tab.tabIcon) then tab.tabIcon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS)) end
-			if(tab.editBox) then tab.editBox:SetStyle("Editbox") end
+			if(tab.editBox) then tab.editBox:SetStyle() end
 
 			if internalTest == false then
 				purchase =  _G[baseName.."BuyPurchaseButton"]
 				if(purchase) then
-					purchase:SetStyle("Button")
+					purchase:SetStyle()
 				end
 				view =  _G[ownedName.."ViewCheck"]
 				if(view) then
-					view:SetStyle("Checkbox")
+					view:SetStyle()
 					GCTabHelper(view)
 				end
 				stack =  _G[ownedName.."StackBox"]
 				if(stack) then
-					stack:SetStyle("Editbox")
+					stack:SetStyle()
 					GCTabHelper(stack)
 				end
 				deposit =  _G[ownedName.."DepositCheck"]
 				if(deposit) then
-					deposit:SetStyle("Checkbox")
+					deposit:SetStyle()
 					GCTabHelper(deposit)
 				end
 				update =  _G[ownedName.."UpdateInfoCheck"]
 				if(update) then
-					update:SetStyle("Checkbox")
+					update:SetStyle()
 					GCTabHelper(update)
 				end
 			end
@@ -350,10 +350,10 @@ local function GuildBankStyle()
 		end 
 	end
 
-	GuildBankFrameDepositButton:SetStyle("Button")
-	GuildBankFrameWithdrawButton:SetStyle("Button")
-	GuildBankInfoSaveButton:SetStyle("Button")
-	GuildBankFramePurchaseButton:SetStyle("Button")
+	GuildBankFrameDepositButton:SetStyle()
+	GuildBankFrameWithdrawButton:SetStyle()
+	GuildBankInfoSaveButton:SetStyle()
+	GuildBankFramePurchaseButton:SetStyle()
 
 	-- local BAGS = SV.Inventory
 	-- if(BAGS) then
@@ -386,7 +386,7 @@ local function GuildBankStyle()
 						texture:SetTexture("")
 					end
 					button:RemoveTextures()
-					button:SetStyle("Button[SLOT]")
+					button:SetStyle("Item")
 
 					local icon = _G[btnName.."IconTexture"]
 					if(icon) then
@@ -407,7 +407,7 @@ local function GuildBankStyle()
 			local button = _G[btnName]
 			if(button) then
 				button:RemoveTextures()
-				button:SetStyle("Button")
+				button:SetStyle()
 				local texture = _G[btnName.."IconTexture"]
 				if(texture) then
 					texture:InsetPoints()
@@ -429,16 +429,16 @@ local function GuildBankStyle()
 
 	GuildBankPopupFrame:RemoveTextures()
 	GuildBankPopupScrollFrame:RemoveTextures()
-	GuildBankPopupFrame:SetStyle("Frame", "Transparent", true)
+	GuildBankPopupFrame:SetStyle("Transparent")
 	GuildBankPopupFrame:ModPoint("TOPLEFT", GuildBankFrame, "TOPRIGHT", 1, -30)
-	GuildBankPopupOkayButton:SetStyle("Button")
-	GuildBankPopupCancelButton:SetStyle("Button")
-	GuildBankPopupEditBox:SetStyle("Editbox")
+	GuildBankPopupOkayButton:SetStyle()
+	GuildBankPopupCancelButton:SetStyle()
+	GuildBankPopupEditBox:SetStyle()
 	GuildBankPopupNameLeft:Die()
 	GuildBankPopupNameRight:Die()
 	GuildBankPopupNameMiddle:Die()
 	GuildItemSearchBox:RemoveTextures()
-	GuildItemSearchBox:SetStyle("Frame", "Overlay")
+	GuildItemSearchBox:SetStyle("Overlay")
 	GuildItemSearchBox.Panel:ModPoint("TOPLEFT", 10, -1)
 	GuildItemSearchBox.Panel:ModPoint("BOTTOMRIGHT", 4, 1)
 
@@ -447,8 +447,8 @@ local function GuildBankStyle()
 		local button = _G[btnName]
 		if(button) then
 			button:RemoveTextures()
-			button:SetStyle("Frame", "Default")
-			button:SetStyle("Button")
+			button:SetStyle()
+			button:SetStyle()
 
 			local icon = _G[btnName.."Icon"]
 			if(icon) then
@@ -485,13 +485,13 @@ local function GuildFrameStyle()
 		local button = _G[GuildButtonList[i]]
 		if(button) then
 			button:RemoveTextures(true)
-			button:SetStyle("Button")
+			button:SetStyle()
 		end
 	end 
 
 	for i = 1, #GuildCheckBoxList do
 		local check = _G[GuildCheckBoxList[i]]
-		if(check) then check:SetStyle("Checkbox") end
+		if(check) then check:SetStyle() end
 	end 
 
 	for i = 1, 5 do
@@ -504,24 +504,24 @@ local function GuildFrameStyle()
 		end
 	end
 	
-	GuildNewsBossModel:SetStyle("Frame", 'Transparent')
-	GuildNewsBossModelTextFrame:SetStyle("Frame", "Default")
+	GuildNewsBossModel:SetStyle("Transparent")
+	GuildNewsBossModelTextFrame:SetStyle()
 	GuildNewsBossModelTextFrame.Panel:ModPoint("TOPLEFT", GuildNewsBossModel.Panel, "BOTTOMLEFT", 0, -1)
 	GuildNewsBossModel:SetPoint("TOPLEFT", GuildFrame, "TOPRIGHT", 4, -43)
 
-	GuildRecruitmentTankButton.checkButton:SetStyle("Checkbox")
-	GuildRecruitmentHealerButton.checkButton:SetStyle("Checkbox")
-	GuildRecruitmentDamagerButton.checkButton:SetStyle("Checkbox")
+	GuildRecruitmentTankButton.checkButton:SetStyle()
+	GuildRecruitmentHealerButton.checkButton:SetStyle()
+	GuildRecruitmentDamagerButton.checkButton:SetStyle()
 
 	GuildFactionBar:RemoveTextures()
 	GuildFactionBar.progress:SetTexture(SV.BaseTexture)
-	GuildFactionBar:SetStyle("Frame[INSET]", "Transparent")
+	GuildFactionBar:SetStyle("[INSET]Transparent")
 	GuildFactionBar.Panel:ModPoint("TOPLEFT", GuildFactionBar.progress, "TOPLEFT", -1, 1)
 	GuildFactionBar.Panel:ModPoint("BOTTOMRIGHT", GuildFactionBar, "BOTTOMRIGHT", 1, 1)
 	
-	GuildRosterContainer:SetStyle("Frame[INSET]", "Transparent")
+	GuildRosterContainer:SetStyle("[INSET]Transparent")
 	SV.API:Set("ScrollFrame", GuildRosterContainerScrollBar, 4, -4)
-	GuildRosterShowOfflineButton:SetStyle("Checkbox")
+	GuildRosterShowOfflineButton:SetStyle()
 
 	for i = 1, 4 do
 		local btn = _G["GuildRosterColumnButton"..i]
@@ -536,37 +536,37 @@ local function GuildFrameStyle()
 		local btn = _G["GuildRosterContainerButton"..i.."HeaderButton"]
 		if(btn) then
 			btn:RemoveTextures()
-			btn:SetStyle("Button")
+			btn:SetStyle()
 		end
 	end
 
-	GuildMemberDetailFrame:SetStyle("Frame", "Default", true)
-	GuildMemberNoteBackground:SetStyle("Frame", 'Transparent')
-	GuildMemberOfficerNoteBackground:SetStyle("Frame", 'Transparent')
+	GuildMemberDetailFrame:SetStyle()
+	GuildMemberNoteBackground:SetStyle("Transparent")
+	GuildMemberOfficerNoteBackground:SetStyle("Transparent")
 
 	SV.API:Set("DropDown", GuildMemberRankDropdown, 182)
 	GuildMemberRankDropdown:HookScript("OnShow", function() GuildMemberDetailRankText:Hide() end)
 	GuildMemberRankDropdown:HookScript("OnHide", function() GuildMemberDetailRankText:Show() end)
 	GuildNewsFrame:RemoveTextures()
-	GuildNewsContainer:SetStyle("Frame[INSET]", "Transparent")
+	GuildNewsContainer:SetStyle("[INSET]Transparent")
 
 	for i = 1, 17 do
 		local btn = _G["GuildNewsContainerButton"..i]
 		if(btn) then
 			if(btn.header) then btn.header:Die() end
 			btn:RemoveTextures()
-			btn:SetStyle("Button")
+			btn:SetStyle()
 		end 
 	end 
 
 	GuildNewsFiltersFrame:RemoveTextures()
-	GuildNewsFiltersFrame:SetStyle("Frame", "Transparent", true)
+	GuildNewsFiltersFrame:SetStyle("Transparent")
 	SV.API:Set("CloseButton", GuildNewsFiltersFrameCloseButton)
 
 	for i = 1, 7 do
 		local btn = _G["GuildNewsFilterButton"..i]
 		if(btn) then
-			btn:SetStyle("Checkbox")
+			btn:SetStyle()
 		end
 	end 
 
@@ -584,22 +584,22 @@ local function GuildFrameStyle()
 	local panel1 = CreateFrame("Frame", nil, GuildInfoFrameInfo)
 	panel1:SetPoint("TOPLEFT", GuildInfoFrameInfo, "TOPLEFT", 2, -22)
 	panel1:SetPoint("BOTTOMRIGHT", GuildInfoFrameInfo, "BOTTOMRIGHT", 0, 200)
-	panel1:SetStyle("Frame", 'Transparent')
+	panel1:SetStyle("Transparent")
 
 	local panel2 = CreateFrame("Frame", nil, GuildInfoFrameInfo)
 	panel2:SetPoint("TOPLEFT", GuildInfoFrameInfo, "TOPLEFT", 2, -158)
 	panel2:SetPoint("BOTTOMRIGHT", GuildInfoFrameInfo, "BOTTOMRIGHT", 0, 118)
-	panel2:SetStyle("Frame", 'Transparent')
+	panel2:SetStyle("Transparent")
 
 	local panel3 = CreateFrame("Frame", nil, GuildInfoFrameInfo)
 	panel3:SetPoint("TOPLEFT", GuildInfoFrameInfo, "TOPLEFT", 2, -233)
 	panel3:SetPoint("BOTTOMRIGHT", GuildInfoFrameInfo, "BOTTOMRIGHT", 0, 3)
-	panel3:SetStyle("Frame", 'Transparent')
+	panel3:SetStyle("Transparent")
 
-	GuildRecruitmentCommentInputFrame:SetStyle("Frame", "Default")
-	GuildTextEditFrame:SetStyle("Frame", "Transparent", true)
+	GuildRecruitmentCommentInputFrame:SetStyle()
+	GuildTextEditFrame:SetStyle("Transparent")
 	SV.API:Set("ScrollFrame", GuildTextEditScrollFrameScrollBar, 4, 4)
-	GuildTextEditContainer:SetStyle("Frame", "Default")
+	GuildTextEditContainer:SetStyle()
 
 	local editChildren = GuildTextEditFrame:GetNumChildren()
 
@@ -609,13 +609,13 @@ local function GuildFrameStyle()
 			if(child:GetWidth() < 33) then
 				SV.API:Set("CloseButton", child)
 			else
-				child:SetStyle("Button")
+				child:SetStyle()
 			end
 		end 
 	end
 
 	SV.API:Set("ScrollFrame", GuildLogScrollFrameScrollBar, 4, 4)
-	GuildLogFrame:SetStyle("Frame", 'Transparent')
+	GuildLogFrame:SetStyle("Transparent")
 
 	local logChildren = GuildLogFrame:GetNumChildren()
 
@@ -625,12 +625,12 @@ local function GuildFrameStyle()
 			if(child:GetWidth() < 33) then
 				SV.API:Set("CloseButton", child)
 			else
-				child:SetStyle("Button")
+				child:SetStyle()
 			end
 		end 
 	end 
 
-	GuildRewardsFrame:SetStyle("Frame[INSET]", "Transparent")
+	GuildRewardsFrame:SetStyle("[INSET]Transparent")
 	SV.API:Set("ScrollFrame", GuildRewardsContainerScrollBar, 4, -4)
 	SV.API:Set("ScrollFrame", GuildPerksContainerScrollBar, 4, 2)
 
@@ -693,11 +693,11 @@ local function GuildControlStyle()
 
 	for i=1, NUM_RANK_FLAGS do
 		local check = _G["GuildControlUIRankSettingsFrameCheckbox"..i]
-		if(check) then check:SetStyle("Checkbox") end 
+		if(check) then check:SetStyle() end 
 	end
 
-	GuildControlUIRankOrderFrameNewButton:SetStyle("Button")
-	GuildControlUIRankSettingsFrameGoldBox:SetStyle("Editbox")
+	GuildControlUIRankOrderFrameNewButton:SetStyle()
+	GuildControlUIRankSettingsFrameGoldBox:SetStyle()
 	GuildControlUIRankSettingsFrameGoldBox.Panel:ModPoint("TOPLEFT",-2,-4)
 	GuildControlUIRankSettingsFrameGoldBox.Panel:ModPoint("BOTTOMRIGHT",2,4)
 	GuildControlUIRankSettingsFrameGoldBox:RemoveTextures()
@@ -722,11 +722,11 @@ local function GuildRegistrarStyle()
 	GuildRegistrarFrameEditBox:RemoveTextures()
 	GuildRegistrarGreetingFrame:RemoveTextures()
 
-	GuildRegistrarFrameGoodbyeButton:SetStyle("Button")
-	GuildRegistrarFrameCancelButton:SetStyle("Button")
-	GuildRegistrarFramePurchaseButton:SetStyle("Button")
+	GuildRegistrarFrameGoodbyeButton:SetStyle()
+	GuildRegistrarFrameCancelButton:SetStyle()
+	GuildRegistrarFramePurchaseButton:SetStyle()
 	SV.API:Set("CloseButton", GuildRegistrarFrameCloseButton)
-	GuildRegistrarFrameEditBox:SetStyle("Editbox")
+	GuildRegistrarFrameEditBox:SetStyle()
 
 	for i = 1, GuildRegistrarFrameEditBox:GetNumRegions() do 
 		local region = select(i, GuildRegistrarFrameEditBox:GetRegions())
@@ -757,22 +757,22 @@ local function LFGuildFrameStyle()
 
 	for i = 1, #LFGFrameList do
 		local check = _G[LFGFrameList[i]]
-		if(check) then check:SetStyle("Checkbox") end
+		if(check) then check:SetStyle() end
 	end
 	
-	LookingForGuildTankButton.checkButton:SetStyle("Checkbox")
-	LookingForGuildHealerButton.checkButton:SetStyle("Checkbox")
-	LookingForGuildDamagerButton.checkButton:SetStyle("Checkbox")
+	LookingForGuildTankButton.checkButton:SetStyle()
+	LookingForGuildHealerButton.checkButton:SetStyle()
+	LookingForGuildDamagerButton.checkButton:SetStyle()
 	LookingForGuildFrameInset:RemoveTextures(false)
 	LookingForGuildBrowseButton_LeftSeparator:Die()
 	LookingForGuildRequestButton_RightSeparator:Die()
 
 	SV.API:Set("ScrollFrame", LookingForGuildBrowseFrameContainerScrollBar)
-	LookingForGuildBrowseButton:SetStyle("Button")
-	LookingForGuildRequestButton:SetStyle("Button")
+	LookingForGuildBrowseButton:SetStyle()
+	LookingForGuildRequestButton:SetStyle()
 
 	SV.API:Set("CloseButton", LookingForGuildFrameCloseButton)
-	LookingForGuildCommentInputFrame:SetStyle("Frame", "Default")
+	LookingForGuildCommentInputFrame:SetStyle()
 	LookingForGuildCommentInputFrame:RemoveTextures(false)
 
 	for u = 1, 5 do
@@ -790,11 +790,11 @@ local function LFGuildFrameStyle()
 	end
 
 	GuildFinderRequestMembershipFrame:RemoveTextures(true)
-	GuildFinderRequestMembershipFrame:SetStyle("Frame", "Transparent", true)
-	GuildFinderRequestMembershipFrameAcceptButton:SetStyle("Button")
-	GuildFinderRequestMembershipFrameCancelButton:SetStyle("Button")
+	GuildFinderRequestMembershipFrame:SetStyle("Transparent")
+	GuildFinderRequestMembershipFrameAcceptButton:SetStyle()
+	GuildFinderRequestMembershipFrameCancelButton:SetStyle()
 	GuildFinderRequestMembershipFrameInputFrame:RemoveTextures()
-	GuildFinderRequestMembershipFrameInputFrame:SetStyle("Frame", "Default")
+	GuildFinderRequestMembershipFrameInputFrame:SetStyle()
 end 
 --[[ 
 ########################################################## 

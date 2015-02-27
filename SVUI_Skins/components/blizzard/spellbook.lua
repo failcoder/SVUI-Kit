@@ -115,7 +115,7 @@ local function AbilityButtonHelper(index)
 		end
 
 		button:RemoveTextures()
-		button:SetStyle("Frame", "Outline", true, 2, 0, 0)
+		button:SetStyle("Outline", true, 2, 0, 0)
 
 		if(button.iconTexture) then
 			button.iconTexture:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
@@ -151,7 +151,7 @@ local ButtonUpdateHelper = function(self)
 		end
 
 		self:RemoveTextures() 
-		self:SetStyle("Frame", "Outline", true, 2, 0, 0)
+		self:SetStyle("Outline", true, 2, 0, 0)
 
 		if(icon) then
 			icon:SetTexture(iconTex)
@@ -191,7 +191,7 @@ local function SpellBookStyle()
 
 	if(SpellBookFrameInset) then 
 		SpellBookFrameInset:RemoveTextures()
-		SpellBookFrameInset:SetStyle("Frame[INSET]", "Transparent", true, 6)
+		SpellBookFrameInset:SetStyle("[INSET]Transparent", 6)
 	end
 	if(SpellBookSpellIconsFrame) then SpellBookSpellIconsFrame:RemoveTextures() end
 	if(SpellBookSideTabsFrame) then SpellBookSideTabsFrame:RemoveTextures() end
@@ -261,7 +261,7 @@ local function SpellBookStyle()
 				buttonTex:InsetPoints()
 				button:SetFrameLevel(button:GetFrameLevel() + 2)
 				if not button.Panel then
-					button:SetStyle("Frame[INSET]", "Transparent", false, 3, 3, 3)
+					button:SetStyle("[INSET]Transparent", false, 3, 3, 3)
 					button.Panel:SetAllPoints()
 				end 
 			end
@@ -282,7 +282,7 @@ local function SpellBookStyle()
 			bar:SetHeight(12)
 			bar:SetStatusBarTexture(SV.media.statusbar.default)
 			bar:SetStatusBarColor(0, 220/255, 0)
-			bar:SetStyle("Frame", "Default")
+			bar:SetStyle()
 			bar.rankText:ClearAllPoints()
 			bar.rankText:SetPoint("CENTER")
 		end

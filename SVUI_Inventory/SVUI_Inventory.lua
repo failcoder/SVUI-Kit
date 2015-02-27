@@ -457,7 +457,7 @@ local ContainerFrame_UpdateLayout = function(self)
 				bagSlot:SetPushedTexture("")
 				bagSlot:SetScript("OnClick", nil)
 				bagSlot:RemoveTextures()
-				bagSlot:SetStyle("Button[SLOT]");
+				bagSlot:SetStyle("Item");
 
 				if(not bagSlot.icon) then
 					bagSlot.icon = bagSlot:CreateTexture(nil, "BORDER");
@@ -543,7 +543,7 @@ local ContainerFrame_UpdateLayout = function(self)
 					self.Bags[bagID][slotID]:SetNormalTexture("");
 					self.Bags[bagID][slotID]:SetCheckedTexture("");
 					self.Bags[bagID][slotID]:RemoveTextures();
-					self.Bags[bagID][slotID]:SetStyle("Button[SLOT]");
+					self.Bags[bagID][slotID]:SetStyle("Item");
 
 					-- if(self.Bags[bagID][slotID].flashAnim) then
 					-- 	self.Bags[bagID][slotID].flashAnim.Play = SV.fubar
@@ -689,7 +689,7 @@ local ReagentFrame_UpdateLayout = function(self)
 			slot:SetNormalTexture(nil);
 			slot:SetCheckedTexture(nil);
 			slot:RemoveTextures()
-			slot:SetStyle("Button[SLOT]");
+			slot:SetStyle("Item");
 
 			slot.NewItemTexture = slot:CreateTexture(nil, "OVERLAY", 1);
 			slot.NewItemTexture:InsetPoints(slot);
@@ -770,86 +770,11 @@ function MOD:UpdateGoldText()
 	self.BagFrame.goldText:SetText(GetCoinTextureString(GetMoney(), 12))
 end 
 
-function MOD:VendorGrays(destroy, silent, request)
-	if((not MerchantFrame or not MerchantFrame:IsShown()) and (not destroy) and (not request)) then 
-		SV:AddonMessage(L["You must be at a vendor."])
-		return 
-	end
-
-	local totalValue = 0;
-	local canDelete = 0;
-
-	for bagID = 0, 4 do 
-		for slot = 1, GetContainerNumSlots(bagID) do 
-			local itemLink = GetContainerItemLink(bagID, slot)
-			if(itemLink) then
-				local name, link, quality, iLevel, reqLevel, class, subclass, maxStack, equipSlot, texture, vendorPrice = GetItemInfo(itemLink)
-				if(vendorPrice) then
-					local itemCount = select(2, GetContainerItemInfo(bagID, slot))
-					local sellPrice = vendorPrice * itemCount
-					local itemID = GetContainerItemID(bagID, slot);
-					if(destroy) then 
-						if(find(itemLink, "ff9d9d9d")) then 
-							if(not request) then 
-								PickupContainerItem(bagID, slot)
-								DeleteCursorItem()
-							end 
-							totalValue = totalValue + sellPrice;
-							canDelete = canDelete + 1 
-						elseif(itemID and MOD.private.junk[itemID]) then
-							if(not request) then
-								PickupContainerItem(bagID, slot)
-								DeleteCursorItem()
-							end 
-							totalValue = totalValue + sellPrice;
-							canDelete = canDelete + 1 
-						end 
-					elseif(sellPrice > 0) then
-						if(quality == 0) then 
-							if(not request) then 
-								UseContainerItem(bagID, slot)
-								PickupMerchantItem()
-							end 
-							totalValue = totalValue + sellPrice
-						elseif(itemID and MOD.private.junk[itemID]) then
-							if(not request) then
-								UseContainerItem(bagID, slot)
-								PickupMerchantItem()
-							end 
-							totalValue = totalValue + sellPrice
-						end
-					end
-				end
-			end 
-		end 
-	end
-
-	if request then return totalValue end
-
-	if(not silent) then
-		if(totalValue > 0) then
-			local prefix, strMsg
-			local gold, silver, copper = floor(totalValue / 10000) or 0, floor(totalValue%10000 / 100) or 0, totalValue%100;
-
-			if(not destroy) then
-				strMsg = ("%s |cffffffff%s%s%s%s%s%s|r"):format(L["Vendored gray items for:"], gold, L["goldabbrev"], silver, L["silverabbrev"], copper, L["copperabbrev"])
-				SV:AddonMessage(strMsg)
-			else
-				if(canDelete > 0) then
-					prefix = ("|cffffffff%s%s%s%s%s%s|r"):format(gold, L["goldabbrev"], silver, L["silverabbrev"], copper, L["copperabbrev"])
-					strMsg = (L["Deleted %d gray items. Total Worth: %s"]):format(canDelete, prefix)
-					SV:AddonMessage(strMsg)
-				else
-					SV:AddonMessage(L["No gray items to delete."])
-				end
-			end
-		else
-			if(not destroy) then
-				SV:AddonMessage(L["No gray items to sell."])
-			else
-				SV:AddonMessage(L["No gray items to delete."])
-			end
-		end
+function MOD:VendorCheck(itemID, bagID, slot)
+	if(itemID and MOD.private.junk[itemID]) then
+		UseContainerItem(bagID, slot)
+		PickupMerchantItem()
+		return true
 	end
 end 
 
@@ -894,8 +819,8 @@ do
 		local icon = _G[bar:GetName().."IconTexture"]
 		bar.oldTex = icon:GetTexture()
 		bar:RemoveTextures()
-		bar:SetStyle("Frame", "Default")
-		bar:SetStyle("ActionSlot", 1, nil, nil, true)
+		bar:SetStyle()
+		bar:SetStyle("Item")
 		icon:SetTexture(bar.oldTex)
 		icon:InsetPoints()
 		icon:SetTexCoord(0.1, 0.9, 0.1, 0.9 )
@@ -999,7 +924,7 @@ do
 		end
 
 	    if not SVUI_BagBar_MOVE then
-	    	SVUI_BagBar:SetStyle("Frame", "Default")
+	    	SVUI_BagBar:SetStyle()
 	        SV:NewAnchor(SVUI_BagBar, L["Bags Bar"])
 	    end
 
@@ -1134,7 +1059,7 @@ do
 		local bagsCount = #self.BagFrames + 1;
 		local frame = CreateFrame("Button", "SVUI_ContainerFrame", UIParent)
 
-		frame:SetStyle("Frame", "PatternContainer", true)
+		frame:SetStyle("PatternContainer")
 		frame:SetFrameStrata("HIGH")
 		frame.UpdateLayout = ContainerFrame_UpdateLayout;
 		frame.RefreshBags = ContainerFrame_UpdateBags;
@@ -1188,7 +1113,7 @@ do
 
 		frame.BagMenu = CreateFrame("Button", "SVUI_ContainerFrameBagMenu", frame)
 		frame.BagMenu:ModPoint("BOTTOMLEFT", frame, "TOPLEFT", 0, 1)
-		frame.BagMenu:SetStyle("Frame", "Transparent")
+		frame.BagMenu:SetStyle("Transparent")
 		frame.BagMenu:Hide()
 
 		frame.goldText = frame:CreateFontString(nil, "OVERLAY")
@@ -1198,7 +1123,7 @@ do
 
 		frame.editBox = CreateFrame("EditBox", "SVUI_ContainerFrameEditBox", frame)
 		frame.editBox:SetFrameLevel(frame.editBox:GetFrameLevel()+2)
-		frame.editBox:SetStyle("Editbox")
+		frame.editBox:SetStyle()
 		frame.editBox:ModHeight(15)
 		frame.editBox:Hide()
 		frame.editBox:ModPoint("BOTTOMLEFT", frame.holderFrame, "TOPLEFT", 2, 4)
@@ -1218,7 +1143,7 @@ do
 		searchButton:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 		searchButton:SetSize(60, 18)
 		searchButton:SetPoint("BOTTOMLEFT", frame.editBox, "BOTTOMLEFT", -2, 0)
-		searchButton:SetStyle("Button")
+		searchButton:SetStyle()
 		searchButton:SetScript("OnClick", Search_OnClick)
 		local searchText = searchButton:CreateFontString(nil, "OVERLAY")
 		searchText:SetFontObject(SVUI_Font_Bag)
@@ -1293,7 +1218,7 @@ do
 		for h = 1, MAX_WATCHED_TOKENS do 
 			frame.currencyButton[h] = CreateFrame("Button", nil, frame.currencyButton)
 			frame.currencyButton[h]:ModSize(22)
-			frame.currencyButton[h]:SetStyle("Frame", "Default")
+			frame.currencyButton[h]:SetStyle()
 			frame.currencyButton[h]:SetID(h)
 			frame.currencyButton[h].icon = frame.currencyButton[h]:CreateTexture(nil, "OVERLAY")
 			frame.currencyButton[h].icon:InsetPoints()
@@ -1323,7 +1248,7 @@ do
 		local bagsCount = #self.BagFrames + 1;
 
 		local frame = CreateFrame("Button", bagName, isReagent and self.BankFrame or SV.Screen)
-		frame:SetStyle("Frame", "PatternContainer")
+		frame:SetStyle("PatternContainer")
 		frame:SetFrameStrata("HIGH")
 		frame:SetFrameLevel(SVUI_ContainerFrame:GetFrameLevel() + 99)
 
@@ -1400,7 +1325,7 @@ do
 		if(not isReagent) then
 			frame.BagMenu = CreateFrame("Button", bagName.."BagMenu", frame)
 			frame.BagMenu:ModPoint("BOTTOMLEFT", frame, "TOPLEFT", 0, 1)
-			frame.BagMenu:SetStyle("Frame", "Transparent")
+			frame.BagMenu:SetStyle("Transparent")
 			frame.BagMenu:Hide()
 
 			local Sort_OnClick = MOD:RunSortingProcess(MOD.Sort, "bank", SortBankBags)

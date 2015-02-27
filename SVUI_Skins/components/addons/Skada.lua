@@ -51,7 +51,7 @@ local function skada_panel_loader(dock, window, heightOverride)
   if (bgroup) then 
     bgroup:Show()
     if(not bgroup.Panel) then
-      bgroup:SetStyle("Frame", 'Transparent', true)
+      bgroup:SetStyle("Transparent")
     end
   end
 
@@ -113,7 +113,7 @@ local function StyleSkada()
       panelAnchor = skada.button
       skada.button:ModHeight(22)
       skada.button:RemoveTextures()
-      skada.button:SetStyle("Frame", "Transparent")
+      skada.button:SetStyle("Transparent")
       --skada.button:SetPanelColor("class")
       local titleFont = skada.button:GetFontString()
       titleFont:SetFont(SV.media.font.dialog, 13, "NONE")
@@ -121,7 +121,7 @@ local function StyleSkada()
       titleFont:SetShadowOffset(1, -1)
     end
 
-    skada:SetStyle("Frame", "Transparent")
+    skada:SetStyle("Transparent")
     skada.Panel:ClearAllPoints()
     skada.Panel:SetPoint('TOPLEFT', panelAnchor, 'TOPLEFT', -3, 3)
     skada.Panel:SetPoint('BOTTOMRIGHT', skada, 'BOTTOMRIGHT', 3, -3)

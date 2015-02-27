@@ -170,7 +170,7 @@ function MOD:InitializeTotemBar()
 		totem.Anchor = CreateFrame("Frame", nil, totem)
 		totem.Anchor:SetAllPoints()
 
-		totem:SetStyle("Button")
+		totem:SetStyle()
 
 		totem:EnableMouse(true)
 		totem:SetScript('OnEnter', Totem_OnEnter)

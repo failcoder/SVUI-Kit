@@ -21,11 +21,11 @@ local function WorldStateStyle()
 	if SV.db.Skins.blizzard.enable ~= true or SV.db.Skins.blizzard.bgscore ~= true then return end 
 	WorldStateScoreScrollFrame:RemoveTextures()
 	WorldStateScoreFrame:RemoveTextures()
-	WorldStateScoreFrame:SetStyle("Frame", "Window")
+	WorldStateScoreFrame:SetStyle("{0}Window")
 	SV.API:Set("CloseButton", WorldStateScoreFrameCloseButton)
 	SV.API:Set("ScrollFrame", WorldStateScoreScrollFrameScrollBar)
 	WorldStateScoreFrameInset:SetAlpha(0)
-	WorldStateScoreFrameLeaveButton:SetStyle("Button")
+	WorldStateScoreFrameLeaveButton:SetStyle()
 	for b = 1, 3 do 
 		SV.API:Set("Tab", _G["WorldStateScoreFrameTab"..b])
 	end 

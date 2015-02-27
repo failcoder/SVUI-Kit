@@ -26,11 +26,11 @@ local function BarberShopStyle()
 
 	for b = 1, #buttons do 
 		_G[buttons[b]]:RemoveTextures()
-		_G[buttons[b]]:SetStyle("Button")
+		_G[buttons[b]]:SetStyle()
 	end
 
 	BarberShopFrame:RemoveTextures()
-	BarberShopFrame:SetStyle("Frame", "Window")
+	BarberShopFrame:SetStyle("{0}Window")
 	BarberShopFrame:ModSize(BarberShopFrame:GetWidth()-30, BarberShopFrame:GetHeight()-56)
 
 	local lastframe;
@@ -55,7 +55,7 @@ local function BarberShopStyle()
 	end
 
 	BarberShopFrameMoneyFrame:RemoveTextures()
-	BarberShopFrameMoneyFrame:SetStyle("Frame[INSET]", "Transparent")
+	BarberShopFrameMoneyFrame:SetStyle("[INSET]Transparent")
 	BarberShopFrameMoneyFrame:ModPoint("TOP", lastframe, "BOTTOM", 0, -10)
 
 	BarberShopFrameBackground:Die()
@@ -65,7 +65,7 @@ local function BarberShopStyle()
 	BarberShopAltFormFrameBorder:RemoveTextures()
 	BarberShopAltFormFrame:ModPoint("BOTTOM", BarberShopFrame, "TOP", 0, 5)
 	BarberShopAltFormFrame:RemoveTextures()
-	BarberShopAltFormFrame:SetStyle("Frame", "Window2")
+	BarberShopAltFormFrame:SetStyle("{0}Window2")
 
 	BarberShopFrameResetButton:ClearAllPoints()
 	BarberShopFrameResetButton:ModPoint("BOTTOM", BarberShopFrame.Panel, "BOTTOM", 0, 4)

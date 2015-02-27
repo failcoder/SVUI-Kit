@@ -53,7 +53,7 @@ local function RaidUIStyle()
 				local slot = _G[name]
 				if(slot) then
 					slot:RemoveTextures()
-					slot:SetStyle("Frame[INSET]", "Transparent", true)
+					slot:SetStyle("[INSET]Transparent")
 				end
 			end
 		end 
@@ -75,20 +75,20 @@ local function RaidInfoStyle()
 
 	for g = 1, #RaidInfoFrameList do 
 		if _G[RaidInfoFrameList[g]] then
-			_G[RaidInfoFrameList[g]]:SetStyle("Button")
+			_G[RaidInfoFrameList[g]]:SetStyle()
 		end 
 	end
 
 	RaidInfoScrollFrame:RemoveTextures()
-	RaidInfoFrame:SetStyle("Frame", 'Transparent')
+	RaidInfoFrame:SetStyle("Transparent")
 	RaidInfoFrame.Panel:ModPoint("TOPLEFT", RaidInfoFrame, "TOPLEFT")
 	RaidInfoFrame.Panel:ModPoint("BOTTOMRIGHT", RaidInfoFrame, "BOTTOMRIGHT")
 
 	SV.API:Set("CloseButton", RaidInfoCloseButton, RaidInfoFrame)
 	SV.API:Set("ScrollFrame", RaidInfoScrollFrameScrollBar)
 	
-	if RaidFrameRaidBrowserButton then RaidFrameRaidBrowserButton:SetStyle("Button") end
-	RaidFrameAllAssistCheckButton:SetStyle("Checkbox")
+	if RaidFrameRaidBrowserButton then RaidFrameRaidBrowserButton:SetStyle() end
+	RaidFrameAllAssistCheckButton:SetStyle()
 end 
 --[[ 
 ########################################################## 

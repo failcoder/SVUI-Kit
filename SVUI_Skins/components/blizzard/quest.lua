@@ -33,7 +33,7 @@ local QuestFrameList = {
 };
 
 local function QuestScrollHelper(b, c, d, e)
-	b:SetStyle("Frame[INSET]", "Transparent")
+	b:SetStyle("[INSET]Transparent")
 	b.spellTex = b:CreateTexture(nil, 'ARTWORK')
 	b.spellTex:SetTexture([[Interface\QuestFrame\QuestBG]])
 	if e then
@@ -47,7 +47,7 @@ end
 
 local QuestRewardScrollFrame_OnShow = function(self)
 	if(not self.Panel) then
-		self:SetStyle("Frame", "Default")
+		self:SetStyle()
 		QuestScrollHelper(self, 509, 630, false)
 		self:ModHeight(self:GetHeight() - 2)
 	end
@@ -86,13 +86,13 @@ end
 local _hook_GreetingPanelShow = function(self)
 	self:RemoveTextures()
 
-	_G.QuestFrameGreetingGoodbyeButton:SetStyle("Button")
+	_G.QuestFrameGreetingGoodbyeButton:SetStyle()
 	_G.QuestGreetingFrameHorizontalBreak:Die()
 end
 
 local _hook_DetailScrollShow = function(self)
 	if not self.Panel then
-		self:SetStyle("Frame", "Default")
+		self:SetStyle()
 		QuestScrollHelper(self, 509, 630, false)
 	end 
 	self.spellTex:ModHeight(self:GetHeight() + 217)
@@ -101,7 +101,7 @@ end
 local _hook_QuestLogPopupDetailFrameShow = function(self)
 	local QuestLogPopupDetailFrameScrollFrame = _G.QuestLogPopupDetailFrameScrollFrame;
 	if not QuestLogPopupDetailFrameScrollFrame.spellTex then
-		QuestLogPopupDetailFrameScrollFrame:SetStyle("Frame", "Default")
+		QuestLogPopupDetailFrameScrollFrame:SetStyle()
 		QuestLogPopupDetailFrameScrollFrame.spellTex = QuestLogPopupDetailFrameScrollFrame:CreateTexture(nil, 'ARTWORK')
 		QuestLogPopupDetailFrameScrollFrame.spellTex:SetTexture([[Interface\QuestFrame\QuestBookBG]])
 		QuestLogPopupDetailFrameScrollFrame.spellTex:SetPoint("TOPLEFT", 2, -2)
@@ -135,7 +135,7 @@ local function QuestFrameStyle()
 	
 	local width = QuestLogPopupDetailFrameScrollFrame:GetWidth()
 	QuestLogPopupDetailFrame.ShowMapButton:SetWidth(width)
-	QuestLogPopupDetailFrame.ShowMapButton:SetStyle("Button")
+	QuestLogPopupDetailFrame.ShowMapButton:SetStyle()
 
 	SV.API:Set("Window", QuestLogPopupDetailFrame)
 
@@ -143,7 +143,7 @@ local function QuestFrameStyle()
 
 	for _,i in pairs(QuestFrameList)do
 		if(_G[i]) then
-			_G[i]:SetStyle("Button")
+			_G[i]:SetStyle()
 			_G[i]:SetFrameLevel(_G[i]:GetFrameLevel() + 2)
 		end
 	end
@@ -172,7 +172,7 @@ local function QuestFrameStyle()
 
 	local curLvl = QuestInfoSkillPointFrame:GetFrameLevel() + 1
 	QuestInfoSkillPointFrame:SetFrameLevel(curLvl)
-	QuestInfoSkillPointFrame:SetStyle("Frame", "Outline")
+	QuestInfoSkillPointFrame:SetStyle("Outline")
 	QuestInfoSkillPointFrame:SetBackdropColor(1, 1, 0, 0.5)
 	QuestInfoSkillPointFrameIconTexture:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 	QuestInfoSkillPointFrameIconTexture:SetDrawLayer("OVERLAY")
@@ -180,7 +180,7 @@ local function QuestFrameStyle()
 	QuestInfoSkillPointFrameIconTexture:ModSize(QuestInfoSkillPointFrameIconTexture:GetWidth()-2, QuestInfoSkillPointFrameIconTexture:GetHeight()-2)
 	QuestInfoSkillPointFrameCount:SetDrawLayer("OVERLAY")
 	QuestInfoItemHighlight:RemoveTextures()
-	QuestInfoItemHighlight:SetStyle("Frame", "Outline")
+	QuestInfoItemHighlight:SetStyle("Outline")
 	QuestInfoItemHighlight:SetBackdropBorderColor(1, 1, 0)
 	QuestInfoItemHighlight:SetBackdropColor(0, 0, 0, 0)
 	QuestInfoItemHighlight:ModSize(142, 40)
@@ -194,9 +194,9 @@ local function QuestFrameStyle()
 	QuestFrameDetailPanel:RemoveTextures(true)
 	QuestDetailScrollFrame:RemoveTextures(true)
 	QuestScrollHelper(QuestDetailScrollFrame, 506, 615, true)
-	QuestProgressScrollFrame:SetStyle("Frame")
+	QuestProgressScrollFrame:SetStyle("{!}")
 	QuestScrollHelper(QuestProgressScrollFrame, 506, 615, true)
-	QuestGreetingScrollFrame:SetStyle("Frame")
+	QuestGreetingScrollFrame:SetStyle("{!}")
 	QuestScrollHelper(QuestGreetingScrollFrame, 506, 615, true)
 	QuestDetailScrollChildFrame:RemoveTextures(true)
 	QuestRewardScrollFrame:RemoveTextures(true)
@@ -204,11 +204,11 @@ local function QuestFrameStyle()
 	QuestFrameProgressPanel:RemoveTextures(true)
 	QuestFrameRewardPanel:RemoveTextures(true)
 
-	QuestFrameAcceptButton:SetStyle("Button")
-	QuestFrameDeclineButton:SetStyle("Button")
-	QuestFrameCompleteButton:SetStyle("Button")
-	QuestFrameGoodbyeButton:SetStyle("Button")
-	QuestFrameCompleteQuestButton:SetStyle("Button")
+	QuestFrameAcceptButton:SetStyle()
+	QuestFrameDeclineButton:SetStyle()
+	QuestFrameCompleteButton:SetStyle()
+	QuestFrameGoodbyeButton:SetStyle()
+	QuestFrameCompleteQuestButton:SetStyle()
 
 	SV.API:Set("CloseButton", QuestFrameCloseButton, QuestFrame.Panel)
 
@@ -216,7 +216,7 @@ local function QuestFrameStyle()
 		local i = _G["QuestProgressItem"..j]
 		local texture = _G["QuestProgressItem"..j.."IconTexture"]
 		i:RemoveTextures()
-		i:SetStyle("Frame[INSET]", "Transparent")
+		i:SetStyle("[INSET]Transparent")
 		i:ModWidth(_G["QuestProgressItem"..j]:GetWidth() - 4)
 		texture:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 		texture:SetDrawLayer("OVERLAY")
@@ -226,10 +226,10 @@ local function QuestFrameStyle()
 	end
 
 	QuestNPCModel:RemoveTextures()
-	QuestNPCModel:SetStyle("Frame", "PatternComic")
+	QuestNPCModel:SetStyle("PatternComic")
 
 	QuestNPCModelTextFrame:RemoveTextures()
-	QuestNPCModelTextFrame:SetStyle("Frame", "Default")
+	QuestNPCModelTextFrame:SetStyle()
 	QuestNPCModelTextFrame.Panel:SetPoint("TOPLEFT", QuestNPCModel.Panel, "BOTTOMLEFT", 0, -2)
 
 	hooksecurefunc("QuestFrame_ShowQuestPortrait", Hook_QuestNPCModel)
@@ -245,20 +245,20 @@ local function QuestChoiceFrameStyle()
 	bgFrameTop:SetPoint("TOPLEFT", QuestChoiceFrame, "TOPLEFT", 42, -44)
 	bgFrameTop:SetPoint("TOPRIGHT", QuestChoiceFrame, "TOPRIGHT", -42, -44)
 	bgFrameTop:SetHeight(85)
-	bgFrameTop:SetStyle("Frame", "PatternPaper")
+	bgFrameTop:SetStyle("PatternPaper")
 	bgFrameTop:SetPanelColor("dark")
 
 	local bgFrameBottom = CreateFrame("Frame", nil, QuestChoiceFrame)
 	bgFrameBottom:SetPoint("TOPLEFT", QuestChoiceFrame, "TOPLEFT", 42, -140)
 	bgFrameBottom:SetPoint("BOTTOMRIGHT", QuestChoiceFrame, "BOTTOMRIGHT", -42, 44)
-	bgFrameBottom:SetStyle("Frame", "PatternPaper")
+	bgFrameBottom:SetStyle("PatternPaper")
 
 
 	SV.API:Set("CloseButton", QuestChoiceFrame.CloseButton)
-	--QuestChoiceFrame.Option1:SetStyle("Frame[INSET]", "Transparent")
-	QuestChoiceFrame.Option1.OptionButton:SetStyle("Button")
-	--QuestChoiceFrame.Option2:SetStyle("Frame[INSET]", "Transparent")
-	QuestChoiceFrame.Option2.OptionButton:SetStyle("Button")
+	--QuestChoiceFrame.Option1:SetStyle("[INSET]Transparent")
+	QuestChoiceFrame.Option1.OptionButton:SetStyle()
+	--QuestChoiceFrame.Option2:SetStyle("[INSET]Transparent")
+	QuestChoiceFrame.Option2.OptionButton:SetStyle()
 end 
 --[[ 
 ########################################################## 

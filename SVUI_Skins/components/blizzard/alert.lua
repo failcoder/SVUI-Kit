@@ -58,7 +58,7 @@ local function StyleAlertIcon(frame, icon)
 	if(not frame.IconSlot) then 
 		frame.IconSlot = CreateFrame("Frame", nil, frame)
 		frame.IconSlot:WrapPoints(icon)
-		frame.IconSlot:SetStyle("Frame", "Outline")
+		frame.IconSlot:SetStyle("Outline")
 		icon:SetParent(frame.IconSlot)
 	end
 end
@@ -298,15 +298,15 @@ local function AlertStyle()
 
 			SV.API:Set("Alert", frame)
 
-			frame.buttons[1]:SetStyle("Button")
-			frame.buttons[2]:SetStyle("Button")
-			frame.buttons[3]:SetStyle("Button")
+			frame.buttons[1]:SetStyle()
+			frame.buttons[2]:SetStyle()
+			frame.buttons[3]:SetStyle()
 
-			frame.gold:SetStyle("Editbox")
-			frame.silver:SetStyle("Editbox")
-			frame.copper:SetStyle("Editbox")
+			frame.gold:SetStyle()
+			frame.silver:SetStyle()
+			frame.copper:SetStyle()
 
-			frame.input:SetStyle("Editbox")
+			frame.input:SetStyle()
 			frame.input.Panel:ModPoint("TOPLEFT", -2, -4)
 			frame.input.Panel:ModPoint("BOTTOMRIGHT", 2, 4)
 		end

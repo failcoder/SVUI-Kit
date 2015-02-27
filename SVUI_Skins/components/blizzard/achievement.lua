@@ -82,7 +82,7 @@ local _hook_AchievementsUpdate = function()
 		local summary = _G[globalName]
 		if(summary) then
 			summary:RemoveTextures()
-			summary:SetStyle("Button")
+			summary:SetStyle()
 
 			local highlight = _G[("%sHighlight"):format(globalName)]
 			local desc = _G[("%sDescription"):format(globalName)]
@@ -100,7 +100,7 @@ local _hook_AchievementsUpdate = function()
 				icontex:InsetPoints()
 			end
 			if(icon and not icon.Panel) then 
-				icon:SetStyle("Frame", "Outline")
+				icon:SetStyle("Outline")
 				icon:ModHeight(icon:GetHeight() - 14)
 				icon:ModWidth(icon:GetWidth() - 14)
 				icon:ClearAllPoints()
@@ -120,7 +120,7 @@ local function BarStyleHelper(bar)
 	bar:RemoveTextures()
 	bar:SetStatusBarTexture(SV.media.statusbar.default)
 	bar:SetStatusBarColor(4/255, 179/255, 30/255)
-	bar:SetStyle("Frame", "Default")
+	bar:SetStyle()
 	if _G[bar:GetName().."Title"]then 
 		_G[bar:GetName().."Title"]:SetPoint("LEFT", 4, 0)
 	end 
@@ -166,13 +166,13 @@ local function AchievementStyle()
 	SV.API:Set("Window", AchievementFrame)
 
 	AchievementFrameSummaryAchievements:RemoveTextures(true)
-	AchievementFrameSummaryAchievements:SetStyle("Frame", 'Inset')
+	AchievementFrameSummaryAchievements:SetStyle("Transparent[INSET]")
 	AchievementFrameHeaderTitle:ClearAllPoints()
 	AchievementFrameHeaderTitle:ModPoint("TOPLEFT", AchievementFrame.Panel, "TOPLEFT", -30, -8)
 	AchievementFrameHeaderPoints:ClearAllPoints()
 	AchievementFrameHeaderPoints:ModPoint("LEFT", AchievementFrameHeaderTitle, "RIGHT", 2, 0)
-	AchievementFrameCategoriesContainer:SetStyle("Frame[INSET]", "Transparent", true, 2, -2, 2)
-	AchievementFrameAchievementsContainer:SetStyle("Frame", "Default")
+	AchievementFrameCategoriesContainer:SetStyle("[INSET]Transparent", 2, -2, 2)
+	AchievementFrameAchievementsContainer:SetStyle()
 	AchievementFrameAchievementsContainer.Panel:ModPoint("TOPLEFT", 0, 2)
 	AchievementFrameAchievementsContainer.Panel:ModPoint("BOTTOMRIGHT", -3, -3)
 	SV.API:Set("CloseButton", AchievementFrameCloseButton, AchievementFrame.Panel)
@@ -282,7 +282,7 @@ local function AchievementStyle()
 					tex:InsetPoints()
 				end
 
-				icon:SetStyle("Frame", "Default")
+				icon:SetStyle()
 				icon:ModHeight(icon:GetHeight()-14)
 				icon:ModWidth(icon:GetWidth()-14)
 				icon:ClearAllPoints()
@@ -293,7 +293,7 @@ local function AchievementStyle()
 				track:ClearAllPoints()
 				track:ModPoint("BOTTOMLEFT", 1, 1)
 				track:RemoveTextures()
-				track:SetStyle("Checkbox")
+				track:SetStyle()
 				track.ListParent = button
 			end
 		end
@@ -337,7 +337,7 @@ local function AchievementStyle()
 
 			_G[d.."IconBling"]:Die()
 			_G[d.."IconOverlay"]:Die()
-			_G[d.."Icon"]:SetStyle("Frame", "Default")
+			_G[d.."Icon"]:SetStyle()
 			_G[d.."Icon"]:ModHeight(_G[d.."Icon"]:GetHeight()-14)
 			_G[d.."Icon"]:ModWidth(_G[d.."Icon"]:GetWidth()-14)
 			_G[d.."Icon"]:ClearAllPoints()
@@ -376,7 +376,7 @@ local function AchievementStyle()
 		_G["AchievementFrameStatsContainerButton"..f.."HeaderMiddle"]:Die()
 		local d = "AchievementFrameComparisonStatsContainerButton"..f;
 		_G[d]:RemoveTextures()
-		_G[d]:SetStyle("Frame", "Default")
+		_G[d]:SetStyle()
 		_G[d.."BG"]:SetTexture(1, 1, 1, 0.2)
 		_G[d.."HeaderLeft"]:Die()
 		_G[d.."HeaderRight"]:Die()

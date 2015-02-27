@@ -94,7 +94,7 @@ local GetPopUpRow = function(self, index)
 		row.Badge = CreateFrame("Frame", nil, row.Button)
 		row.Badge:ModPoint("TOPLEFT", row.Button, "TOPLEFT", 4, -4);
 		row.Badge:ModSize((LARGE_INNER_HEIGHT - 4), (LARGE_INNER_HEIGHT - 4));
-		row.Badge:SetStyle("Frame[INSET]", "Transparent")
+		row.Badge:SetStyle("[INSET]Transparent")
 		row.Badge.Icon = row.Badge:CreateTexture(nil,"OVERLAY")
 		row.Badge.Icon:InsetPoints(row.Badge);
 		row.Badge.Icon:SetTexture(MOD.media.incompleteIcon)
@@ -102,7 +102,7 @@ local GetPopUpRow = function(self, index)
 		row.Header = CreateFrame("Frame", nil, row.Button)
 		row.Header:ModPoint("TOPLEFT", row.Badge, "TOPRIGHT", 4, -1);
 		row.Header:ModPoint("BOTTOMRIGHT", row.Button, "BOTTOMRIGHT", -2, 2);
-		row.Header:SetStyle("Frame")
+		row.Header:SetStyle("{!}")
 		row.Header.Text = row.Header:CreateFontString(nil,"OVERLAY")
 		row.Header.Text:SetFontObject(SVUI_Font_Quest);
 		row.Header.Text:SetJustifyH('LEFT')

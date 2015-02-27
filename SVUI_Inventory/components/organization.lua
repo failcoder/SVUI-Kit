@@ -131,7 +131,7 @@ end
 
 function MOD:InitializeMenus()
 	-- BagFilters:SetParent(SV.Screen)
-	BagFilters:SetStyle("Frame", "Default")
+	BagFilters:SetStyle()
 	BagFilters.buttons = {}
 	BagFilters:SetFrameStrata("DIALOG")
 	BagFilters:SetClampedToScreen(true)

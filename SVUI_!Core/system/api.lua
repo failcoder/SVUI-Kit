@@ -72,6 +72,9 @@ MOD.Variants = {
     ["THICKINSET"]  = "SVUI_ThickInsetBorderTemplate",
     ["OUTLINE"]     = "SVUI_OutlineBorderTemplate",
     ["THICKOUTLINE"]= "SVUI_ThickOutlineBorderTemplate",
+    ["CHECKBOX"]    = "SVUI_CheckboxBorderTemplate",
+    ["BUTTON"]      = "SVUI_ShadowBorderTemplate",
+    ["DOCKBUTTON"]  = "SVUI_ShadowBorderTemplate",
 };
 MOD.Methods = {};
 MOD.Concepts = {};
@@ -486,6 +489,14 @@ local HookCustomBackdrop = function(self)
     end
 end
 
+local HookFrameLevel = function(self, level)
+    if(self.Panel) then
+        local adjustment = level - 1;
+        if(adjustment < 0) then adjustment = 0 end
+        self.Panel:SetFrameLevel(adjustment)
+    end
+end
+
 local Cooldown_ForceUpdate = function(self)
     self.nextUpdate = 0;
     self:Show()
@@ -613,92 +624,20 @@ local _hook_Cooldown_SetCooldown = function(self, start, duration, elapsed)
         end 
     end 
 end
-
-local SetFrameBorderColor = function(self, r, g, b, setPrevious, reset)
-    if(setPrevious) then
-        self.Panel.__previous = setPrevious
-    elseif(reset) then
-        r,g,b = unpack(SV.media.color[self.Panel.__previous])
-    end
-    self.Panel.Shadow:SetBackdropBorderColor(r, g, b)
-end
-
-local ShowAlertFlash = function(self)
-    self:ColorBorder(1,0.9,0)
-    SV.Animate:Flash(self.Panel.Shadow, 0.75, true)
-end
-
-local HideAlertFlash = function(self)
-    SV.Animate:StopFlash(self.Panel.Shadow)
-    self:ColorBorder(1,0.9,0, nil, true)
-end
 --[[ 
 ########################################################## 
 TEMPLATE HELPERS
 ##########################################################
 ]]--
-function MOD:FLASH(frame)
-    if(frame.Panel.Shadow) then
-        frame.Panel.__previous = 'darkest';
-        frame.ColorBorder = SetFrameBorderColor
-        frame.StartAlert = ShowAlertFlash
-        frame.StopAlert = HideAlertFlash
-    end
-end
-
-function MOD:CD(button, noSwipe)
-    local bn = button:GetName()
-    if(bn) then
-        local cooldown = _G[bn.."Cooldown"];
-        if(cooldown) then
-            if(not SV.db.general or (SV.db.general and (not SV.db.general.cooldown))) then return end
-            cooldown:ClearAllPoints()
-            cooldown:InsetPoints()
-            cooldown:SetDrawEdge(false)
-            cooldown:SetDrawBling(false)
-            if(not noSwipe) then
-                cooldown:SetSwipeColor(0, 0, 0, 1)
-            end
-
-            if(not cooldown.HookedCooldown) then
-                hooksecurefunc(cooldown, "SetCooldown", _hook_Cooldown_SetCooldown)
-                cooldown.HookedCooldown = true
-            end
-        end
-    end
-end
-
-function MOD:APPLY(frame, templateName, variantName, padding, xOffset, yOffset, defaultColor)
-    
-    local xmlTemplate, xmlVariant, skinID;
-
-    if(templateName:find("Pattern")) then
-        local skinString = templateName:gsub("Pattern","");
-        if((not skinString) or (skinString == "")) then
-            skinString = "Pattern";
-        end
-        skinID = skinString:lower()
-        xmlTemplate = self.Templates[skinString] or self.Templates.Pattern;
-    else
-        xmlTemplate = self.Templates[templateName] or self.Templates.Default;
-    end
-
-    if(variantName and type(variantName) == 'string') then
-        variantName = variantName:upper();
-        xmlVariant = self.Variants[variantName] or self.Variants.DEFAULT;
-    else
-        xmlVariant = self.Variants.DEFAULT;
-    end
-    if(xmlVariant) then
-        xmlTemplate = xmlTemplate .. ',' .. xmlVariant;
-    end
-
+local function ApplyTemplate(frame, xmlTemplate, xOffset, yOffset, defaultColor)
     local panel         = CreateFrame('Frame', nil, frame, xmlTemplate)
     local panelID       = panel:GetAttribute("panelID")
     local forcedOffset  = panel:GetAttribute("panelOffset")
+
     if(forcedOffset or xOffset or yOffset) then
         panel:SetAttribute("panelLocked", true)
     end
+
     if(forcedOffset) then
         xOffset = xOffset or forcedOffset
         yOffset = yOffset or forcedOffset
@@ -722,89 +661,25 @@ function MOD:APPLY(frame, templateName, variantName, padding, xOffset, yOffset, 
         end
     end
 
-    local mediaID = skinID or panelID;
     local colorID;
     if(defaultColor and SV.media.color[defaultColor]) then
+        panel:SetAttribute("panelID", panelID..defaultColor)
         panel:SetAttribute("panelColor", defaultColor)
         colorID = defaultColor
     else
-        if(skinID and SV.media.color[skinID]) then
-            panel:SetAttribute("panelColor", skinID)
-            colorID = skinID
-        else
-            panel:SetAttribute("panelColor", panelID)
-            colorID = panelID
-        end
+        panel:SetAttribute("panelColor", panelID)
+        colorID = panelID
     end
 
     local borderColor = SV.media.bordercolor[colorID] or SV.media.bordercolor.default;
     panel:SetBackdropBorderColor(borderColor[1],borderColor[2],borderColor[3],borderColor[4] or 1)
 
-    frame:SetBackdrop(nil)
-    frame.SetBackdrop = panel.SetBackdrop
-    hooksecurefunc(panel, "SetBackdropBorderColor", HookPanelBorderColor)
-    hooksecurefunc(frame, "SetBackdropBorderColor", HookBackdropBorderColor)
-    frame.UpdateBackdrop = HookCustomBackdrop
-    frame.BackdropNeedsUpdate = true
-
-    if(mediaID) then
-        panel.Skin = panel:CreateTexture(nil, "BACKGROUND", nil, -7)
-        panel.Skin:SetAllPoints(panel)
-        local tex = SV.media.background[mediaID] or SV.media.background.default
-        panel.Skin:SetTexture(tex)
-        panel:SetAttribute("panelSkinID", mediaID)
-
-        if(panel:GetAttribute("panelGradient") and SV.media.gradient[colorID]) then
-            panel.Skin:SetGradient(unpack(SV.media.gradient[colorID]))
-        else
-            local bgColor = SV.media.color[colorID] or SV.media.color.default;
-            panel.Skin:SetVertexColor(bgColor[1], bgColor[2], bgColor[3], bgColor[4] or 1)
-        end
-        panel.Skin:SetParent(frame)
-        hooksecurefunc(frame, "SetBackdropColor", HookVertexColor)
-
-        if((not panel:GetAttribute("panelSkipUpdate")) and panel:GetAttribute("panelTexUpdate")) then
-            frame.TextureNeedsUpdate = true
-            if(panel:GetAttribute("panelSkipColor")) then
-                frame.NoColorUpdate = true
-            end
-        end
-    end
-
-    local windowType = panel:GetAttribute("panelWindowPane")
-    if(windowType) then
-        local topleft = frame:CreateTexture(nil, "BACKGROUND", nil, -6)
-        topleft:SetPoint("TOPLEFT", frame, "TOPLEFT", 0, 0)
-        topleft:SetPoint("TOPRIGHT", frame, "TOP", 0, 0)
-        topleft:SetPoint("BOTTOMLEFT", frame, "LEFT", 0, 0)
-        topleft:SetTexture([[Interface\AddOns\SVUI_!Core\assets\backgrounds\window\]] .. windowType .. [[-TOPLEFT]])
-        topleft:SetVertexColor(0.05, 0.05, 0.05, 0.5)
-        topleft:SetNonBlocking(true)
-
-        local topright = frame:CreateTexture(nil, "BACKGROUND", nil, -6)
-        topright:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 0, 0)
-        topright:SetPoint("TOPLEFT", frame, "TOP", 0, 0)
-        topright:SetPoint("BOTTOMRIGHT", frame, "RIGHT", 0, 0)
-        topright:SetTexture([[Interface\AddOns\SVUI_!Core\assets\backgrounds\window\]] .. windowType .. [[-TOPRIGHT]])
-        topright:SetVertexColor(0.05, 0.05, 0.05, 0.5)
-        topright:SetNonBlocking(true)
-
-        local bottomright = frame:CreateTexture(nil, "BACKGROUND", nil, -6)
-        bottomright:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 0, 0)
-        bottomright:SetPoint("BOTTOMLEFT", frame, "BOTTOM", 0, 0)
-        bottomright:SetPoint("TOPRIGHT", frame, "RIGHT", 0, 0)
-        bottomright:SetTexture([[Interface\AddOns\SVUI_!Core\assets\backgrounds\window\]] .. windowType .. [[-BOTTOMRIGHT]])
-        bottomright:SetVertexColor(0.1, 0.1, 0.1, 0.5)
-        bottomright:SetNonBlocking(true)
-
-        local bottomleft = frame:CreateTexture(nil, "BACKGROUND", nil, -6)
-        bottomleft:SetPoint("BOTTOMLEFT", frame, "BOTTOMLEFT", 0, 0)
-        bottomleft:SetPoint("BOTTOMRIGHT", frame, "BOTTOM", 0, 0)
-        bottomleft:SetPoint("TOPLEFT", frame, "LEFT", 0, 0)
-        bottomleft:SetTexture([[Interface\AddOns\SVUI_!Core\assets\backgrounds\window\]] .. windowType .. [[-BOTTOMLEFT]])
-        bottomleft:SetVertexColor(0.1, 0.1, 0.1, 0.5)
-        bottomleft:SetNonBlocking(true)  
-    end
+    frame:SetBackdrop(nil);
+    frame.SetBackdrop = panel.SetBackdrop;
+    frame.UpdateBackdrop = HookCustomBackdrop;
+    frame.BackdropNeedsUpdate = true;
+    hooksecurefunc(panel, "SetBackdropBorderColor", HookPanelBorderColor);
+    hooksecurefunc(frame, "SetBackdropBorderColor", HookBackdropBorderColor);
 
     local overrideName = panel:GetAttribute("panelKeyOverride")
     if(overrideName) then
@@ -813,11 +688,7 @@ function MOD:APPLY(frame, templateName, variantName, padding, xOffset, yOffset, 
 
     frame.Panel = panel;
 end
---[[ 
-########################################################## 
-UI ELEMENT METHODS
-##########################################################
-]]--
+
 local function CommonButtonSettings(frame, addChecked, noSwipe)
     if(frame.Left) then 
         frame.Left:SetAlpha(0)
@@ -874,54 +745,112 @@ local function CommonButtonSettings(frame, addChecked, noSwipe)
         frame:SetCheckedTexture(frame.checked)
     end
 
-    MOD:CD(frame, noSwipe)
-end
+    local frameName = frame:GetName()
+    if(frameName) then
+        local cooldown = _G[frameName.."Cooldown"];
+        if(cooldown) then
+            if(not SV.db.general or (SV.db.general and (not SV.db.general.cooldown))) then return end
+            cooldown:ClearAllPoints()
+            cooldown:InsetPoints()
+            cooldown:SetDrawEdge(false)
+            cooldown:SetDrawBling(false)
+            if(not noSwipe) then
+                cooldown:SetSwipeColor(0, 0, 0, 1)
+            end
 
-MOD.Methods["Button"] = function(self, frame, variant, arg1, arg2, arg3)
+            if(not cooldown.HookedCooldown) then
+                hooksecurefunc(cooldown, "SetCooldown", _hook_Cooldown_SetCooldown)
+                cooldown.HookedCooldown = true
+            end
+        end
+    end
+end
+--[[ 
+########################################################## 
+UI ELEMENT METHODS
+##########################################################
+]]--
+-- MOD.Methods["StatusBar"] = function(self, frame, ...) end
+
+MOD.Methods["Button"] = function(self, frame, ...)
     if(not frame or (frame and frame.Panel)) then return end
 
-    local x,y = -1,-1
+    local style, variant, color, xmlStyle, xmlVariant;
+    local addChecked = false;
+    local noSwipe = false;
+    local x,y = -1,-1;
 
-    if(variant and (variant == 'LITE')) then
-        if(arg1 or arg2) then
-            x = arg1 or 1
-            y = arg2 or 1
+    local arg1, arg2, arg3, arg4 = ...;
+    if(arg1) then
+        if(type(arg1) == 'string') then
+            local variantString = arg1:match("%[(.+)%]");
+            if(variantString) then
+                style = arg1:gsub("%[.+%]", "");
+                variant = variantString:upper();
+            else
+                style = arg1;
+                variant = "DEFAULT";
+            end
+            if(arg2 and type(arg2) == 'number') then
+                x = arg2
+            end
+            if(arg3 and type(arg3) == 'number') then
+                y = arg3
+            end
+            if(arg4 and type(arg4) == 'string') then
+                color = arg4
+            end
+        elseif(type(arg1) == 'number') then
+            x = arg1
+            if(arg2 and type(arg2) == 'number') then
+                y = arg2
+            end
+            if(arg3 and type(arg3) == 'string') then
+                color = arg3
+            end
         end
-        self:APPLY(frame, "Transparent", "DEFAULT", 1, x, y)
-        CommonButtonSettings(frame, true)
-    elseif(variant and (variant == 'SLOT')) then
-        self:APPLY(frame, "Transparent", "SHADOW", true)
-        arg1 = arg1 or false;
-        CommonButtonSettings(frame, arg1, true)
+    end
+
+    if(style and (style == 'Lite')) then
+        xmlStyle = self.Templates.Transparent;
+        xmlVariant = self.Variants[variant] or self.Variants.DEFAULT;
+        addChecked = true;
+    elseif(style and (style == 'Action')) then
+        xmlStyle = self.Templates.Transparent;
+        xmlVariant = self.Variants[variant] or self.Variants.SHADOW;
+        addChecked = true;
+        noSwipe = true;
+    elseif(style and (style == 'Item')) then
+        xmlStyle = self.Templates.Transparent;
+        xmlVariant = self.Variants[variant] or self.Variants.SHADOW;
+        noSwipe = true;
     else
-        if(arg1 or arg2) then
-            x = arg1 or -1
-            y = arg2 or -1
-        end
-        self:APPLY(frame, "Button", variant, 1, x, y, arg3)
-        CommonButtonSettings(frame, true)
-        if(arg3) then
-            frame.Panel:SetAttribute("panelID", "button"..arg3)
-            tinsert(LIVE_UPDATE_FRAMES, frame);
-        end
+        xmlStyle = self.Templates.Button;
+        xmlVariant = self.Variants[variant] or self.Variants.BUTTON;
+        addChecked = true;
+    end
+
+    local xmlTemplate = xmlStyle .. ',' .. xmlVariant;
+    ApplyTemplate(frame, xmlTemplate, x, y, color)
+    CommonButtonSettings(frame, addChecked, noSwipe)
+
+    if(color) then
+        tinsert(LIVE_UPDATE_FRAMES, frame);
     end
 end;
 
-MOD.Methods["Checkbox"] = function(self, frame, variant, x, y)
+MOD.Methods["CheckButton"] = function(self, frame, scale)
     if(not frame or (frame and frame.Panel)) then return end
 
+    local xmlStyle = self.Templates.Checkbox;
+    local xmlVariant = self.Variants.CHECKBOX;
+    local xmlTemplate = xmlStyle .. ',' .. xmlVariant;
+
     local width, height = frame:GetSize()
-    local mod = width * 0.25
-    x = x or -mod
-    y = y or -mod
+    frame:SetWidth(width * scale)
+    frame:SetHeight(height * scale)
 
-    width = width + (x or 0)
-    height = height + (y or 0)
-
-    frame:SetSize(width, height)
-
-    local underlay = (not variant)
-    self:APPLY(frame, "Checkbox", variant, 1, x, y)
+    ApplyTemplate(frame, xmlTemplate)
 
     if(frame.SetNormalTexture) then 
         frame:SetNormalTexture("")
@@ -955,8 +884,12 @@ MOD.Methods["Checkbox"] = function(self, frame, variant, x, y)
     end
 end;
 
-MOD.Methods["Editbox"] = function(self, frame, variant, x, y)
+MOD.Methods["EditBox"] = function(self, frame, ...)
     if(not frame or (frame and frame.Panel)) then return end
+
+    local xmlStyle = self.Templates.Transparent;
+    local xmlVariant = self.Variants.INSET;
+    local xmlTemplate = xmlStyle .. ',' .. xmlVariant;
 
     if frame.TopLeftTex then frame.TopLeftTex:Die() end 
     if frame.TopRightTex then frame.TopRightTex:Die() end 
@@ -971,8 +904,7 @@ MOD.Methods["Editbox"] = function(self, frame, variant, x, y)
     if frame.Right then frame.Right:Die() end 
     if frame.Middle then frame.Middle:Die() end
 
-    variant = variant or "INSET"
-    self:APPLY(frame, "Transparent", variant, 1, x, y)
+    ApplyTemplate(frame, xmlTemplate, ...)
 
     local globalName = frame:GetName();
     if globalName then 
@@ -992,19 +924,158 @@ MOD.Methods["Editbox"] = function(self, frame, variant, x, y)
     end
 end;
 
-MOD.Methods["Frame"] = function(self, frame, variant, styleName, noupdate, overridePadding, xOffset, yOffset, defaultColor)
+MOD.Methods["Frame"] = function(self, frame, ...)
     if(not frame or (frame and frame.Panel)) then return end
-    local padding = false;
-    if(overridePadding and type(overridePadding) == "number") then
-        padding = overridePadding
-    end
-    styleName = styleName or "Default";
 
-    self:APPLY(frame, styleName, variant, padding, xOffset, yOffset, defaultColor)
+    local paramString = "Default";
+    local x, y = 0, 0;
+    local noupdate, sublevel = false, false;
+    local xmlTemplate, xmlStyle, xmlVariant, mediaID, color;
+    local arg1, arg2, arg3, arg4 = ...;
+    if(arg1) then
+        if(type(arg1) == 'string') then
+            paramString = arg1
+            if(arg2 and type(arg2) == 'number') then
+                x = arg2
+            end
+            if(arg3 and type(arg3) == 'number') then
+                y = arg3
+            end
+            if(arg4 and type(arg4) == 'string') then
+                color = arg4
+            end
+        elseif(type(arg1) == 'number') then
+            x = arg1
+            if(arg2 and type(arg2) == 'number') then
+                y = arg2
+            end
+            if(arg3 and type(arg3) == 'string') then
+                color = arg3
+            end
+        end
+    end
+
+    if(paramString) then 
+        local style, variant;
+        local flagString = paramString:match("%{(.+)%}");
+        if(flagString) then
+            local updateString, updateflag = flagString:gsub("!", "");
+            if(updateflag and (updateflag > 0)) then
+                noupdate = true;
+            end
+            local levelString, levelflag = updateString:gsub("0", "");
+            if(levelflag and (levelflag > 0)) then
+                sublevel = true;
+            end
+            paramString = paramString:gsub("%{.+%}", "");
+        end
+
+        local variantString = paramString:match("%[(.+)%]");
+        if(variantString) then
+            style = paramString:gsub("%[.+%]", "");
+            variant = variantString:upper();
+        else
+            style = paramString;
+            variant = paramString:upper();
+        end
+
+        xmlVariant = self.Variants[variant] or self.Variants.DEFAULT;
+
+        if(style:find("Pattern")) then
+            local skinString = style:gsub("Pattern","");
+            if((not skinString) or (skinString == "")) then
+                skinString = "Pattern";
+            end
+            mediaID = skinString:lower()
+            xmlStyle = self.Templates[skinString] or self.Templates.Pattern;
+        else
+            mediaID = style:lower()
+            xmlStyle = self.Templates[style] or self.Templates.Default;
+        end
+    else
+        xmlVariant = self.Variants.DEFAULT;
+        xmlStyle = self.Templates.Default;
+    end
+
+    xmlTemplate = xmlStyle .. ',' .. xmlVariant;
+
+    ApplyTemplate(frame, xmlTemplate, x, y, color)
+
+    frame.Panel:SetAttribute("panelSkinID", mediaID)
+    frame.Panel:SetAttribute("panelColor", mediaID)
+
+    if(sublevel) then
+        local level = frame:GetFrameLevel()
+        if(level == 0)then
+            if(not InCombatLockdown()) then frame:SetFrameLevel(1) end
+            frame.Panel:SetFrameLevel(0)
+        else
+            frame.Panel:SetFrameLevel(level - 1)
+        end
+        hooksecurefunc(frame, "SetFrameLevel", HookFrameLevel)
+        frame.Panel.Skin = frame.Panel:CreateTexture(nil, "BACKGROUND", nil, -7)
+    else
+        frame.Panel.Skin = frame:CreateTexture(nil, "BACKGROUND", nil, -7)
+    end
+    
+    frame.Panel.Skin:SetAllPoints(frame.Panel)
+    local tex = SV.media.background[mediaID] or SV.media.background.default
+    frame.Panel.Skin:SetTexture(tex)
+
+    if(frame.Panel:GetAttribute("panelGradient") and SV.media.gradient[mediaID]) then
+        frame.Panel.Skin:SetGradient(unpack(SV.media.gradient[mediaID]))
+    else
+        local bgColor = SV.media.color[mediaID] or SV.media.color.default;
+        frame.Panel.Skin:SetVertexColor(bgColor[1], bgColor[2], bgColor[3], bgColor[4] or 1)
+    end
+    frame.Panel.Skin:SetParent(frame)
+    hooksecurefunc(frame, "SetBackdropColor", HookVertexColor)
+
+    if((not frame.Panel:GetAttribute("panelSkipUpdate")) and frame.Panel:GetAttribute("panelTexUpdate")) then
+        frame.TextureNeedsUpdate = true
+        if(frame.Panel:GetAttribute("panelSkipColor")) then
+            frame.NoColorUpdate = true
+        end
+    end
+
+    local windowType = frame.Panel:GetAttribute("panelWindowPane")
+    if(windowType) then
+        local topleft = frame:CreateTexture(nil, "BACKGROUND", nil, -6)
+        topleft:SetPoint("TOPLEFT", frame, "TOPLEFT", 0, 0)
+        topleft:SetPoint("TOPRIGHT", frame, "TOP", 0, 0)
+        topleft:SetPoint("BOTTOMLEFT", frame, "LEFT", 0, 0)
+        topleft:SetTexture([[Interface\AddOns\SVUI_!Core\assets\backgrounds\window\]] .. windowType .. [[-TOPLEFT]])
+        topleft:SetVertexColor(0.05, 0.05, 0.05, 0.5)
+        topleft:SetNonBlocking(true)
+
+        local topright = frame:CreateTexture(nil, "BACKGROUND", nil, -6)
+        topright:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 0, 0)
+        topright:SetPoint("TOPLEFT", frame, "TOP", 0, 0)
+        topright:SetPoint("BOTTOMRIGHT", frame, "RIGHT", 0, 0)
+        topright:SetTexture([[Interface\AddOns\SVUI_!Core\assets\backgrounds\window\]] .. windowType .. [[-TOPRIGHT]])
+        topright:SetVertexColor(0.05, 0.05, 0.05, 0.5)
+        topright:SetNonBlocking(true)
+
+        local bottomright = frame:CreateTexture(nil, "BACKGROUND", nil, -6)
+        bottomright:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 0, 0)
+        bottomright:SetPoint("BOTTOMLEFT", frame, "BOTTOM", 0, 0)
+        bottomright:SetPoint("TOPRIGHT", frame, "RIGHT", 0, 0)
+        bottomright:SetTexture([[Interface\AddOns\SVUI_!Core\assets\backgrounds\window\]] .. windowType .. [[-BOTTOMRIGHT]])
+        bottomright:SetVertexColor(0.1, 0.1, 0.1, 0.5)
+        bottomright:SetNonBlocking(true)
+
+        local bottomleft = frame:CreateTexture(nil, "BACKGROUND", nil, -6)
+        bottomleft:SetPoint("BOTTOMLEFT", frame, "BOTTOMLEFT", 0, 0)
+        bottomleft:SetPoint("BOTTOMRIGHT", frame, "BOTTOM", 0, 0)
+        bottomleft:SetPoint("TOPLEFT", frame, "LEFT", 0, 0)
+        bottomleft:SetTexture([[Interface\AddOns\SVUI_!Core\assets\backgrounds\window\]] .. windowType .. [[-BOTTOMLEFT]])
+        bottomleft:SetVertexColor(0.1, 0.1, 0.1, 0.5)
+        bottomleft:SetNonBlocking(true)  
+    end
+
     if(noupdate) then
         frame.Panel:SetAttribute("panelSkipUpdate", true)
-    end
-    if(not noupdate) then
+    elseif(not frame.Panel:GetAttribute("panelSkipUpdate")) then
         tinsert(LIVE_UPDATE_FRAMES, frame);
     end
 end;
@@ -1036,26 +1107,17 @@ local SetPanelColor = function(self, ...)
     end 
 end
 
-local SetStyle = function(self, methodString, ...)
+local SetStyle = function(self, ...)
     if(not self or (self and self.Panel)) then return end
-    methodString = methodString or "Frame";
+    local method = self:GetObjectType() or "Frame";
 
-    local fn;
-    local variant = methodString:match("%[(.+)%]");
-    if(variant) then
-        local method = methodString:gsub("%[.+%]", "");
-        fn = MOD.Methods[method];
-    else
-        fn = MOD.Methods[methodString];
+    local fn = MOD.Methods[method];
+    if(not fn) then
+        fn = MOD.Methods.Frame
     end
-
-    if(fn) then
-        if(not variant) then variant = "DEFAULT" end;
-        local pass, catch = pcall(fn, MOD, self, variant, ...)
-        if(catch) then
-            SV:HandleError("API", "SetStyle", catch);
-            return
-        end
+    local pass, catch = pcall(fn, MOD, self, ...)
+    if(catch) then
+        SV:HandleError("API", "SetStyle", catch);
     end
 end
 --[[ 
@@ -1352,6 +1414,25 @@ local _hook_Tooltip_OnShow = function(self)
     self:SetBackdrop(SV.media.backdrop.tooltip)
 end
 
+local SetFrameBorderColor = function(self, r, g, b, setPrevious, reset)
+    if(setPrevious) then
+        self.Panel.__previous = setPrevious
+    elseif(reset) then
+        r,g,b = unpack(SV.media.color[self.Panel.__previous])
+    end
+    self.Panel.Shadow:SetBackdropBorderColor(r, g, b)
+end
+
+local ShowAlertFlash = function(self)
+    self:ColorBorder(1,0.9,0)
+    SV.Animate:Flash(self.Panel.Shadow, 0.75, true)
+end
+
+local HideAlertFlash = function(self)
+    SV.Animate:StopFlash(self.Panel.Shadow)
+    self:ColorBorder(1,0.9,0, nil, true)
+end
+
 MOD.Concepts["Frame"] = function(self, adjustable, frame, template, noStripping, padding, xOffset, yOffset)
     if(not frame or (frame and frame.Panel)) then return end
     template = template or "Transparent"
@@ -1360,32 +1441,38 @@ MOD.Concepts["Frame"] = function(self, adjustable, frame, template, noStripping,
         frame:SetFrameLevel(1)
     end
     if(not noStripping) then
-        RemoveTextures(frame)
+        frame:RemoveTextures()
     end
-    self.Methods["Frame"](self, frame, 'DEFAULT', template, true, padding, xOffset, yOffset)
+    self.Methods["Frame"](self, frame, 'DEFAULT', template, xOffset, yOffset)
 end
 
 MOD.Concepts["Window"] = function(self, adjustable, frame, altStyle, fullStrip, padding, xOffset, yOffset)
     if(not frame or (frame and frame.Panel)) then return end
-    local template = altStyle and "Window2" or "Window"
+    local template = altStyle and "{0}Window2" or "{0}Window"
     local baselevel = frame:GetFrameLevel()
     if(baselevel < 1) then 
         frame:SetFrameLevel(1)
     end
-    RemoveTextures(frame, fullStrip)
-    self.Methods["Frame"](self, frame, 'DEFAULT', template, false, padding, xOffset, yOffset)
+    frame:RemoveTextures(fullStrip)
+    frame:SetStyle(templatexOffset, yOffset)
 end
 
 MOD.Concepts["Button"] = function(self, adjustable, frame)
     if(not frame or (frame and frame.Panel)) then return end
-    self.Methods["Button"](self, frame, 'DEFAULT')
+    frame:SetStyle()
 end
 
 MOD.Concepts["DockButton"] = function(self, adjustable, frame)
     if(not frame or (frame and frame.Panel)) then return end
 
-    self:APPLY(frame, "DockButton", 'DEFAULT')
-    self:FLASH(frame)
+    frame:SetStyle("DockButton")
+    
+    if(frame.Panel.Shadow) then
+        frame.Panel.__previous = 'darkest';
+        frame.ColorBorder = SetFrameBorderColor
+        frame.StartAlert = ShowAlertFlash
+        frame.StopAlert = HideAlertFlash
+    end
 
     if(frame.Left) then 
         frame.Left:SetAlpha(0)
@@ -1429,9 +1516,8 @@ end;
 MOD.Concepts["CloseButton"] = function(self, adjustable, frame, targetAnchor)
     if(not frame or (frame and frame.Panel)) then return end
     
-    RemoveTextures(frame)
-
-    self.Methods["Button"](self, frame, 'DEFAULT', -6, -6, "red")
+    frame:RemoveTextures()
+    frame:SetStyle(-6, -6, "red")
     frame:SetFrameLevel(frame:GetFrameLevel() + 4)
     frame:SetNormalTexture(SV.media.icon.close)
     frame:HookScript("OnEnter", ConceptButton_OnEnter)
@@ -1443,30 +1529,13 @@ MOD.Concepts["CloseButton"] = function(self, adjustable, frame, targetAnchor)
     end
 end
 
-MOD.Concepts["InfoButton"] = function(self, adjustable, frame, targetAnchor, size)
-    if(not frame or (frame and frame.Panel)) then return end
-    
-    RemoveTextures(frame)
-    size = size or 26
-    frame:SetSize(size, size)
-    --self.Methods["Button"](self, frame, false, -2, -2, "yellow")
-    frame:SetNormalTexture(SV.media.icon.info)
-    --frame:HookScript("OnEnter", ConceptButton_OnEnter)
-    --frame:HookScript("OnLeave", ConceptButton_OnLeave)
-
-    if(targetAnchor) then
-        frame:ClearAllPoints()
-        frame:SetPoint("TOPRIGHT", targetAnchor, "TOPRIGHT", 3, 3) 
-    end
-end
-
 MOD.Concepts["ArrowButton"] = function(self, adjustable, frame, direction, targetAnchor)
     if(not frame or (frame and frame.Panel)) then return end
     local iconKey = "move_" .. direction:lower()
 
-    RemoveTextures(frame)
+    frame:RemoveTextures()
 
-    self.Methods["Button"](self, frame, 'DEFAULT', -7, -7, "green")
+    frame:SetStyle(-7, -7, "green")
     frame:SetFrameLevel(frame:GetFrameLevel() + 4)
     frame:SetNormalTexture(SV.media.icon[iconKey])
     frame:HookScript("OnEnter", ConceptButton_OnEnter)
@@ -1481,10 +1550,10 @@ end
 MOD.Concepts["ItemButton"] = function(self, adjustable, frame, adjustedIcon, noScript)
     if(not frame) then return end 
 
-    RemoveTextures(frame)
+    frame:RemoveTextures()
 
     if(not frame.Panel) then
-        self.Methods["Frame"](self, frame, 'DEFAULT', "Button", true, 1, -1, -1)
+        frame:SetStyle("Button", -1, -1)
         if(not noScript) then
             frame:HookScript("OnEnter", Button_OnEnter)
             frame:HookScript("OnLeave", Button_OnLeave)
@@ -1518,7 +1587,7 @@ MOD.Concepts["ItemButton"] = function(self, adjustable, frame, adjustedIcon, noS
             if(not frame.IconShadow) then
                 frame.IconShadow = CreateFrame("Frame", nil, frame)
                 frame.IconShadow:WrapPoints(iconObject)
-                frame.IconShadow:SetStyle("Frame", "Outline")
+                frame.IconShadow:SetStyle("Outline")
             end
 
             iconObject:SetParent(frame.Riser)
@@ -1551,14 +1620,14 @@ MOD.Concepts["PageButton"] = function(self, adjustable, frame, isVertical)
     local testName = bName:lower()
     local leftDown = ((bName and testName:find('left')) or testName:find('prev') or testName:find('decrement')) or false
 
-    RemoveTextures(frame)
+    frame:RemoveTextures()
 
     frame:SetNormalTexture("")
     frame:SetPushedTexture("")
     frame:SetHighlightTexture("")
     frame:SetDisabledTexture("")
 
-    self.Methods["Button"](self, frame, 'DEFAULT', -4, -4)
+    frame:SetStyle(-4, -4)
 
     if not frame.icon then 
         frame.icon = frame:CreateTexture(nil,'ARTWORK')
@@ -1681,9 +1750,9 @@ MOD.Concepts["ScrollBar"] = function(self, adjustable, frame)
         end 
     end
 
-    RemoveTextures(frame)
+    frame:RemoveTextures()
     frame:SetBackdrop(nil)
-    self.Methods["Frame"](self, frame, 'DEFAULT', "Transparent", true)
+    frame:SetStyle("Transparent")
     frame:SetBackdropBorderColor(0.2,0.2,0.2)
     frame:SetThumbTexture(SV.media.button.knob)
 end
@@ -1704,25 +1773,20 @@ MOD.Concepts["Tab"] = function(self, adjustable, frame, addBackground, xOffset, 
         frame:GetHighlightTexture():SetTexture("")
     end
 
-    RemoveTextures(frame)
+    frame:RemoveTextures()
 
     if(addBackground) then
         local nTex = frame:GetNormalTexture()
-
         if(nTex) then
             nTex:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
             InsetPoints(nTex, frame)
         end
-
         xOffset = xOffset or 1
         yOffset = yOffset or 1
-
         frame.pushed = true;
         frame.backdrop = CreateFrame("Frame", nil, frame)
         WrapPoints(frame.backdrop, frame, xOffset, yOffset)
         frame.backdrop:SetFrameLevel(0)
-        self.Methods["Frame"](self, frame.backdrop, 'DEFAULT', "Button", false)
-
         local initialAnchor, anchorParent, relativeAnchor, xPosition, yPosition = frame:GetPoint()
         frame:SetPoint(initialAnchor, anchorParent, relativeAnchor, 1, yPosition)
     else
@@ -1733,10 +1797,8 @@ MOD.Concepts["Tab"] = function(self, adjustable, frame, addBackground, xOffset, 
         if(frame:GetFrameLevel() > 0) then
             frame.backdrop:SetFrameLevel(frame:GetFrameLevel() - 1)
         end
-
-        self.Methods["Frame"](self, frame.backdrop, 'DEFAULT', "Button", false)
     end
-
+    frame.backdrop:SetStyle("Button")
     frame:HookScript("OnEnter", Tab_OnEnter)
     frame:HookScript("OnLeave", Tab_OnLeave)
 end
@@ -1750,7 +1812,7 @@ MOD.Concepts["DropDown"] = function(self, adjustable, frame, width)
 
     if not width then width = frame:GetWidth() or 155 end 
 
-    RemoveTextures(frame)
+    frame:RemoveTextures()
     frame:SetWidth(width)
 
     if(ddButton) then
@@ -1841,7 +1903,7 @@ MOD.Concepts["EditBox"] = function(self, adjustable, frame, width, height, x, y)
     if(not frame or (frame and frame.Panel)) then return end
 
     RemoveTextures(frame, true)
-    self.Methods["Editbox"](self, frame, 'DEFAULT', x, y)
+    frame:SetStyle(x, y)
 
     if width then frame:SetWidth(width) end
     if height then frame:SetHeight(height) end
@@ -1860,8 +1922,8 @@ MOD.Concepts["QuestItem"] = function(self, adjustable, frame)
         oldIcon = frame.Icon:GetTexture();
     end
 
-    RemoveTextures(frame)
-    self.Methods["Frame"](self, frame, 'DEFAULT', "Outline", true, 1, -1, -1)
+    frame:RemoveTextures()
+    frame:SetStyle("Outline", -1, -1)
 
     local width,height = frame:GetSize()
     local fittedWidth = (width - height) + 2
@@ -1869,7 +1931,7 @@ MOD.Concepts["QuestItem"] = function(self, adjustable, frame)
     insetFrame:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT")
     insetFrame:SetWidth(fittedWidth)
     insetFrame:SetHeight(height)
-    self.Methods["Frame"](self, insetFrame, false, "Inset")
+    insetFrame:SetStyle("Transparent[INSET]")
 
     if(icon) then
         local size = height - 4

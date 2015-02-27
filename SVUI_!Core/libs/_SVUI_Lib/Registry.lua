@@ -106,9 +106,11 @@ local debugPattern = '|cffFF2F00%s|r [|cff0affff%s|r]|cffFF2F00:|r @|cffFF0000(|
 
 local playerClass           = select(2,UnitClass("player"));
 local playerName            = UnitName("player");
-local SOURCE_KEY            = "Default";
-local PROFILE_THEME         = "Default";
-local PROFILE_KEY           = ("%s - %s"):format(playerName, SOURCE_KEY)
+local DEFAULT_THEME_KEY     = "Default";
+local PROFILE_THEME         = DEFAULT_THEME_KEY;
+local DEFAULT_PROFILE_KEY   = ("%s - Default"):format(playerName);
+local PROFILE_KEY           = DEFAULT_PROFILE_KEY;
+local DATESTAMP             = date("%m_%d_%y");
 
 local INFO_FORMAT = "|cffFFFF00%s|r\n        |cff33FF00Version: %s|r |cff0099FFby %s|r";
 
@@ -301,66 +303,6 @@ local meta_database = {
         return rawget(t, k)
     end,
 }
-
-local function GetProfileKeys()
-    PROFILE_KEY = ("%s - %s"):format(playerName, SOURCE_KEY)
-    if(PRIVATE_SV.SAFEDATA) then
-        if(PRIVATE_SV.SAFEDATA.DUALSPEC) then
-            local id = GetSpecialization();
-            if(id) then
-                local _, specName, _, _, _, _ = GetSpecializationInfo(id);
-                SOURCE_KEY = specName;
-            end
-        else
-            SOURCE_KEY = "Default";
-        end
-        if(PRIVATE_SV.SAFEDATA.CurrentProfile) then
-            PROFILE_KEY = PRIVATE_SV.SAFEDATA.CurrentProfile
-        end
-        if(PRIVATE_SV.SAFEDATA.THEME) then
-            PROFILE_THEME = PRIVATE_SV.SAFEDATA.THEME;
-            if not MEDIA_SV.profiles[PROFILE_KEY] then MEDIA_SV.profiles[PROFILE_KEY] = {} end
-            if not MEDIA_SV.profiles[PROFILE_KEY].Theme then MEDIA_SV.profiles[PROFILE_KEY].Theme = {} end
-            if not MEDIA_SV.profiles[PROFILE_KEY].Theme[PROFILE_THEME] then MEDIA_SV.profiles[PROFILE_KEY].Theme[PROFILE_THEME] = {} end
-        end
-    else
-        SOURCE_KEY = "Default";
-    end
-end
-
-local function LiveProfileChange()
-    local LastKey = SOURCE_KEY
-    GetProfileKeys()
-    if(PRIVATE_SV.SAFEDATA and PRIVATE_SV.SAFEDATA.DUALSPEC) then
-        lib.EventManager:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
-        if not GLOBAL_SV.profiles[PROFILE_KEY] then GLOBAL_SV.profiles[PROFILE_KEY] = {} end
-        if not MEDIA_SV.profiles[PROFILE_KEY] then MEDIA_SV.profiles[PROFILE_KEY] = {} end
-        if(LastKey ~= SOURCE_KEY) then
-            --construct core dataset
-            local db           = setmetatable({}, meta_transdata)
-            db.data            = GLOBAL_SV.profiles[PROFILE_KEY]
-            db.defaults        = CoreObject.defaults
-            wipe(CoreObject.db)
-            CoreObject.db      = db
-            --rawset(CoreObject.db, "data", GLOBAL_SV.profiles[PROFILE_KEY])
-
-            local media        = setmetatable({}, meta_transdata)
-            media.data         = MEDIA_SV.profiles[PROFILE_KEY].Theme[PROFILE_THEME]
-            media.defaults     = CoreObject.mediadefaults
-            wipe(CoreObject.media)
-            CoreObject.media   = media
-
-            if(CoreObject.ReLoad) then
-                CoreObject.Timers:ClearAllTimers()
-                CoreObject:ReLoad()
-            end
-
-            lib:RefreshAll()
-        end
-    else
-        lib.EventManager:UnregisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
-    end
-end
 
 --DATABASE PUBLIC METHODS
 function lib:Remove(key)
@@ -688,25 +630,143 @@ function lib:GetModuletable()
     return MODULES
 end
 
-function lib:CheckDualProfile()
-    return PRIVATE_SV.SAFEDATA.DUALSPEC
-end
+--[[ CONSTRUCTORS ]]--
 
-function lib:ToggleDualProfile(enabled)
-    PRIVATE_SV.SAFEDATA.DUALSPEC = enabled
-    if(enabled) then
-        self.EventManager:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
-        LiveProfileChange()
+local function UpdateProfileSources(bypass)
+    local PREVIOUS_PROFILE_KEY = PROFILE_KEY;
+
+    if(PRIVATE_SV.SAFEDATA.DUALSPEC) then
+        local specID = GetSpecialization();
+        if(specID) then
+            local _, SOURCE_KEY, _, _, _, _ = GetSpecializationInfo(specID);
+            if(not SOURCE_KEY) then SOURCE_KEY = "Default" end
+            PROFILE_KEY = ("%s - %s"):format(playerName, SOURCE_KEY)
+            PRIVATE_SV.SAFEDATA.CurrentProfile = PROFILE_KEY
+        elseif(PRIVATE_SV.SAFEDATA.CurrentProfile) then
+            PROFILE_KEY = PRIVATE_SV.SAFEDATA.CurrentProfile
+        else
+            PROFILE_KEY = DEFAULT_PROFILE_KEY
+            PRIVATE_SV.SAFEDATA.CurrentProfile = DEFAULT_PROFILE_KEY
+        end
     else
-        self.EventManager:UnregisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
+        PROFILE_KEY = DEFAULT_PROFILE_KEY
+        PRIVATE_SV.SAFEDATA.CurrentProfile = DEFAULT_PROFILE_KEY
+    end
+
+    if(PRIVATE_SV.SAFEDATA.THEME) then
+        PROFILE_THEME = PRIVATE_SV.SAFEDATA.THEME;
+    else
+        PROFILE_THEME = DEFAULT_THEME_KEY;
+    end
+
+    if(not GLOBAL_SV.profiles[PROFILE_KEY]) then GLOBAL_SV.profiles[PROFILE_KEY] = {} end
+    if(not MEDIA_SV.profiles[PROFILE_KEY]) then MEDIA_SV.profiles[PROFILE_KEY] = {} end
+    if(not MEDIA_SV.profiles[PROFILE_KEY].Theme) then MEDIA_SV.profiles[PROFILE_KEY].Theme = {} end
+    if(not MEDIA_SV.profiles[PROFILE_KEY].Theme[PROFILE_THEME]) then MEDIA_SV.profiles[PROFILE_KEY].Theme[PROFILE_THEME] = {} end
+
+    if(not GLOBAL_SV.profileKeys[PROFILE_KEY]) then
+        for k,v in pairs(GLOBAL_SV.profiles) do
+            GLOBAL_SV.profileKeys[k] = k
+        end
+    end
+
+    if(PRIVATE_SV.SAFEDATA.DUALSPEC) then
+        lib.EventManager:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
+
+        if((not bypass) and (PREVIOUS_PROFILE_KEY ~= PROFILE_KEY)) then
+            local db           = setmetatable({}, meta_transdata)
+            db.data            = GLOBAL_SV.profiles[PROFILE_KEY]
+            db.defaults        = CoreObject.defaults
+            if(CoreObject.db) then wipe(CoreObject.db) end
+            CoreObject.db      = db
+
+            local media        = setmetatable({}, meta_transdata)
+            media.data         = MEDIA_SV.profiles[PROFILE_KEY].Theme[PROFILE_THEME]
+            media.defaults     = CoreObject.mediadefaults
+            if(CoreObject.media) then wipe(CoreObject.media) end
+            CoreObject.media   = media
+
+            if(CoreObject.ReLoad) then
+                CoreObject.Timers:ClearAllTimers()
+                CoreObject:ReLoad()
+            end
+
+            lib:RefreshAll()
+        end
+    else
+        lib.EventManager:UnregisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
     end
 end
 
---[[ CONSTRUCTORS ]]--
+local function UpdateCoreDatabases()
+    UpdateProfileSources(true)
 
-local function ProcessLoadOnDemand()
-    local addonCount = GetNumAddOns();
-    for i = 1, addonCount do
+    local db           = setmetatable({}, meta_transdata)
+    db.data            = GLOBAL_SV.profiles[PROFILE_KEY]
+    db.defaults        = CoreObject.defaults
+    CoreObject.db      = db
+
+    local media        = setmetatable({}, meta_transdata)
+    media.data         = MEDIA_SV.profiles[PROFILE_KEY].Theme[PROFILE_THEME]
+    media.defaults     = CoreObject.mediadefaults
+    CoreObject.media   = media
+
+    local filters      = setmetatable({}, meta_transdata)
+    filters.data       = FILTER_SV
+    filters.defaults   = CoreObject.filterdefaults
+    CoreObject.filters = filters
+
+    local private      = setmetatable({}, meta_database)
+    private.data       = PRIVATE_SV
+    CoreObject.private = private
+
+    CoreObject.ERRORLOG = ERROR_SV.FOUND
+    CoreObject.initialized = true
+end
+
+local function CorePreInitialize()
+    --PROFILE SAVED VARIABLES
+    if not _G[PRIVATE_FILENAME] then _G[PRIVATE_FILENAME] = {} end
+    PRIVATE_SV = _G[PRIVATE_FILENAME]
+    --PROFILE SAFE VARIABLES
+    if(not PRIVATE_SV.SAFEDATA) then PRIVATE_SV.SAFEDATA = {} end
+    if(not PRIVATE_SV.SAFEDATA.SAVED) then PRIVATE_SV.SAFEDATA.SAVED = {} end
+    if(not PRIVATE_SV.SAFEDATA.THEME) then PRIVATE_SV.SAFEDATA.THEME = DEFAULT_THEME_KEY end
+    if(not PRIVATE_SV.SAFEDATA.DUALSPEC) then PRIVATE_SV.SAFEDATA.DUALSPEC = false end
+    if(not PRIVATE_SV.SAFEDATA.NEEDSLIVEUPDATE) then PRIVATE_SV.SAFEDATA.NEEDSLIVEUPDATE = false end
+    --GLOBAL SAVED VARIABLES
+    if(not _G[GLOBAL_FILENAME]) then _G[GLOBAL_FILENAME] = {} end
+    GLOBAL_SV = _G[GLOBAL_FILENAME]
+    --GLOBAL PROFILE DATA
+    if(not GLOBAL_SV.profiles) then GLOBAL_SV.profiles = {} end
+    if(not GLOBAL_SV.profiles[PROFILE_KEY]) then GLOBAL_SV.profiles[PROFILE_KEY] = {} end
+    --GLOBAL KEY STORAGE (ALWAYS EMPTY ON LOGIN)
+    GLOBAL_SV.profileKeys = {}
+    --SAVED ERRORS
+    if not _G[ERROR_FILENAME] then _G[ERROR_FILENAME] = {} end
+    ERROR_SV = _G[ERROR_FILENAME]
+    --ONLY ALLOW TODAYS ERRORS
+    if(ERROR_SV.TODAY and ERROR_SV.TODAY ~= DATESTAMP) then
+        ERROR_SV.FOUND = {}
+    elseif(not ERROR_SV.FOUND) then
+        ERROR_SV.FOUND = {}
+    end
+    --UPDATE THE ERROR DATESTAMP
+    ERROR_SV.TODAY = DATESTAMP
+    --FILTER SAVED VARIABLES
+    if not _G[FILTERS_FILENAME] then _G[FILTERS_FILENAME] = {} end
+    FILTER_SV = _G[FILTERS_FILENAME]
+    --MEDIA SAVED VARIABLES
+    if not _G[MEDIA_FILENAME] then _G[MEDIA_FILENAME] = {} end
+    MEDIA_SV = _G[MEDIA_FILENAME]
+    --MEDIA PROFILE DATA
+    if(not MEDIA_SV.profiles) then MEDIA_SV.profiles = {} end
+    if(not MEDIA_SV.profiles[PROFILE_KEY]) then MEDIA_SV.profiles[PROFILE_KEY] = {} end
+    if(not MEDIA_SV.profiles[PROFILE_KEY].Theme) then MEDIA_SV.profiles[PROFILE_KEY].Theme = {} end
+
+    PROFILE_THEME = PRIVATE_SV.SAFEDATA.THEME;
+
+    for i = 1, GetNumAddOns() do
         local addonName, _, _, _, _, reason = GetAddOnInfo(i)
 
         if(IsAddOnLoadOnDemand(i)) then
@@ -774,98 +834,8 @@ local function ProcessLoadOnDemand()
             end
         end
     end
-end
 
-function lib:UpdateCoreDatabases()
-    local db           = setmetatable({}, meta_transdata)
-    db.data            = GLOBAL_SV.profiles[PROFILE_KEY]
-    db.defaults        = CoreObject.defaults
-    CoreObject.db      = db
-
-    local media        = setmetatable({}, meta_transdata)
-    media.data         = MEDIA_SV.profiles[PROFILE_KEY].Theme[PROFILE_THEME]
-    media.defaults     = CoreObject.mediadefaults
-    CoreObject.media   = media
-
-    local filters      = setmetatable({}, meta_transdata)
-    filters.data       = FILTER_SV
-    filters.defaults   = CoreObject.filterdefaults
-    CoreObject.filters = filters
-
-    local private      = setmetatable({}, meta_database)
-    private.data       = PRIVATE_SV
-    CoreObject.private = private
-
-    CoreObject.ERRORLOG = ERROR_SV.FOUND
-end
-
-local function CorePreInitialize()
-    local coreSchema = CoreObject.Schema
-
-    --PROFILE SAVED VARIABLES
-    if not _G[PRIVATE_FILENAME] then _G[PRIVATE_FILENAME] = {} end
-    PRIVATE_SV = _G[PRIVATE_FILENAME]
-    if not PRIVATE_SV.SAFEDATA then PRIVATE_SV.SAFEDATA = {} end
-    if not PRIVATE_SV.SAFEDATA.SAVED then PRIVATE_SV.SAFEDATA.SAVED = {} end
-    if not PRIVATE_SV.SAFEDATA.THEME then PRIVATE_SV.SAFEDATA.THEME = "Default" end
-    if not PRIVATE_SV.SAFEDATA.DUALSPEC then PRIVATE_SV.SAFEDATA.DUALSPEC = false end
-    if not PRIVATE_SV.SAFEDATA.NEEDSLIVEUPDATE then PRIVATE_SV.SAFEDATA.NEEDSLIVEUPDATE = false end
-
-    --GLOBAL SAVED VARIABLES
-    if not _G[GLOBAL_FILENAME] then _G[GLOBAL_FILENAME] = {} end
-    GLOBAL_SV = _G[GLOBAL_FILENAME]
-
-    if(GLOBAL_SV.profileKeys) then
-      wipe(GLOBAL_SV.profileKeys)
-    else
-      GLOBAL_SV.profileKeys = {}
-    end
-
-    --SAVED ERRORS
-    if not _G[ERROR_FILENAME] then _G[ERROR_FILENAME] = {} end
-    ERROR_SV = _G[ERROR_FILENAME]
-
-    local datestamp = date("%m_%d_%y")
-
-    if(ERROR_SV.TODAY and ERROR_SV.TODAY ~= datestamp) then
-        ERROR_SV.FOUND = {}
-    end
-
-    if(not ERROR_SV.FOUND) then
-        ERROR_SV.FOUND = {}
-    end
-
-    ERROR_SV.TODAY = datestamp
-
-    --MEDIA SAVED VARIABLES
-    if not _G[MEDIA_FILENAME] then _G[MEDIA_FILENAME] = {} end
-    MEDIA_SV = _G[MEDIA_FILENAME]
-
-    --FILTER SAVED VARIABLES
-    if not _G[FILTERS_FILENAME] then _G[FILTERS_FILENAME] = {} end
-    FILTER_SV = _G[FILTERS_FILENAME]
-
-    if not GLOBAL_SV.profiles then GLOBAL_SV.profiles = {} end
-    for k,v in pairs(GLOBAL_SV.profiles) do
-        GLOBAL_SV.profileKeys[k] = k
-    end
-    if not MEDIA_SV.profiles then MEDIA_SV.profiles = {} end
-    if not GLOBAL_SV.profiles[PROFILE_KEY] then GLOBAL_SV.profiles[PROFILE_KEY] = {} end
-    if not MEDIA_SV.profiles[PROFILE_KEY] then MEDIA_SV.profiles[PROFILE_KEY] = {} end
-    if not MEDIA_SV.profiles[PROFILE_KEY].Theme then MEDIA_SV.profiles[PROFILE_KEY].Theme = {} end
-
-    GetProfileKeys()
-
-    --KEY AND SPEC BASED VARIABLES
-    if(PRIVATE_SV.SAFEDATA.DUALSPEC) then
-        lib.EventManager:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
-    else
-        lib.EventManager:UnregisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
-    end
-
-    ProcessLoadOnDemand()
-    lib:UpdateCoreDatabases()
-    CoreObject.initialized = true
+    UpdateCoreDatabases()
 end
 
 --LIBRARY EVENT HANDLING
@@ -897,14 +867,14 @@ local Library_OnEvent = function(self, event, arg, ...)
         if(not CoreObject.___initialized and CoreObject.Initialize and IsLoggedIn()) then
             if(CoreObject.LoadTheme) then
                 CoreObject:LoadTheme()
-                lib:UpdateCoreDatabases()
             end
+            UpdateCoreDatabases()
             CoreObject:Initialize()
             CoreObject.___initialized = true
             self:UnregisterEvent("PLAYER_LOGIN")
         end
     elseif(event == "ACTIVE_TALENT_GROUP_CHANGED") then
-        LiveProfileChange()
+        UpdateProfileSources()
     end
 end
 
@@ -1273,6 +1243,15 @@ function lib:LoadScripts()
 
         ScriptQueue = nil
     end
+end
+
+function lib:CheckDualProfile()
+    return PRIVATE_SV.SAFEDATA.DUALSPEC
+end
+
+function lib:ToggleDualProfile(enabled)
+    PRIVATE_SV.SAFEDATA.DUALSPEC = enabled
+    UpdateProfileSources()
 end
 
 --[[ UNUSED

@@ -56,7 +56,7 @@ local function Widget_ButtonStyle(frame, strip, bypass)
 	if frame.SetDisabledTexture then frame:SetDisabledTexture("") end 
 	if strip then frame:RemoveTextures() end 
 	if not bypass then 
-		frame:SetStyle("Button")
+		frame:SetStyle()
 	end
 end 
 
@@ -67,7 +67,7 @@ end
 local function SetAdjustedStyle(this, template, xTopleft, yTopleft, xBottomright, yBottomright)
 	if(not this or (this and this.Panel)) then return end
 	template = template or "Default"
-	this:SetStyle("Frame", template)
+	this:SetStyle(template)
 	this.Panel:SetPoint("TOPLEFT", this, "TOPLEFT", xTopleft, yTopleft)
 	this.Panel:SetPoint("BOTTOMRIGHT", this, "BOTTOMRIGHT", xBottomright, yBottomright)
 end
@@ -108,7 +108,7 @@ local function StyleAceGUI(event, addon)
 		if(widgetType == "MultiLineEditBox") then 
 			local widgetFrame = widget.frame;
 			SV.API:Set("!_Frame", widgetFrame, "Default", true)
-			SV.API:Set("Frame", widget.scrollBG, "Transparent", true) 
+			SV.API:Set("Frame", widget.scrollBG, "Transparent") 
 			Widget_ButtonStyle(widget.button)
 			SV.API:Set("ScrollFrame", widget.scrollBar) 
 			widget.scrollBar:SetPoint("RIGHT", widgetFrame, "RIGHT", -4)
@@ -231,7 +231,7 @@ local function StyleAceGUI(event, addon)
 					newButton.toggle:RemoveTextures()
 					newButton.toggle.SetNormalTexture = NOOP;
 					newButton.toggle.SetPushedTexture = NOOP;
-					newButton.toggle:SetStyle("Button")
+					newButton.toggle:SetStyle()
 					newButton.toggleText = newButton.toggle:CreateFontString(nil, "OVERLAY")
 					newButton.toggleText:SetFont([[Interface\AddOns\SVUI_!Core\assets\fonts\Default.ttf]], 19)
 					newButton.toggleText:SetPoint("CENTER")

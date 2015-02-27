@@ -109,7 +109,7 @@ function MOD:LoadRaidLeaderTools()
 	self.RaidTool:SetAttribute("hasDropDown", false);
 
 	self.RaidTool.Menu = CreateFrame("Frame", "SVUI_RaidToolMenu", self.RaidTool, "SecureHandlerClickTemplate");
-	self.RaidTool.Menu:SetStyle("Frame", 'Transparent');
+	self.RaidTool.Menu:SetStyle("Transparent");
 	self.RaidTool.Menu:ModWidth(120);
 	self.RaidTool.Menu:ModHeight(140);
 	self.RaidTool.Menu:SetPoint("TOPLEFT", dock.ToolBar, "BOTTOMLEFT", 0, -2);

@@ -69,7 +69,7 @@ local function applystyle(bar)
 	else
 		bg = CreateFrame("Frame")
 	end
-	bg:SetStyle("Frame", 'Transparent', true)
+	bg:SetStyle("Transparent")
 	bg:SetParent(bar)
 	bg:WrapPoints(bar)
 	bg:SetFrameLevel(bar:GetFrameLevel() - 1)
@@ -84,7 +84,7 @@ local function applystyle(bar)
 			ibg = CreateFrame("Frame")
 		end
 		ibg:SetParent(bar)
-		ibg:SetStyle("Frame", 'Transparent', true)
+		ibg:SetStyle("Transparent")
 		ibg:SetBackdropColor(0, 0, 0, 0)
 		ibg:WrapPoints(bar.candyBarIconFrame)
 		ibg:SetFrameLevel(bar:GetFrameLevel() - 1)

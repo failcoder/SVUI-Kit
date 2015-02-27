@@ -121,11 +121,7 @@ function SV:VendorGrays(destroy, silent, request)
 								PickupMerchantItem()
 							end 
 							totalValue = totalValue + sellPrice
-						elseif(itemID and SV.Inventory and SV.Inventory.private and SV.Inventory.private.junk[itemID]) then
-							if(not request) then
-								UseContainerItem(bagID, slot)
-								PickupMerchantItem()
-							end 
+						elseif(SV.Inventory and (not request) and SV.Inventory:VendorCheck(itemID, bagID, slot)) then
 							totalValue = totalValue + sellPrice
 						end
 					end

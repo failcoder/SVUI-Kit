@@ -554,7 +554,7 @@ local _hook_GameTooltip_ShowStatusBar = function(self, ...)
 	if bar and not bar.styled then 
 		bar:RemoveTextures()
 		bar:SetStatusBarTexture(SV.media.statusbar.default)
-		bar:SetStyle("Frame", 'Inset',true)
+		bar:SetStyle("[INSET]Transparent")
 		if not bar.border then 
 			local border=CreateFrame("Frame",nil,bar)
 			border:WrapPoints(bar,1,1)

@@ -25,10 +25,10 @@ local function PetitionFrameStyle()
 	SV.API:Set("Window", PetitionFrame, nil, true)
 	PetitionFrameInset:Die()
 
-	PetitionFrameSignButton:SetStyle("Button")
-	PetitionFrameRequestButton:SetStyle("Button")
-	PetitionFrameRenameButton:SetStyle("Button")
-	PetitionFrameCancelButton:SetStyle("Button")
+	PetitionFrameSignButton:SetStyle()
+	PetitionFrameRequestButton:SetStyle()
+	PetitionFrameRenameButton:SetStyle()
+	PetitionFrameCancelButton:SetStyle()
 
 	SV.API:Set("CloseButton", PetitionFrameCloseButton)
 

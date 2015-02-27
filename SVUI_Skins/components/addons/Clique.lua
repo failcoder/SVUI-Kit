@@ -110,7 +110,7 @@ local function StyleClique()
 	for _, gName in pairs(CliqueButtons) do
 		local button = _G[gName]
 		if(button) then
-			button:SetStyle("Button")
+			button:SetStyle()
 		end
 	end
 

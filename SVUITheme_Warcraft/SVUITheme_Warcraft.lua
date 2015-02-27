@@ -82,7 +82,7 @@ local _SetDockButtonTheme = function(_, button, size)
 	local sparkSize = size * 5;
     local sparkOffset = size * 0.5;
 
-    button:SetStyle("Button")
+    button:SetStyle()
 
 	local sparks = button:CreateTexture(nil, "OVERLAY", nil, 2)
 	sparks:ModSize(sparkSize, sparkSize)
