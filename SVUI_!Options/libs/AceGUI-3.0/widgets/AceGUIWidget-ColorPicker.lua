@@ -87,7 +87,7 @@ Methods
 local methods = {
 	["OnAcquire"] = function(self)
 		self:SetHeight(24)
-		self:SetWidth(200)
+		self:SetWidth(320)
 		self:SetHasAlpha(false)
 		self:SetColor(0, 0, 0, 1)
 		self:SetDisabled(nil)

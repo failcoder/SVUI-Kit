@@ -1,5 +1,17 @@
 local L = Librarian("Linguist"):Lang("koKR");
 if not L then return; end
+L["Conversation"]    = "대화"
+L["General"]         = "공개"
+L["LocalDefense"]    = "수비"
+L["LookingForGroup"] = "파티찾기"
+L["Trade"]           = "거래"
+L["WorldDefense"]    = "전쟁"
+L["S_Conversation"]    = "대화"
+L["S_General"]        = "공"
+L["S_LocalDefense"]    = "수"
+L["S_LookingForGroup"] = "파찾"
+L["S_Trade"]          = "거"
+L["S_WorldDefense"]    = "쟁"
 L["Hearthstone"] = true;
 --[[LOGIN MESSAGE]]--
 L["LOGIN_MSG"] = "|cffFFFF1AUI를 악당|r에 오신 것을 환영합니다! 귀하의 유지 %s 당신을 %s."

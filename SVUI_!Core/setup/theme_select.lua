@@ -36,9 +36,9 @@ local L = SV.L;
 
 function SV.Setup:SelectTheme()
 	if not SVUI_ThemeSelectFrame then 
-		local frame = CreateFrame("Frame", "SVUI_ThemeSelectFrame", UIParent)
+		local frame = CreateFrame("Button", "SVUI_ThemeSelectFrame", UIParent)
 		frame:ModSize(350, 145)
-		frame:SetStyle("{0}Window2")
+		frame:SetStyle("Frame", "Window2")
 		frame:SetPoint("CENTER", SV.Screen, "CENTER", 0, 0)
 		frame:SetFrameStrata("TOOLTIP");
 

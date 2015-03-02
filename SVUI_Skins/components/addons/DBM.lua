@@ -44,7 +44,7 @@ local function StyleBars(self)
 				if not icon1.overlay then
 					icon1.overlay = CreateFrame('Frame', '$parentIcon1Overlay', tbar)
 					icon1.overlay:SetSize(28,28)
-					icon1.overlay:SetStyle()
+					icon1.overlay:SetStyle("Frame", "Button")
 					icon1.overlay:SetFrameLevel(0)
 					icon1.overlay:SetPoint('BOTTOMRIGHT', frame, 'BOTTOMLEFT', -4, 0)
 				end
@@ -52,7 +52,7 @@ local function StyleBars(self)
 				if not icon2.overlay then
 					icon2.overlay = CreateFrame('Frame', '$parentIcon2Overlay', tbar)
 					icon2.overlay:SetSize(28,28)
-					icon2.overlay:SetStyle()
+					icon2.overlay:SetStyle("Frame", "Button")
 					icon2.overlay:SetFrameLevel(0)
 					icon2.overlay:SetPoint('BOTTOMLEFT', frame, 'BOTTOMRIGHT', 4, 0)
 				end
@@ -89,7 +89,7 @@ local function StyleBars(self)
 				tbar:SetWidth(sharedWidth)
 				tbar:SetHeight(10)
 				tbar:SetPoint('BOTTOMLEFT', frame, 'BOTTOMLEFT', 0, 0)
-				tbar:SetStyle("Transparent")
+				tbar:SetStyle("Frame", "Bar")
 
 				name:ClearAllPoints()
 				name:SetHeight(8)
@@ -164,7 +164,7 @@ local StyleBoss = function()
 				bar:SetPoint('TOPLEFT', prev, 'TOPLEFT', 0, -(22 + 4))
 			end
 		end
-		bar:SetStyle("Transparent")
+		bar:SetStyle("!_Frame", 'Transparent')
 		background:SetNormalTexture(nil)
 		progress:SetStatusBarTexture(SV.media.statusbar.default)
 		progress:ClearAllPoints()
@@ -199,15 +199,15 @@ local function StyleDBM(event, addon)
 	if((not RangeSet) and DBMRangeCheck and (not DBM_SavedOptions['DontShowRangeFrame'])) then
 		DBM.RangeCheck:Show()
 		DBM.RangeCheck:Hide()
-		DBMRangeCheck:HookScript('OnShow', function(self) self:SetStyle("Transparent") end)
-		DBMRangeCheckRadar:SetStyle("Transparent")
+		DBMRangeCheck:HookScript('OnShow', function(self) self:SetStyle("!_Frame", 'Transparent') end)
+		DBMRangeCheckRadar:SetStyle("!_Frame", 'Transparent')
 		RangeSet = true
 	end
 
 	if((not InfoSet) and DBMInfoFrame and (not DBM_SavedOptions['DontShowInfoFrame'])) then
 		DBM.InfoFrame:Show(5, 'test')
 		DBM.InfoFrame:Hide()
-		DBMInfoFrame:HookScript('OnShow', function(self) self:SetStyle("Transparent") end)
+		DBMInfoFrame:HookScript('OnShow', function(self) self:SetStyle("!_Frame", 'Transparent') end)
 		InfoSet = true
 	end
 

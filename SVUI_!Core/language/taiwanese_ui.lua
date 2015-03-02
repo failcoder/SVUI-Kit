@@ -1,5 +1,17 @@
 local L = Librarian("Linguist"):Lang("zhTW");
 if not L then return; end
+L["Conversation"]    = "對話"
+L["General"]         = "綜合"
+L["LocalDefense"]    = "本地防務"
+L["LookingForGroup"] = "尋求組隊"
+L["Trade"]           = "交易"
+L["WorldDefense"]    = "世界防務"
+L["S_Conversation"]    = "話"
+L["S_General"]        = "綜"
+L["S_LocalDefense"]    = "本"
+L["S_LookingForGroup"] = "尋"
+L["S_Trade"]          = "交"
+L["S_WorldDefense"]    = "世"
 L["Hearthstone"] = true;
 --[[LOGIN MESSAGE]]--
 L["LOGIN_MSG"] = "歡迎使用 |cffFFFF1ASVUI|r! 让您的 %s 和你 %s."

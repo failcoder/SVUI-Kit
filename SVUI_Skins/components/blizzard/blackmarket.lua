@@ -36,7 +36,7 @@ local _hook_ScrollFrameUpdate = function()
 			local indexOffset = offset + i;
 			if(not button.Panel) then 
 				button:RemoveTextures()
-				button:SetStyle()
+				button:SetStyle("Button")
 				SV.API:Set("ItemButton", button.Item)
 			end 
 			if indexOffset <= itemCount then 
@@ -57,7 +57,7 @@ local function BlackMarketStyle()
 	SV.API:Set("Window", BlackMarketFrame)
 
 	BlackMarketFrame.Inset:RemoveTextures()
-	BlackMarketFrame.Inset:SetStyle("[INSET]Transparent")
+	BlackMarketFrame.Inset:SetStyle("!_Frame", "Inset")
 
 	SV.API:Set("CloseButton", BlackMarketFrame.CloseButton)
 	SV.API:Set("ScrollFrame", BlackMarketScrollFrameScrollBar, 4)
@@ -70,10 +70,10 @@ local function BlackMarketStyle()
 	ChangeTab(BlackMarketFrame.ColumnCurrentBid)
 
 	BlackMarketFrame.MoneyFrameBorder:RemoveTextures()
-	BlackMarketBidPriceGold:SetStyle()
+	BlackMarketBidPriceGold:SetStyle("Editbox")
 	BlackMarketBidPriceGold.Panel:ModPoint("TOPLEFT", -2, 0)
 	BlackMarketBidPriceGold.Panel:ModPoint("BOTTOMRIGHT", -2, 0)
-	BlackMarketFrame.BidButton:SetStyle()
+	BlackMarketFrame.BidButton:SetStyle("Button")
 
 	hooksecurefunc("BlackMarketScrollFrame_Update", _hook_ScrollFrameUpdate)
 

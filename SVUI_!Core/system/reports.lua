@@ -141,6 +141,7 @@ local _hook_TooltipOnShow = function(self)
 end 
 
 local function TruncateString(value)
+	if(not value or value == 0) then return 0 end
 	if value >= 1e9 then 
 		return ("%.1fb"):format(value/1e9):gsub("%.?0+([kmb])$","%1")
 	elseif value >= 1e6 then 
@@ -448,53 +449,55 @@ do
 		local allowPvP = (db.battleground and not ForceHideBGStats) or false
 
 		for reportIndex, parent in ipairs(anchorTable) do
-			local slots = parent.Stats.Slots;
-			local numPoints = #slots;
-			local pvpIndex = parent.Stats.BGStats;
-			local pvpSwitch = (allowPvP and pvpIndex and (MOD.BGHolders[pvpIndex] == reportIndex))
+			if(parent.Stats and parent.Stats.Slots) then
+				local slots = parent.Stats.Slots;
+				local numPoints = #slots;
+				local pvpIndex = parent.Stats.BGStats;
+				local pvpSwitch = (allowPvP and pvpIndex and (MOD.BGHolders[pvpIndex] == reportIndex))
 
-			for i = 1, numPoints do
-				local pvpTable = (pvpSwitch and PVP_INFO_SORTING[pvpIndex]) and PVP_INFO_SORTING[pvpIndex][i]
-				local slot = slots[i];
+				for i = 1, numPoints do
+					local pvpTable = (pvpSwitch and PVP_INFO_SORTING[pvpIndex]) and PVP_INFO_SORTING[pvpIndex][i]
+					local slot = slots[i];
 
-				slot:UnregisterAllEvents()
-				slot:SetScript("OnUpdate", nil)
-				slot:SetScript("OnEnter", nil)
-				slot:SetScript("OnLeave", nil)
-				slot:SetScript("OnClick", nil)
-				slot.text:SetText(nil)
+					slot:UnregisterAllEvents()
+					slot:SetScript("OnUpdate", nil)
+					slot:SetScript("OnEnter", nil)
+					slot:SetScript("OnLeave", nil)
+					slot:SetScript("OnClick", nil)
+					slot.text:SetText(nil)
 
-				if slot.barframe then 
-					slot.barframe:Hide()
-				end 
-
-				slot:Hide()
-
-				if(pvpTable and ((instance and groupType == "pvp") or parent.lockedOpen)) then
-					slot.scoreindex = PVP_INFO_LOOKUP[pvpTable][1]
-					slot.scoretype = PVP_INFO_LOOKUP[pvpTable][2]
-					slot:RegisterEvent("UPDATE_BATTLEFIELD_SCORE")
-					slot:SetScript("OnEvent", BG_OnUpdate)
-					slot:SetScript("OnEnter", BG_OnEnter)
-					slot:SetScript("OnLeave", Stat_OnLeave)
-					slot:SetScript("OnClick", BG_OnClick)
-
-					BG_OnUpdate(slot)
-
-					slot:Show()
-				else 
-					for name, config in pairs(reportTable) do
-						for panelIndex, panelData in pairs(db.holders) do 
-							if(panelData and type(panelData) == "table") then 
-								if(panelIndex == reportIndex and panelData[i] and panelData[i] == name) then 
-									_load(slot, name, config)
-								end 
-							elseif(panelData and type(panelData) == "string" and panelData == name) then 
-								_load(slot, name, config) 
-							end 
-						end
+					if slot.barframe then 
+						slot.barframe:Hide()
 					end 
-				end 
+
+					slot:Hide()
+
+					if(pvpTable and ((instance and groupType == "pvp") or parent.lockedOpen)) then
+						slot.scoreindex = PVP_INFO_LOOKUP[pvpTable][1]
+						slot.scoretype = PVP_INFO_LOOKUP[pvpTable][2]
+						slot:RegisterEvent("UPDATE_BATTLEFIELD_SCORE")
+						slot:SetScript("OnEvent", BG_OnUpdate)
+						slot:SetScript("OnEnter", BG_OnEnter)
+						slot:SetScript("OnLeave", Stat_OnLeave)
+						slot:SetScript("OnClick", BG_OnClick)
+
+						BG_OnUpdate(slot)
+
+						slot:Show()
+					else 
+						for name, config in pairs(reportTable) do
+							for panelIndex, panelData in pairs(db.holders) do 
+								if(panelData and type(panelData) == "table") then 
+									if(panelIndex == reportIndex and panelData[i] and panelData[i] == name) then 
+										_load(slot, name, config)
+									end 
+								elseif(panelData and type(panelData) == "string" and panelData == name) then 
+									_load(slot, name, config) 
+								end 
+							end
+						end 
+					end 
+				end
 			end
 		end
 
@@ -605,7 +608,6 @@ function MOD:Load()
 	bottomRight:SetPoint("BOTTOMRIGHT", SV.Dock.BottomCenter, "BOTTOMRIGHT", 0, 0)
 	SV:NewAnchor(bottomRight, L["Data Reports 2"])
 	self:NewHolder(bottomRight, 3, "ANCHOR_CURSOR")
-	--SV:ManageVisibility(self.BottomCenter)
 
 	--TOP CENTER BARS
 	local topLeft = CreateFrame("Frame", "SVUI_ReportsGroup3", SV.Dock.TopCenter)
@@ -626,8 +628,6 @@ function MOD:Load()
 	self.ReportGroup2 = bottomRight;
 	self.ReportGroup3 = topLeft;
 	self.ReportGroup4 = topRight;
-
-	SV:ManageVisibility(self.TopCenter)
 	
 	-- self.ReportTooltip:SetParent(SV.Screen)
 	self.ReportTooltip:SetFrameStrata("DIALOG")

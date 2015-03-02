@@ -279,7 +279,7 @@ function MOD:CreateClassBar(playerFrame)
 	local mana = CreateFrame("Frame", nil, playerFrame)
 	mana:SetFrameStrata("LOW")
 	mana:InsetPoints(bar, 2, 4)
-	mana:SetStyle()
+	mana:SetStyle("!_Frame", "Default")
 	mana:SetFrameLevel(mana:GetFrameLevel() + 1)
 	mana.colorPower = true;
 	mana.PostUpdatePower = UpdateAltPower;

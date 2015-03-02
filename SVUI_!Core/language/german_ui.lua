@@ -1,5 +1,17 @@
 local L = Librarian("Linguist"):Lang("deDE");
 if not L then return end
+L["Conversation"]    = "Chat"
+L["General"]         = "Allgemein"
+L["LocalDefense"]    = "LokaleVerteidigung"
+L["LookingForGroup"] = "SucheNachGruppe"
+L["Trade"]           = "Handel"
+L["WorldDefense"]    = "WeltVerteidigung"
+L["S_Conversation"]     = "C"
+L["S_General"]         = "A"
+L["S_LocalDefense"]     = "LV"
+L["S_LookingForGroup"]  = "LFG"
+L["S_Trade"]           = "H"
+L["S_WorldDefense"]     = "GV"
 L["Hearthstone"] = "Ruhestein";
 --[[LOGIN MESSAGE]]--
 L["LOGIN_MSG"] = "Willkommen zu |cffFFFF1ASVUI|r! halten Sie Ihre %s und Ihre %s."

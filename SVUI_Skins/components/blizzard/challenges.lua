@@ -22,8 +22,8 @@ local function ChallengesFrameStyle()
   ChallengesFrameInset:RemoveTextures()
   ChallengesFrameInsetBg:Hide()
   ChallengesFrameDetails.bg:Hide()
-  ChallengesFrameDetails:SetStyle("[INSET]Transparent")
-  ChallengesFrameLeaderboard:SetStyle()
+  ChallengesFrameDetails:SetStyle("Frame", "Inset")
+  ChallengesFrameLeaderboard:SetStyle("Button")
   select(2, ChallengesFrameDetails:GetRegions()):Hide()
   select(9, ChallengesFrameDetails:GetRegions()):Hide()
   select(10, ChallengesFrameDetails:GetRegions()):Hide()
@@ -32,7 +32,7 @@ local function ChallengesFrameStyle()
 
   for u = 1, 9 do 
     local v = ChallengesFrame["button"..u]
-    v:SetStyle()
+    v:SetStyle("Button")
     v:SetHighlightTexture("")
     v.selectedTex:SetAlpha(.2)
     v.selectedTex:SetPoint("TOPLEFT", 1, -1)
@@ -44,7 +44,7 @@ local function ChallengesFrameStyle()
     local F = ChallengesFrame["RewardRow"..u]
     for A = 1, 2 do 
       local v = F["Reward"..A]
-      v:SetStyle("{!}")
+      v:SetStyle("Frame")
       v.Icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
     end 
   end 

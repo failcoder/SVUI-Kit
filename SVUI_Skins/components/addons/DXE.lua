@@ -31,14 +31,14 @@ DXE
 ##########################################################
 ]]--
 local function StyleDXEBar(bar)
-	bar:SetStyle("Transparent")
+	bar:SetStyle("!_Frame", "Transparent")
 	bar.bg:SetTexture("")
 	bar.border.Show = SV.fubar
 	bar.border:Hide()
 	bar.statusbar:SetStatusBarTexture(SV.media.statusbar.default)
 	bar.statusbar:ClearAllPoints()
 	bar.statusbar:InsetPoints()
-	bar.righticon:SetStyle()
+	bar.righticon:SetStyle("!_Frame", "Default")
 	bar.righticon.border.Show = SV.fubar
 	bar.righticon.border:Hide()
 	bar.righticon:ClearAllPoints()
@@ -47,7 +47,7 @@ local function StyleDXEBar(bar)
 	bar.righticon.t:ClearAllPoints()
 	bar.righticon.t:InsetPoints()
 	bar.righticon.t:SetDrawLayer("ARTWORK")
-	bar.lefticon:SetStyle()
+	bar.lefticon:SetStyle("!_Frame", "Default")
 	bar.lefticon.border.Show = SV.fubar
 	bar.lefticon.border:Hide()
 	bar.lefticon:ClearAllPoints()
@@ -85,7 +85,7 @@ local function StyleDXE()
 		DXE:LayoutHealthWatchers_()
 		for i,hw in ipairs(frame.HW) do
 			if hw:IsShown() then
-				hw:SetStyle("Transparent")
+				hw:SetStyle("!_Frame", "Transparent")
 				hw.border.Show = SV.fubar
 				hw.border:Hide()
 				hw.healthbar:SetStatusBarTexture(SV.media.statusbar.default)

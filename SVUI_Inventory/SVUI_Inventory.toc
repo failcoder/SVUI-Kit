@@ -14,7 +14,7 @@
 ## X-Donate: PayPal:munglunch@gmail.com
 ## X-License: All Rights Reserved
 ## X-Category: Interface Enhancements
-## X-Curse-Packaged-Version: r20150226002001
+## X-Curse-Packaged-Version: r20150301050204
 ## X-Curse-Project-Name: SuperVillain UI: Inventory
 ## X-Curse-Project-ID: supervillain-ui-inventory
 ## X-Curse-Repository-ID: wow/supervillain-ui-inventory/mainline

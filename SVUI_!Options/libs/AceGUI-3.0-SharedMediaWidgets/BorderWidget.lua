@@ -42,9 +42,9 @@ do
 			frame = table.remove(contentFrameCache)
 		else
 			frame = CreateFrame("Button", nil, UIParent)
-				--frame:SetWidth(200)
+				--frame:SetWidth(320)
 				frame:SetHeight(18)
-				frame:SetHighlightTexture([[Interface\AddOns\ModKit_!Core\assets\textures\TITLE-HIGHLIGHT]], "ADD")
+				frame:SetHighlightTexture([[Interface\AddOns\SVUI_!Core\assets\textures\TITLE-HIGHLIGHT]], "ADD")
 				frame:SetScript("OnClick", ContentOnClick)
 				frame:SetScript("OnEnter", ContentOnEnter)
 			local check = frame:CreateTexture("OVERLAY")
@@ -68,7 +68,7 @@ do
 
 	local function OnAcquire(self)
 		self:SetHeight(44)
-		self:SetWidth(200)
+		self:SetWidth(320)
 	end
 
 	local function OnRelease(self)

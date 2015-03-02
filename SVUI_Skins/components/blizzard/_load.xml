@@ -10,11 +10,9 @@
 	<Script file='challenges.lua'/>
 	<Script file='chat.lua'/>
 	<Script file='character.lua'/>
-	<Script file='dressup.lua'/>
 	<Script file='encounterjournal.lua'/>
 	<Script file='friends.lua'/>
 	<Script file='garrison.lua'/>
-	<Script file='gossip.lua'/>
 	<Script file='guild.lua'/>
 	<Script file='help.lua'/>
 	<Script file='inspect.lua'/>
@@ -22,13 +20,9 @@
 	<Script file='itemupgrade.lua'/>
 	<Script file='keybinding.lua'/>
 	<Script file='lfd.lua'/>
-	<Script file='loothistory.lua'/>
 	<Script file='lossofcontrol.lua'/>
 	<Script file='macro.lua'/>
-	<Script file='mailbox.lua'/>
-	<Script file='merchant.lua'/>
 	<Script file='petbattle.lua'/>
-	<Script file='petition.lua'/>
 	<Script file='petjournal.lua'/>
 	<Script file='petstable.lua'/>
 	<Script file='pvp.lua'/>
@@ -37,16 +31,13 @@
 	<Script file='reforging.lua'/>
 	<!-- <Script file='social.lua'/> -->
 	<Script file='spellbook.lua'/>
-	<Script file='tabard.lua'/>
 	<Script file='talents.lua'/>
-	<Script file='taxi.lua'/>
 	<Script file='timemanager.lua'/>
-	<Script file='trade.lua'/>
 	<Script file='tradeskill.lua'/>
 	<Script file='trainer.lua'/>
 	<Script file='transmog.lua'/>
 	<Script file='voidstorage.lua'/>
 	<Script file='worldmap.lua'/>
-	<Script file='worldstate.lua'/>
 	<Script file='system.lua'/>
+	<Script file='misc.lua'/>
 </Ui>

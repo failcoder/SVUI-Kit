@@ -49,7 +49,7 @@ local function MacroUIStyle()
 			button:SetFrameStrata(parentStrata)
 			button:SetFrameLevel(parentLevel + 1)
 			button:RemoveTextures()
-			button:SetStyle()
+			button:SetStyle("Button")
 		end
 	end 
 
@@ -77,16 +77,16 @@ local function MacroUIStyle()
 
 	MacroFrameText:SetFont(SV.media.font.default, 10, "OUTLINE")
 	MacroFrameTextBackground:RemoveTextures()
-	MacroFrameTextBackground:SetStyle("Transparent")
+	MacroFrameTextBackground:SetStyle("Frame", 'Transparent')
 
 	MacroPopupFrame:RemoveTextures()
-	MacroPopupFrame:SetStyle("Transparent")
+	MacroPopupFrame:SetStyle("Frame", 'Transparent')
 
 	MacroPopupScrollFrame:RemoveTextures()
-	MacroPopupScrollFrame:SetStyle("Pattern")
+	MacroPopupScrollFrame:SetStyle("Frame", "Pattern")
 	MacroPopupScrollFrame.Panel:ModPoint("TOPLEFT", 51, 2)
 	MacroPopupScrollFrame.Panel:ModPoint("BOTTOMRIGHT", -4, 4)
-	MacroPopupEditBox:SetStyle()
+	MacroPopupEditBox:SetStyle("Editbox")
 	MacroPopupNameLeft:SetTexture("")
 	MacroPopupNameMiddle:SetTexture("")
 	MacroPopupNameRight:SetTexture("")
@@ -95,7 +95,7 @@ local function MacroUIStyle()
 
 	MacroButtonContainer:RemoveTextures()
 	SV.API:Set("ScrollFrame", MacroButtonScrollFrame)
-	MacroButtonScrollFrame:SetStyle("[INSET]Transparent")
+	MacroButtonScrollFrame:SetStyle("!_Frame", "Inset")
 
 	MacroPopupFrame:HookScript("OnShow", function(c)
 		c:ClearAllPoints()
@@ -105,7 +105,7 @@ local function MacroUIStyle()
 	MacroFrameSelectedMacroButton:SetFrameStrata(parentStrata)
 	MacroFrameSelectedMacroButton:SetFrameLevel(parentLevel + 1)
 	MacroFrameSelectedMacroButton:RemoveTextures()
-	MacroFrameSelectedMacroButton:SetStyle("Item")
+	MacroFrameSelectedMacroButton:SetStyle("ActionSlot")
 	MacroFrameSelectedMacroButtonIcon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 	MacroFrameSelectedMacroButtonIcon:InsetPoints()
 
@@ -119,7 +119,7 @@ local function MacroUIStyle()
 		local button = _G["MacroButton"..i]
 		if(button) then
 			button:RemoveTextures()
-			button:SetStyle("Item")
+			button:SetStyle("ActionSlot")
 
 			local icon = _G["MacroButton"..i.."Icon"]
 			if(icon) then
@@ -131,7 +131,7 @@ local function MacroUIStyle()
 			local popup = _G["MacroPopupButton"..i]
 			if(popup) then
 				popup:RemoveTextures()
-				popup:SetStyle()
+				popup:SetStyle("Button")
 				popup:SetBackdropColor(0, 0, 0, 0)
 
 				local popupIcon = _G["MacroPopupButton"..i.."Icon"]

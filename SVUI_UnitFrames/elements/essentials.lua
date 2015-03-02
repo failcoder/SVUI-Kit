@@ -71,6 +71,16 @@ local FontMapping = {
 	["tank"] = "SVUI_Font_Unit_Small",
 	["assist"] = "SVUI_Font_Unit_Small",
 };
+local ThreatMapping = {
+	["player"] = true, 
+	["pet"] = true, 
+	["focus"] = true,  
+	["party"] = true,
+	["raid"] = true,
+	["raidpet"] = true,
+	["tank"] = true,
+	["assist"] = true,
+};
 
 local _hook_ActionPanel_OnSizeChanged = function(self)
 	local width,height = self:GetSize()
@@ -100,7 +110,7 @@ ACTIONPANEL
 ##########################################################
 ]]--
 local UpdateThreat = function(self, event, unit)
-	if(not unit) then return end
+	if(not unit or (self.unit ~= unit) or not IsLoggedIn()) then return end
 	local threat = self.Threat
 	local status = UnitThreatSituation(unit)
 	local r, g, b
@@ -115,7 +125,7 @@ local UpdateThreat = function(self, event, unit)
 end
 
 local UpdatePlayerThreat = function(self, event, unit)
-	if(unit ~= "player") then return end
+	if(unit ~= "player" or not IsLoggedIn()) then return end
 	local threat = self.Threat
 	local aggro = self.Aggro
 	local status = UnitThreatSituation(unit)
@@ -213,7 +223,7 @@ end
 
 function MOD:SetActionPanel(frame, unit, noHealthText, noPowerText, noMiscText)
 	if(frame.ActionPanel) then return; end
-	frame:SetStyle("[SHADOW]ActionPanel")
+	frame:SetStyle("Frame", "ActionPanel")
 	if(unit and (unit == "target" or unit == "player")) then
 		local baseSize = SV.media.shared.font.unitprimary.size / 0.55;
 		local info = CreateFrame("Frame", nil, frame)
@@ -267,7 +277,7 @@ function MOD:SetActionPanel(frame, unit, noHealthText, noPowerText, noMiscText)
 			frame.ActionPanel.class = CreateFrame("Frame", nil, frame.TextGrip)
 			frame.ActionPanel.class:ModSize(18)
 			frame.ActionPanel.class:ModPoint("TOPLEFT", frame.ActionPanel, "TOPLEFT", 2, -2)
-			frame.ActionPanel.class:SetStyle("Default", true, 2, 0, 0)
+			frame.ActionPanel.class:SetStyle("Frame", "Default", true, 2, 0, 0)
 
 			frame.ActionPanel.class.texture = frame.ActionPanel.class.Panel:CreateTexture(nil, "BORDER")
 			frame.ActionPanel.class.texture:SetAllPoints(frame.ActionPanel.class.Panel)
@@ -401,8 +411,9 @@ function MOD:SetActionPanel(frame, unit, noHealthText, noPowerText, noMiscText)
 	frame.StatusPanel.texture:SetAllPoints()
 	frame.StatusPanel:SetFrameStrata("LOW")
 	frame.StatusPanel:SetFrameLevel(28)
-
-	frame.Threat = CreateThreat(frame, unit)
+	if(ThreatMapping[unit]) then
+		frame.Threat = CreateThreat(frame, unit)
+	end
 end
 --[[ 
 ########################################################## 
@@ -637,7 +648,7 @@ end
 function MOD:CreatePowerBar(frame)
 	local power = CreateFrame("StatusBar", nil, frame)
 	power:SetStatusBarTexture(SV.media.statusbar.default)
-	power:SetStyle("Transparent")
+	power:SetStyle("Frame", "Bar")
 	power:SetFrameStrata("LOW")
 	power:SetFrameLevel(6)
 	power.bg = power.Panel.Skin
@@ -651,7 +662,7 @@ end
 function MOD:CreateAltPowerBar(frame)
 	local altPower = CreateFrame("StatusBar", nil, frame)
 	altPower:SetStatusBarTexture(SV.media.statusbar.default)
-	altPower:SetStyle("Transparent")
+	altPower:SetStyle("Frame", "Bar")
 	altPower:GetStatusBarTexture():SetHorizTile(false)
 	altPower:SetFrameStrata("LOW")
 	altPower:SetFrameLevel(8)
@@ -698,9 +709,9 @@ function MOD:CreatePortrait(frame,smallUnit,isPlayer)
 	portrait3D:SetFrameLevel(2)
 
 	if smallUnit then 
-		portrait3D:SetStyle("PatternUnitSmall")
+		portrait3D:SetStyle("Frame", "UnitSmall")
 	else 
-		portrait3D:SetStyle("PatternUnitLarge")
+		portrait3D:SetStyle("Frame", "UnitLarge")
 	end
 
 	local overlay = CreateFrame("Frame",nil,portrait3D)
@@ -720,9 +731,9 @@ function MOD:CreatePortrait(frame,smallUnit,isPlayer)
 	portrait2D:SetAllPoints(portrait2Danchor)
 	portrait2D.anchor = portrait2Danchor;
 	if smallUnit then 
-		portrait2Danchor:SetStyle()
+		portrait2Danchor:SetStyle("!_Frame")
 	else 
-		portrait2Danchor:SetStyle()
+		portrait2Danchor:SetStyle("!_Frame")
 	end 
 	portrait2D.Panel = portrait2Danchor.Panel;
 

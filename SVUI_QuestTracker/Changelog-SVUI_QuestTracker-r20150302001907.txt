@@ -1,4 +1,5 @@
 Steven Jackson:
+	- ace modifications, petbattle adjustments
 	- build update
 	- updating with core
 	- toc update

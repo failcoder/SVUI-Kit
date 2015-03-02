@@ -168,7 +168,7 @@ local methods = {
 	["OnAcquire"] = function(self)
 		self.editBox:SetText("")
 		self:SetDisabled(false)
-		self:SetWidth(200)
+		self:SetWidth(320)
 		self:DisableButton(false)
 		self:SetNumLines()
 		self.entered = nil
@@ -268,7 +268,7 @@ Constructor
 -------------------------------------------------------------------------------]]
 local backdrop = {
 	bgFile = [[Interface\Tooltips\UI-Tooltip-Background]],
-	edgeFile = [[Interface\Tooltips\UI-Tooltip-Border]], edgeSize = 16,
+	edgeFile = [[Interface\AddOns\SVUI_!Core\assets\borders\DEFAULT]], edgeSize = 16,
 	insets = { left = 4, right = 3, top = 4, bottom = 3 }
 }
 

@@ -20,10 +20,10 @@ ITEMSOCKETING MODR
 local function ItemSocketStyle()
 	if SV.db.Skins.blizzard.enable ~= true or SV.db.Skins.blizzard.socket ~= true then return end 
 	ItemSocketingFrame:RemoveTextures()
-	ItemSocketingFrame:SetStyle("{0}Window2")
+	ItemSocketingFrame:SetStyle("Frame", "Window2")
 	ItemSocketingFrameInset:Die()
 	ItemSocketingScrollFrame:RemoveTextures()
-	ItemSocketingScrollFrame:SetStyle("[INSET]Transparent")
+	ItemSocketingScrollFrame:SetStyle("Frame", "Inset", true)
 	SV.API:Set("ScrollFrame", ItemSocketingScrollFrameScrollBar, 2)
 	for j = 1, MAX_NUM_SOCKETS do 
 		local i = _G[("ItemSocketingSocket%d"):format(j)];
@@ -31,8 +31,8 @@ local function ItemSocketStyle()
 		local D = _G[("ItemSocketingSocket%dBackground"):format(j)];
 		local E = _G[("ItemSocketingSocket%dIconTexture"):format(j)];
 		i:RemoveTextures()
-		i:SetStyle()
-		i:SetStyle()
+		i:SetStyle("Button")
+		i:SetStyle("!_Frame", "Button", true)
 		C:Die()
 		D:Die()
 		E:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
@@ -51,7 +51,7 @@ local function ItemSocketStyle()
 	ItemSocketingFramePortrait:Die()
 	ItemSocketingSocketButton:ClearAllPoints()
 	ItemSocketingSocketButton:ModPoint("BOTTOMRIGHT", ItemSocketingFrame, "BOTTOMRIGHT", -5, 5)
-	ItemSocketingSocketButton:SetStyle()
+	ItemSocketingSocketButton:SetStyle("Button")
 	SV.API:Set("CloseButton", ItemSocketingFrameCloseButton)
 end 
 --[[ 

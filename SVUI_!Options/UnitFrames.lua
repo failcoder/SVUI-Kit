@@ -1807,7 +1807,7 @@ SVUIOptions.FilterOptionGroups['AuraBars'] = function(selectedSpell)
 					MOD:SetUnitFrame("player")
 					MOD:SetUnitFrame("target")
 					MOD:SetUnitFrame("focus")
-					SV:SetFilterOptions('AuraBars', value)
+					SVUIOptions:SetFilterOptions('AuraBars', value)
 				end
 			},
 			removeSpell = {
@@ -1842,7 +1842,7 @@ SVUIOptions.FilterOptionGroups['AuraBars'] = function(selectedSpell)
 					MOD:SetUnitFrame("player")
 					MOD:SetUnitFrame("target")
 					MOD:SetUnitFrame("focus")
-					SV:SetFilterOptions('AuraBars')
+					SVUIOptions:SetFilterOptions('AuraBars')
 				end
 			},
 			selectSpell = {
@@ -1852,7 +1852,7 @@ SVUIOptions.FilterOptionGroups['AuraBars'] = function(selectedSpell)
 				guiInline = true,
 				get = function(key) return selectedSpell end,
 				set = function(key, value)
-					SV:SetFilterOptions('AuraBars', value)
+					SVUIOptions:SetFilterOptions('AuraBars', value)
 				end,
 				values = function()
 					wipe(tempFilterTable)
@@ -1945,7 +1945,7 @@ SVUIOptions.FilterOptionGroups['BuffWatch'] = function(selectedSpell)
 					else
 						SetWatchedBuff(value, spellID, FILTER, true, "TOPRIGHT", DEFAULT_COLOR, false)
 						UpdateBuffWatch()
-						SV:SetFilterOptions('BuffWatch', spellID)
+						SVUIOptions:SetFilterOptions('BuffWatch', spellID)
 					end 
 				end
 			}, 
@@ -1972,12 +1972,12 @@ SVUIOptions.FilterOptionGroups['BuffWatch'] = function(selectedSpell)
 						if temp == nil then 
 							SV:AddonMessage(L["Spell not found in list."])
 						else 
-							SV:SetFilterOptions('BuffWatch')
+							SVUIOptions:SetFilterOptions('BuffWatch')
 						end 
 					end
 					UpdateBuffWatch("raid")
 					UpdateBuffWatch("party")
-					SV:SetFilterOptions('BuffWatch')
+					SVUIOptions:SetFilterOptions('BuffWatch')
 				end
 			}, 
 			selectSpell = {
@@ -1997,7 +1997,7 @@ SVUIOptions.FilterOptionGroups['BuffWatch'] = function(selectedSpell)
 					return tempFilterTable  
 				end, 
 				get = function(key) return selectedSpell end, 
-				set = function(key, value) SV:SetFilterOptions('BuffWatch', value) end
+				set = function(key, value) SVUIOptions:SetFilterOptions('BuffWatch', value) end
 			}
 		}
 	}
@@ -2145,7 +2145,7 @@ SVUIOptions.FilterOptionGroups['PetBuffWatch'] = function(selectedSpell)
 					else  
 						SetWatchedBuff(value, spellID, FILTER, true, "TOPRIGHT", DEFAULT_COLOR, true)
 						UpdatePetBuffWatch()
-						SV:SetFilterOptions('PetBuffWatch', spellID)
+						SVUIOptions:SetFilterOptions('PetBuffWatch', spellID)
 					end 
 				end
 			}, 
@@ -2172,11 +2172,11 @@ SVUIOptions.FilterOptionGroups['PetBuffWatch'] = function(selectedSpell)
 						if not success then 
 							SV:AddonMessage(L["Spell not found in list."])
 						else 
-							SV:SetFilterOptions()
+							SVUIOptions:SetFilterOptions()
 						end 
 					end 
 					UpdatePetBuffWatch()
-					SV:SetFilterOptions('PetBuffWatch', value)
+					SVUIOptions:SetFilterOptions('PetBuffWatch', value)
 				end
 			}, 
 			selectSpell = {
@@ -2196,7 +2196,7 @@ SVUIOptions.FilterOptionGroups['PetBuffWatch'] = function(selectedSpell)
 					return tempFilterTable
 				end, 
 				get = function(key) return selectedSpell end, 
-				set = function(key, value) SV:SetFilterOptions('PetBuffWatch', value) end
+				set = function(key, value) SVUIOptions:SetFilterOptions('PetBuffWatch', value) end
 			}
 		}
 	};
@@ -2421,10 +2421,10 @@ SV.Options.args[Schema] = {
 							guiInline = true, 
 							name = "Unit Backgrounds (3D Portraits Only)", 
 							get = function(key)
-								return SV.media.shared.background[key[#key]]
+								return SV.media.shared.background[key[#key]].file
 							end,
 							set = function(key, value)
-								SV.media.shared.background[key[#key]] = value
+								SV.media.shared.background[key[#key]].file = value
 								SV:RefreshEverything(true)
 							end,
 							args = {

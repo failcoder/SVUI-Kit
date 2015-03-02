@@ -101,15 +101,18 @@ local PRIVATE_FILENAME      = CoreGlobalName.."_Private";
 local GLOBAL_SV, PRIVATE_SV, FILTER_SV, MEDIA_SV, ERROR_SV;
 local MODULES, PLUGINS;
 local LoadOnDemand, ScriptQueue = {},{};
+local DirtyDataList, DirtyMediaList = {},{};
 local debugHeader = "|cffFF2F00%s|r [|cff992FFF%s|r]|cffFF2F00:|r";
 local debugPattern = '|cffFF2F00%s|r [|cff0affff%s|r]|cffFF2F00:|r @|cffFF0000(|r%s|cffFF0000)|r - %s';
 
 local playerClass           = select(2,UnitClass("player"));
 local playerName            = UnitName("player");
-local DEFAULT_THEME_KEY     = "Default";
-local PROFILE_THEME         = DEFAULT_THEME_KEY;
 local DEFAULT_PROFILE_KEY   = ("%s - Default"):format(playerName);
 local PROFILE_KEY           = DEFAULT_PROFILE_KEY;
+local DEFAULT_MEDIA_KEY     = playerName;
+local MEDIA_KEY             = DEFAULT_MEDIA_KEY;
+local DEFAULT_THEME_KEY     = "Default";
+local THEME_KEY             = DEFAULT_THEME_KEY;
 local DATESTAMP             = date("%m_%d_%y");
 
 local INFO_FORMAT = "|cffFFFF00%s|r\n        |cff33FF00Version: %s|r |cff0099FFby %s|r";
@@ -225,51 +228,43 @@ local function removedefaults(db, src, nometa)
     end
 end
 
-local function sanitizeType1(db, src, output)
+local function sanitize(db, src)
     local saved = PRIVATE_SV.SAFEDATA.SAVED;
     if((type(src) == "table")) then
         if(type(db) == "table") then
             for k,v in pairs(db) do
-                if(not src[k] and (not saved[k])) then
+                if((src[k] == nil) and (saved[k] == nil)) then
                     db[k] = nil
-                else
-                    if(src[k] ~= nil) then
-                        removedefaults(db[k], src[k])
-                    end
+                elseif(src[k] ~= nil) then
+                    removedefaults(db[k], src[k])
                 end
             end
-        else
-            db = {}
         end
-    end
-    if(output) then
-        return db
     end
 end
 
-local function sanitizeType2(db, src)
-    if((type(db) ~= "table") or (type(src) ~= "table")) then return end
-    local saved = PRIVATE_SV.SAFEDATA.SAVED;
-    for k,v in pairs(db) do
-        local defined = saved[k];
-        if(not src[k] and (not defined)) then
-            db[k] = nil
-        else
-            if(src[k] ~= nil) then
-                removedefaults(db[k], src[k])
+local function CleanupData(data)
+    local defaults = CoreObject.defaults
+    local media = CoreObject.mediadefaults
+    local filters = CoreObject.filterdefaults
+
+    for key,data in pairs(GLOBAL_SV.profiles) do
+        if(DirtyDataList[key]) then
+            sanitize(data, defaults)
+        end
+    end
+    for key,data in pairs(MEDIA_SV.profiles) do
+        if(key == playerName) then
+            for theme,themedata in pairs(data.Theme) do
+                if(DirtyMediaList[theme]) then
+                    sanitize(themedata, media)
+                end
             end
+        elseif(key:find(playerName)) then
+            MEDIA_SV.profiles[key] = nil
         end
     end
-end
-
-local function CleanupData(data, checkLOD)
-    local sv = rawget(data, "data")
-    local src = rawget(data, "defaults")
-    if(checkLOD) then
-        sanitizeType2(sv, src)
-    else
-        sanitizeType1(sv, src)
-    end
+    sanitize(FILTER_SV, filters)
 end
 
 --DATABASE META METHODS
@@ -303,119 +298,6 @@ local meta_database = {
         return rawget(t, k)
     end,
 }
-
---DATABASE PUBLIC METHODS
-function lib:Remove(key)
-    if(GLOBAL_SV.profiles[key]) then GLOBAL_SV.profiles[key] = nil end
-    wipe(GLOBAL_SV.profileKeys)
-    for k,v in pairs(GLOBAL_SV.profiles) do
-        GLOBAL_SV.profileKeys[k] = k
-    end
-end
-
-function lib:GetProfiles()
-    local list = GLOBAL_SV.profileKeys or {}
-    return list
-end
-
-function lib:CheckProfiles()
-    local hasProfile = false
-    local list = GLOBAL_SV.profileKeys or {}
-    for key,_ in pairs(list) do
-        hasProfile = true
-    end
-    return hasProfile
-end
-
-function lib:CurrentProfile()
-    return PRIVATE_SV.SAFEDATA.CurrentProfile
-end
-
-function lib:UnsetProfile()
-    PRIVATE_SV.SAFEDATA.CurrentProfile = nil;
-end
-
-function lib:ImportDatabase(key, linked)
-    if(not key) then return end
-
-    if(not GLOBAL_SV.profiles[key]) then GLOBAL_SV.profiles[key] = {} end;
-
-    if(not linked) then
-        wipe(GLOBAL_SV.profiles[PROFILE_KEY])
-        local export = GLOBAL_SV.profiles[key];
-        local saved = GLOBAL_SV.profiles[PROFILE_KEY];
-        tablecopy(saved, export);
-    else
-        GLOBAL_SV.profiles[PROFILE_KEY] = GLOBAL_SV.profiles[key]
-        PRIVATE_SV.SAFEDATA.CurrentProfile = key;
-    end
-    ReloadUI()
-end
-
-function lib:ExportDatabase(key)
-    if(not key) then return end
-
-    local export, saved
-    if(not GLOBAL_SV.profiles[key]) then GLOBAL_SV.profiles[key] = {} end;
-    export = rawget(CoreObject.db, "data");
-    saved = GLOBAL_SV.profiles[key];
-    tablecopy(saved, export);
-    wipe(GLOBAL_SV.profileKeys)
-    for k,v in pairs(GLOBAL_SV.profiles) do
-        GLOBAL_SV.profileKeys[k] = k
-    end
-end
-
-function lib:WipeDatabase()
-    for k,v in pairs(GLOBAL_SV.profiles[PROFILE_KEY]) do
-        GLOBAL_SV.profiles[PROFILE_KEY][k] = nil
-    end
-end
-
-function lib:WipeCache(index)
-    if(index) then
-        if(index ~= "SAFEDATA") then PRIVATE_SV[index] = nil end
-    else
-        for k,v in pairs(PRIVATE_SV) do
-            if(k ~= "SAFEDATA") then
-                PRIVATE_SV[k] = nil
-            end
-        end
-    end
-end
-
-function lib:WipeGlobal()
-    for k,v in pairs(GLOBAL_SV) do
-        GLOBAL_SV[k] = nil
-    end
-end
-
-function lib:GetSafeData(index)
-    if(index) then
-        return PRIVATE_SV.SAFEDATA[index]
-    else
-        return PRIVATE_SV.SAFEDATA
-    end
-end
-
-function lib:SaveSafeData(index, value)
-    PRIVATE_SV.SAFEDATA[index] = value
-end
-
-function lib:CheckData(schema, key)
-    local file = GLOBAL_SV.profiles[PROFILE_KEY][schema]
-    print("______" .. schema .. ".db[" .. key .. "]_____")
-    print(file[key])
-    print("______SAVED_____")
-end
-
-function lib:NewGlobal(index)
-    index = index or CoreObject.Schema
-    if(not GLOBAL_SV[index]) then
-        GLOBAL_SV[index] = {}
-    end
-    return GLOBAL_SV[index]
-end
 
 --REGISTRY LOCAL HELPERS
 
@@ -619,8 +501,12 @@ function lib:LoadModuleOptions()
     end
 end
 
-function lib:LiveUpdate(override)
-    if((PRIVATE_SV.SAFEDATA.NEEDSLIVEUPDATE or override) and not C_PetBattles.IsInBattle()) then
+function lib:LiveUpdate(forced)
+    if(forced or PRIVATE_SV.SAFEDATA.NEEDSLIVEUPDATE) then
+        if(CoreObject.ReLoad) then
+            CoreObject.Timers:ClearAllTimers()
+            CoreObject:ReLoad()
+        end
         self:RefreshAll()
         PRIVATE_SV.SAFEDATA.NEEDSLIVEUPDATE = false
     end
@@ -632,7 +518,7 @@ end
 
 --[[ CONSTRUCTORS ]]--
 
-local function UpdateProfileSources(bypass)
+local function UpdateProfileSources(newKey)
     local PREVIOUS_PROFILE_KEY = PROFILE_KEY;
 
     if(PRIVATE_SV.SAFEDATA.DUALSPEC) then
@@ -642,64 +528,81 @@ local function UpdateProfileSources(bypass)
             if(not SOURCE_KEY) then SOURCE_KEY = "Default" end
             PROFILE_KEY = ("%s - %s"):format(playerName, SOURCE_KEY)
             PRIVATE_SV.SAFEDATA.CurrentProfile = PROFILE_KEY
+            MEDIA_KEY = DEFAULT_MEDIA_KEY
+        elseif(newKey) then
+            MEDIA_KEY = newKey
+            PROFILE_KEY = newKey
+            PRIVATE_SV.SAFEDATA.CurrentProfile = newKey
         elseif(PRIVATE_SV.SAFEDATA.CurrentProfile) then
             PROFILE_KEY = PRIVATE_SV.SAFEDATA.CurrentProfile
+            MEDIA_KEY = PROFILE_KEY
         else
+            MEDIA_KEY = DEFAULT_MEDIA_KEY
             PROFILE_KEY = DEFAULT_PROFILE_KEY
             PRIVATE_SV.SAFEDATA.CurrentProfile = DEFAULT_PROFILE_KEY
         end
+
+        lib.EventManager:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
     else
-        PROFILE_KEY = DEFAULT_PROFILE_KEY
-        PRIVATE_SV.SAFEDATA.CurrentProfile = DEFAULT_PROFILE_KEY
+        if(newKey) then
+            MEDIA_KEY = newKey
+            PROFILE_KEY = newKey
+            PRIVATE_SV.SAFEDATA.CurrentProfile = newKey
+        elseif(PRIVATE_SV.SAFEDATA.CurrentProfile) then
+            PROFILE_KEY = PRIVATE_SV.SAFEDATA.CurrentProfile
+            MEDIA_KEY = PROFILE_KEY
+        else
+            MEDIA_KEY = DEFAULT_MEDIA_KEY
+            PROFILE_KEY = DEFAULT_PROFILE_KEY
+            PRIVATE_SV.SAFEDATA.CurrentProfile = DEFAULT_PROFILE_KEY
+        end
+
+        lib.EventManager:UnregisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
     end
 
-    if(PRIVATE_SV.SAFEDATA.THEME) then
-        PROFILE_THEME = PRIVATE_SV.SAFEDATA.THEME;
-    else
-        PROFILE_THEME = DEFAULT_THEME_KEY;
+    if(MEDIA_KEY:find(playerName)) then
+        MEDIA_KEY = DEFAULT_MEDIA_KEY
     end
 
     if(not GLOBAL_SV.profiles[PROFILE_KEY]) then GLOBAL_SV.profiles[PROFILE_KEY] = {} end
-    if(not MEDIA_SV.profiles[PROFILE_KEY]) then MEDIA_SV.profiles[PROFILE_KEY] = {} end
-    if(not MEDIA_SV.profiles[PROFILE_KEY].Theme) then MEDIA_SV.profiles[PROFILE_KEY].Theme = {} end
-    if(not MEDIA_SV.profiles[PROFILE_KEY].Theme[PROFILE_THEME]) then MEDIA_SV.profiles[PROFILE_KEY].Theme[PROFILE_THEME] = {} end
-
+    if(not GLOBAL_SV.profiles[PROFILE_KEY].MEDIAKEY) then GLOBAL_SV.profiles[PROFILE_KEY].MEDIAKEY = MEDIA_KEY end
     if(not GLOBAL_SV.profileKeys[PROFILE_KEY]) then
         for k,v in pairs(GLOBAL_SV.profiles) do
             GLOBAL_SV.profileKeys[k] = k
         end
     end
+    GLOBAL_SV.profiles[PROFILE_KEY].MEDIAKEY = MEDIA_KEY
+    DirtyDataList[PROFILE_KEY] = true;
 
-    if(PRIVATE_SV.SAFEDATA.DUALSPEC) then
-        lib.EventManager:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
-
-        if((not bypass) and (PREVIOUS_PROFILE_KEY ~= PROFILE_KEY)) then
-            local db           = setmetatable({}, meta_transdata)
-            db.data            = GLOBAL_SV.profiles[PROFILE_KEY]
-            db.defaults        = CoreObject.defaults
-            if(CoreObject.db) then wipe(CoreObject.db) end
-            CoreObject.db      = db
-
-            local media        = setmetatable({}, meta_transdata)
-            media.data         = MEDIA_SV.profiles[PROFILE_KEY].Theme[PROFILE_THEME]
-            media.defaults     = CoreObject.mediadefaults
-            if(CoreObject.media) then wipe(CoreObject.media) end
-            CoreObject.media   = media
-
-            if(CoreObject.ReLoad) then
-                CoreObject.Timers:ClearAllTimers()
-                CoreObject:ReLoad()
-            end
-
-            lib:RefreshAll()
-        end
+    if(PRIVATE_SV.SAFEDATA.THEME) then
+        THEME_KEY = PRIVATE_SV.SAFEDATA.THEME;
     else
-        lib.EventManager:UnregisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
+        THEME_KEY = DEFAULT_THEME_KEY;
+    end
+    if(not MEDIA_SV.profiles[MEDIA_KEY]) then MEDIA_SV.profiles[MEDIA_KEY] = {} end
+    if(not MEDIA_SV.profiles[MEDIA_KEY].Theme) then MEDIA_SV.profiles[MEDIA_KEY].Theme = {} end
+    if(not MEDIA_SV.profiles[MEDIA_KEY].Theme[THEME_KEY]) then MEDIA_SV.profiles[MEDIA_KEY].Theme[THEME_KEY] = {} end
+    DirtyMediaList[THEME_KEY] = true;
+
+    if((CoreObject.___initialized) and (PREVIOUS_PROFILE_KEY ~= PROFILE_KEY)) then
+        local db           = setmetatable({}, meta_transdata)
+        db.data            = GLOBAL_SV.profiles[PROFILE_KEY]
+        db.defaults        = CoreObject.defaults
+        if(CoreObject.db) then wipe(CoreObject.db) end
+        CoreObject.db      = db
+
+        local media        = setmetatable({}, meta_transdata)
+        media.data         = MEDIA_SV.profiles[MEDIA_KEY].Theme[THEME_KEY]
+        media.defaults     = CoreObject.mediadefaults
+        if(CoreObject.media) then wipe(CoreObject.media) end
+        CoreObject.media   = media
+
+        lib:LiveUpdate(true)
     end
 end
 
 local function UpdateCoreDatabases()
-    UpdateProfileSources(true)
+    UpdateProfileSources()
 
     local db           = setmetatable({}, meta_transdata)
     db.data            = GLOBAL_SV.profiles[PROFILE_KEY]
@@ -707,7 +610,7 @@ local function UpdateCoreDatabases()
     CoreObject.db      = db
 
     local media        = setmetatable({}, meta_transdata)
-    media.data         = MEDIA_SV.profiles[PROFILE_KEY].Theme[PROFILE_THEME]
+    media.data         = MEDIA_SV.profiles[MEDIA_KEY].Theme[THEME_KEY]
     media.defaults     = CoreObject.mediadefaults
     CoreObject.media   = media
 
@@ -721,7 +624,6 @@ local function UpdateCoreDatabases()
     CoreObject.private = private
 
     CoreObject.ERRORLOG = ERROR_SV.FOUND
-    CoreObject.initialized = true
 end
 
 local function CorePreInitialize()
@@ -740,6 +642,13 @@ local function CorePreInitialize()
     --GLOBAL PROFILE DATA
     if(not GLOBAL_SV.profiles) then GLOBAL_SV.profiles = {} end
     if(not GLOBAL_SV.profiles[PROFILE_KEY]) then GLOBAL_SV.profiles[PROFILE_KEY] = {} end
+    if(not GLOBAL_SV.profiles[PROFILE_KEY].MEDIAKEY) then 
+        GLOBAL_SV.profiles[PROFILE_KEY].MEDIAKEY = PROFILE_KEY
+        MEDIA_KEY = GLOBAL_SV.profiles[PROFILE_KEY].MEDIAKEY
+        if(MEDIA_KEY:find(playerName)) then
+            GLOBAL_SV.profiles[PROFILE_KEY].MEDIAKEY = DEFAULT_MEDIA_KEY
+        end
+    end
     --GLOBAL KEY STORAGE (ALWAYS EMPTY ON LOGIN)
     GLOBAL_SV.profileKeys = {}
     --SAVED ERRORS
@@ -761,10 +670,10 @@ local function CorePreInitialize()
     MEDIA_SV = _G[MEDIA_FILENAME]
     --MEDIA PROFILE DATA
     if(not MEDIA_SV.profiles) then MEDIA_SV.profiles = {} end
-    if(not MEDIA_SV.profiles[PROFILE_KEY]) then MEDIA_SV.profiles[PROFILE_KEY] = {} end
-    if(not MEDIA_SV.profiles[PROFILE_KEY].Theme) then MEDIA_SV.profiles[PROFILE_KEY].Theme = {} end
+    if(not MEDIA_SV.profiles[MEDIA_KEY]) then MEDIA_SV.profiles[MEDIA_KEY] = {} end
+    if(not MEDIA_SV.profiles[MEDIA_KEY].Theme) then MEDIA_SV.profiles[MEDIA_KEY].Theme = {} end
 
-    PROFILE_THEME = PRIVATE_SV.SAFEDATA.THEME;
+    THEME_KEY = PRIVATE_SV.SAFEDATA.THEME;
 
     for i = 1, GetNumAddOns() do
         local addonName, _, _, _, _, reason = GetAddOnInfo(i)
@@ -823,7 +732,7 @@ local function CorePreInitialize()
                 end
             elseif(theme) then
                 CoreObject.AvailableThemes[theme] = theme;
-                if(theme == PROFILE_THEME) then
+                if(theme == THEME_KEY) then
                     EnableAddOn(addonName)
                     if(not IsAddOnLoaded(addonName)) then
                         local loaded, reason = LoadAddOn(addonName)
@@ -836,6 +745,7 @@ local function CorePreInitialize()
     end
 
     UpdateCoreDatabases()
+    CoreObject.___preinitialized = true
 end
 
 --LIBRARY EVENT HANDLING
@@ -850,9 +760,7 @@ local Library_OnEvent = function(self, event, arg, ...)
             saved = GLOBAL_SV.profiles[key];
             tablecopy(saved, export);
         end
-        CleanupData(CoreObject.db, true)
-        CleanupData(CoreObject.filters)
-        CleanupData(CoreObject.media)
+        CleanupData()
     elseif(event == "ADDON_LOADED") then
         if(arg == CoreName) then
             CorePreInitialize()
@@ -873,6 +781,7 @@ local Library_OnEvent = function(self, event, arg, ...)
             CoreObject.___initialized = true
             self:UnregisterEvent("PLAYER_LOGIN")
         end
+        PRIVATE_SV.SAFEDATA.NEEDSLIVEUPDATE = C_PetBattles.IsInBattle()
     elseif(event == "ACTIVE_TALENT_GROUP_CHANGED") then
         UpdateProfileSources()
     end
@@ -1189,8 +1098,6 @@ function lib:Launch()
         end
     end
 
-    PRIVATE_SV.SAFEDATA.NEEDSLIVEUPDATE = C_PetBattles.IsInBattle()
-
     if PLUGINS then
         for i=1,#PLUGINS do
             local halt = false;
@@ -1243,6 +1150,132 @@ function lib:LoadScripts()
 
         ScriptQueue = nil
     end
+end
+
+--DATABASE PUBLIC METHODS
+function lib:Remove(key)
+    if(GLOBAL_SV.profiles[key]) then GLOBAL_SV.profiles[key] = nil end
+    wipe(GLOBAL_SV.profileKeys)
+    for k,v in pairs(GLOBAL_SV.profiles) do
+        GLOBAL_SV.profileKeys[k] = k
+    end
+end
+
+function lib:GetProfiles()
+    local list = GLOBAL_SV.profileKeys or {}
+    return list
+end
+
+function lib:CheckProfiles()
+    local hasProfile = false
+    local list = GLOBAL_SV.profileKeys or {}
+    for key,_ in pairs(list) do
+        hasProfile = true
+    end
+    return hasProfile
+end
+
+function lib:CurrentProfile()
+    return PRIVATE_SV.SAFEDATA.CurrentProfile
+end
+
+function lib:UnsetProfile()
+    PRIVATE_SV.SAFEDATA.CurrentProfile = nil;
+end
+
+function lib:ImportDatabase(key, linked)
+    if(not key) then return end
+
+    if(not linked) then
+        if(not GLOBAL_SV.profiles[key]) then GLOBAL_SV.profiles[key] = {} end;
+        wipe(GLOBAL_SV.profiles[PROFILE_KEY])
+        local export = GLOBAL_SV.profiles[key];
+        local saved = GLOBAL_SV.profiles[PROFILE_KEY];
+        tablecopy(saved, export);
+        DirtyDataList[key] = true;
+
+        if(not MEDIA_SV.profiles[key]) then MEDIA_SV.profiles[key] = {} end;
+        wipe(MEDIA_SV.profiles[MEDIA_KEY])
+        export = MEDIA_SV.profiles[key];
+        saved = MEDIA_SV.profiles[MEDIA_KEY];
+        tablecopy(saved, export);
+        DirtyMediaList[key] = true;
+
+        UpdateProfileSources()
+    else
+        UpdateProfileSources(key)
+    end
+end
+
+function lib:ExportDatabase(key)
+    if(not key) then return end
+
+    local export, saved
+    if(not GLOBAL_SV.profiles[key]) then GLOBAL_SV.profiles[key] = {} end;
+    export = GLOBAL_SV.profiles[PROFILE_KEY];
+    saved = GLOBAL_SV.profiles[key];
+    tablecopy(saved, export);
+    DirtyDataList[key] = true;
+
+    if(not MEDIA_SV.profiles[key]) then MEDIA_SV.profiles[key] = {} end;
+    local mediakey = GLOBAL_SV.profiles[PROFILE_KEY].MEDIAKEY;
+    export = MEDIA_SV.profiles[mediakey];
+    saved = MEDIA_SV.profiles[key];
+    tablecopy(saved, export);
+    DirtyMediaList[key] = true;
+
+    UpdateProfileSources(key)
+end
+
+function lib:WipeDatabase()
+    for k,v in pairs(GLOBAL_SV.profiles[PROFILE_KEY]) do
+        GLOBAL_SV.profiles[PROFILE_KEY][k] = nil
+    end
+end
+
+function lib:WipeCache(index)
+    if(index) then
+        if(index ~= "SAFEDATA") then PRIVATE_SV[index] = nil end
+    else
+        for k,v in pairs(PRIVATE_SV) do
+            if(k ~= "SAFEDATA") then
+                PRIVATE_SV[k] = nil
+            end
+        end
+    end
+end
+
+function lib:WipeGlobal()
+    for k,v in pairs(GLOBAL_SV) do
+        GLOBAL_SV[k] = nil
+    end
+end
+
+function lib:GetSafeData(index)
+    if(index) then
+        return PRIVATE_SV.SAFEDATA[index]
+    else
+        return PRIVATE_SV.SAFEDATA
+    end
+end
+
+function lib:SaveSafeData(index, value)
+    PRIVATE_SV.SAFEDATA[index] = value
+end
+
+function lib:CheckData(schema, key)
+    local file = GLOBAL_SV.profiles[PROFILE_KEY][schema]
+    print("______" .. schema .. ".db[" .. key .. "]_____")
+    print(file[key])
+    print("______SAVED_____")
+end
+
+function lib:NewGlobal(index)
+    index = index or CoreObject.Schema
+    if(not GLOBAL_SV[index]) then
+        GLOBAL_SV[index] = {}
+    end
+    return GLOBAL_SV[index]
 end
 
 function lib:CheckDualProfile()

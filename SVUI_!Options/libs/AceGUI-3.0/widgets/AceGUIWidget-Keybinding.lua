@@ -108,7 +108,7 @@ Methods
 -------------------------------------------------------------------------------]]
 local methods = {
 	["OnAcquire"] = function(self)
-		self:SetWidth(200)
+		self:SetWidth(320)
 		self:SetLabel("")
 		self:SetKey("")
 		self.waitingForKey = nil
@@ -166,7 +166,7 @@ Constructor
 
 local ControlBackdrop  = {
 	bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
-	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+	edgeFile = "Interface\\AddOns\\SVUI_!Core\\assets\\borders\\TEXTURED",
 	tile = true, tileSize = 16, edgeSize = 16,
 	insets = { left = 3, right = 3, top = 3, bottom = 3 }
 }

@@ -39,9 +39,9 @@ do
 			frame = table.remove(contentFrameCache)
 		else
 			frame = CreateFrame("Button", nil, UIParent)
-				--frame:SetWidth(200)
+				--frame:SetWidth(320)
 				frame:SetHeight(18)
-				frame:SetHighlightTexture([[Interface\AddOns\ModKit_!Core\assets\textures\TITLE-HIGHLIGHT]], "ADD")
+				frame:SetHighlightTexture([[Interface\AddOns\SVUI_!Core\assets\textures\TITLE-HIGHLIGHT]], "ADD")
 				frame:SetScript("OnClick", ContentOnClick)
 				frame:SetScript("OnEnter", ContentOnEnter)
 
@@ -71,7 +71,7 @@ do
 
 	local function OnAcquire(self)
 		self:SetHeight(44)
-		self:SetWidth(200)
+		self:SetWidth(320)
 	end
 
 	local function OnRelease(self)
@@ -109,9 +109,9 @@ do
 		local background = self.list[text] ~= text and self.list[text] or Media:Fetch('background',text)
 
 		self.frame.displayButton:SetBackdrop({bgFile = background,
-			edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
-			edgeSize = 16,
-			insets = { left = 4, right = 4, top = 4, bottom = 4 }})
+			edgeFile = [[Interface\AddOns\SVUI_!Core\assets\borders\DEFAULT]],
+			edgeSize = 1,
+			insets = { left = 1, right = 1, top = 1, bottom = 1 }})
 	end
 
 	local function SetLabel(self, text) -- Set the text for the label.

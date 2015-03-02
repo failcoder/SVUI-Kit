@@ -36,24 +36,42 @@ EXPERIENCE STATS
 ]]--
 local StatEvents = {"PLAYER_ENTERING_WORLD", "PLAYER_XP_UPDATE", "PLAYER_LEVEL_UP", "DISABLE_XP_GAIN", "ENABLE_XP_GAIN", "UPDATE_EXHAUSTION"};
 
-local function getUnitXP(unit)
-	if unit == "pet"then
-		return GetPetExperience()
-	else
-		return UnitXP(unit),UnitXPMax(unit)
-	end 
-end 
-
-local function TruncateString(value)
-    if value >= 1e9 then 
-        return ("%.1fb"):format(value/1e9):gsub("%.?0+([kmb])$","%1")
+local function FormatExp(value, maxValue)
+	local trunc, calc;
+    if value >= 1e9 then
+        trunc = ("%.1fb"):format(value/1e9):gsub("%.?0+([kmb])$","%1")
     elseif value >= 1e6 then 
-        return ("%.1fm"):format(value/1e6):gsub("%.?0+([kmb])$","%1")
+        trunc = ("%.1fm"):format(value/1e6):gsub("%.?0+([kmb])$","%1")
     elseif value >= 1e3 or value <= -1e3 then 
-        return ("%.1fk"):format(value/1e3):gsub("%.?0+([kmb])$","%1")
+        trunc = ("%.1fk"):format(value/1e3):gsub("%.?0+([kmb])$","%1")
     else 
-        return value 
-    end 
+        trunc = value
+    end
+    if((value > 0) and (maxValue > 0)) then
+    	calc = (value / maxValue) * 100
+    else
+    	calc = maxValue
+    end
+    return trunc, calc
+end
+
+local function FetchExperience()
+	local xp = UnitXP("player")
+	if((not xp) or (xp <= 0)) then
+		xp = 1
+	end
+
+	local mxp = UnitXPMax("player")
+	if((not mxp) or (mxp <= 0)) then
+		mxp = 1
+	end
+
+	local exp = GetXPExhaustion()
+	if(not exp) then
+		exp = 0
+	end
+
+	return xp,mxp,exp
 end
 
 local function Experience_OnEvent(self, ...)
@@ -62,15 +80,19 @@ local function Experience_OnEvent(self, ...)
 		self.text:SetJustifyH("CENTER")
 		self.barframe:Hide()
 	end 
-	local f, g = getUnitXP("player")
-	local h = GetXPExhaustion()
-	local i = ""
-	if h and h > 0 then
-		i = format("%s - %d%% R:%s [%d%%]", TruncateString(f), f / g * 100, TruncateString(h), h / g * 100)
+	
+	local XP, maxXP, exhaust = FetchExperience()
+	local string1, calc1 = FormatExp(XP, maxXP);
+	local text = "";
+
+	if(exhaust > 0) then
+		local string2, calc2 = FormatExp(exhaust, maxXP);
+		text = format("%s - %d%% R:%s [%d%%]", string1, calc1, string2, calc2)
 	else
-		i = format("%s - %d%%", TruncateString(f), f / g * 100)
-	end 
-	self.text:SetText(i)
+		text = format("%s - %d%%", string1, calc1)
+	end
+
+	self.text:SetText(text)
 end 
 
 local function ExperienceBar_OnEvent(self, ...)
@@ -81,36 +103,44 @@ local function ExperienceBar_OnEvent(self, ...)
 	if not self.barframe.bar.extra:IsShown() then
 		self.barframe.bar.extra:Show()
 	end 
-	local k = self.barframe.bar;
-	local f, g = getUnitXP("player")
-	k:SetMinMaxValues(0, g)
-	k:SetValue((f - 1) >= 0 and (f - 1) or 0)
-	k:SetStatusBarColor(0, 0.5, 1)
-	local h = GetXPExhaustion()
-	if h and h>0 then
-		k.extra:SetMinMaxValues(0, g)
-		k.extra:SetValue(min(f + h, g))
-		k.extra:SetStatusBarColor(0.8, 0.5, 1)
-		k.extra:SetAlpha(0.5)
+	local bar = self.barframe.bar;
+	local XP, maxXP, exhaust = FetchExperience()
+
+	bar:SetMinMaxValues(0, maxXP)
+	bar:SetValue(XP)
+	bar:SetStatusBarColor(0, 0.5, 1)
+	
+	if(exhaust > 0) then
+		local exhaust_value = min(XP + exhaust, maxXP);
+		bar.extra:SetMinMaxValues(0, maxXP)
+		bar.extra:SetValue(exhaust_value)
+		bar.extra:SetStatusBarColor(0.8, 0.5, 1)
+		bar.extra:SetAlpha(0.5)
 	else
-		k.extra:SetMinMaxValues(0, 1)
-		k.extra:SetValue(0)
+		bar.extra:SetMinMaxValues(0, 1)
+		bar.extra:SetValue(0)
 	end 
 	self.text:SetText("")
 end 
 
 local function Experience_OnEnter(self)
 	Reports:SetDataTip(self)
-	local XP, maxXP = getUnitXP("player")
-	local h = GetXPExhaustion()
+	local XP, maxXP, exhaust = FetchExperience()
 	Reports.ReportTooltip:AddLine(L["Experience"])
 	Reports.ReportTooltip:AddLine(" ")
 
-	Reports.ReportTooltip:AddDoubleLine(L["XP:"], (" %d  /  %d (%d%%)"):format(XP, maxXP, (XP / maxXP) * 100), 1, 1, 1)
-	Reports.ReportTooltip:AddDoubleLine(L["Remaining:"], (" %d (%d%% - %d "..L["Bars"]..")"):format(maxXP - XP, (maxXP - XP) / maxXP * 100, 20 * (maxXP - XP) / maxXP), 1, 1, 1)
-	if h then
-		Reports.ReportTooltip:AddDoubleLine(L["Rested:"], format(" + %d (%d%%)", h, h / maxXP * 100), 1, 1, 1)
-	end 
+	if((XP > 0) and (maxXP > 0)) then
+		local calc1 = (XP / maxXP) * 100;
+		local remaining = maxXP - XP;
+		local r_percent = (remaining / maxXP) * 100;
+		local r_bars = r_percent / 5;
+		Reports.ReportTooltip:AddDoubleLine(L["XP:"], (" %d  /  %d (%d%%)"):format(XP, maxXP, calc1), 1, 1, 1)
+		Reports.ReportTooltip:AddDoubleLine(L["Remaining:"], (" %d (%d%% - %d "..L["Bars"]..")"):format(remaining, r_percent, r_bars), 1, 1, 1)
+		if(exhaust > 0) then
+			local _, calc2 = FormatExp(exhaust, maxXP);
+			Reports.ReportTooltip:AddDoubleLine(L["Rested:"], format(" + %d (%d%%)", exhaust, calc2), 1, 1, 1)
+		end
+	end
 	Reports:ShowDataTip()
 end
 

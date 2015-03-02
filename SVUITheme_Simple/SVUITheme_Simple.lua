@@ -51,15 +51,15 @@ SV:AssignMedia("button", "round", [[Interface\AddOns\SVUITheme_Simple\ROUND-SIMP
 SV:AssignMedia("color", "button", 0, 0, 0, 0.5);
 SV:AssignMedia("template", "Default", "SVUITheme_Simple_Default");
 SV:AssignMedia("template", "Button", "SVUITheme_Simple_Default");
---SV:AssignMedia("template", "DockButton", "SVUITheme_Simple_DockButton");
+SV:AssignMedia("template", "DockButton", "SVUITheme_Simple_DockButton");
 SV:AssignMedia("template", "Pattern", "SVUITheme_Simple_Default");
---SV:AssignMedia("template", "Premium", "SVUITheme_Simple_Default");
---SV:AssignMedia("template", "Model", "SVUITheme_Simple_Default");
+SV:AssignMedia("template", "Premium", "SVUITheme_Simple_Default");
+SV:AssignMedia("template", "Model", "SVUITheme_Simple_Default");
 SV:AssignMedia("template", "Window", "SVUITheme_Simple_Default");
 SV:AssignMedia("template", "Window2", "SVUITheme_Simple_Default");
 SV:AssignMedia("template", "Minimap", "SVUITheme_Simple_Minimap");
 SV:AssignMedia("template", "ActionPanel", "SVUITheme_Simple_ActionPanel");
---SV:AssignMedia("template", "Container", "SVUITheme_Simple_Default");
+SV:AssignMedia("template", "Container", "SVUITheme_Simple_Default");
 
 local _RefreshZoneText = function(self)
 	if(self.InfoTop:IsShown()) then

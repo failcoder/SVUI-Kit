@@ -1,6 +1,18 @@
 local L = Librarian("Linguist"):Lang("enUS", true);
 if not L then return; end
 L["Hearthstone"] = true;
+L["Conversation"]    = true
+L["General"]         = true
+L["LocalDefense"]    = true
+L["LookingForGroup"] = true
+L["Trade"]           = true
+L["WorldDefense"]    = true
+L["S_Conversation"]       = "C"
+L["S_General"]           = "G"
+L["S_LocalDefense"]       = "LD"
+L["S_LookingForGroup"]    = "LFG"
+L["S_Trade"]             = "T"
+L["S_WorldDefense"]       = "WD"
 --[[LOGIN MESSAGE]]--
 L["LOGIN_MSG"] = "Welcome to |cffFFFF1ASVUI|r! Keep your %s and your %s."
 L["LOGIN_MSG2"] = "Version |cffAA78FF%s|r, type /sv to access the in-game configuration menu."

@@ -298,7 +298,7 @@ Constructor
 -------------------------------------------------------------------------------]]
 local PaneBackdrop  = {
 	bgFile = "Interface\\ChatFrame\\ChatFrameBackground",
-	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+	edgeFile = "Interface\\AddOns\\SVUI_!Core\\assets\\borders\\TEXTURED",
 	tile = true, tileSize = 16, edgeSize = 16,
 	insets = { left = 3, right = 3, top = 5, bottom = 3 }
 }

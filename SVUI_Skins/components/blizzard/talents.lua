@@ -104,19 +104,19 @@ local function TalentFrameStyle()
 	PlayerTalentFrameTalentsTutorialButton:Die()
 	PlayerTalentFramePetSpecializationTutorialButton:Die()
 	SV.API:Set("CloseButton", PlayerTalentFrameCloseButton)
-	PlayerTalentFrameActivateButton:SetStyle()
+	PlayerTalentFrameActivateButton:SetStyle("Button")
 
 	for _,name in pairs(SpecButtonList)do
 		local button = _G[name];
 		if(button) then
 			button:RemoveTextures()
-			button:SetStyle()
+			button:SetStyle("Button")
 			local initialAnchor, anchorParent, relativeAnchor, xPosition, yPosition = button:GetPoint()
 			button:SetPoint(initialAnchor, anchorParent, relativeAnchor, xPosition, -28)
 		end
 	end 
 
-	PlayerTalentFrameTalents:SetStyle("[INSET]Transparent")
+	PlayerTalentFrameTalents:SetStyle("!_Frame", "Inset")
 	PlayerTalentFrameTalentsClearInfoFrame.icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 	PlayerTalentFrameTalentsClearInfoFrame:ModWidth(PlayerTalentFrameTalentsClearInfoFrame:GetWidth()-2)
 	PlayerTalentFrameTalentsClearInfoFrame:ModHeight(PlayerTalentFrameTalentsClearInfoFrame:GetHeight()-2)
@@ -201,13 +201,13 @@ local function TalentFrameStyle()
 
 	local C = _G["PlayerTalentFrameSpecializationSpellScrollFrameScrollChild"]
 	C.ring:Hide()
-	C:SetStyle("[INSET]Transparent")
+	C:SetStyle("!_Frame", "Inset")
 	C.Panel:WrapPoints(C.specIcon)
 	C.specIcon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 
 	local D = _G["PlayerTalentFramePetSpecializationSpellScrollFrameScrollChild"]
 	D.ring:Hide()
-	D:SetStyle("[INSET]Transparent")
+	D:SetStyle("!_Frame", "Inset")
 	D.Panel:WrapPoints(D.specIcon)
 	D.specIcon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 
@@ -235,7 +235,7 @@ local function TalentFrameStyle()
 					button.restyled = true;
 					button:ModSize(30, 30)
 					button.ring:Hide()
-					button:SetStyle("[INSET]Transparent")
+					button:SetStyle("!_Frame", "Inset")
 					button.icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 					button.icon:InsetPoints()
 				end 
@@ -285,7 +285,7 @@ local function TalentFrameStyle()
 				button.bg:SetAlpha(0)
 				button.learnedTex:SetAlpha(0)
 				button.selectedTex:SetAlpha(0)
-				button:SetStyle()
+				button:SetStyle("!_Frame", "Button")
 				button:GetHighlightTexture():InsetPoints(button.Panel)
 			end
 		end 
@@ -340,7 +340,7 @@ local function GlyphStyle()
 	GlyphFrame:RemoveTextures()
 	--GlyphFrame.background:ClearAllPoints()
 	--GlyphFrame.background:SetAllPoints(PlayerTalentFrameInset)
-	GlyphFrame:SetStyle("PatternComic")
+	GlyphFrame:SetStyle("!_Frame", "Premium")
 	GlyphFrameSideInset:RemoveTextures()
 	GlyphFrameClearInfoFrame:RemoveTextures()
 	GlyphFrameClearInfoFrame.icon:SetTexCoord(0.1, 0.9, 0.1, 0.9 )
@@ -349,7 +349,7 @@ local function GlyphStyle()
 	GlyphFrameClearInfoFrame.icon:ModSize(GlyphFrameClearInfoFrame:GetSize())
 	GlyphFrameClearInfoFrame:ModPoint("TOPLEFT", GlyphFrame, "BOTTOMLEFT", 6, -10)
 	SV.API:Set("DropDown", GlyphFrameFilterDropDown, 212)
-	GlyphFrameSearchBox:SetStyle()
+	GlyphFrameSearchBox:SetStyle("Editbox")
 	SV.API:Set("ScrollFrame", GlyphFrameScrollFrameScrollBar, 5)
 
 	for b = 1, 10 do 
@@ -374,7 +374,7 @@ local function GlyphStyle()
 
 	GlyphFrameHeader1:RemoveTextures()
 	GlyphFrameHeader2:RemoveTextures()
-	GlyphFrameScrollFrame:SetStyle("[INSET]Transparent", false, 3, 2, 2)
+	GlyphFrameScrollFrame:SetStyle("Frame", "Inset", false, 3, 2, 2)
 end 
 
 MOD:SaveBlizzardStyle("Blizzard_GlyphUI", GlyphStyle)

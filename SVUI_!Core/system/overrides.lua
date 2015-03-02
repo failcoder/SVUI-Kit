@@ -97,7 +97,7 @@ local function MirrorBarRegistry(barType)
 		return RegisteredMirrorBars[barType]
 	end 
 	local bar = CreateFrame('StatusBar', nil, UIParent)
-	bar:SetStyle("Transparent", false, 3, 3, 3)
+	bar:SetStyle("Frame", "Bar", false, 3, 3, 3)
 	bar:SetScript("OnUpdate", MirrorBar_OnUpdate)
 	local r, g, b = unpack(mirrorTypeColor[barType])
 	bar.text = bar:CreateFontString(nil, 'OVERLAY')
@@ -131,7 +131,7 @@ local function SetTimerStyle(bar)
 	end 
 	bar:SetStatusBarTexture(SV.media.statusbar.gradient)
 	bar:SetStatusBarColor(0.37, 0.92, 0.08)
-	bar:SetStyle("Transparent", false, 3, 3, 3)
+	bar:SetStyle("Frame", "Bar", false, 3, 3, 3)
 end 
 
 local MirrorBar_OnEvent = function(self, event, arg, ...)
@@ -386,7 +386,7 @@ local function MakeSlots(id)
 	slot.iconFrame:ModHeight(size)
 	slot.iconFrame:ModWidth(size)
 	slot.iconFrame:SetPoint("RIGHT", slot)
-	slot.iconFrame:SetStyle("Transparent")
+	slot.iconFrame:SetStyle("Frame", "Transparent")
 
 	slot.icon = slot.iconFrame:CreateTexture(nil, "ARTWORK")
 	slot.icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
@@ -448,14 +448,14 @@ local function CreateRollFrame()
 	UpdateLootUpvalues()
 	local rollFrame = CreateFrame("Frame", nil, UIParent)
 	rollFrame:ModSize(LOOT_WIDTH,LOOT_HEIGHT)
-	rollFrame:SetStyle()
+	rollFrame:SetStyle("!_Frame", 'Default')
 	rollFrame:SetScript("OnEvent",LootRoll_OnEvent)
 	rollFrame:RegisterEvent("CANCEL_LOOT_ROLL")
 	rollFrame:Hide()
 	rollFrame.button = CreateFrame("Button",nil,rollFrame)
 	rollFrame.button:ModPoint("RIGHT",rollFrame,'LEFT',0,0)
 	rollFrame.button:ModSize(LOOT_HEIGHT - 2)
-	rollFrame.button:SetStyle()
+	rollFrame.button:SetStyle("Frame", 'Default')
 	rollFrame.button:SetScript("OnEnter",LootItem_SetTooltip)
 	rollFrame.button:SetScript("OnLeave",LootItem_OnLeave)
 	rollFrame.button:SetScript("OnUpdate",LootItem_OnUpdate)
@@ -927,7 +927,7 @@ local function SetOverrides()
 	SVUI_BailOut:SetNormalTexture(SV.media.icon.exitIcon)
 	SVUI_BailOut:SetPushedTexture(SV.media.icon.exitIcon)
 	SVUI_BailOut:SetHighlightTexture(SV.media.icon.exitIcon)
-	SVUI_BailOut:SetStyle("Lite")
+	SVUI_BailOut:SetStyle("!_Frame", "Transparent")
 	SVUI_BailOut:RegisterForClicks("AnyUp")
 	SVUI_BailOut:SetScript("OnClick", VehicleExit)
 	SVUI_BailOut:RegisterEvent("UNIT_ENTERED_VEHICLE")
@@ -964,7 +964,7 @@ local function SetOverrides()
 		SV:NewAnchor(SVUI_LootFrameHolder, L["Loot Frame"], nil, nil, "SVUI_LootFrame");
 		
 		SVUI_LootFrame:ModSize(256, 64);
-		SVUI_LootFrame:SetStyle("Transparent");
+		SVUI_LootFrame:SetStyle("!_Frame", 'Transparent');
 		SVUI_LootFrame.title:SetFontObject(SVUI_Font_Header)
 		SV:ManageVisibility(SVUI_LootFrame);
 		SVUI_LootFrame:Hide();

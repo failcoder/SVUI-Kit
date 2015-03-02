@@ -64,7 +64,7 @@ local function NewToolButton(name, parent, template, width, height, point, relat
 	button:ModWidth(width)
 	button:ModHeight(height)
 	button:ModPoint(point, relativeto, point2, xOfs, yOfs)
-	SV.API:Set("DockButton", button)
+	button:SetStyle("DockButton") 
 
 	if(textDisplay) then
 		local text = button:CreateFontString(nil,"OVERLAY")
@@ -109,7 +109,7 @@ function MOD:LoadRaidLeaderTools()
 	self.RaidTool:SetAttribute("hasDropDown", false);
 
 	self.RaidTool.Menu = CreateFrame("Frame", "SVUI_RaidToolMenu", self.RaidTool, "SecureHandlerClickTemplate");
-	self.RaidTool.Menu:SetStyle("Transparent");
+	self.RaidTool.Menu:SetStyle("Frame", 'Transparent');
 	self.RaidTool.Menu:ModWidth(120);
 	self.RaidTool.Menu:ModHeight(140);
 	self.RaidTool.Menu:SetPoint("TOPLEFT", dock.ToolBar, "BOTTOMLEFT", 0, -2);
@@ -191,7 +191,7 @@ function MOD:LoadRaidLeaderTools()
 		markerButton:ModHeight(18)
 		markerButton:SetWidth(109)
 		markerButton:RemoveTextures()
-		SV.API:Set("DockButton", markerButton)
+		markerButton:SetStyle("DockButton") 
 
 		local markersText = markerButton:CreateFontString(nil,"OVERLAY")
 		markersText:SetFont(SV.media.font.default, 14, "NONE")

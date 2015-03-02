@@ -316,7 +316,7 @@ function MOD:InitializeActive()
 	block.Button = CreateFrame("Button", nil, block)
 	block.Button:ModPoint("TOPLEFT", block, "TOPLEFT", 0, 0);
 	block.Button:ModPoint("BOTTOMRIGHT", block, "BOTTOMRIGHT", 0, 8);
-	SV.API:Set("DockButton", block.Button)
+	block.Button:SetStyle("DockButton")
 	block.Button:SetPanelColor("gold")
 	block.Button:SetID(0)
 	block.Button.Parent = active;
@@ -326,7 +326,7 @@ function MOD:InitializeActive()
 
 	block.CloseButton = CreateFrame("Button", nil, block.Button, "UIPanelCloseButton")
 	block.CloseButton:RemoveTextures()
-	block.CloseButton:SetStyle(-7, -7, "red")
+	block.CloseButton:SetStyle("Button", -7, -7, "red")
 	block.CloseButton:SetFrameLevel(block.Button:GetFrameLevel() + 4)
 	block.CloseButton:SetNormalTexture(SV.media.icon.close)
     block.CloseButton:HookScript("OnEnter", CloseButton_OnEnter)
@@ -339,7 +339,7 @@ function MOD:InitializeActive()
 	block.Badge = CreateFrame("Frame", nil, block.Button)
 	block.Badge:ModPoint("TOPLEFT", block.Button, "TOPLEFT", 4, -4);
 	block.Badge:ModSize((LARGE_INNER_HEIGHT - 4), (LARGE_INNER_HEIGHT - 4));
-	block.Badge:SetStyle("[INSET]Transparent")
+	block.Badge:SetStyle("!_Frame", "Inset")
 
 	block.Badge.Icon = block.Badge:CreateTexture(nil,"OVERLAY")
 	block.Badge.Icon:InsetPoints(block.Badge);
@@ -350,7 +350,7 @@ function MOD:InitializeActive()
 	block.Header:SetPoint("TOPLEFT", block.Badge, "TOPRIGHT", 4, 0);
 	block.Header:SetPoint("TOPRIGHT", block.Button, "TOPRIGHT", -24, -4);
 	block.Header:ModHeight(INNER_HEIGHT - 2);
-	block.Header:SetStyle("{!}")
+	block.Header:SetStyle("Frame")
 
 	block.Header.Level = block.Header:CreateFontString(nil,"OVERLAY")
 	block.Header.Level:SetFontObject(SVUI_Font_Quest);

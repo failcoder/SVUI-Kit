@@ -209,7 +209,7 @@ function MOD:InitializeZoneButton()
     draenor:ModSize(size,size);
     draenor:ModPoint("CENTER", SVUI_DraenorButtonHolder, "CENTER", 0, 0);
     draenor:SetAlpha(0);
-    draenor:SetStyle("Outline");
+    draenor:SetStyle("Icon");
 
     draenor.SetUsage = SetButtonSpell;
     draenor.ClearUsage = ClearButtonSpell;

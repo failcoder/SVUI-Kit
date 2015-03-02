@@ -99,10 +99,10 @@ local methods = {
 Constructor
 -------------------------------------------------------------------------------]]
 local PaneBackdrop  = {
-	bgFile = "Interface\\ChatFrame\\ChatFrameBackground",
-	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-	tile = true, tileSize = 16, edgeSize = 16,
-	insets = { left = 3, right = 3, top = 5, bottom = 3 }
+	bgFile = [[Interface\DialogFrame\UI-DialogBox-Background]],
+	edgeFile = [[Interface\AddOns\SVUI_!Core\assets\borders\DEFAULT]],
+	tile = false, tileSize = 0, edgeSize = 1,
+	insets = { left = 0, right = 0, top = 0, bottom = 0 }
 }
 
 local function Constructor()

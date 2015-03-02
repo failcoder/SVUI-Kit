@@ -818,7 +818,9 @@ end
 function SV:ReLoad()
     self:RefreshAllMedia();
     self:UpdateAnchors();
-    self:AddonMessage("All user settings reloaded");
+    if(self.DebugMode) then
+        self:AddonMessage("User settings updated");
+    end
 end
 
 function SV:PreLoad()

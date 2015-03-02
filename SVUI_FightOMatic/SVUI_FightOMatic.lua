@@ -436,12 +436,17 @@ function PLUGIN:PopulateScans()
 		end
 	end
 	self.Summary:AddMessage(("You Have |cffff5500%s|r Mortal Enemies"):format(amount), 0.8, 0.8, 0.8);
+	local hasScans = false;
 	for _,data in pairs(EnemyCache) do
 		if type(data) == "table" and data.name and data.class and data.race then
 			local nameLink = linkString:format(data.name, data.name)
 			local hex = ("%s - %s %s"):format(nameLink, data.race, data.class)
 			self.LOG.Output:AddMessage(hex, data.colors.r, data.colors.g, data.colors.b);
+			hasScans = true;
 		end
+	end
+	if(not hasScans) then
+		self.COMM.Unavailable:Show()
 	end
 end
 
@@ -718,7 +723,7 @@ local function MakeLogWindow()
 
 	PLUGIN.LOG = frame
 
-	_G["SVUI_FightOMaticTool1"].Window = PLUGIN.LOG
+	return PLUGIN.LOG
 end
 
 local function MakeCommWindow()
@@ -740,11 +745,11 @@ local function MakeCommWindow()
 
 	frame.Unavailable = fallback
 
-	local DOCK_WIDTH = frame:GetWidth();
-	local DOCK_HEIGHT = frame:GetHeight();
+	local DOCK_WIDTH = frame:GetWidth() or PLUGIN.Docklet:GetWidth();
+	local DOCK_HEIGHT = frame:GetHeight() or PLUGIN.Docklet:GetHeight();
 	local BUTTON_SIZE = (DOCK_HEIGHT * 0.25) - 4;
-	local sectionWidth = (DOCK_WIDTH / 6) - 2
-	local sectionHeight = (DOCK_HEIGHT / 5) - 2
+	local sectionWidth = 28
+	local sectionHeight = 22
 	local iconSize = sectionHeight * 0.5
 
 	for i = 1, 5 do
@@ -752,8 +757,9 @@ local function MakeCommWindow()
 
 		local poiName = ("SVUI_PVPNode%d"):format(i)
 		local poi = CreateFrame("Frame", poiName, frame)
-		poi:SetSize((DOCK_WIDTH - 2), sectionHeight)
-		poi:SetPoint("TOP", frame, "TOP", 0, -yOffset)
+		poi:SetPoint("TOPLEFT", frame, "TOPLEFT", 2, -yOffset)
+		poi:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -2, -yOffset)
+		poi:SetHeight(22)
 		poi:SetStyle("Transparent")
 
 		local safe = CreateFrame("Button", nil, poi)
@@ -798,10 +804,9 @@ local function MakeCommWindow()
 	end
 
 	PLUGIN.COMM = frame
-
-	_G["SVUI_FightOMaticTool2"].Window = PLUGIN.COMM
-
 	PLUGIN.COMM:Hide()
+
+	return PLUGIN.COMM
 end
 
 local function MakeUtilityWindow()
@@ -818,10 +823,8 @@ local function MakeUtilityWindow()
 	fbText:SetText("Utilities Coming Soon....")
 
 	PLUGIN.TOOL = frame
-
-	_G["SVUI_FightOMaticTool3"].Window = PLUGIN.TOOL
-
 	PLUGIN.TOOL:Hide()
+	return PLUGIN.TOOL
 end
 
 local function MakeInfoWindow()
@@ -850,12 +853,9 @@ local function MakeInfoWindow()
 	rightColumn:SetFrameLevel(0)
 
 	PLUGIN.INFO = frame
-
-	_G["SVUI_FightOMaticTool4"].Window = PLUGIN.INFO
-
 	SV.Reports:UpdateAllReports()
-
 	PLUGIN.INFO:Hide()
+	return PLUGIN.INFO
 end
 --[[ 
 ########################################################## 
@@ -1002,59 +1002,7 @@ function PLUGIN:Load()
     tbDivider:SetPoint("BOTTOMRIGHT")
     tbDivider:SetWidth(1)
 
-	local tool4 = CreateFrame("Frame", "SVUI_FightOMaticTool4", toolBar)
-	tool4:SetPoint("BOTTOM",toolBar,"BOTTOM",0,0)
-	tool4:SetSize(BUTTON_SIZE,BUTTON_SIZE)
-	tool4.icon = tool4:CreateTexture(nil, 'OVERLAY')
-	tool4.icon:SetTexture(INFO_ICON)
-	tool4.icon:InsetPoints(tool4)
-	tool4.icon:SetGradient("VERTICAL", 0.5, 0.53, 0.55, 0.8, 0.8, 1)
-	tool4.TText = "Stats"
-	tool4.TTitle = "Statistics and Information"
-	tool4:SetScript('OnEnter', FightOMaticTool_OnEnter)
-	tool4:SetScript('OnLeave', FightOMaticTool_OnLeave)
-	tool4:SetScript('OnMouseDown', FightOMaticTool_OnMouseDown)
-
-	local tool3 = CreateFrame("Frame", "SVUI_FightOMaticTool3", toolBar)
-	tool3:SetPoint("BOTTOM",tool4,"TOP",0,2)
-	tool3:SetSize(BUTTON_SIZE,BUTTON_SIZE)
-	tool3.icon = tool3:CreateTexture(nil, 'OVERLAY')
-	tool3.icon:SetTexture(UTILITY_ICON)
-	tool3.icon:InsetPoints(tool3)
-	tool3.icon:SetGradient("VERTICAL", 0.5, 0.53, 0.55, 0.8, 0.8, 1)
-	tool3.TText = "Tools"
-	tool3.TTitle = "Tools and Utilities"
-	tool3:SetScript('OnEnter', FightOMaticTool_OnEnter)
-	tool3:SetScript('OnLeave', FightOMaticTool_OnLeave)
-	tool3:SetScript('OnMouseDown', FightOMaticTool_OnMouseDown)
-
-	local tool2 = CreateFrame("Frame", "SVUI_FightOMaticTool2", toolBar)
-	tool2:SetPoint("BOTTOM",tool3,"TOP",0,2)
-	tool2:SetSize(BUTTON_SIZE,BUTTON_SIZE)
-	tool2.icon = tool2:CreateTexture(nil, 'OVERLAY')
-	tool2.icon:SetTexture(RADIO_ICON)
-	tool2.icon:InsetPoints(tool2)
-	tool2.icon:SetGradient("VERTICAL", 0.5, 0.53, 0.55, 0.8, 0.8, 1)
-	tool2.TText = "Radio"
-	tool2.TTitle = "Radio Communicator"
-	tool2:SetScript('OnEnter', FightOMaticTool_OnEnter)
-	tool2:SetScript('OnLeave', FightOMaticTool_OnLeave)
-	tool2:SetScript('OnMouseDown', FightOMaticTool_OnMouseDown)
-
-	local tool1 = CreateFrame("Frame", "SVUI_FightOMaticTool1", toolBar)
-	tool1:SetPoint("BOTTOM",tool2,"TOP",0,2)
-	tool1:SetSize(BUTTON_SIZE,BUTTON_SIZE)
-	tool1.icon = tool1:CreateTexture(nil, 'OVERLAY')
-	tool1.icon:SetTexture(SCANNER_ICON)
-	tool1.icon:InsetPoints(tool1)
-	tool1.icon:SetGradient("VERTICAL", 0.5, 0.53, 0.55, 0.8, 0.8, 1)
-	tool1.TText = "Scanner"
-	tool1.TTitle = "Enemy Scanner"
-	tool1:SetScript('OnEnter', FightOMaticTool_OnEnter)
-	tool1:SetScript('OnLeave', FightOMaticTool_OnLeave)
-	tool1:SetScript('OnMouseDown', Scanner_OnMouseDown)
-
-	local title = CreateFrame("ScrollingMessageFrame", nil, self.Docklet)
+    local title = CreateFrame("ScrollingMessageFrame", nil, self.Docklet)
 	title:SetSpacing(4)
 	title:SetClampedToScreen(false)
 	title:SetFrameStrata("MEDIUM")
@@ -1105,10 +1053,61 @@ function PLUGIN:Load()
     divider2:SetPoint("BOTTOMRIGHT")
     divider2:SetHeight(1)
 
-	MakeLogWindow()
-	MakeCommWindow()
-	MakeUtilityWindow()
-	MakeInfoWindow()
+	local tool4 = CreateFrame("Frame", "SVUI_FightOMaticTool4", toolBar)
+	tool4:SetPoint("BOTTOM",toolBar,"BOTTOM",0,0)
+	tool4:SetSize(BUTTON_SIZE,BUTTON_SIZE)
+	tool4.icon = tool4:CreateTexture(nil, 'OVERLAY')
+	tool4.icon:SetTexture(INFO_ICON)
+	tool4.icon:InsetPoints(tool4)
+	tool4.icon:SetGradient("VERTICAL", 0.5, 0.53, 0.55, 0.8, 0.8, 1)
+	tool4.TText = "Stats"
+	tool4.TTitle = "Statistics and Information"
+	tool4:SetScript('OnEnter', FightOMaticTool_OnEnter)
+	tool4:SetScript('OnLeave', FightOMaticTool_OnLeave)
+	tool4:SetScript('OnMouseDown', FightOMaticTool_OnMouseDown)
+	tool4.Window = MakeInfoWindow()
+
+	local tool3 = CreateFrame("Frame", "SVUI_FightOMaticTool3", toolBar)
+	tool3:SetPoint("BOTTOM",tool4,"TOP",0,2)
+	tool3:SetSize(BUTTON_SIZE,BUTTON_SIZE)
+	tool3.icon = tool3:CreateTexture(nil, 'OVERLAY')
+	tool3.icon:SetTexture(UTILITY_ICON)
+	tool3.icon:InsetPoints(tool3)
+	tool3.icon:SetGradient("VERTICAL", 0.5, 0.53, 0.55, 0.8, 0.8, 1)
+	tool3.TText = "Tools"
+	tool3.TTitle = "Tools and Utilities"
+	tool3:SetScript('OnEnter', FightOMaticTool_OnEnter)
+	tool3:SetScript('OnLeave', FightOMaticTool_OnLeave)
+	tool3:SetScript('OnMouseDown', FightOMaticTool_OnMouseDown)
+	tool3.Window = MakeUtilityWindow()
+
+	local tool2 = CreateFrame("Frame", "SVUI_FightOMaticTool2", toolBar)
+	tool2:SetPoint("BOTTOM",tool3,"TOP",0,2)
+	tool2:SetSize(BUTTON_SIZE,BUTTON_SIZE)
+	tool2.icon = tool2:CreateTexture(nil, 'OVERLAY')
+	tool2.icon:SetTexture(RADIO_ICON)
+	tool2.icon:InsetPoints(tool2)
+	tool2.icon:SetGradient("VERTICAL", 0.5, 0.53, 0.55, 0.8, 0.8, 1)
+	tool2.TText = "Radio"
+	tool2.TTitle = "Radio Communicator"
+	tool2:SetScript('OnEnter', FightOMaticTool_OnEnter)
+	tool2:SetScript('OnLeave', FightOMaticTool_OnLeave)
+	tool2:SetScript('OnMouseDown', FightOMaticTool_OnMouseDown)
+	tool2.Window = MakeCommWindow()
+
+	local tool1 = CreateFrame("Frame", "SVUI_FightOMaticTool1", toolBar)
+	tool1:SetPoint("BOTTOM",tool2,"TOP",0,2)
+	tool1:SetSize(BUTTON_SIZE,BUTTON_SIZE)
+	tool1.icon = tool1:CreateTexture(nil, 'OVERLAY')
+	tool1.icon:SetTexture(SCANNER_ICON)
+	tool1.icon:InsetPoints(tool1)
+	tool1.icon:SetGradient("VERTICAL", 0.5, 0.53, 0.55, 0.8, 0.8, 1)
+	tool1.TText = "Scanner"
+	tool1.TTitle = "Enemy Scanner"
+	tool1:SetScript('OnEnter', FightOMaticTool_OnEnter)
+	tool1:SetScript('OnLeave', FightOMaticTool_OnLeave)
+	tool1:SetScript('OnMouseDown', Scanner_OnMouseDown)
+	tool1.Window = MakeLogWindow()
 
 	--self.Docklet:Hide()
 

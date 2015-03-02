@@ -40,12 +40,12 @@ local function StylePostal()
 			b.returnicon:SetPoint("TOPRIGHT", b, "TOPRIGHT", 20, 0)
 		end
 		if _G['PostalInboxCB'..i] and not _G['PostalInboxCB'..i].handled then
-			_G['PostalInboxCB'..i]:SetStyle()
+			_G['PostalInboxCB'..i]:SetStyle("Checkbox")
 			_G['PostalInboxCB'..i].handled = true
 		end
 	end
 	if PostalSelectOpenButton and not PostalSelectOpenButton.handled then
-		PostalSelectOpenButton:SetStyle()
+		PostalSelectOpenButton:SetStyle("Button")
 		PostalSelectOpenButton.handled = true
 		PostalSelectOpenButton:ModPoint("RIGHT", InboxFrame, "TOP", -41, -48)
 	end
@@ -55,12 +55,12 @@ local function StylePostal()
 		Postal_OpenAllMenuButton.handled = true
 	end
 	if PostalOpenAllButton and not PostalOpenAllButton.handled then
-		PostalOpenAllButton:SetStyle()
+		PostalOpenAllButton:SetStyle("Button")
 		PostalOpenAllButton.handled = true
 		PostalOpenAllButton:ModPoint("CENTER", InboxFrame, "TOP", -34, -400)
 	end
 	if PostalSelectReturnButton and not PostalSelectReturnButton.handled then
-		PostalSelectReturnButton:SetStyle()
+		PostalSelectReturnButton:SetStyle("Button")
 		PostalSelectReturnButton.handled = true
 		PostalSelectReturnButton:ModPoint("LEFT", InboxFrame, "TOP", -5, -48)
 	end

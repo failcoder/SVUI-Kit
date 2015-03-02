@@ -121,7 +121,7 @@ local GetAchievementRow = function(self, index)
 		row.Badge = CreateFrame("Frame", nil, row)
 		row.Badge:SetPoint("TOPLEFT", row, "TOPLEFT", 2, -2);
 		row.Badge:SetSize(INNER_HEIGHT, INNER_HEIGHT);
-		row.Badge:SetStyle("Transparent")
+		row.Badge:SetStyle("Frame", "Lite")
 		row.Badge.Icon = row.Badge:CreateTexture(nil,"OVERLAY")
 		row.Badge.Icon:SetAllPoints(row.Badge);
 		row.Badge.Icon:SetTexture(LINE_ACHIEVEMENT_ICON)
@@ -141,7 +141,7 @@ local GetAchievementRow = function(self, index)
 
 		row.Button = CreateFrame("Button", nil, row.Header)
 		row.Button:SetAllPoints(row.Header);
-		row.Button:SetStyle("Lite")
+		row.Button:SetStyle("LiteButton")
 		row.Button:SetID(0)
 		row.Button:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 		row.Button:SetScript("OnClick", ViewButton_OnClick)
@@ -185,31 +185,33 @@ local SetAchievementRow = function(self, index, title, details, icon, achievemen
 
 	for i = 1, subCount do
 		local description, category, completed, quantity, totalQuantity, _, flags, assetID, quantityString, criteriaID, eligible, duration, elapsed = GetAchievementCriteriaInfo(achievementID, i);
-		if(not ((not completed) and (shown_objectives > MAX_OBJECTIVES_SHOWN))) then
-			if(shown_objectives == MAX_OBJECTIVES_SHOWN and subCount > (6)) then
-				shown_objectives = shown_objectives + 1;
-			else
-				if(description and bit.band(flags, EVALUATION_TREE_FLAG_PROGRESS_BAR) == EVALUATION_TREE_FLAG_PROGRESS_BAR) then
-					if(string.find(strlower(quantityString), "interface\\moneyframe")) then
-						description = quantityString.."\n"..description;
-					else
-						description = string.gsub(quantityString, " / ", "/").." "..description;
-					end
+		if(completed or (shown_objectives > MAX_OBJECTIVES_SHOWN and not completed)) then
+			--DO NOTHING
+		elseif(shown_objectives == MAX_OBJECTIVES_SHOWN and subCount > (MAX_OBJECTIVES_SHOWN + 1)) then
+			shown_objectives = shown_objectives + 1;
+		else
+			if(description and bit.band(flags, EVALUATION_TREE_FLAG_PROGRESS_BAR) == EVALUATION_TREE_FLAG_PROGRESS_BAR) then
+				if(string.find(strlower(quantityString), "interface\\moneyframe")) then
+					description = quantityString.."\n"..description;
 				else
-					if(category == CRITERIA_TYPE_ACHIEVEMENT and assetID) then
-						_, description = GetAchievementInfo(assetID);
-					end
+					description = string.gsub(quantityString, " / ", "/").." "..description;
 				end
-				shown_objectives = shown_objectives + 1;					
+			else
+				if(category == CRITERIA_TYPE_ACHIEVEMENT and assetID) then
+					_, description = GetAchievementInfo(assetID);
+				end
 			end
-			if((not completed) and description and description ~= '') then
+			
+			if(description and description ~= '') then
+				shown_objectives = shown_objectives + 1;
+				
 				fill_height = fill_height + (INNER_HEIGHT + 2);
 				objective_rows = objective_block:SetInfo(objective_rows, description, completed)
 				if(duration and elapsed and elapsed < duration) then
 					fill_height = fill_height + (INNER_HEIGHT + 2);
 					objective_rows = objective_block:SetTimer(objective_rows, duration, elapsed);
 				end
-			end
+			end					
 		end
 	end
 

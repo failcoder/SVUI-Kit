@@ -46,6 +46,7 @@ SV.defaults[Schema] = {
 	["fade"] = false, 
 	["sticky"] = true, 
 	["smileys"] = true, 
+	["shortChannels"] = true,
 	["secretWordTone"] = "None", 
 	["psst"] = "Whisper Alert", 
 	["noWipe"] = false, 

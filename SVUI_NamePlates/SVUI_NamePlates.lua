@@ -1241,7 +1241,7 @@ do
 		frame.health:SetPoint('BOTTOM', frame, 'BOTTOM', 0, 5)
 		frame.health:SetFrameStrata("BACKGROUND")
 		frame.health:SetFrameLevel(1)
-		frame.health:SetStyle("Nameplate")
+		frame.health:SetStyle("Frame", "Nameplate")
 		frame.health:SetScript("OnSizeChanged", HealthBarSizeChanged)
 		frame.health.elitetop = frame.health.Panel.Top
 		frame.health.elitebottom = frame.health.Panel.Bottom
@@ -1302,7 +1302,7 @@ do
 		frame.cast:SetPoint('TOPLEFT', frame.health, 'BOTTOMLEFT', 0, -8)	
 		frame.cast:SetPoint('TOPRIGHT', frame.health, 'BOTTOMRIGHT', 0, -8)
 		frame.cast:SetFrameStrata("BACKGROUND")
-		frame.cast:SetStyle("Transparent")
+		frame.cast:SetStyle("Frame", 'Bar')
 		frame.cast:SetFrameLevel(0)
 
 		frame.cast.text = frame.cast:CreateFontString(nil, 'OVERLAY')
@@ -1324,7 +1324,7 @@ do
 		bgFrame:WrapPoints(cast.icon)
 		bgFrame:SetFrameLevel(bgFrame:GetFrameLevel() - 1)
 
-		bgFrame:SetStyle("Transparent", 2, 0, 0)
+		bgFrame:SetStyle("Frame", "Bar", true, 2, 0, 0)
 
 		cast.sync = frame.cast
 

@@ -902,7 +902,7 @@ function SV.Setup:Install(autoLoaded)
 	if not SVUI_InstallerFrame then
 		local frame = CreateFrame("Button", "SVUI_InstallerFrame", UIParent)
 		frame:ModSize(550, 400)
-		frame:SetStyle("{0}Window2")
+		frame:SetStyle("Frame", "Window2")
 		frame:SetPoint("TOP", SV.Screen, "TOP", 0, -150)
 		frame:SetFrameStrata("TOOLTIP")
 

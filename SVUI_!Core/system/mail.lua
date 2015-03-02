@@ -263,18 +263,18 @@ local function LoadMailMinions()
 	else
 		MailMinion:Show()
 
-		MailMinion.GetMail:SetStyle()
+		MailMinion.GetMail:SetStyle("Button")
 		MailMinion.GetMail:SetScript("OnClick",GetAllMail)
 		MailMinion.GetMail:SetScript("OnEnter", MailButton_OnEnter)
 		MailMinion.GetMail:SetScript("OnLeave", MailButton_OnLeave)
 		MailMinion.GetMail:SetScript("OnEvent", MailButton_OnEvent)
 		
-		MailMinion.GetGold:SetStyle()
+		MailMinion.GetGold:SetStyle("Button")
 		MailMinion.GetGold:SetScript("OnClick", GetAllMailCash)
 		MailMinion.GetGold:SetScript("OnEnter", GoldButton_OnEnter)
 		MailMinion.GetGold:SetScript("OnLeave", MailButton_OnLeave)
 
-		MailMinion.Delete:SetStyle(1, 1, "red")
+		MailMinion.Delete:SetStyle("Button", 1, 1, "red")
 		MailMinion.Delete:SetScript("OnClick", DeleteAllMail)
 		MailMinion.Delete:SetScript("OnEnter", MailButton_OnEnter)
 		MailMinion.Delete:SetScript("OnLeave", MailButton_OnLeave)

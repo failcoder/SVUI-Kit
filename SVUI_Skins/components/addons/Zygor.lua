@@ -42,7 +42,7 @@ local function StyleZygorTabs()
 			texture:SetTexCoord(0.16, 0.86, 0.16, 0.86)
 		end 
 	end 
-	ZGVCharacterGearFinderButton:SetStyle("Default", true, 2)
+	ZGVCharacterGearFinderButton:SetStyle("Frame", "Default", true, 2)
 	ZGVCharacterGearFinderButton.Panel:ModPoint("TOPLEFT", 2, -3)
 	ZGVCharacterGearFinderButton.Panel:ModPoint("BOTTOMRIGHT", 0, -2)
 end 

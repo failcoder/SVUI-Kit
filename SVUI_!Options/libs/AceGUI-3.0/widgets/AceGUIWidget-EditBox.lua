@@ -126,7 +126,7 @@ Methods
 local methods = {
 	["OnAcquire"] = function(self)
 		-- height is controlled by SetLabel
-		self:SetWidth(200)
+		self:SetWidth(320)
 		self:SetDisabled(false)
 		self:SetLabel()
 		self:SetText()

@@ -162,14 +162,14 @@ Constructor
 -------------------------------------------------------------------------------]]
 local FrameBackdrop = {
 	bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
-	edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
+	edgeFile = "Interface\\AddOns\\SVUI_!Core\\assets\\borders\\TEXTURED",
 	tile = true, tileSize = 32, edgeSize = 32,
 	insets = { left = 8, right = 8, top = 8, bottom = 8 }
 }
 
 local PaneBackdrop  = {
 	bgFile = "Interface\\ChatFrame\\ChatFrameBackground",
-	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+	edgeFile = "Interface\\AddOns\\SVUI_!Core\\assets\\borders\\TEXTURED",
 	tile = true, tileSize = 16, edgeSize = 16,
 	insets = { left = 3, right = 3, top = 5, bottom = 3 }
 }
@@ -255,7 +255,7 @@ local function Constructor()
 	line1:SetWidth(14)
 	line1:SetHeight(14)
 	line1:SetPoint("BOTTOMRIGHT", -8, 8)
-	line1:SetTexture("Interface\\Tooltips\\UI-Tooltip-Border")
+	line1:SetTexture("Interface\\AddOns\\SVUI_!Core\\assets\\borders\\TEXTURED")
 	local x = 0.1 * 14/17
 	line1:SetTexCoord(0.05 - x, 0.5, 0.05, 0.5 + x, 0.05, 0.5 - x, 0.5 + x, 0.5)
 
@@ -263,7 +263,7 @@ local function Constructor()
 	line2:SetWidth(8)
 	line2:SetHeight(8)
 	line2:SetPoint("BOTTOMRIGHT", -8, 8)
-	line2:SetTexture("Interface\\Tooltips\\UI-Tooltip-Border")
+	line2:SetTexture("Interface\\AddOns\\SVUI_!Core\\assets\\borders\\TEXTURED")
 	local x = 0.1 * 8/17
 	line2:SetTexCoord(0.05 - x, 0.5, 0.05, 0.5 + x, 0.05, 0.5 - x, 0.5 + x, 0.5)
 

@@ -171,7 +171,7 @@ local function SaveActionButton(button, noStyle)
 	MOD:FixKeybindText(button)
 	MOD.ButtonCache[button] = true 
 	if(not noStyle) then
-		button:SetStyle("Action")
+		button:SetStyle("ActionSlot", true)
 		button:SetCheckedTexture("")
 	end
 end 
@@ -918,7 +918,7 @@ CreateActionBars = function(self)
 		bg:SetAllPoints()
 		bg:SetFrameLevel(0)
 		thisBar:SetFrameLevel(5)
-		bg:SetStyle("Transparent")
+		bg:SetStyle("Frame", "Transparent")
 		bg:SetPanelColor("dark")
 		thisBar.backdrop = bg
 
@@ -1107,7 +1107,7 @@ do
 	  local bg = CreateFrame("Frame", nil, stanceBar)
 	  bg:SetAllPoints();
 	  bg:SetFrameLevel(0);
-	  bg:SetStyle("Transparent")
+	  bg:SetStyle("Frame", "Transparent")
 	  bg:SetPanelColor("dark")
 	  stanceBar.backdrop = bg;
 
@@ -1229,7 +1229,7 @@ do
 		local bg = CreateFrame("Frame", nil, petBar)
 		bg:SetAllPoints();
 		bg:SetFrameLevel(0);
-		bg:SetStyle("Transparent")
+		bg:SetStyle("Frame", "Transparent")
 		bg:SetPanelColor("dark")
 		petBar.backdrop = bg;
 		for i = 1, NUM_PET_ACTION_SLOTS do 

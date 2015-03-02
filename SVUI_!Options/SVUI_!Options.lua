@@ -158,7 +158,7 @@ local function RefreshProfileOptions()
 		type = "input",
 		order = 6,
 		get = false,
-		set = function(key, value) SVUILib:ExportDatabase(value) SV:SavedPopup() end,
+		set = function(key, value) SVUILib:ExportDatabase(value) SV:SavedPopup() RefreshProfileOptions() end,
 	}
 	optionGroup.copy = {
 		name = L["Copy From"],
@@ -166,17 +166,17 @@ local function RefreshProfileOptions()
 		type = "select",
 		order = 7,
 		get = function() return currentProfile end,
-		set = function(key, value) SV:CopyProfile(value) RefreshProfileOptions() end,
+		set = function(key, value) SV:CopyProfile(value) SV:SavedPopup() RefreshProfileOptions() end,
 		disabled = function() local t = SVUILib:CheckProfiles() return (not t) end,
 		values = SVUILib:GetProfiles(),
 	}
 	optionGroup.import = {
-		name = L["Link To"],
+		name = L["Change"],
 		desc = L["Link to an already existing profile (persistent)"],
 		type = "select",
 		order = 8,
 		get = function() return currentProfile end,
-		set = function(key, value) SV:ImportProfile(value) RefreshProfileOptions() end,
+		set = function(key, value) SV:ImportProfile(value) SV:SavedPopup() RefreshProfileOptions() end,
 		disabled = function() local t = SVUILib:CheckProfiles() return (not t) end,
 		values = SVUILib:GetProfiles(),
 		width = 'fill',
@@ -510,10 +510,10 @@ SV.Options.args.Core = {
 					name = L["Textures"], 
 					guiInline = true,
 					get = function(key)
-						return SV.media.shared.background[key[#key]]
+						return SV.media.shared.background[key[#key]].file
 					end,
 					set = function(key, value)
-						SV.media.shared.background[key[#key]] = value
+						SV.media.shared.background[key[#key]].file = value
 						SV:RefreshEverything(true)
 					end,
 					args = {

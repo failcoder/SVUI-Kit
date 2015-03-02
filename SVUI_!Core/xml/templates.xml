@@ -1,4 +1,15 @@
 ﻿<Ui xmlns="http://www.blizzard.com/wow/ui/">
+    <Frame name="SVUI_ShadowTemplate" virtual="true">
+        <Attributes>
+            <Attribute name="shadowAlpha" type="number" value="0.5" />
+        </Attributes>
+        <Backdrop edgeFile="Interface\AddOns\SVUI_!Core\assets\borders\SHADOW">
+            <EdgeSize val="3" />
+            <BackgroundInsets left="0" right="0" top="0" bottom="0" />
+            <Color r="0" g="0" b="0" a="0" />
+            <BorderColor r="0" g="0" b="0" a="0.5" />
+        </Backdrop>
+    </Frame>
     
     <Button name="SVUI_DockletButtonTemplate" virtual="true" hidden="true">
         <Size x="22" y="22"/>

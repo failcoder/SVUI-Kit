@@ -457,7 +457,7 @@ local ContainerFrame_UpdateLayout = function(self)
 				bagSlot:SetPushedTexture("")
 				bagSlot:SetScript("OnClick", nil)
 				bagSlot:RemoveTextures()
-				bagSlot:SetStyle("Item");
+				bagSlot:SetStyle("!_ActionSlot");
 
 				if(not bagSlot.icon) then
 					bagSlot.icon = bagSlot:CreateTexture(nil, "BORDER");
@@ -543,7 +543,7 @@ local ContainerFrame_UpdateLayout = function(self)
 					self.Bags[bagID][slotID]:SetNormalTexture("");
 					self.Bags[bagID][slotID]:SetCheckedTexture("");
 					self.Bags[bagID][slotID]:RemoveTextures();
-					self.Bags[bagID][slotID]:SetStyle("Item");
+					self.Bags[bagID][slotID]:SetStyle("!_ActionSlot");
 
 					-- if(self.Bags[bagID][slotID].flashAnim) then
 					-- 	self.Bags[bagID][slotID].flashAnim.Play = SV.fubar
@@ -689,7 +689,7 @@ local ReagentFrame_UpdateLayout = function(self)
 			slot:SetNormalTexture(nil);
 			slot:SetCheckedTexture(nil);
 			slot:RemoveTextures()
-			slot:SetStyle("Item");
+			slot:SetStyle("!_ActionSlot");
 
 			slot.NewItemTexture = slot:CreateTexture(nil, "OVERLAY", 1);
 			slot.NewItemTexture:InsetPoints(slot);
@@ -819,8 +819,8 @@ do
 		local icon = _G[bar:GetName().."IconTexture"]
 		bar.oldTex = icon:GetTexture()
 		bar:RemoveTextures()
-		bar:SetStyle()
-		bar:SetStyle("Item")
+		bar:SetStyle("!_Frame", "Default")
+		bar:SetStyle("!_ActionSlot", 1, nil, nil, true)
 		icon:SetTexture(bar.oldTex)
 		icon:InsetPoints()
 		icon:SetTexCoord(0.1, 0.9, 0.1, 0.9 )
@@ -924,7 +924,7 @@ do
 		end
 
 	    if not SVUI_BagBar_MOVE then
-	    	SVUI_BagBar:SetStyle()
+	    	SVUI_BagBar:SetStyle("Frame", "Default")
 	        SV:NewAnchor(SVUI_BagBar, L["Bags Bar"])
 	    end
 
@@ -1059,7 +1059,7 @@ do
 		local bagsCount = #self.BagFrames + 1;
 		local frame = CreateFrame("Button", "SVUI_ContainerFrame", UIParent)
 
-		frame:SetStyle("PatternContainer")
+		frame:SetStyle("Frame", "Container", true)
 		frame:SetFrameStrata("HIGH")
 		frame.UpdateLayout = ContainerFrame_UpdateLayout;
 		frame.RefreshBags = ContainerFrame_UpdateBags;
@@ -1113,7 +1113,7 @@ do
 
 		frame.BagMenu = CreateFrame("Button", "SVUI_ContainerFrameBagMenu", frame)
 		frame.BagMenu:ModPoint("BOTTOMLEFT", frame, "TOPLEFT", 0, 1)
-		frame.BagMenu:SetStyle("Transparent")
+		frame.BagMenu:SetStyle("!_Frame", "Transparent")
 		frame.BagMenu:Hide()
 
 		frame.goldText = frame:CreateFontString(nil, "OVERLAY")
@@ -1123,7 +1123,7 @@ do
 
 		frame.editBox = CreateFrame("EditBox", "SVUI_ContainerFrameEditBox", frame)
 		frame.editBox:SetFrameLevel(frame.editBox:GetFrameLevel()+2)
-		frame.editBox:SetStyle()
+		frame.editBox:SetStyle("Editbox")
 		frame.editBox:ModHeight(15)
 		frame.editBox:Hide()
 		frame.editBox:ModPoint("BOTTOMLEFT", frame.holderFrame, "TOPLEFT", 2, 4)
@@ -1143,7 +1143,7 @@ do
 		searchButton:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 		searchButton:SetSize(60, 18)
 		searchButton:SetPoint("BOTTOMLEFT", frame.editBox, "BOTTOMLEFT", -2, 0)
-		searchButton:SetStyle()
+		searchButton:SetStyle("Button")
 		searchButton:SetScript("OnClick", Search_OnClick)
 		local searchText = searchButton:CreateFontString(nil, "OVERLAY")
 		searchText:SetFontObject(SVUI_Font_Bag)
@@ -1218,7 +1218,7 @@ do
 		for h = 1, MAX_WATCHED_TOKENS do 
 			frame.currencyButton[h] = CreateFrame("Button", nil, frame.currencyButton)
 			frame.currencyButton[h]:ModSize(22)
-			frame.currencyButton[h]:SetStyle()
+			frame.currencyButton[h]:SetStyle("!_Frame", "Default")
 			frame.currencyButton[h]:SetID(h)
 			frame.currencyButton[h].icon = frame.currencyButton[h]:CreateTexture(nil, "OVERLAY")
 			frame.currencyButton[h].icon:InsetPoints()
@@ -1248,7 +1248,7 @@ do
 		local bagsCount = #self.BagFrames + 1;
 
 		local frame = CreateFrame("Button", bagName, isReagent and self.BankFrame or SV.Screen)
-		frame:SetStyle("PatternContainer")
+		frame:SetStyle("Frame", "Container")
 		frame:SetFrameStrata("HIGH")
 		frame:SetFrameLevel(SVUI_ContainerFrame:GetFrameLevel() + 99)
 
@@ -1325,7 +1325,7 @@ do
 		if(not isReagent) then
 			frame.BagMenu = CreateFrame("Button", bagName.."BagMenu", frame)
 			frame.BagMenu:ModPoint("BOTTOMLEFT", frame, "TOPLEFT", 0, 1)
-			frame.BagMenu:SetStyle("Transparent")
+			frame.BagMenu:SetStyle("!_Frame", "Transparent")
 			frame.BagMenu:Hide()
 
 			local Sort_OnClick = MOD:RunSortingProcess(MOD.Sort, "bank", SortBankBags)

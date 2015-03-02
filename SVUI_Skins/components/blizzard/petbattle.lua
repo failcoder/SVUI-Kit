@@ -26,10 +26,11 @@ local PetBattleActionBar = CreateFrame("Frame", "SVUI_PetBattleActionBar", UIPar
 local ITEM_QUALITY_COLORS = _G.ITEM_QUALITY_COLORS;
 
 local function PetBattleButtonHelper(frame)
-	frame:SetStyle("Shadow")
+	frame:SetStyle("Frame", "Icon", 2, 2, 2)
 	frame:SetNormalTexture("")
+	frame:SetPushedTexture("")
 	frame.Icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
-	frame.Icon:SetDrawLayer('BORDER')
+	frame.Icon:SetDrawLayer('BACKGROUND')
 	frame.Icon:SetParent(frame.Panel)
 	if(frame.SelectedHighlight) then frame.SelectedHighlight:SetAlpha(0) end
 	if(frame.checked) then frame.checked = true end
@@ -89,7 +90,7 @@ local _hook_AuraHolderUpdate = function(self)
 			local frame = self.frames[nextFrame]
 			frame.DebuffBorder:Hide()
 			if not frame.isStyled then
-				frame:SetStyle("Outline", 2, -8,-2)
+				frame:SetStyle("Icon", 2, -8,-2)
 				frame.Icon:InsetPoints(frame.Panel, 2, 2)
 				frame.Icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 				frame.isStyled = true
@@ -213,17 +214,15 @@ local function PetBattleStyle()
 			frame.IconBackdrop = CreateFrame("Frame", nil, frame)
 			frame.IconBackdrop:SetFrameLevel(0)
 			frame.IconBackdrop:SetAllPoints(frame.Icon)
-			frame.IconBackdrop:SetStyle("Outline");
-
-			frame.IconBackdrop.Panel:SetStyle("Shadow")
+			frame.IconBackdrop:SetStyle("Icon", 2, 2, 2);
 
 			frame.BorderFlash:Die()
 			frame.HealthBarBG:Die()
 			frame.HealthBarFrame:Die()
 			frame.HealthBarBackdrop = CreateFrame("Frame", nil, frame)
 			frame.HealthBarBackdrop:SetFrameLevel(frame:GetFrameLevel()-1)
-			frame.HealthBarBackdrop:SetStyle("Shadow")
-			frame.HealthBarBackdrop:ModWidth(frame.healthBarWidth+(2))
+			frame.HealthBarBackdrop:SetStyle("Frame", "Bar")
+			frame.HealthBarBackdrop:SetWidth(frame.healthBarWidth + 4)
 			frame.ActualHealthBar:SetTexture(SV.media.statusbar.default)
 			frame.PetTypeFrame = CreateFrame("Frame", nil, frame)
 			frame.PetTypeFrame:ModSize(100, 23)
@@ -237,26 +236,26 @@ local function PetBattleStyle()
 			frame.FirstAttack:ModSize(30)
 			frame.FirstAttack:SetTexture("Interface\\PetBattles\\PetBattle-StatIcons")
 			if i == 1 then 
-				frame.HealthBarBackdrop:ModPoint('TOPLEFT', frame.ActualHealthBar, 'TOPLEFT', -1, 1)
-				frame.HealthBarBackdrop:ModPoint('BOTTOMLEFT', frame.ActualHealthBar, 'BOTTOMLEFT', -1, -1)
+				frame.HealthBarBackdrop:SetPoint('TOPLEFT', frame.ActualHealthBar, 'TOPLEFT', -1, 1)
+				frame.HealthBarBackdrop:SetPoint('BOTTOMLEFT', frame.ActualHealthBar, 'BOTTOMLEFT', -1, -1)
 				frame.ActualHealthBar:SetVertexColor(171/255, 214/255, 116/255)
 				PetBattleFrame.Ally2.iconPoint = frame.IconBackdrop;
 				PetBattleFrame.Ally3.iconPoint = frame.IconBackdrop;
-				frame.ActualHealthBar:ModPoint('BOTTOMLEFT', frame.Icon, 'BOTTOMRIGHT', 10, 0)
-				frame.Name:ModPoint('BOTTOMLEFT', frame.ActualHealthBar, 'TOPLEFT', 0, 8)
+				frame.ActualHealthBar:SetPoint('BOTTOMLEFT', frame.Icon, 'BOTTOMRIGHT', 10, 0)
+				frame.Name:SetPoint('BOTTOMLEFT', frame.ActualHealthBar, 'TOPLEFT', 0, 8)
 				frame.PetTypeFrame:SetPoint("BOTTOMRIGHT", frame.HealthBarBackdrop, "TOPRIGHT", 0, 4)
 				frame.PetTypeFrame.text:SetPoint("RIGHT")
 				frame.FirstAttack:SetPoint("LEFT", frame.HealthBarBackdrop, "RIGHT", 5, 0)
 				frame.FirstAttack:SetTexCoord(frame.SpeedIcon:GetTexCoord())
 				frame.FirstAttack:SetVertexColor(.1, .1, .1, 1)
 			else
-				frame.HealthBarBackdrop:ModPoint('TOPRIGHT', frame.ActualHealthBar, 'TOPRIGHT', 1, 1)
-				frame.HealthBarBackdrop:ModPoint('BOTTOMRIGHT', frame.ActualHealthBar, 'BOTTOMRIGHT', 1, -1)
+				frame.HealthBarBackdrop:SetPoint('TOPRIGHT', frame.ActualHealthBar, 'TOPRIGHT', 1, 1)
+				frame.HealthBarBackdrop:SetPoint('BOTTOMRIGHT', frame.ActualHealthBar, 'BOTTOMRIGHT', 1, -1)
 				frame.ActualHealthBar:SetVertexColor(196/255, 30/255, 60/255)
 				PetBattleFrame.Enemy2.iconPoint = frame.IconBackdrop;
 				PetBattleFrame.Enemy3.iconPoint = frame.IconBackdrop;
-				frame.ActualHealthBar:ModPoint('BOTTOMRIGHT', frame.Icon, 'BOTTOMLEFT', -10, 0)
-				frame.Name:ModPoint('BOTTOMRIGHT', frame.ActualHealthBar, 'TOPRIGHT', 0, 8)
+				frame.ActualHealthBar:SetPoint('BOTTOMRIGHT', frame.Icon, 'BOTTOMLEFT', -10, 0)
+				frame.Name:SetPoint('BOTTOMRIGHT', frame.ActualHealthBar, 'TOPRIGHT', 0, 8)
 				frame.PetTypeFrame:SetPoint("BOTTOMLEFT", frame.HealthBarBackdrop, "TOPLEFT", 2, 4)
 				frame.PetTypeFrame.text:SetPoint("LEFT")
 				frame.FirstAttack:SetPoint("RIGHT", frame.HealthBarBackdrop, "LEFT", -5, 0)
@@ -272,7 +271,7 @@ local function PetBattleStyle()
 			frame.LevelUnderlay:SetAlpha(0)
 			frame.Level:SetFontObject(NumberFont_Outline_Huge)
 			frame.Level:ClearAllPoints()
-			frame.Level:ModPoint('BOTTOMLEFT', frame.Icon, 'BOTTOMLEFT', -2, -2)
+			frame.Level:SetPoint('BOTTOMLEFT', frame.Icon, 'BOTTOMLEFT', -2, -2)
 			if frame.SpeedIcon then 
 				frame.SpeedIcon:ClearAllPoints()
 				frame.SpeedIcon:SetPoint("CENTER")
@@ -293,9 +292,7 @@ local function PetBattleStyle()
 			frame.IconBackdrop = CreateFrame("Frame", nil, frame)
 			frame.IconBackdrop:SetFrameLevel(0)
 			frame.IconBackdrop:SetAllPoints(frame)
-			frame.IconBackdrop:SetStyle("Outline");
-
-			frame.IconBackdrop.Panel:SetStyle("Shadow")
+			frame.IconBackdrop:SetStyle("Icon", 2, 2, 2);
 
 			frame:ClearAllPoints()
 			frame.healthBarWidth = 40;
@@ -304,10 +301,10 @@ local function PetBattleStyle()
 			frame.ActualHealthBar:SetTexture(SV.media.statusbar.default)
 			frame.HealthBarBackdrop = CreateFrame("Frame", nil, frame)
 			frame.HealthBarBackdrop:SetFrameLevel(frame:GetFrameLevel()-1)
-			frame.HealthBarBackdrop:SetStyle("Shadow")
-			frame.HealthBarBackdrop:ModWidth(frame.healthBarWidth+2)
-			frame.HealthBarBackdrop:ModPoint('TOPLEFT', frame.ActualHealthBar, 'TOPLEFT', -1, 1)
-			frame.HealthBarBackdrop:ModPoint('BOTTOMLEFT', frame.ActualHealthBar, 'BOTTOMLEFT', -1, -1)
+			frame.HealthBarBackdrop:SetStyle("Frame", "Bar")
+			frame.HealthBarBackdrop:ModWidth(frame.healthBarWidth + 4)
+			frame.HealthBarBackdrop:SetPoint('TOPLEFT', frame.ActualHealthBar, 'TOPLEFT', -1, 1)
+			frame.HealthBarBackdrop:SetPoint('BOTTOMLEFT', frame.ActualHealthBar, 'BOTTOMLEFT', -1, -1)
 			frame.hasTempBG = true
 		end
 	end 
@@ -317,7 +314,7 @@ local function PetBattleStyle()
 	PetBattleActionBar:EnableMouse(true)
 	PetBattleActionBar:SetFrameLevel(0)
 	PetBattleActionBar:SetFrameStrata('BACKGROUND')
-	PetBattleActionBar:SetStyle("Shadow")
+	PetBattleActionBar:SetStyle("Frame", "Bar")
 
 	local SVUI_DockBottomCenter = _G.SVUI_DockBottomCenter;
 	if(SVUI_DockBottomCenter) then
@@ -341,7 +338,7 @@ local function PetBattleStyle()
 	BottomFrame.TurnTimer.SkipButton:SetParent(PetBattleActionBar)
 	BottomFrame.TurnTimer.SkipButton:ModSize((PBAB_WIDTH * 0.2) - 4, 18)
 	BottomFrame.TurnTimer.SkipButton:SetPoint("BOTTOMLEFT", PetBattleActionBar.Panel, "TOPLEFT", 2, 2)
-	BottomFrame.TurnTimer.SkipButton:SetStyle()
+	BottomFrame.TurnTimer.SkipButton:SetStyle("Button")
 
 	BottomFrame.TurnTimer:ModSize(BottomFrame.TurnTimer.SkipButton:GetWidth(), BottomFrame.TurnTimer.SkipButton:GetHeight())
 	BottomFrame.TurnTimer:ClearAllPoints()
@@ -357,7 +354,7 @@ local function PetBattleStyle()
 	BottomFrame.xpBar:SetParent(PetBattleActionBar)
 	BottomFrame.xpBar:ModSize((PBAB_WIDTH * 0.8) - 4, 16)
 	BottomFrame.xpBar:SetStatusBarTexture(SV.media.statusbar.default)
-	BottomFrame.xpBar:SetStyle("Transparent")
+	BottomFrame.xpBar:SetStyle("Frame", "Bar")
 	BottomFrame.xpBar:SetPoint("BOTTOMRIGHT", PetBattleActionBar.Panel, "TOPRIGHT", -3, 3)
 	BottomFrame.xpBar:SetScript("OnShow", function(self)
 		self:RemoveTextures()
@@ -382,9 +379,9 @@ local function PetBattleStyle()
 	local PetBattleQueueReadyFrame = _G.PetBattleQueueReadyFrame;
 
 	PetBattleQueueReadyFrame:RemoveTextures()
-	PetBattleQueueReadyFrame:SetStyle("Transparent")
-	PetBattleQueueReadyFrame.AcceptButton:SetStyle()
-	PetBattleQueueReadyFrame.DeclineButton:SetStyle()
+	PetBattleQueueReadyFrame:SetStyle("Frame", 'Transparent')
+	PetBattleQueueReadyFrame.AcceptButton:SetStyle("Button")
+	PetBattleQueueReadyFrame.DeclineButton:SetStyle("Button")
 	PetBattleQueueReadyFrame.Art:SetTexture([[Interface\PetBattles\PetBattlesQueue]])
 	
 	--[[ TOO MANY GOD DAMN HOOKS ]]--

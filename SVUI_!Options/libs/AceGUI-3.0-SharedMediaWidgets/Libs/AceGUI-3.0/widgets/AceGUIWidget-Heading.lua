@@ -51,14 +51,14 @@ local function Constructor()
 	left:SetHeight(8)
 	left:SetPoint("LEFT", 3, 0)
 	left:SetPoint("RIGHT", label, "LEFT", -5, 0)
-	left:SetTexture("Interface\\Tooltips\\UI-Tooltip-Border")
+	left:SetTexture("Interface\\AddOns\\SVUI_!Core\\assets\\borders\\TEXTURED")
 	left:SetTexCoord(0.81, 0.94, 0.5, 1)
 
 	local right = frame:CreateTexture(nil, "BACKGROUND")
 	right:SetHeight(8)
 	right:SetPoint("RIGHT", -3, 0)
 	right:SetPoint("LEFT", label, "RIGHT", 5, 0)
-	right:SetTexture("Interface\\Tooltips\\UI-Tooltip-Border")
+	right:SetTexture("Interface\\AddOns\\SVUI_!Core\\assets\\borders\\TEXTURED")
 	right:SetTexCoord(0.81, 0.94, 0.5, 1)
 
 	local widget = {

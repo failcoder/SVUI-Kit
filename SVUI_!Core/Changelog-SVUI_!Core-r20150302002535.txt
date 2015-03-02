@@ -1,4 +1,10 @@
 Steven Jackson:
+	- toc update
+	- ace modifications
+	- Fixed exp bug and custom profiles
+	- Fixed profiles, filters and lua errors
+	- Fixed profiles, filters and vendoring
+	- api updates
 	- transfer wizard code added
 	- api updates
 	- api updates

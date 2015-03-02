@@ -1,4 +1,5 @@
 Steven Jackson:
+	- Fixed profiles, filters and lua errors
 	- toc update, removal of unneeded event handlers
 	- build update
 	- updating with core

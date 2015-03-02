@@ -50,7 +50,7 @@ local function InspectStyle()
 	end 
 	InspectFrame:RemoveTextures(true)
 	InspectFrameInset:RemoveTextures(true)
-	InspectFrame:SetStyle("{0}Window2")
+	InspectFrame:SetStyle("Frame", "Window2")
 	SV.API:Set("CloseButton", InspectFrameCloseButton)
 	for d = 1, 4 do
 		SV.API:Set("Tab", _G["InspectFrameTab"..d])
@@ -65,16 +65,16 @@ local function InspectStyle()
 	InspectModelFrameBorderBottom:Die()
 	InspectModelFrameBorderBottom2:Die()
 	InspectModelFrameBackgroundOverlay:Die()
-	InspectModelFrame:SetStyle()
+	InspectModelFrame:SetStyle("Frame", "Default")
 	for _, slot in pairs(InspectSlotList)do 
 		local texture = _G["Inspect"..slot.."IconTexture"]
 		local frame = _G["Inspect"..slot]
 		frame:RemoveTextures()
-		frame:SetStyle()
+		frame:SetStyle("Button")
 		texture:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 		texture:InsetPoints()
 		frame:SetFrameLevel(frame:GetFrameLevel() + 1)
-		frame:SetStyle("{!}")
+		frame:SetStyle("!_Frame")
 	end 
 	hooksecurefunc('InspectPaperDollItemSlotButton_Update', function(q)
 		local unit = InspectFrame.unit;

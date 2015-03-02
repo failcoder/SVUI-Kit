@@ -49,33 +49,33 @@ local function TradeSkillStyle()
 
 	TradeSkillGuildFrame:ModPoint("BOTTOMLEFT", TradeSkillFrame, "BOTTOMRIGHT", 3, 19)
 	TradeSkillGuildFrameContainer:RemoveTextures()
-	TradeSkillGuildFrameContainer:SetStyle("[INSET]Transparent")
+	TradeSkillGuildFrameContainer:SetStyle("Frame", "Inset")
 	SV.API:Set("CloseButton", TradeSkillGuildFrameCloseButton)
 
-	TradeSkillRankFrame:SetStyle("Transparent")
+	TradeSkillRankFrame:SetStyle("Frame", "Bar", true)
 	TradeSkillRankFrame:SetStatusBarTexture(SV.media.statusbar.default)
 
 	TradeSkillListScrollFrame:ModSize(327, 290)
-	TradeSkillListScrollFrame:SetStyle("[INSET]Transparent")
+	TradeSkillListScrollFrame:SetStyle("Frame", "Inset")
 	TradeSkillDetailScrollFrame:ModSize(327, 180)
-	TradeSkillDetailScrollFrame:SetStyle("[INSET]Transparent")
+	TradeSkillDetailScrollFrame:SetStyle("Frame", "Inset")
 
-	TradeSkillCreateButton:SetStyle()
-	TradeSkillCancelButton:SetStyle()
-	TradeSkillFilterButton:SetStyle()
-	TradeSkillCreateAllButton:SetStyle()
-	TradeSkillViewGuildCraftersButton:SetStyle()
+	TradeSkillCreateButton:SetStyle("Button")
+	TradeSkillCancelButton:SetStyle("Button")
+	TradeSkillFilterButton:SetStyle("Button")
+	TradeSkillCreateAllButton:SetStyle("Button")
+	TradeSkillViewGuildCraftersButton:SetStyle("Button")
 
 	SV.API:Set("ScrollFrame", TradeSkillListScrollFrameScrollBar)
 	SV.API:Set("ScrollFrame", TradeSkillDetailScrollFrameScrollBar)
 
 	TradeSkillLinkButton:ModSize(17, 14)
 	TradeSkillLinkButton:ModPoint("LEFT", TradeSkillLinkFrame, "LEFT", 5, -1)
-	TradeSkillLinkButton:SetStyle()
+	TradeSkillLinkButton:SetStyle("Button")
 	TradeSkillLinkButton:GetNormalTexture():SetTexCoord(0.25, 0.7, 0.45, 0.8)
 
-	TradeSkillFrameSearchBox:SetStyle()
-	TradeSkillInputBox:SetStyle()
+	TradeSkillFrameSearchBox:SetStyle("Editbox")
+	TradeSkillInputBox:SetStyle("Editbox")
 
 	SV.API:Set("PageButton", TradeSkillDecrementButton)
 	SV.API:Set("PageButton", TradeSkillIncrementButton)
@@ -83,12 +83,12 @@ local function TradeSkillStyle()
 	TradeSkillIncrementButton:ModPoint("RIGHT", TradeSkillCreateButton, "LEFT", -13, 0)
 	SV.API:Set("CloseButton", TradeSkillFrameCloseButton)
 
-	TradeSkillSkillIcon:SetStyle("Outline") 
+	TradeSkillSkillIcon:SetStyle("!_Frame", "Icon") 
 
 	local internalTest = false;
 
 	hooksecurefunc("TradeSkillFrame_SetSelection", function(_)
-		TradeSkillSkillIcon:SetStyle("Outline") 
+		TradeSkillSkillIcon:SetStyle("!_Frame", "Icon") 
 		if TradeSkillSkillIcon:GetNormalTexture() then
 			TradeSkillSkillIcon:GetNormalTexture():SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 		end 
@@ -106,7 +106,7 @@ local function TradeSkillStyle()
 					 a2:SetFrameLevel(0)
 				end 
 				a2:WrapPoints(icon)
-				a2:SetStyle("Outline")
+				a2:SetStyle("!_Frame", "Icon")
 				icon:SetParent(a2)
 				icon.backdrop = a2 
 			end 

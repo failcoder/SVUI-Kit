@@ -51,22 +51,26 @@ do
 
     function SV:ManageVisibility(frame)
         if(not frame) then return end
+        local parent = UIParent;
         if(frame.GetParent) then
-            FRAMELIST[frame] = frame:GetParent()
-        end 
+            parent = frame:GetParent();
+        end
+        tinsert(FRAMELIST, {frame = frame, parent = parent})
     end 
 
     function SV:AuditVisibility(hidden)
         if(hidden) then
           self.NeedsFrameAudit = true 
           if(InCombatLockdown()) then return end 
-          for frame, _ in pairs(FRAMELIST)do 
-              frame:SetParent(self.Hidden) 
+          for i=1, #FRAMELIST do
+            local data = FRAMELIST[i] 
+            data.frame:SetParent(self.Hidden) 
           end
         else
           if(InCombatLockdown()) then return end
-          for frame, parent in pairs(FRAMELIST) do
-              frame:SetParent(parent or UIParent) 
+          for i=1, #FRAMELIST do
+            local data = FRAMELIST[i] 
+            data.frame:SetParent(data.parent or UIParent) 
           end
           self.NeedsFrameAudit = false
         end

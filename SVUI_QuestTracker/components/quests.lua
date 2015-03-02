@@ -233,7 +233,7 @@ do
     CreateQuestItemButton = function(index)
     	local buttonName = "SVUI_QuestButton" .. index
         local itembutton = CreateFrame('Button', buttonName, UIParent, 'SecureActionButtonTemplate, SecureHandlerStateTemplate, SecureHandlerAttributeTemplate');
-        itembutton:SetStyle("Outline");
+        itembutton:SetStyle("Icon");
         itembutton:ModSize(28, 28);
         itembutton:SetID(index);
         itembutton.___overflow = false;
@@ -276,6 +276,8 @@ do
 		itembutton:RegisterEvent('QUEST_LOG_UPDATE');
 		itembutton:RegisterEvent('QUEST_POI_UPDATE');
         itembutton:SetScript('OnEvent', Button_OnEvent);
+
+        SV:ManageVisibility(itembutton)
 
         return itembutton
     end
@@ -708,7 +710,7 @@ local GetQuestRow = function(self, index)
 		row.Badge = CreateFrame("Frame", nil, row)
 		row.Badge:SetPoint("TOPLEFT", row, "TOPLEFT", 0, 0);
 		row.Badge:ModSize(QUEST_ROW_HEIGHT, QUEST_ROW_HEIGHT);
-		row.Badge:SetStyle("Transparent")
+		row.Badge:SetStyle("Frame", "Lite")
 
 		row.Badge.Icon = row.Badge:CreateTexture(nil,"OVERLAY")
 		row.Badge.Icon:SetAllPoints(row.Badge);
@@ -717,7 +719,7 @@ local GetQuestRow = function(self, index)
 
 		row.Badge.Button = CreateFrame("Button", nil, row.Badge)
 		row.Badge.Button:SetAllPoints(row.Badge);
-		row.Badge.Button:SetStyle("Lite")
+		row.Badge.Button:SetStyle("LiteButton")
 		row.Badge.Button:SetID(0)
 		row.Badge.Button.Icon = row.Badge.Icon;
 		row.Badge.Button:RegisterForClicks("LeftButtonUp", "RightButtonUp")
@@ -754,7 +756,7 @@ local GetQuestRow = function(self, index)
 
 		row.Button = CreateFrame("Button", nil, row.Header)
 		row.Button:SetAllPoints(row.Header);
-		row.Button:SetStyle("Lite")
+		row.Button:SetStyle("LiteButton")
 		row.Button:SetID(0)
 		row.Button:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 		row.Button:SetScript("OnClick", ViewButton_OnClick);
@@ -1074,9 +1076,9 @@ function MOD:UpdateObjectives(event, ...)
 			if(IsQuestTask(questID)) then
 				self:CacheBonusObjective(event, ...);
 			end
+			self:CheckActiveQuest(questID);
 			if(CACHED_QUESTS[questID]) then
 				CACHED_QUESTS[questID] = nil;
-				self:CheckActiveQuest(questID);
 				ItemBar:Reset();
 				self.Headers["Quests"]:Reset();
 				self.Headers["Quests"]:Refresh(event, ...);

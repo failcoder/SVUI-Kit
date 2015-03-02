@@ -79,7 +79,7 @@ local methods = {
 		self:SetValue(false)
 		self:SetTriState(nil)
 		-- height is calculated from the width and required space for the description
-		self:SetWidth(200)
+		self:SetWidth(320)
 		self:SetImage()
 		self:SetDisabled(nil)
 		self:SetDescription(nil)

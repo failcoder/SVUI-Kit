@@ -72,7 +72,7 @@ local methods = {
 		-- set the flag to stop constant size updates
 		self.resizing = true
 		-- height is set dynamically by the text and image size
-		self:SetWidth(200)
+		self:SetWidth(320)
 		self:SetText()
 		self:SetImage(nil)
 		self:SetImageSize(16, 16)

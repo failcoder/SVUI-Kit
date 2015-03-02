@@ -48,7 +48,7 @@ function MOD:Docklet_alDamageMeter(parent)
   dmconf.width=parentFrame:GetWidth()
   alDamageMeterFrame:ClearAllPoints()
   alDamageMeterFrame:SetAllPoints(parent)
-  alDamageMeterFrame.backdrop:SetStyle("Transparent")
+  alDamageMeterFrame.backdrop:SetStyle("!_Frame", 'Transparent',true)
   alDamageMeterFrame.bg:Die()
   alDamageMeterFrame:SetFrameStrata('LOW')
 

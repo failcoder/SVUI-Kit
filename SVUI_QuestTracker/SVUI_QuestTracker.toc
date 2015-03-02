@@ -12,7 +12,7 @@
 ## X-Donate: PayPal:munglunch@gmail.com
 ## X-License: All Rights Reserved
 ## X-Category: Interface Enhancements
-## X-Curse-Packaged-Version: r20150224202747
+## X-Curse-Packaged-Version: r20150302001907
 ## X-Curse-Project-Name: SuperVillain UI: QuestTracker
 ## X-Curse-Project-ID: supervillain-ui-questtracker
 ## X-Curse-Repository-ID: wow/supervillain-ui-questtracker/mainline

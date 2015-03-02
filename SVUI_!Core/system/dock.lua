@@ -191,7 +191,7 @@ function MOD:SetButtonTheme(button, size)
 	local sparkSize = size * 5;
     local sparkOffset = size * 0.5;
 
-    SV.API:Set("DockButton", button)
+    button:SetStyle("DockButton")
 
 	local sparks = button:CreateTexture(nil, "OVERLAY", nil, 2)
 	sparks:ModSize(sparkSize, sparkSize)
@@ -1065,29 +1065,25 @@ BUILD/UPDATE
 ##########################################################
 ]]--
 function MOD:UpdateDockBackdrops()
-	if(MOD.BottomRight.backdrop) then
-		if(DOCK_CHECK and SV.db.Dock.rightDockBackdrop) then
-			MOD.BottomRight.backdrop:Show()
-			MOD.BottomRight.backdrop:ClearAllPoints()
-			MOD.BottomRight.backdrop:WrapPoints(MOD.BottomRight.Window, 4, 4)
+	if(DOCK_CHECK and SV.db.Dock.rightDockBackdrop) then
+		MOD.BottomRight.backdrop:Show()
+		MOD.BottomRight.backdrop:ClearAllPoints()
+		MOD.BottomRight.backdrop:WrapPoints(MOD.BottomRight.Window, 4, 4)
 
-			MOD.BottomRight.Alert.backdrop:ClearAllPoints()
-			MOD.BottomRight.Alert.backdrop:WrapPoints(MOD.BottomRight.Alert, 4, 4)
-		else
-			MOD.BottomRight.backdrop:Hide()
-		end
+		MOD.BottomRight.Alert.backdrop:ClearAllPoints()
+		MOD.BottomRight.Alert.backdrop:WrapPoints(MOD.BottomRight.Alert, 4, 4)
+	else
+		MOD.BottomRight.backdrop:Hide()
 	end
-	if(MOD.BottomLeft.backdrop) then
-		if(DOCK_CHECK and SV.db.Dock.leftDockBackdrop) then
-			MOD.BottomLeft.backdrop:Show()
-			MOD.BottomLeft.backdrop:ClearAllPoints()
-			MOD.BottomLeft.backdrop:WrapPoints(MOD.BottomLeft.Window, 4, 4)
+	if(DOCK_CHECK and SV.db.Dock.leftDockBackdrop) then
+		MOD.BottomLeft.backdrop:Show()
+		MOD.BottomLeft.backdrop:ClearAllPoints()
+		MOD.BottomLeft.backdrop:WrapPoints(MOD.BottomLeft.Window, 4, 4)
 
-			MOD.BottomLeft.Alert.backdrop:ClearAllPoints()
-			MOD.BottomLeft.Alert.backdrop:WrapPoints(MOD.BottomLeft.Alert, 4, 4)
-		else
-			MOD.BottomLeft.backdrop:Hide()
-		end
+		MOD.BottomLeft.Alert.backdrop:ClearAllPoints()
+		MOD.BottomLeft.Alert.backdrop:WrapPoints(MOD.BottomLeft.Alert, 4, 4)
+	else
+		MOD.BottomLeft.backdrop:Hide()
 	end
 end 
 
@@ -1294,6 +1290,8 @@ function MOD:Load()
 	SV:ManageVisibility(self.BottomRight.Window)
 	SV:ManageVisibility(self.TopLeft)
 	SV:ManageVisibility(self.TopRight)
+	--SV:ManageVisibility(self.BottomCenter)
+	SV:ManageVisibility(self.TopCenter)
 
 	local centerWidth = SV.db.Dock.dockCenterWidth;
 	local dockHeight = SV.db.Dock.dockCenterHeight;

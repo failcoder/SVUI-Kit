@@ -101,11 +101,11 @@ local function PetJournalStyle()
 	MountJournal.MountCount:RemoveTextures()
 	MountJournalListScrollFrame:RemoveTextures()
 	MountJournalMountButton:RemoveTextures()
-	MountJournalMountButton:SetStyle()
-	MountJournalSearchBox:SetStyle()
+	MountJournalMountButton:SetStyle("Button")
+	MountJournalSearchBox:SetStyle("Editbox")
 
 	SV.API:Set("ScrollFrame", MountJournalListScrollFrameScrollBar)
-	MountJournal.MountDisplay:SetStyle("PatternModel")
+	MountJournal.MountDisplay:SetStyle("!_Frame", "Model")
 
 	local buttons = MountJournal.ListScrollFrame.buttons
 	for i = 1, #buttons do
@@ -129,8 +129,8 @@ local function PetJournalStyle()
 	MountJournalListScrollFrame:HookScript("OnMouseWheel", PetJournal_UpdateMounts)
 	PetJournalSummonButton:RemoveTextures()
 	PetJournalFindBattle:RemoveTextures()
-	PetJournalSummonButton:SetStyle()
-	PetJournalFindBattle:SetStyle()
+	PetJournalSummonButton:SetStyle("Button")
+	PetJournalFindBattle:SetStyle("Button")
 	PetJournalRightInset:RemoveTextures()
 	PetJournalLeftInset:RemoveTextures()
 
@@ -141,9 +141,9 @@ local function PetJournalStyle()
 
 	PetJournalTutorialButton:Die()
 	PetJournal.PetCount:RemoveTextures()
-	PetJournalSearchBox:SetStyle()
+	PetJournalSearchBox:SetStyle("Editbox")
 	PetJournalFilterButton:RemoveTextures(true)
-	PetJournalFilterButton:SetStyle()
+	PetJournalFilterButton:SetStyle("Button")
 	PetJournalListScrollFrame:RemoveTextures()
 	SV.API:Set("ScrollFrame", PetJournalListScrollFrameScrollBar)
 
@@ -185,221 +185,10 @@ local function PetJournalStyle()
 		SV.API:Set("ItemButton", pjPet, nil, nil, true)
 		pjPet.setButton:RemoveTextures()
 		_G['PetJournalLoadoutPet'..b..'HealthFrame'].healthBar:RemoveTextures()
-		_G['PetJournalLoadoutPet'..b..'HealthFrame'].healthBar:SetStyle()
+		_G['PetJournalLoadoutPet'..b..'HealthFrame'].healthBar:SetStyle("Frame", 'Default')
 		_G['PetJournalLoadoutPet'..b..'HealthFrame'].healthBar:SetStatusBarTexture(SV.media.statusbar.default)
 		_G['PetJournalLoadoutPet'..b..'XPBar']:RemoveTextures()
-		_G['PetJournalLoadoutPet'..b..'XPBar']:SetStyle()
-		_G['PetJournalLoadoutPet'..b..'XPBar']:SetStatusBarTexture(SV.media.statusbar.default)
-		_G['PetJournalLoadoutPet'..b..'XPBar']:SetFrameLevel(_G['PetJournalLoadoutPet'..b..'XPBar']:GetFrameLevel()+2)
-		for v = 1, 3 do 
-			local s = _G['PetJournalLoadoutPet'..b..'Spell'..v]
-			SV.API:Set("ItemButton", s)
-			s.FlyoutArrow:SetTexture([[Interface\Buttons\ActionBarFlyoutButton]])
-			_G['PetJournalLoadoutPet'..b..'Spell'..v..'Icon']:InsetPoints(s)
-			s.Panel:SetFrameLevel(s:GetFrameLevel() + 1)
-			_G['PetJournalLoadoutPet'..b..'Spell'..v..'Icon']:SetParent(s.Panel)
-		end 
-	end 
-
-	PetJournalSpellSelect:RemoveTextures()
-
-	for b = 1, 2 do 
-		local Q = _G['PetJournalSpellSelectSpell'..b]
-		SV.API:Set("ItemButton", Q)
-		_G['PetJournalSpellSelectSpell'..b..'Icon']:InsetPoints(Q)
-		_G['PetJournalSpellSelectSpell'..b..'Icon']:SetDrawLayer('BORDER')
-	end 
-
-	PetJournalPetCard:RemoveTextures()
-	SV.API:Set("ItemButton", PetJournalPetCard, nil, nil, true)
-	PetJournalPetCardInset:RemoveTextures()
-	PetJournalPetCardPetInfo.levelBG:SetAlpha(0)
-	PetJournalPetCardPetInfoIcon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
-	SV.API:Set("ItemButton", PetJournalPetCardPetInfo, nil, true, true)
-
-	local fg = CreateFrame("Frame", nil, PetJournalPetCardPetInfo)
-	fg:SetSize(40,40)
-	fg:SetPoint("TOPLEFT", PetJournalPetCardPetInfo, "TOPLEFT", -1, 1)
-	fg:SetFrameLevel(PetJournalPetCardPetInfo:GetFrameLevel() + 30)
-
-	PetJournalPetCardPetInfo.favorite:SetParent(fg)
-	PetJournalPetCardPetInfo.Panel:WrapPoints(PetJournalPetCardPetInfoIcon)
-	PetJournalPetCardPetInfoIcon:SetParent(PetJournalPetCardPetInfo.Panel)
-	PetJournalPetCardPetInfo.level:SetParent(PetJournalPetCardPetInfo.Panel)
-
-	local R = PetJournalPrimaryAbilityTooltip;
-	R.Background:SetTexture("")
-	
-	if R.Delimiter1 then
-		R.Delimiter1:SetTexture("")
-		R.Delimiter2:SetTexture("")
-	end
-
-	R.BorderTop:SetTexture("")
-	R.BorderTopLeft:SetTexture("")
-	R.BorderTopRight:SetTexture("")
-	R.BorderLeft:SetTexture("")
-	R.BorderRight:SetTexture("")
-	R.BorderBottom:SetTexture("")
-	R.BorderBottomRight:SetTexture("")
-	R.BorderBottomLeft:SetTexture("")
-	R:SetStyle("Transparent")
-
-	for b = 1, 6 do 
-		local S = _G['PetJournalPetCardSpell'..b]
-		S:SetFrameLevel(S:GetFrameLevel() + 2)
-		S:DisableDrawLayer('BACKGROUND')
-		S:SetStyle("Transparent")
-		S.Panel:SetAllPoints()
-		S.icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
-		S.icon:InsetPoints(S.Panel)
-	end
-
-	PetJournalPetCardHealthFrame.healthBar:RemoveTextures()
-	PetJournalPetCardHealthFrame.healthBar:SetStyle()
-	PetJournalPetCardHealthFrame.healthBar:SetStatusBarTexture(SV.media.statusbar.default)
-	PetJournalPetCardXPBar:RemoveTextures()
-	PetJournalPetCardXPBar:SetStyle()
-	PetJournalPetCardXPBar:SetStatusBarTexture(SV.media.statusbar.default)
-
-	SV.API:Set("Tab", PetJournalParentTab3)
-
-	ToyBox:RemoveTextures()
-	ToyBoxSearchBox:SetStyle()
-	ToyBoxFilterButton:RemoveTextures()
-	ToyBoxFilterButton:SetStyle()
-	ToyBoxIconsFrame:RemoveTextures()
-	ToyBoxIconsFrame:SetStyle("PatternModel")
-
-	ToyBoxProgressBar:RemoveTextures()
-	ToyBoxProgressBar:SetStatusBarTexture([[Interface\BUTTONS\WHITE8X8]])
-	ToyBoxProgressBar:SetStyle("Transparent", 2, 2, 2)
-	SV.API:Set("PageButton", ToyBoxNextPageButton)
-	SV.API:Set("PageButton", ToyBoxPrevPageButton)
-
-	MountJournalFilterButton:RemoveTextures()
-	MountJournalFilterButton:SetStyle()
-
-	MountJournal.SummonRandomFavoriteButton:RemoveTextures()
-	MountJournal.SummonRandomFavoriteButton:SetStyle("Item")
-	MountJournal.SummonRandomFavoriteButton.texture:SetTexture([[Interface\ICONS\ACHIEVEMENT_GUILDPERK_MOUNTUP]])
-	MountJournal.SummonRandomFavoriteButton.texture:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
-
-	for i = 1, 18 do
-		local gName = ("ToySpellButton%d"):format(i)
-		local button = _G[gName]
-		if(button) then
-			button:SetStyle()
-		end
-	end
-end
-
-local function CollectionsJournalStyle()
-	if SV.db.Skins.blizzard.enable ~= true or SV.db.Skins.blizzard.mounts ~= true then return end 
-
-	SV.API:Set("Window", CollectionsJournal)
-
-	CollectionsJournalPortrait:Hide()
-	SV.API:Set("Tab", CollectionsJournalTab1)
-	SV.API:Set("Tab", CollectionsJournalTab2)
-	SV.API:Set("CloseButton", CollectionsJournalCloseButton)
-
-	MountJournal:RemoveTextures()
-	MountJournal.LeftInset:RemoveTextures()
-	MountJournal.RightInset:RemoveTextures()
-	MountJournal.MountDisplay:RemoveTextures()
-	MountJournal.MountDisplay.ShadowOverlay:RemoveTextures()
-	MountJournal.MountCount:RemoveTextures()
-	MountJournalListScrollFrame:RemoveTextures()
-	MountJournalMountButton:RemoveTextures()
-	MountJournalMountButton:SetStyle()
-	MountJournalSearchBox:SetStyle()
-
-	SV.API:Set("ScrollFrame", MountJournalListScrollFrameScrollBar)
-	MountJournal.MountDisplay:SetStyle("PatternModel")
-
-	local buttons = MountJournal.ListScrollFrame.buttons
-	for i = 1, #buttons do
-		local button = buttons[i]
-		if(button) then
-			SV.API:Set("ItemButton", button, nil, true, true)
-			local bar = _G["SVUI_MountSelectBar"..i]
-			if(bar) then bar:SetParent(button.Panel) end
-			if(button.favorite) then
-				local fg = CreateFrame("Frame", nil, button)
-				fg:SetAllPoints(favorite)
-				fg:SetFrameLevel(button:GetFrameLevel() + 30)
-				button.favorite:SetParent(fg)
-				button.favorite:SetTexture(SV.media.icon.star)
-			end
-		end
-	end
-
-	hooksecurefunc("MountJournal_UpdateMountList", PetJournal_UpdateMounts)
-	MountJournalListScrollFrame:HookScript("OnVerticalScroll", PetJournal_UpdateMounts)
-	MountJournalListScrollFrame:HookScript("OnMouseWheel", PetJournal_UpdateMounts)
-	PetJournalSummonButton:RemoveTextures()
-	PetJournalFindBattle:RemoveTextures()
-	PetJournalSummonButton:SetStyle()
-	PetJournalFindBattle:SetStyle()
-	PetJournalRightInset:RemoveTextures()
-	PetJournalLeftInset:RemoveTextures()
-
-	for i = 1, 3 do 
-		local button = _G["PetJournalLoadoutPet" .. i .. "HelpFrame"]
-		button:RemoveTextures()
-	end 
-
-	PetJournalTutorialButton:Die()
-	PetJournal.PetCount:RemoveTextures()
-	PetJournalSearchBox:SetStyle()
-	PetJournalFilterButton:RemoveTextures(true)
-	PetJournalFilterButton:SetStyle()
-	PetJournalListScrollFrame:RemoveTextures()
-	SV.API:Set("ScrollFrame", PetJournalListScrollFrameScrollBar)
-
-	for i = 1, #PetJournal.listScroll.buttons do 
-		local button = _G["PetJournalListScrollFrameButton" .. i]
-		local favorite = _G["PetJournalListScrollFrameButton" .. i .. "Favorite"]
-		SV.API:Set("ItemButton", button, false, true)
-		if(favorite) then
-			local fg = CreateFrame("Frame", nil, button)
-			fg:SetAllPoints(favorite)
-			fg:SetFrameLevel(button:GetFrameLevel() + 30)
-			favorite:SetParent(fg)
-			button.dragButton.favorite:SetParent(fg)
-			favorite:SetTexture(SV.media.icon.star)
-			favorite:SetTexCoord(0,1,0,1)
-		end
-		
-		button.dragButton.levelBG:SetAlpha(0)
-		button.dragButton.level:SetParent(button)
-		button.petTypeIcon:SetParent(button.Panel)
-	end 
-
-	hooksecurefunc('PetJournal_UpdatePetList', PetJournal_UpdatePets)
-	PetJournalListScrollFrame:HookScript("OnVerticalScroll", PetJournal_UpdatePets)
-	PetJournalListScrollFrame:HookScript("OnMouseWheel", PetJournal_UpdatePets)
-	PetJournalAchievementStatus:DisableDrawLayer('BACKGROUND')
-	SV.API:Set("ItemButton", PetJournalHealPetButton, true)
-	PetJournalHealPetButton.texture:SetTexture([[Interface\Icons\spell_magic_polymorphrabbit]])
-	PetJournalLoadoutBorder:RemoveTextures()
-
-	for b = 1, 3 do
-		local pjPet = _G['PetJournalLoadoutPet'..b]
-		pjPet:RemoveTextures()
-		pjPet.petTypeIcon:SetPoint('BOTTOMLEFT', 2, 2)
-		pjPet.dragButton:WrapPoints(_G['PetJournalLoadoutPet'..b..'Icon'])
-		pjPet.hover = true;
-		pjPet.pushed = true;
-		pjPet.checked = true;
-		SV.API:Set("ItemButton", pjPet, nil, nil, true)
-		pjPet.setButton:RemoveTextures()
-		_G['PetJournalLoadoutPet'..b..'HealthFrame'].healthBar:RemoveTextures()
-		_G['PetJournalLoadoutPet'..b..'HealthFrame'].healthBar:SetStyle()
-		_G['PetJournalLoadoutPet'..b..'HealthFrame'].healthBar:SetStatusBarTexture(SV.media.statusbar.default)
-		_G['PetJournalLoadoutPet'..b..'XPBar']:RemoveTextures()
-		_G['PetJournalLoadoutPet'..b..'XPBar']:SetStyle()
+		_G['PetJournalLoadoutPet'..b..'XPBar']:SetStyle("Frame", 'Default')
 		_G['PetJournalLoadoutPet'..b..'XPBar']:SetStatusBarTexture(SV.media.statusbar.default)
 		_G['PetJournalLoadoutPet'..b..'XPBar']:SetFrameLevel(_G['PetJournalLoadoutPet'..b..'XPBar']:GetFrameLevel()+2)
 		for v = 1, 3 do 
@@ -452,58 +241,45 @@ local function CollectionsJournalStyle()
 	R.BorderBottom:SetTexture("")
 	R.BorderBottomRight:SetTexture("")
 	R.BorderBottomLeft:SetTexture("")
-	R:SetStyle("Transparent")
+	R:SetStyle("!_Frame", "Transparent", true)
 
 	for b = 1, 6 do 
 		local S = _G['PetJournalPetCardSpell'..b]
 		S:SetFrameLevel(S:GetFrameLevel() + 2)
 		S:DisableDrawLayer('BACKGROUND')
-		S:SetStyle("Transparent")
+		S:SetStyle("Frame", 'Transparent')
 		S.Panel:SetAllPoints()
 		S.icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 		S.icon:InsetPoints(S.Panel)
 	end
 
 	PetJournalPetCardHealthFrame.healthBar:RemoveTextures()
-	PetJournalPetCardHealthFrame.healthBar:SetStyle()
+	PetJournalPetCardHealthFrame.healthBar:SetStyle("Frame", 'Default')
 	PetJournalPetCardHealthFrame.healthBar:SetStatusBarTexture(SV.media.statusbar.default)
 	PetJournalPetCardXPBar:RemoveTextures()
-	PetJournalPetCardXPBar:SetStyle()
+	PetJournalPetCardXPBar:SetStyle("Frame", 'Default')
 	PetJournalPetCardXPBar:SetStatusBarTexture(SV.media.statusbar.default)
 
-	SV.API:Set("Tab", CollectionsJournalTab3)
-	SV.API:Set("Tab", CollectionsJournalTab4)
+	SV.API:Set("Tab", PetJournalParentTab3)
 
 	ToyBox:RemoveTextures()
-	ToyBox.searchBox:SetStyle()
+	ToyBoxSearchBox:SetStyle("Editbox")
 	ToyBoxFilterButton:RemoveTextures()
-	ToyBoxFilterButton:SetStyle()
-	ToyBox.iconsFrame:RemoveTextures()
-	ToyBox.iconsFrame:SetStyle("PatternModel")
-	ToyBox.progressBar:RemoveTextures()
-	ToyBox.progressBar:SetStatusBarTexture([[Interface\BUTTONS\WHITE8X8]])
-	ToyBox.progressBar:SetStyle("Transparent", 2, 2, 2)
-	SV.API:Set("PageButton", ToyBox.navigationFrame.prevPageButton)
-	SV.API:Set("PageButton", ToyBox.navigationFrame.nextPageButton)
+	ToyBoxFilterButton:SetStyle("Button")
+	ToyBoxIconsFrame:RemoveTextures()
+	ToyBoxIconsFrame:SetStyle("!_Frame", 'Model')
 
-	HeirloomsJournal:RemoveTextures()
-	HeirloomsJournal.SearchBox:SetStyle()
-	HeirloomsJournalFilterButton:RemoveTextures()
-	HeirloomsJournalFilterButton:SetStyle()
-	HeirloomsJournal.iconsFrame:RemoveTextures()
-	HeirloomsJournal.iconsFrame:SetStyle("PatternModel")
-
-	HeirloomsJournal.progressBar:RemoveTextures()
-	HeirloomsJournal.progressBar:SetStatusBarTexture([[Interface\BUTTONS\WHITE8X8]])
-	HeirloomsJournal.progressBar:SetStyle("Transparent", 2, 2, 2)
-	SV.API:Set("PageButton", HeirloomsJournal.navigationFrame.prevPageButton)
-	SV.API:Set("PageButton", HeirloomsJournal.navigationFrame.nextPageButton)
+	ToyBoxProgressBar:RemoveTextures()
+	ToyBoxProgressBar:SetStatusBarTexture([[Interface\BUTTONS\WHITE8X8]])
+	ToyBoxProgressBar:SetStyle("Frame", "Bar", true, 2, 2, 2)
+	SV.API:Set("PageButton", ToyBoxNextPageButton)
+	SV.API:Set("PageButton", ToyBoxPrevPageButton)
 
 	MountJournalFilterButton:RemoveTextures()
-	MountJournalFilterButton:SetStyle()
+	MountJournalFilterButton:SetStyle("Button")
 
 	MountJournal.SummonRandomFavoriteButton:RemoveTextures()
-	MountJournal.SummonRandomFavoriteButton:SetStyle("Item")
+	MountJournal.SummonRandomFavoriteButton:SetStyle("ActionSlot")
 	MountJournal.SummonRandomFavoriteButton.texture:SetTexture([[Interface\ICONS\ACHIEVEMENT_GUILDPERK_MOUNTUP]])
 	MountJournal.SummonRandomFavoriteButton.texture:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
 
@@ -511,7 +287,229 @@ local function CollectionsJournalStyle()
 		local gName = ("ToySpellButton%d"):format(i)
 		local button = _G[gName]
 		if(button) then
-			button:SetStyle()
+			button:SetStyle("Button")
+		end
+	end
+end
+
+local function CollectionsJournalStyle()
+	if SV.db.Skins.blizzard.enable ~= true or SV.db.Skins.blizzard.mounts ~= true then return end 
+
+	SV.API:Set("Window", CollectionsJournal)
+
+	CollectionsJournalPortrait:Hide()
+	SV.API:Set("Tab", CollectionsJournalTab1)
+	SV.API:Set("Tab", CollectionsJournalTab2)
+	SV.API:Set("CloseButton", CollectionsJournalCloseButton)
+
+	MountJournal:RemoveTextures()
+	MountJournal.LeftInset:RemoveTextures()
+	MountJournal.RightInset:RemoveTextures()
+	MountJournal.MountDisplay:RemoveTextures()
+	MountJournal.MountDisplay.ShadowOverlay:RemoveTextures()
+	MountJournal.MountCount:RemoveTextures()
+	MountJournalListScrollFrame:RemoveTextures()
+	MountJournalMountButton:RemoveTextures()
+	MountJournalMountButton:SetStyle("Button")
+	MountJournalSearchBox:SetStyle("Editbox")
+
+	SV.API:Set("ScrollFrame", MountJournalListScrollFrameScrollBar)
+	MountJournal.MountDisplay:SetStyle("!_Frame", "Model")
+
+	local buttons = MountJournal.ListScrollFrame.buttons
+	for i = 1, #buttons do
+		local button = buttons[i]
+		if(button) then
+			SV.API:Set("ItemButton", button, nil, true, true)
+			local bar = _G["SVUI_MountSelectBar"..i]
+			if(bar) then bar:SetParent(button.Panel) end
+			if(button.favorite) then
+				local fg = CreateFrame("Frame", nil, button)
+				fg:SetAllPoints(favorite)
+				fg:SetFrameLevel(button:GetFrameLevel() + 30)
+				button.favorite:SetParent(fg)
+				button.favorite:SetTexture(SV.media.icon.star)
+			end
+		end
+	end
+
+	hooksecurefunc("MountJournal_UpdateMountList", PetJournal_UpdateMounts)
+	MountJournalListScrollFrame:HookScript("OnVerticalScroll", PetJournal_UpdateMounts)
+	MountJournalListScrollFrame:HookScript("OnMouseWheel", PetJournal_UpdateMounts)
+	PetJournalSummonButton:RemoveTextures()
+	PetJournalFindBattle:RemoveTextures()
+	PetJournalSummonButton:SetStyle("Button")
+	PetJournalFindBattle:SetStyle("Button")
+	PetJournalRightInset:RemoveTextures()
+	PetJournalLeftInset:RemoveTextures()
+
+	for i = 1, 3 do 
+		local button = _G["PetJournalLoadoutPet" .. i .. "HelpFrame"]
+		button:RemoveTextures()
+	end 
+
+	PetJournalTutorialButton:Die()
+	PetJournal.PetCount:RemoveTextures()
+	PetJournalSearchBox:SetStyle("Editbox")
+	PetJournalFilterButton:RemoveTextures(true)
+	PetJournalFilterButton:SetStyle("Button")
+	PetJournalListScrollFrame:RemoveTextures()
+	SV.API:Set("ScrollFrame", PetJournalListScrollFrameScrollBar)
+
+	for i = 1, #PetJournal.listScroll.buttons do 
+		local button = _G["PetJournalListScrollFrameButton" .. i]
+		local favorite = _G["PetJournalListScrollFrameButton" .. i .. "Favorite"]
+		SV.API:Set("ItemButton", button, false, true)
+		if(favorite) then
+			local fg = CreateFrame("Frame", nil, button)
+			fg:SetAllPoints(favorite)
+			fg:SetFrameLevel(button:GetFrameLevel() + 30)
+			favorite:SetParent(fg)
+			button.dragButton.favorite:SetParent(fg)
+			favorite:SetTexture(SV.media.icon.star)
+			favorite:SetTexCoord(0,1,0,1)
+		end
+		
+		button.dragButton.levelBG:SetAlpha(0)
+		button.dragButton.level:SetParent(button)
+		button.petTypeIcon:SetParent(button.Panel)
+	end 
+
+	hooksecurefunc('PetJournal_UpdatePetList', PetJournal_UpdatePets)
+	PetJournalListScrollFrame:HookScript("OnVerticalScroll", PetJournal_UpdatePets)
+	PetJournalListScrollFrame:HookScript("OnMouseWheel", PetJournal_UpdatePets)
+	PetJournalAchievementStatus:DisableDrawLayer('BACKGROUND')
+	SV.API:Set("ItemButton", PetJournalHealPetButton, true)
+	PetJournalHealPetButton.texture:SetTexture([[Interface\Icons\spell_magic_polymorphrabbit]])
+	PetJournalLoadoutBorder:RemoveTextures()
+
+	for b = 1, 3 do
+		local pjPet = _G['PetJournalLoadoutPet'..b]
+		pjPet:RemoveTextures()
+		pjPet.petTypeIcon:SetPoint('BOTTOMLEFT', 2, 2)
+		pjPet.dragButton:WrapPoints(_G['PetJournalLoadoutPet'..b..'Icon'])
+		pjPet.hover = true;
+		pjPet.pushed = true;
+		pjPet.checked = true;
+		SV.API:Set("ItemButton", pjPet, nil, nil, true)
+		pjPet.setButton:RemoveTextures()
+		_G['PetJournalLoadoutPet'..b..'HealthFrame'].healthBar:RemoveTextures()
+		_G['PetJournalLoadoutPet'..b..'HealthFrame'].healthBar:SetStyle("Frame", 'Default')
+		_G['PetJournalLoadoutPet'..b..'HealthFrame'].healthBar:SetStatusBarTexture(SV.media.statusbar.default)
+		_G['PetJournalLoadoutPet'..b..'XPBar']:RemoveTextures()
+		_G['PetJournalLoadoutPet'..b..'XPBar']:SetStyle("Frame", 'Default')
+		_G['PetJournalLoadoutPet'..b..'XPBar']:SetStatusBarTexture(SV.media.statusbar.default)
+		_G['PetJournalLoadoutPet'..b..'XPBar']:SetFrameLevel(_G['PetJournalLoadoutPet'..b..'XPBar']:GetFrameLevel()+2)
+		for v = 1, 3 do 
+			local s = _G['PetJournalLoadoutPet'..b..'Spell'..v]
+			SV.API:Set("ItemButton", s)
+			s.FlyoutArrow:SetTexture([[Interface\Buttons\ActionBarFlyoutButton]])
+			_G['PetJournalLoadoutPet'..b..'Spell'..v..'Icon']:InsetPoints(s)
+			s.Panel:SetFrameLevel(s:GetFrameLevel() + 1)
+			_G['PetJournalLoadoutPet'..b..'Spell'..v..'Icon']:SetParent(s.Panel)
+		end 
+	end 
+
+	PetJournalSpellSelect:RemoveTextures()
+
+	for b = 1, 2 do 
+		local Q = _G['PetJournalSpellSelectSpell'..b]
+		SV.API:Set("ItemButton", Q)
+		_G['PetJournalSpellSelectSpell'..b..'Icon']:InsetPoints(Q)
+		_G['PetJournalSpellSelectSpell'..b..'Icon']:SetDrawLayer('BORDER')
+	end 
+
+	PetJournalPetCard:RemoveTextures()
+	SV.API:Set("ItemButton", PetJournalPetCard, nil, nil, true)
+	PetJournalPetCardInset:RemoveTextures()
+	PetJournalPetCardPetInfo.levelBG:SetAlpha(0)
+	PetJournalPetCardPetInfoIcon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
+	SV.API:Set("ItemButton", PetJournalPetCardPetInfo, nil, true, true)
+
+	local fg = CreateFrame("Frame", nil, PetJournalPetCardPetInfo)
+	fg:SetSize(40,40)
+	fg:SetPoint("TOPLEFT", PetJournalPetCardPetInfo, "TOPLEFT", -1, 1)
+	fg:SetFrameLevel(PetJournalPetCardPetInfo:GetFrameLevel() + 30)
+
+	PetJournalPetCardPetInfo.favorite:SetParent(fg)
+	PetJournalPetCardPetInfo.Panel:WrapPoints(PetJournalPetCardPetInfoIcon)
+	PetJournalPetCardPetInfoIcon:SetParent(PetJournalPetCardPetInfo.Panel)
+	PetJournalPetCardPetInfo.level:SetParent(PetJournalPetCardPetInfo.Panel)
+
+	local R = PetJournalPrimaryAbilityTooltip;R.Background:SetTexture("")
+	if R.Delimiter1 then
+		R.Delimiter1:SetTexture("")
+		R.Delimiter2:SetTexture("")
+	end
+
+	R.BorderTop:SetTexture("")
+	R.BorderTopLeft:SetTexture("")
+	R.BorderTopRight:SetTexture("")
+	R.BorderLeft:SetTexture("")
+	R.BorderRight:SetTexture("")
+	R.BorderBottom:SetTexture("")
+	R.BorderBottomRight:SetTexture("")
+	R.BorderBottomLeft:SetTexture("")
+	R:SetStyle("!_Frame", "Transparent", true)
+
+	for b = 1, 6 do 
+		local S = _G['PetJournalPetCardSpell'..b]
+		S:SetFrameLevel(S:GetFrameLevel() + 2)
+		S:DisableDrawLayer('BACKGROUND')
+		S:SetStyle("Frame", 'Transparent')
+		S.Panel:SetAllPoints()
+		S.icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
+		S.icon:InsetPoints(S.Panel)
+	end
+
+	PetJournalPetCardHealthFrame.healthBar:RemoveTextures()
+	PetJournalPetCardHealthFrame.healthBar:SetStyle("Frame", 'Default')
+	PetJournalPetCardHealthFrame.healthBar:SetStatusBarTexture(SV.media.statusbar.default)
+	PetJournalPetCardXPBar:RemoveTextures()
+	PetJournalPetCardXPBar:SetStyle("Frame", 'Default')
+	PetJournalPetCardXPBar:SetStatusBarTexture(SV.media.statusbar.default)
+
+	SV.API:Set("Tab", CollectionsJournalTab3)
+	SV.API:Set("Tab", CollectionsJournalTab4)
+
+	ToyBox:RemoveTextures()
+	ToyBox.searchBox:SetStyle("Editbox")
+	ToyBoxFilterButton:RemoveTextures()
+	ToyBoxFilterButton:SetStyle("Button")
+	ToyBox.iconsFrame:RemoveTextures()
+	ToyBox.iconsFrame:SetStyle("!_Frame", 'Model')
+	ToyBox.progressBar:RemoveTextures()
+	ToyBox.progressBar:SetStatusBarTexture([[Interface\BUTTONS\WHITE8X8]])
+	ToyBox.progressBar:SetStyle("Frame", "Bar", true, 2, 2, 2)
+	SV.API:Set("PageButton", ToyBox.navigationFrame.prevPageButton)
+	SV.API:Set("PageButton", ToyBox.navigationFrame.nextPageButton)
+
+	HeirloomsJournal:RemoveTextures()
+	HeirloomsJournal.SearchBox:SetStyle("Editbox")
+	HeirloomsJournalFilterButton:RemoveTextures()
+	HeirloomsJournalFilterButton:SetStyle("Button")
+	HeirloomsJournal.iconsFrame:RemoveTextures()
+	HeirloomsJournal.iconsFrame:SetStyle("!_Frame", 'Model')
+
+	HeirloomsJournal.progressBar:RemoveTextures()
+	HeirloomsJournal.progressBar:SetStatusBarTexture([[Interface\BUTTONS\WHITE8X8]])
+	HeirloomsJournal.progressBar:SetStyle("Frame", "Bar", true, 2, 2, 2)
+	SV.API:Set("PageButton", HeirloomsJournal.navigationFrame.prevPageButton)
+	SV.API:Set("PageButton", HeirloomsJournal.navigationFrame.nextPageButton)
+
+	MountJournalFilterButton:RemoveTextures()
+	MountJournalFilterButton:SetStyle("Button")
+
+	MountJournal.SummonRandomFavoriteButton:RemoveTextures()
+	MountJournal.SummonRandomFavoriteButton:SetStyle("ActionSlot")
+	MountJournal.SummonRandomFavoriteButton.texture:SetTexture([[Interface\ICONS\ACHIEVEMENT_GUILDPERK_MOUNTUP]])
+	MountJournal.SummonRandomFavoriteButton.texture:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
+
+	for i = 1, 18 do
+		local gName = ("ToySpellButton%d"):format(i)
+		local button = _G[gName]
+		if(button) then
+			button:SetStyle("Button")
 		end
 	end
 end 

@@ -47,16 +47,16 @@ do
 	end
 
 	local displayButtonBackdrop = {
-		edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
-		tile = true, tileSize = 16, edgeSize = 16,
-		insets = { left = 4, right = 4, top = 4, bottom = 4 },
+		edgeFile = [[Interface\AddOns\SVUI_!Core\assets\borders\DEFAULT]],
+		tile = true, tileSize = 16, edgeSize = 1,
+		insets = { left = 1, right = 1, top = 1, bottom = 1 },
 	}
 
 	-- create or retrieve BaseFrame
 	function AGSMW:GetBaseFrame()
 		local frame = CreateFrame("Frame", nil, UIParent)
 		frame:SetHeight(44)
-		frame:SetWidth(200)
+		frame:SetWidth(320)
 		frame:SetPoint("CENTER", UIParent, "CENTER")
 
 		local label = frame:CreateFontString(nil,"OVERLAY","GameFontNormalSmall")
@@ -139,23 +139,30 @@ end
 do
 
 	local sliderBackdrop = {
-		["bgFile"] = [[Interface\Buttons\UI-SliderBar-Background]],
-		["edgeFile"] = [[Interface\Buttons\UI-SliderBar-Border]],
-		["tile"] = true,
-		["edgeSize"] = 8,
-		["tileSize"] = 8,
+		["bgFile"] = [[Interface\AddOns\SVUI_!Core\assets\backgrounds\TRANSPARENT]],
+		["edgeFile"] = [[Interface\AddOns\SVUI_!Core\assets\borders\DEFAULT]],
+		["tile"] = false,
+		["edgeSize"] = 1,
+		["tileSize"] = 0,
 		["insets"] = {
-			["left"] = 3,
-			["right"] = 3,
-			["top"] = 3,
-			["bottom"] = 3,
+			["left"] = 0,
+			["right"] = 0,
+			["top"] = 0,
+			["bottom"] = 0,
 		},
 	}
 	local frameBackdrop = {
-		bgFile=[[Interface\DialogFrame\UI-DialogBox-Background-Dark]],
-		edgeFile = [[Interface\DialogFrame\UI-DialogBox-Border]],
-		tile = true, tileSize = 32, edgeSize = 32,
-		insets = { left = 11, right = 12, top = 12, bottom = 9 },
+		["bgFile"] = [[Interface\AddOns\SVUI_!Core\assets\backgrounds\DARK]],
+		["edgeFile"] = [[Interface\AddOns\SVUI_!Core\assets\borders\DEFAULT]],
+		["tile"] = false,
+		["edgeSize"] = 1,
+		["tileSize"] = 0,
+		["insets"] = {
+			["left"] = 0,
+			["right"] = 0,
+			["top"] = 0,
+			["bottom"] = 0,
+		},
 	}
 
 	local function OnMouseWheel(self, dir)
@@ -180,14 +187,14 @@ do
 		end
 
 		if self.contentframe:GetHeight() > UIParent:GetHeight()*2/5 - 20 then
-			self.scrollframe:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -28, 12)
+			self.scrollframe:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -14, 12)
 			self:SetHeight(UIParent:GetHeight()*2/5)
 			self.slider:Show()
 			self:SetScript("OnMouseWheel", OnMouseWheel)
 			self.scrollframe:UpdateScrollChildRect()
 			self.slider:SetMinMaxValues(0, self.contentframe:GetHeight()-self.scrollframe:GetHeight())
 		else
-			self.scrollframe:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -14, 12)
+			self.scrollframe:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -2, 12)
 			self:SetHeight(self.contentframe:GetHeight()+25)
 			self.slider:Hide()
 			self:SetScript("OnMouseWheel", nil)
@@ -216,20 +223,20 @@ do
 		else
 			frame = CreateFrame("Frame", nil, UIParent)
 				frame:SetClampedToScreen(true)
-				frame:SetWidth(188)
+				frame:SetWidth(320)
 				frame:SetBackdrop(frameBackdrop)
 				frame:SetFrameStrata("TOOLTIP")
 				frame:EnableMouseWheel(true)
 
 			local contentframe = CreateFrame("Frame", nil, frame)
-				contentframe:SetWidth(160)
+				contentframe:SetWidth(316)
 				contentframe:SetHeight(0)
 			frame.contentframe = contentframe
 
 			local scrollframe = CreateFrame("ScrollFrame", nil, frame)
-				scrollframe:SetWidth(160)
-				scrollframe:SetPoint("TOPLEFT", frame, "TOPLEFT", 14, -13)
-				scrollframe:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -14, 12)
+				scrollframe:SetWidth(316)
+				scrollframe:SetPoint("TOPLEFT", frame, "TOPLEFT", 2, -13)
+				scrollframe:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -2, 12)
 				scrollframe:SetScrollChild(contentframe)
 			frame.scrollframe = scrollframe
 
@@ -246,10 +253,10 @@ do
 
 			local slider = CreateFrame("Slider", nil, scrollframe)
 				slider:SetOrientation("VERTICAL")
-				slider:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -14, -10)
-				slider:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -14, 10)
+				slider:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -2, -13)
+				slider:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -2, 12)
 				slider:SetBackdrop(sliderBackdrop)
-				slider:SetThumbTexture([[Interface\Buttons\UI-SliderBar-Button-Vertical]])
+				slider:SetThumbTexture([[Interface\AddOns\SVUI_!Core\assets\buttons\SCROLLBAR-KNOB]])
 				slider:SetMinMaxValues(0, 1)
 				--slider:SetValueStep(1)
 				slider:SetWidth(12)

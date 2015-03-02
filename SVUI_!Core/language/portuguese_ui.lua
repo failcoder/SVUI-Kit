@@ -1,5 +1,17 @@
 local L = Librarian("Linguist"):Lang("ptBR");
 if not L then return; end
+L["Conversation"]    = "Conversa"
+L["General"]         = "Geral"
+L["LocalDefense"]    = "DefesaLocal"
+L["LookingForGroup"] = "ProcurandoGrupo"
+L["Trade"]           = "Comércio"
+L["WorldDefense"]    = "DefesaGlobal"
+L["S_Conversation"]    = "C"
+L["S_General"]        = "Ge"
+L["S_LocalDefense"]    = "DL"
+L["S_LookingForGroup"] = "PG"
+L["S_Trade"]          = "Co"
+L["S_WorldDefense"]    = "DG"
 L["Hearthstone"] = true;
 --[[LOGIN MESSAGE]]--
 L["LOGIN_MSG"] = "Bem vindo à |cffFFFF1ASVUI|r! Manter o seu %s e seu %s."

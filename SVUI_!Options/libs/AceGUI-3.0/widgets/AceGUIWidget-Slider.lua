@@ -127,7 +127,7 @@ Methods
 -------------------------------------------------------------------------------]]
 local methods = {
 	["OnAcquire"] = function(self)
-		self:SetWidth(200)
+		self:SetWidth(320)
 		self:SetHeight(44)
 		self:SetDisabled(false)
 		self:SetIsPercent(nil)

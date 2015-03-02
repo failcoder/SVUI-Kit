@@ -45,7 +45,7 @@ do
 	
 	local backdrop = {
 		bgFile = "Interface\\ChatFrame\\ChatFrameBackground",
-		edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
+		edgeFile = "Interface\\AddOns\\SVUI_!Core\\assets\\borders\\TEXTURED",
 		edgeSize = 32,
 		tileSize = 32,
 		tile = true,
@@ -462,7 +462,7 @@ do
 		fixlevels(self.pullout.frame, self.pullout.frame:GetChildren())
 		
 		self:SetHeight(44)
-		self:SetWidth(200)
+		self:SetWidth(320)
 		self:SetLabel()
 		self:SetPulloutWidth(nil)
 	end

@@ -612,7 +612,7 @@ local function SetNewAnchor(frame, moveName, title, postSizeFunc, postDragFunc, 
 	local width, height = frame:GetSize()
 	movable:SetPoint(anchor1, anchorParent, anchor2, xPos, yPos)
 	movable:SetSize(width, height)
-	movable:SetStyle("Transparent")
+	movable:SetStyle("!_Frame", "Transparent")
 	movable:SetAlpha(0.4)
 
 	frame:SetScript("OnSizeChanged", Layout.Movable_OnSizeChanged)
@@ -707,6 +707,7 @@ function Layout:Reset(request, bypass)
 end
 
 function Layout:Update()
+	self.Anchors = SV.db.LAYOUT or {}
 	for frameName, frameData in pairs(self.Frames) do 
 		local frame = _G[frameName];
 		local anchor1, parent, anchor2, x, y;
@@ -1220,21 +1221,21 @@ local function InitializeMovables()
 	end)
 	SVUI_LayoutGridButton:SetScript("OnClick", XML_LayoutGridButton_OnClick)
 
-	SVUI_LayoutPrecision:SetStyle("Transparent")
+	SVUI_LayoutPrecision:SetStyle("Frame", "Transparent")
 	SVUI_LayoutPrecision:EnableMouse(true)
 
-	SVUI_LayoutPrecisionSetX:SetStyle()
+	SVUI_LayoutPrecisionSetX:SetStyle("Editbox")
 	SVUI_LayoutPrecisionSetX.CurrentValue = 0;
 	SVUI_LayoutPrecisionSetX:SetScript("OnEnterPressed", XML_LayoutPrecisionInputX_EnterPressed)
 
-	SVUI_LayoutPrecisionSetY:SetStyle()
+	SVUI_LayoutPrecisionSetY:SetStyle("Editbox")
 	SVUI_LayoutPrecisionSetY.CurrentValue = 0;
 	SVUI_LayoutPrecisionSetY:SetScript("OnEnterPressed", XML_LayoutPrecisionInputY_EnterPressed)
 
-	SVUI_LayoutPrecisionUpButton:SetStyle()
-	SVUI_LayoutPrecisionDownButton:SetStyle()
-	SVUI_LayoutPrecisionLeftButton:SetStyle()
-	SVUI_LayoutPrecisionRightButton:SetStyle()
+	SVUI_LayoutPrecisionUpButton:SetStyle("Button")
+	SVUI_LayoutPrecisionDownButton:SetStyle("Button")
+	SVUI_LayoutPrecisionLeftButton:SetStyle("Button")
+	SVUI_LayoutPrecisionRightButton:SetStyle("Button")
 	
 	Layout:Update()
 

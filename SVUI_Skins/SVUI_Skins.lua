@@ -482,7 +482,7 @@ function MOD:Load()
 	SV.private.Docks = SV.private.Docks or {"None", "None"}
 
 	local alert = CreateFrame('Frame', nil, UIParent);
-	alert:SetStyle("Transparent");
+	alert:SetStyle("!_Frame", 'Transparent');
 	alert:SetSize(250, 70);
 	alert:SetPoint('CENTER', UIParent, 'CENTER');
 	alert:SetFrameStrata('DIALOG');
@@ -504,8 +504,8 @@ function MOD:Load()
 	alert.Close.Text:SetFont(SV.media.font.dialog, 10);
 	alert.Close.Text:SetPoint('CENTER');
 	alert.Close.Text:SetText(_G.NO);
-	alert.Accept:SetStyle();
-	alert.Close:SetStyle();
+	alert.Accept:SetStyle("Button");
+	alert.Close:SetStyle("Button");
 	alert:Hide();
 
 	self.Alert = alert;

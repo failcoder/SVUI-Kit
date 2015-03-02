@@ -1,5 +1,17 @@
 local L = Librarian("Linguist"):Lang("ruRU");
 if not L then return; end
+L["Conversation"]    = "Разговор"
+L["General"]         = "Общий"
+L["LocalDefense"]    = "ОборонаЛокальный"
+L["LookingForGroup"] = "ПоискСпутников"
+L["Trade"]           = "Торговля"
+L["WorldDefense"]    = "ОборонаГлобальный"
+L["S_Conversation"]    = "Ра"
+L["S_General"]        = "О"
+L["S_LocalDefense"]    = "ОЛ"
+L["S_LookingForGroup"] = "ПС"
+L["S_Trade"]          = "Т"
+L["S_WorldDefense"]    = "ОГ"
 L["Hearthstone"] = true;
 --[[LOGIN MESSAGE]]--
 L["LOGIN_MSG"] = "обро пожаловать в |cffFFFF1ASVUI|r! Держите свои %s и ваши %s."

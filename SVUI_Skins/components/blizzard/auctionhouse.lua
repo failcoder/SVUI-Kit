@@ -94,17 +94,17 @@ local function AuctionStyle()
 	SV.API:Set("DropDown", DurationDropDown)
 	SV.API:Set("ScrollFrame", BrowseFilterScrollFrameScrollBar)
 	SV.API:Set("ScrollFrame", BrowseScrollFrameScrollBar)
-	IsUsableCheckButton:SetStyle()
-	ShowOnPlayerCheckButton:SetStyle()
+	IsUsableCheckButton:SetStyle("Checkbox")
+	ShowOnPlayerCheckButton:SetStyle("Checkbox")
 	
 	ExactMatchCheckButton:RemoveTextures()
-	ExactMatchCheckButton:SetStyle()
+	ExactMatchCheckButton:SetStyle("Checkbox")
 	--SideDressUpFrame:SetPoint("LEFT", AuctionFrame, "RIGHT", 16, 0)
 
 	AuctionProgressFrame:RemoveTextures()
-	AuctionProgressFrame:SetStyle("Transparent")
-	AuctionProgressFrameCancelButton:SetStyle()
-	AuctionProgressFrameCancelButton:SetStyle()
+	AuctionProgressFrame:SetStyle("!_Frame", "Transparent", true)
+	AuctionProgressFrameCancelButton:SetStyle("Button")
+	AuctionProgressFrameCancelButton:SetStyle("!_Frame", "Default")
 	AuctionProgressFrameCancelButton:SetHitRectInsets(0, 0, 0, 0)
 	AuctionProgressFrameCancelButton:GetNormalTexture():InsetPoints()
 	AuctionProgressFrameCancelButton:GetNormalTexture():SetTexCoord(0.67, 0.37, 0.61, 0.26)
@@ -114,13 +114,13 @@ local function AuctionStyle()
 
 	local AuctionProgressBarBG = CreateFrame("Frame", nil, AuctionProgressBarIcon:GetParent())
 	AuctionProgressBarBG:WrapPoints(AuctionProgressBarIcon)
-	AuctionProgressBarBG:SetStyle()
+	AuctionProgressBarBG:SetStyle("!_Frame", "Default")
 	AuctionProgressBarIcon:SetParent(AuctionProgressBarBG)
 
 	AuctionProgressBarText:ClearAllPoints()
 	AuctionProgressBarText:SetPoint("CENTER")
 	AuctionProgressBar:RemoveTextures()
-	AuctionProgressBar:SetStyle()
+	AuctionProgressBar:SetStyle("Frame", "Default")
 	AuctionProgressBar:SetStatusBarTexture(SV.media.statusbar.default)
 	AuctionProgressBar:SetStatusBarColor(1, 1, 0)
 
@@ -130,7 +130,7 @@ local function AuctionStyle()
 	for _,gName in pairs(AuctionBidButtons) do
 		if(_G[gName]) then
 			_G[gName]:RemoveTextures()
-			_G[gName]:SetStyle()
+			_G[gName]:SetStyle("Button")
 		end
 	end 
 
@@ -144,7 +144,7 @@ local function AuctionStyle()
 	BrowseBidButton:ModPoint("RIGHT", BrowseBuyoutButton, "LEFT", -4, 0)
 
 	AuctionsItemButton:RemoveTextures()
-	AuctionsItemButton:SetStyle()
+	AuctionsItemButton:SetStyle("Button")
 	AuctionsItemButton:SetScript("OnUpdate", function()
 		if AuctionsItemButton:GetNormalTexture()then 
 			AuctionsItemButton:GetNormalTexture():SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
@@ -165,7 +165,7 @@ local function AuctionStyle()
 	AuctionFrameBrowse.bg1 = CreateFrame("Frame", nil, AuctionFrameBrowse)
 	AuctionFrameBrowse.bg1:ModPoint("TOPLEFT", 20, -103)
 	AuctionFrameBrowse.bg1:ModPoint("BOTTOMRIGHT", -575, 40)
-	AuctionFrameBrowse.bg1:SetStyle("[INSET]Transparent")
+	AuctionFrameBrowse.bg1:SetStyle("!_Frame", "Inset")
 
 	BrowseNoResultsText:SetParent(AuctionFrameBrowse.bg1)
 	BrowseSearchCountText:SetParent(AuctionFrameBrowse.bg1)
@@ -176,7 +176,7 @@ local function AuctionStyle()
 	AuctionFrameBrowse.bg1:SetFrameLevel(AuctionFrameBrowse.bg1:GetFrameLevel()-1)
 	BrowseFilterScrollFrame:ModHeight(300)
 	AuctionFrameBrowse.bg2 = CreateFrame("Frame", nil, AuctionFrameBrowse)
-	AuctionFrameBrowse.bg2:SetStyle("[INSET]Transparent")
+	AuctionFrameBrowse.bg2:SetStyle("!_Frame", "Inset")
 	AuctionFrameBrowse.bg2:ModPoint("TOPLEFT", AuctionFrameBrowse.bg1, "TOPRIGHT", 4, 0)
 	AuctionFrameBrowse.bg2:ModPoint("BOTTOMRIGHT", AuctionFrame, "BOTTOMRIGHT", -8, 40)
 	AuctionFrameBrowse.bg2:SetFrameLevel(AuctionFrameBrowse.bg2:GetFrameLevel() - 1)
@@ -185,13 +185,13 @@ local function AuctionStyle()
 		local header = _G[("AuctionFilterButton%d"):format(i)]
 		if(header) then
 			header:RemoveTextures()
-			header:SetStyle()
+			header:SetStyle("Button")
 		end
 	end 
 
 	for _,field in pairs(AuctionTextFields) do
 		--_G[field]:RemoveTextures()
-		_G[field]:SetStyle(2, 2)
+		_G[field]:SetStyle("Editbox", 2, 2)
 		_G[field]:SetTextInsets(-1, -1, -2, -2)
 	end
 
@@ -209,14 +209,14 @@ local function AuctionStyle()
 
 		if(button and (not button.Panel)) then 
 			button:RemoveTextures()
-			button:SetStyle()
+			button:SetStyle("Button")
 			button.Panel:ClearAllPoints()
 			button.Panel:SetPoint("TOPLEFT", button, "TOPLEFT", 0, 0)
 			button.Panel:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", 0, 5)
 
 			if(buttonItem) then
 				buttonItem:RemoveTextures()
-				buttonItem:SetStyle("Outline")
+				buttonItem:SetStyle("Icon")
 				if(buttonTex) then
 					buttonTex:SetParent(buttonItem.Panel)
 					buttonTex:InsetPoints(buttonItem.Panel, 2, 2)
@@ -247,10 +247,10 @@ local function AuctionStyle()
 			end 
 
 			button:RemoveTextures()
-			button:SetStyle()
+			button:SetStyle("Button")
 
 			if(buttonItem) then 
-				buttonItem:SetStyle()
+				buttonItem:SetStyle("Button")
 				buttonItem.Panel:SetAllPoints()
 				buttonItem:HookScript("OnUpdate", function()
 					buttonItem:GetNormalTexture():Die()
@@ -279,10 +279,10 @@ local function AuctionStyle()
 			end 
 
 			button:RemoveTextures()
-			button:SetStyle()
+			button:SetStyle("Button")
 
 			if(buttonItem) then 
-				buttonItem:SetStyle()
+				buttonItem:SetStyle("Button")
 				buttonItem.Panel:SetAllPoints()
 				buttonItem:HookScript("OnUpdate", function()
 					buttonItem:GetNormalTexture():Die()
@@ -300,19 +300,19 @@ local function AuctionStyle()
 
 	BrowseScrollFrame:ModHeight(300)
 	AuctionFrameBid.bg = CreateFrame("Frame", nil, AuctionFrameBid)
-	AuctionFrameBid.bg:SetStyle("[INSET]Transparent")
+	AuctionFrameBid.bg:SetStyle("!_Frame", "Inset")
 	AuctionFrameBid.bg:ModPoint("TOPLEFT", 22, -72)
 	AuctionFrameBid.bg:ModPoint("BOTTOMRIGHT", 66, 39)
 	AuctionFrameBid.bg:SetFrameLevel(AuctionFrameBid.bg:GetFrameLevel()-1)
 	BidScrollFrame:ModHeight(332)
 	AuctionsScrollFrame:ModHeight(336)
 	AuctionFrameAuctions.bg1 = CreateFrame("Frame", nil, AuctionFrameAuctions)
-	AuctionFrameAuctions.bg1:SetStyle("[INSET]Transparent")
+	AuctionFrameAuctions.bg1:SetStyle("!_Frame", "Inset")
 	AuctionFrameAuctions.bg1:ModPoint("TOPLEFT", 15, -70)
 	AuctionFrameAuctions.bg1:ModPoint("BOTTOMRIGHT", -545, 35)
 	AuctionFrameAuctions.bg1:SetFrameLevel(AuctionFrameAuctions.bg1:GetFrameLevel() - 2)
 	AuctionFrameAuctions.bg2 = CreateFrame("Frame", nil, AuctionFrameAuctions)
-	AuctionFrameAuctions.bg2:SetStyle("[INSET]Transparent")
+	AuctionFrameAuctions.bg2:SetStyle("!_Frame", "Inset")
 	AuctionFrameAuctions.bg2:ModPoint("TOPLEFT", AuctionFrameAuctions.bg1, "TOPRIGHT", 3, 0)
 	AuctionFrameAuctions.bg2:ModPoint("BOTTOMRIGHT", AuctionFrame, -8, 35)
 	AuctionFrameAuctions.bg2:SetFrameLevel(AuctionFrameAuctions.bg2:GetFrameLevel() - 2)

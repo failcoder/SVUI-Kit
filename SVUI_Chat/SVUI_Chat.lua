@@ -89,6 +89,7 @@ local TAB_WIDTH = 75;
 local TAB_HEIGHT = 20;
 local TAB_SKINS = true;
 local CHAT_FADING = false;
+local CHAT_ABBREV = false;
 local TIME_STAMP_MASK = "NONE";
 local THROTTLE_CACHE = {};
 local COPY_LINES = {};
@@ -119,6 +120,23 @@ local CHAT_YELL_GET = "%s ";
 local CHAT_FLAG_AFK = "[AFK] ";
 local CHAT_FLAG_DND = "[DND] ";
 local CHAT_FLAG_GM = "[GM] ";
+
+local CHANNEL_LINK   = "|Hchannel:%1$s|h%d|| |h"
+local CHANNEL_PATTERN      = "|Hchannel:(.-)|h%[(%d+)%.%s?([^:%-%]]+)%s?[:%-]?%s?[^|%]]*%]|h%s?"
+local CHANNEL_PATTERN_PLUS = CHANNEL_PATTERN .. ".+"
+local CHANNEL_STRINGS = {
+	[L["Conversation"]] 	= L["S_Conversation"],
+	[L["General"]] 			= L["S_General"],
+	[L["LocalDefense"]] 	= L["S_LocalDefense"],
+	[L["LookingForGroup"]] 	= L["S_LookingForGroup"],
+	[L["Trade"]] 			= L["S_Trade"],
+	[L["WorldDefense"]] 	= L["WorldDefense"],
+}
+
+local PLAYER_PATTERN = "|Hplayer:(.-)|h%[(.-)%]|h";
+local PLAYER_LINK    = "|Hplayer:%s|h%s|h"
+local PLAYER_BN_LINK = "|HBNplayer:%s|h%s%s|h"
+local BNPLAYER_PATTERN = "|HBNplayer:(.-)|h%[(|Kb(%d+).-)%](.*)|h"
 --[[ 
 ########################################################## 
 LOCAL FUNCTIONS
@@ -272,23 +290,62 @@ do
 		return ("%s "):format(slink)
 	end
 
-	local AddModifiedMessage = function(self, text, ...)
+	local function _escape(arg1)
+		return arg1:gsub("([%%%+%-%.%[%]%*%?])", "%%%1")
+	end
+
+	local AddModifiedMessage = function(self, message, ...)
 		internalTest = false;
-		if text:find("%pTInterface%p+") or text:find("%pTINTERFACE%p+") or text:find("%pHshare%p+") or text:find("%pHSHARE%p+") then 
-			internalTest = true 
-		end 
-		if not internalTest then text = text:gsub("(%s?)(%d%d?%d?%.%d%d?%d?%.%d%d?%d?%.%d%d?%d?:%d%d?%d?%d?%d?)(%s?)", _parse) end 
-		if not internalTest then text = text:gsub("(%s?)(%d%d?%d?%.%d%d?%d?%.%d%d?%d?%.%d%d?%d?)(%s?)", _parse) end 
-		if not internalTest then text = text:gsub("(%s?)([%w_-]+%.?[%w_-]+%.[%w_-]+:%d%d%d?%d?%d?)(%s?)", _parse) end 
-		if not internalTest then text = text:gsub("(%s?)(%a+://[%w_/%.%?%%=~&-'%-]+)(%s?)", _parse) end 
-		if not internalTest then text = text:gsub("(%s?)(www%.[%w_/%.%?%%=~&-'%-]+)(%s?)", _parse) end 
-		if not internalTest then text = text:gsub("(%s?)([_%w-%.~-]+@[_%w-]+%.[_%w-%.]+)(%s?)", _parse) end
-		if(self.___isFaded) then
-			for i=1, 8 do
-				text = text:gsub("|TInterface\\TargetingFrame\\UI%-RaidTargetingIcon_"..i..":0|t", "")
+		if type(message) == "string" then
+			if(message:find("%pTInterface%p+") or message:find("%pTINTERFACE%p+") or message:find("%pHshare%p+") or message:find("%pHSHARE%p+")) then 
+				internalTest = true 
+			end
+
+			if(CHAT_ABBREV) then
+				local channelData, channelID, channelName = message:match(CHANNEL_PATTERN_PLUS)
+				if(channelData) then
+					local shortName = CHANNEL_STRINGS[channelName] or CHANNEL_STRINGS[channelName:lower()] or channelName:sub(1, 2);
+					message = message:gsub(CHANNEL_PATTERN, CHANNEL_LINK:format(channelData, channelID, shortName))
+				end
+				local playerData, playerName = message:match(PLAYER_PATTERN)
+				if(playerData) then
+					if playerName:match("|cff") then
+						playerName = playerName:gsub("%-[^|]+", "")
+					else
+						playerName = playerName:match("[^%-]+")
+					end
+					message = message:gsub(PLAYER_PATTERN, PLAYER_LINK:format(playerData, playerName))
+				elseif(channelID) then
+					message = message:gsub("(|Hchannel:.-|h): ", "%1", 1)
+				end
+
+				local bnData, bnName, bnID, bnExtra = message:match(BNPLAYER_PATTERN)
+				if bnData and bnName then
+					local toastIcon = message:match("|TInterface\\FriendsFrame\\UI%-Toast%-ToastIcons.-|t")
+					if toastIcon then
+						local gameIcon = message:match("|TInterface\\ChatFrame\\UI%-ChatIcon.-|t")
+						if gameIcon then
+							message = message:gsub(_escape(toastIcon), gameIcon, 1)
+							bnExtra = bnExtra:gsub("%s?%(.-%)", "")
+						end
+					end
+					message = gsub(message, BNPLAYER_PATTERN, format(PLAYER_BN_LINK, bnData, bnName, bnExtra or ""))
+				end
+			end
+
+			if not internalTest then message = message:gsub("(%s?)(%d%d?%d?%.%d%d?%d?%.%d%d?%d?%.%d%d?%d?:%d%d?%d?%d?%d?)(%s?)", _parse) end 
+			if not internalTest then message = message:gsub("(%s?)(%d%d?%d?%.%d%d?%d?%.%d%d?%d?%.%d%d?%d?)(%s?)", _parse) end 
+			if not internalTest then message = message:gsub("(%s?)([%w_-]+%.?[%w_-]+%.[%w_-]+:%d%d%d?%d?%d?)(%s?)", _parse) end 
+			if not internalTest then message = message:gsub("(%s?)(%a+://[%w_/%.%?%%=~&-'%-]+)(%s?)", _parse) end 
+			if not internalTest then message = message:gsub("(%s?)(www%.[%w_/%.%?%%=~&-'%-]+)(%s?)", _parse) end 
+			if not internalTest then message = message:gsub("(%s?)([_%w-%.~-]+@[_%w-]+%.[_%w-%.]+)(%s?)", _parse) end
+			if(self.___isFaded) then
+				for i=1, 8 do
+					message = message:gsub("|TInterface\\TargetingFrame\\UI%-RaidTargetingIcon_"..i..":0|t", "")
+				end
 			end
 		end
-		self.TempAddMessage(self, _concatTimeStamp(text), ...)
+		self.TempAddMessage(self, _concatTimeStamp(message), ...)
 	end
 
 	local ChatEventFilter = function(self, event, message, author, ...)
@@ -655,7 +712,7 @@ do
 		SV:FontManager(chat, "chatdialog", "LEFT")
 		SV:FontManager(tabText, "chattab")
 		if(not chat.Panel) then
-			chat:SetStyle("Transparent", 1, 3, 6)
+			chat:SetStyle("Frame", "Transparent", true, 1, 3, 6)
 			chat.Panel:Hide()
 		end
 		if(SV.media.shared.font.chatdialog.outline ~= 'NONE' )then
@@ -715,7 +772,7 @@ do
 			_G[editBoxName.."FocusLeft"]:Die()
 			_G[editBoxName.."FocusMid"]:Die()
 			_G[editBoxName.."FocusRight"]:Die()
-			editBox:SetStyle("Transparent", 2, -2, -3)
+			editBox:SetStyle("Frame", "Lite", true, 2, -2, -3)
 			editBox:SetAltArrowKeyMode(false)
 			editBox:SetAllPoints(MOD.Dock.Parent.Alert)
 			editBox:HookScript("OnEditFocusGained", EditBox_OnEditFocusGained)
@@ -744,7 +801,7 @@ do
 			chat.button:SetAlpha(0.35)
 			chat.button:ModSize(38, 18)
 			chat.button:SetPoint('TOPRIGHT', chat, 'TOPRIGHT', 0, 0)
-			chat.button:SetStyle("Transparent")
+			chat.button:SetStyle("Frame", "Lite")
 			
 			chat.button.Title = chat.button:CreateFontString()
 			chat.button.Title:SetFontObject(SVUI_Font_ChatTab)
@@ -1265,6 +1322,7 @@ function MOD:UpdateLocals()
 	TAB_WIDTH = SV.db.Chat.tabWidth;
 	TAB_HEIGHT = SV.db.Chat.tabHeight;
 	TAB_SKINS = SV.db.Chat.tabStyled;
+	CHAT_ABBREV = SV.db.Chat.shortChannels;
 	CHAT_FADING = SV.db.Chat.fade;
 	MOD.media.whisperSound = LSM:Fetch("sound", SV.db.Chat.psst);
 	TIME_STAMP_MASK = SV.db.Chat.timeStampFormat;
@@ -1326,7 +1384,7 @@ function MOD:Load()
 
 	_G.GeneralDockManagerOverflowButton:ClearAllPoints()
 	_G.GeneralDockManagerOverflowButton:SetPoint('BOTTOMRIGHT', self.Dock.Bar, 'BOTTOMRIGHT', -2, 2)
-	_G.GeneralDockManagerOverflowButtonList:SetStyle("Transparent")
+	_G.GeneralDockManagerOverflowButtonList:SetStyle("!_Frame", 'Transparent')
 	_G.GeneralDockManager:SetAllPoints(self.Dock.Bar)
 
 	SetAllChatHooks()

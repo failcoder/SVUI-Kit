@@ -241,7 +241,7 @@ do
 				end 
 			end
 
-			btn:SetStyle(-1, -1)
+			btn:SetStyle("Button", -1, -1)
 
 			if(name == "DBMMinimapButton") then 
 				btn:SetNormalTexture("Interface\\Icons\\INV_Helmet_87")
@@ -295,17 +295,24 @@ local function UpdateMiniMapCoords()
 			if(not MiniMapCoords:IsShown()) then
 				MiniMapCoords:FadeIn()
 			end
+			MiniMapCoords.XLabel:SetText("X:")
 			MiniMapCoords.X:SetFormattedText(CoordPattern, playerX)
+			MiniMapCoords.YLabel:SetText("Y:")
 			MiniMapCoords.Y:SetFormattedText(CoordPattern, playerY)
 		else
-			if(MiniMapCoords:IsShown()) then
-				MiniMapCoords:FadeOut(0.2, 1, 0, true)
-			end
+			-- if(MiniMapCoords:IsShown()) then
+			-- 	MiniMapCoords:FadeOut(0.2, 1, 0)
+			-- end
+			MiniMapCoords.XLabel:SetText("")
+			MiniMapCoords.X:SetText("")
+			MiniMapCoords.YLabel:SetText("")
+			MiniMapCoords.Y:SetText("")
 		end
 	else
-		if(MiniMapCoords:IsShown()) then
-			MiniMapCoords:FadeOut(0.2, 1, 0, true)
-		end
+		MiniMapCoords.XLabel:SetText("")
+		MiniMapCoords.X:SetText("")
+		MiniMapCoords.YLabel:SetText("")
+		MiniMapCoords.Y:SetText("")
 	end
 end
 
@@ -749,7 +756,7 @@ end
 
 function MOD:ReLoad()
 	self:RefreshMiniMap()
-	self:UpdateMinimapButtonSettings()
+	self:UpdateMinimapButtonSettings(true)
 end
 
 local function MapTriggerFired()
@@ -770,29 +777,29 @@ end
 function MOD:Load()
 	self:UpdateLocals()
 
-	Minimap:SetPlayerTexture(self.media.playerArrow)
-	Minimap:SetCorpsePOIArrowTexture(self.media.corpseArrow)
-	Minimap:SetPOIArrowTexture(self.media.guideArrow)
+	Minimap:SetPlayerTexture(MOD.media.playerArrow)
+	Minimap:SetCorpsePOIArrowTexture(MOD.media.corpseArrow)
+	Minimap:SetPOIArrowTexture(MOD.media.guideArrow)
 	if(SV.db.Maps.customIcons) then
-		Minimap:SetBlipTexture(self.media.customBlips)
+		Minimap:SetBlipTexture(MOD.media.customBlips)
 	else
-		Minimap:SetBlipTexture(self.media.defaultBlips)
+		Minimap:SetBlipTexture(MOD.media.defaultBlips)
 	end
 	
 	Minimap:SetClampedToScreen(false)
 
-	self.Holder:SetFrameStrata("BACKGROUND")
+	self.Holder:SetFrameStrata(Minimap:GetFrameStrata())
 	self.Holder:ModPoint("TOPRIGHT", SV.Screen, "TOPRIGHT", -10, -15)
 	self.Holder:ModSize(MM_WIDTH, MM_HEIGHT)
 
-	self.Holder.Square = CreateFrame("Frame", nil, self.Holder)
+	self.Holder.Square = CreateFrame("Frame", nil, Minimap)
 	self.Holder.Square:WrapPoints(self.Holder, 2)
-	self.Holder.Square:SetStyle("Minimap")
+	self.Holder.Square:SetStyle("Frame", "Minimap")
 	self.Holder.Square:SetPanelColor(MM_COLOR)
 
 	self.Holder.Circle = self.Holder:CreateTexture(nil, "BACKGROUND", nil, -2)
 	self.Holder.Circle:WrapPoints(self.Holder, 2)
-	self.Holder.Circle:SetTexture(self.media.roundBorder)
+	self.Holder.Circle:SetTexture(MOD.media.roundBorder)
 	self.Holder.Circle:SetVertexColor(0,0,0)
 	self.Holder.Circle:Hide()
 
@@ -804,8 +811,8 @@ function MOD:Load()
 	Minimap:SetArchBlobRingAlpha(0)
 	Minimap:SetParent(self.Holder)
 	Minimap:SetFrameStrata("LOW")
-	self.Holder:SetFrameLevel(Minimap:GetFrameLevel() - 2)
 	Minimap:SetFrameLevel(Minimap:GetFrameLevel() + 2)
+	self.Holder:SetFrameLevel(Minimap:GetFrameLevel() - 2)
 	ShowUIPanel(SpellBookFrame)
 	HideUIPanel(SpellBookFrame)
 	MinimapBorder:Hide()
@@ -820,7 +827,7 @@ function MOD:Load()
 	MiniMapMailFrame:ClearAllPoints()
 	MiniMapMailFrame:ModPoint("TOPRIGHT", self.Holder, 3, 4)
 	MiniMapMailBorder:Hide()
-	MiniMapMailIcon:SetTexture(self.media.mailIcon)
+	MiniMapMailIcon:SetTexture(MOD.media.mailIcon)
 	MiniMapWorldMapButton:Hide()
 
 	MiniMapInstanceDifficulty:ClearAllPoints()
@@ -837,7 +844,7 @@ function MOD:Load()
 
 	QueueStatusMinimapButton:ClearAllPoints()
 	QueueStatusMinimapButton:ModPoint("BOTTOMLEFT", self.Holder, "BOTTOMLEFT", 2, 1)
-	QueueStatusMinimapButton:SetStyle("Default", true, 1, -4, -4)
+	QueueStatusMinimapButton:SetStyle("Frame", "Default", true, 1, -4, -4)
 
 	QueueStatusFrame:SetClampedToScreen(true)
 	QueueStatusMinimapButtonBorder:Hide()
@@ -860,7 +867,9 @@ function MOD:Load()
 
 	self.InfoTop:ModPoint("TOPLEFT", self.Holder, "TOPLEFT", 2, -2)
 	self.InfoTop:SetSize(100, 22)
-	self.InfoTop:SetStyle("Default", true, 1, 1, 1, "yellow")
+	self.InfoTop:SetStyle("Frame")
+  	self.InfoTop:SetPanelColor("yellow")
+  	self.InfoTop:SetBackdropColor(1, 1, 0, 1)
 	self.InfoTop:SetFrameLevel(Minimap:GetFrameLevel() + 2)
 
 	self.InfoTop.Text:SetShadowColor(0, 0, 0, 0.3)
@@ -915,9 +924,9 @@ function MOD:Load()
 	calendarButton:SetSize(22,22)
 	calendarButton:SetPoint("RIGHT", MiniMapCoords, "RIGHT", 0, 0)
 	calendarButton:RemoveTextures()
-	calendarButton:SetNormalTexture(self.media.calendarIcon)
-	calendarButton:SetPushedTexture(self.media.calendarIcon)
-	calendarButton:SetHighlightTexture(self.media.calendarIcon)
+	calendarButton:SetNormalTexture(MOD.media.calendarIcon)
+	calendarButton:SetPushedTexture(MOD.media.calendarIcon)
+	calendarButton:SetHighlightTexture(MOD.media.calendarIcon)
 	calendarButton.TText = "Calendar"
 	calendarButton:RegisterForClicks("AnyUp")
 	calendarButton:SetScript("OnEnter", Basic_OnEnter)
@@ -928,9 +937,9 @@ function MOD:Load()
 	trackingButton:SetSize(22,22)
 	trackingButton:SetPoint("RIGHT", calendarButton, "LEFT", -4, 0)
 	trackingButton:RemoveTextures()
-	trackingButton:SetNormalTexture(self.media.trackingIcon)
-	trackingButton:SetPushedTexture(self.media.trackingIcon)
-	trackingButton:SetHighlightTexture(self.media.trackingIcon)
+	trackingButton:SetNormalTexture(MOD.media.trackingIcon)
+	trackingButton:SetPushedTexture(MOD.media.trackingIcon)
+	trackingButton:SetHighlightTexture(MOD.media.trackingIcon)
 	trackingButton.TText = "Tracking"
 	trackingButton:RegisterForClicks("AnyUp")
 	trackingButton:SetScript("OnEnter", Basic_OnEnter)

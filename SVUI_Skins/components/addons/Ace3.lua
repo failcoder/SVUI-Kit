@@ -56,7 +56,7 @@ local function Widget_ButtonStyle(frame, strip, bypass)
 	if frame.SetDisabledTexture then frame:SetDisabledTexture("") end 
 	if strip then frame:RemoveTextures() end 
 	if not bypass then 
-		frame:SetStyle()
+		frame:SetStyle("Button")
 	end
 end 
 
@@ -64,10 +64,10 @@ local function Widget_PaginationStyle(...)
 	SV.API:Set("PageButton", ...)
 end
 
-local function SetAdjustedStyle(this, template, xTopleft, yTopleft, xBottomright, yBottomright)
+local function SetAdjustedStyle(this, xTopleft, yTopleft, xBottomright, yBottomright)
 	if(not this or (this and this.Panel)) then return end
-	template = template or "Default"
-	this:SetStyle(template)
+	this:RemoveTextures()
+	this:SetStyle("Frame", "Transparent")
 	this.Panel:SetPoint("TOPLEFT", this, "TOPLEFT", xTopleft, yTopleft)
 	this.Panel:SetPoint("BOTTOMRIGHT", this, "BOTTOMRIGHT", xBottomright, yBottomright)
 end
@@ -85,7 +85,8 @@ local WidgetDropButton_OnClick = function(self)
 	local obj = self.obj;
 	local widgetFrame = obj.dropdown
 	if(widgetFrame) then
-		SetAdjustedStyle(widgetFrame, "Default", 20, -2, -20, 2)
+    	widgetFrame:SetWidth(220)
+		widgetFrame:SetStyle("Frame", "Default")
 	end
 end
 --[[ 
@@ -108,7 +109,7 @@ local function StyleAceGUI(event, addon)
 		if(widgetType == "MultiLineEditBox") then 
 			local widgetFrame = widget.frame;
 			SV.API:Set("!_Frame", widgetFrame, "Default", true)
-			SV.API:Set("Frame", widget.scrollBG, "Transparent") 
+			SV.API:Set("Frame", widget.scrollBG, "Lite", true) 
 			Widget_ButtonStyle(widget.button)
 			SV.API:Set("ScrollFrame", widget.scrollBar) 
 			widget.scrollBar:SetPoint("RIGHT", widgetFrame, "RIGHT", -4)
@@ -136,7 +137,7 @@ local function StyleAceGUI(event, addon)
 			widgetButton:SetFrameLevel(widgetButton:GetFrameLevel() + 1)
 			Widget_PaginationStyle(widgetButton, true)
 
-			SetAdjustedStyle(widgetDropdown, "Default", 20, -2, -20, 2)
+			SetAdjustedStyle(widgetDropdown, 20, -2, -20, 2)
 
 			widgetButton:SetParent(widgetDropdown.Panel)
 			widget.text:SetParent(widgetDropdown.Panel)
@@ -178,26 +179,24 @@ local function StyleAceGUI(event, addon)
 			dropButton:ClearAllPoints()
 			dropButton:ModPoint("RIGHT", widgetFrame, "RIGHT", -10, -6)
 			if(not widgetFrame.Panel) then 
-				if(widgetType == "LSM30_Font") then 
-					SetAdjustedStyle(widgetFrame, "Transparent", 20, -17, 2, -2)
-				elseif(widgetType == "LSM30_Sound") then 
-					SetAdjustedStyle(widgetFrame, "Transparent", 20, -17, 2, -2)
+				if(widgetType == "LSM30_Sound") then 
+					SetAdjustedStyle(widgetFrame, 20, -17, 2, -2)
 					widget.soundbutton:SetParent(widgetFrame.Panel)
 					widget.soundbutton:ClearAllPoints()
 					widget.soundbutton:ModPoint("LEFT", widgetFrame.Panel, "LEFT", 2, 0)
 				elseif(widgetType == "LSM30_Statusbar") then 
-					SetAdjustedStyle(widgetFrame, "Transparent", 20, -17, 2, -2)
+					SetAdjustedStyle(widgetFrame, 20, -17, 2, -2)
 					widget.bar:SetParent(widgetFrame.Panel)
 					widget.bar:InsetPoints()
 				elseif(widgetType == "LSM30_Border" or widgetType == "LSM30_Background") then 
-					SetAdjustedStyle(widgetFrame, "Transparent", 42, -16, 2, -2)
+					SetAdjustedStyle(widgetFrame, 42, -17, 2, -2)
+				else
+					SetAdjustedStyle(widgetFrame, 20, -17, 2, -2)
 				end 
 				widgetFrame.Panel:ModPoint("BOTTOMRIGHT", dropButton, "BOTTOMRIGHT", 2, -2)
-				SetAdjustedStyle(widgetFrame, "Transparent", 20, -2, 2, -2)
 			end 
 			dropButton:SetParent(widgetFrame.Panel)
 			widgetFrame.text:SetParent(widgetFrame.Panel)
-			dropButton:HookScript("OnClick", WidgetDropButton_OnClick)
 		end
 		return regWidget(self, widget)
 	end
@@ -231,7 +230,7 @@ local function StyleAceGUI(event, addon)
 					newButton.toggle:RemoveTextures()
 					newButton.toggle.SetNormalTexture = NOOP;
 					newButton.toggle.SetPushedTexture = NOOP;
-					newButton.toggle:SetStyle()
+					newButton.toggle:SetStyle("Button")
 					newButton.toggleText = newButton.toggle:CreateFontString(nil, "OVERLAY")
 					newButton.toggleText:SetFont([[Interface\AddOns\SVUI_!Core\assets\fonts\Default.ttf]], 19)
 					newButton.toggleText:SetPoint("CENTER")
@@ -239,7 +238,7 @@ local function StyleAceGUI(event, addon)
 					return newButton 
 				end
 			elseif(not widgetParent.Panel) then
-				SV.API:Set("Frame", widgetParent, "Transparent")
+				SV.API:Set("Frame", widgetParent, "Lite")
 			end
 
 			if(widgetType == "TabGroup") then

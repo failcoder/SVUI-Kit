@@ -313,7 +313,7 @@ local function LoadToolBreakStuff()
 	BreakStuffButton:ModPoint("RIGHT", MOD.BottomRight.Bar.ToolBar, "LEFT", -6, 0)
 	BreakStuffButton.icon:SetTexture(SV.media.dock.breakStuffIcon)
 	BreakStuffButton:Show();
-	SV.API:Set("DockButton", BreakStuffButton)
+	BreakStuffButton:SetStyle("DockButton") 
 	
 	BreakStuffButton:SetScript("OnEnter", BreakStuff_OnEnter);
 	BreakStuffButton:SetScript("OnLeave", BreakStuff_OnLeave);

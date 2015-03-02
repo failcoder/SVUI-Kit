@@ -1,5 +1,17 @@
 local L = Librarian("Linguist"):Lang("zhCN");
 if not L then return end
+L["Conversation"]    = "对话"
+L["General"]         = "综合"
+L["LocalDefense"]    = "本地防务"
+L["LookingForGroup"] = "寻求组队"
+L["Trade"]           = "交易"
+L["WorldDefense"]    = "世界防务"
+L["S_Conversation"]    = "话"
+L["S_General"]        = "综"
+L["S_LocalDefense"]    = "本"
+L["S_LookingForGroup"] = "寻"
+L["S_Trade"]          = "交"
+L["S_WorldDefense"]    = "世"
 L["Hearthstone"] = true;
 --[[LOGIN MESSAGE]]--
 L["LOGIN_MSG"] = "歡迎使用 |cffFFFF1ASVUI|r! 让您的 %s 和你 %s."

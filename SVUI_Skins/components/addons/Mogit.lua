@@ -54,7 +54,7 @@ local function StyleMogItPreview()
 		if _G["MogItPreview"..i] then SV.API:Set("Frame", _G["MogItPreview"..i]) end
 		if _G["MogItPreview"..i.."CloseButton"] then SV.API:Set("CloseButton", _G["MogItPreview"..i.."CloseButton"]) end
 		if _G["MogItPreview"..i.."Inset"] then _G["MogItPreview"..i.."Inset"]:RemoveTextures(true) end
-		if _G["MogItPreview"..i.."Activate"] then _G["MogItPreview"..i.."Activate"]:SetStyle() end
+		if _G["MogItPreview"..i.."Activate"] then _G["MogItPreview"..i.."Activate"]:SetStyle("Button") end
 	end
 end
 
@@ -71,7 +71,7 @@ local function StyleMogIt()
 	SV.API:Set("CloseButton", MogItFrameCloseButton)
 	SV.API:Set("CloseButton", MogItFiltersCloseButton)
 	MogItFrameFiltersDefaults:RemoveTextures(true)
-	MogItFrameFiltersDefaults:SetStyle()
+	MogItFrameFiltersDefaults:SetStyle("Button")
 	SV.API:Set("ScrollFrame", MogItScroll)
 	SV.API:Set("ScrollFrame", MogItFiltersScrollScrollBar)
 end

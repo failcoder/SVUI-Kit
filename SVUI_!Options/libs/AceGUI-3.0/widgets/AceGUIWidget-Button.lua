@@ -43,7 +43,7 @@ local methods = {
 	["OnAcquire"] = function(self)
 		-- restore default values
 		self:SetHeight(24)
-		self:SetWidth(200)
+		self:SetWidth(320)
 		self:SetDisabled(false)
 		self:SetAutoWidth(false)
 		self:SetText()

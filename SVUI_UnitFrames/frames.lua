@@ -839,7 +839,7 @@ CONSTRUCTORS["arena"] = function(self, unit)
         prep:SetFrameStrata("MEDIUM")
         prep:SetAllPoints(self)
         prep:SetID(selfID)
-        prep:SetStyle("Transparent", 3, 1, 1)
+        prep:SetStyle("Frame", "Bar", true, 3, 1, 1)
 
         local health = CreateFrame("StatusBar", nil, prep)
         health:SetAllPoints(prep)

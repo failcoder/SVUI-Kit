@@ -87,26 +87,25 @@ local LSM = _G.LibStub("LibSharedMedia-3.0")
 LSM:Register("background", "SVUI Default BG", [[Interface\AddOns\SVUI_!Core\assets\backgrounds\DEFAULT]])
 LSM:Register("background", "SVUI Transparent BG", [[Interface\AddOns\SVUI_!Core\assets\backgrounds\TRANSPARENT]])
 LSM:Register("background", "SVUI Button BG", [[Interface\AddOns\SVUI_!Core\assets\backgrounds\BUTTON]])
-LSM:Register("background", "SVUI Model BG", [[Interface\AddOns\SVUI_!Core\assets\backgrounds\pattern\MODEL]])
-LSM:Register("background", "SVUI Parchment BG", [[Interface\AddOns\SVUI_!Core\assets\backgrounds\pattern\PAPER]])
+LSM:Register("background", "SVUI Model BG", [[Interface\AddOns\SVUI_!Core\assets\backgrounds\MODEL]])
 LSM:Register("background", "SVUI Backdrop 1", [[Interface\AddOns\SVUI_!Core\assets\backgrounds\pattern\PATTERN1]])
 LSM:Register("background", "SVUI Backdrop 2", [[Interface\AddOns\SVUI_!Core\assets\backgrounds\pattern\PATTERN2]])
 LSM:Register("background", "SVUI Backdrop 3", [[Interface\AddOns\SVUI_!Core\assets\backgrounds\pattern\PATTERN3]])
 LSM:Register("background", "SVUI Backdrop 4", [[Interface\AddOns\SVUI_!Core\assets\backgrounds\pattern\PATTERN4]])
 LSM:Register("background", "SVUI Backdrop 5", [[Interface\AddOns\SVUI_!Core\assets\backgrounds\pattern\PATTERN5]])
-LSM:Register("background", "SVUI Artwork 1", [[Interface\AddOns\SVUI_!Core\assets\backgrounds\pattern\COMIC1]])
-LSM:Register("background", "SVUI Artwork 2", [[Interface\AddOns\SVUI_!Core\assets\backgrounds\pattern\COMIC2]])
-LSM:Register("background", "SVUI Artwork 3", [[Interface\AddOns\SVUI_!Core\assets\backgrounds\pattern\COMIC3]])
-LSM:Register("background", "SVUI Artwork 4", [[Interface\AddOns\SVUI_!Core\assets\backgrounds\pattern\COMIC4]])
-LSM:Register("background", "SVUI Artwork 5", [[Interface\AddOns\SVUI_!Core\assets\backgrounds\pattern\COMIC5]])
-LSM:Register("background", "SVUI UnitBG 1", [[Interface\AddOns\SVUI_!Core\assets\backgrounds\pattern\UNIT-BG1]])
-LSM:Register("background", "SVUI UnitBG 2", [[Interface\AddOns\SVUI_!Core\assets\backgrounds\pattern\UNIT-BG2]])
-LSM:Register("background", "SVUI UnitBG 3", [[Interface\AddOns\SVUI_!Core\assets\backgrounds\pattern\UNIT-BG3]])
-LSM:Register("background", "SVUI UnitBG 4", [[Interface\AddOns\SVUI_!Core\assets\backgrounds\pattern\UNIT-BG4]])
-LSM:Register("background", "SVUI SmallUnitBG 1", [[Interface\AddOns\SVUI_!Core\assets\backgrounds\pattern\UNIT-SMALL-BG1]])
-LSM:Register("background", "SVUI SmallUnitBG 2", [[Interface\AddOns\SVUI_!Core\assets\backgrounds\pattern\UNIT-SMALL-BG2]])
-LSM:Register("background", "SVUI SmallUnitBG 3", [[Interface\AddOns\SVUI_!Core\assets\backgrounds\pattern\UNIT-SMALL-BG3]])
-LSM:Register("background", "SVUI SmallUnitBG 4", [[Interface\AddOns\SVUI_!Core\assets\backgrounds\pattern\UNIT-SMALL-BG4]])
+LSM:Register("background", "SVUI Artwork 1", [[Interface\AddOns\SVUI_!Core\assets\backgrounds\art\ART1]])
+LSM:Register("background", "SVUI Artwork 2", [[Interface\AddOns\SVUI_!Core\assets\backgrounds\art\ART2]])
+LSM:Register("background", "SVUI Artwork 3", [[Interface\AddOns\SVUI_!Core\assets\backgrounds\art\ART3]])
+LSM:Register("background", "SVUI Artwork 4", [[Interface\AddOns\SVUI_!Core\assets\backgrounds\art\ART4]])
+LSM:Register("background", "SVUI Artwork 5", [[Interface\AddOns\SVUI_!Core\assets\backgrounds\art\ART5]])
+LSM:Register("background", "SVUI UnitBG 1", [[Interface\AddOns\SVUI_!Core\assets\backgrounds\unit\UNIT-BG1]])
+LSM:Register("background", "SVUI UnitBG 2", [[Interface\AddOns\SVUI_!Core\assets\backgrounds\unit\UNIT-BG2]])
+LSM:Register("background", "SVUI UnitBG 3", [[Interface\AddOns\SVUI_!Core\assets\backgrounds\unit\UNIT-BG3]])
+LSM:Register("background", "SVUI UnitBG 4", [[Interface\AddOns\SVUI_!Core\assets\backgrounds\unit\UNIT-BG4]])
+LSM:Register("background", "SVUI SmallUnitBG 1", [[Interface\AddOns\SVUI_!Core\assets\backgrounds\unit\UNIT-SMALL-BG1]])
+LSM:Register("background", "SVUI SmallUnitBG 2", [[Interface\AddOns\SVUI_!Core\assets\backgrounds\unit\UNIT-SMALL-BG2]])
+LSM:Register("background", "SVUI SmallUnitBG 3", [[Interface\AddOns\SVUI_!Core\assets\backgrounds\unit\UNIT-SMALL-BG3]])
+LSM:Register("background", "SVUI SmallUnitBG 4", [[Interface\AddOns\SVUI_!Core\assets\backgrounds\unit\UNIT-SMALL-BG4]])
 
 LSM:Register("border", "SVUI Border", [[Interface\AddOns\SVUI_!Core\assets\borders\DEFAULT]])
 LSM:Register("border", "SVUI Border 2", [[Interface\BUTTONS\WHITE8X8]])
@@ -142,17 +141,6 @@ LSM:Register("font", "SVUI Narrator Font", [[Interface\AddOns\SVUI_!Core\assets\
 CREATE AND POPULATE MEDIA DATA
 ##########################################################
 ]]--
-local APITemplates = {
-    ["default"]     = "SVUI_CoreStyle_Default",
-    ["transparent"] = "SVUI_CoreStyle_Transparent",
-    ["button"]      = "SVUI_CoreStyle_Button",
-    ["checkbox"]    = "SVUI_CoreStyle_Checkbox",
-    ["pattern"]     = "SVUI_CoreStyle_Pattern",
-    ["unitlarge"]   = "SVUI_CoreStyle_UnitLarge",
-    ["unitsmall"]   = "SVUI_CoreStyle_UnitSmall",
-    ["window"]      = "SVUI_CoreStyle_Window",
-    ["window2"]     = "SVUI_CoreStyle_Window2",
-};
 do
 	local cColor = RAID_CLASS_COLORS[classToken]
 	local r1,g1,b1 = cColor.r,cColor.g,cColor.b
@@ -199,11 +187,10 @@ do
 			},
 			["background"] = {
 				["default"]     = {file = "SVUI Default BG",  		size = 0, tiled = false}, 
-				["transparent"] = {file = "SVUI Transparent BG",	size = 0, tiled = false},
-				["paper"] 		= {file = "SVUI Parchment BG",		size = 0, tiled = false},
+				["transparent"] = {file = "SVUI Transparent BG",	size = 0, tiled = false}, 
 				["button"]      = {file = "SVUI Button BG",  		size = 0, tiled = false}, 
 				["pattern"]     = {file = "SVUI Backdrop 1",  		size = 0, tiled = false},  
-				["comic"]     = {file = "SVUI Artwork 1",  		size = 0, tiled = false},
+				["premium"]     = {file = "SVUI Artwork 1",  		size = 0, tiled = false},
 				["model"]     	= {file = "SVUI Model BG",  		size = 0, tiled = false},
 				["unitlarge"]   = {file = "SVUI UnitBG 1",  		size = 0, tiled = false},
 				["unitsmall"]   = {file = "SVUI SmallUnitBG 1",  	size = 0, tiled = false},
@@ -213,6 +200,7 @@ do
 				["transparent"] = {file = "SVUI Border", 			size = 1},
 				["button"]      = {file = "SVUI Border", 			size = 1},
 				["pattern"]     = {file = "SVUI Textured Border", 	size = 15},
+				["premium"]     = {file = "SVUI Textured Border", 	size = 15},
 				["shadow"]      = {file = "SVUI Shadow Border",   	size = 3},
 				["inset"]       = {file = "SVUI Inset Shadow",   	size = 6},
 				["unitlarge"]   = {file = "SVUI Border 2",  		size = 0},
@@ -243,23 +231,21 @@ do
 		},
 		["background"] = {
 			["default"] 	= [[Interface\AddOns\SVUI_!Core\assets\backgrounds\DEFAULT]],
-			["outline"] 	= [[Interface\AddOns\SVUI_!Core\assets\textures\EMPTY]],
 			["transparent"] = [[Interface\AddOns\SVUI_!Core\assets\backgrounds\TRANSPARENT]],
 			["button"]      = [[Interface\AddOns\SVUI_!Core\assets\backgrounds\BUTTON]],
 			["pattern"]     = [[Interface\AddOns\SVUI_!Core\assets\backgrounds\pattern\PATTERN1]],
-			["paper"] 		= [[Interface\AddOns\SVUI_!Core\assets\backgrounds\pattern\PAPER]],
-			["container"]   = [[Interface\AddOns\SVUI_!Core\assets\backgrounds\pattern\PAPER]],
-			["comic"]     	= [[Interface\AddOns\SVUI_!Core\assets\backgrounds\pattern\COMIC1]],
-			["model"]     	= [[Interface\AddOns\SVUI_!Core\assets\backgrounds\pattern\MODEL]],
-			["shadow"]    	= [[Interface\AddOns\SVUI_!Core\assets\backgrounds\DARK]],
-			["unitlarge"] 	= [[Interface\AddOns\SVUI_!Core\assets\backgrounds\pattern\UNIT-BG1]],
-			["unitsmall"] 	= [[Interface\AddOns\SVUI_!Core\assets\backgrounds\pattern\UNIT-SMALL-BG1]],
+			["premium"]     = [[Interface\AddOns\SVUI_!Core\assets\backgrounds\art\ART1]],
+			["model"]     	= [[Interface\AddOns\SVUI_!Core\assets\backgrounds\MODEL]],
+			["unitlarge"] 	= [[Interface\AddOns\SVUI_!Core\assets\backgrounds\unit\UNIT-BG1]],
+			["unitsmall"] 	= [[Interface\AddOns\SVUI_!Core\assets\backgrounds\unit\UNIT-SMALL-BG1]],
 			["checkbox"]    = [[Interface\AddOns\SVUI_!Core\assets\buttons\CHECK-BG]],
+			["dark"]    	= [[Interface\AddOns\SVUI_!Core\assets\backgrounds\DARK]],
 		},
 		["border"] = {
 			["default"] 	= [[Interface\AddOns\SVUI_!Core\assets\borders\DEFAULT]],
 			["button"]      = [[Interface\AddOns\SVUI_!Core\assets\borders\DEFAULT]],
 			["pattern"]     = [[Interface\AddOns\SVUI_!Core\assets\borders\TEXTURED]],
+			["premium"]     = [[Interface\AddOns\SVUI_!Core\assets\borders\TEXTURED]],
 			["shadow"]      = [[Interface\AddOns\SVUI_!Core\assets\borders\SHADOW]],
 			["inset"]       = [[Interface\AddOns\SVUI_!Core\assets\borders\INSET]],
 			["unitlarge"] 	= [[Interface\BUTTONS\WHITE8X8]],
@@ -272,13 +258,10 @@ do
 			["special"]     = {.37, .32, .29, 1},
 			["specialdark"] = {.23, .22, .21, 1},
 			["unique"]      = {0.32, 0.258, 0.21, 1},
-			["container"]   = {.28, .27, .26, 1},
-			["paper"]       = {1, 1, 1, 1}, 
+			["container"]   = {.28, .27, .26, 1},  
 			["class"]       = {r1, g1, b1, 1},
-			["comic"]       = {r1, g1, b1, 1},
 			["bizzaro"]     = {ir1, ig1, ib1, 1},
 			["medium"]      = {0.47, 0.47, 0.47},
-			["shadow"]      = {0, 0, 0, 1},
 			["dark"]        = {0.1, 0.1, 0.1, 1},
 			["darkest"]     = {0, 0, 0, 1},
 			["light"]       = {0.95, 0.95, 0.95, 1},
@@ -294,7 +277,7 @@ do
 			["gold"]        = {1, 0.68, 0.1, 1},
 			["transparent"] = {0, 0, 0, 0.5},
 			["hinted"]      = {0, 0, 0, 0.35},
-			["outline"]     = {0, 0, 0, 0},
+			["invisible"]   = {0, 0, 0, 0},
 			["white"]       = {1, 1, 1, 1},
 		},
 		["bordercolor"] = {
@@ -307,9 +290,7 @@ do
 			["special"]   = {"VERTICAL", 0.33, 0.25, 0.13, 0.47, 0.39, 0.27},
 			["specialdark"] = {"VERTICAL", 0.23, 0.15, 0.03, 0.33, 0.25, 0.13},
 			["container"] = {"VERTICAL", 0.12, 0.11, 0.1, 0.22, 0.21, 0.2},
-			["paper"]     = {"VERTICAL", 0.75, 0.75, 0.75, 1, 1, 1},
-			["class"]     = {"VERTICAL", r2, g2, b2, r1, g1, b1},
-			["comic"]     = {"VERTICAL", r2, g2, b2, r1, g1, b1}, 
+			["class"]     = {"VERTICAL", r2, g2, b2, r1, g1, b1}, 
 			["bizzaro"]   = {"VERTICAL", ir2, ig2, ib2, ir1, ig1, ib1},
 			["medium"]    = {"VERTICAL", 0.22, 0.22, 0.22, 0.47, 0.47, 0.47},
 			["dark"]      = {"VERTICAL", 0.02, 0.02, 0.02, 0.22, 0.22, 0.22},
@@ -427,6 +408,20 @@ do
 			        bottom = 5, 
 			    },
 			},
+			["premium"] = {
+				bgFile = [[Interface\AddOns\SVUI_!Core\assets\backgrounds\art\ART1]], 
+			    tile = false, 
+			    tileSize = 0, 
+			    edgeFile = [[Interface\AddOns\SVUI_!Core\assets\borders\TEXTURED]],
+			    edgeSize = 15,
+			    insets = 
+			    {
+			        left = 5, 
+			        right = 5, 
+			        top = 5, 
+			        bottom = 5, 
+			    },
+			},
 			["buttonred"] = {
 				bgFile = [[Interface\AddOns\SVUI_!Core\assets\backgrounds\BUTTON]], 
 			    tile = false, 
@@ -489,6 +484,20 @@ do
 			    tileSize = 0, 
 			    edgeFile = [[Interface\AddOns\SVUI_!Core\assets\borders\DEFAULT]],
 			    edgeSize = 1,
+			    insets = 
+			    {
+			        left = 0, 
+			        right = 0, 
+			        top = 0, 
+			        bottom = 0, 
+			    },
+			},
+			["shadowoutline"] = {
+				bgFile = [[Interface\AddOns\SVUI_!Core\assets\textures\EMPTY]], 
+			    tile = false, 
+			    tileSize = 0, 
+			    edgeFile = [[Interface\AddOns\SVUI_!Core\assets\borders\SHADOW]],
+			    edgeSize = 3,
 			    insets = 
 			    {
 			        left = 0, 

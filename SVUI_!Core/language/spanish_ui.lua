@@ -4,6 +4,18 @@ if not L then
 	L = Localization:Lang("esMX")
 end
 if not L then return; end
+L["Conversation"]    = "Conversación"
+L["General"]         = "General"
+L["LocalDefense"]    = "DefensaLocal"
+L["LookingForGroup"] = "BuscarGrupo"
+L["Trade"]           = "Comercio"
+L["WorldDefense"]    = "DefensaGeneral"
+L["S_Conversation"]    = "D"
+L["S_General"]        = "G"
+L["S_LocalDefense"]    = "DL"
+L["S_LookingForGroup"] = "BDG"
+L["S_Trade"]          = "C"
+L["S_WorldDefense"]    = "DG"
 L["Hearthstone"] = true;
 --[[LOGIN MESSAGE]]--
 L["LOGIN_MSG"] = "Bienvenido a |cffFFFF1ASVUI|r! Mantenga su %s y su %s."
