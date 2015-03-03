@@ -14,7 +14,7 @@
 ## X-Donate: PayPal:munglunch@gmail.com
 ## X-License: All Rights Reserved
 ## X-Category: Interface Enhancements
-## X-Curse-Packaged-Version: r20150302001847
+## X-Curse-Packaged-Version: r20150302234720
 ## X-Curse-Project-Name: SuperVillain UI: Skins
 ## X-Curse-Project-ID: supervillain-ui-skins
 ## X-Curse-Repository-ID: wow/supervillain-ui-skins/mainline

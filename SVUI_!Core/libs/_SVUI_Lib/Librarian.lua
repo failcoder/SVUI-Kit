@@ -10,7 +10,7 @@ local _G = getfenv(0)
 local Librarian = _G["Librarian"]
 
 if not Librarian then
-    Librarian = Librarian or {libs = {}}
+    Librarian = Librarian or {libs = {}, arrested = {}, warrants = {}}
     _G["Librarian"] = Librarian
     
     function Librarian:NewLibrary(libName)
@@ -24,6 +24,37 @@ if not Librarian then
             error(("Cannot find a library instance of %q."):format(tostring(libName)), 2)
         end
         return self.libs[libName]
+    end
+
+    local dead = function() return end
+
+    function Librarian:LockLibrary(lib)
+        if((warrants[lib]) or (not LibStub) or (not LibStub.libs)) then return end
+        for libName,libObj in pairs(LibStub.libs) do
+            if(libName:find(lib) and (not arrested[libName])) then
+                warrants[lib] = true
+                arrested[libName] = {}
+                for k,v in pairs(libObj) do
+                    if(type(v) == 'function') then
+                        arrested[libName][k] = v
+                        v = dead
+                    end
+                end
+            end
+        end
+    end
+
+    function Librarian:UnlockLibrary(lib)
+        if((not LibStub) or (not LibStub.libs)) then return end
+        for libName,libObj in pairs(LibStub.libs) do
+            if(libName:find(lib) and (arrested[libName])) then
+                for k,v in pairs(arrested[libName]) do
+                    libObj[k] = v
+                end
+                warrants[lib] = nil
+                arrested[libName] = nil
+            end
+        end
     end
 
     setmetatable(Librarian, { __call = Librarian.Fetch })

@@ -113,8 +113,10 @@ local function MailFrame_OnUpdate()
 		end
 		if(slot.GetNormalTexture) then
 			local icon = slot:GetNormalTexture()
-			icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
-			icon:InsetPoints()
+			if(icon) then
+				icon:SetTexCoord(unpack(_G.SVUI_ICON_COORDS))
+				icon:InsetPoints()
+			end
 		end 
 	end 
 end

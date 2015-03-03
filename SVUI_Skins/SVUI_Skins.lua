@@ -48,7 +48,7 @@ MOD.AddOnEvents = {};
 MOD.CustomQueue = {};
 MOD.EventListeners = {};
 MOD.OnLoadAddons = {};
-MOD.SkinsdAddons = {};
+MOD.SkinnedAddons = {};
 MOD.Debugging = false;
 --[[ 
 ########################################################## 
@@ -85,8 +85,8 @@ function MOD:Style(style, fn, ...)
 		SV:HandleError("SKINS", style, catch);
 		return
 	end
-	if(pass and (not style:find("Blizzard")) and not self.SkinsdAddons[style]) then
-		self.SkinsdAddons[style] = true
+	if(pass and (not style:find("Blizzard")) and not self.SkinnedAddons[style]) then
+		self.SkinnedAddons[style] = true
 		if(SV.db.general.loginmessage) then
 			local verb = charming[math.random(1,#charming)]
 			SV:AddonMessage(styleMessage:format(style, verb))
@@ -235,169 +235,9 @@ function MOD:ADDON_LOADED(event, addon)
 end
 --[[ 
 ########################################################## 
-OPTIONS CREATION
+CUSTOM HANDLERS
 ##########################################################
 ]]--
-function MOD:FetchDocklets()
-	local dock1 = SV.private.Docks.Embed1 or "None";
-	local dock2 = SV.private.Docks.Embed2 or "None";
-	local enabled1 = (dock1 ~= "None")
-	local enabled2 = ((dock2 ~= "None") and (dock2 ~= dock1))
-	return dock1, dock2, enabled1, enabled2
-end
-
-function MOD:ValidateDocklet(addon)
-	local dock1,dock2,enabled1,enabled2 = self:FetchDocklets();
-	local valid = false;
-
-	if(dock1:find(addon) or dock2:find(addon)) then
-		valid = true 
-	end
-
-	return valid,enabled1,enabled2
-end
-
-function MOD:DockletReady(addon, dock)
-	if((not addon) or (not dock)) then return false end
-	if(dock:find(addon) and IsAddOnLoaded(addon)) then
-		return true 
-	end
-	return false
-end
-
-function MOD:RegisterAddonDocklets()
-	local dock1,dock2,enabled1,enabled2 = self:FetchDocklets();
-  	local tipLeft, tipRight = "", "";
-  	local active1, active2 = false, false;
-
-  	self.Docklet.Dock1.FrameLink = nil;
-  	self.Docklet.Dock1.ExpandCallback = nil;
-  	self.Docklet.Dock2.FrameLink = nil;
-  	self.Docklet.Dock2.ExpandCallback = nil;
-
-  	if(enabled1) then
-  		local width = self.Docklet:GetWidth();
-
-		if(enabled2) then
-			self.Docklet.Dock1:SetWidth(width * 0.5)
-			self.Docklet.Dock2:SetWidth(width * 0.5)
-
-			if(self:DockletReady("Skada", dock2)) then
-				tipRight = " and Skada";
-				self:Docklet_Skada()
-				active2 = true
-				self.Docklet.Dock2.ExpandCallback = "Docklet_Skada"
-			elseif(self:DockletReady("Omen", dock2)) then
-				tipRight = " and Omen";
-				self:Docklet_Omen(self.Docklet.Dock2)
-				active2 = true
-				self.Docklet.Dock2.ExpandCallback = "Docklet_Omen"
-			elseif(self:DockletReady("Recount", dock2)) then
-				tipRight = " and Recount";
-				self:Docklet_Recount(self.Docklet.Dock2)
-				active2 = true
-				self.Docklet.Dock2.ExpandCallback = "Docklet_Recount"
-			elseif(self:DockletReady("TinyDPS", dock2)) then
-				tipRight = " and TinyDPS";
-				self:Docklet_TinyDPS(self.Docklet.Dock2)
-				active2 = true
-				self.Docklet.Dock2.ExpandCallback = "Docklet_TinyDPS"
-			elseif(self:DockletReady("alDamageMeter", dock2)) then
-				tipRight = " and alDamageMeter";
-				self:Docklet_alDamageMeter(self.Docklet.Dock2)
-				active2 = true
-				self.Docklet.Dock2.ExpandCallback = "Docklet_alDamageMeter"
-			end
-		end
-
-		if(not active2) then
-			self.Docklet.Dock1:SetWidth(width)
-		end
-
-		if(self:DockletReady("Skada", dock1)) then
-			tipLeft = "Skada";
-			self:Docklet_Skada()
-			active1 = true
-			self.Docklet.Dock1.ExpandCallback = "Docklet_Skada"
-		elseif(self:DockletReady("Omen", dock1)) then
-			tipLeft = "Omen";
-			self:Docklet_Omen(self.Docklet.Dock1)
-			active1 = true
-			self.Docklet.Dock1.ExpandCallback = "Docklet_Omen"
-		elseif(self:DockletReady("Recount", dock1)) then
-			tipLeft = "Recount";
-			self:Docklet_Recount(self.Docklet.Dock1)
-			active1 = true
-			self.Docklet.Dock1.ExpandCallback = "Docklet_Recount"
-		elseif(self:DockletReady("TinyDPS", dock1)) then
-			tipLeft = "TinyDPS";
-			self:Docklet_TinyDPS(self.Docklet.Dock1) 
-			active1 = true
-			self.Docklet.Dock1.ExpandCallback = "Docklet_TinyDPS"
-		elseif(self:DockletReady("alDamageMeter", dock1)) then
-			tipLeft = "alDamageMeter";
-			self:Docklet_alDamageMeter(self.Docklet.Dock1)
-			active1 = true
-			self.Docklet.Dock1.ExpandCallback = "alDamageMeter"
-		end
-	end
-
-	if(active1) then
-		self.Docklet:Enable();
-		if(active2) then
-			self.Docklet.Dock1:Show()
-			self.Docklet.Dock2:Show()
-		else
-			self.Docklet.Dock1:Show()
-			self.Docklet.Dock2:Hide()
-		end
-
-		self.Docklet.DockButton:SetAttribute("tipText", ("%s%s"):format(tipLeft, tipRight));
-		self.Docklet.DockButton:MakeDefault();
-	else
-		self.Docklet.Dock1:Hide()
-		self.Docklet.Dock2:Hide()
-		self.Docklet:Disable()
-
-		self.Docklet.Parent.Bar:UnsetDefault();
-	end 
-end
-
-local DockableAddons = {
-	["alDamageMeter"] = L["alDamageMeter"],
-	["Skada"] = L["Skada"],
-	["Recount"] = L["Recount"],
-	["TinyDPS"] = L["TinyDPS"],
-	["Omen"] = L["Omen"]
-}
-
-local function GetDockableAddons()
-	local test = SV.private.Docks.Embed1;
-
-	local t = {
-		{ title = "Docked Addon", divider = true },
-		{text = "Remove All", func = function() SV.private.Docks.Embed1 = "None"; MOD:RegisterAddonDocklets() end}
-	};
-
-	for n,l in pairs(DockableAddons) do
-		if (not test or (test and not test:find(n))) then
-			if(n:find("Skada") and _G.Skada) then
-				for index,window in pairs(_G.Skada:GetWindows()) do
-					local keyName = window.db.name
-				    local key = "SkadaBarWindow" .. keyName
-				    local name = (keyName == "Skada") and "Skada - Main" or "Skada - " .. keyName;
-				    tinsert(t,{text = name, func = function() SV.private.Docks.Embed1 = key; MOD:RegisterAddonDocklets() end});
-				end
-			else
-				if IsAddOnLoaded(n) or IsAddOnLoaded(l) then 
-					tinsert(t,{text = n, func = function() SV.private.Docks.Embed1 = l; MOD:RegisterAddonDocklets() end});
-				end
-			end
-		end
-	end
-	return t;
-end
-
 local AddonDockletToggle = function(self)
 	if(not InCombatLockdown()) then
 		self.Parent:Refresh()
@@ -443,15 +283,7 @@ local HideSubDocklet = function(self)
 end
 
 local function DockExpandDocklet()
-	local height = SV.Dock.BottomRight.Window:GetHeight()
-	local fn1 = MOD.Docklet.Dock1.ExpandCallback
-	if(fn1 and MOD[fn1] and type(MOD[fn1]) == 'function') then
-		MOD[fn1](MOD.Docklet.Dock1, height)
-	end
-	local fn2 = MOD.Docklet.Dock2.ExpandCallback
-	if(fn2 and MOD[fn2] and type(MOD[fn2]) == 'function') then
-		MOD[fn2](MOD.Docklet.Dock2, height)
-	end
+	MOD.Docklet:UpdateEmbeds()
 end
 
 local function DockFadeInDocklet()
@@ -511,9 +343,10 @@ function MOD:Load()
 	self.Alert = alert;
 
 	self.Docklet = SV.Dock:NewDocklet("BottomRight", "SVUI_SkinsDock", self.TitleID, nil, AddonDockletToggle);
-	SV.Dock.BottomRight.Bar.Button.GetMenuList = GetDockableAddons;
-	self.Docklet.DockButton.GetPreMenuList = GetDockableAddons;
+	self.Docklet.DockButton.GetPreMenuList = self.GetDockables;
 	self.Docklet.DockButton:SetAttribute("hasDropDown", true);
+
+	SV.Dock.BottomRight.Bar.Button.GetMenuList = self.GetDockables;
 
 	local dockWidth = self.Docklet:GetWidth()
 
@@ -530,6 +363,8 @@ function MOD:Load()
 	self.Docklet.Dock2:SetWidth(dockWidth * 0.5);
 	self.Docklet.Dock2:SetScript('OnShow', ShowSubDocklet);
 	self.Docklet.Dock2:SetScript('OnHide', HideSubDocklet);
+
+	self:SetEmbedHandlers(self.Docklet)
 
 	self.Docklet:Hide()
 

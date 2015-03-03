@@ -1,8 +1,8 @@
 Steven Jackson:
-	- ace modifications, petbattle adjustments
+	- added Zygor minimap icon support
 	- build update
 	- updating with core
 	- toc update
-	- more updates
+	- new shape options
 	- fix for file struct
 	- First commit

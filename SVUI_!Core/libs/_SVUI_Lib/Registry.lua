@@ -508,7 +508,9 @@ function lib:LiveUpdate(forced)
             CoreObject:ReLoad()
         end
         self:RefreshAll()
-        PRIVATE_SV.SAFEDATA.NEEDSLIVEUPDATE = false
+        if((not InCombatLockdown()) and (not C_PetBattles.IsInBattle())) then
+            PRIVATE_SV.SAFEDATA.NEEDSLIVEUPDATE = false
+        end
     end
 end
 
@@ -772,13 +774,13 @@ local Library_OnEvent = function(self, event, arg, ...)
             end
         end
     elseif(event == "PLAYER_LOGIN") then
-        if(not CoreObject.___initialized and CoreObject.Initialize and IsLoggedIn()) then
+        if(not CoreObject.initialized and CoreObject.Initialize and IsLoggedIn()) then
             if(CoreObject.LoadTheme) then
                 CoreObject:LoadTheme()
             end
             UpdateCoreDatabases()
             CoreObject:Initialize()
-            CoreObject.___initialized = true
+            CoreObject.initialized = true
             self:UnregisterEvent("PLAYER_LOGIN")
         end
         PRIVATE_SV.SAFEDATA.NEEDSLIVEUPDATE = C_PetBattles.IsInBattle()
@@ -1201,7 +1203,7 @@ function lib:ImportDatabase(key, linked)
         tablecopy(saved, export);
         DirtyMediaList[key] = true;
 
-        UpdateProfileSources()
+        ReloadUI()
     else
         UpdateProfileSources(key)
     end

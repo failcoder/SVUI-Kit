@@ -34,23 +34,9 @@ local function StyleALDamageMeter()
   SV.API:Set("Frame", alDamageMeterFrame)
   alDamageMeterFrame:HookScript('OnShow', function()
     if InCombatLockdown() then return end 
-    if MOD:ValidateDocklet("alDamageMeter") then
-      MOD.Docklet:Show()
+    if MOD.Docklet:IsEmbedded("alDamageMeter") then
+    	MOD.Docklet:Show()
     end
   end)
 end
-MOD:SaveAddonStyle("alDamageMeter", StyleALDamageMeter)
-
-function MOD:Docklet_alDamageMeter(parent)
-  if not _G['alDamagerMeterFrame'] then return end 
-  local parentFrame=_G['alDamagerMeterFrame']:GetParent();
-  dmconf.barheight=floor(parentFrame:GetHeight()/dmconf.maxbars-dmconf.spacing)
-  dmconf.width=parentFrame:GetWidth()
-  alDamageMeterFrame:ClearAllPoints()
-  alDamageMeterFrame:SetAllPoints(parent)
-  alDamageMeterFrame.backdrop:SetStyle("!_Frame", 'Transparent',true)
-  alDamageMeterFrame.bg:Die()
-  alDamageMeterFrame:SetFrameStrata('LOW')
-
-  parent.Framelink = alDamageMeterFrame
-end 
+MOD:SaveAddonStyle("alDamageMeter", StyleALDamageMeter) 

@@ -1,5 +1,7 @@
 Steven Jackson:
 	- toc update
+	- fixes for automations, and custom profiles
+	- toc update
 	- ace modifications
 	- Fixed exp bug and custom profiles
 	- Fixed profiles, filters and lua errors

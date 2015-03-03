@@ -39,8 +39,7 @@ SV.defaults[Schema] = {
 	["tabFont"] = "SVUI Tab Font", 
 	["tabFontSize"] = 11, 
 	["tabFontOutline"] = "OUTLINE", 
-	["url"] = true, 
-	["shortChannels"] = true, 
+	["url"] = true,  
 	["hyperlinkHover"] = true, 
 	["throttleInterval"] = 45, 
 	["fade"] = false, 
@@ -122,8 +121,14 @@ function MOD:LoadOptions()
 						name = L["Custom Tab Style"],
 						set = function(a,b) MOD:ChangeDBVar(b,a[#a]);SV:StaticPopup_Show("RL_CLIENT") end, 
 					},
-					timeStampFormat = {
+					shortChannels = {
 						order = 6, 
+						type = "toggle", 
+						name = L["Abbreviation"],
+						desc = "Shortened channel names",
+					},
+					timeStampFormat = {
+						order = 7, 
 						type = "select", 
 						name = TIMESTAMPS_LABEL, 
 						desc = OPTION_TOOLTIP_TIMESTAMPS, 
@@ -138,7 +143,7 @@ function MOD:LoadOptions()
 						}
 					},
 					psst = {
-						order = 7, 
+						order = 8, 
 						type = "select", 
 						dialogControl = "LSM30_Sound", 
 						name = L["Whisper Alert"], 
@@ -147,12 +152,12 @@ function MOD:LoadOptions()
 						set = function(a,b) MOD:ChangeDBVar(b,a[#a]) end
 					},
 					spacer2 = {
-						order = 8, 
+						order = 9, 
 						type = "description", 
 						name = ""
 					},
 					throttleInterval = {
-						order = 9, 
+						order = 10, 
 						type = "range", 
 						name = L["Spam Interval"], 
 						desc = L["Prevent the same messages from displaying in chat more than once within this set amount of seconds, set to zero to disable."], 
@@ -163,7 +168,7 @@ function MOD:LoadOptions()
 						set = function(a,b) MOD:ChangeDBVar(b,a[#a]) end
 					},
 					bubbles = {
-						order = 10,
+						order = 11,
 						type = "toggle",
 						name = L['Chat Bubbles'],
 						desc = L['Style the blizzard chat bubbles.'],

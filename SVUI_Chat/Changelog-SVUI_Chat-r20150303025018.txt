@@ -1,4 +1,6 @@
 Steven Jackson:
+	- added shortening option
+	- new features
 	- fixed twitter functionality
 	- build update
 	- updating with core

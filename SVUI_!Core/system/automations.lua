@@ -69,16 +69,6 @@ local decpat	  = gsub(gsub(FACTION_STANDING_DECREASED, "(%%s)", "(.+)"), "(%%d)"
 local standing    = ('%s:'):format(STANDING);
 local reputation  = ('%s:'):format(REPUTATION);
 local hideStatic = false;
-local AutomatedEvents = {
-	"CHAT_MSG_COMBAT_FACTION_CHANGE",
-	"MERCHANT_SHOW",
-	"QUEST_COMPLETE",
-	"QUEST_GREETING",
-	"GOSSIP_SHOW",
-	"QUEST_DETAIL",
-	"QUEST_ACCEPT_CONFIRM",
-	"QUEST_PROGRESS"
-}
 
 function SV:VendorGrays(destroy, silent, request)
 	if((not MerchantFrame or not MerchantFrame:IsShown()) and (not destroy) and (not request)) then 
@@ -106,7 +96,7 @@ function SV:VendorGrays(destroy, silent, request)
 							end 
 							totalValue = totalValue + sellPrice;
 							canDelete = canDelete + 1 
-						elseif(itemID and SV.Inventory and SV.Inventory.private and SV.Inventory.private.junk[itemID]) then
+						elseif(SV.Inventory:VendorCheck(itemID, bagID, slot)) then
 							if(not request) then
 								PickupContainerItem(bagID, slot)
 								DeleteCursorItem()
@@ -233,7 +223,7 @@ REPAIR AUTOMATONS
 ]]--
 function SV:MERCHANT_SHOW()
 	if(self.db.Extras.vendorGrays) then 
-		self:VendorGrays(nil, true) 
+		self:VendorGrays() 
 	end
 	local autoRepair = self.db.Extras.autoRepair;
 	local guildRepair = (autoRepair == "GUILD");
@@ -402,11 +392,16 @@ BUILD FUNCTION / UPDATE
 ##########################################################
 ]]--
 local function InitializeAutomations()
+	--print("InitializeAutomations")
 	SV:RegisterEvent('PARTY_INVITE_REQUEST')
-
-	for _,event in pairs(AutomatedEvents) do
-		SV:RegisterEvent(event)
-	end
+	SV:RegisterEvent('CHAT_MSG_COMBAT_FACTION_CHANGE')
+	SV:RegisterEvent('MERCHANT_SHOW')
+	SV:RegisterEvent('QUEST_COMPLETE')
+	SV:RegisterEvent('QUEST_GREETING')
+	SV:RegisterEvent('GOSSIP_SHOW')
+	SV:RegisterEvent('QUEST_DETAIL')
+	SV:RegisterEvent('QUEST_ACCEPT_CONFIRM')
+	SV:RegisterEvent('QUEST_PROGRESS')
 
 	if SV.db.Extras.pvpautorelease then 
 		local autoReleaseHandler = CreateFrame("frame")

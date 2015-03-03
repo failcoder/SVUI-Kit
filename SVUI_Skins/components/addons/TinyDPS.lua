@@ -34,7 +34,7 @@ local function StyleTinyDPS()
 	
 	tdpsFrame:HookScript("OnShow", function()
 		if InCombatLockdown() then return end 
-		if MOD:ValidateDocklet("TinyDPS") then
+		if MOD.Docklet:IsEmbedded("TinyDPS") then
 			MOD.Docklet:Show()
 		end
 	end)
@@ -48,16 +48,3 @@ local function StyleTinyDPS()
 end
 
 MOD:SaveAddonStyle("TinyDPS", StyleTinyDPS)
-
-function MOD:Docklet_TinyDPS(parent)
-	if not tdpsFrame then return end 
-	tdps.hideOOC = false;
-	tdps.hideIC = false;
-	tdps.hideSolo = false;
-	tdps.hidePvP = false;
-	tdpsFrame:ClearAllPoints()
-	tdpsFrame:SetAllPoints(parent)
-	tdpsRefresh()
-
-	parent.Framelink = tdpsFrame
-end

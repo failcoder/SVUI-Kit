@@ -1,4 +1,5 @@
 Steven Jackson:
+	- fixes for automations, and custom profiles
 	- ace modifications, petbattle adjustments
 	- Fixed profiles, filters and lua errors
 	- updated styles in interface options
