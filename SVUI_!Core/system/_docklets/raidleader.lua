@@ -10,6 +10,19 @@ local _G = _G;
 local unpack 	= _G.unpack;
 local select 	= _G.select;
 local pairs 	= _G.pairs;
+--BLIZZARD API
+local Quit         			= _G.Quit;
+local Logout         		= _G.Logout;
+local ReloadUI         		= _G.ReloadUI;
+local GameTooltip          	= _G.GameTooltip;
+local InCombatLockdown     	= _G.InCombatLockdown;
+local CreateFrame          	= _G.CreateFrame;
+local IsInRaid              = _G.IsInRaid;
+local IsInGroup             = _G.IsInGroup;
+local IsInInstance          = _G.IsInInstance;
+local ROLE_POLL          	= _G.ROLE_POLL;
+local READY_CHECK          	= _G.READY_CHECK;
+local RAID_CONTROL          = _G.RAID_CONTROL;
 --[[ 
 ########################################################## 
 GET ADDON DATA

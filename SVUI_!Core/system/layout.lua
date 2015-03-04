@@ -23,6 +23,25 @@ local format, split = string.format, string.split;
 --[[ MATH METHODS ]]--
 local min, floor = math.min, math.floor;
 local parsefloat = math.parsefloat;
+--BLIZZARD API
+local CreateFrame           = _G.CreateFrame;
+local InCombatLockdown      = _G.InCombatLockdown;
+local GameTooltip           = _G.GameTooltip;
+local ReloadUI              = _G.ReloadUI;
+local hooksecurefunc        = _G.hooksecurefunc;
+local IsAltKeyDown          = _G.IsAltKeyDown;
+local IsShiftKeyDown        = _G.IsShiftKeyDown;
+local IsControlKeyDown      = _G.IsControlKeyDown;
+local IsModifiedClick       = _G.IsModifiedClick;
+local PlaySound             = _G.PlaySound;
+local PlaySoundFile         = _G.PlaySoundFile;
+local PlayMusic             = _G.PlayMusic;
+local StopMusic             = _G.StopMusic;
+local UnitName              = _G.UnitName;
+local ToggleFrame           = _G.ToggleFrame;
+local ERR_NOT_IN_COMBAT     = _G.ERR_NOT_IN_COMBAT;
+local RAID_CLASS_COLORS     = _G.RAID_CLASS_COLORS;
+local CUSTOM_CLASS_COLORS   = _G.CUSTOM_CLASS_COLORS;
 --[[ 
 ########################################################## 
 GET ADDON DATA
@@ -44,6 +63,7 @@ UIPanels["BlackMarketFrame"] 				= { moving = false, snapped = false, canupdate 
 UIPanels["CalendarFrame"] 					= { moving = false, snapped = false, canupdate = false, cansetpoint = false, centered = true };
 UIPanels["CharacterFrame"] 					= { moving = false, snapped = false, canupdate = false, cansetpoint = false, centered = false };
 UIPanels["ClassTrainerFrame"] 				= { moving = false, snapped = false, canupdate = false, cansetpoint = false, centered = false };
+--UIPanels["ColorPickerFrame"] 				= { moving = false, snapped = false, canupdate = false, cansetpoint = false, centered = false };
 UIPanels["DressUpFrame"] 					= { moving = false, snapped = false, canupdate = false, cansetpoint = false, centered = false };
 UIPanels["DraenorZoneAbilityFrame"] 		= { moving = false, snapped = false, canupdate = false, cansetpoint = false, centered = false };
 UIPanels["EncounterJournal"] 				= { moving = false, snapped = false, canupdate = false, cansetpoint = false, centered = false };
@@ -710,7 +730,7 @@ function Layout:Update()
 	self.Anchors = SV.db.LAYOUT or {}
 	for frameName, frameData in pairs(self.Frames) do 
 		local frame = _G[frameName];
-		local anchor1, parent, anchor2, x, y;
+		local anchor1, parent, anchor2, x, y, width, height;
 		if frame then
 			if (self.Anchors and self.Anchors[frameName] and (type(self.Anchors[frameName]) == "string")) then 
 				anchor1, parent, anchor2, x, y, width, height = split("\031", self.Anchors[frameName])

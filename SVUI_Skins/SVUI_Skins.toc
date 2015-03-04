@@ -18,5 +18,9 @@
 ## X-Curse-Project-Name: SuperVillain UI: Skins
 ## X-Curse-Project-ID: supervillain-ui-skins
 ## X-Curse-Repository-ID: wow/supervillain-ui-skins/mainline
+## X-Curse-Packaged-Version: r20150304000528
+## X-Curse-Project-Name: SuperVillain UI: Skins
+## X-Curse-Project-ID: supervillain-ui-skins
+## X-Curse-Repository-ID: wow/supervillain-ui-skins/mainline
 
 SVUI_Skins.xml

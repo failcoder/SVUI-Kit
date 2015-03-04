@@ -37,6 +37,9 @@ local min 			= math.min;
 local floor         = math.floor
 local ceil          = math.ceil
 --BLIZZARD API
+local Quit         			= _G.Quit;
+local Logout         		= _G.Logout;
+local ReloadUI         		= _G.ReloadUI;
 local GameTooltip          	= _G.GameTooltip;
 local InCombatLockdown     	= _G.InCombatLockdown;
 local CreateFrame          	= _G.CreateFrame;
@@ -48,7 +51,16 @@ local GetSpellInfo         	= _G.GetSpellInfo;
 local IsSpellKnown         	= _G.IsSpellKnown;
 local GetProfessions       	= _G.GetProfessions;
 local GetProfessionInfo    	= _G.GetProfessionInfo;
+local IsAltKeyDown          = _G.IsAltKeyDown;
+local IsShiftKeyDown        = _G.IsShiftKeyDown;
+local IsControlKeyDown      = _G.IsControlKeyDown;
+local IsModifiedClick       = _G.IsModifiedClick;
 local hooksecurefunc     	= _G.hooksecurefunc;
+local GetSpecialization    	= _G.GetSpecialization;
+local GetNumSpecGroups    	= _G.GetNumSpecGroups;
+local GetActiveSpecGroup    = _G.GetActiveSpecGroup;
+local SetActiveSpecGroup    = _G.SetActiveSpecGroup;
+local GetSpecializationInfo = _G.GetSpecializationInfo;
 --[[ 
 ########################################################## 
 ADDON

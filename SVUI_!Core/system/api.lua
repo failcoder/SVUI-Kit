@@ -14,11 +14,17 @@ local ipairs    = _G.ipairs;
 local type      = _G.type;
 local error     = _G.error;
 local pcall     = _G.pcall;
-local tostring  = _G.tostring;
-local tonumber  = _G.tonumber;
+local tostring          = _G.tostring;
+local tonumber          = _G.tonumber;
+local getmetatable      = _G.getmetatable;
+local setmetatable      = _G.setmetatable;
+local collectgarbage    = _G.collectgarbage;
 local table     = _G.table;
-local string     = _G.string;
+local string    = _G.string;
 local math      = _G.math;
+local wipe      = _G.wipe;
+local tinsert       = _G.tinsert;
+local tremove       = _G.tremove;
 --[[ MATH METHODS ]]--
 local floor, abs, min, max = math.floor, math.abs, math.min, math.max;
 local parsefloat, ceil = math.parsefloat, math.ceil;
@@ -26,6 +32,25 @@ local parsefloat, ceil = math.parsefloat, math.ceil;
 local lower, upper = string.lower, string.upper;
 --[[ TABLE METHODS ]]--
 local tremove, tcopy, twipe, tsort, tconcat = table.remove, table.copy, table.wipe, table.sort, table.concat;
+--BLIZZARD API
+local CreateFrame           = _G.CreateFrame;
+local InCombatLockdown      = _G.InCombatLockdown;
+local GameTooltip           = _G.GameTooltip;
+local ReloadUI              = _G.ReloadUI;
+local GetTime               = _G.GetTime;
+local hooksecurefunc        = _G.hooksecurefunc;
+local IsAltKeyDown          = _G.IsAltKeyDown;
+local IsShiftKeyDown        = _G.IsShiftKeyDown;
+local IsControlKeyDown      = _G.IsControlKeyDown;
+local IsModifiedClick       = _G.IsModifiedClick;
+local PlaySound             = _G.PlaySound;
+local PlaySoundFile         = _G.PlaySoundFile;
+local SetCVar               = _G.SetCVar;
+local GetCVar               = _G.GetCVar;
+local GetCVarBool           = _G.GetCVarBool;
+local SquareButton_SetIcon  = _G.SquareButton_SetIcon;
+local RAID_CLASS_COLORS     = _G.RAID_CLASS_COLORS;
+local CUSTOM_CLASS_COLORS   = _G.CUSTOM_CLASS_COLORS;
 --[[ 
 ########################################################## 
 GET ADDON DATA
@@ -479,6 +504,7 @@ local HookCustomBackdrop = function(self)
                 local w,h = self:GetSize()
                 local sizeMod = max(w,h)
                 local edgeSize = self.Panel:GetAttribute("panelPadding") or 1
+                local offset = ceil(edgeSize * 0.25)
                 self.Panel:SetBackdrop({
                     bgFile = newBgFile, 
                     edgeFile = newBorderFile, 

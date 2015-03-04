@@ -40,27 +40,29 @@ local Title_OnUpdate = function(self, elapsed)
 	else
 		self.timeLapse = 0
 	end
-	self:SetSize(frame:GetWidth() - 4, 22) 
+	local parent = self:GetParent()parent:GetWidth()
+	self:SetSize(parent:GetWidth(), 23) 
 end
 
 local function StyleFrame(frame)
 	if((not frame) or (frame.Panel)) then return end
 
-	frame:SetStyle("Frame", "Transparent")
-	frame.Panel:SetAllPoints()
-	frame.Panel:SetPoint('TOPLEFT', frame, 'TOPLEFT', 0, -6)
-	frame.CloseButton:SetPoint('TOPRIGHT', frame, 'TOPRIGHT', -1, -9)
 	frame:SetBackdrop(nil)
-
-	frame.Title:SetPoint('TOPLEFT', frame, 'TOPLEFT', 6, -12)
+	frame:SetStyle("Frame", "Transparent")
+	--frame.Panel:SetAllPoints()
+	--frame.Panel:SetPoint('TOPLEFT', frame, 'TOPLEFT', 0, -6)
+	frame.CloseButton:SetPoint('TOPRIGHT', frame, 'TOPRIGHT', -1, -1)
 
 	frame.TitleBackground = CreateFrame('Frame', nil, frame)
 	frame.TitleBackground:SetStyle("!_Frame", "Transparent")
 	--frame.TitleBackground:SetPanelColor("class")
-	frame.TitleBackground:SetPoint('TOP', frame, 'TOP', 0, -8)
+	frame.TitleBackground:SetPoint('TOP', frame, 'TOP', 0, 0)
 	frame.TitleBackground.timeLapse = 0;
 	frame.TitleBackground:SetFrameLevel(frame:GetFrameLevel())
 	frame.TitleBackground:SetScript('OnUpdate', Title_OnUpdate)
+
+	frame.Title:ClearAllPoints()
+	frame.Title:SetPoint('TOPLEFT', frame, 'TOPLEFT', 6, -5)
 
 	for i=1, #StripKeys do
 		local subframe = frame[StripKeys[i]]

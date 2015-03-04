@@ -1,0 +1,10 @@
+Steven Jackson:
+	- updates
+	- added Zygor minimap icon support
+	- added Zygor minimap icon support
+	- build update
+	- updating with core
+	- toc update
+	- new shape options
+	- fix for file struct
+	- First commit

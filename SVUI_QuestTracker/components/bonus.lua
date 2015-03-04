@@ -17,6 +17,7 @@ local pcall     = _G.pcall;
 local tostring  = _G.tostring;
 local tonumber  = _G.tonumber;
 local tinsert 	= _G.tinsert;
+local tDeleteItem = _G.tDeleteItem;
 local string 	= _G.string;
 local math 		= _G.math;
 local table 	= _G.table;
@@ -26,6 +27,40 @@ local format = string.format;
 local abs, ceil, floor, round = math.abs, math.ceil, math.floor, math.round;
 --[[ TABLE METHODS ]]--
 local tremove, twipe = table.remove, table.wipe;
+--BLIZZARD API
+local CreateFrame           = _G.CreateFrame;
+local InCombatLockdown      = _G.InCombatLockdown;
+local GameTooltip           = _G.GameTooltip;
+local hooksecurefunc        = _G.hooksecurefunc;
+local IsAltKeyDown          = _G.IsAltKeyDown;
+local IsShiftKeyDown        = _G.IsShiftKeyDown;
+local IsControlKeyDown      = _G.IsControlKeyDown;
+local IsModifiedClick       = _G.IsModifiedClick;
+local PlaySound             = _G.PlaySound;
+local PlaySoundKitID        = _G.PlaySoundKitID;
+local GetTime               = _G.GetTime;
+local C_Scenario            = _G.C_Scenario;
+local IsQuestTask   		= _G.IsQuestTask;
+local GetTaskInfo   		= _G.GetTaskInfo;
+local GetQuestLogRewardXP   = _G.GetQuestLogRewardXP;
+local GetTasksTable  		= _G.GetTasksTable;
+local GetQuestLogTitle  	= _G.GetQuestLogTitle;
+local SetSuperTrackedQuestID= _G.SetSuperTrackedQuestID;
+local GetNumQuestWatches  	= _G.GetNumQuestWatches;
+local GetQuestWatchInfo  	= _G.GetQuestWatchInfo;
+local GetQuestWatchIndex  	= _G.GetQuestWatchIndex;
+local GetDistanceSqToQuest  = _G.GetDistanceSqToQuest;
+local GetNumQuestLogEntries = _G.GetNumQuestLogEntries;
+local GetQuestObjectiveInfo = _G.GetQuestObjectiveInfo;
+local GetNumQuestLogRewards = _G.GetNumQuestLogRewards;
+local GetQuestLogRewardInfo = _G.GetQuestLogRewardInfo;
+local GetQuestLogRewardMoney= _G.GetQuestLogRewardMoney;
+local GetMoneyString 		= _G.GetMoneyString;
+local MAX_PLAYER_LEVEL   	= _G.MAX_PLAYER_LEVEL;
+local PERCENTAGE_STRING     = _G.PERCENTAGE_STRING;
+local TRACKER_HEADER_BONUS_OBJECTIVES   = _G.TRACKER_HEADER_BONUS_OBJECTIVES;
+local GetNumQuestLogRewardCurrencies = _G.GetNumQuestLogRewardCurrencies;
+local GetQuestLogRewardCurrencyInfo  = _G.GetQuestLogRewardCurrencyInfo;
 --[[ 
 ########################################################## 
 GET ADDON DATA
@@ -227,7 +262,7 @@ local SetCriteriaRow = function(self, index, bonusStepIndex, subCount, hasFailed
 	local iscomplete = true;
 
 	local row = self:Get(index);
-	row.RowID = questID
+	row.RowID = 0
 	row.Header.Text:SetText(TRACKER_HEADER_BONUS_OBJECTIVES)
 	row:ModHeight(ROW_HEIGHT);
 	row:SetAlpha(1);
@@ -310,6 +345,7 @@ end
 local UpdateBonusObjectives = function(self)
 	local fill_height = 0;
 	local rows = 0;
+	local soundFired = false;
 
 	if(C_Scenario.IsInScenario()) then
 		local tblBonusSteps = C_Scenario.GetBonusSteps();
@@ -356,6 +392,11 @@ local UpdateBonusObjectives = function(self)
 					local add_height = 0;
 					rows, add_height = self:SetBonus(rows, questID, numObjectives)
 					fill_height = fill_height + add_height;
+					if((not CACHED_BONUS_DATA[questID]) and (not soundFired)) then
+						PlaySound("UI_Scenario_Stage_End");
+						--PlaySoundKitID(45142);
+						soundFired = true;
+					end
 				end
 			end
 		end
@@ -368,10 +409,6 @@ local UpdateBonusObjectives = function(self)
 	else
 		self:ModHeight(fill_height + 2);
 		self:FadeIn();
-		if(not CACHED_BONUS_DATA[questID]) then
-			PlaySound("UI_Scenario_Stage_End");
-			--PlaySoundKitID(45142);
-		end
 	end
 end
 

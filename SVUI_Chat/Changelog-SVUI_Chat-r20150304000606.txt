@@ -1,0 +1,10 @@
+Steven Jackson:
+	- updates
+	- added shortening option
+	- new features
+	- fixed twitter functionality
+	- build update
+	- updating with core
+	- toc update
+	- fix for file struct
+	- First commit

@@ -1,6 +1,6 @@
 ## Interface: 60100
 ## Author: Munglunch
-## Version: 1.0.01
+## Version: 1.0.08
 ## Title: |cffFF9900SuperVillain UI: |r|cffFFEF00QuestTracker|r
 ## Notes: QuestTracker Plugin for [|cff9911FFSVUI|r].
 ## OptionalDeps: LibSharedMedia-3.0
@@ -13,6 +13,10 @@
 ## X-License: All Rights Reserved
 ## X-Category: Interface Enhancements
 ## X-Curse-Packaged-Version: r20150302234524
+## X-Curse-Project-Name: SuperVillain UI: QuestTracker
+## X-Curse-Project-ID: supervillain-ui-questtracker
+## X-Curse-Repository-ID: wow/supervillain-ui-questtracker/mainline
+## X-Curse-Packaged-Version: r20150304000706
 ## X-Curse-Project-Name: SuperVillain UI: QuestTracker
 ## X-Curse-Project-ID: supervillain-ui-questtracker
 ## X-Curse-Repository-ID: wow/supervillain-ui-questtracker/mainline

@@ -11,6 +11,7 @@ local unpack 	= _G.unpack;
 local select 	= _G.select;
 local pairs 	= _G.pairs;
 local tinsert 	= _G.tinsert;
+local tremove 	= _G.tremove;
 local string 	= _G.string;
 local math 		= _G.math;
 local table 	= _G.table;
@@ -19,7 +20,64 @@ local find, format, match, sub, gsub = string.find, string.format, string.match,
 --[[ MATH METHODS ]]--
 local floor,min = math.floor, math.min;
 --[[ TABLE METHODS ]]--
-local twipe, tconcat = table.wipe, table.concat;
+local wipe, tconcat = table.wipe, table.concat;
+--BLIZZARD API
+local InCombatLockdown      = _G.InCombatLockdown;
+local CreateFrame           = _G.CreateFrame;
+local ERR_NOT_IN_COMBAT     = _G.ERR_NOT_IN_COMBAT;
+local RAID_CLASS_COLORS     = _G.RAID_CLASS_COLORS;
+local FACTION_BAR_COLORS    = _G.FACTION_BAR_COLORS;
+local CUSTOM_CLASS_COLORS   = _G.CUSTOM_CLASS_COLORS;
+local GetTime               = _G.GetTime;
+local GameTooltip           = _G.GameTooltip;
+local UnitName              = _G.UnitName;
+local UnitRace             	= _G.UnitRace;
+local UnitAura              = _G.UnitAura;
+local UnitLevel             = _G.UnitLevel;
+local UnitClass             = _G.UnitClass;
+local UnitIsUnit            = _G.UnitIsUnit;
+local UnitExists            = _G.UnitExists;
+local UnitInRaid            = _G.UnitInRaid;
+local UnitInParty           = _G.UnitInParty;
+local UnitGUID              = _G.UnitGUID;
+local UnitIsPVP             = _G.UnitIsPVP;
+local UnitIsDND             = _G.UnitIsDND;
+local UnitIsAFK             = _G.UnitIsAFK;
+local UnitIsDeadOrGhost     = _G.UnitIsDeadOrGhost;
+local UnitIsTapped          = _G.UnitIsTapped;
+local UnitIsTappedByPlayer  = _G.UnitIsTappedByPlayer;
+local UnitPVPName           = _G.UnitPVPName;
+local UnitRealmRelationship = _G.UnitRealmRelationship;
+local UnitReaction          = _G.UnitReaction;
+local UnitFactionGroup      = _G.UnitFactionGroup;
+local UnitClassification    = _G.UnitClassification;
+local UnitCreatureType      = _G.UnitCreatureType;
+local UnitCreatureFamily    = _G.UnitCreatureFamily;
+local UnitBattlePetLevel    = _G.UnitBattlePetLevel;
+local UnitIsWildBattlePet   = _G.UnitIsWildBattlePet;
+local UnitIsBattlePetCompanion = _G.UnitIsBattlePetCompanion;
+local UnitIsPlayer          = _G.UnitIsPlayer;
+local UnitHasVehicleUI 		= _G.UnitHasVehicleUI;
+local IsInRaid              = _G.IsInRaid;
+local IsInGroup             = _G.IsInGroup;
+local IsInInstance          = _G.IsInInstance;
+local ItemRefTooltip        = _G.ItemRefTooltip;
+local BNToastFrame          = _G.BNToastFrame;
+local LEVEL   				= _G.LEVEL;
+local PVP   				= _G.PVP;
+local DEAD   				= _G.DEAD;
+local TARGET   				= _G.TARGET;
+local C_PetJournal          = _G.C_PetJournal;
+local GetItemInfo           = _G.GetItemInfo;
+local GetItemCount          = _G.GetItemCount;
+local GetItemQualityColor   = _G.GetItemQualityColor;
+local FACTION_HORDE   				= _G.FACTION_HORDE;
+local FACTION_ALLIANCE   			= _G.FACTION_ALLIANCE;
+local PET_TYPE_SUFFIX   			= _G.PET_TYPE_SUFFIX;
+local INTERACTIVE_SERVER_LABEL   	= _G.INTERACTIVE_SERVER_LABEL;
+local LE_REALM_RELATION_VIRTUAL   	= _G.LE_REALM_RELATION_VIRTUAL;
+local FOREIGN_SERVER_LABEL   		= _G.FOREIGN_SERVER_LABEL;
+local LE_REALM_RELATION_COALESCED   = _G.LE_REALM_RELATION_COALESCED;
 --[[ 
 ########################################################## 
 GET ADDON DATA
@@ -478,7 +536,7 @@ local _hook_GameTooltip_OnTooltipSetUnit = function(self)
 			local maxTargets = #targetList;
 			if maxTargets > 0 then 
 				self:AddLine(format("%s (|cffffffff%d|r): %s", L["Targeted By:"], maxTargets, tconcat(targetList, ", ")), nil, nil, nil, true)
-				twipe(targetList)
+				wipe(targetList)
 			end 
 		end 
 	end
@@ -822,7 +880,6 @@ local function ApplyTooltipSkins()
 		    --mask:SetBackdropBorderColor(0, 0, 0)
 
 		    mask.SetMaskBorderColor = SetMaskBorderColor
-			mask.SetMaskBurstColor = SetMaskBurstColor
 			mask.ClearMaskColors = ClearMaskColors
 
 			tooltip.SuperBorder = mask;

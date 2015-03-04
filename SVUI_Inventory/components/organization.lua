@@ -16,6 +16,27 @@ local table   = _G.table;
 local match = string.match;
 --[[ TABLE METHODS ]]--
 local tremove, tcopy, twipe, tsort, tcat = table.remove, table.copy, table.wipe, table.sort, table.concat;
+--BLIZZARD API
+local ToggleFrame           = _G.ToggleFrame;
+local CreateFrame           = _G.CreateFrame;
+local InCombatLockdown      = _G.InCombatLockdown;
+local GameTooltip           = _G.GameTooltip;
+local hooksecurefunc        = _G.hooksecurefunc;
+local IsAltKeyDown          = _G.IsAltKeyDown;
+local IsShiftKeyDown        = _G.IsShiftKeyDown;
+local IsControlKeyDown      = _G.IsControlKeyDown;
+local IsModifiedClick       = _G.IsModifiedClick;
+local RAID_CLASS_COLORS     = _G.RAID_CLASS_COLORS;
+local CUSTOM_CLASS_COLORS   = _G.CUSTOM_CLASS_COLORS;
+local SetBagSlotFlag        = _G.SetBagSlotFlag;
+local GetBagSlotFlag        = _G.GetBagSlotFlag;
+local GetContainerNumSlots  = _G.GetContainerNumSlots;
+local CLEAR_ALL                 = _G.CLEAR_ALL;
+local FILTERS                   = _G.FILTERS;
+local NUM_LE_BAG_FILTER_FLAGS   	= _G.NUM_LE_BAG_FILTER_FLAGS;
+local LE_BAG_FILTER_FLAG_EQUIPMENT  = _G.LE_BAG_FILTER_FLAG_EQUIPMENT;
+local BankFrameItemButton_Update        = _G.BankFrameItemButton_Update;
+local BankFrameItemButton_UpdateLocked  = _G.BankFrameItemButton_UpdateLocked;
 --[[ 
 ########################################################## 
 GET ADDON DATA
@@ -34,7 +55,7 @@ local BAG_FILTER_LABELS = _G.BAG_FILTER_LABELS;
 local nameKey = UnitName("player");
 local realmKey = GetRealmName();
 local toonClass = select(2,UnitClass("player"));
-local BagFilters = CreateFrame("Frame", "SVUI_BagFilterMenu", UIParent);
+local BagFilters = _G.SVUI_BagFilterMenu;
 --[[ 
 ########################################################## 
 LOCAL FUNCTIONS

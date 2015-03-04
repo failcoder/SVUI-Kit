@@ -12,7 +12,11 @@
 ## X-Donate: PayPal:munglunch@gmail.com
 ## X-License: All Rights Reserved
 ## X-Category: Interface Enhancements
-## X-Curse-Packaged-Version: r20150303025045
+## X-Curse-Packaged-Version: r20150303133851
+## X-Curse-Project-Name: SuperVillain UI: Maps
+## X-Curse-Project-ID: supervillain-ui-maps
+## X-Curse-Repository-ID: wow/supervillain-ui-maps/mainline
+## X-Curse-Packaged-Version: r20150304000545
 ## X-Curse-Project-Name: SuperVillain UI: Maps
 ## X-Curse-Project-ID: supervillain-ui-maps
 ## X-Curse-Repository-ID: wow/supervillain-ui-maps/mainline

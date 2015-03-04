@@ -36,13 +36,14 @@ local sub          	= string.sub;
 --MATH
 local math          = _G.math;
 local floor         = math.floor
+local random 		= math.random;
 --TABLE
 local table         = _G.table;
 local tsort         = table.sort;
 local tconcat       = table.concat;
 local tinsert       = _G.tinsert;
 local tremove       = _G.tremove;
-local twipe         = _G.wipe;
+local wipe         = _G.wipe;
 --BLIZZARD API
 local time 					= _G.time;
 local difftime 				= _G.difftime;
@@ -51,6 +52,15 @@ local ReloadUI              = _G.ReloadUI;
 local UnitName   			= _G.UnitName;
 local IsInGroup             = _G.IsInGroup;
 local CreateFrame           = _G.CreateFrame;
+local PlaySoundFile 		= _G.PlaySoundFile;
+local GameTooltip 			= _G.GameTooltip;
+local ChatTypeInfo 			= _G.ChatTypeInfo;
+local HideUIPanel 			= _G.HideUIPanel;
+local ShowUIPanel 			= _G.ShowUIPanel;
+local GetTime               = _G.GetTime;
+
+local ChatFrame_AddMessageEventFilter = _G.ChatFrame_AddMessageEventFilter;
+local ChatEdit_ChooseBoxForSend = _G.ChatEdit_ChooseBoxForSend;
 --[[ 
 ########################################################## 
 GET ADDON DATA
@@ -462,7 +472,8 @@ do
 
 	local Tab_OnEnter = function(self)
 		SV.Dock:EnterFade()
-		local chatFrame = _G[("ChatFrame%d"):format(self:GetID())];
+		local chatID = self:GetID();
+		local chatFrame = _G[("ChatFrame%d"):format(chatID)];
 		local tabText = self.text:GetText() or "Chat "..chatID;
 		GameTooltip:SetOwner(self, "ANCHOR_TOPRIGHT");
 		GameTooltip:ClearLines();
@@ -797,7 +808,7 @@ do
 			chat.WhisperAlert = alert
 
 			--copy chat button
-			chat.button = CreateFrame('Frame', format("SVUI_CopyChatButton%d", id), chat)
+			chat.button = CreateFrame('Frame', format("SVUI_CopyChatButton%d", chatID), chat)
 			chat.button:SetAlpha(0.35)
 			chat.button:ModSize(38, 18)
 			chat.button:SetPoint('TOPRIGHT', chat, 'TOPRIGHT', 0, 0)
@@ -810,7 +821,7 @@ do
 			chat.button.Title:SetTextColor(1,0.8,0)
 			
 			chat.button:SetScript("OnMouseUp", function(self, btn)
-				if btn == "RightButton" and id == 1 then
+				if btn == "RightButton" and chatID == 1 then
 					ToggleFrame(ChatMenu)
 				else
 					MOD:CopyChat(chat)
@@ -1327,7 +1338,7 @@ function MOD:UpdateLocals()
 	MOD.media.whisperSound = LSM:Fetch("sound", SV.db.Chat.psst);
 	TIME_STAMP_MASK = SV.db.Chat.timeStampFormat;
 	if(CHAT_THROTTLE and CHAT_THROTTLE == 0) then
-		twipe(THROTTLE_CACHE)
+		wipe(THROTTLE_CACHE)
 	end
 end
 

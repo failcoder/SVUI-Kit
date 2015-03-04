@@ -32,7 +32,27 @@ local match, format = string.match, string.format;
 local gmatch, gsub = string.gmatch, string.gsub;
 --[[ MATH METHODS ]]--
 local floor, modf = math.floor, math.modf;
-
+--BLIZZARD API
+local CreateFrame           = _G.CreateFrame;
+local InCombatLockdown      = _G.InCombatLockdown;
+local GameTooltip           = _G.GameTooltip;
+local ReloadUI              = _G.ReloadUI;
+local hooksecurefunc        = _G.hooksecurefunc;
+local IsAltKeyDown          = _G.IsAltKeyDown;
+local IsShiftKeyDown        = _G.IsShiftKeyDown;
+local IsControlKeyDown      = _G.IsControlKeyDown;
+local IsModifiedClick       = _G.IsModifiedClick;
+local UnitName              = _G.UnitName;
+local UnitStat              = _G.UnitStat;
+local UnitClass             = _G.UnitClass;
+local UnitExists            = _G.UnitExists;
+local UnitLevel             = _G.UnitLevel;
+local UnitInRaid            = _G.UnitInRaid;
+local GetItemInfo           = _G.GetItemInfo;
+local GetInventorySlotInfo   = _G.GetInventorySlotInfo;
+local GetInventoryItemLink   = _G.GetInventoryItemLink;
+local GetSpecialization     = _G.GetSpecialization;
+local GetSpecializationInfo = _G.GetSpecializationInfo;
 local iLevelFilter = ITEM_LEVEL:gsub( "%%d", "(%%d+)" )
 --[[ 
 ########################################################## 

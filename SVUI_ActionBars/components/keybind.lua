@@ -20,6 +20,27 @@ local format, find = string.format, string.find;
 --[[ MATH METHODS ]]--
 local floor = math.floor;
 local tonumber = tonumber;
+--BLIZZARD API
+local SpellFlyout       = _G.SpellFlyout;
+local GetFlyoutID       = _G.GetFlyoutID;
+local GetNumFlyouts     = _G.GetNumFlyouts;
+local GetFlyoutInfo     = _G.GetFlyoutInfo;
+local LoadBindings      = _G.LoadBindings;
+local SaveBindings      = _G.SaveBindings;
+local SetBinding        = _G.SetBinding;
+local GetBindingKey     = _G.GetBindingKey;
+local CreateFrame       = _G.CreateFrame;
+local InCombatLockdown  = _G.InCombatLockdown;
+local GameTooltip       = _G.GameTooltip;
+local hooksecurefunc    = _G.hooksecurefunc;
+local IsAltKeyDown      = _G.IsAltKeyDown;
+local IsShiftKeyDown    = _G.IsShiftKeyDown;
+local IsControlKeyDown  = _G.IsControlKeyDown;
+local IsModifiedClick   = _G.IsModifiedClick;
+local OKAY              = _G.OKAY;
+local CANCEL            = _G.CANCEL;
+local CONFIRM_LOSE_BINDING_CHANGES = _G.CONFIRM_LOSE_BINDING_CHANGES;
+local CHARACTER_SPECIFIC_KEYBINDINGS = _G.CHARACTER_SPECIFIC_KEYBINDINGS;
 --[[ 
 ########################################################## 
 GET ADDON DATA

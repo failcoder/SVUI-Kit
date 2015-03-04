@@ -1,0 +1,17 @@
+Steven Jackson:
+	- updates
+	- misc bug fixed
+	- fixes for automations, and custom profiles
+	- ace modifications, petbattle adjustments
+	- Fixed profiles, filters and lua errors
+	- updated styles in interface options
+	- api updates
+	- Styling update of quest items and garrison panels
+	- build update
+	- 6.1 style update
+	- updating with core
+	- toc update
+	- DBM fix
+	- more updates
+	- fix for file struct
+	- First Commit

@@ -7,9 +7,19 @@ LOCALIZED LUA FUNCTIONS
 ]]--
 --[[ GLOBALS ]]--
 local _G = _G;
-local unpack 	= _G.unpack;
-local select 	= _G.select;
-local pairs 	= _G.pairs;
+local unpack            = _G.unpack;
+local select            = _G.select;
+local assert            = _G.assert;
+local type              = _G.type;
+local error             = _G.error;
+local pcall             = _G.pcall;
+local print             = _G.print;
+local ipairs            = _G.ipairs;
+local pairs             = _G.pairs;
+local next              = _G.next;
+local tostring          = _G.tostring;
+local tonumber          = _G.tonumber;
+local collectgarbage    = _G.collectgarbage;
 local string 	= _G.string;
 local math 		= _G.math;
 --[[ STRING METHODS ]]--
@@ -17,6 +27,33 @@ local find, format, split = string.find, string.format, string.split;
 local gsub = string.gsub;
 --[[ MATH METHODS ]]--
 local ceil = math.ceil;
+--BLIZZARD API
+local YES                   = _G.YES;
+local NO                    = _G.NO;
+local NONE                  = _G.NONE;
+local SetCVar               = _G.SetCVar;
+local GetCVar               = _G.GetCVar;
+local GetCVarBool           = _G.GetCVarBool;
+local C_PetBattles          = _G.C_PetBattles;
+local CreateFrame           = _G.CreateFrame;
+local InCombatLockdown      = _G.InCombatLockdown;
+local GameTooltip           = _G.GameTooltip;
+local hooksecurefunc        = _G.hooksecurefunc;
+local UnitExists            = _G.UnitExists;
+local VehicleExit           = _G.VehicleExit;
+local PetDismiss            = _G.PetDismiss;
+local GetBindingKey         = _G.GetBindingKey;
+local GetVehicleBarIndex    = _G.GetVehicleBarIndex;
+local SetDesaturation       = _G.SetDesaturation;
+local CooldownFrame_SetTimer= _G.CooldownFrame_SetTimer;
+local RegisterStateDriver 	= _G.RegisterStateDriver;
+local UnregisterStateDriver = _G.UnregisterStateDriver;
+local NUM_STANCE_SLOTS  	= _G.NUM_STANCE_SLOTS;
+local NUM_PET_ACTION_SLOTS  = _G.NUM_PET_ACTION_SLOTS;
+local SpellFlyout  			= _G.SpellFlyout;
+local GetFlyoutID  			= _G.GetFlyoutID;
+local GetNumFlyouts  		= _G.GetNumFlyouts;
+local GetFlyoutInfo  		= _G.GetFlyoutInfo;
 --[[ 
 ########################################################## 
 GET ADDON DATA

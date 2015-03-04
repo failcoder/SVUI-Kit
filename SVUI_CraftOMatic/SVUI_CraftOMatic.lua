@@ -9,15 +9,53 @@ LOCALIZED LUA FUNCTIONS
 --[[ GLOBALS ]]--
 
 local _G = _G;
-local unpack 	= _G.unpack;
-local select 	= _G.select;
-local type 		= _G.type;
+local unpack            = _G.unpack;
+local select            = _G.select;
+local assert            = _G.assert;
+local type              = _G.type;
+local error             = _G.error;
+local pcall             = _G.pcall;
+local print             = _G.print;
+local ipairs            = _G.ipairs;
+local pairs             = _G.pairs;
+local next              = _G.next;
+local tostring          = _G.tostring;
+local tonumber          = _G.tonumber;
+local collectgarbage    = _G.collectgarbage;
+local rawset            = _G.rawset;
+local rawget            = _G.rawget;
+local getmetatable      = _G.getmetatable;
+local setmetatable      = _G.setmetatable;
+local loadstring        = _G.loadstring;
 local string    = _G.string;
 local math 		= _G.math;
 local table 	= _G.table;
 local rept      = string.rep; 
 local tsort,twipe = table.sort,table.wipe;
 local floor,ceil  = math.floor, math.ceil;
+--BLIZZARD API
+local CreateFrame           = _G.CreateFrame;
+local InCombatLockdown      = _G.InCombatLockdown;
+local GameTooltip           = _G.GameTooltip;
+local hooksecurefunc        = _G.hooksecurefunc;
+local IsAltKeyDown          = _G.IsAltKeyDown;
+local IsShiftKeyDown        = _G.IsShiftKeyDown;
+local IsControlKeyDown      = _G.IsControlKeyDown;
+local IsModifiedClick       = _G.IsModifiedClick;
+local PlaySound             = _G.PlaySound;
+local PlaySoundFile         = _G.PlaySoundFile;
+local PlayMusic             = _G.PlayMusic;
+local StopMusic             = _G.StopMusic;
+local GetTime               = _G.GetTime;
+local ToggleFrame           = _G.ToggleFrame;
+local EquipItemByName       = _G.EquipItemByName;
+local IsSpellKnown      	= _G.IsSpellKnown;
+local ERR_NOT_IN_COMBAT     = _G.ERR_NOT_IN_COMBAT;
+local RAID_CLASS_COLORS     = _G.RAID_CLASS_COLORS;
+local CUSTOM_CLASS_COLORS   = _G.CUSTOM_CLASS_COLORS;
+
+local CombatText_AddMessage     = _G.CombatText_AddMessage;
+local CombatText_StandardScroll = _G.CombatText_StandardScroll;
 
 --[[  CONSTANTS ]]--
 
@@ -45,22 +83,22 @@ local classColor = RAID_CLASS_COLORS
 GLOBAL BINDINGS
 ##########################################################
 ]]--
-function SVUIFishingMode()
+_G.SVUIFishingMode = function()
 	if InCombatLockdown() then SV:AddonMessage(ERR_NOT_IN_COMBAT); return; end
 	if PLUGIN.CurrentMode and PLUGIN.CurrentMode == "Fishing" then PLUGIN:EndJobModes() else PLUGIN:SetJobMode("Fishing") end
 end
 
-function SVUIFarmingMode()
+_G.SVUIFarmingMode = function()
 	if InCombatLockdown() then SV:AddonMessage(ERR_NOT_IN_COMBAT); return; end
 	if PLUGIN.CurrentMode and SV.CurrentMode == "Farming" then PLUGIN:EndJobModes() else PLUGIN:SetJobMode("Farming") end
 end
 
-function SVUIArchaeologyMode()
+_G.SVUIArchaeologyMode = function()
 	if InCombatLockdown() then SV:AddonMessage(ERR_NOT_IN_COMBAT); return; end
 	if PLUGIN.CurrentMode and PLUGIN.CurrentMode == "Archaeology" then PLUGIN:EndJobModes() else PLUGIN:SetJobMode("Archaeology") end
 end
 
-function SVUICookingMode()
+_G.SVUICookingMode = function()
 	if InCombatLockdown() then SV:AddonMessage(ERR_NOT_IN_COMBAT); return; end
 	if PLUGIN.CurrentMode and PLUGIN.CurrentMode == "Cooking" then PLUGIN:EndJobModes() else PLUGIN:SetJobMode("Cooking") end
 end

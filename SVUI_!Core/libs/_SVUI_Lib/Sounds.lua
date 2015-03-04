@@ -48,6 +48,8 @@ local tinsert       = _G.tinsert;
 local tremove       = _G.tremove;
 local twipe         = _G.wipe;
 
+local PlaySoundFile         = _G.PlaySoundFile;
+
 --[[ LIB CONSTRUCT ]]--
 
 local lib = Librarian:NewLibrary("Sounds")

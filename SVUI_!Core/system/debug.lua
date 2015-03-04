@@ -4,16 +4,28 @@ S V U I   By: Munglunch
 ############################################################################## ]]-- 
 --[[ GLOBALS ]]--
 local _G = _G;
-local unpack    = _G.unpack;
-local select    = _G.select;
-local pairs     = _G.pairs;
-local type      = _G.type;
-local tostring  = _G.tostring;
-local tonumber  = _G.tonumber;
+local unpack            = _G.unpack;
+local select            = _G.select;
+local assert            = _G.assert;
+local type              = _G.type;
+local error             = _G.error;
+local pcall             = _G.pcall;
+local print             = _G.print;
+local ipairs            = _G.ipairs;
+local pairs             = _G.pairs;
+local next              = _G.next;
+local rawset            = _G.rawset;
+local rawget            = _G.rawget;
+local tostring          = _G.tostring;
+local tonumber          = _G.tonumber;
+local getmetatable      = _G.getmetatable;
+local setmetatable      = _G.setmetatable;
+local collectgarbage    = _G.collectgarbage;
 local tinsert   = _G.tinsert;
 local string    = _G.string;
 local math      = _G.math;
 local table     = _G.table;
+local wipe      = _G.wipe;
 --[[ STRING METHODS ]]--
 local format, find, lower, match, gsub = string.format, string.find, string.lower, string.match, string.gsub;
 --[[ MATH METHODS ]]--

@@ -1,6 +1,6 @@
 ## Interface: 60100
 ## Author: Munglunch
-## Version: 1.0.07
+## Version: 1.0.08
 ## Title: |cffFF9900SuperVillain UI: |r|cff00FF00!Core|r
 ## Notes: SVUI [|cff9911FFCore Framework|r].
 ## SavedVariables: SVUI_Global, SVUI_Errors, SVUI_Filters, SVUI_Media
@@ -14,6 +14,10 @@
 ## X-License: All Rights Reserved
 ## X-Category: Interface Enhancements
 ## X-Curse-Packaged-Version: r20150303002108
+## X-Curse-Project-Name: SuperVillain UI: Core
+## X-Curse-Project-ID: supervillain-ui
+## X-Curse-Repository-ID: wow/supervillain-ui/mainline
+## X-Curse-Packaged-Version: r20150304000513
 ## X-Curse-Project-Name: SuperVillain UI: Core
 ## X-Curse-Project-ID: supervillain-ui
 ## X-Curse-Repository-ID: wow/supervillain-ui/mainline

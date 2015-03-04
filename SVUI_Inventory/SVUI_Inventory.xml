@@ -21,6 +21,9 @@
             <AbsValue val="11"/>
         </FontHeight>
     </Font>
+
+    <Frame name="SVUI_BagFilterMenu" frameStrata="DIALOG" hidden="true" />
+    <Frame name="SVUI_BagBar" frameStrata="DIALOG" hidden="true" />
     
 	<Script file='Loader.lua'/>	
 	<Script file='SVUI_Inventory.lua'/>

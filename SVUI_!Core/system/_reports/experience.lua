@@ -18,8 +18,11 @@ local string 	= _G.string;
 local format = string.format;
 local gsub = string.gsub;
 --MATH
-local math          = _G.math;
-local min         = math.min
+local math      = _G.math;
+local min       = math.min
+local UnitXP    = _G.UnitXP;
+local UnitXPMax = _G.UnitXPMax;
+local GetXPExhaustion  = _G.GetXPExhaustion;
 --[[ 
 ########################################################## 
 GET ADDON DATA

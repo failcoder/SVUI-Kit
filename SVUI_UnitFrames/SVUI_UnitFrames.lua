@@ -5,22 +5,22 @@ S V U I   By: Munglunch
 LOCALIZED LUA FUNCTIONS
 ##########################################################
 ]]--
+local _G            	= _G;
 --LUA
-local unpack        = unpack;
-local select        = select;
-local pairs         = pairs;
-local type          = type;
-local rawset        = rawset;
-local rawget        = rawget;
-local tostring      = tostring;
-local error         = error;
-local next          = next;
-local pcall         = pcall;
-local getmetatable  = getmetatable;
-local setmetatable  = setmetatable;
-local assert        = assert;
+local unpack            = _G.unpack;
+local select            = _G.select;
+local assert            = _G.assert;
+local type              = _G.type;
+local error             = _G.error;
+local pcall             = _G.pcall;
+local print             = _G.print;
+local ipairs            = _G.ipairs;
+local pairs             = _G.pairs;
+local next              = _G.next;
+local tostring          = _G.tostring;
+local tonumber          = _G.tonumber;
+local collectgarbage    = _G.collectgarbage;
 --BLIZZARD
-local _G            = _G;
 local tinsert       = _G.tinsert;
 local tremove       = _G.tremove;
 local twipe         = _G.wipe;
@@ -34,8 +34,22 @@ local math          = math;
 local min, random   = math.min, math.random;
 --TABLE
 local table         = table;
---[[ LOCALIZED BLIZZ FUNCTIONS ]]--
-local NewHook = hooksecurefunc;
+--BLIZZARD API
+local hooksecurefunc 			= _G.hooksecurefunc;
+local InCombatLockdown      	= _G.InCombatLockdown;
+local CreateFrame           	= _G.CreateFrame;
+local IsAddOnLoaded         	= _G.IsAddOnLoaded;
+local IsInInstance          	= _G.IsInInstance;
+local GetActiveSpecGroup    	= _G.GetActiveSpecGroup;
+local GetSpellInfo    			= _G.GetSpellInfo;
+local oUF_RaidDebuffs       	= _G.oUF_RaidDebuffs;
+local MAX_BOSS_FRAMES       	= _G.MAX_BOSS_FRAMES;
+local RAID_CLASS_COLORS     	= _G.RAID_CLASS_COLORS;
+local FACTION_BAR_COLORS    	= _G.FACTION_BAR_COLORS;
+local CUSTOM_CLASS_COLORS   	= _G.CUSTOM_CLASS_COLORS;
+local RegisterStateDriver       = _G.RegisterStateDriver;
+local UnregisterStateDriver     = _G.UnregisterStateDriver;
+local RegisterAttributeDriver   = _G.RegisterAttributeDriver;
 --[[ 
 ########################################################## 
 GET ADDON DATA AND TEST FOR oUF
@@ -644,8 +658,8 @@ function MOD:RefreshUnitLayout(frame, template)
 					PORTRAIT_GRIP.anchor:SetFrameLevel(frame.ActionPanel:GetFrameLevel())
 				end 
 				
-				PORTRAIT_GRIP:ModPoint(TOP_ANCHOR2, MASTER_GRIP, TOP_ANCHOR2, (1 * TOP_MODIFIER), 0)
-				PORTRAIT_GRIP:ModPoint(BOTTOM_ANCHOR2, MASTER_GRIP, BOTTOM_ANCHOR2, (1 * BOTTOM_MODIFIER), 0)
+				PORTRAIT_GRIP:ModPoint(TOP_ANCHOR2, frame, TOP_ANCHOR2, (1 * TOP_MODIFIER), -1)
+				PORTRAIT_GRIP:ModPoint(BOTTOM_ANCHOR2, frame, BOTTOM_ANCHOR2, (1 * BOTTOM_MODIFIER), 1)
 				
 				PORTRAIT_GRIP.Panel:Show()
 			else
@@ -1238,8 +1252,8 @@ function MOD:Load()
 
 	if(SV.db.UnitFrames.disableBlizzard) then 
 		self:KillBlizzardRaidFrames()
-		NewHook("CompactUnitFrame_RegisterEvents", CompactUnitFrame_UnregisterEvents)
-		NewHook("UnitFrameThreatIndicator_Initialize", UnitFrameThreatIndicator_Hook)
+		hooksecurefunc("CompactUnitFrame_RegisterEvents", CompactUnitFrame_UnregisterEvents)
+		hooksecurefunc("UnitFrameThreatIndicator_Initialize", UnitFrameThreatIndicator_Hook)
 
 		InterfaceOptionsFrameCategoriesButton10:SetScale(0.0001)
 		InterfaceOptionsFrameCategoriesButton11:SetScale(0.0001)

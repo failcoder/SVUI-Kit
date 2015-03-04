@@ -20,6 +20,7 @@ local type          = _G.type;
 local error         = _G.error;
 local pcall         = _G.pcall;
 --BLIZZARD API
+local UIParent          = _G.UIParent;
 local UIFrameFadeOut    = _G.UIFrameFadeOut;
 local FlickerAlpha      = {0.2,0.15,0.1,0.15,0.2,0.15,0.1,0.15}
 --[[ LIB CONSTRUCT ]]--

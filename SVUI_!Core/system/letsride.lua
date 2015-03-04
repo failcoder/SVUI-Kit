@@ -10,6 +10,7 @@ local _G = _G;
 local unpack 		= _G.unpack;
 local select 		= _G.select;
 local pairs 		= _G.pairs;
+local type          = _G.type;
 local tonumber		= _G.tonumber;
 local tinsert 		= _G.tinsert;
 local table 		= _G.table;
@@ -17,6 +18,26 @@ local math 			= _G.math;
 local bit 			= _G.bit;
 local random 		= math.random; 
 local twipe,band 	= table.wipe, bit.band;
+--BLIZZARD API
+local CreateFrame           = _G.CreateFrame;
+local InCombatLockdown      = _G.InCombatLockdown;
+local GameTooltip           = _G.GameTooltip;
+local LoadAddOn             = _G.LoadAddOn;
+local hooksecurefunc        = _G.hooksecurefunc;
+local IsAltKeyDown          = _G.IsAltKeyDown;
+local IsShiftKeyDown        = _G.IsShiftKeyDown;
+local IsControlKeyDown      = _G.IsControlKeyDown;
+local IsModifiedClick       = _G.IsModifiedClick;
+local PlaySound             = _G.PlaySound;
+local PlaySoundFile         = _G.PlaySoundFile;
+local PlayMusic             = _G.PlayMusic;
+local StopMusic             = _G.StopMusic;
+local UnitName              = _G.UnitName;
+local ToggleFrame           = _G.ToggleFrame;
+local ERR_NOT_IN_COMBAT     = _G.ERR_NOT_IN_COMBAT;
+local RAID_CLASS_COLORS     = _G.RAID_CLASS_COLORS;
+local CUSTOM_CLASS_COLORS   = _G.CUSTOM_CLASS_COLORS;
+local C_MountJournal        = _G.C_MountJournal;
 --[[ 
 ########################################################## 
 GET ADDON DATA

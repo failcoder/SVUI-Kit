@@ -26,6 +26,25 @@ local format = string.format;
 local abs, ceil, floor, round = math.abs, math.ceil, math.floor, math.round;
 --[[ TABLE METHODS ]]--
 local tremove, twipe = table.remove, table.wipe;
+--BLIZZARD API
+local CreateFrame           = _G.CreateFrame;
+local InCombatLockdown      = _G.InCombatLockdown;
+local GameTooltip           = _G.GameTooltip;
+local hooksecurefunc        = _G.hooksecurefunc;
+local IsAltKeyDown          = _G.IsAltKeyDown;
+local IsShiftKeyDown        = _G.IsShiftKeyDown;
+local IsControlKeyDown      = _G.IsControlKeyDown;
+local IsModifiedClick       = _G.IsModifiedClick;
+local PlaySound             = _G.PlaySound;
+local PlaySoundFile         = _G.PlaySoundFile;
+local PlayMusic             = _G.PlayMusic;
+local StopMusic             = _G.StopMusic;
+local GetTime               = _G.GetTime;
+local PERCENTAGE_STRING     = _G.PERCENTAGE_STRING;
+local RAID_CLASS_COLORS     = _G.RAID_CLASS_COLORS;
+local CUSTOM_CLASS_COLORS   = _G.CUSTOM_CLASS_COLORS;
+local GetTimeStringFromSeconds = _G.GetTimeStringFromSeconds;
+local GetQuestProgressBarPercent = _G.GetQuestProgressBarPercent;
 --[[ 
 ########################################################## 
 GET ADDON DATA

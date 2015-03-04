@@ -9,6 +9,7 @@ LOCALIZED LUA FUNCTIONS
 local _G = _G;
 local unpack        = _G.unpack;
 local select        = _G.select;
+local pairs         = _G.pairs;
 --[[ 
 ########################################################## 
 GET ADDON DATA

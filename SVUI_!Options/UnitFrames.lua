@@ -2490,7 +2490,7 @@ SV.Options.args[Schema] = {
 								fontConfigButton = {
 									order = 1, 
 									name = L["Set UnitFrame Fonts"], 
-									type = "execute", func = function() ns:SetToFontConfig("UnitFrame") end
+									type = "execute", func = function() SVUIOptions:SetToFontConfig("UnitFrame") end
 								},
 							}
 						},

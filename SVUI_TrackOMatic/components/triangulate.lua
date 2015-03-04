@@ -13,6 +13,8 @@ local pairs     = _G.pairs;
 local type      = _G.type;
 local tostring  = _G.tostring;
 local tonumber  = _G.tonumber;
+local rawset    = _G.rawset;
+local rawget    = _G.rawget;
 local tinsert   = _G.tinsert;
 local tremove   = _G.tremove;
 local string    = _G.string;
@@ -31,6 +33,17 @@ local sqrt2, max = math.sqrt(2), math.max;
 local tcopy, twipe, tsort, tconcat, tdump = table.copy, table.wipe, table.sort, table.concat, table.dump;
 --[[ BINARY METHODS ]]--
 local band = bit.band;
+--BLIZZARD API
+local InCombatLockdown      = _G.InCombatLockdown;
+local SetMapZoom            = _G.SetMapZoom;
+local SetMapToCurrentZone   = _G.SetMapToCurrentZone;
+local ZoomOut               = _G.ZoomOut;
+local SetMapByID            = _G.SetMapByID;
+local SetDungeonMapLevel    = _G.SetDungeonMapLevel;
+local QuestPOIGetIconInfo   = _G.QuestPOIGetIconInfo;
+local WORLDMAP_WORLD_ID     = _G.WORLDMAP_WORLD_ID;
+local WorldMapFrame         = _G.WorldMapFrame;
+local GetCurrentMapDungeonLevel   = _G.GetCurrentMapDungeonLevel;
 --[[ 
 ########################################################## 
 LOCALS
@@ -383,7 +396,7 @@ local function GetDistance(map1, floor1, x1, y1, map2, floor2, x2, y2)
     return dist, angle;
 end
 
-function TriangulateUnit(unit, noMapLocation)
+_G.TriangulateUnit = function(unit, noMapLocation)
     if(WorldMapFrame and WorldMapFrame:IsShown()) then return end
 
     local plot1, plot2, plot3, plot4, plot5, plot6, plot7, plot8;
@@ -444,7 +457,7 @@ end
 
 --QuestPOIGetIconInfo(questID)
 
-function TriangulateQuest(questID)
+_G.TriangulateQuest = function(questID)
     if(WorldMapFrame and WorldMapFrame:IsShown()) then return end
 
     local _, plot1, plot2, plot3, plot4, plot5, plot6, plot7, plot8;

@@ -7,12 +7,19 @@ LOCALIZED LUA FUNCTIONS
 ]]--
 --[[ GLOBALS ]]--
 local _G = _G;
-local unpack    = _G.unpack;
-local select    = _G.select;
-local pairs     = _G.pairs;
-local type      = _G.type;
-local tostring  = _G.tostring;
-local tonumber  = _G.tonumber;
+local unpack            = _G.unpack;
+local select            = _G.select;
+local assert            = _G.assert;
+local type              = _G.type;
+local error             = _G.error;
+local pcall             = _G.pcall;
+local print             = _G.print;
+local ipairs            = _G.ipairs;
+local pairs             = _G.pairs;
+local next              = _G.next;
+local tostring          = _G.tostring;
+local tonumber          = _G.tonumber;
+local collectgarbage    = _G.collectgarbage;
 local tinsert   = _G.tinsert;
 local tremove   = _G.tremove;
 local string    = _G.string;
@@ -31,6 +38,28 @@ local sqrt2, max = math.sqrt(2), math.max;
 local tcopy, twipe, tsort, tconcat, tdump = table.copy, table.wipe, table.sort, table.concat, table.dump;
 --[[ BINARY METHODS ]]--
 local band = bit.band;
+--BLIZZARD API
+local InCombatLockdown      = _G.InCombatLockdown;
+local CreateFrame           = _G.CreateFrame;
+local IsInRaid              = _G.IsInRaid;
+local IsInGroup             = _G.IsInGroup;
+local IsInInstance          = _G.IsInInstance;
+local UnitName              = _G.UnitName;
+local UnitAura              = _G.UnitAura;
+local UnitBuff              = _G.UnitBuff;
+local UnitStat              = _G.UnitStat;
+local UnitRace              = _G.UnitRace;
+local UnitLevel             = _G.UnitLevel;
+local UnitClass             = _G.UnitClass;
+local UnitReaction          = _G.UnitReaction;
+local UnitExists            = _G.UnitExists;
+local UnitIsUnit            = _G.UnitIsUnit;
+local UnitInRaid            = _G.UnitInRaid;
+local UnitInParty           = _G.UnitInParty;
+local UnitInRange           = _G.UnitInRange;
+local GetMouseFocus         = _G.GetMouseFocus;
+local UnitIsConnected       = _G.UnitIsConnected;
+local GetNumGroupMembers    = _G.GetNumGroupMembers;
 --[[ 
 ########################################################## 
 GET ADDON DATA
@@ -227,7 +256,7 @@ local taggedUnits = {}
 local groupTagManager = CreateFrame("Frame")
 function PLUGIN:EnableGPS()
     if(not SV.UnitFrames) then return end;
-    local oUF = SV.UnitFrames.oUF or oUF
+    local oUF = SV.UnitFrames.oUF
     if(not oUF) then return end;
 
     CONFIGS = SV.db[self.Schema];

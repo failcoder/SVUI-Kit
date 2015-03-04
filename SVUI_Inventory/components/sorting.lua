@@ -7,23 +7,23 @@ credit: Kemayo.               original logic from BankStack. Adapted to SVUI #
 ########################################################## 
 LOCALIZED LUA FUNCTIONS
 ##########################################################
+(<a href="[^0-9\"]+">)
 ]]--
 --[[ GLOBALS ]]--
 local _G = _G;
-local unpack        = _G.unpack;
-local select        = _G.select;
-local assert        = _G.assert;
-local type          = _G.type;
-local error         = _G.error;
-local pcall         = _G.pcall;
-local print         = _G.print;
-local ipairs        = _G.ipairs;
-local pairs         = _G.pairs;
-local next          = _G.next;
-local rawset        = _G.rawset;
-local rawget        = _G.rawget;
-local tostring      = _G.tostring;
-local tonumber      = _G.tonumber;
+local unpack            = _G.unpack;
+local select            = _G.select;
+local assert            = _G.assert;
+local type              = _G.type;
+local error             = _G.error;
+local pcall             = _G.pcall;
+local print             = _G.print;
+local ipairs            = _G.ipairs;
+local pairs             = _G.pairs;
+local next              = _G.next;
+local tostring          = _G.tostring;
+local tonumber          = _G.tonumber;
+local collectgarbage    = _G.collectgarbage;
 local tinsert 	= _G.tinsert;
 local string 	= _G.string;
 local math 		= _G.math;
@@ -37,6 +37,51 @@ local floor = math.floor;
 local band = bit.band;
 --[[ TABLE METHODS ]]--
 local tremove, tcopy, twipe, tsort = table.remove, table.copy, table.wipe, table.sort;
+--BLIZZARD API
+local CreateFrame           = _G.CreateFrame;
+local InCombatLockdown      = _G.InCombatLockdown;
+local GameTooltip           = _G.GameTooltip;
+local hooksecurefunc        = _G.hooksecurefunc;
+local IsAltKeyDown          = _G.IsAltKeyDown;
+local IsShiftKeyDown        = _G.IsShiftKeyDown;
+local IsControlKeyDown      = _G.IsControlKeyDown;
+local IsModifiedClick       = _G.IsModifiedClick;
+local RAID_CLASS_COLORS     = _G.RAID_CLASS_COLORS;
+local CUSTOM_CLASS_COLORS   = _G.CUSTOM_CLASS_COLORS;
+local C_PetJournal          = _G.C_PetJournal;
+local GetTime               = _G.GetTime;
+local GetContainerNumSlots  = _G.GetContainerNumSlots;
+local GetGuildBankTabInfo   = _G.GetGuildBankTabInfo;
+local GetItemFamily         = _G.GetItemFamily;
+local GetGuildBankItemInfo  = _G.GetGuildBankItemInfo;
+local GetContainerItemInfo  = _G.GetContainerItemInfo;
+local GetGuildBankItemLink  = _G.GetGuildBankItemLink;
+local GetContainerItemLink  = _G.GetContainerItemLink;
+local GetItemInfo           = _G.GetItemInfo;
+local GetItemCount          = _G.GetItemCount;
+local GetItemQualityColor   = _G.GetItemQualityColor;
+local GetCursorInfo         = _G.GetCursorInfo;
+local PickupGuildBankItem   = _G.PickupGuildBankItem;
+local PickupContainerItem   = _G.PickupContainerItem;
+local QueryGuildBankTab     = _G.QueryGuildBankTab;
+local GetInventoryItemLink  = _G.GetInventoryItemLink;
+local SplitGuildBankItem    = _G.SplitGuildBankItem;
+local SplitContainerItem    = _G.SplitContainerItem;
+
+local ARMOR                     = _G.ARMOR;
+local ENCHSLOT_WEAPON           = _G.ENCHSLOT_WEAPON;
+local NUM_BAG_FRAMES            = _G.NUM_BAG_FRAMES;
+local NUM_BAG_SLOTS             = _G.NUM_BAG_SLOTS;
+local NUM_BANKBAGSLOTS          = _G.NUM_BANKBAGSLOTS;
+local BANK_CONTAINER            = _G.BANK_CONTAINER;
+local REAGENTBANK_CONTAINER     = _G.REAGENTBANK_CONTAINER;
+local GetAuctionItemClasses   	= _G.GetAuctionItemClasses;
+local GetAuctionItemSubClasses  = _G.GetAuctionItemSubClasses;
+local ContainerIDToInventoryID  = _G.ContainerIDToInventoryID;
+local GetContainerItemID        = _G.GetContainerItemID;
+local CombatText_StandardScroll = _G.CombatText_StandardScroll;
+local GetCurrentGuildBankTab	= _G.GetCurrentGuildBankTab;
+local GetContainerNumFreeSlots  = _G.GetContainerNumFreeSlots;
 --[[ 
 ########################################################## 
 GET ADDON DATA

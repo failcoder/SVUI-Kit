@@ -37,6 +37,13 @@ local tremove       = table.remove;
 --[[ MATH METHODS ]]--
 local abs, ceil, floor = math.abs, math.ceil, math.floor; -- Basic
 local parsefloat = math.parsefloat; -- Uncommon
+
+local CreateFrame           = _G.CreateFrame;
+local InCombatLockdown      = _G.InCombatLockdown;
+local GameTooltip           = _G.GameTooltip;
+local UnitClass             = _G.UnitClass;
+local UnitIsPlayer          = _G.UnitIsPlayer;
+local UnitReaction          = _G.UnitReaction;
 --[[ 
 ########################################################## 
 GET ADDON DATA
@@ -541,6 +548,7 @@ function MOD:CreateCastbar(frame, reversed, moverName, ryu, useFader, isBoss, ha
 		castbar.Time:SetTextColor(1, 1, 1)
 		castbar.Text:SetFontObject(SVUI_Font_Caps)
 		castbar.Text:SetTextColor(1, 1, 1, 0.75)
+		castbar.Text:SetWordWrap(false)
 
 		castbar:SetStatusBarTexture(SV.media.statusbar.lazer)
 
@@ -642,6 +650,7 @@ function MOD:CreateCastbar(frame, reversed, moverName, ryu, useFader, isBoss, ha
 		castbar.Text:SetFontObject(SVUI_Font_Caps)
 		castbar.Text:SetTextColor(1, 1, 1, 0.9)
 		castbar.Text:SetAllPoints(castbar)
+		castbar.Text:SetWordWrap(false)
 
 		castbar.pewpew = false
 

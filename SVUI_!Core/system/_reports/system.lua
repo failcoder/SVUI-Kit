@@ -13,6 +13,7 @@ LOCALIZED LUA FUNCTIONS
 local _G = _G;
 local unpack 	= _G.unpack;
 local select 	= _G.select;
+local collectgarbage    = _G.collectgarbage;
 local string 	= _G.string;
 local math 		= _G.math;
 local table 	= _G.table;
@@ -22,6 +23,19 @@ local format = string.format;
 local floor = math.floor
 --[[ TABLE METHODS ]]--
 local tsort = table.sort;
+local IsShiftKeyDown        = _G.IsShiftKeyDown;
+local IsAddOnLoaded         = _G.IsAddOnLoaded;
+local GetNumAddOns          = _G.GetNumAddOns;
+local GetAddOnInfo          = _G.GetAddOnInfo;
+local GetFramerate          = _G.GetFramerate;
+local GetNetStats           = _G.GetNetStats;
+local GetAddOnCPUUsage      = _G.GetAddOnCPUUsage;
+local GetAddOnMemoryUsage   = _G.GetAddOnMemoryUsage;
+local ResetCPUUsage           = _G.ResetCPUUsage;
+local UpdateAddOnCPUUsage     = _G.UpdateAddOnCPUUsage;
+local UpdateAddOnMemoryUsage  = _G.UpdateAddOnMemoryUsage;
+local GetAvailableBandwidth   = _G.GetAvailableBandwidth;
+local GetDownloadedPercentage = _G.GetDownloadedPercentage;
 --[[ 
 ########################################################## 
 GET ADDON DATA

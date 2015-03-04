@@ -16,6 +16,10 @@ local select 	= _G.select;
 local string 	= _G.string;
 --[[ STRING METHODS ]]--
 local match, sub, join = string.match, string.sub, string.join;
+local time      = _G.time;
+local wipe      = _G.wipe;
+local UnitGUID  = _G.UnitGUID;
+local UNIT_PET  = _G.UNIT_PET;
 --[[ 
 ########################################################## 
 GET ADDON DATA

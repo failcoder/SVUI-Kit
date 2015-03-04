@@ -15,6 +15,8 @@ local _G = getfenv(0);
 --LUA
 local unpack        = _G.unpack;
 local select        = _G.select;
+local type          = _G.type;
+local pairs         = _G.pairs;
 local assert        = _G.assert;
 local rawset        = _G.rawset;
 local rawget        = _G.rawget;

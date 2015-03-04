@@ -26,6 +26,9 @@ local floor = math.floor;
 local twipe, tcopy = table.wipe, table.copy;
 local IsAddOnLoaded = _G.IsAddOnLoaded;
 local LoadAddOn = _G.LoadAddOn;
+--BLIZZARD API
+local InCombatLockdown      = _G.InCombatLockdown;
+local CreateFrame           = _G.CreateFrame;
 --[[ 
 ########################################################## 
 GET ADDON DATA
@@ -351,15 +354,15 @@ function MOD:Load()
 	local dockWidth = self.Docklet:GetWidth()
 
 	self.Docklet.Dock1 = CreateFrame("Frame", "SVUI_SkinsDockAddon1", self.Docklet);
-	self.Docklet.Dock1:SetPoint('TOPLEFT', self.Docklet, 'TOPLEFT', -4, 0);
-	self.Docklet.Dock1:SetPoint('BOTTOMLEFT', self.Docklet, 'BOTTOMLEFT', -4, -4);
+	self.Docklet.Dock1:SetPoint('TOPLEFT', self.Docklet, 'TOPLEFT', -1, 0);
+	self.Docklet.Dock1:SetPoint('BOTTOMLEFT', self.Docklet, 'BOTTOMLEFT', -1, -1);
 	self.Docklet.Dock1:SetWidth(dockWidth);
 	self.Docklet.Dock1:SetScript('OnShow', ShowSubDocklet);
 	self.Docklet.Dock1:SetScript('OnHide', HideSubDocklet);
 
 	self.Docklet.Dock2 = CreateFrame("Frame", "SVUI_SkinsDockAddon2", self.Docklet);
 	self.Docklet.Dock2:SetPoint('TOPLEFT', self.Docklet.Dock1, 'TOPRIGHT', 0, 0);
-	self.Docklet.Dock2:SetPoint('BOTTOMLEFT', self.Docklet.Dock1, 'BOTTOMRIGHT', 0, 0);
+	self.Docklet.Dock2:SetPoint('BOTTOMRIGHT', self.Docklet, 'BOTTOMRIGHT', 1, -1);
 	self.Docklet.Dock2:SetWidth(dockWidth * 0.5);
 	self.Docklet.Dock2:SetScript('OnShow', ShowSubDocklet);
 	self.Docklet.Dock2:SetScript('OnHide', HideSubDocklet);

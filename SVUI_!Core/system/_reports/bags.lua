@@ -34,6 +34,14 @@ local gmatch, gsub = string.gmatch, string.gsub;
 local abs, ceil, floor, round = math.abs, math.ceil, math.floor, math.round;  -- Basic
 --[[ TABLE METHODS ]]--
 local twipe, tsort = table.wipe, table.sort;
+
+local NUM_BAG_SLOTS             = _G.NUM_BAG_SLOTS;
+local CURRENCY          		= _G.CURRENCY;
+local GetContainerNumFreeSlots  = _G.GetContainerNumFreeSlots;
+local GetContainerNumSlots      = _G.GetContainerNumSlots;
+local ToggleAllBags     		= _G.ToggleAllBags;
+local MAX_WATCHED_TOKENS        = _G.MAX_WATCHED_TOKENS;
+local GetBackpackCurrencyInfo  = _G.GetBackpackCurrencyInfo;
 --[[ 
 ########################################################## 
 GET ADDON DATA

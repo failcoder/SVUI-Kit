@@ -28,6 +28,19 @@ local math 		= _G.math;
 local find, format, len, split = string.find, string.format, string.len, string.split;
 --[[ MATH METHODS ]]--
 local abs, ceil, floor, round, max = math.abs, math.ceil, math.floor, math.round, math.max;
+--BLIZZARD API
+local CreateFrame           = _G.CreateFrame;
+local InCombatLockdown      = _G.InCombatLockdown;
+local GameTooltip           = _G.GameTooltip;
+local LootFrame           	= _G.LootFrame;
+local ConfirmLootRoll       = _G.ConfirmLootRoll;
+local StaticPopup_Hide      = _G.StaticPopup_Hide;
+local C_LootHistory         = _G.C_LootHistory;
+local UnitName              = _G.UnitName;
+local UnitIsDead            = _G.UnitIsDead;
+local UnitIsFriend          = _G.UnitIsFriend;
+local UnitInVehicle         = _G.UnitInVehicle;
+local UnitControllingVehicle= _G.UnitControllingVehicle;
 --[[ 
 ########################################################## 
 GET ADDON DATA
@@ -991,6 +1004,10 @@ local function SetOverrides()
 
 		LootingEventFrame:SetScript("OnEvent", LootFrame_OnEvent);
 	end
+
+	ColorPickerFrame:RemoveTextures()
+	ColorPickerFrame:SetBackdrop(SV.media.backdrop.pattern)
+	ColorPickerFrame:SetFrameLevel(999)
 
 	AlterBlizzMainBar()
 end

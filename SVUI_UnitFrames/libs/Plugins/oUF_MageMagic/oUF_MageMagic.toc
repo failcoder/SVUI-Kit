@@ -2,7 +2,7 @@
 ## Title: oUF Mage Magic
 ## Notes: Adds support for mage spell indicators to oUF.
 ## Author: Munglunch
-## Version: 1.0.01
+## Version: 1.0.08
 ## Dependencies: oUF
 ## X-Curse-Packaged-Version: r20150218022926
 ## X-Curse-Project-Name: SuperVillain UI: UnitFrames
@@ -17,6 +17,10 @@
 ## X-Curse-Project-ID: supervillain-ui-unitframes
 ## X-Curse-Repository-ID: wow/supervillain-ui-unitframes/mainline
 ## X-Curse-Packaged-Version: r20150301045928
+## X-Curse-Project-Name: SuperVillain UI: UnitFrames
+## X-Curse-Project-ID: supervillain-ui-unitframes
+## X-Curse-Repository-ID: wow/supervillain-ui-unitframes/mainline
+## X-Curse-Packaged-Version: r20150304000623
 ## X-Curse-Project-Name: SuperVillain UI: UnitFrames
 ## X-Curse-Project-ID: supervillain-ui-unitframes
 ## X-Curse-Repository-ID: wow/supervillain-ui-unitframes/mainline

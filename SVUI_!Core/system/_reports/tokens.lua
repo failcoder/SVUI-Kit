@@ -15,7 +15,12 @@ local unpack 	= _G.unpack;
 local select 	= _G.select;
 local tinsert 	= _G.tinsert;
 local table     = _G.table;
-local twipe     = table.wipe; 
+local twipe     = table.wipe;
+local GetCurrencyInfo           = _G.GetCurrencyInfo;
+local GetNumWatchedTokens       = _G.GetNumWatchedTokens;
+local GetBackpackCurrencyInfo   = _G.GetBackpackCurrencyInfo;
+local GetProfessions            = _G.GetProfessions;
+local IsLoggedIn                = _G.IsLoggedIn;
 --[[ 
 ########################################################## 
 GET ADDON DATA

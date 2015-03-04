@@ -29,6 +29,50 @@ local format = string.format;
 local abs, ceil, floor, round, maxNum = math.abs, math.ceil, math.floor, math.round, math.max;
 --[[ TABLE METHODS ]]--
 local tsort, tcopy = table.sort, table.copy;
+--BLIZZARD API
+local CreateFrame           = _G.CreateFrame;
+local InCombatLockdown      = _G.InCombatLockdown;
+local GameTooltip           = _G.GameTooltip;
+local hooksecurefunc        = _G.hooksecurefunc;
+local IsAltKeyDown          = _G.IsAltKeyDown;
+local IsShiftKeyDown        = _G.IsShiftKeyDown;
+local IsControlKeyDown      = _G.IsControlKeyDown;
+local IsModifiedClick       = _G.IsModifiedClick;
+local PlaySound             = _G.PlaySound;
+local PlaySoundFile         = _G.PlaySoundFile;
+local PlayMusic             = _G.PlayMusic;
+local StopMusic             = _G.StopMusic;
+local GetTime               = _G.GetTime;
+local C_Timer               = _G.C_Timer;
+local IsQuestTask   		= _G.IsQuestTask;
+local GetCVarBool   		= _G.GetCVarBool;
+local AddQuestWatch   		= _G.AddQuestWatch;
+local GetQuestLink  		= _G.GetQuestLink;
+local GetQuestLogTitle  	= _G.GetQuestLogTitle;
+local SetSuperTrackedQuestID= _G.SetSuperTrackedQuestID;
+local GetNumQuestWatches  	= _G.GetNumQuestWatches;
+local GetQuestWatchInfo  	= _G.GetQuestWatchInfo;
+local GetQuestWatchIndex  	= _G.GetQuestWatchIndex;
+local GetDistanceSqToQuest  = _G.GetDistanceSqToQuest;
+local GetNumQuestLogEntries = _G.GetNumQuestLogEntries;
+local ShowQuestComplete  	= _G.ShowQuestComplete;
+local RemoveQuestWatch  	= _G.RemoveQuestWatch;
+local IsQuestComplete  		= _G.IsQuestComplete;
+local GetSuperTrackedQuestID= _G.GetSuperTrackedQuestID;
+local GetQuestLogIndexByID  = _G.GetQuestLogIndexByID;
+local AddQuestWatch   		= _G.AddQuestWatch;
+local IsPlayerInMicroDungeon= _G.IsPlayerInMicroDungeon;
+local GetCurrentMapAreaID   = _G.GetCurrentMapAreaID;
+local SetMapToCurrentZone   = _G.SetMapToCurrentZone;
+local AUTO_QUEST_WATCH     	= _G.AUTO_QUEST_WATCH;
+local TRACKER_HEADER_QUESTS = _G.TRACKER_HEADER_QUESTS;
+local GetQuestObjectiveInfo = _G.GetQuestObjectiveInfo;
+local GetQuestLogIsAutoComplete  	= _G.GetQuestLogIsAutoComplete;
+local GetQuestDifficultyColor  		= _G.GetQuestDifficultyColor;
+local GetQuestLogSpecialItemInfo 	= _G.GetQuestLogSpecialItemInfo;
+local GetQuestWorldMapAreaID  		= _G.GetQuestWorldMapAreaID;
+local GetTimeStringFromSeconds 		= _G.GetTimeStringFromSeconds;
+local GetQuestProgressBarPercent 	= _G.GetQuestProgressBarPercent;
 --[[ 
 ########################################################## 
 GET ADDON DATA
@@ -646,6 +690,7 @@ local ViewButton_OnClick = function(self, button)
 				QuestLogPopupDetailFrame_Show(questIndex);
 			end
 		elseif(questID) then
+			local superTrackedQuestID = GetSuperTrackedQuestID();
 			RemoveQuestWatch(questIndex);
 			if(questID == superTrackedQuestID) then
 				QuestSuperTracking_OnQuestUntracked();

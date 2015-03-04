@@ -26,6 +26,23 @@ local format = string.format;
 local abs, ceil, floor, round = math.abs, math.ceil, math.floor, math.round;
 --[[ TABLE METHODS ]]--
 local tremove, twipe = table.remove, table.wipe;
+--BLIZZARD API
+local CreateFrame           = _G.CreateFrame;
+local InCombatLockdown      = _G.InCombatLockdown;
+local GameTooltip           = _G.GameTooltip;
+local hooksecurefunc        = _G.hooksecurefunc;
+local IsAltKeyDown          = _G.IsAltKeyDown;
+local IsShiftKeyDown        = _G.IsShiftKeyDown;
+local IsControlKeyDown      = _G.IsControlKeyDown;
+local ShowQuestOffer       	= _G.ShowQuestOffer;
+local PlaySound             = _G.PlaySound;
+local GetQuestLogTitle  	= _G.GetQuestLogTitle;
+local ShowQuestComplete  	= _G.ShowQuestComplete;
+local GetQuestLogIndexByID  = _G.GetQuestLogIndexByID;
+local RemoveAutoQuestPopUp 	= _G.RemoveAutoQuestPopUp;
+local AddAutoQuestPopUp  	= _G.AddAutoQuestPopUp;
+local GetAutoQuestPopUp 	= _G.GetAutoQuestPopUp;
+local GetNumAutoQuestPopUps = _G.GetNumAutoQuestPopUps;
 --[[ 
 ########################################################## 
 GET ADDON DATA

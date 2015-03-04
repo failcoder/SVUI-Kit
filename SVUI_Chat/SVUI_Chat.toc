@@ -17,5 +17,9 @@
 ## X-Curse-Project-Name: SuperVillain UI: Chat
 ## X-Curse-Project-ID: supervillain-ui-chat
 ## X-Curse-Repository-ID: wow/supervillain-ui-chat/mainline
+## X-Curse-Packaged-Version: r20150304000606
+## X-Curse-Project-Name: SuperVillain UI: Chat
+## X-Curse-Project-ID: supervillain-ui-chat
+## X-Curse-Repository-ID: wow/supervillain-ui-chat/mainline
 
 SVUI_Chat.xml

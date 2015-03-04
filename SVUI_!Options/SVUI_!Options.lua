@@ -28,6 +28,7 @@ local table 	 =  _G.table;
 local wipe       =  _G.wipe;
 --[[ TABLE METHODS ]]--
 local tsort = table.sort;
+local IsAddOnLoaded         = _G.IsAddOnLoaded;
 --[[ 
 ########################################################## 
 GET ADDON DATA
@@ -74,7 +75,7 @@ local function GetLiveDockletsA()
 	local test = SV.private.Docks.Embed2;
 	local t = {["None"] = L["None"]};
 	for n,l in pairs(DockableAddons) do
-		if (test ~= n) then
+		if((not test) or (not test:find(n))) then
 			if(n:find("Skada") and _G.Skada) then
 				for index,window in pairs(_G.Skada:GetWindows()) do
 				    local key = window.db.name
@@ -92,7 +93,7 @@ local function GetLiveDockletsB()
 	local test = SV.private.Docks.Embed1;
 	local t = {["None"] = L["None"]};
 	for n,l in pairs(DockableAddons) do
-		if (test ~= n) then
+		if((not test) or (not test:find(n))) then
 			if(n:find("Skada") and _G.Skada) then
 				for index,window in pairs(_G.Skada:GetWindows()) do
 				    local key = window.db.name
@@ -1603,7 +1604,7 @@ SV.Options.args.Dock = {
 					order = 2,
 					name = "Secondary Docklet",
 					desc = "Select another addon",
-					disabled = function() return (SV.private.Docks.Embed1 == "None") end, 
+					--disabled = function() return (SV.private.Docks.Embed1 == "None") end, 
 					values = function() return GetLiveDockletsB() end,
 					get = function() return SV.private.Docks.Embed2 end,
 					set = function(a,value) SV.private.Docks.Embed2 = value; if(SV.Skins) then SV.Skins:RegisterAddonDocklets() end end,

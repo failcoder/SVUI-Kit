@@ -33,6 +33,14 @@ local format = string.format;
 local abs, ceil, floor, round = math.abs, math.ceil, math.floor, math.round;
 --[[ TABLE METHODS ]]--
 local tremove, twipe = table.remove, table.wipe;
+
+local C_Timer 				= _G.C_Timer;
+local GetNumQuestWatches  	= _G.GetNumQuestWatches;
+local GetQuestWatchInfo  	= _G.GetQuestWatchInfo;
+local QuestHasPOIInfo  	= _G.QuestHasPOIInfo;
+local GetQuestLogSpecialItemInfo  	= _G.GetQuestLogSpecialItemInfo;
+local GetCurrentMapAreaID  	= _G.GetCurrentMapAreaID;
+local GetDistanceSqToQuest  	= _G.GetDistanceSqToQuest;
 --[[ 
 ########################################################## 
 GET ADDON DATA

@@ -164,7 +164,7 @@ local Library_OnEvent = function(self, event, arg, ...)
             if(fn and type(fn) == "function") then
                 local _, catch = pcall(fn, ...)
                 if(catch) then
-                    CoreObject:HandleError("Librarian:Events:OnLock(" .. eventName .. "):", "callback", catch)
+                    CoreObject:HandleError("Librarian:Events:OnLock(" .. event .. "):", "callback", catch)
                 end
             end
         end
@@ -174,7 +174,7 @@ local Library_OnEvent = function(self, event, arg, ...)
             if(fn and type(fn) == "function") then
                 local _, catch = pcall(fn, ...)
                 if(catch) then
-                    CoreObject:HandleError("Librarian:Events:OnUnlock(" .. eventName .. "):", "callback", catch)
+                    CoreObject:HandleError("Librarian:Events:OnUnlock(" .. event .. "):", "callback", catch)
                 end
             end
         end

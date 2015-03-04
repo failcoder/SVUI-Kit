@@ -34,6 +34,30 @@ local gmatch, gsub = string.gmatch, string.gsub;
 local abs, ceil, floor, round = math.abs, math.ceil, math.floor, math.round;  -- Basic
 --[[ TABLE METHODS ]]--
 local wipe, sort = table.wipe, table.sort;
+
+local SetItemRef          	= _G.SetItemRef;
+local GetNumFriends         = _G.GetNumFriends;
+local BNGetNumFriends       = _G.BNGetNumFriends;
+local GetFriendInfo         = _G.GetFriendInfo;
+local BNGetFriendInfo       = _G.BNGetFriendInfo;
+local BNGetToonInfo         = _G.BNGetToonInfo;
+local GetRealmName          = _G.GetRealmName;
+local GetRealZoneText       = _G.GetRealZoneText;
+local InviteUnit            = _G.InviteUnit;
+local BNInviteFriend        = _G.BNInviteFriend;
+local BNSetCustomMessage    = _G.BNSetCustomMessage;
+local BNGetInfo          	= _G.BNGetInfo;
+local IsChatDND             = _G.IsChatDND;
+local IsChatAFK             = _G.IsChatAFK;
+local UnitInRaid            = _G.UnitInRaid;
+local UnitInParty           = _G.UnitInParty;
+local SendChatMessage       = _G.SendChatMessage;
+
+local AFK       = _G.AFK;
+local DND       = _G.DND;
+local GetQuestDifficultyColor = _G.GetQuestDifficultyColor;
+local LOCALIZED_CLASS_NAMES_MALE = _G.LOCALIZED_CLASS_NAMES_MALE;
+local LOCALIZED_CLASS_NAMES_FEMALE = _G.LOCALIZED_CLASS_NAMES_FEMALE;
 --[[ 
 ########################################################## 
 GET ADDON DATA

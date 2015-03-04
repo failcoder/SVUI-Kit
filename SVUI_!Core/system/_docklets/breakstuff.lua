@@ -11,11 +11,32 @@ local unpack  = _G.unpack;
 local select  = _G.select;
 local pairs   = _G.pairs;
 local ipairs  = _G.ipairs;
-local tinsert   = _G.tinsert;
+local print   = _G.print;
+local tinsert = _G.tinsert;
 local table   = _G.table;
-local match = string.match;
+local match   = string.match;
 --[[ TABLE METHODS ]]--
 local tremove, tcopy, twipe, tsort, tcat = table.remove, table.copy, table.wipe, table.sort, table.concat;
+--BLIZZARD API
+local CreateFrame           = _G.CreateFrame;
+local InCombatLockdown      = _G.InCombatLockdown;
+local GameTooltip           = _G.GameTooltip;
+local ReloadUI              = _G.ReloadUI;
+local hooksecurefunc        = _G.hooksecurefunc;
+local GetItemInfo      		= _G.GetItemInfo;
+local GetItemCount          = _G.GetItemCount;
+local GetSpellInfo      	= _G.GetSpellInfo;
+local IsSpellKnown      	= _G.IsSpellKnown;
+local IsEquippableItem  	= _G.IsEquippableItem;
+local GetSpellBookItemInfo  = _G.GetSpellBookItemInfo;
+local ERR_NOT_IN_COMBAT     = _G.ERR_NOT_IN_COMBAT;
+local ITEM_MILLABLE     	= _G.ITEM_MILLABLE;
+local ITEM_PROSPECTABLE   	= _G.ITEM_PROSPECTABLE;
+
+local GetMouseFocus  				= _G.GetMouseFocus;
+local GetContainerItemLink  		= _G.GetContainerItemLink;
+local AutoCastShine_AutoCastStart  	= _G.AutoCastShine_AutoCastStart;
+local AutoCastShine_AutoCastStop  	= _G.AutoCastShine_AutoCastStop;
 --[[ 
 ########################################################## 
 GET ADDON DATA

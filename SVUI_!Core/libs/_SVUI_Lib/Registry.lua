@@ -67,9 +67,10 @@ local IsLoggedIn            = _G.IsLoggedIn;
 local LoadAddOn             = _G.LoadAddOn;
 local EnableAddOn           = _G.EnableAddOn;
 local DisableAddOn          = _G.DisableAddOn;
-local GetSpecialization     = _G.GetSpecialization;
 local GetAddOnMetadata      = _G.GetAddOnMetadata;
+local InCombatLockdown      = _G.InCombatLockdown;
 local IsAddOnLoadOnDemand   = _G.IsAddOnLoadOnDemand;
+local GetSpecialization     = _G.GetSpecialization;
 local GetSpecializationInfo = _G.GetSpecializationInfo;
 local C_PetBattles          = _G.C_PetBattles;
 

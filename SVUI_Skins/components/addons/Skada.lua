@@ -58,7 +58,7 @@ local function StyleSkada()
 
 		if(window.db.enabletitle) then
 			panelAnchor = skada.button
-			skada.button:ModHeight(22)
+			skada.button:SetHeight(23)
 			skada.button:RemoveTextures()
 			skada.button:SetStyle("Frame", "Transparent")
 			--skada.button:SetPanelColor("class")
@@ -69,9 +69,6 @@ local function StyleSkada()
 		end
 
 		skada:SetStyle("Frame", "Transparent")
-		skada.Panel:ClearAllPoints()
-		skada.Panel:SetPoint('TOPLEFT', panelAnchor, 'TOPLEFT', -3, 3)
-		skada.Panel:SetPoint('BOTTOMRIGHT', skada, 'BOTTOMRIGHT', 3, -3)
 	end)
 
 	hooksecurefunc(Skada, 'CreateWindow', function()

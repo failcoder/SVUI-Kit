@@ -39,6 +39,10 @@ local ceil         	= math.ceil
 local table         = table;
 local tsort         = table.sort;
 local tremove       = table.remove;
+
+local CreateFrame           = _G.CreateFrame;
+local InCombatLockdown      = _G.InCombatLockdown;
+local GameTooltip           = _G.GameTooltip;
 --[[ 
 ########################################################## 
 GET ADDON DATA
@@ -442,9 +446,7 @@ CUSTOM EVENT UPDATES
 ##########################################################
 ]]--
 local function UpdateAuraMediaLocals()
-	print(oUF_SVUI.colors.buff_bars[1])
 	BUFFS_COLOR = oUF_SVUI.colors.buff_bars or DEFAULT_BUFFS_COLOR;
-	print(BUFFS_COLOR[i])
 	DEBUFFS_COLOR = oUF_SVUI.colors.debuff_bars or DEFAULT_DEBUFFS_COLOR;
 	AURA_STATUSBAR = LSM:Fetch("statusbar", SV.db.UnitFrames.auraBarStatusbar);
 end

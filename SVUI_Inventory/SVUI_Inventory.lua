@@ -22,6 +22,96 @@ local sub, byte = string.sub, string.byte;
 --[[ MATH METHODS ]]--
 local floor, ceil, abs = math.floor, math.ceil, math.abs;
 local twipe = table.wipe;
+--BLIZZARD API
+local UnitName   			= _G.UnitName;
+local CreateFrame           = _G.CreateFrame;
+local PlaySoundFile 		= _G.PlaySoundFile;
+local GameTooltip 			= _G.GameTooltip;
+local InCombatLockdown      = _G.InCombatLockdown;
+local hooksecurefunc        = _G.hooksecurefunc;
+local ToggleFrame        	= _G.ToggleFrame;
+local IsAltKeyDown        	= _G.IsAltKeyDown;
+local IsShiftKeyDown        = _G.IsShiftKeyDown;
+local IsControlKeyDown      = _G.IsControlKeyDown;
+local IsModifiedClick      	= _G.IsModifiedClick;
+local C_NewItems   			= _G.C_NewItems;
+local GetMoney   			= _G.GetMoney;
+local PurchaseSlot        	= _G.PurchaseSlot;
+local MoneyFrame_Update     = _G.MoneyFrame_Update;
+local GetBankSlotCost       = _G.GetBankSlotCost;
+local GetItemInfo       	= _G.GetItemInfo;
+local GetItemCount       	= _G.GetItemCount;
+local GetItemQualityColor   = _G.GetItemQualityColor;
+local CloseBag        		= _G.CloseBag;
+local IsBagOpen        		= _G.IsBagOpen;
+local CloseAllBags        	= _G.CloseAllBags;
+local IsOptionFrameOpen     = _G.IsOptionFrameOpen;
+local SortBags        		= _G.SortBags;
+local SortBankBags        	= _G.SortBankBags;
+local StackSplitFrame       = _G.StackSplitFrame;
+local SetItemSearch       	= _G.SetItemSearch;
+local BankFrame       		= _G.BankFrame;
+local MerchantFrame       	= _G.MerchantFrame;
+local UISpecialFrames       = _G.UISpecialFrames;
+local CloseBankFrame       	= _G.CloseBankFrame;
+local BuyReagentBank    	= _G.BuyReagentBank;
+local DepositReagentBank    = _G.DepositReagentBank;
+local PlaySound        		= _G.PlaySound;
+local GetNumBankSlots       = _G.GetNumBankSlots;
+local GetCurrencyLink       = _G.GetCurrencyLink;
+local IsReagentBankUnlocked = _G.IsReagentBankUnlocked;
+local GetReagentBankCost    = _G.GetReagentBankCost;
+local GetContainerItemID    = _G.GetContainerItemID;
+local GetContainerNumSlots  = _G.GetContainerNumSlots;
+local GetContainerItemInfo  = _G.GetContainerItemInfo;
+local GetContainerItemLink  = _G.GetContainerItemLink;
+local GetNumEquipmentSets  	= _G.GetNumEquipmentSets;
+local GetEquipmentSetInfo  	= _G.GetEquipmentSetInfo;
+
+local YES 						= _G.YES;
+local NO 						= _G.NO;
+local ACCEPT 					= _G.ACCEPT;
+local SEARCH 					= _G.SEARCH;
+local BANK 						= _G.BANK;
+local REAGENT_BANK 				= _G.REAGENT_BANK;
+local NUM_BAG_FRAMES 			= _G.NUM_BAG_FRAMES;
+local INVENTORY_TOOLTIP 		= _G.INVENTORY_TOOLTIP;
+local NUM_CONTAINER_FRAMES  	= _G.NUM_CONTAINER_FRAMES;
+local CONFIRM_BUY_BANK_SLOT 	= _G.CONFIRM_BUY_BANK_SLOT;
+local MAX_WATCHED_TOKENS    	= _G.MAX_WATCHED_TOKENS;
+local MAX_CONTAINER_ITEMS    	= _G.MAX_CONTAINER_ITEMS;
+local REAGENTBANK_CONTAINER 	= _G.REAGENTBANK_CONTAINER;
+local TEXTURE_ITEM_QUEST_BANG 	= _G.TEXTURE_ITEM_QUEST_BANG;
+local HandleModifiedItemClick 	= _G.HandleModifiedItemClick;
+local GetBackpackCurrencyInfo 	= _G.GetBackpackCurrencyInfo;
+local MainMenuBarBackpackButton = _G.MainMenuBarBackpackButton;
+local GetContainerItemCooldown  = _G.GetContainerItemCooldown;
+local GetContainerItemQuestInfo = _G.GetContainerItemQuestInfo;
+local GetEquipmentSetLocations  = _G.GetEquipmentSetLocations;
+local GetContainerNumFreeSlots  = _G.GetContainerNumFreeSlots;
+local GetCoinTextureString 		= _G.GetCoinTextureString;
+local CooldownFrame_SetTimer 	= _G.CooldownFrame_SetTimer;
+local SetPortraitToTexture 		= _G.SetPortraitToTexture;
+local UseContainerItem 			= _G.UseContainerItem;
+local PickupMerchantItem 		= _G.PickupMerchantItem;
+local BreakUpLargeNumbers 		= _G.BreakUpLargeNumbers;
+
+local BankFrameItemButton_Update 		= _G.BankFrameItemButton_Update;
+local BankFrameItemButton_UpdateLocked 	= _G.BankFrameItemButton_UpdateLocked;
+local MainMenuBarBackpackButtonCount 	= _G.MainMenuBarBackpackButtonCount;
+local SetItemButtonCount 				= _G.SetItemButtonCount;
+local SetItemButtonTexture 				= _G.SetItemButtonTexture;
+local SetItemButtonDesaturated 			= _G.SetItemButtonDesaturated;
+local SetItemButtonTextureVertexColor 	= _G.SetItemButtonTextureVertexColor;
+local EquipmentManager_UnpackLocation 	= _G.EquipmentManager_UnpackLocation;
+
+local SVUI_Font_Default 	= _G.SVUI_Font_Default;
+local SVUI_Font_Header 		= _G.SVUI_Font_Header;
+local SVUI_Font_Bag 		= _G.SVUI_Font_Bag;
+local SVUI_Font_Bag_Number 	= _G.SVUI_Font_Bag_Number;
+
+local BagFilters = _G.SVUI_BagFilterMenu;
+local BagBar = _G.SVUI_BagBar;
 --[[ 
 ########################################################## 
 GET ADDON DATA
@@ -190,8 +280,8 @@ CORE FUNCTIONS
 ##########################################################
 ]]--
 function MOD:INVENTORY_SEARCH_UPDATE()
-	for _, frame in pairs(self.BagFrames) do 
-		for id, bag in ipairs(frame.Bags) do 
+	if(self.BagFrame) then
+		for id, bag in ipairs(self.BagFrame.Bags) do 
 			for i = 1, GetContainerNumSlots(id) do 
 				local _, _, _, _, _, _, _, isFiltered = GetContainerItemInfo(id, i)
 				local item = bag[i]
@@ -205,12 +295,29 @@ function MOD:INVENTORY_SEARCH_UPDATE()
 					end 
 				end 
 			end 
-		end 
+		end
 	end
-	if(self.ReagentFrame) then
+	if(self.BankFrame and self.BankFrame:IsShown()) then
+		for id, bag in ipairs(self.BankFrame.Bags) do 
+			for i = 1, GetContainerNumSlots(id) do 
+				local _, _, _, _, _, _, _, isFiltered = GetContainerItemInfo(id, i)
+				local item = bag[i]
+				if(item and item:IsShown()) then 
+					if isFiltered then 
+						SetItemButtonDesaturated(item, 1)
+						item:SetAlpha(0.4)
+					else 
+						SetItemButtonDesaturated(item)
+						item:SetAlpha(1)
+					end 
+				end 
+			end 
+		end
+	end
+	if(self.ReagentFrame and self.ReagentFrame:IsShown()) then
 		for i = 1, self.ReagentFrame.numSlots do 
 			local _, _, _, _, _, _, _, isFiltered = GetContainerItemInfo(REAGENTBANK_CONTAINER, i)
-			local item = frame.Bags[REAGENTBANK_CONTAINER][i]
+			local item = self.ReagentFrame.Bags[REAGENTBANK_CONTAINER][i]
 			if(item and item:IsShown()) then 
 				if isFiltered then 
 					SetItemButtonDesaturated(item, 1)
@@ -646,7 +753,7 @@ local ReagentFrame_UpdateLayout = function(self)
 	local preSubColumns = ReagentBankFrame.numSubColumn or 2
 	local numContainerColumns = preColumns * preSubColumns
 	local numContainerRows = ReagentBankFrame.numRow or 7
-	local buttonSize = SVUI_BankContainerFrame.ButtonSize
+	local buttonSize = MOD.BankFrame.ButtonSize
 	local containerWidth = (buttonSize + buttonSpacing) * numContainerColumns + buttonSpacing
 	local containerHeight = (((buttonSize + buttonSpacing) * numContainerRows) - buttonSpacing) + self.topOffset + self.bottomOffset
 	local maxCount = numContainerColumns * numContainerRows
@@ -807,12 +914,12 @@ end
 do
 	local function Bags_OnEnter()
 		if SV.db.Inventory.bagBar.mouseover ~= true then return end 
-		SVUI_BagBar:FadeIn(0.2, SVUI_BagBar:GetAlpha(), 1)
+		BagBar:FadeIn(0.2, BagBar:GetAlpha(), 1)
 	end
 
 	local function Bags_OnLeave()
 		if SV.db.Inventory.bagBar.mouseover ~= true then return end 
-		SVUI_BagBar:FadeOut(0.2, SVUI_BagBar:GetAlpha(), 0)
+		BagBar:FadeOut(0.2, BagBar:GetAlpha(), 0)
 	end
 
 	local function AlterBagBar(bar)
@@ -829,14 +936,14 @@ do
 	local function LoadBagBar()
 		if MOD.BagBarLoaded then return end
 
-		local bar = CreateFrame("Frame", "SVUI_BagBar", SV.Screen)
-		bar:SetPoint("TOPRIGHT", SV.Dock.BottomRight, "TOPLEFT", -4, 0)
-		bar.buttons = {}
-		bar:EnableMouse(true)
-		bar:SetScript("OnEnter", Bags_OnEnter)
-		bar:SetScript("OnLeave", Bags_OnLeave)
+		BagBar:SetParent(SV.Screen)
+		BagBar:SetPoint("TOPRIGHT", SV.Dock.BottomRight, "TOPLEFT", -4, 0)
+		BagBar.buttons = {}
+		BagBar:EnableMouse(true)
+		BagBar:SetScript("OnEnter", Bags_OnEnter)
+		BagBar:SetScript("OnLeave", Bags_OnLeave)
 
-		MainMenuBarBackpackButton:SetParent(bar)
+		MainMenuBarBackpackButton:SetParent(BagBar)
 		MainMenuBarBackpackButton.SetParent = SV.Hidden;
 		MainMenuBarBackpackButton:ClearAllPoints()
 		MainMenuBarBackpackButtonCount:SetFontObject(SVUI_Font_Default)
@@ -845,21 +952,21 @@ do
 		MainMenuBarBackpackButton:HookScript("OnEnter", Bags_OnEnter)
 		MainMenuBarBackpackButton:HookScript("OnLeave", Bags_OnLeave)
 
-		tinsert(bar.buttons, MainMenuBarBackpackButton)
+		tinsert(BagBar.buttons, MainMenuBarBackpackButton)
 		AlterBagBar(MainMenuBarBackpackButton)
 
-		local count = #bar.buttons
+		local count = #BagBar.buttons
 		local frameCount = NUM_BAG_FRAMES - 1;
 
 		for i = 0, frameCount do 
 			local bagSlot = _G["CharacterBag"..i.."Slot"]
-			bagSlot:SetParent(bar)
+			bagSlot:SetParent(BagBar)
 			bagSlot.SetParent = SV.Hidden;
 			bagSlot:HookScript("OnEnter", Bags_OnEnter)
 			bagSlot:HookScript("OnLeave", Bags_OnLeave)
 			AlterBagBar(bagSlot)
 			count = count + 1
-			bar.buttons[count] = bagSlot
+			BagBar.buttons[count] = bagSlot
 		end
 
 		MOD.BagBarLoaded = true
@@ -872,9 +979,9 @@ do
 			LoadBagBar() 
 		end 
 		if SV.db.Inventory.bagBar.mouseover then 
-			SVUI_BagBar:SetAlpha(0)
+			BagBar:SetAlpha(0)
 		else 
-			SVUI_BagBar:SetAlpha(1)
+			BagBar:SetAlpha(1)
 		end 
 
 		local showBy = SV.db.Inventory.bagBar.showBy
@@ -882,56 +989,56 @@ do
 		local bagSize = SV.db.Inventory.bagBar.size
 		local bagSpacing = SV.db.Inventory.bagBar.spacing
 
-		for i = 1, #SVUI_BagBar.buttons do 
-			local button = SVUI_BagBar.buttons[i]
-			local lastButton = SVUI_BagBar.buttons[i - 1]
+		for i = 1, #BagBar.buttons do 
+			local button = BagBar.buttons[i]
+			local lastButton = BagBar.buttons[i - 1]
 
 			button:ModSize(bagSize)
 			button:ClearAllPoints()
 
 			if(showBy == "HORIZONTAL" and sortDir == "ASCENDING") then 
 				if i == 1 then 
-					button:SetPoint("LEFT", SVUI_BagBar, "LEFT", bagSpacing, 0)
+					button:SetPoint("LEFT", BagBar, "LEFT", bagSpacing, 0)
 				elseif lastButton then 
 					button:SetPoint("LEFT", lastButton, "RIGHT", bagSpacing, 0)
 				end 
 			elseif(showBy == "VERTICAL" and sortDir == "ASCENDING") then 
 				if i == 1 then 
-					button:SetPoint("TOP", SVUI_BagBar, "TOP", 0, -bagSpacing)
+					button:SetPoint("TOP", BagBar, "TOP", 0, -bagSpacing)
 				elseif lastButton then 
 					button:SetPoint("TOP", lastButton, "BOTTOM", 0, -bagSpacing)
 				end 
 			elseif(showBy == "HORIZONTAL" and sortDir == "DESCENDING") then 
 				if i == 1 then 
-					button:SetPoint("RIGHT", SVUI_BagBar, "RIGHT", -bagSpacing, 0)
+					button:SetPoint("RIGHT", BagBar, "RIGHT", -bagSpacing, 0)
 				elseif lastButton then 
 					button:SetPoint("RIGHT", lastButton, "LEFT", -bagSpacing, 0)
 				end 
 			else 
 				if i == 1 then 
-					button:SetPoint("BOTTOM", SVUI_BagBar, "BOTTOM", 0, bagSpacing)
+					button:SetPoint("BOTTOM", BagBar, "BOTTOM", 0, bagSpacing)
 				elseif lastButton then 
 					button:SetPoint("BOTTOM", lastButton, "TOP", 0, bagSpacing)
 				end 
 			end 
 		end 
 		if showBy == "HORIZONTAL" then 
-			SVUI_BagBar:ModWidth((bagSize * numBagFrame) + (bagSpacing * numBagFrame) + bagSpacing)
-			SVUI_BagBar:ModHeight(bagSize + (bagSpacing * 2))
+			BagBar:ModWidth((bagSize * numBagFrame) + (bagSpacing * numBagFrame) + bagSpacing)
+			BagBar:ModHeight(bagSize + (bagSpacing * 2))
 		else 
-			SVUI_BagBar:ModHeight((bagSize * numBagFrame) + (bagSpacing * numBagFrame) + bagSpacing)
-			SVUI_BagBar:ModWidth(bagSize + (bagSpacing * 2))
+			BagBar:ModHeight((bagSize * numBagFrame) + (bagSpacing * numBagFrame) + bagSpacing)
+			BagBar:ModWidth(bagSize + (bagSpacing * 2))
 		end
 
-	    if not SVUI_BagBar_MOVE then
-	    	SVUI_BagBar:SetStyle("Frame", "Default")
-	        SV:NewAnchor(SVUI_BagBar, L["Bags Bar"])
+	    if not _G.SVUI_BagBar_MOVE then
+	    	BagBar:SetStyle("Frame", "Default")
+	        SV:NewAnchor(BagBar, L["Bags Bar"])
 	    end
 
 	    if SV.db.Inventory.bagBar.showBackdrop then 
-			SVUI_BagBar.Panel:Show()
+			BagBar.Panel:Show()
 		else 
-			SVUI_BagBar.Panel:Hide()
+			BagBar.Panel:Hide()
 		end
 	end
 end
@@ -1056,8 +1163,7 @@ do
 	function MOD:MakeBags()
 		local bagName = "SVUI_ContainerFrame"
 		local uisCount = #UISpecialFrames + 1;
-		local bagsCount = #self.BagFrames + 1;
-		local frame = CreateFrame("Button", "SVUI_ContainerFrame", UIParent)
+		local frame = CreateFrame("Button", "SVUI_ContainerFrame", SV.Screen)
 
 		frame:SetStyle("Frame", "Container", true)
 		frame:SetFrameStrata("HIGH")
@@ -1194,8 +1300,8 @@ do
 		frame.bagsButton:SetScript("OnLeave", Tooltip_Hide)
 		local BagBtn_OnClick = function()
 			PlaySound("igMainMenuOption");
-			if(SVUI_BagFilterMenu and SVUI_BagFilterMenu:IsShown()) then
-				ToggleFrame(SVUI_BagFilterMenu)
+			if(BagFilters and BagFilters:IsShown()) then
+				ToggleFrame(BagFilters)
 			end
 			ToggleFrame(frame.BagMenu)
 		end
@@ -1235,7 +1341,6 @@ do
 		frame:SetScript("OnHide", CloseAllBags)
 
 		tinsert(UISpecialFrames, bagName)
-		tinsert(self.BagFrames, frame)
 
 		self.BagFrame = frame
 	end
@@ -1245,12 +1350,11 @@ do
 		-- /script print(ReagentBankFrameItem1:GetInventorySlot())
 		local bagName = isReagent and "SVUI_ReagentContainerFrame" or "SVUI_BankContainerFrame"
 		local uisCount = #UISpecialFrames + 1;
-		local bagsCount = #self.BagFrames + 1;
 
 		local frame = CreateFrame("Button", bagName, isReagent and self.BankFrame or SV.Screen)
 		frame:SetStyle("Frame", "Container")
 		frame:SetFrameStrata("HIGH")
-		frame:SetFrameLevel(SVUI_ContainerFrame:GetFrameLevel() + 99)
+		frame:SetFrameLevel(self.BagFrame:GetFrameLevel() + 99)
 
 		frame.UpdateLayout = isReagent and ReagentFrame_UpdateLayout or ContainerFrame_UpdateLayout;
 		frame.RefreshBags = ContainerFrame_UpdateBags;
@@ -1354,8 +1458,8 @@ do
 			frame.bagsButton:SetScript("OnLeave", Tooltip_Hide)
 			local BagBtn_OnClick = function()
 				PlaySound("igMainMenuOption");
-				if(SVUI_BagFilterMenu and SVUI_BagFilterMenu:IsShown()) then
-					ToggleFrame(SVUI_BagFilterMenu)
+				if(BagFilters and BagFilters:IsShown()) then
+					ToggleFrame(BagFilters)
 				end
 				local numSlots, _ = GetNumBankSlots()
 				if numSlots  >= 1 then 
@@ -1435,8 +1539,6 @@ do
 			frame:SetPoint("BOTTOMLEFT", self.BankFrame, "BOTTOMRIGHT", 2, 0)
 			self.ReagentFrame = frame
 		end
-
-		tinsert(self.BagFrames, frame)
 	end
 end
 
@@ -1615,7 +1717,6 @@ function MOD:Load()
 	self:InitializeJournal()
 
 	self:ModifyBagBar()
-	self.BagFrames = {}
 	self:MakeBags()
 	self:ModifyBags()
 	self.BagFrame:UpdateLayout()

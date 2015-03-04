@@ -1,0 +1,10 @@
+Steven Jackson:
+	- updates
+	- fixes for automations, and custom profiles
+	- ace modifications, petbattle adjustments
+	- build update
+	- updating with core
+	- toc update
+	- more updates
+	- fix for file struct
+	- First commit

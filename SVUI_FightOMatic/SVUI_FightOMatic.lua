@@ -19,11 +19,13 @@ local pcall     = _G.pcall;
 local assert    = _G.assert;
 local tostring  = _G.tostring;
 local tonumber  = _G.tonumber;
+local collectgarbage    = _G.collectgarbage;
 local tinsert 	= _G.tinsert;
 local string 	= _G.string;
 local math 		= _G.math;
 local table 	= _G.table;
 local bit       = _G.bit;
+local time      = _G.time;
 --[[ STRING METHODS ]]--
 local format, sub = string.format, string.sub;
 --[[ MATH METHODS ]]--
@@ -32,7 +34,39 @@ local abs, ceil, floor, round, random = math.abs, math.ceil, math.floor, math.ro
 local tremove, wipe = table.remove, table.wipe;
 --[[ BINARY METHODS ]]--
 local band, bor = bit.band, bit.bor;
-
+--BLIZZARD API
+local CreateFrame           = _G.CreateFrame;
+local InCombatLockdown      = _G.InCombatLockdown;
+local GameTooltip           = _G.GameTooltip;
+local hooksecurefunc        = _G.hooksecurefunc;
+local IsSpellKnown      	= _G.IsSpellKnown;
+local GetSpellInfo      	= _G.GetSpellInfo;
+local IsAltKeyDown          = _G.IsAltKeyDown;
+local IsShiftKeyDown        = _G.IsShiftKeyDown;
+local IsControlKeyDown      = _G.IsControlKeyDown;
+local IsModifiedClick       = _G.IsModifiedClick;
+local PlaySound             = _G.PlaySound;
+local PlaySoundFile         = _G.PlaySoundFile;
+local UnitName              = _G.UnitName;
+local UnitLevel             = _G.UnitLevel;
+local UnitClass             = _G.UnitClass;
+local UnitExists            = _G.UnitExists;
+local UnitIsUnit            = _G.UnitIsUnit;
+local UnitGUID              = _G.UnitGUID;
+local UnitIsDead            = _G.UnitIsDead;
+local UnitIsPlayer          = _G.UnitIsPlayer;
+local UnitIsFriend          = _G.UnitIsFriend;
+local UnitIsEnemy           = _G.UnitIsEnemy;
+local DoEmote           	= _G.DoEmote;
+local SendChatMessage       = _G.SendChatMessage;
+local GetZoneText           = _G.GetZoneText;
+local GetZonePVPInfo        = _G.GetZonePVPInfo;
+local GetRealZoneText       = _G.GetRealZoneText;
+local CombatLog_Object_IsA  = _G.CombatLog_Object_IsA;
+local ERR_NOT_IN_COMBAT     = _G.ERR_NOT_IN_COMBAT;
+local RAID_CLASS_COLORS     = _G.RAID_CLASS_COLORS;
+local CUSTOM_CLASS_COLORS   = _G.CUSTOM_CLASS_COLORS;
+local CombatText_StandardScroll = _G.CombatText_StandardScroll;
 --[[  CONSTANTS ]]--
 
 _G.BINDING_HEADER_SVUIFIGHT = "Supervillain UI: Fight-O-Matic";
@@ -54,7 +88,7 @@ local RadioSound = SV.Sounds:Blend("Static", "Sparks");
 GLOBAL SLASH FUNCTIONS
 ##########################################################
 ]]--
-function SVUISayIncoming()
+_G.SVUISayIncoming = function()
 	local subzoneText = GetSubZoneText()
 	local msg = ("{rt8} Incoming %s {rt8}"):format(subzoneText)
 	SendChatMessage(msg, "INSTANCE_CHAT")
@@ -141,7 +175,7 @@ local StealthEmotes = {
 }
 
 
-function SVUIEmote()
+_G.SVUIEmote = function()
 	local index = random(1,#SpecialEmotes)
 	DoEmote(SpecialEmotes[index])
 end
@@ -597,7 +631,7 @@ local function CheckSourceType(guid, flags)
 	if(flags) then
 		isHostile = CombatLog_Object_IsA(flags, COMBATLOG_FILTER_HOSTILE_PLAYERS)
 	end
-	local srcType = strsub(guid, 1,6)
+	local srcType = guid:sub(1,6)
 	if((srcType == "Player") and (isHostile == true)) then
 		return true
 	end

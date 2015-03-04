@@ -34,6 +34,10 @@ local gmatch, gsub = string.gmatch, string.gsub;
 local abs, ceil, floor, round = math.abs, math.ceil, math.floor, math.round;  -- Basic
 --[[ TABLE METHODS ]]--
 local twipe, tsort = table.wipe, table.sort;
+local ToggleCharacter      			= _G.ToggleCharacter;
+local GetInventoryItemDurability    = _G.GetInventoryItemDurability;
+local GetInventorySlotInfo  		= _G.GetInventorySlotInfo;
+local DURABILITY  					= _G.DURABILITY;
 --[[ 
 ########################################################## 
 GET ADDON DATA

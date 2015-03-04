@@ -7,16 +7,68 @@ LOCALIZED LUA FUNCTIONS
 ]]--
 --[[ GLOBALS ]]--
 local _G = _G;
-local unpack 	= _G.unpack;
-local select 	= _G.select;
-local pairs 	= _G.pairs;
-local ipairs 	= _G.ipairs;
-local type 		= _G.type;
-local tinsert 	= _G.tinsert;
-local math 		= _G.math;
+local unpack            = _G.unpack;
+local select            = _G.select;
+local assert            = _G.assert;
+local type              = _G.type;
+local error             = _G.error;
+local pcall             = _G.pcall;
+local print             = _G.print;
+local ipairs            = _G.ipairs;
+local pairs             = _G.pairs;
+local next              = _G.next;
+local tostring          = _G.tostring;
+local tonumber          = _G.tonumber;
+local collectgarbage    = _G.collectgarbage;
+local string        = _G.string;
+local split         = string.split;
+local upper         = string.upper;
+local format        = string.format;
+local find          = string.find;
+local match         = string.match;
+local gsub          = string.gsub;
+local math 			= _G.math;
 local cos, deg, rad, sin = math.cos, math.deg, math.rad, math.sin;
-
-local hooksecurefunc = _G.hooksecurefunc;
+local random 		= math.random;
+local wipe          = _G.wipe;
+--BLIZZARD API
+local CreateFrame           = _G.CreateFrame;
+local InCombatLockdown      = _G.InCombatLockdown;
+local GameTooltip           = _G.GameTooltip;
+local ReloadUI              = _G.ReloadUI;
+local hooksecurefunc        = _G.hooksecurefunc;
+local IsAltKeyDown          = _G.IsAltKeyDown;
+local IsShiftKeyDown        = _G.IsShiftKeyDown;
+local IsControlKeyDown      = _G.IsControlKeyDown;
+local IsModifiedClick       = _G.IsModifiedClick;
+local PlaySound             = _G.PlaySound;
+local PlaySoundFile         = _G.PlaySoundFile;
+local PlayMusic             = _G.PlayMusic;
+local StopMusic             = _G.StopMusic;
+local ToggleFrame           = _G.ToggleFrame;
+local ERR_NOT_IN_COMBAT     = _G.ERR_NOT_IN_COMBAT;
+local RAID_CLASS_COLORS     = _G.RAID_CLASS_COLORS;
+local CUSTOM_CLASS_COLORS   = _G.CUSTOM_CLASS_COLORS;
+local SendChatMessage       = _G.SendChatMessage;
+local GetSpellLink          = _G.GetSpellLink;
+local UnitName              = _G.UnitName;
+local UnitClass             = _G.UnitClass;
+local UnitIsPlayer          = _G.UnitIsPlayer;
+local UnitReaction          = _G.UnitReaction;
+local UnitExists            = _G.UnitExists;
+local UnitIsUnit            = _G.UnitIsUnit;
+local UnitInRaid            = _G.UnitInRaid;
+local UnitInParty           = _G.UnitInParty;
+local UnitGUID              = _G.UnitGUID;
+local UnitIsDead            = _G.UnitIsDead;
+local UnitIsGroupLeader     = _G.UnitIsGroupLeader;
+local UnitIsGroupAssistant  = _G.UnitIsGroupAssistant;
+local IsEveryoneAssistant   = _G.IsEveryoneAssistant;
+local GetItemInfo           = _G.GetItemInfo;
+local BuyMerchantItem       = _G.BuyMerchantItem;
+local GetMerchantItemLink   = _G.GetMerchantItemLink;
+local GetMerchantItemMaxStack     = _G.GetMerchantItemMaxStack;
+local UnitDetailedThreatSituation = _G.UnitDetailedThreatSituation;
 --[[ 
 ########################################################## 
 GET ADDON DATA

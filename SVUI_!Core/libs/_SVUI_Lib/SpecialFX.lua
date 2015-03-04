@@ -51,6 +51,8 @@ local tinsert       = _G.tinsert;
 local tremove       = _G.tremove;
 local twipe         = _G.wipe;
 
+local CreateFrame           = _G.CreateFrame;
+
 --[[ LIB CONSTRUCT ]]--
 
 local lib = Librarian:NewLibrary("SpecialFX")

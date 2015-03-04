@@ -17,6 +17,26 @@ local find, format, split = string.find, string.format, string.split;
 local gsub = string.gsub;
 --[[ MATH METHODS ]]--
 local ceil = math.ceil;
+--BLIZZARD API
+local PickupSpell       = _G.PickupSpell;
+local GetSpellInfo      = _G.GetSpellInfo;
+local GetSpellCharges   = _G.GetSpellCharges;
+local GetSpellCooldown  = _G.GetSpellCooldown;
+local GetTime           = _G.GetTime;
+local SpellHasRange     = _G.SpellHasRange;
+local GetBindingKey     = _G.GetBindingKey;
+local GetBindingText    = _G.GetBindingText;
+local CreateFrame       = _G.CreateFrame;
+local InCombatLockdown  = _G.InCombatLockdown;
+local GameTooltip       = _G.GameTooltip;
+local hooksecurefunc    = _G.hooksecurefunc;
+local IsAltKeyDown      = _G.IsAltKeyDown;
+local IsShiftKeyDown    = _G.IsShiftKeyDown;
+local IsControlKeyDown  = _G.IsControlKeyDown;
+local IsModifiedClick   = _G.IsModifiedClick;
+local RegisterStateDriver = _G.RegisterStateDriver;
+local RANGE_INDICATOR   = _G.RANGE_INDICATOR;
+local CooldownFrame_SetTimer = _G.CooldownFrame_SetTimer;
 --[[ 
 ########################################################## 
 GET ADDON DATA

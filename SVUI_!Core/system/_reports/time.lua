@@ -20,6 +20,26 @@ local math 		= _G.math;
 local format, join = string.format, string.join;
 --[[ MATH METHODS ]]--
 local floor = math.floor;
+local IsShiftKeyDown        = _G.IsShiftKeyDown;
+local GetGameTime         	= _G.GetGameTime;
+local GameTimeFrame         = _G.GameTimeFrame;
+local RequestRaidInfo       = _G.RequestRaidInfo;
+local SecondsToTime         = _G.SecondsToTime;
+local GetNetStats           = _G.GetNetStats;
+local GetNumWorldPVPAreas   = _G.GetNumWorldPVPAreas;
+local GetWorldPVPAreaInfo   = _G.GetWorldPVPAreaInfo;
+local GetNumSavedInstances  = _G.GetNumSavedInstances;
+local GetSavedInstanceInfo  = _G.GetSavedInstanceInfo;
+local GetDifficultyInfo     = _G.GetDifficultyInfo;
+local GetNumSavedWorldBosses= _G.GetNumSavedWorldBosses;
+local GetSavedWorldBossInfo = _G.GetSavedWorldBossInfo;
+
+local RAID_INFO_WORLD_BOSS      	= _G.RAID_INFO_WORLD_BOSS;
+local QUEUE_TIME_UNAVAILABLE      	= _G.QUEUE_TIME_UNAVAILABLE;
+local WINTERGRASP_IN_PROGRESS      	= _G.WINTERGRASP_IN_PROGRESS;
+local VOICE_CHAT_BATTLEGROUND      	= _G.VOICE_CHAT_BATTLEGROUND;
+local TIMEMANAGER_TOOLTIP_LOCALTIME = _G.TIMEMANAGER_TOOLTIP_LOCALTIME;
+local TIMEMANAGER_TOOLTIP_REALMTIME = _G.TIMEMANAGER_TOOLTIP_REALMTIME;
 --[[ 
 ########################################################## 
 GET ADDON DATA

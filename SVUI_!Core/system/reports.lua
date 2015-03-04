@@ -34,7 +34,21 @@ local tsort         = table.sort;
 local tconcat       = table.concat;
 local tinsert       = _G.tinsert;
 local tremove       = _G.tremove;
-local twipe         = _G.wipe;
+local wipe         = _G.wipe;
+--BLIZZARD API
+local CreateFrame           = _G.CreateFrame;
+local InCombatLockdown      = _G.InCombatLockdown;
+local GameTooltip           = _G.GameTooltip;
+local hooksecurefunc        = _G.hooksecurefunc;
+local IsAltKeyDown          = _G.IsAltKeyDown;
+local IsShiftKeyDown        = _G.IsShiftKeyDown;
+local IsControlKeyDown      = _G.IsControlKeyDown;
+local IsModifiedClick       = _G.IsModifiedClick;
+local NONE                  = _G.NONE;
+local RequestBattlefieldScoreData       = _G.RequestBattlefieldScoreData;
+local GetBattlefieldStatData            = _G.GetBattlefieldStatData;
+local GetNumBattlefieldScores           = _G.GetNumBattlefieldScores;
+local GetBattlefieldScore            	= _G.GetBattlefieldScore;
 --[[ 
 ########################################################## 
 GET ADDON DATA
@@ -254,7 +268,7 @@ local function GetDataSlot(parent, index)
 			slot.text:SetShadowOffset(2, -4)
 		end
 
-		slot.SlotKey = i;
+		slot.SlotKey = index;
 		slot.TokenKey = 738;
 		slot.MenuList = {};
 		slot.TokenList = {};
@@ -428,7 +442,7 @@ do
 			local slots = parent.Stats.Slots;
 			local numPoints = #slots;
 			for i = 1, numPoints do 
-				local subList = twipe(slots[i].MenuList)
+				local subList = wipe(slots[i].MenuList)
 				tinsert(subList,{text = NONE, func = function() MOD:ChangeDBVar("", i, "holders", place); MOD:UpdateAllReports() end});
 				for _,name in pairs(statMenu) do
 					tinsert(subList,{text = name, func = function() MOD:ChangeDBVar(name, i, "holders", place); MOD:UpdateAllReports() end});

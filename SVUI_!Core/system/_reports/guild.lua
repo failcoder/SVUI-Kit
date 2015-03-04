@@ -21,6 +21,37 @@ local format, join, gsub = string.format, string.join, string.gsub;
 --[[ MATH METHODS ]]--
 local ceil = math.ceil;  -- Basic
 local twipe, tsort = table.wipe, table.sort;
+local InCombatLockdown      = _G.InCombatLockdown;
+local GameTooltip           = _G.GameTooltip;
+local SetItemRef          	= _G.SetItemRef;
+local IsAltKeyDown          = _G.IsAltKeyDown;
+local IsShiftKeyDown        = _G.IsShiftKeyDown;
+local IsControlKeyDown      = _G.IsControlKeyDown;
+local IsModifiedClick       = _G.IsModifiedClick;
+local GetNumGuildMembers    = _G.GetNumGuildMembers;
+local GetGuildInfo         	= _G.GetGuildInfo;
+local GetRealmName          = _G.GetRealmName;
+local GuildRoster           = _G.GuildRoster;
+local GetGuildRosterInfo    = _G.GetGuildRosterInfo;
+local GetGuildFactionInfo   = _G.GetGuildFactionInfo;
+local GetRealZoneText       = _G.GetRealZoneText;
+local InviteUnit            = _G.InviteUnit;
+local IsChatDND             = _G.IsChatDND;
+local IsChatAFK             = _G.IsChatAFK;
+local IsInGuild             = _G.IsInGuild;
+local UnitInRaid            = _G.UnitInRaid;
+local UnitInParty           = _G.UnitInParty;
+local SendChatMessage       = _G.SendChatMessage;
+local ERR_NOT_IN_COMBAT     = _G.ERR_NOT_IN_COMBAT;
+local RAID_CLASS_COLORS     = _G.RAID_CLASS_COLORS;
+local CUSTOM_CLASS_COLORS   = _G.CUSTOM_CLASS_COLORS;
+local AFK       			= _G.AFK;
+local DND       			= _G.DND;
+local REMOTE_CHAT 			= _G.REMOTE_CHAT;
+local GUILD 				= _G.GUILD;
+local GUILD_MOTD 			= _G.GUILD_MOTD;
+local COMBAT_FACTION_CHANGE = _G.COMBAT_FACTION_CHANGE;
+local GetQuestDifficultyColor = _G.GetQuestDifficultyColor;
 --[[ 
 ########################################################## 
 GET ADDON DATA

@@ -17,6 +17,17 @@ local rept,format   = string.rep, string.format;
 local tsort,twipe 	= table.sort, table.wipe;
 local floor,ceil  	= math.floor, math.ceil;
 local min 			= math.min
+--BLIZZARD API
+local CreateFrame           = _G.CreateFrame;
+local InCombatLockdown      = _G.InCombatLockdown;
+local GameTooltip           = _G.GameTooltip;
+local hooksecurefunc        = _G.hooksecurefunc;
+local IsSpellKnown      	= _G.IsSpellKnown;
+local GetSpellInfo      	= _G.GetSpellInfo;
+local GetProfessions      	= _G.GetProfessions;
+local GetProfessionInfo     = _G.GetProfessionInfo;
+local PlaySound             = _G.PlaySound;
+local PlaySoundFile         = _G.PlaySoundFile;
 --[[ 
 ########################################################## 
 GET ADDON DATA

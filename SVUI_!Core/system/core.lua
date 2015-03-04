@@ -639,7 +639,7 @@ function SV:VersionCheck()
     if(_G.SVUI_TRANSFER_WIZARD) then
         local copied = SVUILib:GetSafeData("transfer_wizard_used");
         if(not copied) then
-            SVUI_TRANSFER_WIZARD()
+            _G.SVUI_TRANSFER_WIZARD()
         end
     else
         local version = SVUILib:GetSafeData("install_version");

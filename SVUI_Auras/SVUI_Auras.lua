@@ -26,6 +26,30 @@ local format = string.format;
 local abs, ceil, floor, round = math.abs, math.ceil, math.floor, math.round;
 --[[ TABLE METHODS ]]--
 local tremove, twipe = table.remove, table.wipe;
+--BLIZZARD API
+local CreateFrame           = _G.CreateFrame;
+local InCombatLockdown      = _G.InCombatLockdown;
+local GameTooltip           = _G.GameTooltip;
+local ReloadUI              = _G.ReloadUI;
+local hooksecurefunc        = _G.hooksecurefunc;
+local GetTime               = _G.GetTime;
+local UnitName              = _G.UnitName;
+local UnitAura              = _G.UnitAura;
+local UnitBuff              = _G.UnitBuff;
+local UnitStat              = _G.UnitStat;
+local UnitLevel             = _G.UnitLevel;
+local UnitClass             = _G.UnitClass;
+local NUM_LE_RAID_BUFF_TYPES = _G.NUM_LE_RAID_BUFF_TYPES;
+local RAID_CLASS_COLORS     = _G.RAID_CLASS_COLORS;
+local CUSTOM_CLASS_COLORS   = _G.CUSTOM_CLASS_COLORS;
+local GetItemQualityColor   = _G.GetItemQualityColor;
+local GetInventoryItemQuality   = _G.GetInventoryItemQuality;
+local GetInventoryItemTexture   = _G.GetInventoryItemTexture;
+local GetWeaponEnchantInfo  = _G.GetWeaponEnchantInfo;
+local RegisterStateDriver   = _G.RegisterStateDriver;
+local UnregisterStateDriver = _G.UnregisterStateDriver;
+local RegisterAttributeDriver   = _G.RegisterAttributeDriver;
+local GetRaidBuffTrayAuraInfo 	= _G.GetRaidBuffTrayAuraInfo;
 --[[ 
 ########################################################## 
 GET ADDON DATA

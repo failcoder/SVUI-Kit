@@ -26,6 +26,31 @@ local format = string.format;
 local abs, ceil, floor, round = math.abs, math.ceil, math.floor, math.round;
 --[[ TABLE METHODS ]]--
 local tremove, twipe = table.remove, table.wipe;
+--BLIZZARD API
+local CreateFrame           = _G.CreateFrame;
+local InCombatLockdown      = _G.InCombatLockdown;
+local GameTooltip           = _G.GameTooltip;
+local hooksecurefunc        = _G.hooksecurefunc;
+local IsAltKeyDown          = _G.IsAltKeyDown;
+local IsShiftKeyDown        = _G.IsShiftKeyDown;
+local IsControlKeyDown      = _G.IsControlKeyDown;
+local IsModifiedClick       = _G.IsModifiedClick;
+local PlaySound             = _G.PlaySound;
+local PlaySoundKitID        = _G.PlaySoundKitID;
+local GetTime               = _G.GetTime;
+local C_Scenario            = _G.C_Scenario;
+local GetWorldElapsedTimers = _G.GetWorldElapsedTimers;
+local GetInstanceInfo 		= _G.GetInstanceInfo;
+local GetWorldElapsedTime 	= _G.GetWorldElapsedTime;
+local GetTimeStringFromSeconds	= _G.GetTimeStringFromSeconds;
+local GetChallengeModeMapTimes 	= _G.GetChallengeModeMapTimes;
+local GENERIC_FRACTION_STRING 	= _G.GENERIC_FRACTION_STRING;
+local CHALLENGE_MEDAL_GOLD   	= _G.CHALLENGE_MEDAL_GOLD;
+local CHALLENGE_MEDAL_SILVER    = _G.CHALLENGE_MEDAL_SILVER;
+local CHALLENGE_MEDAL_TEXTURES  = _G.CHALLENGE_MEDAL_TEXTURES;
+local CHALLENGES_TIMER_NO_MEDAL = _G.CHALLENGES_TIMER_NO_MEDAL;
+local LE_WORLD_ELAPSED_TIMER_TYPE_CHALLENGE_MODE = _G.LE_WORLD_ELAPSED_TIMER_TYPE_CHALLENGE_MODE;
+local LE_WORLD_ELAPSED_TIMER_TYPE_PROVING_GROUND = _G.LE_WORLD_ELAPSED_TIMER_TYPE_PROVING_GROUND;
 --[[ 
 ########################################################## 
 GET ADDON DATA

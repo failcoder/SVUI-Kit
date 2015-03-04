@@ -31,6 +31,31 @@ local sqrt2, max = math.sqrt(2), math.max;
 local tcopy, twipe, tsort, tconcat, tdump = table.copy, table.wipe, table.sort, table.concat, table.dump;
 --[[ BINARY METHODS ]]--
 local band = bit.band;
+--BLIZZARD API
+local InCombatLockdown      = _G.InCombatLockdown;
+local CreateFrame           = _G.CreateFrame;
+local SetMapToCurrentZone   = _G.SetMapToCurrentZone;
+local GetTime               = _G.GetTime;
+local GameTooltip           = _G.GameTooltip;
+local UnitName              = _G.UnitName;
+local UnitRace              = _G.UnitRace;
+local UnitAura              = _G.UnitAura;
+local UnitLevel             = _G.UnitLevel;
+local UnitClass             = _G.UnitClass;
+local UnitIsUnit            = _G.UnitIsUnit;
+local UnitExists            = _G.UnitExists;
+local UnitInRaid            = _G.UnitInRaid;
+local UnitInParty           = _G.UnitInParty;
+local UnitGUID              = _G.UnitGUID;
+local UnitIsPVP             = _G.UnitIsPVP;
+local UnitIsDND             = _G.UnitIsDND;
+local UnitIsAFK             = _G.UnitIsAFK;
+local GetItemInfo           = _G.GetItemInfo;
+local GetItemCount          = _G.GetItemCount;
+local GetItemQualityColor   = _G.GetItemQualityColor;
+local ERR_NOT_IN_COMBAT     = _G.ERR_NOT_IN_COMBAT;
+local RAID_CLASS_COLORS     = _G.RAID_CLASS_COLORS;
+local CUSTOM_CLASS_COLORS   = _G.CUSTOM_CLASS_COLORS;
 
 --[[  CONSTANTS ]]--
 

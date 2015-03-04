@@ -25,12 +25,22 @@ local tinsert 	= _G.tinsert;
 local string 	= _G.string;
 local math 		= _G.math;
 local table     = _G.table;
+local tContains = _G.tContains
 --[[ STRING METHODS ]]--
 local find, format, len, split = string.find, string.format, string.len, string.split;
 --[[ MATH METHODS ]]--
+local random = math.random;
 local abs, ceil, floor, round, max = math.abs, math.ceil, math.floor, math.round, math.max;
 --[[ TABLE METHODS ]]--
 local tremove, twipe = table.remove, table.wipe;
+
+local CreateFrame           = _G.CreateFrame;
+local InCombatLockdown      = _G.InCombatLockdown;
+local GameTooltip           = _G.GameTooltip;
+local ReloadUI              = _G.ReloadUI;
+local PlaySound             = _G.PlaySound;
+local PlaySoundFile         = _G.PlaySoundFile;
+local RAID_CLASS_COLORS     = _G.RAID_CLASS_COLORS;
 --[[ 
 ########################################################## 
 GET ADDON DATA

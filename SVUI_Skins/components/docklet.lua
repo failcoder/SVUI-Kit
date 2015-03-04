@@ -69,11 +69,22 @@ end
 SKADA
 ##########################################################
 ]]--
-DOCK_EMBEDS["Skada"] = function(self)
-	if((not IsAddOnLoaded("Skada")) or (not _G.Skada)) then return false end
+local Skada_PointLock = function(self, a1, p, a2, x, y)
+	if((x ~= 0) or (y ~= 0)) then
+		self:ClearAllPoints()
+		self:SetPoint("BOTTOM", p, "BOTTOM", 0, 0)
+	end  
+end
 
-	local embedded = false;
+local Skada_PointTest = function(self, p1, p2, p3, p4, p5)
+	print(p1 .. ", " .. p2:GetName() .. ", " .. p3 .. ", " .. p4 .. ", " .. p5) 
+end
+
+DOCK_EMBEDS["Skada"] = function(self)
+	if((not IsAddOnLoaded("Skada")) or (not _G.Skada)) then print("Skada Not Loaded") return false end
+
 	local assigned = self:EmbedCheck();
+	local width = self:GetWidth()
 	local height = SV.Dock.BottomRight.Window:GetHeight();
 
 	if(assigned) then
@@ -82,7 +93,7 @@ DOCK_EMBEDS["Skada"] = function(self)
 				local wname = window.db.name or "Skada"
 				local key = "SkadaBarWindow" .. wname
 				if(assigned:find(key)) then
-					local width = self:GetWidth()
+					Librarian:LockLibrary('LibWindow');
 					local db = window.db
 
 					if(db) then
@@ -92,15 +103,18 @@ DOCK_EMBEDS["Skada"] = function(self)
 						end
 						db.barspacing = 1;
 						db.barwidth = width - 10;
-						db.background.height = (height - curHeight) - 12;
+						db.background.height = (height - curHeight) - 8;
 						db.spark = false;
 						db.barslocked = true;
 					end
 
 					window.bargroup:ClearAllPoints()
-					window.bargroup:InsetPoints(self, 3, 3)
 					window.bargroup:SetParent(self)
+					window.bargroup:SetSize(width, height)
+					window.bargroup:SetPoint("BOTTOM", self, "BOTTOM", 0, 0)
 					window.bargroup:SetFrameStrata('LOW')
+
+					hooksecurefunc(window.bargroup, "SetPoint", Skada_PointLock)
 
 					local bgroup = window.bargroup.backdrop;
 					if(bgroup) then 
@@ -114,16 +128,16 @@ DOCK_EMBEDS["Skada"] = function(self)
 
 					Skada.displays['bar']:ApplySettings(window)
 
-					embedded = true
-					break;
+					return true
 				else
+					Librarian:UnlockLibrary('LibWindow');
 					window.db.barslocked = false;
 				end
 			end
 		end
 	end
-
-	return embedded
+	
+	return false
 end
 --[[ 
 ########################################################## 
@@ -133,14 +147,17 @@ RECOUNT
 DOCK_EMBEDS["Recount"] = function(self)
 	if((not IsAddOnLoaded("Recount")) or (not _G.Recount)) then return false end 
 
+	local width = self:GetWidth()
+	local height = SV.Dock.BottomRight.Window:GetHeight();
+
 	Recount.db.profile.Locked = true;
 	Recount.db.profile.Scaling = 1;
 	Recount.db.profile.ClampToScreen = true;
 	Recount.db.profile.FrameStrata = '2-LOW'
 	Recount.MainWindow:ClearAllPoints()
-	Recount.MainWindow:SetPoint("TOPLEFT", self, "TOPLEFT", 0, 7)
-	Recount.MainWindow:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", 0, 0)
 	Recount.MainWindow:SetParent(self)
+	Recount.MainWindow:SetSize(width, height)
+	Recount.MainWindow:SetPoint("BOTTOM", self, "BOTTOM", 0, 0)
 	Recount:SetStrataAndClamp()
 	Recount:LockWindows(true)
 	Recount:ResizeMainWindow()
@@ -159,6 +176,8 @@ OMEN
 DOCK_EMBEDS["Omen"] = function(self)
 	if((not IsAddOnLoaded("Omen")) or (not _G.Omen)) then return false end
 
+	local width = self:GetWidth()
+	local height = SV.Dock.BottomRight.Window:GetHeight();
 	local db = Omen.db;
 
 	--[[ General Settings ]]--
@@ -200,11 +219,15 @@ DOCK_EMBEDS["Omen"] = function(self)
 	OmenTitle:SetStyle("Frame", "Transparent")
 	--OmenTitle:SetPanelColor("class")
 	--OmenTitle:GetFontString():SetFont(SV.media.font.default, 12, "OUTLINE")
-	OmenBarList:RemoveTextures()
-	OmenAnchor:SetStyle("!_Frame", 'Transparent')
+
+	if(not OmenAnchor.Panel) then
+		OmenBarList:RemoveTextures()
+		OmenAnchor:SetStyle("Frame", 'Transparent')
+	end
 	OmenAnchor:ClearAllPoints()
-	OmenAnchor:SetAllPoints(self)
 	OmenAnchor:SetParent(self)
+	OmenAnchor:SetSize(width, height)
+	OmenAnchor:SetPoint("BOTTOM", self, "BOTTOM", 0, 0)
 
 	self.Framelink = OmenAnchor
 	return true
@@ -270,8 +293,7 @@ local DOCK_EmbedAddon = function(self, request)
 	return false
 end
 
-local DOCK_EmbedCheck = function(self, request)
-	if(not request) then return false end
+local DOCK_EmbedCheck = function(self, ...)
 	local data = SV.private.Docks[self.EmbedKey]
 	local dock = self:GetParent()
 	if(data and (data ~= "None")) then
@@ -331,27 +353,28 @@ function MOD:RegisterAddonDocklets()
   	self.Docklet.Dock2.FrameLink = nil;
   	self.Docklet.Dock2.ExpandCallback = nil;
 
-  	if(enabled1) then
-  		Librarian:LockLibrary('LibWindow');
-  		local width = self.Docklet:GetWidth();
+  	local width = self.Docklet:GetWidth() - 2;
+  	self.Docklet.Dock1:SetWidth(width)
 
-		if(enabled2) then
+  	if(enabled2) then
+  		if(enabled1) then
 			self.Docklet.Dock1:SetWidth(width * 0.5)
-			self.Docklet.Dock2:SetWidth(width * 0.5)
-
-			active2, addon2 = self.Docklet.Dock2:EmbedAddon(embed2)
+		else
+			self.Docklet.Dock1:SetWidth(0.1)
 		end
+
+		active2, addon2 = self.Docklet.Dock2:EmbedAddon(embed2)
 
 		if(not active2) then
 			self.Docklet.Dock1:SetWidth(width)
 		end
-
-		active1, addon1 = self.Docklet.Dock1:EmbedAddon(embed1)
-	else
-		Librarian:UnlockLibrary('LibWindow');
 	end
 
-	if(active1) then
+  	if(enabled1) then
+		active1, addon1 = self.Docklet.Dock1:EmbedAddon(embed1)
+	end
+
+	if(active1 or active2) then
 		self.Docklet:Enable();
 		if(active2) then
 			extraTip = TIP_RIGHT_PATTERN:format(addon2)
@@ -370,6 +393,7 @@ function MOD:RegisterAddonDocklets()
 		self.Docklet:Disable()
 
 		self.Docklet.Parent.Bar:UnsetDefault();
+		Librarian:UnlockLibrary('LibWindow');
 	end 
 end
 
@@ -381,7 +405,7 @@ function MOD:GetDockables()
 		{text = "Remove All", func = function() SV.private.Docks.Embed1 = "None"; MOD:RegisterAddonDocklets() end}
 	};
 
-	for addon,_ in pairs(EMBEDS) do
+	for addon,_ in pairs(DOCK_EMBEDS) do
 		if (not test or (test and not test:find(addon))) then
 			if(addon:find("Skada") and _G.Skada) then
 				for index,window in pairs(_G.Skada:GetWindows()) do

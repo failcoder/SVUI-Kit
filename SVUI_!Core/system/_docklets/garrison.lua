@@ -36,10 +36,29 @@ local math      	= _G.math;
 local min 			= math.min;
 local floor         = math.floor
 local ceil          = math.ceil
+
+local time          = _G.time;
+local wipe          = _G.wipe;
 --BLIZZARD API
-local GameTooltip          	= _G.GameTooltip;
-local InCombatLockdown     	= _G.InCombatLockdown;
-local CreateFrame          	= _G.CreateFrame;
+local CreateFrame           = _G.CreateFrame;
+local InCombatLockdown      = _G.InCombatLockdown;
+local GameTooltip           = _G.GameTooltip;
+local ReloadUI              = _G.ReloadUI;
+local hooksecurefunc        = _G.hooksecurefunc;
+local IsAltKeyDown          = _G.IsAltKeyDown;
+local IsShiftKeyDown        = _G.IsShiftKeyDown;
+local IsControlKeyDown      = _G.IsControlKeyDown;
+local IsModifiedClick       = _G.IsModifiedClick;
+local PlaySound             = _G.PlaySound;
+local PlaySoundFile         = _G.PlaySoundFile;
+local PlayMusic             = _G.PlayMusic;
+local StopMusic             = _G.StopMusic;
+local ToggleFrame           = _G.ToggleFrame;
+local ERR_NOT_IN_COMBAT     = _G.ERR_NOT_IN_COMBAT;
+local RAID_CLASS_COLORS     = _G.RAID_CLASS_COLORS;
+local CUSTOM_CLASS_COLORS   = _G.CUSTOM_CLASS_COLORS;
+
+local C_Garrison            = _G.C_Garrison;
 local GetTime         		= _G.GetTime;
 local GetItemCooldown       = _G.GetItemCooldown;
 local GetItemCount         	= _G.GetItemCount;
@@ -48,7 +67,7 @@ local GetSpellInfo         	= _G.GetSpellInfo;
 local IsSpellKnown         	= _G.IsSpellKnown;
 local GetGarrison       	= _G.GetGarrison;
 local GetProfessionInfo    	= _G.GetProfessionInfo;
-local hooksecurefunc     	= _G.hooksecurefunc;
+local GetCurrencyInfo    	= _G.GetCurrencyInfo;
 --[[ 
 ########################################################## 
 ADDON
@@ -93,33 +112,33 @@ end
 
 local GarrisonButton_OnEvent = function(self, event, ...)
     if (event == "GARRISON_HIDE_LANDING_PAGE") then
-        if(not InCombatLockdown() and SVUI_Garrison:IsShown()) then
-        	SVUI_Garrison.Parent:SetWidth(SVUI_Garrison.Parent:GetWidth() - SVUI_Garrison:GetWidth())
-        	SVUI_Garrison:Hide()
+        if(not InCombatLockdown() and self:IsShown()) then
+        	self.Parent:SetWidth(self.Parent:GetWidth() - self:GetWidth())
+        	self:Hide()
         end;
     elseif (event == "GARRISON_SHOW_LANDING_PAGE") then
-    	if(not InCombatLockdown() and (not SVUI_Garrison:IsShown())) then
-    		SVUI_Garrison.Parent:SetWidth(SVUI_Garrison.Parent:GetWidth() + SVUI_Garrison:GetWidth())
-    		SVUI_Garrison:Show() 
+    	if(not InCombatLockdown() and (not self:IsShown())) then
+    		self.Parent:SetWidth(self.Parent:GetWidth() + self:GetWidth())
+    		self:Show() 
     	end;
     end
-    if((not SVUI_Garrison.StartAlert) or (not SVUI_Garrison.StopAlert)) then return end
+    if((not self.StartAlert) or (not self.StopAlert)) then return end
     if ( event == "GARRISON_BUILDING_ACTIVATABLE" ) then
-        SVUI_Garrison:StartAlert();
+        self:StartAlert();
     elseif ( event == "GARRISON_BUILDING_ACTIVATED" or event == "GARRISON_ARCHITECT_OPENED") then
-        SVUI_Garrison:StopAlert();
+        self:StopAlert();
     elseif ( event == "GARRISON_MISSION_FINISHED" ) then
-        SVUI_Garrison:StartAlert();
+        self:StartAlert();
     elseif ( event == "GARRISON_MISSION_NPC_OPENED" ) then
-        SVUI_Garrison:StopAlert();
+        self:StopAlert();
     elseif (event == "GARRISON_INVASION_AVAILABLE") then
-        SVUI_Garrison:StartAlert();
+        self:StartAlert();
     elseif (event == "GARRISON_INVASION_UNAVAILABLE") then
-        SVUI_Garrison:StopAlert();
+        self:StopAlert();
     elseif (event == "SHIPMENT_UPDATE") then
         local shipmentStarted = ...;
         if (shipmentStarted) then
-            SVUI_Garrison:StartAlert();
+            self:StartAlert();
         end
     end
 end
@@ -240,14 +259,15 @@ local SetGarrisonTooltip = function(self)
 
 	GetActiveMissions()
 	GetBuildingData()
-	if(SVUI_Garrison.StopAlert) then
-		SVUI_Garrison:StopAlert()
+	if(self.StopAlert) then
+		self:StopAlert()
 	end
 end
 
 local function LoadToolBarGarrison()
-	if((not SV.db.Dock.dockTools.garrison) or MOD.GarrisonLoaded) then return end
-	GarrisonLandingPageMinimapButton:FadeOut()
+	local mmButton = _G.GarrisonLandingPageMinimapButton;
+	if((not SV.db.Dock.dockTools.garrison) or (not mmButton) or MOD.GarrisonLoaded) then return end
+	mmButton:FadeOut()
 	if(InCombatLockdown()) then 
 		MOD.GarrisonNeedsUpdate = true; 
 		MOD:RegisterEvent("PLAYER_REGEN_ENABLED"); 
@@ -256,7 +276,7 @@ local function LoadToolBarGarrison()
 
 	local garrison = SV.Dock:SetDockButton("BottomLeft", L["Garrison Landing Page"], SV.media.dock.garrisonToolIcon, nil, "SVUI_Garrison", SetGarrisonTooltip, "SecureActionButtonTemplate")
 	garrison:SetAttribute("type1", "click")
-	garrison:SetAttribute("clickbutton", GarrisonLandingPageMinimapButton)
+	garrison:SetAttribute("clickbutton", mmButton)
 
 	local garrisonStone = GetItemInfo(110560);
 	if(garrisonStone and type(garrisonStone) == "string") then
@@ -265,14 +285,14 @@ local function LoadToolBarGarrison()
 		garrison:SetAttribute("macrotext", "/use [nomod] " .. garrisonStone)
 	end
 
-	GarrisonLandingPageMinimapButton:RemoveTextures()
-	GarrisonLandingPageMinimapButton:ClearAllPoints()
-	GarrisonLandingPageMinimapButton:SetAllPoints(garrison)
-	GarrisonLandingPageMinimapButton:SetNormalTexture("")
-	GarrisonLandingPageMinimapButton:SetPushedTexture("")
-	GarrisonLandingPageMinimapButton:SetHighlightTexture("")
+	mmButton:RemoveTextures()
+	mmButton:ClearAllPoints()
+	mmButton:SetAllPoints(garrison)
+	mmButton:SetNormalTexture("")
+	mmButton:SetPushedTexture("")
+	mmButton:SetHighlightTexture("")
 
-	if(not GarrisonLandingPageMinimapButton:IsShown()) then
+	if(not mmButton:IsShown()) then
 		garrison.Parent:SetWidth(garrison.Parent:GetWidth() - garrison:GetWidth())
 		garrison:Hide()
 	end
@@ -303,6 +323,6 @@ function MOD:UpdateGarrisonTool()
 end 
 
 function MOD:LoadGarrisonTool()
-	if((not SV.db.Dock.dockTools.garrison) or self.GarrisonLoaded or (not GarrisonLandingPageMinimapButton)) then return end
+	if((not SV.db.Dock.dockTools.garrison) or self.GarrisonLoaded or (not _G.GarrisonLandingPageMinimapButton)) then return end
 	SV.Timers:ExecuteTimer(LoadToolBarGarrison, 5)
 end

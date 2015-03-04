@@ -27,7 +27,7 @@ local gsub          = string.gsub;
 local table 		= _G.table; 
 local tinsert       = _G.tinsert;
 local tremove       = _G.tremove;
-local twipe 		= _G.wipe;
+local wipe 			= _G.wipe;
 --MATH
 local math      	= _G.math;
 local random 		= math.random;
@@ -47,6 +47,16 @@ local IsSpellKnown         	= _G.IsSpellKnown;
 local GetProfessions       	= _G.GetProfessions;
 local GetProfessionInfo    	= _G.GetProfessionInfo;
 local hooksecurefunc     	= _G.hooksecurefunc;
+local ReloadUI              = _G.ReloadUI;
+local IsAltKeyDown          = _G.IsAltKeyDown;
+local IsShiftKeyDown        = _G.IsShiftKeyDown;
+local IsControlKeyDown      = _G.IsControlKeyDown;
+local IsModifiedClick       = _G.IsModifiedClick;
+local PlaySound             = _G.PlaySound;
+local PlaySoundFile         = _G.PlaySoundFile;
+local UnitName              = _G.UnitName;
+local ToggleFrame           = _G.ToggleFrame;
+local ERR_NOT_IN_COMBAT     = _G.ERR_NOT_IN_COMBAT;
 --[[ 
 ########################################################## 
 ADDON

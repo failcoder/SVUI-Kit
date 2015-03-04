@@ -36,6 +36,23 @@ local random        = math.random;
 local floor         = math.floor;
 local ceil         	= math.ceil;
 local min 			= math.min;
+
+local CreateFrame           = _G.CreateFrame;
+local InCombatLockdown      = _G.InCombatLockdown;
+local IsLoggedIn            = _G.IsLoggedIn;
+local GameTooltip           = _G.GameTooltip;
+local UnitClass             = _G.UnitClass;
+local UnitIsPlayer          = _G.UnitIsPlayer;
+local UnitReaction          = _G.UnitReaction;
+local UnitIsConnected  		= _G.UnitIsConnected;
+local UnitIsDeadOrGhost  	= _G.UnitIsDeadOrGhost;
+local UnitClassBase  		= _G.UnitClassBase;
+local UnitPowerType  		= _G.UnitPowerType;
+local UnitPlayerControlled  = _G.UnitPlayerControlled;
+local UnitThreatSituation   = _G.UnitThreatSituation;
+local UnitAffectingCombat   = _G.UnitAffectingCombat;
+local GetThreatStatusColor   = _G.GetThreatStatusColor;
+local UnitAlternatePowerInfo  = _G.UnitAlternatePowerInfo;
 --[[ 
 ########################################################## 
 GET ADDON DATA

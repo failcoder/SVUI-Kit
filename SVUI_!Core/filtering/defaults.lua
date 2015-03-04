@@ -7,6 +7,18 @@ LOCALIZED LUA FUNCTIONS
 GET ADDON DATA
 ##########################################################
 ]]--
+local _G = _G;
+local unpack            = _G.unpack;
+local select            = _G.select;
+local assert            = _G.assert;
+local type              = _G.type;
+local error             = _G.error;
+local print             = _G.print;
+local ipairs            = _G.ipairs;
+local pairs             = _G.pairs;
+local tostring          = _G.tostring;
+local tonumber          = _G.tonumber;
+local GetSpellInfo      = _G.GetSpellInfo;
 local SV = select(2, ...)
 
 local playerClass = select(2, UnitClass("player"));

@@ -20,12 +20,36 @@ local tinsert 	= _G.tinsert;
 local string 	= _G.string;
 local math 		= _G.math;
 local table 	= _G.table;
+local band 		= _G.bit.band;
 --[[ STRING METHODS ]]--
 local format = string.format;
 --[[ MATH METHODS ]]--
 local abs, ceil, floor, round = math.abs, math.ceil, math.floor, math.round;
 --[[ TABLE METHODS ]]--
 local tremove, twipe = table.remove, table.wipe;
+--BLIZZARD API
+local CreateFrame           = _G.CreateFrame;
+local InCombatLockdown      = _G.InCombatLockdown;
+local GameTooltip           = _G.GameTooltip;
+local hooksecurefunc        = _G.hooksecurefunc;
+local IsAltKeyDown          = _G.IsAltKeyDown;
+local IsShiftKeyDown        = _G.IsShiftKeyDown;
+local IsControlKeyDown      = _G.IsControlKeyDown;
+local IsModifiedClick       = _G.IsModifiedClick;
+local PlaySound             = _G.PlaySound;
+local PlaySoundFile         = _G.PlaySoundFile;
+local PlayMusic             = _G.PlayMusic;
+local StopMusic             = _G.StopMusic;
+local GetTime               = _G.GetTime;
+local C_Timer               = _G.C_Timer;
+local GetAchievementInfo 	= _G.GetAchievementInfo;
+local GetAchievementLink 	= _G.GetAchievementLink;
+local GetTrackedAchievements  		= _G.GetTrackedAchievements;
+local GetAchievementNumCriteria  	= _G.GetAchievementNumCriteria;
+local GetAchievementCriteriaInfo  	= _G.GetAchievementCriteriaInfo;
+local CRITERIA_TYPE_ACHIEVEMENT  	= _G.CRITERIA_TYPE_ACHIEVEMENT;
+local TRACKER_HEADER_ACHIEVEMENTS  	= _G.TRACKER_HEADER_ACHIEVEMENTS;
+local EVALUATION_TREE_FLAG_PROGRESS_BAR = _G.EVALUATION_TREE_FLAG_PROGRESS_BAR;
 --[[ 
 ########################################################## 
 GET ADDON DATA
@@ -82,7 +106,7 @@ local ViewButton_OnClick = function(self, button)
 				AchievementFrame_LoadUI();
 			end
 			if(IsModifiedClick("QUESTWATCHTOGGLE") ) then
-				AchievementObjectiveTracker_UntrackAchievement(_, achievementID);
+				AchievementObjectiveTracker_UntrackAchievement(self, achievementID);
 			elseif(not AchievementFrame:IsShown()) then
 				AchievementFrame_ToggleAchievementFrame();
 				AchievementFrame_SelectAchievement(achievementID);
@@ -190,8 +214,8 @@ local SetAchievementRow = function(self, index, title, details, icon, achievemen
 		elseif(shown_objectives == MAX_OBJECTIVES_SHOWN and subCount > (MAX_OBJECTIVES_SHOWN + 1)) then
 			shown_objectives = shown_objectives + 1;
 		else
-			if(description and bit.band(flags, EVALUATION_TREE_FLAG_PROGRESS_BAR) == EVALUATION_TREE_FLAG_PROGRESS_BAR) then
-				if(string.find(strlower(quantityString), "interface\\moneyframe")) then
+			if(description and band(flags, EVALUATION_TREE_FLAG_PROGRESS_BAR) == EVALUATION_TREE_FLAG_PROGRESS_BAR) then
+				if(string.find(quantityString:lower(), "interface\\moneyframe")) then
 					description = quantityString.."\n"..description;
 				else
 					description = string.gsub(quantityString, " / ", "/").." "..description;

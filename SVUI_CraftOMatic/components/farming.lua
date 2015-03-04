@@ -36,6 +36,22 @@ local table 	= _G.table;
 local rept      = string.rep; 
 local tsort,twipe = table.sort,table.wipe;
 local floor,ceil  = math.floor, math.ceil;
+--BLIZZARD API
+local CreateFrame           = _G.CreateFrame;
+local InCombatLockdown      = _G.InCombatLockdown;
+local GameTooltip           = _G.GameTooltip;
+local hooksecurefunc        = _G.hooksecurefunc;
+local IsSpellKnown      	= _G.IsSpellKnown;
+local GetSpellInfo      	= _G.GetSpellInfo;
+local GetProfessions      	= _G.GetProfessions;
+local GetProfessionInfo     = _G.GetProfessionInfo;
+local PlaySound             = _G.PlaySound;
+local PlaySoundFile         = _G.PlaySoundFile;
+local C_PetJournal          = _G.C_PetJournal;
+local GetItemInfo           = _G.GetItemInfo;
+local GetItemCount          = _G.GetItemCount;
+local GetItemQualityColor   = _G.GetItemQualityColor;
+local GetItemFamily         = _G.GetItemFamily;
 --[[ 
 ########################################################## 
 GET ADDON DATA

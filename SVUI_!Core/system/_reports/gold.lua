@@ -34,6 +34,16 @@ local gmatch, gsub = string.gmatch, string.gsub;
 local abs, ceil, floor, round, mod = math.abs, math.ceil, math.floor, math.round, math.fmod;  -- Basic
 --[[ TABLE METHODS ]]--
 local twipe, tsort = table.wipe, table.sort;
+
+local IsLoggedIn            = _G.IsLoggedIn;
+local ToggleAllBags         = _G.ToggleAllBags;
+local IsLeftControlKeyDown  = _G.IsLeftControlKeyDown;
+local IsAltKeyDown          = _G.IsAltKeyDown;
+local IsShiftKeyDown        = _G.IsShiftKeyDown;
+local IsControlKeyDown      = _G.IsControlKeyDown;
+local IsModifiedClick       = _G.IsModifiedClick;
+local GetMoney              = _G.GetMoney;
+local BreakUpLargeNumbers   = _G.BreakUpLargeNumbers;
 --[[ 
 ########################################################## 
 GET ADDON DATA

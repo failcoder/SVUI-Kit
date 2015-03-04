@@ -7,8 +7,45 @@ LOCALIZED LUA FUNCTIONS
 ]]--
 --[[ GLOBALS ]]--
 local _G = _G;
-local unpack        = _G.unpack;
-local select        = _G.select;
+--LUA
+
+local unpack            = _G.unpack;
+local select            = _G.select;
+local assert            = _G.assert;
+local type              = _G.type;
+local error             = _G.error;
+local pcall             = _G.pcall;
+local print             = _G.print;
+local ipairs            = _G.ipairs;
+local pairs             = _G.pairs;
+local next              = _G.next;
+local rawset            = _G.rawset;
+local rawget            = _G.rawget;
+local tostring          = _G.tostring;
+local tonumber          = _G.tonumber;
+--STRING
+local string        = _G.string;
+local format        = string.format;
+local find          = string.find;
+--MATH
+local math          = _G.math;
+local random 		= math.random;
+--BLIZZARD API
+local CreateFrame           = _G.CreateFrame;
+local InCombatLockdown      = _G.InCombatLockdown;
+local GameTooltip           = _G.GameTooltip;
+local hooksecurefunc        = _G.hooksecurefunc;
+local PlaySound             = _G.PlaySound;
+local PlaySoundFile         = _G.PlaySoundFile;
+local PlayMusic             = _G.PlayMusic;
+local StopMusic             = _G.StopMusic;
+local SetCVar               = _G.SetCVar;
+local GetCVar               = _G.GetCVar;
+local UnitName              = _G.UnitName;
+local ToggleFrame           = _G.ToggleFrame;
+local ERR_NOT_IN_COMBAT     = _G.ERR_NOT_IN_COMBAT;
+local RAID_CLASS_COLORS     = _G.RAID_CLASS_COLORS;
+local CUSTOM_CLASS_COLORS   = _G.CUSTOM_CLASS_COLORS;
 --[[ 
 ########################################################## 
 GET ADDON DATA
